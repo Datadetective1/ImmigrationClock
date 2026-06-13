@@ -31,12 +31,12 @@ export default function VisaFlowPage() {
   const f1Country = visaCountryData("F-1");
   const h1bCountry = visaCountryData("H-1B");
 
-  const f1Now = visaSeries("F-1").find((r) => r.fiscalYear === CURRENT_FY)!;
-  const f1Prev = visaSeries("F-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
-  const j1Prev = visaSeries("J-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
-  const h1bPrev = visaSeries("H-1B").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
+  const f1Cur = visaSeries("F-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!; // FY2024
+  const f1Older = visaSeries("F-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY - 1)!; // FY2023
+  const f1Prelim = visaSeries("F-1").find((r) => r.fiscalYear === CURRENT_FY)!; // FY2025
+  const j1Cur = visaSeries("J-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
+  const h1bCur = visaSeries("H-1B").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
   const pct = (a: number, b: number) => (b ? ((a - b) / b) * 100 : 0);
-  const annualizedF1 = Math.round(f1Now.issued / (8 / 12));
 
   return (
     <div>
@@ -52,15 +52,15 @@ export default function VisaFlowPage() {
       >
         <StatRow>
           <Stat
-            label="F-1 issued (FY to date)"
-            value={formatNumber(f1Now.issued)}
-            sub={`Projected ${formatNumber(annualizedF1)} full year`}
-            trend={pct(annualizedF1, f1Prev.issued) > 1.5 ? "UP" : "FLAT"}
-            trendPct={pct(annualizedF1, f1Prev.issued)}
+            label={`F-1 issued · ${fiscalYearLabel(LAST_COMPLETE_FY)}`}
+            value={formatNumber(f1Cur.issued)}
+            sub="Department of State"
+            trend={pct(f1Cur.issued, f1Older.issued) > 1.5 ? "UP" : pct(f1Cur.issued, f1Older.issued) < -1.5 ? "DOWN" : "FLAT"}
+            trendPct={pct(f1Cur.issued, f1Older.issued)}
           />
-          <Stat label="J-1 exchange (last FY)" value={formatNumber(j1Prev.issued)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
-          <Stat label="H-1B issued (last FY)" value={formatNumber(h1bPrev.issued)} sub="State Dept issuances" />
-          <Stat label="F-1 last full year" value={formatNumber(f1Prev.issued)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
+          <Stat label={`J-1 exchange · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(j1Cur.issued)} sub="State Dept issuances" />
+          <Stat label={`H-1B issued · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(h1bCur.issued)} sub="State Dept issuances" />
+          <Stat label={`F-1 · ${fiscalYearLabel(CURRENT_FY)} (prelim.)`} value={formatNumber(f1Prelim.issued)} sub="Preliminary" />
         </StatRow>
       </PageHeader>
 

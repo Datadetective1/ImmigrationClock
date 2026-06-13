@@ -13,7 +13,7 @@ export const SITE = {
   twitter: "@immigrationclock",
   searchPlaceholder: "Search employer, state, visa type, job title, or country.",
   heroDisclaimer:
-    "Data is based on public government and reputable public datasets. Some sources update monthly, quarterly, or yearly, so counters may estimate current-year pace from latest available data.",
+    "Figures come from official U.S. government releases (USCIS, ICE, CBP, the State Department, and BLS). FY2024 is the most recent complete year for most series; FY2025 is preliminary and detention is a point-in-time figure. Every counter shows its source and date.",
   footerDisclaimer:
     "This platform uses public datasets for informational and research purposes only. It does not provide legal, immigration, employment, or financial advice. Data may lag official reporting schedules.",
 };

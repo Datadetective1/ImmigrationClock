@@ -12,7 +12,7 @@ import {
   enforcementStateData,
   enforcementCountryData,
 } from "@/lib/chart-data";
-import { iceByFy } from "@/lib/sample-data";
+import { iceByFy, DETENTION_NOW } from "@/lib/sample-data";
 import { LAST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 import { UPDATED } from "@/lib/sample-data";
@@ -30,17 +30,18 @@ export default function EnforcementTrendsPage() {
   const criminal = enforcementCriminalSplit();
   const byState = enforcementStateData();
   const byCountry = enforcementCountryData();
-  const now = iceByFy[CURRENT_FY];
-  const prev = iceByFy[LAST_COMPLETE_FY];
+  const fy = LAST_COMPLETE_FY; // FY2024 — latest full-year report
+  const cur = iceByFy[fy];
+  const prev = iceByFy[fy - 1];
+  const prelim = iceByFy[CURRENT_FY]; // FY2025 (preliminary)
   const pct = (a: number, b: number) => (b ? ((a - b) / b) * 100 : 0);
-  const annualizedArrests = Math.round(now.arrests / (8 / 12));
 
   return (
     <div>
       <PageHeader
         eyebrow="Enforcement Pressure"
         title="Immigration enforcement trends"
-        description="Arrests, removals, and detention reported by ICE and DHS. Current-year totals are partial; projected full-year pace is shown where useful."
+        description="Arrests, removals, and detention reported by ICE and DHS. FY2024 is the latest full-year report; FY2025 figures are preliminary."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/immigration/enforcement-trends", label: "Enforcement" },
@@ -49,15 +50,21 @@ export default function EnforcementTrendsPage() {
       >
         <StatRow>
           <Stat
-            label="Arrests (FY to date)"
-            value={formatNumber(now.arrests)}
-            sub={`Projected ${formatNumber(annualizedArrests)} full year`}
-            trend={pct(annualizedArrests, prev.arrests) > 1.5 ? "UP" : "FLAT"}
-            trendPct={pct(annualizedArrests, prev.arrests)}
+            label={`ICE arrests · ${fiscalYearLabel(fy)}`}
+            value={formatNumber(cur.arrests)}
+            sub="Latest full-year report"
+            trend={pct(cur.arrests, prev.arrests) > 1.5 ? "UP" : pct(cur.arrests, prev.arrests) < -1.5 ? "DOWN" : "FLAT"}
+            trendPct={pct(cur.arrests, prev.arrests)}
           />
-          <Stat label="Removals (FY to date)" value={formatNumber(now.removals)} sub={fiscalYearLabel(CURRENT_FY)} />
-          <Stat label="Avg daily detention" value={formatNumber(now.detentionAvgDaily)} tooltip="Point-in-time average, not a running total." />
-          <Stat label="Criminal share of arrests" value={`${Math.round((prev.criminalArrests / prev.arrests) * 100)}%`} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
+          <Stat
+            label={`Removals · ${fiscalYearLabel(fy)}`}
+            value={formatNumber(cur.removals)}
+            sub="Highest in over a decade"
+            trend={pct(cur.removals, prev.removals) > 1.5 ? "UP" : "FLAT"}
+            trendPct={pct(cur.removals, prev.removals)}
+          />
+          <Stat label="Detention (current)" value={formatNumber(DETENTION_NOW.value)} sub={`As of ${DETENTION_NOW.asOf}`} tooltip="Point-in-time figure, not a running total." />
+          <Stat label={`Removals · ${fiscalYearLabel(CURRENT_FY)} (prelim.)`} value={formatNumber(prelim.removals)} sub="Preliminary" />
         </StatRow>
       </PageHeader>
 

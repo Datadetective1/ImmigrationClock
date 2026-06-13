@@ -60,10 +60,10 @@ export default function BorderEncountersPage() {
         share
       >
         <StatRow>
-          <Stat label="SW encounters (FY to date)" value={formatNumber(swNow.totalEncounters)} sub={fiscalYearLabel(CURRENT_FY)} />
-          <Stat label="Nationwide (last FY)" value={formatNumber(natPrev.totalEncounters)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
-          <Stat label="Family units (last FY)" value={formatNumber(natPrev.familyUnits)} />
-          <Stat label="Unaccompanied minors" value={formatNumber(natPrev.unaccompaniedMinors)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
+          <Stat label={`SW apprehensions · ${fiscalYearLabel(CURRENT_FY)}`} value={formatNumber(swNow.totalEncounters)} sub="Lowest since 1970" />
+          <Stat label={`Nationwide · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(natPrev.totalEncounters)} sub="Latest full year" />
+          <Stat label={`Family units · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(natPrev.familyUnits)} />
+          <Stat label={`Unaccompanied minors · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(natPrev.unaccompaniedMinors)} />
         </StatRow>
       </PageHeader>
 
