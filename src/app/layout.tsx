@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { AdSenseScript } from "@/components/AdSenseScript";
+import { ConsentBanner } from "@/components/ConsentBanner";
 import { SITE } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -29,22 +30,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
   return (
     <html lang="en">
       <body className="min-h-screen">
-        {adsenseId ? (
-          <Script
-            id="adsbygoogle-init"
-            async
-            strategy="afterInteractive"
-            crossOrigin="anonymous"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
-          />
-        ) : null}
+        {/* AdSense loads only after cookie consent (see ConsentBanner). */}
+        <AdSenseScript />
         <Navbar />
         <main className="min-h-[60vh]">{children}</main>
         <Footer />
+        <ConsentBanner />
       </body>
     </html>
   );

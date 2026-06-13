@@ -1,5 +1,14 @@
 import Link from "next/link";
 import { SITE, FOOTER_SECTIONS } from "@/lib/site";
+import { CookieSettingsButton } from "./ConsentBanner";
+
+const LEGAL_LINKS = [
+  { href: "/about", label: "About" },
+  { href: "/methodology", label: "Methodology" },
+  { href: "/sources", label: "Sources" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+];
 
 export function Footer() {
   return (
@@ -35,6 +44,15 @@ export function Footer() {
         <div className="mt-10 rounded-xl border border-white/5 bg-white/[0.02] p-4">
           <p className="text-xs leading-relaxed text-slate-500">{SITE.footerDisclaimer}</p>
         </div>
+
+        <nav className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400">
+          {LEGAL_LINKS.map((l) => (
+            <Link key={l.href} href={l.href} className="transition-colors hover:text-white">
+              {l.label}
+            </Link>
+          ))}
+          <CookieSettingsButton className="transition-colors hover:text-white" />
+        </nav>
 
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-slate-600 sm:flex-row sm:items-center">
           <p>© {new Date().getFullYear()} {SITE.name}. Public data, presented neutrally.</p>

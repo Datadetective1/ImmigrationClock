@@ -11,6 +11,9 @@ export const SITE = {
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "http://localhost:3000",
   twitter: "@immigrationclock",
+  // Public contact address — update to your real address (do NOT use a personal
+  // inbox you don't want public). Used on About / Privacy / Terms pages.
+  contactEmail: "hello@immigrationclock.com",
   searchPlaceholder: "Search employer, state, visa type, job title, or country.",
   heroDisclaimer:
     "Figures come from official U.S. government releases (USCIS, ICE, CBP, the State Department, and BLS). FY2024 is the most recent complete year for most series; FY2025 is preliminary and detention is a point-in-time figure. Every counter shows its source and date.",
