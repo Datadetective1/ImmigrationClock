@@ -1,0 +1,12 @@
+# Netlify configuration for ImmigrationClock (Next.js 14 App Router).
+# Netlify's Next.js Runtime (@netlify/plugin-nextjs) handles SSR, static pages,
+# and the /api/og edge route automatically — no manual function code required.
+
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

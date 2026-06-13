@@ -8,6 +8,9 @@
 /out/
 next-env.d.ts
 
+# netlify
+.netlify/
+
 # production
 /build
 
