@@ -5,11 +5,12 @@
   "description": "The Immigration Clock — live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next build",
+    "build:db": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate || exit 0"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
