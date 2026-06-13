@@ -1,22 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // The dashboard renders entirely from the bundled data layer with no
+  // server-side runtime needs, so we export a fully static site. Netlify (or any
+  // static host) serves the `out/` directory directly — no Next.js runtime
+  // plugin or serverless functions required.
+  output: "export",
   reactStrictMode: true,
   poweredByHeader: false,
-  compress: true,
+  trailingSlash: false,
   images: {
-    remotePatterns: [],
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-        ],
-      },
-    ];
+    unoptimized: true,
   },
 };
 

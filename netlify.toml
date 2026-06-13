@@ -1,12 +1,17 @@
-# Netlify configuration for ImmigrationClock (Next.js 14 App Router).
-# The Next.js Runtime plugin builds SSR/SSG output and wires up routing.
-# It is declared explicitly so it is applied for manual/API deploys too.
+# Netlify configuration for ImmigrationClock.
+# The app is a static export (next.config.js: output "export"), so Netlify just
+# serves the generated `out/` directory — no Next.js runtime plugin needed.
 
 [build]
   command = "npm run build"
+  publish = "out"
 
 [build.environment]
   NODE_VERSION = "20"
 
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
