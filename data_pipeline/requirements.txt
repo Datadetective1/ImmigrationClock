@@ -1,0 +1,6 @@
+# ImmigrationClock data pipeline dependencies
+pandas>=2.1
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9
+requests>=2.31
+python-dotenv>=1.0

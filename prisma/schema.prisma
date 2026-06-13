@@ -1,0 +1,399 @@
+// ImmigrationClock — Prisma schema
+// PostgreSQL data model for U.S. immigration, visa, enforcement and workforce
+// public datasets. Every record carries source provenance + refresh metadata.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum RefreshStatus {
+  SUCCESS
+  PARTIAL
+  FAILED
+  PENDING
+}
+
+enum TrendDirection {
+  UP
+  DOWN
+  FLAT
+}
+
+enum StatusLevel {
+  GREEN
+  AMBER
+  RED
+}
+
+// ---------------------------------------------------------------------------
+// Provenance / pipeline
+// ---------------------------------------------------------------------------
+
+/// A registered public dataset (USCIS, DOL OFLC, ICE, CBP, DOS, BLS, WARN, ...)
+model DataSource {
+  id            String       @id @default(cuid())
+  key           String       @unique // e.g. "uscis_h1b", "dol_lca"
+  name          String
+  agency        String
+  description   String?
+  homepageUrl   String
+  datasetUrl    String
+  cadence       String // "monthly" | "quarterly" | "annual" | "weekly"
+  lastRefreshAt DateTime?
+  nextRefreshAt DateTime?
+  refreshLogs   RefreshLog[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+/// One ingestion run for a DataSource.
+model RefreshLog {
+  id           String        @id @default(cuid())
+  dataSource   DataSource    @relation(fields: [dataSourceId], references: [id])
+  dataSourceId String
+  status       RefreshStatus @default(PENDING)
+  rowCount     Int           @default(0)
+  message      String?
+  errorMessage String?
+  startedAt    DateTime      @default(now())
+  finishedAt   DateTime?
+  refreshDate  DateTime      @default(now())
+  createdAt    DateTime      @default(now())
+
+  @@index([dataSourceId, startedAt])
+}
+
+/// Pre-computed headline metric for the live counter grid.
+model MetricSnapshot {
+  id              String          @id @default(cuid())
+  key             String          @unique // e.g. "ice_arrests_fy"
+  label           String
+  value           Float
+  unit            String? // "people", "USD", "%"
+  fiscalYear      Int?
+  paceEstimated   Boolean         @default(false)
+  trend           TrendDirection  @default(FLAT)
+  trendPct        Float?
+  status          StatusLevel     @default(GREEN)
+  tooltip         String
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime        @default(now())
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Enforcement
+// ---------------------------------------------------------------------------
+
+model IceEnforcement {
+  id              String   @id @default(cuid())
+  fiscalYear      Int
+  month           Int? // 1-12, null = full-year aggregate
+  arrests         Int      @default(0)
+  removals        Int      @default(0)
+  criminalArrests Int?
+  nonCriminal     Int?
+  stateCode       String?
+  country         String?  // nationality where public
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  state          State?   @relation(fields: [stateCode], references: [code])
+  countryRecord  Country? @relation(fields: [country], references: [name])
+
+  @@index([fiscalYear, month])
+  @@index([stateCode])
+}
+
+model DetentionStat {
+  id              String   @id @default(cuid())
+  fiscalYear      Int
+  month           Int?
+  averageDaily    Int      @default(0) // average daily population
+  bookIns         Int?
+  criminalShare   Float? // 0-1 share with criminal conviction
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([fiscalYear, month])
+}
+
+// ---------------------------------------------------------------------------
+// Border
+// ---------------------------------------------------------------------------
+
+model CbpEncounter {
+  id                  String   @id @default(cuid())
+  fiscalYear          Int
+  month               Int?
+  border              String // "southwest" | "northern" | "coastal" | "nationwide"
+  sector              String?
+  citizenship         String? // nationality where public
+  totalEncounters     Int      @default(0)
+  singleAdults        Int      @default(0)
+  familyUnits         Int      @default(0)
+  unaccompaniedMinors Int      @default(0)
+  sourceName          String
+  sourceUrl           String
+  sourceUpdatedAt     DateTime
+  refreshDate         DateTime @default(now())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  countryRecord Country? @relation(fields: [citizenship], references: [name])
+
+  @@index([fiscalYear, month, border])
+}
+
+// ---------------------------------------------------------------------------
+// Visa / H-1B / LCA
+// ---------------------------------------------------------------------------
+
+/// Per-employer, per-fiscal-year H-1B summary (USCIS Employer Data Hub style).
+model H1BEmployer {
+  id              String   @id @default(cuid())
+  company         Company  @relation(fields: [companyId], references: [id])
+  companyId       String
+  fiscalYear      Int
+  initialApprovals Int     @default(0)
+  initialDenials  Int      @default(0)
+  continuingApprovals Int  @default(0)
+  continuingDenials Int    @default(0)
+  stateCode       String?
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  state State? @relation(fields: [stateCode], references: [code])
+
+  @@unique([companyId, fiscalYear])
+  @@index([fiscalYear])
+}
+
+/// Individual / aggregated H-1B case decisions (USCIS).
+model H1BCase {
+  id              String   @id @default(cuid())
+  fiscalYear      Int
+  country         String?
+  jobTitle        String?
+  approvals       Int      @default(0)
+  denials         Int      @default(0)
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  countryRecord Country? @relation(fields: [country], references: [name])
+
+  @@index([fiscalYear])
+}
+
+/// Labor Condition Application disclosure rows (DOL OFLC). LCA != approval.
+model LcaFiling {
+  id              String   @id @default(cuid())
+  company         Company  @relation(fields: [companyId], references: [id])
+  companyId       String
+  fiscalYear      Int
+  jobTitle        String
+  socCode         String?
+  worksiteCity    String?
+  stateCode       String?
+  offeredWage     Float? // annualized USD
+  prevailingWage  Float?
+  caseStatus      String? // CERTIFIED | DENIED | WITHDRAWN
+  filings         Int      @default(1)
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  state State? @relation(fields: [stateCode], references: [code])
+
+  @@index([companyId, fiscalYear])
+  @@index([stateCode, fiscalYear])
+}
+
+/// Department of State visa issuances (immigrant + nonimmigrant).
+model VisaIssuance {
+  id              String   @id @default(cuid())
+  fiscalYear      Int
+  month           Int?
+  visaClass       String // "H-1B" | "F-1" | "J-1" | "EB" | "IR/F (family)" ...
+  category        String // "employment" | "student" | "exchange" | "family" | "other"
+  country         String?
+  issued          Int      @default(0)
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  countryRecord Country? @relation(fields: [country], references: [name])
+
+  @@index([fiscalYear, visaClass])
+  @@index([country])
+}
+
+// ---------------------------------------------------------------------------
+// Workforce
+// ---------------------------------------------------------------------------
+
+/// BLS Occupational Employment & Wage Statistics (aggregate).
+model BlsWage {
+  id              String   @id @default(cuid())
+  year            Int
+  socCode         String?
+  occupation      String
+  stateCode       String?
+  meanWage        Float?
+  medianWage      Float?
+  employment      Int?
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  state State? @relation(fields: [stateCode], references: [code])
+
+  @@index([year, stateCode])
+}
+
+/// State WARN Act layoff notices (aggregated). Public employer-level notices.
+model WarnLayoff {
+  id              String   @id @default(cuid())
+  company         Company? @relation(fields: [companyId], references: [id])
+  companyId       String?
+  employerName    String
+  stateCode       String?
+  noticeDate      DateTime
+  effectiveDate   DateTime?
+  employeesAffected Int    @default(0)
+  city            String?
+  reason          String?
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  state State? @relation(fields: [stateCode], references: [code])
+
+  @@index([stateCode, noticeDate])
+  @@index([companyId])
+}
+
+// ---------------------------------------------------------------------------
+// Dimension tables
+// ---------------------------------------------------------------------------
+
+model Company {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String
+  normalizedName  String   @unique // standardized for joins across datasets
+  industry        String?
+  headquartersCity String?
+  stateCode       String?
+  website         String?
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  state         State?        @relation(fields: [stateCode], references: [code])
+  h1bEmployers  H1BEmployer[]
+  lcaFilings    LcaFiling[]
+  warnLayoffs   WarnLayoff[]
+
+  @@index([stateCode])
+}
+
+model State {
+  code            String   @id // two-letter USPS code, e.g. "CA"
+  name            String   @unique
+  region          String?
+  population      Int?
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  companies       Company[]
+  h1bEmployers    H1BEmployer[]
+  lcaFilings      LcaFiling[]
+  warnLayoffs     WarnLayoff[]
+  blsWages        BlsWage[]
+  iceEnforcement  IceEnforcement[]
+}
+
+model Country {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  name            String   @unique
+  iso3            String?
+  region          String?
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  visaIssuances   VisaIssuance[]
+  h1bCases        H1BCase[]
+  cbpEncounters   CbpEncounter[]
+  iceEnforcement  IceEnforcement[]
+}
+
+/// Programmatically generated SEO landing pages (long-tail traffic).
+model SeoPage {
+  id              String   @id @default(cuid())
+  slug            String   @unique // full path, e.g. "/h1b/salaries/software-engineer"
+  title           String
+  description     String
+  category        String // "h1b" | "enforcement" | "border" | "visa" | "layoffs"
+  keywords        String[]
+  published       Boolean  @default(true)
+  sourceName      String
+  sourceUrl       String
+  sourceUpdatedAt DateTime
+  refreshDate     DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
