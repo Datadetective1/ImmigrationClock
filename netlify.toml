@@ -1,9 +1,12 @@
 # Netlify configuration for ImmigrationClock (Next.js 14 App Router).
-# Netlify auto-detects Next.js and applies its Next.js Runtime
-# (@netlify/plugin-nextjs) — no need to declare the plugin explicitly.
+# The Next.js Runtime plugin builds SSR/SSG output and wires up routing.
+# It is declared explicitly so it is applied for manual/API deploys too.
 
 [build]
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
