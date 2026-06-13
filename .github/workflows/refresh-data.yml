@@ -1,0 +1,63 @@
+# Tier 2 — scheduled data refresh + redeploy.
+#
+# Runs the Python ingestion pipeline on a schedule and triggers a Netlify
+# rebuild so the live site picks up refreshed figures.
+#
+# HOW IT BECOMES FULLY LIVE (one-time setup):
+#   1. Connect this GitHub repo to the Netlify site (Netlify UI →
+#      Site configuration → Build & deploy → Link repository). This enables
+#      git-based builds + build hooks.
+#   2. Create a Netlify build hook (Site settings → Build & deploy → Build hooks)
+#      and add it as the GitHub secret NETLIFY_BUILD_HOOK.
+#   3. (Optional) Add DATABASE_URL as a secret if you ingest into Postgres.
+#
+# WHAT STILL NEEDS WIRING (the substantive Tier-2 work):
+#   Each data_pipeline/ingest_*.py script ships with the official source URLs
+#   and an offline fallback. To make the refresh pull genuinely fresh numbers,
+#   wire each agency's current release URL into that script's download step and
+#   have it write the updated figures into the data the static build reads
+#   (e.g. a committed JSON the app imports), then let this workflow commit it.
+
+name: Refresh data & redeploy
+
+on:
+  schedule:
+    # 09:00 UTC on the 1st of each month (most sources update monthly/quarterly).
+    - cron: "0 9 1 * *"
+  workflow_dispatch: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pipeline dependencies
+        run: pip install -r data_pipeline/requirements.txt
+
+      - name: Run ingestion pipeline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python data_pipeline/run_all_ingestions.py
+
+      # If the pipeline commits refreshed data files, push them so a git-based
+      # Netlify build redeploys with new numbers.
+      - name: Commit refreshed data (if any)
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "immigrationclock-bot"
+            git config user.email "bot@immigrationclock.local"
+            git add -A
+            git commit -m "chore: scheduled data refresh"
+            git push
+          else
+            echo "No data changes."
+          fi
+
+      - name: Trigger Netlify rebuild
+        if: ${{ secrets.NETLIFY_BUILD_HOOK != '' }}
+        run: curl -fsS -X POST -d '{}' "${{ secrets.NETLIFY_BUILD_HOOK }}"

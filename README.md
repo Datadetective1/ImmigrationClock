@@ -10,6 +10,15 @@ people to understand — **neutrally, with a source on every number.**
 
 > _Facts first. Trends live. Sources included._
 
+**🔴 Live:** https://immigrationclock.netlify.app
+
+**Data:** Headline figures are **real, sourced U.S. government numbers** (USCIS, ICE,
+CBP, the State Department, BLS) — e.g. FY2024 H-1B 399,395 approvals (India 283,397),
+ICE removals 271,484, real top-10 employers. FY2024 is the latest complete year for
+most series; FY2025 is preliminary and detention is a dated point-in-time figure.
+Fine-grained per-state / per-country splits are clearly-labeled estimates derived
+from those real totals (see [`/methodology`](https://immigrationclock.netlify.app/methodology)).
+
 ---
 
 ## ✨ What's inside
@@ -170,32 +179,33 @@ python data_pipeline/run_all_ingestions.py   # run all ingestions
 
 ---
 
-## ☁️ Deploy to Vercel
+## ☁️ Deployment
 
-1. Push this repo to GitHub.
-2. In Vercel, **New Project → import the repo.** Framework preset auto-detects
-   Next.js.
-3. Add environment variables (Project → Settings → Environment Variables):
+The app builds as a **fully static export** (`next.config.js` → `output: "export"`),
+so any static host serves the generated `out/` directory — no Next.js runtime,
+serverless functions, or database required at runtime.
 
-   | Variable | Value |
-   | --- | --- |
-   | `DATABASE_URL` | your Postgres pooled connection string |
-   | `DIRECT_URL` | your Postgres direct connection string |
-   | `NEXT_PUBLIC_SITE_URL` | `https://your-domain.com` |
-   | `NEXT_PUBLIC_ADSENSE_CLIENT_ID` | `ca-pub-XXXXXXXXXXXXXXXX` (optional) |
-   | `USE_DATABASE` | `false` (MVP) or `true` (live data) |
+**Live on Netlify:** https://immigrationclock.netlify.app
+(`netlify.toml`: build `npm run build`, publish `out`, Node 20). Set
+`NEXT_PUBLIC_SITE_URL` to the deployed URL so sitemap/canonical/OG links are correct.
 
-4. The build command is `npm run build` (runs `prisma generate` first). Output is a
-   standard Next.js app — no extra config needed.
-5. After the first deploy, run migrations + seed against your hosted DB:
+Deploys also work on Vercel, GitHub Pages, Cloudflare Pages, or `npx serve out` —
+anywhere static files are hosted.
 
-   ```bash
-   DATABASE_URL=... npx prisma migrate deploy
-   DATABASE_URL=... npm run seed
-   ```
+### Tier 2 — automated live data
 
-6. **(optional) Schedule ingestion** with a [Vercel Cron](https://vercel.com/docs/cron-jobs)
-   job or GitHub Action that runs `python data_pipeline/run_all_ingestions.py`.
+Because the build is static, fresh data is wired in via **scheduled rebuilds**:
+[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs the
+ingestion pipeline monthly and triggers a Netlify rebuild. To enable it:
+
+1. Link this GitHub repo to the Netlify site (enables git builds + build hooks).
+2. Create a Netlify **build hook** and add it as the GitHub secret
+   `NETLIFY_BUILD_HOOK`.
+3. Wire each `data_pipeline/ingest_*.py` script's download step to the agency's
+   current release file and have it emit the refreshed figures the build reads.
+
+(The Prisma schema + seed + Postgres path remain available via `npm run build:db`
+and `USE_DATABASE=true` if you later move to a server-rendered, DB-backed setup.)
 
 ---
 
