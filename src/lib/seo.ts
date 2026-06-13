@@ -18,7 +18,7 @@ export function buildMetadata({
   const url = `${SITE.url}${path}`;
   const fullTitle =
     title === SITE.title ? title : `${title} — ${SITE.name}`;
-  const ogImage = `${SITE.url}/api/og?title=${encodeURIComponent(title)}`;
+  const ogImage = `${SITE.url}/og.svg`;
   return {
     title: fullTitle,
     description,
