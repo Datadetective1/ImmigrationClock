@@ -13,7 +13,7 @@ import {
   enforcementCountryData,
 } from "@/lib/chart-data";
 import { iceByFy, DETENTION_NOW } from "@/lib/sample-data";
-import { LAST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
+import { LATEST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 import { UPDATED } from "@/lib/sample-data";
 
@@ -30,18 +30,17 @@ export default function EnforcementTrendsPage() {
   const criminal = enforcementCriminalSplit();
   const byState = enforcementStateData();
   const byCountry = enforcementCountryData();
-  const fy = LAST_COMPLETE_FY; // FY2024 — latest full-year report
-  const cur = iceByFy[fy];
-  const prev = iceByFy[fy - 1];
-  const prelim = iceByFy[CURRENT_FY]; // FY2025 (preliminary)
+  const complete = iceByFy[LATEST_COMPLETE_FY]; // FY2025 — last complete year
+  const ytd = iceByFy[CURRENT_FY]; // FY2026 — year-to-date
   const pct = (a: number, b: number) => (b ? ((a - b) / b) * 100 : 0);
+  const projArrests = Math.round(ytd.arrests / (8.5 / 12));
 
   return (
     <div>
       <PageHeader
         eyebrow="Enforcement Pressure"
         title="Immigration enforcement trends"
-        description="Arrests, removals, and detention reported by ICE and DHS. FY2024 is the latest full-year report; FY2025 figures are preliminary."
+        description="Arrests, removals, and detention reported by ICE and DHS. FY2026 figures are year-to-date; FY2025 is the last complete year; detention is point-in-time."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/immigration/enforcement-trends", label: "Enforcement" },
@@ -50,21 +49,19 @@ export default function EnforcementTrendsPage() {
       >
         <StatRow>
           <Stat
-            label={`ICE arrests · ${fiscalYearLabel(fy)}`}
-            value={formatNumber(cur.arrests)}
-            sub="Latest full-year report"
-            trend={pct(cur.arrests, prev.arrests) > 1.5 ? "UP" : pct(cur.arrests, prev.arrests) < -1.5 ? "DOWN" : "FLAT"}
-            trendPct={pct(cur.arrests, prev.arrests)}
+            label={`ICE arrests · ${fiscalYearLabel(CURRENT_FY)} YTD`}
+            value={formatNumber(ytd.arrests)}
+            sub={`~${formatNumber(projArrests)} projected pace`}
+            trend={pct(projArrests, complete.arrests) > 1.5 ? "UP" : pct(projArrests, complete.arrests) < -1.5 ? "DOWN" : "FLAT"}
+            trendPct={pct(projArrests, complete.arrests)}
           />
           <Stat
-            label={`Removals · ${fiscalYearLabel(fy)}`}
-            value={formatNumber(cur.removals)}
-            sub="Highest in over a decade"
-            trend={pct(cur.removals, prev.removals) > 1.5 ? "UP" : "FLAT"}
-            trendPct={pct(cur.removals, prev.removals)}
+            label={`Removals · ${fiscalYearLabel(CURRENT_FY)} YTD`}
+            value={formatNumber(ytd.removals)}
+            sub="Year-to-date"
           />
-          <Stat label="Detention (current)" value={formatNumber(DETENTION_NOW.value)} sub={`As of ${DETENTION_NOW.asOf}`} tooltip="Point-in-time figure, not a running total." />
-          <Stat label={`Removals · ${fiscalYearLabel(CURRENT_FY)} (prelim.)`} value={formatNumber(prelim.removals)} sub="Preliminary" />
+          <Stat label="Detention (point-in-time)" value={formatNumber(DETENTION_NOW.value)} sub={`As of ${DETENTION_NOW.asOf}`} tooltip="A snapshot on a specific date, not a running total." />
+          <Stat label={`Removals · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`} value={formatNumber(complete.removals)} sub="Last complete year" />
         </StatRow>
       </PageHeader>
 
@@ -102,7 +99,7 @@ export default function EnforcementTrendsPage() {
 
         <ChartCard
           title="ICE arrests by state"
-          subtitle={`Latest complete fiscal year (${fiscalYearLabel(LAST_COMPLETE_FY)})`}
+          subtitle={`Latest complete fiscal year (${fiscalYearLabel(LATEST_COMPLETE_FY)})`}
           source={{ sourceName: "ICE / DHS statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
         >
           <StateMap data={byState} label="Arrests by state" unit="" />

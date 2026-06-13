@@ -6,16 +6,40 @@ export type TrendDirection = "UP" | "DOWN" | "FLAT";
 export type StatusLevel = "GREEN" | "AMBER" | "RED";
 export type RefreshStatus = "SUCCESS" | "PARTIAL" | "FAILED" | "PENDING";
 
+// How fresh / complete a reporting period is.
+export type Completeness =
+  | "complete" // a finished fiscal year
+  | "ytd" // fiscal year to date (in progress)
+  | "preliminary" // latest release, not yet finalized
+  | "point_in_time" // a snapshot on a specific date (e.g. detention)
+  | "estimated"; // estimated pace from latest reporting
+
 export interface SourceRef {
   sourceName: string;
   sourceUrl: string;
   sourceUpdatedAt: string; // ISO date
 }
 
-export interface Metric extends SourceRef {
-  key: string;
+// A single reporting period for a metric (latest vs last-complete).
+export interface MetricPeriod {
+  value: number;
+  display?: string;
+  fiscalYear?: number;
+  periodLabel: string; // human phrase, e.g. "Latest available: FY2025", "FY2026 YTD", "Point-in-time"
+  completeness: Completeness;
+  sourceUpdatedAt: string;
+}
+
+export interface SparkPoint {
   label: string;
   value: number;
+  partial?: boolean; // incomplete (YTD/preliminary) year — render lighter/dashed
+}
+
+export interface Metric extends SourceRef {
+  key: string;
+  label: string; // base label, no fiscal year (period shown via badge/phrase)
+  value: number; // latest available value
   display?: string; // pre-formatted value for non-numeric metrics (e.g. employer name)
   unit?: string;
   fiscalYear?: number;
@@ -26,6 +50,12 @@ export interface Metric extends SourceRef {
   tooltip: string;
   href?: string;
   group: "enforcement" | "border" | "visa" | "workforce";
+
+  // Freshness model
+  completeness: Completeness; // of the latest period
+  periodLabel: string; // human phrase for the latest period
+  lastComplete?: MetricPeriod; // last complete fiscal year (for the toggle / comparison)
+  spark?: SparkPoint[]; // up-to-6-year mini series for the trend view
 }
 
 export interface CompanyYear {
@@ -118,7 +148,10 @@ export interface RefreshRow {
   name: string;
   agency: string;
   cadence: string;
-  lastRefreshAt: string;
+  latestPeriod: string; // latest reporting period in the dataset, e.g. "FY2026 YTD"
+  completeness: Completeness;
+  sourceUpdatedAt: string; // when the source published its latest release
+  lastRefreshAt: string; // when we last ingested it
   nextRefreshAt: string;
   rowCount: number;
   status: RefreshStatus;

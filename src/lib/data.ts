@@ -24,11 +24,23 @@ import {
   countrySeedBySlug,
   CURRENT_FY,
   FISCAL_YEARS,
+  LATEST_COMPLETE_FY,
+  EMPLOYER_LATEST_FY,
+  FY2026_ELAPSED,
   H1B_NATIONAL,
   DETENTION_NOW,
   UPDATED,
 } from "./sample-data";
-import type { Metric, Company, SourceRef } from "./types";
+import type {
+  Metric,
+  MetricPeriod,
+  SparkPoint,
+  Completeness,
+  TrendDirection,
+  StatusLevel,
+  Company,
+  SourceRef,
+} from "./types";
 
 // Pull only provenance fields off a record (avoids leaking fiscalYear etc).
 const srcRef = (r: SourceRef) => ({
@@ -37,10 +49,22 @@ const srcRef = (r: SourceRef) => ({
   sourceUpdatedAt: r.sourceUpdatedAt,
 });
 
-export const LAST_COMPLETE_FY = CURRENT_FY - 1;
+// Employer / state / company aggregations use the latest *available* employer
+// fiscal year (USCIS Data Hub lags to FY2024). Keep the historical export name.
+export const LAST_COMPLETE_FY = EMPLOYER_LATEST_FY;
 
 // Re-export time-frame constants so pages can import them from the data layer.
-export { CURRENT_FY, FISCAL_YEARS, FY_COMPLETENESS } from "./sample-data";
+export {
+  CURRENT_FY,
+  FISCAL_YEARS,
+  FY_COMPLETENESS,
+  LATEST_COMPLETE_FY,
+  EMPLOYER_LATEST_FY,
+} from "./sample-data";
+
+function fyTag(y: number): string {
+  return `FY${y}`;
+}
 
 function pct(a: number, b: number): number {
   if (!b) return 0;
@@ -303,37 +327,146 @@ export function allLayoffs() {
 }
 
 // ---------------------------------------------------------------------------
-// Live counter grid (homepage)
+// Live counter grid (homepage) — latest-available period per metric
 // ---------------------------------------------------------------------------
-export function buildMetrics(): Metric[] {
-  const fy = LAST_COMPLETE_FY; // FY2024 — latest fully-reported year across sources
-  const prevFy = fy - 1;
-  const ice = iceByFy[fy];
-  const icePrev = iceByFy[prevFy];
-  const cbp = cbpRows.find((r) => r.fiscalYear === fy && r.border === "nationwide")!;
-  const cbpPrev = cbpRows.find((r) => r.fiscalYear === prevFy && r.border === "nationwide")!;
+const SRC = {
+  iceStats: { sourceName: "ICE Enforcement and Removal Statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats },
+  iceAnnual: { sourceName: "ICE Enforcement and Removal Statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_annual },
+  cbp: { sourceName: "CBP Nationwide Encounters", sourceUrl: "https://www.cbp.gov/newsroom/stats/nationwide-encounters", sourceUpdatedAt: UPDATED.cbp_encounters },
+  uscisHub: { sourceName: "USCIS H-1B Employer Data Hub", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: UPDATED.uscis_h1b },
+  uscisNational: { sourceName: "USCIS H-1B petition statistics", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: UPDATED.uscis_h1b_national },
+  dos: { sourceName: "Department of State Visa Statistics", sourceUrl: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html", sourceUpdatedAt: UPDATED.dos_visa },
+  dol: { sourceName: "DOL OFLC Disclosure Data (LCA / PERM)", sourceUrl: "https://www.dol.gov/agencies/eta/foreign-labor/performance", sourceUpdatedAt: UPDATED.dol_lca },
+  warn: { sourceName: "State WARN Act Layoff Notices", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: UPDATED.warn_layoffs },
+};
 
-  const sponsors = topSponsors(fy);
-  const topEmployer = sponsors[0];
-  const avgWage = Math.round(
-    sponsors.reduce((s, c) => s + c.avgWage * c.approvals, 0) /
-      sponsors.reduce((s, c) => s + c.approvals, 0)
-  );
+function periodLabel(fy: number | undefined, completeness: Completeness, isLatest: boolean): string {
+  if (completeness === "point_in_time") return "Point-in-time";
+  if (!fy) return isLatest ? "Latest available" : "—";
+  if (completeness === "ytd") return `${fyTag(fy)} YTD`;
+  if (completeness === "preliminary") return `${isLatest ? "Latest: " : ""}${fyTag(fy)} preliminary`;
+  if (completeness === "estimated") return `${fyTag(fy)} est. pace`;
+  return isLatest ? `Latest available: ${fyTag(fy)}` : fyTag(fy);
+}
 
-  const f1 = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === fy)!;
-  const f1Prev = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === prevFy)!;
+function mp(
+  value: number,
+  fy: number | undefined,
+  completeness: Completeness,
+  sourceUpdatedAt: string,
+  isLatest: boolean,
+  opts: { display?: string; labelOverride?: string } = {}
+): MetricPeriod {
+  return {
+    value,
+    display: opts.display,
+    fiscalYear: fy,
+    completeness,
+    sourceUpdatedAt,
+    periodLabel: opts.labelOverride ?? periodLabel(fy, completeness, isLatest),
+  };
+}
 
-  const h1b = H1B_NATIONAL[fy];
-  const h1bPrev = H1B_NATIONAL[prevFy];
+function spk(get: (fy: number) => number, years: number[], partial: number[]): SparkPoint[] {
+  return years.map((fy) => ({
+    label: `FY${String(fy).slice(2)}`,
+    value: get(fy),
+    partial: partial.includes(fy),
+  }));
+}
 
-  const layoffsTracked = layoffRows
-    .filter(
-      (l) =>
-        l.noticeDate.startsWith(String(prevFy)) ||
-        l.noticeDate.startsWith(String(fy)) ||
-        l.noticeDate.startsWith(String(fy + 1))
-    )
+// Projected full-year pace for a YTD value vs the last complete year.
+function ytdTrend(ytd: number, lastComplete: number): { trend: TrendDirection; trendPct: number } {
+  const projected = Math.round(ytd / FY2026_ELAPSED);
+  const p = pct(projected, lastComplete);
+  return { trend: dir(p), trendPct: p };
+}
+
+function layoffsInYear(y: number): number {
+  return layoffRows
+    .filter((l) => l.noticeDate.startsWith(String(y)))
     .reduce((s, l) => s + l.employeesAffected, 0);
+}
+
+interface BuildArgs {
+  key: string;
+  label: string;
+  unit?: string;
+  group: Metric["group"];
+  href?: string;
+  status: StatusLevel;
+  tooltip: string;
+  latest: MetricPeriod;
+  lastComplete?: MetricPeriod;
+  src: SourceRef;
+  spark?: SparkPoint[];
+  trend?: TrendDirection;
+  trendPct?: number;
+  paceEstimated?: boolean;
+}
+function buildMetric(a: BuildArgs): Metric {
+  return {
+    key: a.key,
+    label: a.label,
+    value: a.latest.value,
+    display: a.latest.display,
+    unit: a.unit,
+    fiscalYear: a.latest.fiscalYear,
+    paceEstimated: a.paceEstimated ?? false,
+    trend: a.trend ?? "FLAT",
+    trendPct: a.trendPct,
+    status: a.status,
+    tooltip: a.tooltip,
+    href: a.href,
+    group: a.group,
+    completeness: a.latest.completeness,
+    periodLabel: a.latest.periodLabel,
+    lastComplete: a.lastComplete,
+    spark: a.spark,
+    sourceName: a.src.sourceName,
+    sourceUrl: a.src.sourceUrl,
+    sourceUpdatedAt: a.latest.sourceUpdatedAt,
+  };
+}
+
+export function buildMetrics(): Metric[] {
+  const MACRO_YEARS = FISCAL_YEARS; // 2021..2026
+  const H1B_YEARS = [2021, 2022, 2023, 2024, 2025];
+  const EMP_YEARS = [2021, 2022, 2023, 2024];
+
+  // ---- Enforcement ----
+  const arrestsTrend = ytdTrend(iceByFy[CURRENT_FY].arrests, iceByFy[LATEST_COMPLETE_FY].arrests);
+  const removalsTrend = ytdTrend(iceByFy[CURRENT_FY].removals, iceByFy[LATEST_COMPLETE_FY].removals);
+  const detentionPct = pct(DETENTION_NOW.value, iceByFy[LATEST_COMPLETE_FY].detentionAvgDaily);
+
+  // ---- Border ----
+  const cbpNow = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "nationwide")!;
+  const cbpComplete = cbpRows.find((r) => r.fiscalYear === LATEST_COMPLETE_FY && r.border === "nationwide")!;
+  const borderTrend = ytdTrend(cbpNow.totalEncounters, cbpComplete.totalEncounters);
+
+  // ---- H-1B national ----
+  const h1bLatest = H1B_NATIONAL[LATEST_COMPLETE_FY]; // FY2025 preliminary
+  const h1bComplete = H1B_NATIONAL[EMPLOYER_LATEST_FY]; // FY2024 final
+  const h1bApprPct = pct(h1bLatest.approvals, h1bComplete.approvals);
+  const h1bDenPct = pct(h1bLatest.denials, h1bComplete.denials);
+
+  // ---- Visas ----
+  const f1Now = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === CURRENT_FY)!;
+  const f1Complete = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === LATEST_COMPLETE_FY)!;
+  const f1Trend = ytdTrend(f1Now.issued, f1Complete.issued);
+
+  // ---- Workforce ----
+  const sponsors = topSponsors(EMPLOYER_LATEST_FY);
+  const topEmployer = sponsors[0];
+  function weightedWage(fy: number): number {
+    const s = topSponsors(fy);
+    const tot = s.reduce((a, c) => a + c.approvals, 0);
+    return tot ? Math.round(s.reduce((a, c) => a + c.avgWage * c.approvals, 0) / tot) : 0;
+  }
+  const avgWage = weightedWage(EMPLOYER_LATEST_FY);
+
+  const layoffsLatest = layoffsInYear(CURRENT_FY);
+  const layoffsComplete = layoffsInYear(LATEST_COMPLETE_FY);
 
   const topState = states
     .map((s) => ({ code: s.code, name: s.name, w: stateWeight[s.code] ?? 0 }))
@@ -343,203 +476,185 @@ export function buildMetrics(): Metric[] {
     .filter((v) => v.visaClass === "H-1B")
     .sort((a, b) => b.issued - a.issued)[0];
 
-  const fyTag = `FY${fy}`;
-  const uscis = {
-    sourceName: "USCIS H-1B Employer Data Hub",
-    sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-    sourceUpdatedAt: UPDATED.uscis_h1b,
-  };
-
-  const m = (x: Metric): Metric => x;
   return [
-    m({
+    buildMetric({
       key: "ice_arrests_fy",
-      label: `ICE arrests · ${fyTag}`,
-      value: ice.arrests,
+      label: "ICE arrests",
       unit: "people",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: dir(pct(ice.arrests, icePrev.arrests)),
-      trendPct: pct(ice.arrests, icePrev.arrests),
-      status: "RED",
-      tooltip:
-        "Administrative arrests by ICE in the latest full-year report (FY2024). An arrest is not a deportation — see the methodology page. ICE reports interior arrests rose sharply in FY2025.",
       group: "enforcement",
       href: "/immigration/enforcement-trends",
-      ...srcRef(ice),
+      status: "RED",
+      tooltip:
+        "Administrative arrests by ICE. FY2026 is year-to-date; the trend projects a full-year pace from the elapsed share of the fiscal year. An arrest is not a deportation — see methodology.",
+      latest: mp(iceByFy[CURRENT_FY].arrests, CURRENT_FY, "ytd", UPDATED.ice_stats, true),
+      lastComplete: mp(iceByFy[LATEST_COMPLETE_FY].arrests, LATEST_COMPLETE_FY, "complete", UPDATED.ice_annual, false),
+      src: SRC.iceStats,
+      spark: spk((fy) => iceByFy[fy]?.arrests ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      trend: arrestsTrend.trend,
+      trendPct: arrestsTrend.trendPct,
+      paceEstimated: true,
     }),
-    m({
+    buildMetric({
       key: "removals_fy",
-      label: `Deportations / removals · ${fyTag}`,
-      value: ice.removals,
+      label: "Deportations / removals",
       unit: "people",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: dir(pct(ice.removals, icePrev.removals)),
-      trendPct: pct(ice.removals, icePrev.removals),
-      status: "RED",
-      tooltip:
-        "Noncitizens removed under an order of removal in FY2024 — the highest single-year total in over a decade (ICE). Removals differ from arrests and from detention counts.",
       group: "enforcement",
       href: "/immigration/enforcement-trends",
-      ...srcRef(ice),
+      status: "RED",
+      tooltip:
+        "Noncitizens removed under an order of removal. FY2026 is year-to-date with a projected full-year pace. Removals differ from arrests and from detention counts.",
+      latest: mp(iceByFy[CURRENT_FY].removals, CURRENT_FY, "ytd", UPDATED.ice_stats, true),
+      lastComplete: mp(iceByFy[LATEST_COMPLETE_FY].removals, LATEST_COMPLETE_FY, "complete", UPDATED.ice_annual, false),
+      src: SRC.iceStats,
+      spark: spk((fy) => iceByFy[fy]?.removals ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      trend: removalsTrend.trend,
+      trendPct: removalsTrend.trendPct,
+      paceEstimated: true,
     }),
-    m({
+    buildMetric({
       key: "detention_population",
-      label: "ICE detention population (current)",
-      value: DETENTION_NOW.value,
+      label: "ICE detention population",
       unit: "people",
-      paceEstimated: false,
-      trend: dir(pct(DETENTION_NOW.value, ice.detentionAvgDaily)),
-      trendPct: pct(DETENTION_NOW.value, ice.detentionAvgDaily),
-      status: "RED",
-      tooltip:
-        "People in ICE detention as of the date shown — among the highest levels in the system's history. A point-in-time figure, not a fiscal-year total.",
       group: "enforcement",
       href: "/immigration/enforcement-trends",
-      sourceName: "ICE Enforcement and Removal Statistics",
-      sourceUrl: "https://www.ice.gov/statistics",
-      sourceUpdatedAt: DETENTION_NOW.asOf,
-    }),
-    m({
-      key: "border_encounters_fy",
-      label: `Border encounters · ${fyTag}`,
-      value: cbp.totalEncounters,
-      unit: "encounters",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: dir(pct(cbp.totalEncounters, cbpPrev.totalEncounters)),
-      trendPct: pct(cbp.totalEncounters, cbpPrev.totalEncounters),
-      status: "GREEN",
+      status: "RED",
       tooltip:
-        "CBP nationwide encounters in FY2024. Encounters then fell to historic lows in FY2025. An encounter is an event, not a person, and is not a deportation.",
+        "People in ICE detention on a specific date — a point-in-time figure, not a fiscal-year total. Among the highest levels in the system's history.",
+      latest: mp(DETENTION_NOW.value, undefined, "point_in_time", DETENTION_NOW.asOf, true),
+      lastComplete: mp(iceByFy[LATEST_COMPLETE_FY].detentionAvgDaily, LATEST_COMPLETE_FY, "complete", UPDATED.ice_annual, false, { labelOverride: `${fyTag(LATEST_COMPLETE_FY)} avg daily` }),
+      src: { ...SRC.iceStats, sourceUpdatedAt: DETENTION_NOW.asOf },
+      spark: spk((fy) => iceByFy[fy]?.detentionAvgDaily ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      trend: dir(detentionPct),
+      trendPct: detentionPct,
+    }),
+    buildMetric({
+      key: "border_encounters_fy",
+      label: "Border encounters",
+      unit: "encounters",
       group: "border",
       href: "/border/encounters",
-      ...srcRef(cbp),
-    }),
-    m({
-      key: "h1b_approvals_fy",
-      label: `H-1B approvals · ${fyTag}`,
-      value: h1b.approvals,
-      unit: "petitions",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: dir(pct(h1b.approvals, h1bPrev.approvals)),
-      trendPct: pct(h1b.approvals, h1bPrev.approvals),
       status: "GREEN",
       tooltip:
-        "USCIS H-1B petition approvals (initial + continuing) nationwide in FY2024 — 399,395 total, most of them renewals. USCIS approvals are not State Department visa issuances.",
-      group: "visa",
-      href: "/h1b/top-sponsors",
-      ...uscis,
+        "CBP nationwide encounters. FY2026 is year-to-date (encounters are at multi-decade lows). An encounter is an event, not a person, and is not a deportation.",
+      latest: mp(cbpNow.totalEncounters, CURRENT_FY, "ytd", UPDATED.cbp_encounters, true),
+      lastComplete: mp(cbpComplete.totalEncounters, LATEST_COMPLETE_FY, "complete", UPDATED.cbp_encounters, false),
+      src: SRC.cbp,
+      spark: spk((fy) => cbpRows.find((r) => r.fiscalYear === fy && r.border === "nationwide")?.totalEncounters ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      trend: borderTrend.trend,
+      trendPct: borderTrend.trendPct,
+      paceEstimated: true,
     }),
-    m({
-      key: "h1b_denials_fy",
-      label: `H-1B denials · ${fyTag}`,
-      value: h1b.denials,
+    buildMetric({
+      key: "h1b_approvals_fy",
+      label: "H-1B approvals",
       unit: "petitions",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: dir(pct(h1b.denials, h1bPrev.denials)),
-      trendPct: pct(h1b.denials, h1bPrev.denials),
-      status: "AMBER",
-      tooltip:
-        "USCIS H-1B petition denials nationwide in FY2024. Denial rates vary year to year with policy and case mix.",
       group: "visa",
       href: "/h1b/top-sponsors",
-      ...uscis,
+      status: "GREEN",
+      tooltip:
+        "USCIS H-1B petition approvals (initial + continuing) nationwide. FY2025 figures are preliminary; FY2024 (399,395) is final. USCIS approvals are not State Department visa issuances.",
+      latest: mp(h1bLatest.approvals, LATEST_COMPLETE_FY, "preliminary", UPDATED.uscis_h1b_national, true),
+      lastComplete: mp(h1bComplete.approvals, EMPLOYER_LATEST_FY, "complete", UPDATED.uscis_h1b, false),
+      src: SRC.uscisNational,
+      spark: spk((fy) => H1B_NATIONAL[fy]?.approvals ?? 0, H1B_YEARS, [LATEST_COMPLETE_FY]),
+      trend: dir(h1bApprPct),
+      trendPct: h1bApprPct,
     }),
-    m({
-      key: "f1_visas_year",
-      label: `F-1 student visas · ${fyTag}`,
-      value: f1.issued,
-      unit: "visas",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: dir(pct(f1.issued, f1Prev.issued)),
-      trendPct: pct(f1.issued, f1Prev.issued),
+    buildMetric({
+      key: "h1b_denials_fy",
+      label: "H-1B denials",
+      unit: "petitions",
+      group: "visa",
+      href: "/h1b/top-sponsors",
       status: "AMBER",
       tooltip:
-        "F-1 academic student visas issued by U.S. consulates in FY2024 (Department of State) — 401,007, down from 445,245 in FY2023.",
+        "USCIS H-1B petition denials nationwide. FY2025 is preliminary. Denial rates vary year to year with policy and case mix.",
+      latest: mp(h1bLatest.denials, LATEST_COMPLETE_FY, "preliminary", UPDATED.uscis_h1b_national, true),
+      lastComplete: mp(h1bComplete.denials, EMPLOYER_LATEST_FY, "complete", UPDATED.uscis_h1b, false),
+      src: SRC.uscisNational,
+      spark: spk((fy) => H1B_NATIONAL[fy]?.denials ?? 0, H1B_YEARS, [LATEST_COMPLETE_FY]),
+      trend: dir(h1bDenPct),
+      trendPct: h1bDenPct,
+    }),
+    buildMetric({
+      key: "f1_visas_year",
+      label: "F-1 student visas",
+      unit: "visas",
       group: "visa",
       href: "/visa/f1-student-visas",
-      ...srcRef(f1),
-    }),
-    m({
-      key: "top_h1b_employer",
-      label: "Top H-1B sponsoring employer",
-      value: topEmployer.approvals,
-      display: topEmployer.name,
-      unit: "approvals",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: "FLAT",
-      status: "GREEN",
-      tooltip:
-        "Employer with the most H-1B approvals in FY2024 (USCIS H-1B Employer Data Hub). Sponsorship volume does not by itself indicate displacement of U.S. workers.",
-      group: "workforce",
-      href: `/company/${topEmployer.slug}`,
-      ...uscis,
-    }),
-    m({
-      key: "avg_h1b_wage",
-      label: "Average H-1B offered wage",
-      value: avgWage,
-      unit: "USD",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: "UP",
-      status: "GREEN",
-      tooltip:
-        "Approval-weighted average offered wage across the top H-1B employers (DOL LCA disclosure data), FY2024.",
-      group: "workforce",
-      href: "/layoffs-vs-h1b",
-      ...{ sourceName: "DOL OFLC Disclosure Data (LCA / PERM)", sourceUrl: "https://www.dol.gov/agencies/eta/foreign-labor/performance", sourceUpdatedAt: UPDATED.dol_lca },
-    }),
-    m({
-      key: "layoffs_year",
-      label: "Layoffs tracked (2023–2025)",
-      value: layoffsTracked,
-      unit: "employees",
-      paceEstimated: false,
-      trend: "FLAT",
       status: "AMBER",
       tooltip:
-        "Employees affected by tracked WARN Act layoff notices, 2023–2025. Layoffs do not prove replacement by foreign workers — see methodology.",
+        "F-1 academic student visas issued by U.S. consulates (Department of State). FY2026 is year-to-date with a projected full-year pace.",
+      latest: mp(f1Now.issued, CURRENT_FY, "ytd", UPDATED.dos_visa, true),
+      lastComplete: mp(f1Complete.issued, LATEST_COMPLETE_FY, "complete", UPDATED.dos_visa, false),
+      src: SRC.dos,
+      spark: spk((fy) => visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === fy)?.issued ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      trend: f1Trend.trend,
+      trendPct: f1Trend.trendPct,
+      paceEstimated: true,
+    }),
+    buildMetric({
+      key: "top_h1b_employer",
+      label: "Top H-1B sponsoring employer",
+      unit: "approvals",
+      group: "workforce",
+      href: `/company/${topEmployer.slug}`,
+      status: "GREEN",
+      tooltip:
+        "Employer with the most H-1B approvals in the latest available USCIS Employer Data Hub release (FY2024). Sponsorship volume does not by itself indicate displacement of U.S. workers.",
+      latest: mp(topEmployer.approvals, EMPLOYER_LATEST_FY, "complete", UPDATED.uscis_h1b, true, { display: topEmployer.name }),
+      src: SRC.uscisHub,
+    }),
+    buildMetric({
+      key: "avg_h1b_wage",
+      label: "Average H-1B offered wage",
+      unit: "USD",
       group: "workforce",
       href: "/layoffs-vs-h1b",
-      ...{ sourceName: "State WARN Act Layoff Notices", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: UPDATED.warn_layoffs },
+      status: "GREEN",
+      tooltip:
+        "Approval-weighted average offered wage across the top H-1B employers (DOL LCA disclosure data), latest available year (FY2024).",
+      latest: mp(avgWage, EMPLOYER_LATEST_FY, "complete", UPDATED.dol_lca, true),
+      src: SRC.dol,
+      spark: spk(weightedWage, EMP_YEARS, []),
+      trend: "UP",
     }),
-    m({
+    buildMetric({
+      key: "layoffs_year",
+      label: "Layoffs tracked",
+      unit: "employees",
+      group: "workforce",
+      href: "/layoffs-vs-h1b",
+      status: "AMBER",
+      tooltip:
+        "Employees affected by tracked WARN Act layoff notices in the current calendar year to date. Layoffs do not prove replacement by foreign workers — see methodology.",
+      latest: mp(layoffsLatest, CURRENT_FY, "ytd", UPDATED.warn_layoffs, true, { labelOverride: `${CURRENT_FY} YTD` }),
+      lastComplete: mp(layoffsComplete, LATEST_COMPLETE_FY, "complete", UPDATED.warn_layoffs, false, { labelOverride: `${LATEST_COMPLETE_FY}` }),
+      src: SRC.warn,
+      spark: spk(layoffsInYear, [2022, 2023, 2024, 2025, 2026], [CURRENT_FY]),
+    }),
+    buildMetric({
       key: "top_h1b_state",
       label: "Top state for H-1B sponsorship",
-      value: 0,
-      display: topState.name,
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: "FLAT",
-      status: "GREEN",
-      tooltip:
-        "State with the largest share of H-1B sponsorship among the top employers and their worksites.",
       group: "workforce",
       href: `/state/${topState.code}`,
-      ...{ sourceName: "DOL OFLC Disclosure Data (LCA / PERM)", sourceUrl: "https://www.dol.gov/agencies/eta/foreign-labor/performance", sourceUpdatedAt: UPDATED.dol_lca },
-    }),
-    m({
-      key: "top_nationality",
-      label: "Top nationality — H-1B approvals",
-      value: topNationality.issued,
-      display: topNationality.country ?? "—",
-      unit: "approvals",
-      fiscalYear: fy,
-      paceEstimated: false,
-      trend: "FLAT",
       status: "GREEN",
       tooltip:
-        "Country of birth with the most H-1B approvals in FY2024 (USCIS): India, 283,397 of 399,395 — about 71%.",
+        "State with the largest share of H-1B sponsorship among the top employers and their worksites (latest available employer data, FY2024).",
+      latest: mp(0, EMPLOYER_LATEST_FY, "complete", UPDATED.dol_lca, true, { display: topState.name }),
+      src: SRC.dol,
+    }),
+    buildMetric({
+      key: "top_nationality",
+      label: "Top nationality — H-1B approvals",
+      unit: "approvals",
       group: "visa",
       href: `/country/${countries.find((c) => c.name === topNationality.country)?.slug ?? "india"}`,
-      ...uscis,
+      status: "GREEN",
+      tooltip:
+        "Country of birth with the most H-1B approvals in the latest available USCIS data (FY2024): India, 283,397 of 399,395 — about 71%.",
+      latest: mp(topNationality.issued, EMPLOYER_LATEST_FY, "complete", UPDATED.uscis_h1b, true, { display: topNationality.country ?? "—" }),
+      src: SRC.uscisHub,
     }),
   ];
 }

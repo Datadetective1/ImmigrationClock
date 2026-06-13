@@ -13,7 +13,7 @@ import {
   borderCountryData,
 } from "@/lib/chart-data";
 import { cbpRows, UPDATED } from "@/lib/sample-data";
-import { LAST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
+import { LATEST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -32,7 +32,8 @@ const SOURCE = {
 
 export default function BorderEncountersPage() {
   const swNow = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "southwest")!;
-  const natPrev = cbpRows.find((r) => r.fiscalYear === LAST_COMPLETE_FY && r.border === "nationwide")!;
+  const natNow = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "nationwide")!;
+  const natPrev = cbpRows.find((r) => r.fiscalYear === LATEST_COMPLETE_FY && r.border === "nationwide")!;
 
   const yearly = {
     southwest: borderYearlyData("southwest"),
@@ -60,10 +61,10 @@ export default function BorderEncountersPage() {
         share
       >
         <StatRow>
-          <Stat label={`SW apprehensions · ${fiscalYearLabel(CURRENT_FY)}`} value={formatNumber(swNow.totalEncounters)} sub="Lowest since 1970" />
-          <Stat label={`Nationwide · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(natPrev.totalEncounters)} sub="Latest full year" />
-          <Stat label={`Family units · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(natPrev.familyUnits)} />
-          <Stat label={`Unaccompanied minors · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(natPrev.unaccompaniedMinors)} />
+          <Stat label={`Nationwide · ${fiscalYearLabel(CURRENT_FY)} YTD`} value={formatNumber(natNow.totalEncounters)} sub="Year-to-date" />
+          <Stat label={`SW apprehensions · ${fiscalYearLabel(CURRENT_FY)} YTD`} value={formatNumber(swNow.totalEncounters)} sub="Multi-decade lows" />
+          <Stat label={`Nationwide · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`} value={formatNumber(natPrev.totalEncounters)} sub="Last complete year" />
+          <Stat label={`Family units · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`} value={formatNumber(natPrev.familyUnits)} />
         </StatRow>
       </PageHeader>
 
@@ -87,7 +88,7 @@ export default function BorderEncountersPage() {
 
         <ChartCard
           title="Encounters by citizenship"
-          subtitle={`Nationwide · ${fiscalYearLabel(LAST_COMPLETE_FY)}`}
+          subtitle={`Nationwide · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`}
           tooltip="Where CBP publishes nationality detail. Encounters are events, not unique people."
           source={SOURCE}
         >

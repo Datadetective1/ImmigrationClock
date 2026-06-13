@@ -7,7 +7,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { TrendLineChart, HorizontalBarChart } from "@/components/charts/Charts";
 import { visaChartData, visaSeriesDefs, visaCountryData } from "@/lib/chart-data";
 import { visaSeries } from "@/lib/data";
-import { LAST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
+import { LATEST_COMPLETE_FY, EMPLOYER_LATEST_FY, CURRENT_FY } from "@/lib/data";
 import { UPDATED } from "@/lib/sample-data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 
@@ -31,11 +31,11 @@ export default function VisaFlowPage() {
   const f1Country = visaCountryData("F-1");
   const h1bCountry = visaCountryData("H-1B");
 
-  const f1Cur = visaSeries("F-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!; // FY2024
-  const f1Older = visaSeries("F-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY - 1)!; // FY2023
-  const f1Prelim = visaSeries("F-1").find((r) => r.fiscalYear === CURRENT_FY)!; // FY2025
-  const j1Cur = visaSeries("J-1").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
-  const h1bCur = visaSeries("H-1B").find((r) => r.fiscalYear === LAST_COMPLETE_FY)!;
+  const f1Ytd = visaSeries("F-1").find((r) => r.fiscalYear === CURRENT_FY)!; // FY2026 YTD
+  const f1Cur = visaSeries("F-1").find((r) => r.fiscalYear === LATEST_COMPLETE_FY)!; // FY2025
+  const f1Older = visaSeries("F-1").find((r) => r.fiscalYear === LATEST_COMPLETE_FY - 1)!; // FY2024
+  const j1Cur = visaSeries("J-1").find((r) => r.fiscalYear === LATEST_COMPLETE_FY)!;
+  const h1bCur = visaSeries("H-1B").find((r) => r.fiscalYear === LATEST_COMPLETE_FY)!;
   const pct = (a: number, b: number) => (b ? ((a - b) / b) * 100 : 0);
 
   return (
@@ -52,15 +52,19 @@ export default function VisaFlowPage() {
       >
         <StatRow>
           <Stat
-            label={`F-1 issued · ${fiscalYearLabel(LAST_COMPLETE_FY)}`}
+            label={`F-1 issued · ${fiscalYearLabel(CURRENT_FY)} YTD`}
+            value={formatNumber(f1Ytd.issued)}
+            sub="Year-to-date"
+          />
+          <Stat
+            label={`F-1 · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`}
             value={formatNumber(f1Cur.issued)}
-            sub="Department of State"
+            sub="Last complete year"
             trend={pct(f1Cur.issued, f1Older.issued) > 1.5 ? "UP" : pct(f1Cur.issued, f1Older.issued) < -1.5 ? "DOWN" : "FLAT"}
             trendPct={pct(f1Cur.issued, f1Older.issued)}
           />
-          <Stat label={`J-1 exchange · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(j1Cur.issued)} sub="State Dept issuances" />
-          <Stat label={`H-1B issued · ${fiscalYearLabel(LAST_COMPLETE_FY)}`} value={formatNumber(h1bCur.issued)} sub="State Dept issuances" />
-          <Stat label={`F-1 · ${fiscalYearLabel(CURRENT_FY)} (prelim.)`} value={formatNumber(f1Prelim.issued)} sub="Preliminary" />
+          <Stat label={`J-1 exchange · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`} value={formatNumber(j1Cur.issued)} sub="State Dept issuances" />
+          <Stat label={`H-1B issued · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`} value={formatNumber(h1bCur.issued)} sub="State Dept issuances" />
         </StatRow>
       </PageHeader>
 
@@ -79,15 +83,15 @@ export default function VisaFlowPage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard
             title="F-1 student visas by country"
-            subtitle={fiscalYearLabel(LAST_COMPLETE_FY)}
+            subtitle={`${fiscalYearLabel(LATEST_COMPLETE_FY)} · estimated shares`}
             source={SOURCE}
           >
             <HorizontalBarChart data={f1Country} labelKey="label" valueKey="value" colorByIndex height={320} />
           </ChartCard>
           <ChartCard
-            title="H-1B visas by country"
-            subtitle={fiscalYearLabel(LAST_COMPLETE_FY)}
-            source={SOURCE}
+            title="H-1B approvals by country"
+            subtitle={`${fiscalYearLabel(EMPLOYER_LATEST_FY)} · USCIS`}
+            source={{ sourceName: "USCIS H-1B statistics", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: UPDATED.uscis_h1b }}
           >
             <HorizontalBarChart data={h1bCountry} labelKey="label" valueKey="value" colorByIndex height={320} />
           </ChartCard>

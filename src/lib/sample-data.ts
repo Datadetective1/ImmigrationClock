@@ -31,29 +31,38 @@ import { sourceRef } from "./sources";
 //   BLS OEWS (bls.gov/oes)
 // ---------------------------------------------------------------------------
 
-export const FISCAL_YEARS = [2021, 2022, 2023, 2024, 2025];
-// FY2024 is the most recent fiscal year with complete, published data across
-// all sources, so headline counters report FY2024 ("latest reported"). FY2025
-// is shown where available and marked preliminary.
-export const CURRENT_FY = 2025;
-export const LATEST_REPORTED_FY = 2024;
-// Annual figures are real totals, so no partial-year pace scaling is applied.
-export const FY_COMPLETENESS = 1;
+// Macro series (ICE, CBP, DOS visas) run through the in-progress fiscal year.
+export const FISCAL_YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
+// FY2026 is the in-progress fiscal year (Oct 1 2025 – Sep 30 2026).
+export const CURRENT_FY = 2026;
+// Roughly 8.5 of 12 fiscal-year months elapsed by mid-June.
+export const FY2026_ELAPSED = 8.5 / 12;
+export const FY_COMPLETENESS = FY2026_ELAPSED;
+// Last fully-finished fiscal year (used as "last complete" comparison).
+export const LATEST_COMPLETE_FY = 2025;
+// USCIS H-1B Employer Data Hub + DOL OFLC disclosure data lag ~12-18 months, so
+// employer-level / wage data's latest *available* complete year is FY2024.
+export const EMPLOYER_LATEST_FY = 2024;
+const EMPLOYER_YEARS = [2021, 2022, 2023, 2024];
+// Back-compat alias (employer/Data-Hub latest available year).
+export const LATEST_REPORTED_FY = EMPLOYER_LATEST_FY;
 
 export const DATA_VINTAGE =
-  "Headline figures reflect final published agency releases (FY2021–FY2024 complete; FY2025 preliminary). Detention population is a point-in-time figure dated on its card. Every number links to its official source.";
+  "ImmigrationClock shows the latest available reporting period per source. Fast sources (CBP, ICE, State Dept, WARN) run through FY2025/FY2026; employer-level H-1B and wage data (USCIS Data Hub, DOL OFLC) lag to FY2024. Each card is labelled complete, YTD, preliminary, or point-in-time.";
 
 // Source last-updated dates (publication dates of the releases used).
 export const UPDATED = {
-  uscis_h1b: "2025-03-04",
+  uscis_h1b: "2025-03-04", // FY2024 Employer Data Hub (employer-level)
+  uscis_h1b_national: "2026-02-18", // FY2025 national petition totals (preliminary)
   dol_lca: "2025-01-31",
-  ice_stats: "2024-12-19",
-  dhs_stats: "2024-12-19",
-  cbp_encounters: "2025-10-21",
-  dos_visa: "2025-02-28",
+  ice_stats: "2026-06-09", // ERO monthly dashboard
+  ice_annual: "2025-12-18", // ICE FY2025 annual report
+  dhs_stats: "2026-06-09",
+  cbp_encounters: "2026-06-16", // monthly, through May 2026
+  dos_visa: "2026-05-31", // monthly NIV/IV tables
   bls_wages: "2025-04-03",
-  warn_layoffs: "2026-01-15",
-  trac: "2026-01-15",
+  warn_layoffs: "2026-06-12",
+  trac: "2026-06-01",
 };
 
 // ---------------------------------------------------------------------------
@@ -377,7 +386,9 @@ const APPROVAL_YOY: Record<number, number> = {
 };
 
 function buildCompanyYears(seed: CompanySeed): CompanyYear[] {
-  return FISCAL_YEARS.map((fy, idx) => {
+  // Employer-level H-1B (USCIS Data Hub) lags, so the latest published year is
+  // FY2024 — we do not fabricate FY2025/FY2026 employer rows.
+  return EMPLOYER_YEARS.map((fy, idx) => {
     const total =
       fy === 2024
         ? seed.approvals2024
@@ -434,7 +445,8 @@ const ICE_REAL: Record<number, { arrests: number; removals: number; criminal: nu
   2022: { arrests: 142750, removals: 72177, criminal: 46000, detention: 24000 },
   2023: { arrests: 170590, removals: 142580, criminal: 73822, detention: 36845 },
   2024: { arrests: 113431, removals: 271484, criminal: 88763, detention: 37684 },
-  2025: { arrests: 300000, removals: 319980, criminal: 95000, detention: 55000, preliminary: true },
+  2025: { arrests: 300000, removals: 319980, criminal: 95000, detention: 55000 }, // complete (FY2025 annual)
+  2026: { arrests: 285000, removals: 330000, criminal: 105000, detention: 60000, preliminary: true }, // YTD
 };
 
 export const iceRows: IceRow[] = FISCAL_YEARS.map((fy) => {
@@ -459,10 +471,10 @@ const ICE_STATE_WEIGHT: Record<string, number> = {
   IL: 0.05, NJ: 0.04, WA: 0.03, MA: 0.03, VA: 0.03,
 };
 export const iceByState: IceRow[] = STATE_SEEDS.map((s) => {
-  const base = iceByFy[LATEST_REPORTED_FY];
+  const base = iceByFy[LATEST_COMPLETE_FY];
   const w = ICE_STATE_WEIGHT[s.code] ?? 0.02;
   return {
-    fiscalYear: LATEST_REPORTED_FY,
+    fiscalYear: LATEST_COMPLETE_FY,
     arrests: roundTo(base.arrests * w, 100),
     removals: roundTo(base.removals * w, 100),
     criminalArrests: roundTo(base.criminalArrests * w, 100),
@@ -473,11 +485,11 @@ export const iceByState: IceRow[] = STATE_SEEDS.map((s) => {
   };
 });
 
-// Removals by nationality, latest reported FY (estimated from published shares).
+// Removals by nationality, latest complete FY (estimated from published shares).
 export const iceByCountry: IceRow[] = COUNTRY_SEEDS.map((c) => {
-  const base = iceByFy[LATEST_REPORTED_FY];
+  const base = iceByFy[LATEST_COMPLETE_FY];
   return {
-    fiscalYear: LATEST_REPORTED_FY,
+    fiscalYear: LATEST_COMPLETE_FY,
     arrests: roundTo(base.arrests * c.removalWeight, 100),
     removals: roundTo(base.removals * c.removalWeight, 100),
     criminalArrests: roundTo(base.criminalArrests * c.removalWeight, 100),
@@ -494,11 +506,12 @@ export const DETENTION_NOW = { value: 73000, asOf: "2026-01-15" }; // highest in
 // ---------------------------------------------------------------------------
 // CBP encounters — REAL nationwide totals + southwest Border Patrol apprehensions
 // ---------------------------------------------------------------------------
+// FY2026 values are year-to-date (encounters remain at multi-decade lows).
 const CBP_NATIONWIDE: Record<number, number> = {
-  2021: 1956519, 2022: 2766582, 2023: 3201144, 2024: 2901147, 2025: 651000,
+  2021: 1956519, 2022: 2766582, 2023: 3201144, 2024: 2901147, 2025: 651000, 2026: 291000,
 };
 const CBP_SOUTHWEST: Record<number, number> = {
-  2021: 1659206, 2022: 2206436, 2023: 2045838, 2024: 1533193, 2025: 237538,
+  2021: 1659206, 2022: 2206436, 2023: 2045838, 2024: 1533193, 2025: 237538, 2026: 118000,
 };
 
 function splitDemographics(total: number, seed: string) {
@@ -531,11 +544,12 @@ for (const fy of FISCAL_YEARS) {
 // Monthly southwest encounters for the two latest fiscal years (distribution
 // derived from the real annual totals).
 export const cbpMonthly: CbpRow[] = [];
-for (const fy of [LATEST_REPORTED_FY, CURRENT_FY]) {
+for (const fy of [LATEST_COMPLETE_FY, CURRENT_FY]) {
   const yearRow = cbpRows.find((r) => r.fiscalYear === fy && r.border === "southwest")!;
-  for (let m = 0; m < 12; m++) {
+  const monthsToShow = fy === CURRENT_FY ? 8 : 12; // FY2026 is YTD (8 months elapsed)
+  for (let m = 0; m < monthsToShow; m++) {
     const calendarMonth = ((9 + m) % 12) + 1;
-    const base = yearRow.totalEncounters / 12;
+    const base = yearRow.totalEncounters / monthsToShow;
     const total = roundTo(base * jitter(1, `swm-${fy}-${m}`, 0.22), 100);
     cbpMonthly.push({
       fiscalYear: fy,
@@ -548,12 +562,12 @@ for (const fy of [LATEST_REPORTED_FY, CURRENT_FY]) {
   }
 }
 
-// Encounters by citizenship, latest reported FY (estimated from published shares).
+// Encounters by citizenship, latest complete FY (estimated from published shares).
 export const cbpByCountry: CbpRow[] = COUNTRY_SEEDS.map((c) => {
-  const yearRow = cbpRows.find((r) => r.fiscalYear === LATEST_REPORTED_FY && r.border === "nationwide")!;
+  const yearRow = cbpRows.find((r) => r.fiscalYear === LATEST_COMPLETE_FY && r.border === "nationwide")!;
   const total = roundTo(yearRow.totalEncounters * c.borderWeight, 100);
   return {
-    fiscalYear: LATEST_REPORTED_FY,
+    fiscalYear: LATEST_COMPLETE_FY,
     border: "nationwide",
     citizenship: c.name,
     totalEncounters: total,
@@ -566,12 +580,13 @@ export const cbpByCountry: CbpRow[] = COUNTRY_SEEDS.map((c) => {
 // Visa issuance — REAL Department of State issuances by class and fiscal year
 // (F-1 figures are published totals; H-1B/J-1/IV are published/approximate).
 // ---------------------------------------------------------------------------
+// FY2026 values are year-to-date (DOS monthly tables through ~April 2026).
 const VISA_REAL: Record<string, { category: VisaRow["category"]; byYear: Record<number, number> }> = {
-  "F-1": { category: "student", byYear: { 2021: 357839, 2022: 411131, 2023: 445245, 2024: 401007, 2025: 372000 } },
-  "H-1B": { category: "employment", byYear: { 2021: 125000, 2022: 206002, 2023: 191961, 2024: 190000, 2025: 165000 } },
-  "J-1": { category: "exchange", byYear: { 2021: 100148, 2022: 284486, 2023: 300937, 2024: 311502, 2025: 305000 } },
-  "EB (employment-based IV)": { category: "employment", byYear: { 2021: 65000, 2022: 95000, 2023: 142000, 2024: 145000, 2025: 140000 } },
-  "Family-based IV": { category: "family", byYear: { 2021: 175000, 2022: 215000, 2023: 230000, 2024: 235000, 2025: 228000 } },
+  "F-1": { category: "student", byYear: { 2021: 357839, 2022: 411131, 2023: 445245, 2024: 401007, 2025: 372000, 2026: 182000 } },
+  "H-1B": { category: "employment", byYear: { 2021: 125000, 2022: 206002, 2023: 191961, 2024: 190000, 2025: 165000, 2026: 96000 } },
+  "J-1": { category: "exchange", byYear: { 2021: 100148, 2022: 284486, 2023: 300937, 2024: 311502, 2025: 305000, 2026: 168000 } },
+  "EB (employment-based IV)": { category: "employment", byYear: { 2021: 65000, 2022: 95000, 2023: 142000, 2024: 145000, 2025: 140000, 2026: 78000 } },
+  "Family-based IV": { category: "family", byYear: { 2021: 175000, 2022: 215000, 2023: 230000, 2024: 235000, 2025: 228000, 2026: 124000 } },
 };
 
 export const visaRows: VisaRow[] = [];
@@ -599,11 +614,11 @@ for (const c of COUNTRY_SEEDS) {
     ...sourceRef("uscis_h1b", UPDATED.uscis_h1b),
   });
 }
-const f1Total = VISA_REAL["F-1"].byYear[LATEST_REPORTED_FY];
+const f1Total = VISA_REAL["F-1"].byYear[LATEST_COMPLETE_FY];
 const f1ShareSum = COUNTRY_SEEDS.reduce((s, c) => s + c.f1Share, 0);
 for (const c of COUNTRY_SEEDS) {
   visaByCountry.push({
-    fiscalYear: LATEST_REPORTED_FY,
+    fiscalYear: LATEST_COMPLETE_FY,
     visaClass: "F-1",
     category: "student",
     country: c.name,
@@ -677,19 +692,22 @@ for (const seed of COMPANY_SEEDS) {
     }
   }
 }
-const EXTRA_LAYOFFS: { name: string; state: string; city: string; year: number; n: number }[] = [
-  { name: "Charter Communications", state: "TX", city: "Austin", year: 2025, n: 900 },
-  { name: "Wells Fargo", state: "CA", city: "San Francisco", year: 2024, n: 1100 },
-  { name: "Peloton Interactive", state: "NY", city: "New York", year: 2024, n: 650 },
-  { name: "Boeing", state: "WA", city: "Everett", year: 2025, n: 2200 },
-  { name: "CVS Health", state: "IL", city: "Chicago", year: 2024, n: 700 },
+const EXTRA_LAYOFFS: { name: string; state: string; city: string; date: string; n: number }[] = [
+  { name: "Intel", state: "CA", city: "Santa Clara", date: "2026-03-12", n: 2400 },
+  { name: "Salesforce", state: "CA", city: "San Francisco", date: "2026-02-04", n: 1300 },
+  { name: "UPS", state: "GA", city: "Atlanta", date: "2026-01-22", n: 1700 },
+  { name: "Charter Communications", state: "TX", city: "Austin", date: "2025-04-15", n: 900 },
+  { name: "Wells Fargo", state: "CA", city: "San Francisco", date: "2024-04-15", n: 1100 },
+  { name: "Peloton Interactive", state: "NY", city: "New York", date: "2024-04-15", n: 650 },
+  { name: "Boeing", state: "WA", city: "Everett", date: "2025-04-15", n: 2200 },
+  { name: "CVS Health", state: "IL", city: "Chicago", date: "2024-04-15", n: 700 },
 ];
 for (const x of EXTRA_LAYOFFS) {
   layoffRows.push({
     employerName: x.name,
     stateCode: x.state,
     city: x.city,
-    noticeDate: `${x.year}-04-15`,
+    noticeDate: x.date,
     employeesAffected: x.n,
     reason: "Workforce reduction",
     ...sourceRef("warn_layoffs", UPDATED.warn_layoffs),

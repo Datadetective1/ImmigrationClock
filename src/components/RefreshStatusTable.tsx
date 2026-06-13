@@ -1,4 +1,5 @@
 import { formatDate, formatNumber } from "@/lib/format";
+import { FreshnessBadge } from "./FreshnessBadge";
 import type { RefreshRow, RefreshStatus } from "@/lib/types";
 
 const STATUS_STYLE: Record<RefreshStatus, string> = {
@@ -11,15 +12,17 @@ const STATUS_STYLE: Record<RefreshStatus, string> = {
 export function RefreshStatusTable({ rows }: { rows: RefreshRow[] }) {
   return (
     <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">
-      <table className="w-full min-w-[820px] text-sm">
+      <table className="w-full min-w-[960px] text-sm">
         <thead>
           <tr className="border-b border-white/10 bg-white/[0.03] text-left text-xs uppercase tracking-wider text-slate-400">
             <th className="px-4 py-3 font-medium">Source</th>
-            <th className="px-4 py-3 font-medium">Cadence</th>
+            <th className="px-4 py-3 font-medium">Latest period</th>
+            <th className="px-4 py-3 font-medium">Completeness</th>
+            <th className="px-4 py-3 font-medium">Source updated</th>
             <th className="px-4 py-3 font-medium">Last refresh</th>
             <th className="px-4 py-3 font-medium">Rows</th>
             <th className="px-4 py-3 font-medium">Status</th>
-            <th className="px-4 py-3 font-medium">Next scheduled</th>
+            <th className="px-4 py-3 font-medium">Next refresh</th>
           </tr>
         </thead>
         <tbody>
@@ -27,12 +30,16 @@ export function RefreshStatusTable({ rows }: { rows: RefreshRow[] }) {
             <tr key={r.key} className="border-b border-white/5 align-top last:border-0 hover:bg-white/[0.03]">
               <td className="px-4 py-3">
                 <div className="font-medium text-white">{r.name}</div>
-                <div className="text-xs text-slate-500">{r.agency}</div>
+                <div className="text-xs capitalize text-slate-500">{r.agency} · {r.cadence}</div>
                 {r.errorMessage ? (
                   <div className="mt-1 text-xs text-status-red">{r.errorMessage}</div>
                 ) : null}
               </td>
-              <td className="px-4 py-3 capitalize text-slate-300">{r.cadence}</td>
+              <td className="px-4 py-3 font-medium text-slate-200">{r.latestPeriod}</td>
+              <td className="px-4 py-3">
+                <FreshnessBadge completeness={r.completeness} />
+              </td>
+              <td className="px-4 py-3 text-slate-300">{formatDate(r.sourceUpdatedAt)}</td>
               <td className="px-4 py-3 text-slate-300">{formatDate(r.lastRefreshAt)}</td>
               <td className="px-4 py-3 font-mono tabular-nums text-slate-300">{formatNumber(r.rowCount)}</td>
               <td className="px-4 py-3">

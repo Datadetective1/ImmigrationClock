@@ -13,12 +13,20 @@ import {
   visaCountryBreakdown,
   topSponsors,
   layoffsVsSponsorship,
+  CURRENT_FY,
 } from "./data";
 import { fiscalYearLabel, monthLabel } from "./format";
 
+// Fiscal-year axis label; the in-progress year is suffixed "YTD" so incomplete
+// data is visually flagged on every trend chart.
+function fyChartLabel(fy: number): string {
+  return fy === CURRENT_FY ? `${fiscalYearLabel(fy)} YTD` : fiscalYearLabel(fy);
+}
+
 export function enforcementChartData() {
   return enforcementYearly().map((r) => ({
-    label: fiscalYearLabel(r.fiscalYear),
+    label: fyChartLabel(r.fiscalYear),
+    partial: r.fiscalYear === CURRENT_FY,
     Arrests: r.arrests,
     Removals: r.removals,
     "Avg detention": r.detentionAvgDaily,
@@ -27,7 +35,8 @@ export function enforcementChartData() {
 
 export function enforcementCriminalSplit() {
   return enforcementYearly().map((r) => ({
-    label: fiscalYearLabel(r.fiscalYear),
+    label: fyChartLabel(r.fiscalYear),
+    partial: r.fiscalYear === CURRENT_FY,
     Criminal: r.criminalArrests,
     "Non-criminal": r.nonCriminal,
   }));
@@ -50,14 +59,16 @@ export function enforcementCountryData() {
 
 export function borderYearlyData(border: "southwest" | "northern" | "nationwide" = "southwest") {
   return borderYearly(border).map((r) => ({
-    label: fiscalYearLabel(r.fiscalYear),
+    label: fyChartLabel(r.fiscalYear),
+    partial: r.fiscalYear === CURRENT_FY,
     Encounters: r.totalEncounters,
   }));
 }
 
 export function borderDemographicsData(border: "southwest" | "northern" | "nationwide" = "southwest") {
   return borderYearly(border).map((r) => ({
-    label: fiscalYearLabel(r.fiscalYear),
+    label: fyChartLabel(r.fiscalYear),
+    partial: r.fiscalYear === CURRENT_FY,
     "Single adults": r.singleAdults,
     "Family units": r.familyUnits,
     "Unaccompanied minors": r.unaccompaniedMinors,
@@ -82,7 +93,10 @@ export function visaChartData() {
   const classes = visaClasses();
   const years = visaSeries(classes[0]).map((r) => r.fiscalYear);
   return years.map((fy) => {
-    const row: Record<string, number | string> = { label: fiscalYearLabel(fy) };
+    const row: Record<string, number | string | boolean> = {
+      label: fyChartLabel(fy),
+      partial: fy === CURRENT_FY,
+    };
     for (const cls of classes) {
       const point = visaSeries(cls).find((r) => r.fiscalYear === fy);
       row[cls] = point?.issued ?? 0;

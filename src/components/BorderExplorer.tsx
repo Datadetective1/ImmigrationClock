@@ -5,7 +5,7 @@ import { ChartCard } from "./ChartCard";
 import { GroupedBarChart } from "./charts/Charts";
 
 type Border = "southwest" | "northern" | "nationwide";
-type Row = Record<string, number | string>;
+type Row = Record<string, number | string | boolean>;
 
 const BORDERS: { key: Border; label: string }[] = [
   { key: "southwest", label: "Southwest" },

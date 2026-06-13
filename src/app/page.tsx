@@ -95,18 +95,24 @@ export default function HomePage() {
 
         {/* Live counter grid */}
         <section>
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
               <div className="eyebrow mb-1 flex items-center">
                 <span className="pulse-live" />
                 Live counters
               </div>
-              <h2 className="section-title">The numbers, right now</h2>
+              <h2 className="section-title">The latest available numbers</h2>
             </div>
             <p className="max-w-md text-sm text-slate-400">
-              Each counter shows a value, trend, source, and last-updated date. Current-year figures are
-              projected from the latest available reporting.
+              Each counter shows the freshest reporting period for its source, with a value, trend, and a
+              freshness label.
             </p>
+          </div>
+          <div className="mb-5 rounded-xl border border-accent/15 bg-accent/[0.04] p-3 text-xs leading-relaxed text-slate-300">
+            Some datasets update monthly, quarterly, or annually. ImmigrationClock shows the latest available
+            reporting period and labels whether it is <strong className="text-white">complete</strong>,{" "}
+            <strong className="text-white">preliminary</strong>, <strong className="text-white">year-to-date</strong>,
+            or <strong className="text-white">point-in-time</strong>.
           </div>
           <DashboardGrid metrics={metrics} />
         </section>

@@ -3,7 +3,12 @@ import { AnimatedCounter } from "./AnimatedCounter";
 import { TrendBadge } from "./TrendBadge";
 import { SourceBadge } from "./SourceBadge";
 import { Tooltip } from "./Tooltip";
-import type { Metric, StatusLevel } from "@/lib/types";
+import { FreshnessBadge } from "./FreshnessBadge";
+import { Sparkline } from "./Sparkline";
+import { formatCompact } from "@/lib/format";
+import type { Metric, MetricPeriod, StatusLevel } from "@/lib/types";
+
+export type CardMode = "latest" | "complete" | "trend";
 
 const STATUS_RING: Record<StatusLevel, string> = {
   GREEN: "before:bg-status-green",
@@ -16,11 +21,23 @@ const STATUS_GLOW: Record<StatusLevel, string> = {
   RED: "hover:shadow-[0_0_0_1px_rgba(244,63,94,0.35)]",
 };
 
-export function MetricCard({ metric }: { metric: Metric }) {
-  const isCurrency = metric.unit === "USD";
+function activePeriod(metric: Metric, mode: CardMode): MetricPeriod {
+  if (mode === "complete" && metric.lastComplete) return metric.lastComplete;
+  return {
+    value: metric.value,
+    display: metric.display,
+    fiscalYear: metric.fiscalYear,
+    periodLabel: metric.periodLabel,
+    completeness: metric.completeness,
+    sourceUpdatedAt: metric.sourceUpdatedAt,
+  };
+}
 
-  // The whole card is clickable via a stretched link on the title, so the
-  // SourceBadge anchor stays a sibling (no invalid nested <a> / hydration error).
+export function MetricCard({ metric, mode = "latest" }: { metric: Metric; mode?: CardMode }) {
+  const period = activePeriod(metric, mode);
+  const isCurrency = metric.unit === "USD";
+  const showTrendView = mode === "trend" && metric.spark && metric.spark.length > 1;
+
   const heading = metric.href ? (
     <h3 className="text-xs font-medium leading-snug text-slate-400">
       <Link
@@ -45,29 +62,48 @@ export function MetricCard({ metric }: { metric: Metric }) {
             <Tooltip text={metric.tooltip} />
           </span>
         </div>
-        {metric.trend !== "FLAT" ? (
+        {metric.trend !== "FLAT" && !showTrendView ? (
           <span className="relative z-20">
             <TrendBadge trend={metric.trend} pct={metric.trendPct} />
           </span>
         ) : null}
       </div>
 
+      {/* Period phrase + freshness badge */}
+      <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span className="text-[11px] font-medium text-slate-500">
+          {showTrendView ? "5-year trend" : period.periodLabel}
+        </span>
+        <FreshnessBadge completeness={period.completeness} className="relative z-20" />
+      </div>
+
       <div className="mt-3">
-        {metric.display ? (
-          <div className="stat-value truncate" title={metric.display}>
-            {metric.display}
+        {showTrendView ? (
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="font-mono text-2xl font-semibold tabular-nums text-white">
+                {period.display ?? (isCurrency ? "$" : "") + formatCompact(period.value)}
+              </div>
+              <div className="mt-0.5 text-[10px] text-slate-500">
+                {metric.spark![0].label}–{metric.spark![metric.spark!.length - 1].label}
+              </div>
+            </div>
+            <Sparkline points={metric.spark!} />
+          </div>
+        ) : period.display ? (
+          <div className="stat-value truncate" title={period.display}>
+            {period.display}
           </div>
         ) : (
           <div className="stat-value">
-            <AnimatedCounter value={metric.value} prefix={isCurrency ? "$" : ""} />
+            <AnimatedCounter value={period.value} prefix={isCurrency ? "$" : ""} />
           </div>
         )}
-        {metric.display && metric.value > 0 ? (
+        {!showTrendView && period.display && period.value > 0 ? (
           <div className="mt-1 font-mono text-sm text-slate-400">
-            <AnimatedCounter value={metric.value} />{" "}
-            <span className="text-slate-500">{metric.unit}</span>
+            <AnimatedCounter value={period.value} /> <span className="text-slate-500">{metric.unit}</span>
           </div>
-        ) : metric.unit && !isCurrency ? (
+        ) : !showTrendView && metric.unit && !isCurrency && !period.display ? (
           <div className="mt-1 text-xs text-slate-500">{metric.unit}</div>
         ) : null}
       </div>
@@ -76,8 +112,8 @@ export function MetricCard({ metric }: { metric: Metric }) {
         <SourceBadge
           sourceName={metric.sourceName}
           sourceUrl={metric.sourceUrl}
-          sourceUpdatedAt={metric.sourceUpdatedAt}
-          paceEstimated={metric.paceEstimated}
+          sourceUpdatedAt={period.sourceUpdatedAt}
+          paceEstimated={metric.paceEstimated && period.completeness !== "complete"}
         />
       </div>
     </div>

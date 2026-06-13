@@ -73,6 +73,46 @@ export default function MethodologyPage() {
         </section>
 
         <section className="space-y-3">
+          <h2 className="section-title">Reporting periods &amp; data freshness</h2>
+          <p className="text-sm leading-relaxed text-slate-300">
+            Sources update on different schedules, so each counter shows the <strong className="text-white">latest
+            available reporting period</strong> for its dataset — not a single fixed year. We never present a
+            stale figure as the headline when newer data exists, and every card is labelled so you know exactly
+            what you are looking at:
+          </p>
+          <ul className="space-y-2 text-sm leading-relaxed text-slate-300">
+            <li>
+              <span className="chip">Complete</span> A finished fiscal year with final published totals
+              (e.g. CBP encounters FY2025).
+            </li>
+            <li>
+              <span className="chip">YTD</span> Fiscal-year-to-date — the current fiscal year is still in
+              progress, so the total is partial (e.g. border encounters FY2026 YTD).
+            </li>
+            <li>
+              <span className="chip">Preliminary</span> The agency&rsquo;s latest release that has not yet been
+              finalized and may be revised (e.g. FY2025 H-1B petition totals).
+            </li>
+            <li>
+              <span className="chip">Point-in-time</span> A snapshot on a specific date rather than a running
+              total (e.g. the ICE detention population, which is a count on one day).
+            </li>
+            <li>
+              <span className="chip">Est. pace</span> A projected full-year figure, scaling a year-to-date
+              total by the share of the fiscal year elapsed. An estimate, not an official total.
+            </li>
+          </ul>
+          <p className="text-sm leading-relaxed text-slate-300">
+            Where a source lags — USCIS&rsquo;s employer-level H-1B Data Hub and DOL&rsquo;s wage disclosures
+            run roughly a year behind — the latest available complete year (FY2024) is shown and labelled as
+            such, rather than guessing at unpublished newer figures. Toggle the dashboard between{" "}
+            <em>Latest available</em>, <em>Last complete fiscal year</em>, and <em>5-year trend</em> to compare.
+            We use &ldquo;latest available&rdquo; and &ldquo;YTD,&rdquo; never &ldquo;real-time,&rdquo; because
+            the underlying sources are not live feeds.
+          </p>
+        </section>
+
+        <section className="space-y-3">
           <h2 className="section-title">Why some counters are estimated</h2>
           <p className="text-sm leading-relaxed text-slate-300">
             Different agencies publish on different calendars — some monthly, some quarterly, some only

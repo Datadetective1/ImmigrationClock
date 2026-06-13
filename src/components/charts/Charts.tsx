@@ -39,7 +39,7 @@ export function TrendLineChart({
   height = 260,
   currency = false,
 }: {
-  data: Record<string, number | string>[];
+  data: Record<string, number | string | boolean>[];
   xKey: string;
   series: SeriesDef[];
   height?: number;
@@ -83,7 +83,7 @@ export function GroupedBarChart({
   height = 260,
   currency = false,
 }: {
-  data: Record<string, number | string>[];
+  data: Record<string, number | string | boolean>[];
   xKey: string;
   series: SeriesDef[];
   height?: number;
@@ -127,7 +127,7 @@ export function HorizontalBarChart({
   currency = false,
   colorByIndex = false,
 }: {
-  data: Record<string, number | string>[];
+  data: Record<string, number | string | boolean>[];
   labelKey: string;
   valueKey: string;
   height?: number;
