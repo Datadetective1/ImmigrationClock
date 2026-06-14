@@ -51,6 +51,7 @@ interface WarnLiveShape {
   prevTotal?: number | null;
   prevCount?: number | null;
   recent?: { noticeDate: string; employer: string; city: string; employees: number }[];
+  monthly?: { month: string; total: number; count: number }[];
   sourceName?: string;
   sourceUrl?: string;
   sourceUpdatedAt?: string | null;
@@ -146,6 +147,7 @@ export const WARN_LIVE = warnLive?.ok
       prevTotal: warnLive.prevTotal ?? null,
       prevCount: warnLive.prevCount ?? null,
       recent: warnLive.recent ?? [],
+      monthly: warnLive.monthly ?? [],
       sourceName: warnLive.sourceName ?? "Texas WARN Notices",
       sourceUrl: warnLive.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6",
       sourceUpdatedAt: warnLive.sourceUpdatedAt ?? null,

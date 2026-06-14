@@ -218,6 +218,12 @@ async function fetchWarnTexas(prev) {
       $order: "notice_date desc",
       $limit: "6",
     });
+    const monthlyRaw = await q({
+      $select: "date_trunc_ym(notice_date) as m, sum(total_layoff_number) as n, count(1) as c",
+      $group: "m",
+      $order: "m desc",
+      $limit: "15",
+    });
 
     const ytdTotal = num(ytdRes?.[0]?.n);
     const ytdCount = num(ytdRes?.[0]?.c);
@@ -231,6 +237,11 @@ async function fetchWarnTexas(prev) {
       city: r.city_name || "",
       employees: num(r.total_layoff_number),
     }));
+    // Chronological monthly series (oldest → newest), "YYYY-MM" keys.
+    const monthly = (monthlyRaw || [])
+      .map((r) => ({ month: (r.m || "").slice(0, 7), total: num(r.n), count: num(r.c) }))
+      .filter((r) => r.month)
+      .reverse();
 
     return {
       ok: true,
@@ -243,6 +254,7 @@ async function fetchWarnTexas(prev) {
       prevTotal,
       prevCount,
       recent,
+      monthly,
       fetchedAt: new Date().toISOString(),
       sourceName: "Texas WARN Notices (Texas Workforce Commission)",
       sourceUrl: WARN_TX_PAGE,

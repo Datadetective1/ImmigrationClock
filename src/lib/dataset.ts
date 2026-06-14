@@ -99,6 +99,7 @@ export interface WarnLive {
   prevTotal?: number | null;
   prevCount?: number | null;
   recent?: { noticeDate: string; employer: string; city: string; employees: number }[];
+  monthly?: { month: string; total: number; count: number }[];
   sourceName?: string;
   sourceUrl?: string;
   sourceUpdatedAt?: string | null;

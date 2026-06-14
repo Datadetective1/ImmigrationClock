@@ -5,7 +5,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { DashboardGrid } from "@/components/DashboardGrid";
 import { HookSection } from "@/components/HookSection";
 import { InsightCard } from "@/components/InsightCard";
-import { ChangeTracker } from "@/components/ChangeTracker";
+import { ChangeFeed } from "@/components/ChangeFeed";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -124,6 +124,17 @@ export default function HomePage() {
           <DashboardGrid metrics={metrics} />
         </section>
 
+        {/* What changed this month */}
+        <section>
+          <SectionHeading
+            eyebrow="What changed · auto-generated"
+            title="What changed this month"
+            href="/pulse"
+            hrefLabel="Immigration Pulse"
+          />
+          <ChangeFeed limit={5} />
+        </section>
+
         {/* Insights */}
         <section>
           <SectionHeading
@@ -136,9 +147,6 @@ export default function HomePage() {
             {featuredInsights.map((insight) => (
               <InsightCard key={insight.key} insight={insight} />
             ))}
-          </div>
-          <div className="mt-4">
-            <ChangeTracker compact />
           </div>
         </section>
 

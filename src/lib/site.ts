@@ -23,6 +23,7 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { href: "/", label: "Dashboard" },
+  { href: "/pulse", label: "Pulse" },
   { href: "/insights", label: "Insights" },
   { href: "/immigration/enforcement-trends", label: "Enforcement" },
   { href: "/border/encounters", label: "Border" },

@@ -4447,6 +4447,83 @@
         "employees": 152
       }
     ],
+    "monthly": [
+      {
+        "month": "2025-04",
+        "total": 1732,
+        "count": 19
+      },
+      {
+        "month": "2025-05",
+        "total": 1939,
+        "count": 45
+      },
+      {
+        "month": "2025-06",
+        "total": 2175,
+        "count": 19
+      },
+      {
+        "month": "2025-07",
+        "total": 3722,
+        "count": 48
+      },
+      {
+        "month": "2025-08",
+        "total": 594,
+        "count": 17
+      },
+      {
+        "month": "2025-09",
+        "total": 2068,
+        "count": 17
+      },
+      {
+        "month": "2025-10",
+        "total": 2161,
+        "count": 36
+      },
+      {
+        "month": "2025-11",
+        "total": 3581,
+        "count": 14
+      },
+      {
+        "month": "2025-12",
+        "total": 939,
+        "count": 9
+      },
+      {
+        "month": "2026-01",
+        "total": 2755,
+        "count": 11
+      },
+      {
+        "month": "2026-02",
+        "total": 1050,
+        "count": 12
+      },
+      {
+        "month": "2026-03",
+        "total": 1848,
+        "count": 13
+      },
+      {
+        "month": "2026-04",
+        "total": 4099,
+        "count": 18
+      },
+      {
+        "month": "2026-05",
+        "total": 1322,
+        "count": 6
+      },
+      {
+        "month": "2026-06",
+        "total": 600,
+        "count": 4
+      }
+    ],
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "sourceUpdatedAt": "2026-06-14"
