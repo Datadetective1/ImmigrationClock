@@ -4,6 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { FreshnessBadge } from "@/components/FreshnessBadge";
+import { ReportingLag } from "@/components/ReportingLag";
 import { LAST_REFRESHED, LIVE_BLS, REFRESH_MANIFEST } from "@/lib/data";
 import { formatDate } from "@/lib/format";
 
@@ -87,6 +88,15 @@ export default function DataPage() {
             data — not an official YTD total. Toggle the dashboard to <em>Last complete FY</em> to see the most recent{" "}
             <ProvenanceTag provenance="reported" /> figure.
           </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="section-title">How current each source is</h2>
+          <p className="text-sm leading-relaxed text-slate-300">
+            Some feeds are genuinely live; others are official figures published on a delay. Here is the
+            honest state of each, newest first:
+          </p>
+          <ReportingLag />
         </section>
 
         <section className="space-y-3">

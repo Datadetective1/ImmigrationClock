@@ -4,7 +4,9 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ReportingLag } from "@/components/ReportingLag";
 import { TrendLineChart, HorizontalBarChart } from "@/components/charts/Charts";
+import Link from "next/link";
 import { visaChartData, visaSeriesDefs, visaCountryData } from "@/lib/chart-data";
 import { visaSeries } from "@/lib/data";
 import { LATEST_COMPLETE_FY, EMPLOYER_LATEST_FY, CURRENT_FY } from "@/lib/data";
@@ -69,6 +71,17 @@ export default function VisaFlowPage() {
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <section className="space-y-2">
+          <h2 className="text-sm font-semibold text-white">Why visa data lags</h2>
+          <p className="text-sm leading-relaxed text-slate-400">
+            Unlike border encounters (updated monthly) or Texas layoffs (live), the State Department
+            publishes visa issuances only as delayed PDF tables. We show the latest official figures and
+            label current-year numbers as projections — see{" "}
+            <Link href="/data" className="link-accent">data &amp; freshness</Link> for all sources.
+          </p>
+          <ReportingLag only={["dos_visa"]} compact />
+        </section>
+
         <ChartCard
           title="Visa issuances by class and fiscal year"
           subtitle="H-1B, F-1 students, J-1 exchange, employment-based and family-based immigrant visas"
