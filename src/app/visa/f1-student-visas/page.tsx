@@ -5,7 +5,9 @@ import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ReportingLag } from "@/components/ReportingLag";
+import { RelevanceCard } from "@/components/RelevanceCard";
 import { TrendLineChart, HorizontalBarChart } from "@/components/charts/Charts";
+import { studentRelevance } from "@/lib/relevance";
 import Link from "next/link";
 import { visaChartData, visaSeriesDefs, visaCountryData } from "@/lib/chart-data";
 import { visaSeries } from "@/lib/data";
@@ -92,6 +94,8 @@ export default function VisaFlowPage() {
         </ChartCard>
 
         <AdSlot format="in-content" />
+
+        <RelevanceCard summaries={[studentRelevance()]} />
 
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard

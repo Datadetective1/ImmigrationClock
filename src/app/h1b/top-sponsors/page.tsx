@@ -6,7 +6,9 @@ import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
+import { RelevanceCard } from "@/components/RelevanceCard";
 import { HorizontalBarChart } from "@/components/charts/Charts";
+import { employerRelevance } from "@/lib/relevance";
 import { topSponsors, topOccupationsBySponsorship, LAST_COMPLETE_FY } from "@/lib/data";
 import { states, UPDATED } from "@/lib/dataset";
 import { formatNumber, formatCurrency, formatRate, fiscalYearLabel, slugify } from "@/lib/format";
@@ -50,6 +52,8 @@ export default function TopSponsorsPage() {
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <RelevanceCard summaries={[employerRelevance()]} />
+
         <ChartCard title="Tracked H-1B employers" subtitle="Sort by any column. Download as CSV.">
           <EmployerTable rows={sponsors} filename={`h1b-top-sponsors-${LAST_COMPLETE_FY}`} />
         </ChartCard>

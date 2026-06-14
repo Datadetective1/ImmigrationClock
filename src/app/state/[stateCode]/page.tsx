@@ -10,7 +10,9 @@ import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { SourceBadge } from "@/components/SourceBadge";
+import { RelevanceCard } from "@/components/RelevanceCard";
 import { HorizontalBarChart } from "@/components/charts/Charts";
+import { stateRelevance } from "@/lib/relevance";
 import { formatNumber, formatCurrency, fiscalYearLabel } from "@/lib/format";
 
 export function generateStaticParams() {
@@ -103,6 +105,8 @@ export default function StatePage({ params }: { params: { stateCode: string } })
             </div>
           </section>
         ) : null}
+
+        <RelevanceCard summaries={stateRelevance(agg.state.code)} />
 
         <div className="grid gap-4 lg:grid-cols-5">
           <div className="lg:col-span-3">
