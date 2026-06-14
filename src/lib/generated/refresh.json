@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-06-14T03:59:34.167Z",
+  "note": "generatedAt is when this pipeline last ran (this build). It is not a claim that the underlying datasets are real-time.",
+  "bls": {
+    "ok": true,
+    "value": 4.3,
+    "period": "May 2026",
+    "sourceUpdatedAt": "2026-05-01",
+    "fetchedAt": "2026-06-14T03:59:34.166Z",
+    "sourceName": "U.S. Bureau of Labor Statistics",
+    "sourceUrl": "https://www.bls.gov/cps/",
+    "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
+  },
+  "manifest": [
+    {
+      "key": "bls_unemployment",
+      "mode": "auto-fetch",
+      "feed": "BLS Public Data API",
+      "lastFetchedAt": "2026-06-14T03:59:34.166Z",
+      "status": "ok"
+    },
+    {
+      "key": "cbp_encounters",
+      "mode": "published-file",
+      "feed": "CBP Nationwide Encounters (Excel)",
+      "lastFetchedAt": null,
+      "status": "manual"
+    },
+    {
+      "key": "ice_stats",
+      "mode": "published-report",
+      "feed": "ICE ERO statistics / annual report",
+      "lastFetchedAt": null,
+      "status": "manual"
+    },
+    {
+      "key": "uscis_h1b",
+      "mode": "published-file",
+      "feed": "USCIS H-1B Employer Data Hub (CSV)",
+      "lastFetchedAt": null,
+      "status": "manual"
+    },
+    {
+      "key": "dos_visa",
+      "mode": "published-table",
+      "feed": "State Dept monthly NIV/IV tables",
+      "lastFetchedAt": null,
+      "status": "manual"
+    },
+    {
+      "key": "dol_lca",
+      "mode": "published-file",
+      "feed": "DOL OFLC disclosure data",
+      "lastFetchedAt": null,
+      "status": "manual"
+    },
+    {
+      "key": "warn_layoffs",
+      "mode": "published-portal",
+      "feed": "State WARN portals",
+      "lastFetchedAt": null,
+      "status": "manual"
+    }
+  ]
+}

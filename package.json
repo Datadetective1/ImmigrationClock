@@ -5,6 +5,8 @@
   "description": "The Immigration Clock — live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
   "scripts": {
     "dev": "next dev",
+    "refresh": "node scripts/refresh-data.mjs",
+    "prebuild": "node scripts/refresh-data.mjs",
     "build": "next build",
     "build:db": "prisma generate && next build",
     "start": "next start",

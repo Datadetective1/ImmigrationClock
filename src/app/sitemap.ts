@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/methodology",
     "/sources",
+    "/data",
     "/about",
     "/privacy",
     "/terms",

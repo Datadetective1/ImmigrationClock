@@ -14,6 +14,13 @@ export type Completeness =
   | "point_in_time" // a snapshot on a specific date (e.g. detention)
   | "estimated"; // estimated pace from latest reporting
 
+// Where a number comes from — the integrity dimension. We never present a
+// projected or estimated figure as an official reported one.
+export type Provenance =
+  | "reported" // a real figure published by the source agency
+  | "projected" // a model/projection computed from reported data (labelled)
+  | "estimated"; // derived/apportioned from reported totals (labelled)
+
 export interface SourceRef {
   sourceName: string;
   sourceUrl: string;
@@ -27,7 +34,8 @@ export interface MetricPeriod {
   fiscalYear?: number;
   periodLabel: string; // human phrase, e.g. "Latest available: FY2025", "FY2026 YTD", "Point-in-time"
   completeness: Completeness;
-  sourceUpdatedAt: string;
+  provenance: Provenance; // reported | projected | estimated
+  sourceUpdatedAt: string; // when the SOURCE published this figure
 }
 
 export interface SparkPoint {
@@ -53,6 +61,7 @@ export interface Metric extends SourceRef {
 
   // Freshness model
   completeness: Completeness; // of the latest period
+  provenance: Provenance; // of the latest value
   periodLabel: string; // human phrase for the latest period
   lastComplete?: MetricPeriod; // last complete fiscal year (for the toggle / comparison)
   spark?: SparkPoint[]; // up-to-6-year mini series for the trend view

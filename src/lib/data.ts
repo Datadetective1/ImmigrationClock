@@ -36,11 +36,33 @@ import type {
   MetricPeriod,
   SparkPoint,
   Completeness,
+  Provenance,
   TrendDirection,
   StatusLevel,
   Company,
   SourceRef,
 } from "./types";
+import refresh from "./generated/refresh.json";
+
+// When the refresh pipeline last ran (this build). NOT a real-time claim.
+export const LAST_REFRESHED: string = refresh.generatedAt;
+// Genuinely fetched near-live datapoint (BLS national unemployment rate).
+export const LIVE_BLS = refresh.bls as {
+  ok: boolean;
+  value: number | null;
+  period: string | null;
+  sourceUpdatedAt?: string;
+  fetchedAt: string | null;
+  sourceName: string;
+  sourceUrl: string;
+};
+export const REFRESH_MANIFEST = refresh.manifest as {
+  key: string;
+  mode: string;
+  feed: string;
+  lastFetchedAt: string | null;
+  status: string;
+}[];
 
 // Pull only provenance fields off a record (avoids leaking fiscalYear etc).
 const srcRef = (r: SourceRef) => ({
@@ -349,19 +371,29 @@ function periodLabel(fy: number | undefined, completeness: Completeness, isLates
   return isLatest ? `Latest available: ${fyTag(fy)}` : fyTag(fy);
 }
 
+// Default integrity classification from the period's completeness. Finished
+// fiscal years and dated snapshots are reported; in-progress / not-yet-released
+// figures are projections until the source publishes them.
+function defaultProvenance(c: Completeness): Provenance {
+  if (c === "complete" || c === "point_in_time") return "reported";
+  if (c === "estimated") return "estimated";
+  return "projected"; // ytd, preliminary
+}
+
 function mp(
   value: number,
   fy: number | undefined,
   completeness: Completeness,
   sourceUpdatedAt: string,
   isLatest: boolean,
-  opts: { display?: string; labelOverride?: string } = {}
+  opts: { display?: string; labelOverride?: string; provenance?: Provenance } = {}
 ): MetricPeriod {
   return {
     value,
     display: opts.display,
     fiscalYear: fy,
     completeness,
+    provenance: opts.provenance ?? defaultProvenance(completeness),
     sourceUpdatedAt,
     periodLabel: opts.labelOverride ?? periodLabel(fy, completeness, isLatest),
   };
@@ -420,6 +452,7 @@ function buildMetric(a: BuildArgs): Metric {
     href: a.href,
     group: a.group,
     completeness: a.latest.completeness,
+    provenance: a.latest.provenance,
     periodLabel: a.latest.periodLabel,
     lastComplete: a.lastComplete,
     spark: a.spark,
@@ -434,26 +467,31 @@ export function buildMetrics(): Metric[] {
   const H1B_YEARS = [2021, 2022, 2023, 2024, 2025];
   const EMP_YEARS = [2021, 2022, 2023, 2024];
 
-  // ---- Enforcement ----
-  const arrestsTrend = ytdTrend(iceByFy[CURRENT_FY].arrests, iceByFy[LATEST_COMPLETE_FY].arrests);
-  const removalsTrend = ytdTrend(iceByFy[CURRENT_FY].removals, iceByFy[LATEST_COMPLETE_FY].removals);
-  const detentionPct = pct(DETENTION_NOW.value, iceByFy[LATEST_COMPLETE_FY].detentionAvgDaily);
+  // Publication dates of the last fully-REPORTED year (FY2024) per source.
+  const ICE_FY24_PUB = "2024-12-19";
+  const CBP_FY24_PUB = "2024-10-29";
+
+  // ---- Enforcement ---- (compare projected current year vs last reported FY2024)
+  const iceReported = iceByFy[EMPLOYER_LATEST_FY];
+  const arrestsTrend = ytdTrend(iceByFy[CURRENT_FY].arrests, iceReported.arrests);
+  const removalsTrend = ytdTrend(iceByFy[CURRENT_FY].removals, iceReported.removals);
+  const detentionPct = pct(DETENTION_NOW.value, iceReported.detentionAvgDaily);
 
   // ---- Border ----
   const cbpNow = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "nationwide")!;
-  const cbpComplete = cbpRows.find((r) => r.fiscalYear === LATEST_COMPLETE_FY && r.border === "nationwide")!;
-  const borderTrend = ytdTrend(cbpNow.totalEncounters, cbpComplete.totalEncounters);
+  const cbpReported = cbpRows.find((r) => r.fiscalYear === EMPLOYER_LATEST_FY && r.border === "nationwide")!;
+  const borderTrend = ytdTrend(cbpNow.totalEncounters, cbpReported.totalEncounters);
 
   // ---- H-1B national ----
-  const h1bLatest = H1B_NATIONAL[LATEST_COMPLETE_FY]; // FY2025 preliminary
-  const h1bComplete = H1B_NATIONAL[EMPLOYER_LATEST_FY]; // FY2024 final
+  const h1bLatest = H1B_NATIONAL[LATEST_COMPLETE_FY]; // FY2025 (not yet released → projected)
+  const h1bComplete = H1B_NATIONAL[EMPLOYER_LATEST_FY]; // FY2024 final (reported)
   const h1bApprPct = pct(h1bLatest.approvals, h1bComplete.approvals);
   const h1bDenPct = pct(h1bLatest.denials, h1bComplete.denials);
 
   // ---- Visas ----
   const f1Now = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === CURRENT_FY)!;
-  const f1Complete = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === LATEST_COMPLETE_FY)!;
-  const f1Trend = ytdTrend(f1Now.issued, f1Complete.issued);
+  const f1Reported = visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === EMPLOYER_LATEST_FY)!;
+  const f1Trend = ytdTrend(f1Now.issued, f1Reported.issued);
 
   // ---- Workforce ----
   const sponsors = topSponsors(EMPLOYER_LATEST_FY);
@@ -476,7 +514,7 @@ export function buildMetrics(): Metric[] {
     .filter((v) => v.visaClass === "H-1B")
     .sort((a, b) => b.issued - a.issued)[0];
 
-  return [
+  const metrics: Metric[] = [
     buildMetric({
       key: "ice_arrests_fy",
       label: "ICE arrests",
@@ -487,9 +525,9 @@ export function buildMetrics(): Metric[] {
       tooltip:
         "Administrative arrests by ICE. FY2026 is year-to-date; the trend projects a full-year pace from the elapsed share of the fiscal year. An arrest is not a deportation — see methodology.",
       latest: mp(iceByFy[CURRENT_FY].arrests, CURRENT_FY, "ytd", UPDATED.ice_stats, true),
-      lastComplete: mp(iceByFy[LATEST_COMPLETE_FY].arrests, LATEST_COMPLETE_FY, "complete", UPDATED.ice_annual, false),
+      lastComplete: mp(iceReported.arrests, EMPLOYER_LATEST_FY, "complete", ICE_FY24_PUB, false),
       src: SRC.iceStats,
-      spark: spk((fy) => iceByFy[fy]?.arrests ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      spark: spk((fy) => iceByFy[fy]?.arrests ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),
       trend: arrestsTrend.trend,
       trendPct: arrestsTrend.trendPct,
       paceEstimated: true,
@@ -504,9 +542,9 @@ export function buildMetrics(): Metric[] {
       tooltip:
         "Noncitizens removed under an order of removal. FY2026 is year-to-date with a projected full-year pace. Removals differ from arrests and from detention counts.",
       latest: mp(iceByFy[CURRENT_FY].removals, CURRENT_FY, "ytd", UPDATED.ice_stats, true),
-      lastComplete: mp(iceByFy[LATEST_COMPLETE_FY].removals, LATEST_COMPLETE_FY, "complete", UPDATED.ice_annual, false),
+      lastComplete: mp(iceReported.removals, EMPLOYER_LATEST_FY, "complete", ICE_FY24_PUB, false),
       src: SRC.iceStats,
-      spark: spk((fy) => iceByFy[fy]?.removals ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      spark: spk((fy) => iceByFy[fy]?.removals ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),
       trend: removalsTrend.trend,
       trendPct: removalsTrend.trendPct,
       paceEstimated: true,
@@ -521,9 +559,9 @@ export function buildMetrics(): Metric[] {
       tooltip:
         "People in ICE detention on a specific date — a point-in-time figure, not a fiscal-year total. Among the highest levels in the system's history.",
       latest: mp(DETENTION_NOW.value, undefined, "point_in_time", DETENTION_NOW.asOf, true),
-      lastComplete: mp(iceByFy[LATEST_COMPLETE_FY].detentionAvgDaily, LATEST_COMPLETE_FY, "complete", UPDATED.ice_annual, false, { labelOverride: `${fyTag(LATEST_COMPLETE_FY)} avg daily` }),
+      lastComplete: mp(iceReported.detentionAvgDaily, EMPLOYER_LATEST_FY, "complete", ICE_FY24_PUB, false, { labelOverride: `${fyTag(EMPLOYER_LATEST_FY)} avg daily` }),
       src: { ...SRC.iceStats, sourceUpdatedAt: DETENTION_NOW.asOf },
-      spark: spk((fy) => iceByFy[fy]?.detentionAvgDaily ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      spark: spk((fy) => iceByFy[fy]?.detentionAvgDaily ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),
       trend: dir(detentionPct),
       trendPct: detentionPct,
     }),
@@ -537,9 +575,9 @@ export function buildMetrics(): Metric[] {
       tooltip:
         "CBP nationwide encounters. FY2026 is year-to-date (encounters are at multi-decade lows). An encounter is an event, not a person, and is not a deportation.",
       latest: mp(cbpNow.totalEncounters, CURRENT_FY, "ytd", UPDATED.cbp_encounters, true),
-      lastComplete: mp(cbpComplete.totalEncounters, LATEST_COMPLETE_FY, "complete", UPDATED.cbp_encounters, false),
+      lastComplete: mp(cbpReported.totalEncounters, EMPLOYER_LATEST_FY, "complete", CBP_FY24_PUB, false),
       src: SRC.cbp,
-      spark: spk((fy) => cbpRows.find((r) => r.fiscalYear === fy && r.border === "nationwide")?.totalEncounters ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      spark: spk((fy) => cbpRows.find((r) => r.fiscalYear === fy && r.border === "nationwide")?.totalEncounters ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),
       trend: borderTrend.trend,
       trendPct: borderTrend.trendPct,
       paceEstimated: true,
@@ -586,9 +624,9 @@ export function buildMetrics(): Metric[] {
       tooltip:
         "F-1 academic student visas issued by U.S. consulates (Department of State). FY2026 is year-to-date with a projected full-year pace.",
       latest: mp(f1Now.issued, CURRENT_FY, "ytd", UPDATED.dos_visa, true),
-      lastComplete: mp(f1Complete.issued, LATEST_COMPLETE_FY, "complete", UPDATED.dos_visa, false),
+      lastComplete: mp(f1Reported.issued, EMPLOYER_LATEST_FY, "complete", UPDATED.dos_visa, false),
       src: SRC.dos,
-      spark: spk((fy) => visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === fy)?.issued ?? 0, MACRO_YEARS, [CURRENT_FY]),
+      spark: spk((fy) => visaRows.find((v) => v.visaClass === "F-1" && v.fiscalYear === fy)?.issued ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),
       trend: f1Trend.trend,
       trendPct: f1Trend.trendPct,
       paceEstimated: true,
@@ -628,8 +666,8 @@ export function buildMetrics(): Metric[] {
       status: "AMBER",
       tooltip:
         "Employees affected by tracked WARN Act layoff notices in the current calendar year to date. Layoffs do not prove replacement by foreign workers — see methodology.",
-      latest: mp(layoffsLatest, CURRENT_FY, "ytd", UPDATED.warn_layoffs, true, { labelOverride: `${CURRENT_FY} YTD` }),
-      lastComplete: mp(layoffsComplete, LATEST_COMPLETE_FY, "complete", UPDATED.warn_layoffs, false, { labelOverride: `${LATEST_COMPLETE_FY}` }),
+      latest: mp(layoffsLatest, CURRENT_FY, "ytd", UPDATED.warn_layoffs, true, { labelOverride: `${CURRENT_FY} YTD`, provenance: "estimated" }),
+      lastComplete: mp(layoffsComplete, LATEST_COMPLETE_FY, "complete", UPDATED.warn_layoffs, false, { labelOverride: `${LATEST_COMPLETE_FY}`, provenance: "estimated" }),
       src: SRC.warn,
       spark: spk(layoffsInYear, [2022, 2023, 2024, 2025, 2026], [CURRENT_FY]),
     }),
@@ -657,6 +695,33 @@ export function buildMetrics(): Metric[] {
       src: SRC.uscisHub,
     }),
   ];
+
+  // Genuinely near-live, fetched-at-build datapoint (real, no projection):
+  // BLS national unemployment rate. Workforce context, updated monthly by BLS.
+  if (LIVE_BLS.value != null) {
+    metrics.push(
+      buildMetric({
+        key: "bls_unemployment",
+        label: "U.S. unemployment rate (BLS)",
+        group: "workforce",
+        status: "GREEN",
+        tooltip:
+          "National seasonally-adjusted unemployment rate, fetched from the BLS Public Data API when this site was last built. Real and near-live (BLS updates it monthly); shown as workforce context.",
+        latest: mp(0, undefined, "point_in_time", LIVE_BLS.sourceUpdatedAt ?? LAST_REFRESHED, true, {
+          display: `${LIVE_BLS.value}%`,
+          labelOverride: LIVE_BLS.period ?? "Latest release",
+          provenance: "reported",
+        }),
+        src: {
+          sourceName: LIVE_BLS.sourceName,
+          sourceUrl: LIVE_BLS.sourceUrl,
+          sourceUpdatedAt: LIVE_BLS.sourceUpdatedAt ?? LAST_REFRESHED,
+        },
+      })
+    );
+  }
+
+  return metrics;
 }
 
 // ---------------------------------------------------------------------------

@@ -9,7 +9,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
 import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
-import { buildMetrics, topSponsors, LAST_COMPLETE_FY } from "@/lib/data";
+import { buildMetrics, topSponsors, LAST_COMPLETE_FY, LAST_REFRESHED } from "@/lib/data";
 import {
   enforcementChartData,
   borderYearlyData,
@@ -19,7 +19,7 @@ import {
   layoffsVsH1bData,
 } from "@/lib/chart-data";
 import { UPDATED } from "@/lib/sample-data";
-import { fiscalYearLabel } from "@/lib/format";
+import { fiscalYearLabel, formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
   title: SITE.title,
@@ -93,26 +93,29 @@ export default function HomePage() {
       <div className="container-page space-y-12 py-10">
         <AdSlot format="top-banner" />
 
-        {/* Live counter grid */}
+        {/* Counter grid */}
         <section>
           <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <div className="eyebrow mb-1 flex items-center">
-                <span className="pulse-live" />
-                Live counters
-              </div>
+              <div className="eyebrow mb-1">Latest available · auto-refreshed</div>
               <h2 className="section-title">The latest available numbers</h2>
             </div>
             <p className="max-w-md text-sm text-slate-400">
-              Each counter shows the freshest reporting period for its source, with a value, trend, and a
-              freshness label.
+              Each counter shows the freshest reporting period for its source, labelled{" "}
+              <strong className="text-white">Reported</strong>,{" "}
+              <strong className="text-white">Projected</strong>, or{" "}
+              <strong className="text-white">Estimated</strong> — and complete, YTD, preliminary, or point-in-time.
             </p>
           </div>
-          <div className="mb-5 rounded-xl border border-accent/15 bg-accent/[0.04] p-3 text-xs leading-relaxed text-slate-300">
-            Some datasets update monthly, quarterly, or annually. ImmigrationClock shows the latest available
-            reporting period and labels whether it is <strong className="text-white">complete</strong>,{" "}
-            <strong className="text-white">preliminary</strong>, <strong className="text-white">year-to-date</strong>,
-            or <strong className="text-white">point-in-time</strong>.
+          <div className="mb-5 flex flex-col gap-2 rounded-xl border border-accent/15 bg-accent/[0.04] p-3 text-xs leading-relaxed text-slate-300 sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              Datasets update monthly, quarterly, or annually. This is <strong className="text-white">not a real-time
+              feed</strong> — we show the latest available reporting period and never present a projection as an
+              official figure. <Link href="/data" className="link-accent">How freshness works →</Link>
+            </span>
+            <span className="shrink-0 rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] text-slate-400">
+              Last refreshed {formatDate(LAST_REFRESHED)}
+            </span>
           </div>
           <DashboardGrid metrics={metrics} />
         </section>

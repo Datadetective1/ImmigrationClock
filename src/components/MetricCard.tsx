@@ -4,6 +4,7 @@ import { TrendBadge } from "./TrendBadge";
 import { SourceBadge } from "./SourceBadge";
 import { Tooltip } from "./Tooltip";
 import { FreshnessBadge } from "./FreshnessBadge";
+import { ProvenanceTag } from "./ProvenanceTag";
 import { Sparkline } from "./Sparkline";
 import { formatCompact } from "@/lib/format";
 import type { Metric, MetricPeriod, StatusLevel } from "@/lib/types";
@@ -29,6 +30,7 @@ function activePeriod(metric: Metric, mode: CardMode): MetricPeriod {
     fiscalYear: metric.fiscalYear,
     periodLabel: metric.periodLabel,
     completeness: metric.completeness,
+    provenance: metric.provenance,
     sourceUpdatedAt: metric.sourceUpdatedAt,
   };
 }
@@ -69,12 +71,15 @@ export function MetricCard({ metric, mode = "latest" }: { metric: Metric; mode?:
         ) : null}
       </div>
 
-      {/* Period phrase + freshness badge */}
+      {/* Period phrase + freshness badge + provenance tag */}
       <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
         <span className="text-[11px] font-medium text-slate-500">
           {showTrendView ? "5-year trend" : period.periodLabel}
         </span>
         <FreshnessBadge completeness={period.completeness} className="relative z-20" />
+        {!showTrendView ? (
+          <ProvenanceTag provenance={period.provenance} className="relative z-20" />
+        ) : null}
       </div>
 
       <div className="mt-3">
