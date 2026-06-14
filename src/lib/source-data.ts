@@ -39,6 +39,24 @@ const cbpLive = (
   }
 ).cbp;
 
+// Live-fetched Texas WARN layoff notices (data.texas.gov). Texas only — other
+// states stay curated/modeled. Surfaced as a reported figure on the TX page.
+interface WarnLiveShape {
+  ok?: boolean;
+  state?: string;
+  ytdYear?: number;
+  ytdTotal?: number | null;
+  ytdCount?: number | null;
+  prevYear?: number;
+  prevTotal?: number | null;
+  prevCount?: number | null;
+  recent?: { noticeDate: string; employer: string; city: string; employees: number }[];
+  sourceName?: string;
+  sourceUrl?: string;
+  sourceUpdatedAt?: string | null;
+}
+const warnLive = (refresh as { warn?: WarnLiveShape }).warn;
+
 // ---------------------------------------------------------------------------
 // REAL DATA — sourced from official U.S. government public datasets.
 //
@@ -107,6 +125,30 @@ export const CBP_LIVE = cbpLive?.ok
       currentFyYtd: cbpLive.currentFyYtd ?? null,
       sourceUpdatedAt: cbpLive.sourceUpdatedAt ?? null,
       datasetUrl: cbpLive.datasetUrl ?? null,
+    }
+  : { ok: false as const };
+
+// When Texas WARN was fetched live, reflect the real fetch date on its badge.
+if (warnLive?.ok && warnLive.sourceUpdatedAt) {
+  UPDATED.warn_layoffs = warnLive.sourceUpdatedAt;
+}
+
+// Real Texas WARN summary + recent notices (reported). Texas only — surfaced as
+// its own clearly-labelled element; national/other-state layoffs stay modeled.
+export const WARN_LIVE = warnLive?.ok
+  ? {
+      ok: true as const,
+      state: warnLive.state ?? "TX",
+      ytdYear: warnLive.ytdYear ?? null,
+      ytdTotal: warnLive.ytdTotal ?? null,
+      ytdCount: warnLive.ytdCount ?? null,
+      prevYear: warnLive.prevYear ?? null,
+      prevTotal: warnLive.prevTotal ?? null,
+      prevCount: warnLive.prevCount ?? null,
+      recent: warnLive.recent ?? [],
+      sourceName: warnLive.sourceName ?? "Texas WARN Notices",
+      sourceUrl: warnLive.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6",
+      sourceUpdatedAt: warnLive.sourceUpdatedAt ?? null,
     }
   : { ok: false as const };
 

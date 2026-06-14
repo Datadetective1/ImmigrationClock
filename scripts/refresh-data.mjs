@@ -184,6 +184,84 @@ async function fetchCbpEncounters(prev) {
   }
 }
 
+// --- Texas WARN layoff notices (real, Socrata JSON) --------------------------
+// There is no national WARN feed; Texas publishes a clean, current Socrata table
+// (Texas Workforce Commission). We ingest Texas as a real, reported series and
+// label coverage honestly (TX only) — other states remain curated/modeled. Add
+// more states here as they expose machine-readable feeds.
+const WARN_TX_BASE = "https://data.texas.gov/resource/8w53-c4f6.json";
+const WARN_TX_PAGE = "https://data.texas.gov/d/8w53-c4f6";
+
+async function fetchWarnTexas(prev) {
+  try {
+    const year = new Date().getFullYear();
+    const prevYear = year - 1;
+    const q = async (paramsObj) => {
+      const usp = new URLSearchParams(paramsObj).toString();
+      return (await fetchWithTimeout(`${WARN_TX_BASE}?${usp}`, {}, 20000)).json();
+    };
+    const num = (x) => {
+      const n = parseInt(x, 10);
+      return Number.isFinite(n) ? n : 0;
+    };
+
+    const ytdRes = await q({
+      $select: "sum(total_layoff_number) as n,count(1) as c",
+      $where: `notice_date>='${year}-01-01'`,
+    });
+    const prevRes = await q({
+      $select: "sum(total_layoff_number) as n,count(1) as c",
+      $where: `notice_date between '${prevYear}-01-01' and '${prevYear}-12-31'`,
+    });
+    const recentRaw = await q({
+      $select: "notice_date,job_site_name,city_name,total_layoff_number",
+      $order: "notice_date desc",
+      $limit: "6",
+    });
+
+    const ytdTotal = num(ytdRes?.[0]?.n);
+    const ytdCount = num(ytdRes?.[0]?.c);
+    const prevTotal = num(prevRes?.[0]?.n);
+    const prevCount = num(prevRes?.[0]?.c);
+    if (!ytdCount && !prevCount) throw new Error("no rows returned");
+
+    const recent = (recentRaw || []).map((r) => ({
+      noticeDate: (r.notice_date || "").slice(0, 10),
+      employer: r.job_site_name || "—",
+      city: r.city_name || "",
+      employees: num(r.total_layoff_number),
+    }));
+
+    return {
+      ok: true,
+      stale: false,
+      state: "TX",
+      ytdYear: year,
+      ytdTotal,
+      ytdCount,
+      prevYear,
+      prevTotal,
+      prevCount,
+      recent,
+      fetchedAt: new Date().toISOString(),
+      sourceName: "Texas WARN Notices (Texas Workforce Commission)",
+      sourceUrl: WARN_TX_PAGE,
+      datasetUrl: WARN_TX_BASE,
+      sourceUpdatedAt: new Date().toISOString().slice(0, 10),
+      note: `Texas WARN layoff notices via data.texas.gov. ${year} YTD: ${ytdTotal} employees across ${ytdCount} notices. Texas only — not national.`,
+    };
+  } catch (err) {
+    console.warn(`[refresh] Texas WARN fetch failed: ${err.message}; keeping last good value`);
+    const last = prev?.warn;
+    return last && last.ytdTotal != null
+      ? { ...last, ok: false, stale: true, note: `Last good value (fetch failed: ${err.message}).` }
+      : {
+          ok: false, stale: false, state: "TX", ytdTotal: null, ytdCount: null, recent: [], fetchedAt: null,
+          note: `Unavailable (${err.message}).`, sourceName: "Texas WARN Notices (Texas Workforce Commission)", sourceUrl: WARN_TX_PAGE,
+        };
+  }
+}
+
 // Sources that are auto-fetched vs maintained as latest-published + projections.
 const SOURCE_MANIFEST = [
   { key: "bls_unemployment", name: "BLS unemployment rate", mode: "auto-fetch", feed: "BLS Public Data API" },
@@ -248,6 +326,12 @@ async function main() {
     errors.push(`cbp_encounters: ${cbp.note ?? "fetch failed"}`);
   }
 
+  const warn = await fetchWarnTexas(prev);
+  // WARN (Texas only) is best-effort, same policy as CBP.
+  if (!warn.ok && !warn.stale && warn.ytdTotal == null) {
+    errors.push(`warn_texas: ${warn.note ?? "fetch failed"}`);
+  }
+
   // Overall health gates the scheduled Netlify rebuild. BLS is the canonical
   // near-live check; CBP is best-effort (the build keeps last-good on failure).
   const ok = bls.ok;
@@ -259,6 +343,17 @@ async function main() {
     }
     if (s.key === "cbp_encounters") {
       return { ...s, auto: true, status: cbp.ok ? "ok" : cbp.stale ? "stale" : "manual", lastFetchedAt: cbp.fetchedAt ?? null, lastError: cbp.ok ? null : cbp.note ?? null };
+    }
+    if (s.key === "warn_layoffs") {
+      return {
+        ...s,
+        mode: "auto-fetch (partial)",
+        feed: "Texas via data.texas.gov (Socrata) — TX only; other states curated",
+        auto: true,
+        status: warn.ok ? "ok" : warn.stale ? "stale" : "manual",
+        lastFetchedAt: warn.fetchedAt ?? null,
+        lastError: warn.ok ? null : warn.note ?? null,
+      };
     }
     return { ...s, auto: s.mode === "auto-fetch", status: "manual", lastFetchedAt: null, lastError: null };
   });
@@ -272,6 +367,7 @@ async function main() {
     note: "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
     bls,
     cbp,
+    warn,
     manifest,
   };
 
@@ -287,8 +383,11 @@ async function main() {
   const cbpLog = cbp.ok
     ? `CBP FY${cbp.currentFy} YTD ${cbp.currentFyYtd?.toLocaleString?.() ?? cbp.currentFyYtd} (through ${cbp.reportingMonthLabel})`
     : `CBP ${cbp.stale ? "STALE (last good)" : "unavailable"}`;
+  const warnLog = warn.ok
+    ? `WARN-TX ${warn.ytdYear} YTD ${warn.ytdTotal?.toLocaleString?.() ?? warn.ytdTotal} (${warn.ytdCount} notices)`
+    : `WARN-TX ${warn.stale ? "STALE (last good)" : "unavailable"}`;
   if (ok) {
-    console.log(`[refresh] OK — BLS ${bls.period} (fetched ${bls.fetchedAt}) · ${cbpLog}`);
+    console.log(`[refresh] OK — BLS ${bls.period} (fetched ${bls.fetchedAt}) · ${cbpLog} · ${warnLog}`);
   } else {
     // Surface failures clearly (and in GitHub Actions job logs).
     console.error(`[refresh] COMPLETED WITH ERRORS:`);

@@ -16,6 +16,7 @@ import {
   visaRows,
   DETENTION_NOW,
   UPDATED,
+  WARN_LIVE,
   EMPLOYER_LATEST_FY,
   LATEST_COMPLETE_FY,
   CURRENT_FY,
@@ -209,7 +210,28 @@ export function buildInsights(): Insight[] {
     });
   }
 
-  // --- 7. Live labor-market backdrop (workforce, reported, near-live) ------
+  // --- 7. Texas WARN layoffs (workforce, reported, live single-state) ------
+  if (WARN_LIVE.ok && WARN_LIVE.ytdTotal != null) {
+    out.push({
+      key: "texas-warn",
+      stat: formatCompact(WARN_LIVE.ytdTotal),
+      headline: `Texas: ~${formatCompact(WARN_LIVE.ytdTotal)} layoffs across ${WARN_LIVE.ytdCount} WARN notices so far in ${WARN_LIVE.ytdYear}`,
+      detail: `Real layoff notices filed with the Texas Workforce Commission, fetched live. For context, Texas employers filed ${formatNumber(
+        WARN_LIVE.prevTotal ?? 0
+      )} layoffs across ${WARN_LIVE.prevCount} notices in all of ${WARN_LIVE.prevYear}.`,
+      whyItMatters:
+        "WARN notices are the earliest official signal of large layoffs. Texas is one of the few states publishing them as live structured data — a direct read on local labor stress, separate from visa policy.",
+      group: "workforce",
+      provenance: "reported",
+      periodLabel: `${WARN_LIVE.ytdYear} YTD · Texas only`,
+      href: "/state/TX",
+      sourceName: WARN_LIVE.sourceName ?? "Texas WARN Notices",
+      sourceUrl: WARN_LIVE.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6",
+      sourceUpdatedAt: WARN_LIVE.sourceUpdatedAt ?? UPDATED.warn_layoffs,
+    });
+  }
+
+  // --- 8. Live labor-market backdrop (workforce, reported, near-live) ------
   if (LIVE_BLS.value != null) {
     out.push({
       key: "unemployment-backdrop",

@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
-import { states } from "@/lib/dataset";
+import { states, WARN_LIVE } from "@/lib/dataset";
 import { stateAggregate } from "@/lib/data";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { ProvenanceTag } from "@/components/ProvenanceTag";
+import { SourceBadge } from "@/components/SourceBadge";
 import { HorizontalBarChart } from "@/components/charts/Charts";
 import { formatNumber, formatCurrency, fiscalYearLabel } from "@/lib/format";
 
@@ -35,6 +37,11 @@ export default function StatePage({ params }: { params: { stateCode: string } })
     value: c.approvals,
   }));
 
+  // Real, live WARN data exists for Texas only (data.texas.gov).
+  const warn = WARN_LIVE;
+  const showWarnLive =
+    agg.state.code === "TX" && warn.ok && warn.ytdTotal != null && (warn.recent?.length ?? 0) > 0;
+
   return (
     <div>
       <PageHeader
@@ -57,6 +64,46 @@ export default function StatePage({ params }: { params: { stateCode: string } })
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        {showWarnLive ? (
+          <section className="panel relative overflow-hidden p-5 sm:p-6">
+            <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-status-amber/60 to-transparent" />
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="eyebrow mb-1 text-status-amber">Live · Texas Workforce Commission</div>
+                <h2 className="text-lg font-bold text-white sm:text-xl">
+                  {formatNumber(warn.ytdTotal ?? 0)} layoffs across {warn.ytdCount} WARN notices in {warn.ytdYear} so far
+                </h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  Real Texas WARN notices, fetched from data.texas.gov. All of {warn.prevYear}:{" "}
+                  {formatNumber(warn.prevTotal ?? 0)} layoffs across {warn.prevCount} notices.
+                </p>
+              </div>
+              <ProvenanceTag provenance="reported" />
+            </div>
+            <ul className="mt-4 divide-y divide-white/5">
+              {(warn.recent ?? []).slice(0, 6).map((n, i) => (
+                <li key={`${n.employer}-${i}`} className="flex items-center justify-between gap-3 py-2">
+                  <span className="min-w-0 text-sm text-slate-200">
+                    <span className="mr-2 font-mono text-xs text-slate-500">{n.noticeDate}</span>
+                    {n.employer}
+                    {n.city ? <span className="ml-2 text-xs text-slate-500">{n.city}</span> : null}
+                  </span>
+                  <span className="shrink-0 font-mono text-sm tabular-nums text-status-red">
+                    {formatNumber(n.employees)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-3">
+              <SourceBadge
+                sourceName={warn.sourceName ?? "Texas WARN Notices"}
+                sourceUrl={warn.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6"}
+                sourceUpdatedAt={warn.sourceUpdatedAt ?? agg.state.sourceUpdatedAt}
+              />
+            </div>
+          </section>
+        ) : null}
+
         <div className="grid gap-4 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <ChartCard

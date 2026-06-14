@@ -87,3 +87,20 @@ export const wageByState = ds.wageByState as unknown as WageRow[];
 
 // ---- Layoffs (WARN) ----
 export const layoffRows = ds.layoffRows as unknown as LayoffRow[];
+
+// Real Texas WARN feed (reported). Texas only; other states stay modeled.
+export interface WarnLive {
+  ok: boolean;
+  state?: string;
+  ytdYear?: number | null;
+  ytdTotal?: number | null;
+  ytdCount?: number | null;
+  prevYear?: number | null;
+  prevTotal?: number | null;
+  prevCount?: number | null;
+  recent?: { noticeDate: string; employer: string; city: string; employees: number }[];
+  sourceName?: string;
+  sourceUrl?: string;
+  sourceUpdatedAt?: string | null;
+}
+export const WARN_LIVE = ds.WARN_LIVE as unknown as WarnLive;

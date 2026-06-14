@@ -65,6 +65,7 @@ async function main() {
     wageByState: S.wageByState,
     // Layoffs
     layoffRows: S.layoffRows,
+    WARN_LIVE: S.WARN_LIVE,
   };
 
   await mkdir(dirname(OUT), { recursive: true });

@@ -27,7 +27,7 @@
     "cbp_encounters": "2026-06-14",
     "dos_visa": "2026-05-31",
     "bls_wages": "2025-04-03",
-    "warn_layoffs": "2026-06-12",
+    "warn_layoffs": "2026-06-14",
     "trac": "2026-06-01"
   },
   "states": [
@@ -4009,7 +4009,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4021,7 +4021,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4033,7 +4033,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4045,7 +4045,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4057,7 +4057,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4069,7 +4069,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4081,7 +4081,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4093,7 +4093,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Amazon",
@@ -4105,7 +4105,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Cognizant Technology Solutions",
@@ -4117,7 +4117,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Cognizant Technology Solutions",
@@ -4129,7 +4129,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Cognizant Technology Solutions",
@@ -4141,7 +4141,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Cognizant Technology Solutions",
@@ -4153,7 +4153,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Alphabet (Google)",
@@ -4165,7 +4165,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Alphabet (Google)",
@@ -4177,7 +4177,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Meta Platforms",
@@ -4189,7 +4189,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Meta Platforms",
@@ -4201,7 +4201,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Meta Platforms",
@@ -4213,7 +4213,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Microsoft",
@@ -4225,7 +4225,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Microsoft",
@@ -4237,7 +4237,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Microsoft",
@@ -4249,7 +4249,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Microsoft",
@@ -4261,7 +4261,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Microsoft",
@@ -4273,7 +4273,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "IBM",
@@ -4285,7 +4285,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "IBM",
@@ -4297,7 +4297,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "IBM",
@@ -4309,7 +4309,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Intel",
@@ -4320,7 +4320,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Salesforce",
@@ -4331,7 +4331,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "UPS",
@@ -4342,7 +4342,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Charter Communications",
@@ -4353,7 +4353,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Wells Fargo",
@@ -4364,7 +4364,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Peloton Interactive",
@@ -4375,7 +4375,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "Boeing",
@@ -4386,7 +4386,7 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     },
     {
       "employerName": "CVS Health",
@@ -4397,7 +4397,58 @@
       "reason": "Workforce reduction",
       "sourceName": "State WARN Act Layoff Notices",
       "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-06-12"
+      "sourceUpdatedAt": "2026-06-14"
     }
-  ]
+  ],
+  "WARN_LIVE": {
+    "ok": true,
+    "state": "TX",
+    "ytdYear": 2026,
+    "ytdTotal": 11674,
+    "ytdCount": 64,
+    "prevYear": 2025,
+    "prevTotal": 26606,
+    "prevCount": 287,
+    "recent": [
+      {
+        "noticeDate": "2026-06-09",
+        "employer": "Remington Lodging and Hospitality, LLC (Hilton Houston NASA Clear Lake)",
+        "city": "Houston",
+        "employees": 65
+      },
+      {
+        "noticeDate": "2026-06-08",
+        "employer": "Alan Ritchey Incorporated",
+        "city": "Irving",
+        "employees": 232
+      },
+      {
+        "noticeDate": "2026-06-08",
+        "employer": "El Paso Independent School District",
+        "city": "El Paso",
+        "employees": 250
+      },
+      {
+        "noticeDate": "2026-06-04",
+        "employer": "MW Components (Matthew Warren Inc's USA Fastner Facility)",
+        "city": "Houston",
+        "employees": 53
+      },
+      {
+        "noticeDate": "2026-05-29",
+        "employer": "Toshiba International Corporation",
+        "city": "Houston",
+        "employees": 67
+      },
+      {
+        "noticeDate": "2026-05-19",
+        "employer": "Auzmet Architectural, LLC",
+        "city": "Dallas",
+        "employees": 152
+      }
+    ],
+    "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
+    "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
+    "sourceUpdatedAt": "2026-06-14"
+  }
 }
