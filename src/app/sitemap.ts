@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/methodology",
     "/sources",
     "/data",
+    "/data-manifest",
     "/about",
     "/privacy",
     "/terms",

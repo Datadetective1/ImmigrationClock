@@ -56,6 +56,7 @@ export const FOOTER_SECTIONS = [
     title: "About the data",
     links: [
       { href: "/data", label: "Data & freshness" },
+      { href: "/data-manifest", label: "Data manifest" },
       { href: "/methodology", label: "Methodology" },
       { href: "/sources", label: "Sources" },
       { href: "/admin/refresh-status", label: "Refresh status" },

@@ -1,30 +1,34 @@
-# Tier 2 — scheduled data refresh + redeploy.
+# Automatic data refresh + Netlify rebuild.
 #
-# Runs the Python ingestion pipeline on a schedule and triggers a Netlify
-# rebuild so the live site picks up refreshed figures.
+# Every 6 hours this runs the near-live fetch (a health check), and ONLY if the
+# refresh succeeded does it ping the Netlify build hook. Netlify then rebuilds
+# from the connected repo — its own `prebuild` step re-fetches the feeds so the
+# fresh data is baked into the new deploy. Failures are logged to the job
+# summary and the previous good build stays live (nothing is triggered).
 #
-# HOW IT BECOMES FULLY LIVE (one-time setup):
-#   1. Connect this GitHub repo to the Netlify site (Netlify UI →
-#      Site configuration → Build & deploy → Link repository). This enables
-#      git-based builds + build hooks.
-#   2. Create a Netlify build hook (Site settings → Build & deploy → Build hooks)
-#      and add it as the GitHub secret NETLIFY_BUILD_HOOK.
-#   3. (Optional) Add DATABASE_URL as a secret if you ingest into Postgres.
+# REQUIREMENTS:
+#   - Secret NETLIFY_BUILD_HOOK  (✅ you created this)
+#   - The Netlify site must be linked to this GitHub repo, otherwise the build
+#     hook has no source to build from. (Netlify → Site configuration →
+#     Build & deploy → Link repository.)
 #
-# WHAT STILL NEEDS WIRING (the substantive Tier-2 work):
-#   Each data_pipeline/ingest_*.py script ships with the official source URLs
-#   and an offline fallback. To make the refresh pull genuinely fresh numbers,
-#   wire each agency's current release URL into that script's download step and
-#   have it write the updated figures into the data the static build reads
-#   (e.g. a committed JSON the app imports), then let this workflow commit it.
+# Note: the BLS public API allows ~25 unauthenticated requests/IP/day. At 4
+# runs/day here plus Netlify's build-time fetch this stays well under the limit;
+# register a free BLS key only if you add many more series.
 
-name: Refresh data & redeploy
+name: Refresh data & rebuild
 
 on:
   schedule:
-    # 09:00 UTC on the 1st of each month (most sources update monthly/quarterly).
-    - cron: "0 9 1 * *"
+    - cron: "0 */6 * * *" # every 6 hours
   workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
 
 jobs:
   refresh:
@@ -36,35 +40,28 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Fetch near-live feeds (BLS, etc.)
+      - name: Refresh near-live feeds (health check)
         run: node scripts/refresh-data.mjs
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install pipeline dependencies
-        run: pip install -r data_pipeline/requirements.txt
-
-      - name: Run ingestion pipeline
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python data_pipeline/run_all_ingestions.py
-
-      # If the pipeline commits refreshed data files, push them so a git-based
-      # Netlify build redeploys with new numbers.
-      - name: Commit refreshed data (if any)
+      - name: Read refresh status
+        id: status
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "immigrationclock-bot"
-            git config user.email "bot@immigrationclock.local"
-            git add -A
-            git commit -m "chore: scheduled data refresh"
-            git push
-          else
-            echo "No data changes."
-          fi
+          OK=$(node -e "try{process.stdout.write(require('./src/lib/generated/refresh.json').ok?'true':'false')}catch(e){process.stdout.write('false')}")
+          echo "ok=$OK" >> "$GITHUB_OUTPUT"
+          node -e "const r=require('./src/lib/generated/refresh.json');const L=['## Data refresh','','- status: '+(r.ok?'✅ ok':'⚠️ errors'),'- ran at: '+r.generatedAt,'- BLS: '+(r.bls&&r.bls.ok?('ok — '+r.bls.period):'STALE'),''];if(r.errors&&r.errors.length){L.push('### Errors');for(const e of r.errors)L.push('- '+e);}require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');"
 
-      - name: Trigger Netlify rebuild
-        if: ${{ secrets.NETLIFY_BUILD_HOOK != '' }}
-        run: curl -fsS -X POST -d '{}' "${{ secrets.NETLIFY_BUILD_HOOK }}"
+      - name: Log failures (no rebuild triggered)
+        if: steps.status.outputs.ok != 'true'
+        run: echo "::warning::Data refresh reported failures — keeping the last good build live. See job summary."
+
+      - name: Trigger Netlify rebuild (only after a successful refresh)
+        if: steps.status.outputs.ok == 'true'
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::NETLIFY_BUILD_HOOK secret is not set."
+            exit 1
+          fi
+          curl -fsS -X POST -d '{"trigger_title":"scheduled-refresh"}' "$HOOK"
+          echo "✅ Triggered Netlify rebuild (it re-fetches near-live data during the build)."

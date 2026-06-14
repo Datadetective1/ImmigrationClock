@@ -8,6 +8,7 @@ import {
   layoffRows,
   UPDATED,
 } from "./sample-data";
+import refresh from "./generated/refresh.json";
 import type { RefreshRow, Completeness } from "./types";
 
 // Latest reporting period in the dataset per source (what the freshness logic
@@ -78,6 +79,70 @@ export function refreshRows(): RefreshRow[] {
       errorMessage: FAILED_KEYS.has(s.key)
         ? "HTTP 503 from source endpoint during last scheduled pull; serving last good snapshot."
         : undefined,
+    };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Data manifest (for /data-manifest) — source × refresh status × auto/manual
+// ---------------------------------------------------------------------------
+export interface ManifestRow {
+  key: string;
+  name: string;
+  agency: string;
+  feed: string;
+  mode: string; // auto-fetch | published-file | published-report | ...
+  auto: boolean;
+  status: string; // ok | stale | manual
+  latestPeriod: string;
+  completeness: Completeness;
+  sourceUpdatedAt: string | null; // when the source last published
+  lastFetchedAt: string | null; // when our pipeline last fetched it
+  lastError?: string | null;
+}
+
+export const REFRESH_STATUS = {
+  generatedAt: (refresh as { generatedAt: string }).generatedAt,
+  ok: (refresh as { ok?: boolean }).ok ?? true,
+  errors: ((refresh as { errors?: string[] }).errors ?? []) as string[],
+};
+
+export function dataManifest(): ManifestRow[] {
+  const bySourceKey = Object.fromEntries(SOURCES.map((s) => [s.key, s]));
+  const m = (refresh as { manifest: Record<string, unknown>[] }).manifest ?? [];
+  const bls = (refresh as { bls?: { period?: string; sourceUpdatedAt?: string } }).bls;
+  return m.map((raw) => {
+    const r = raw as {
+      key: string;
+      name?: string;
+      feed: string;
+      mode: string;
+      auto: boolean;
+      status: string;
+      lastFetchedAt: string | null;
+      lastError?: string | null;
+    };
+    const src = bySourceKey[r.key];
+    const fresh = LATEST_PERIOD[r.key];
+    const isBls = r.key === "bls_unemployment";
+    const sourceUpdatedAt = isBls
+      ? bls?.sourceUpdatedAt ?? null
+      : (UPDATED as Record<string, string>)[fresh?.updatedKey ?? r.key] ??
+        (UPDATED as Record<string, string>)[r.key] ??
+        null;
+    return {
+      key: r.key,
+      name: r.name ?? src?.name ?? r.key,
+      agency: src?.agency ?? (isBls ? "U.S. Bureau of Labor Statistics" : "—"),
+      feed: r.feed,
+      mode: r.mode,
+      auto: r.auto,
+      status: r.status,
+      latestPeriod: isBls ? bls?.period ?? "—" : fresh?.period ?? "—",
+      completeness: isBls ? "point_in_time" : fresh?.completeness ?? "complete",
+      sourceUpdatedAt,
+      lastFetchedAt: r.lastFetchedAt,
+      lastError: r.lastError,
     };
   });
 }

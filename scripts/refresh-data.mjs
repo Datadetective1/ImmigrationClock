@@ -24,6 +24,8 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/refresh.json", import.meta.url));
+// Machine-readable manifest served as a static asset at /data-manifest.json
+const PUBLIC_OUT = fileURLToPath(new URL("../public/data-manifest.json", import.meta.url));
 const TIMEOUT_MS = 15000;
 
 async function fetchJson(url, opts = {}) {
@@ -77,37 +79,70 @@ async function fetchBlsUnemployment(prev) {
 
 // Sources that are auto-fetched vs maintained as latest-published + projections.
 const SOURCE_MANIFEST = [
-  { key: "bls_unemployment", mode: "auto-fetch", feed: "BLS Public Data API" },
-  { key: "cbp_encounters", mode: "published-file", feed: "CBP Nationwide Encounters (Excel)" },
-  { key: "ice_stats", mode: "published-report", feed: "ICE ERO statistics / annual report" },
-  { key: "uscis_h1b", mode: "published-file", feed: "USCIS H-1B Employer Data Hub (CSV)" },
-  { key: "dos_visa", mode: "published-table", feed: "State Dept monthly NIV/IV tables" },
-  { key: "dol_lca", mode: "published-file", feed: "DOL OFLC disclosure data" },
-  { key: "warn_layoffs", mode: "published-portal", feed: "State WARN portals" },
+  { key: "bls_unemployment", name: "BLS unemployment rate", mode: "auto-fetch", feed: "BLS Public Data API" },
+  { key: "cbp_encounters", name: "CBP Nationwide Encounters", mode: "published-file", feed: "CBP Nationwide Encounters (Excel)" },
+  { key: "ice_stats", name: "ICE enforcement & removals", mode: "published-report", feed: "ICE ERO statistics / annual report" },
+  { key: "uscis_h1b", name: "USCIS H-1B Employer Data Hub", mode: "published-file", feed: "USCIS H-1B Employer Data Hub (CSV)" },
+  { key: "dos_visa", name: "State Dept visa statistics", mode: "published-table", feed: "State Dept monthly NIV/IV tables" },
+  { key: "dol_lca", name: "DOL OFLC disclosure data", mode: "published-file", feed: "DOL OFLC disclosure data" },
+  { key: "warn_layoffs", name: "State WARN layoff notices", mode: "published-portal", feed: "State WARN portals" },
 ];
 
 async function main() {
+  const startedAt = new Date().toISOString();
   const prev = await loadPrevious();
+  const errors = [];
+
+  // --- auto-fetched feeds ---
   const bls = await fetchBlsUnemployment(prev);
+  if (!bls.ok) errors.push(`bls_unemployment: ${bls.note ?? "fetch failed"}`);
+
+  // Overall health = every auto-fetch feed succeeded (currently just BLS).
+  const ok = bls.ok;
+  const finishedAt = new Date().toISOString();
+
+  const manifest = SOURCE_MANIFEST.map((s) => {
+    const isBls = s.key === "bls_unemployment";
+    return {
+      ...s,
+      auto: s.mode === "auto-fetch",
+      status: isBls ? (bls.ok ? "ok" : "stale") : "manual",
+      lastFetchedAt: isBls ? bls.fetchedAt : null,
+      lastError: isBls && !bls.ok ? bls.note ?? "fetch failed" : null,
+    };
+  });
 
   const payload = {
-    generatedAt: new Date().toISOString(),
-    note: "generatedAt is when this pipeline last ran (this build). It is not a claim that the underlying datasets are real-time.",
+    generatedAt: finishedAt,
+    startedAt,
+    finishedAt,
+    ok,
+    errors,
+    note: "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
     bls,
-    manifest: SOURCE_MANIFEST.map((s) => ({
-      ...s,
-      lastFetchedAt: s.key === "bls_unemployment" ? bls.fetchedAt : null,
-      status: s.key === "bls_unemployment" ? (bls.ok ? "ok" : "stale") : "manual",
-    })),
+    manifest,
   };
 
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
-  console.log(`[refresh] wrote ${OUT} — BLS ${bls.ok ? "ok" : "stale"} (${bls.period ?? "n/a"})`);
+  await mkdir(dirname(PUBLIC_OUT), { recursive: true });
+  await writeFile(PUBLIC_OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
+
+  if (ok) {
+    console.log(`[refresh] OK — BLS ${bls.period} (fetched ${bls.fetchedAt})`);
+  } else {
+    // Surface failures clearly (and in GitHub Actions job logs).
+    console.error(`[refresh] COMPLETED WITH ERRORS:`);
+    for (const e of errors) console.error(`  - ${e}`);
+    if (process.env.GITHUB_ACTIONS === "true") {
+      for (const e of errors) console.log(`::warning::refresh failure: ${e}`);
+    }
+  }
 }
 
 main().catch((err) => {
-  // Never fail the build because a public feed is down.
-  console.error(`[refresh] unexpected error (continuing): ${err.message}`);
+  // Never crash the build because a public feed is down — log and move on.
+  console.error(`[refresh] unexpected error (continuing): ${err.stack || err.message}`);
+  if (process.env.GITHUB_ACTIONS === "true") console.log(`::error::refresh crashed: ${err.message}`);
   process.exit(0);
 });
