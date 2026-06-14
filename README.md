@@ -66,8 +66,11 @@ npm run dev
 ```
 
 Open <http://localhost:3000>. The homepage, all section trackers, and every
-employer/state/country page render from the **bundled sample dataset**
-(`src/lib/sample-data.ts`). This is the fastest way to see the product.
+employer/state/country page render from the **generated dataset snapshot**
+(`src/lib/generated/dataset.json`, read via `src/lib/dataset.ts`). That snapshot
+is produced at build time by `scripts/build-dataset.ts` from the curated +
+modeled source in `src/lib/source-data.ts` — run `npm run build:data` to
+regenerate it. This is the fastest way to see the product.
 
 > `npm install` runs `prisma generate` automatically (postinstall). It does **not**
 > need a database connection.
@@ -164,17 +167,17 @@ into Postgres, writes a `RefreshLog`, logs row counts, and **fails gracefully**.
 
 ```bash
 npm install                       # install deps (+ prisma generate)
-npm run dev                       # start dev server (sample data)
-npm run build                     # prisma generate + next build
+npm run dev                       # start dev server (reads generated/dataset.json)
+npm run build                     # prebuild (refresh + build:data) + next build
 npm run start                     # run the production build
 npm run lint                      # eslint
 
-npx prisma generate               # regenerate Prisma client
-npx prisma migrate dev            # create/apply migrations
-npm run seed                      # seed Postgres with sample data
-npx prisma studio                 # browse the database
+npm run refresh                   # fetch near-live feeds (BLS, CBP) → refresh.json + history.json
+npm run build:data                # rebuild generated/dataset.json from source-data.ts
+npm run backfill:history          # (re)seed the historical archive from CBP's monthly CSVs
 
-python data_pipeline/run_all_ingestions.py   # run all ingestions
+npx prisma studio                 # browse the (legacy) database
+python data_pipeline/run_all_ingestions.py   # legacy Postgres ingestion (not used by the site)
 ```
 
 ---
@@ -192,20 +195,40 @@ serverless functions, or database required at runtime.
 Deploys also work on Vercel, GitHub Pages, Cloudflare Pages, or `npx serve out` —
 anywhere static files are hosted.
 
-### Tier 2 — automated live data
+### Data pipeline (how the numbers get in)
 
-Because the build is static, fresh data is wired in via **scheduled rebuilds**:
-[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs the
-ingestion pipeline monthly and triggers a Netlify rebuild. To enable it:
+The site reads exactly one file at runtime: `src/lib/generated/dataset.json`. It is
+produced at build time by the `prebuild` step, which runs two scripts:
+
+1. **`scripts/refresh-data.mjs`** — fetches the near-live feeds:
+   - **BLS** unemployment (public API), and
+   - **CBP Nationwide Encounters** (parsed from CBP's published monthly CSV).
+   It writes `src/lib/generated/refresh.json` + `public/data-manifest.json`, and
+   **appends** the latest CBP month to the growing archive
+   `src/lib/generated/history.json`. On any fetch failure it keeps the last good
+   value (never fabricates, never crashes the build).
+2. **`scripts/build-dataset.ts`** — runs the curated + modeled source
+   (`src/lib/source-data.ts`), which prefers the live-fetched values when present,
+   and serializes the full dataset to `dataset.json`.
+
+Everything is labelled **reported / projected / estimated**, and CBP figures that
+came from a real fetch are shown as *reported* with the actual reporting month.
+
+### Tier 2 — automated live data + growing archive
+
+[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs every
+6 hours: it executes the same pipeline, **commits the historical archive back to the
+repo when the data changes** (so it accumulates over time), and triggers a Netlify
+rebuild. To enable it:
 
 1. Link this GitHub repo to the Netlify site (enables git builds + build hooks).
-2. Create a Netlify **build hook** and add it as the GitHub secret
-   `NETLIFY_BUILD_HOOK`.
-3. Wire each `data_pipeline/ingest_*.py` script's download step to the agency's
-   current release file and have it emit the refreshed figures the build reads.
+2. Create a Netlify **build hook** and add it as the GitHub secret `NETLIFY_BUILD_HOOK`.
 
-(The Prisma schema + seed + Postgres path remain available via `npm run build:db`
-and `USE_DATABASE=true` if you later move to a server-rendered, DB-backed setup.)
+That's it — CBP and BLS now flow in automatically. To wire additional sources (DOS,
+WARN, …), add a fetcher to `refresh-data.mjs` and consume it in `source-data.ts`.
+
+(The Prisma schema + seed + Python `data_pipeline/` remain in the repo as a legacy
+DB path but are **not** used by the live site, which is fully static + JSON-backed.)
 
 ---
 
@@ -240,8 +263,10 @@ src/
   app/                     # App Router pages, sitemap, robots, /api/og
   components/              # AnimatedCounter, MetricCard, charts, AdSlot, …
   lib/
-    sample-data.ts         # the bundled MVP dataset (10 employers, 10 states, …)
-    data.ts                # selectors / derived metrics (swap in Prisma here)
+    source-data.ts         # build-time curated + modeled source (NOT imported by the app)
+    generated/dataset.json # build-time snapshot the app actually reads
+    dataset.ts             # single runtime data source (reads generated/dataset.json)
+    data.ts                # selectors / derived metrics over dataset.ts
     chart-data.ts          # Recharts row transforms
     sources.ts, seo.ts, site.ts, format.ts, refresh.ts, seo-pages.ts
 prisma/

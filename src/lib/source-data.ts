@@ -1,3 +1,13 @@
+// =============================================================================
+// BUILD-TIME DATA SOURCE — not imported by the running app.
+//
+// This module holds the curated real agency figures + clearly-labelled modeled
+// granularity. It is executed ONLY at build time by scripts/build-dataset.ts,
+// which serializes its computed output to src/lib/generated/dataset.json. The
+// frontend reads that generated JSON (via src/lib/dataset.ts) and never imports
+// this file directly. As real fetched feeds are wired (CBP, DOS, WARN), feed
+// their parsed values in here so the snapshot reflects them automatically.
+// =============================================================================
 import type {
   Company,
   CompanyYear,
@@ -10,6 +20,24 @@ import type {
   LayoffRow,
 } from "./types";
 import { sourceRef } from "./sources";
+import refresh from "./generated/refresh.json";
+
+// Live-fetched CBP nationwide encounters (scripts/refresh-data.mjs writes this
+// during prebuild, just before this module is serialized). When present we use
+// the real fetched totals; otherwise we fall back to the curated values below.
+const cbpLive = (
+  refresh as {
+    cbp?: {
+      ok?: boolean;
+      currentFy?: number | null;
+      currentFyYtd?: number | null;
+      fyTotals?: Record<string, number>;
+      reportingMonthLabel?: string | null;
+      sourceUpdatedAt?: string | null;
+      datasetUrl?: string | null;
+    };
+  }
+).cbp;
 
 // ---------------------------------------------------------------------------
 // REAL DATA — sourced from official U.S. government public datasets.
@@ -64,6 +92,23 @@ export const UPDATED = {
   warn_layoffs: "2026-06-12",
   trac: "2026-06-01",
 };
+// When CBP was fetched live, reflect the real fetch date on the source badge.
+if (cbpLive?.ok && cbpLive.sourceUpdatedAt) {
+  UPDATED.cbp_encounters = cbpLive.sourceUpdatedAt;
+}
+
+// Exposed so the metric layer can label CBP as reported (not projected) and show
+// the real reporting month when the live feed is in use.
+export const CBP_LIVE = cbpLive?.ok
+  ? {
+      ok: true as const,
+      reportingMonthLabel: cbpLive.reportingMonthLabel ?? null,
+      currentFy: cbpLive.currentFy ?? null,
+      currentFyYtd: cbpLive.currentFyYtd ?? null,
+      sourceUpdatedAt: cbpLive.sourceUpdatedAt ?? null,
+      datasetUrl: cbpLive.datasetUrl ?? null,
+    }
+  : { ok: false as const };
 
 // ---------------------------------------------------------------------------
 // Deterministic helpers (used only for clearly-labelled derived granularity)
@@ -507,9 +552,18 @@ export const DETENTION_NOW = { value: 73000, asOf: "2026-01-15" }; // highest in
 // CBP encounters — REAL nationwide totals + southwest Border Patrol apprehensions
 // ---------------------------------------------------------------------------
 // FY2026 values are year-to-date (encounters remain at multi-decade lows).
+// Curated published baseline; overridden below by the live CBP feed when present.
 const CBP_NATIONWIDE: Record<number, number> = {
   2021: 1956519, 2022: 2766582, 2023: 3201144, 2024: 2901147, 2025: 651000, 2026: 291000,
 };
+if (cbpLive?.ok) {
+  if (cbpLive.fyTotals) {
+    for (const [fy, v] of Object.entries(cbpLive.fyTotals)) CBP_NATIONWIDE[Number(fy)] = v;
+  }
+  if (cbpLive.currentFy != null && cbpLive.currentFyYtd != null) {
+    CBP_NATIONWIDE[cbpLive.currentFy] = cbpLive.currentFyYtd;
+  }
+}
 const CBP_SOUTHWEST: Record<number, number> = {
   2021: 1659206, 2022: 2206436, 2023: 2045838, 2024: 1533193, 2025: 237538, 2026: 118000,
 };

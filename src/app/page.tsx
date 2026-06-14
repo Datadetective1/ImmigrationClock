@@ -4,12 +4,15 @@ import { buildMetadata } from "@/lib/seo";
 import { SearchBar } from "@/components/SearchBar";
 import { DashboardGrid } from "@/components/DashboardGrid";
 import { HookSection } from "@/components/HookSection";
+import { InsightCard } from "@/components/InsightCard";
+import { ChangeTracker } from "@/components/ChangeTracker";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
 import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
 import { buildMetrics, topSponsors, LAST_COMPLETE_FY, LAST_REFRESHED } from "@/lib/data";
+import { buildInsights } from "@/lib/insights";
 import {
   enforcementChartData,
   borderYearlyData,
@@ -18,7 +21,7 @@ import {
   visaSeriesDefs,
   layoffsVsH1bData,
 } from "@/lib/chart-data";
-import { UPDATED } from "@/lib/sample-data";
+import { UPDATED } from "@/lib/dataset";
 import { fiscalYearLabel, formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -53,6 +56,7 @@ function SectionHeading({
 
 export default function HomePage() {
   const metrics = buildMetrics();
+  const featuredInsights = buildInsights().slice(0, 3);
   const sponsors = topSponsors(LAST_COMPLETE_FY);
   const enforcement = enforcementChartData();
   const border = borderYearlyData("southwest");
@@ -118,6 +122,24 @@ export default function HomePage() {
             </span>
           </div>
           <DashboardGrid metrics={metrics} />
+        </section>
+
+        {/* Insights */}
+        <section>
+          <SectionHeading
+            eyebrow="Insights · auto-generated"
+            title="What the numbers say"
+            href="/insights"
+            hrefLabel="All insights"
+          />
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {featuredInsights.map((insight) => (
+              <InsightCard key={insight.key} insight={insight} />
+            ))}
+          </div>
+          <div className="mt-4">
+            <ChangeTracker compact />
+          </div>
         </section>
 
         {/* Hook 1 */}

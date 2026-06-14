@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
-import { companies, companyBySlug } from "@/lib/sample-data";
+import { companies, companyBySlug } from "@/lib/dataset";
 import { companyTotals, companyTrend, LAST_COMPLETE_FY } from "@/lib/data";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";

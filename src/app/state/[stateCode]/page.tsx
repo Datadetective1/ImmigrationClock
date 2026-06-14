@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
-import { states } from "@/lib/sample-data";
+import { states } from "@/lib/dataset";
 import { stateAggregate } from "@/lib/data";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";

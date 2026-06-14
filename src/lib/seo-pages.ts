@@ -1,4 +1,4 @@
-import { companies, states } from "./sample-data";
+import { companies, states } from "./dataset";
 import { topOccupationsBySponsorship } from "./data";
 import { slugify } from "./format";
 

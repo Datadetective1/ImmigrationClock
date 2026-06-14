@@ -67,6 +67,25 @@ export interface Metric extends SourceRef {
   spark?: SparkPoint[]; // up-to-6-year mini series for the trend view
 }
 
+// An auto-generated narrative "insight card" derived from the dataset. Each one
+// turns raw numbers into a plain-language claim with a source and an integrity
+// label — the engagement / shareable layer. Never asserts causation.
+export interface Insight {
+  key: string;
+  stat: string; // punchy pre-formatted figure, e.g. "71%", "73K", "−80%"
+  headline: string; // one-line claim
+  detail: string; // supporting sentence(s)
+  whyItMatters: string; // neutral framing of significance
+  group: "enforcement" | "border" | "visa" | "workforce";
+  provenance: Provenance; // reported | projected | estimated
+  trend?: TrendDirection;
+  periodLabel: string; // e.g. "FY2026 YTD vs FY2025"
+  href?: string; // deep link to the relevant tracker
+  sourceName: string;
+  sourceUrl: string;
+  sourceUpdatedAt: string;
+}
+
 export interface CompanyYear {
   fiscalYear: number;
   initialApprovals: number;

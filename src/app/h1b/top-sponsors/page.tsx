@@ -8,7 +8,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
 import { HorizontalBarChart } from "@/components/charts/Charts";
 import { topSponsors, topOccupationsBySponsorship, LAST_COMPLETE_FY } from "@/lib/data";
-import { states, UPDATED } from "@/lib/sample-data";
+import { states, UPDATED } from "@/lib/dataset";
 import { formatNumber, formatCurrency, formatRate, fiscalYearLabel, slugify } from "@/lib/format";
 
 export const metadata = buildMetadata({

@@ -8,7 +8,7 @@ import { TrendLineChart, HorizontalBarChart } from "@/components/charts/Charts";
 import { visaChartData, visaSeriesDefs, visaCountryData } from "@/lib/chart-data";
 import { visaSeries } from "@/lib/data";
 import { LATEST_COMPLETE_FY, EMPLOYER_LATEST_FY, CURRENT_FY } from "@/lib/data";
-import { UPDATED } from "@/lib/sample-data";
+import { UPDATED } from "@/lib/dataset";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 
 export const metadata = buildMetadata({

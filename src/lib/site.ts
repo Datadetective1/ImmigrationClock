@@ -23,6 +23,7 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { href: "/", label: "Dashboard" },
+  { href: "/insights", label: "Insights" },
   { href: "/immigration/enforcement-trends", label: "Enforcement" },
   { href: "/border/encounters", label: "Border" },
   { href: "/h1b/top-sponsors", label: "H-1B" },
@@ -46,6 +47,7 @@ export const FOOTER_SECTIONS = [
   {
     title: "Explore",
     links: [
+      { href: "/insights", label: "Insights" },
       { href: "/state/CA", label: "State pages" },
       { href: "/country/india", label: "Country pages" },
       { href: "/company/amazon", label: "Employer pages" },

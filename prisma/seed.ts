@@ -20,7 +20,7 @@ import {
   wageRows,
   wageByState,
   layoffRows,
-} from "../src/lib/sample-data";
+} from "../src/lib/dataset";
 import { buildMetrics } from "../src/lib/data";
 import { refreshRows } from "../src/lib/refresh";
 import { seoPages } from "../src/lib/seo-pages";

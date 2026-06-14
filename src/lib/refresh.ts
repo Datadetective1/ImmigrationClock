@@ -7,7 +7,7 @@ import {
   wageRows,
   layoffRows,
   UPDATED,
-} from "./sample-data";
+} from "./dataset";
 import refresh from "./generated/refresh.json";
 import type { RefreshRow, Completeness } from "./types";
 

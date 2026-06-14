@@ -1,0 +1,69 @@
+{
+  "note": "Real historical archive. cbpNationwideYtd is the cumulative nationwide encounters year-to-date at each CBP monthly release (summed from CBP's published CSVs). Appended on each scheduled refresh.",
+  "lastUpdated": "2026-06-14T16:15:51.797Z",
+  "cbpNationwideYtd": [
+    {
+      "period": "October 2025",
+      "month": "OCT",
+      "order": 1,
+      "fy": 2026,
+      "cbpNationwideYtd": 30573,
+      "publishedFolder": "2025-11",
+      "backfilled": true
+    },
+    {
+      "period": "November 2025",
+      "month": "NOV",
+      "order": 2,
+      "fy": 2026,
+      "cbpNationwideYtd": 60926,
+      "publishedFolder": "2025-12",
+      "backfilled": true
+    },
+    {
+      "period": "December 2025",
+      "month": "DEC",
+      "order": 3,
+      "fy": 2026,
+      "cbpNationwideYtd": 91603,
+      "publishedFolder": "2026-01",
+      "backfilled": true
+    },
+    {
+      "period": "January 2026",
+      "month": "JAN",
+      "order": 4,
+      "fy": 2026,
+      "cbpNationwideYtd": 126203,
+      "publishedFolder": "2026-02",
+      "backfilled": true
+    },
+    {
+      "period": "February 2026",
+      "month": "FEB",
+      "order": 5,
+      "fy": 2026,
+      "cbpNationwideYtd": 153155,
+      "publishedFolder": "2026-03",
+      "backfilled": true
+    },
+    {
+      "period": "March 2026",
+      "month": "MAR",
+      "order": 6,
+      "fy": 2026,
+      "cbpNationwideYtd": 184585,
+      "publishedFolder": "2026-04",
+      "backfilled": true
+    },
+    {
+      "period": "April 2026",
+      "month": "APR",
+      "order": 7,
+      "fy": 2026,
+      "cbpNationwideYtd": 215876,
+      "publishedFolder": null,
+      "backfilled": false
+    }
+  ]
+}

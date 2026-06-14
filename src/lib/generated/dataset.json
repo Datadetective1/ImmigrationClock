@@ -1,0 +1,4403 @@
+{
+  "_meta": {
+    "note": "Build-time snapshot emitted by scripts/build-dataset.ts from src/lib/source-data.ts. The frontend reads this file via src/lib/dataset.ts; it is regenerated on every build. Deterministic — only changes when the source figures change."
+  },
+  "FISCAL_YEARS": [
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "CURRENT_FY": 2026,
+  "FY2026_ELAPSED": 0.7083333333333334,
+  "FY_COMPLETENESS": 0.7083333333333334,
+  "LATEST_COMPLETE_FY": 2025,
+  "EMPLOYER_LATEST_FY": 2024,
+  "LATEST_REPORTED_FY": 2024,
+  "DATA_VINTAGE": "ImmigrationClock shows the latest available reporting period per source. Fast sources (CBP, ICE, State Dept, WARN) run through FY2025/FY2026; employer-level H-1B and wage data (USCIS Data Hub, DOL OFLC) lag to FY2024. Each card is labelled complete, YTD, preliminary, or point-in-time.",
+  "UPDATED": {
+    "uscis_h1b": "2025-03-04",
+    "uscis_h1b_national": "2026-02-18",
+    "dol_lca": "2025-01-31",
+    "ice_stats": "2026-06-09",
+    "ice_annual": "2025-12-18",
+    "dhs_stats": "2026-06-09",
+    "cbp_encounters": "2026-06-14",
+    "dos_visa": "2026-05-31",
+    "bls_wages": "2025-04-03",
+    "warn_layoffs": "2026-06-12",
+    "trac": "2026-06-01"
+  },
+  "states": [
+    {
+      "code": "CA",
+      "name": "California",
+      "region": "West",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "TX",
+      "name": "Texas",
+      "region": "South",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "NY",
+      "name": "New York",
+      "region": "Northeast",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "NJ",
+      "name": "New Jersey",
+      "region": "Northeast",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "WA",
+      "name": "Washington",
+      "region": "West",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "IL",
+      "name": "Illinois",
+      "region": "Midwest",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "GA",
+      "name": "Georgia",
+      "region": "South",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "MA",
+      "name": "Massachusetts",
+      "region": "Northeast",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "FL",
+      "name": "Florida",
+      "region": "South",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "code": "VA",
+      "name": "Virginia",
+      "region": "South",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    }
+  ],
+  "stateWeight": {
+    "CA": 1,
+    "TX": 0.62,
+    "NY": 0.55,
+    "NJ": 0.48,
+    "WA": 0.5,
+    "IL": 0.34,
+    "GA": 0.28,
+    "MA": 0.33,
+    "FL": 0.3,
+    "VA": 0.31
+  },
+  "countries": [
+    {
+      "slug": "india",
+      "name": "India",
+      "region": "South Asia",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "china",
+      "name": "China",
+      "region": "East Asia",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "south-korea",
+      "name": "South Korea",
+      "region": "East Asia",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "canada",
+      "name": "Canada",
+      "region": "North America",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "philippines",
+      "name": "Philippines",
+      "region": "Southeast Asia",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "mexico",
+      "name": "Mexico",
+      "region": "North America",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "brazil",
+      "name": "Brazil",
+      "region": "South America",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "nigeria",
+      "name": "Nigeria",
+      "region": "West Africa",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "vietnam",
+      "name": "Vietnam",
+      "region": "Southeast Asia",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "slug": "guatemala",
+      "name": "Guatemala",
+      "region": "Central America",
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    }
+  ],
+  "countrySeedByName": {
+    "India": {
+      "slug": "india",
+      "name": "India",
+      "region": "South Asia",
+      "h1bApprovals2024": 283397,
+      "f1Share": 0.29,
+      "borderWeight": 0.04,
+      "removalWeight": 0.05
+    },
+    "China": {
+      "slug": "china",
+      "name": "China",
+      "region": "East Asia",
+      "h1bApprovals2024": 46680,
+      "f1Share": 0.25,
+      "borderWeight": 0.03,
+      "removalWeight": 0.02
+    },
+    "South Korea": {
+      "slug": "south-korea",
+      "name": "South Korea",
+      "region": "East Asia",
+      "h1bApprovals2024": 9024,
+      "f1Share": 0.05,
+      "borderWeight": 0.01,
+      "removalWeight": 0.01
+    },
+    "Canada": {
+      "slug": "canada",
+      "name": "Canada",
+      "region": "North America",
+      "h1bApprovals2024": 5800,
+      "f1Share": 0.02,
+      "borderWeight": 0.02,
+      "removalWeight": 0.01
+    },
+    "Philippines": {
+      "slug": "philippines",
+      "name": "Philippines",
+      "region": "Southeast Asia",
+      "h1bApprovals2024": 3400,
+      "f1Share": 0.02,
+      "borderWeight": 0.02,
+      "removalWeight": 0.02
+    },
+    "Mexico": {
+      "slug": "mexico",
+      "name": "Mexico",
+      "region": "North America",
+      "h1bApprovals2024": 4100,
+      "f1Share": 0.03,
+      "borderWeight": 0.3,
+      "removalWeight": 0.38
+    },
+    "Brazil": {
+      "slug": "brazil",
+      "name": "Brazil",
+      "region": "South America",
+      "h1bApprovals2024": 2600,
+      "f1Share": 0.03,
+      "borderWeight": 0.08,
+      "removalWeight": 0.05
+    },
+    "Nigeria": {
+      "slug": "nigeria",
+      "name": "Nigeria",
+      "region": "West Africa",
+      "h1bApprovals2024": 1700,
+      "f1Share": 0.03,
+      "borderWeight": 0.01,
+      "removalWeight": 0.02
+    },
+    "Vietnam": {
+      "slug": "vietnam",
+      "name": "Vietnam",
+      "region": "Southeast Asia",
+      "h1bApprovals2024": 1500,
+      "f1Share": 0.02,
+      "borderWeight": 0.01,
+      "removalWeight": 0.01
+    },
+    "Guatemala": {
+      "slug": "guatemala",
+      "name": "Guatemala",
+      "region": "Central America",
+      "h1bApprovals2024": 220,
+      "f1Share": 0.01,
+      "borderWeight": 0.16,
+      "removalWeight": 0.16
+    }
+  },
+  "countrySeedBySlug": {
+    "india": {
+      "slug": "india",
+      "name": "India",
+      "region": "South Asia",
+      "h1bApprovals2024": 283397,
+      "f1Share": 0.29,
+      "borderWeight": 0.04,
+      "removalWeight": 0.05
+    },
+    "china": {
+      "slug": "china",
+      "name": "China",
+      "region": "East Asia",
+      "h1bApprovals2024": 46680,
+      "f1Share": 0.25,
+      "borderWeight": 0.03,
+      "removalWeight": 0.02
+    },
+    "south-korea": {
+      "slug": "south-korea",
+      "name": "South Korea",
+      "region": "East Asia",
+      "h1bApprovals2024": 9024,
+      "f1Share": 0.05,
+      "borderWeight": 0.01,
+      "removalWeight": 0.01
+    },
+    "canada": {
+      "slug": "canada",
+      "name": "Canada",
+      "region": "North America",
+      "h1bApprovals2024": 5800,
+      "f1Share": 0.02,
+      "borderWeight": 0.02,
+      "removalWeight": 0.01
+    },
+    "philippines": {
+      "slug": "philippines",
+      "name": "Philippines",
+      "region": "Southeast Asia",
+      "h1bApprovals2024": 3400,
+      "f1Share": 0.02,
+      "borderWeight": 0.02,
+      "removalWeight": 0.02
+    },
+    "mexico": {
+      "slug": "mexico",
+      "name": "Mexico",
+      "region": "North America",
+      "h1bApprovals2024": 4100,
+      "f1Share": 0.03,
+      "borderWeight": 0.3,
+      "removalWeight": 0.38
+    },
+    "brazil": {
+      "slug": "brazil",
+      "name": "Brazil",
+      "region": "South America",
+      "h1bApprovals2024": 2600,
+      "f1Share": 0.03,
+      "borderWeight": 0.08,
+      "removalWeight": 0.05
+    },
+    "nigeria": {
+      "slug": "nigeria",
+      "name": "Nigeria",
+      "region": "West Africa",
+      "h1bApprovals2024": 1700,
+      "f1Share": 0.03,
+      "borderWeight": 0.01,
+      "removalWeight": 0.02
+    },
+    "vietnam": {
+      "slug": "vietnam",
+      "name": "Vietnam",
+      "region": "Southeast Asia",
+      "h1bApprovals2024": 1500,
+      "f1Share": 0.02,
+      "borderWeight": 0.01,
+      "removalWeight": 0.01
+    },
+    "guatemala": {
+      "slug": "guatemala",
+      "name": "Guatemala",
+      "region": "Central America",
+      "h1bApprovals2024": 220,
+      "f1Share": 0.01,
+      "borderWeight": 0.16,
+      "removalWeight": 0.16
+    }
+  },
+  "companies": [
+    {
+      "slug": "amazon",
+      "name": "Amazon",
+      "industry": "Technology & E-commerce",
+      "headquartersCity": "Seattle",
+      "stateCode": "WA",
+      "website": "https://www.amazon.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 3648,
+          "initialDenials": 146,
+          "continuingApprovals": 5952,
+          "continuingDenials": 119,
+          "lcaFilings": 13440,
+          "avgOfferedWage": 138500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 4545,
+          "initialDenials": 182,
+          "continuingApprovals": 7415,
+          "continuingDenials": 148,
+          "lcaFilings": 16744,
+          "avgOfferedWage": 144000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 4177,
+          "initialDenials": 167,
+          "continuingApprovals": 6814,
+          "continuingDenials": 136,
+          "lcaFilings": 15387,
+          "avgOfferedWage": 150000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 3521,
+          "initialDenials": 141,
+          "continuingApprovals": 5744,
+          "continuingDenials": 115,
+          "lcaFilings": 12971,
+          "avgOfferedWage": 156000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.42,
+          "avgWage": 168500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.2,
+          "avgWage": 174500
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.18,
+          "avgWage": 187000
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.2,
+          "avgWage": 195000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Seattle",
+          "stateCode": "WA",
+          "share": 0.34
+        },
+        {
+          "city": "Bellevue",
+          "stateCode": "WA",
+          "share": 0.2
+        },
+        {
+          "city": "Arlington",
+          "stateCode": "VA",
+          "share": 0.16
+        },
+        {
+          "city": "New York",
+          "stateCode": "NY",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 18000,
+          "events": 6
+        },
+        {
+          "year": 2024,
+          "employeesAffected": 5200,
+          "events": 3
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "infosys",
+      "name": "Infosys",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Richardson",
+      "stateCode": "TX",
+      "website": "https://www.infosys.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 3225,
+          "initialDenials": 129,
+          "continuingApprovals": 5262,
+          "continuingDenials": 105,
+          "lcaFilings": 11882,
+          "avgOfferedWage": 87000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 3908,
+          "initialDenials": 156,
+          "continuingApprovals": 6376,
+          "continuingDenials": 128,
+          "lcaFilings": 14398,
+          "avgOfferedWage": 90500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 3672,
+          "initialDenials": 147,
+          "continuingApprovals": 5990,
+          "continuingDenials": 120,
+          "lcaFilings": 13527,
+          "avgOfferedWage": 94000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 3093,
+          "initialDenials": 124,
+          "continuingApprovals": 5047,
+          "continuingDenials": 101,
+          "lcaFilings": 11396,
+          "avgOfferedWage": 98000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.3,
+          "avgWage": 80500
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.3,
+          "avgWage": 103000
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.22,
+          "avgWage": 93000
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.18,
+          "avgWage": 110000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Richardson",
+          "stateCode": "TX",
+          "share": 0.24
+        },
+        {
+          "city": "Indianapolis",
+          "stateCode": "IN",
+          "share": 0.2
+        },
+        {
+          "city": "Raleigh",
+          "stateCode": "NC",
+          "share": 0.18
+        },
+        {
+          "city": "Phoenix",
+          "stateCode": "AZ",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "cognizant",
+      "name": "Cognizant Technology Solutions",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Teaneck",
+      "stateCode": "NJ",
+      "website": "https://www.cognizant.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 2605,
+          "initialDenials": 130,
+          "continuingApprovals": 4250,
+          "continuingDenials": 106,
+          "lcaFilings": 9597,
+          "avgOfferedWage": 84500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 3002,
+          "initialDenials": 150,
+          "continuingApprovals": 4899,
+          "continuingDenials": 122,
+          "lcaFilings": 11061,
+          "avgOfferedWage": 88000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2821,
+          "initialDenials": 141,
+          "continuingApprovals": 4603,
+          "continuingDenials": 115,
+          "lcaFilings": 10394,
+          "avgOfferedWage": 91500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 2402,
+          "initialDenials": 120,
+          "continuingApprovals": 3919,
+          "continuingDenials": 98,
+          "lcaFilings": 8849,
+          "avgOfferedWage": 95000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.34,
+          "avgWage": 78000
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.28,
+          "avgWage": 100000
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.2,
+          "avgWage": 90500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.18,
+          "avgWage": 106500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "College Station",
+          "stateCode": "TX",
+          "share": 0.22
+        },
+        {
+          "city": "Teaneck",
+          "stateCode": "NJ",
+          "share": 0.2
+        },
+        {
+          "city": "Phoenix",
+          "stateCode": "AZ",
+          "share": 0.18
+        },
+        {
+          "city": "Atlanta",
+          "stateCode": "GA",
+          "share": 0.16
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 3500,
+          "events": 4
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "alphabet-google",
+      "name": "Alphabet (Google)",
+      "industry": "Technology & Internet",
+      "headquartersCity": "Mountain View",
+      "stateCode": "CA",
+      "website": "https://www.google.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 2161,
+          "initialDenials": 43,
+          "continuingApprovals": 3526,
+          "continuingDenials": 35,
+          "lcaFilings": 7962,
+          "avgOfferedWage": 151000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2618,
+          "initialDenials": 52,
+          "continuingApprovals": 4271,
+          "continuingDenials": 43,
+          "lcaFilings": 9645,
+          "avgOfferedWage": 157000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2459,
+          "initialDenials": 49,
+          "continuingApprovals": 4012,
+          "continuingDenials": 40,
+          "lcaFilings": 9059,
+          "avgOfferedWage": 163500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 2038,
+          "initialDenials": 41,
+          "continuingApprovals": 3326,
+          "continuingDenials": 33,
+          "lcaFilings": 7510,
+          "avgOfferedWage": 170000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.46,
+          "avgWage": 183500
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.22,
+          "avgWage": 212500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 190500
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.16,
+          "avgWage": 204000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Mountain View",
+          "stateCode": "CA",
+          "share": 0.34
+        },
+        {
+          "city": "Sunnyvale",
+          "stateCode": "CA",
+          "share": 0.22
+        },
+        {
+          "city": "New York",
+          "stateCode": "NY",
+          "share": 0.18
+        },
+        {
+          "city": "Seattle",
+          "stateCode": "WA",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 12000,
+          "events": 2
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "tata-consultancy-services",
+      "name": "Tata Consultancy Services",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Edison",
+      "stateCode": "NJ",
+      "website": "https://www.tcs.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 2158,
+          "initialDenials": 108,
+          "continuingApprovals": 3520,
+          "continuingDenials": 88,
+          "lcaFilings": 7949,
+          "avgOfferedWage": 83500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2486,
+          "initialDenials": 124,
+          "continuingApprovals": 4056,
+          "continuingDenials": 101,
+          "lcaFilings": 9159,
+          "avgOfferedWage": 87000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2336,
+          "initialDenials": 117,
+          "continuingApprovals": 3812,
+          "continuingDenials": 95,
+          "lcaFilings": 8607,
+          "avgOfferedWage": 90500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 2004,
+          "initialDenials": 100,
+          "continuingApprovals": 3270,
+          "continuingDenials": 82,
+          "lcaFilings": 7384,
+          "avgOfferedWage": 94000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.36,
+          "avgWage": 77000
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.3,
+          "avgWage": 98500
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.2,
+          "avgWage": 89500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.14,
+          "avgWage": 105500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Edison",
+          "stateCode": "NJ",
+          "share": 0.24
+        },
+        {
+          "city": "Cincinnati",
+          "stateCode": "OH",
+          "share": 0.2
+        },
+        {
+          "city": "Milwaukee",
+          "stateCode": "WI",
+          "share": 0.16
+        },
+        {
+          "city": "Santa Clara",
+          "stateCode": "CA",
+          "share": 0.16
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "meta-platforms",
+      "name": "Meta Platforms",
+      "industry": "Technology & Social Media",
+      "headquartersCity": "Menlo Park",
+      "stateCode": "CA",
+      "website": "https://www.meta.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1994,
+          "initialDenials": 40,
+          "continuingApprovals": 3253,
+          "continuingDenials": 33,
+          "lcaFilings": 7346,
+          "avgOfferedWage": 157500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2363,
+          "initialDenials": 47,
+          "continuingApprovals": 3855,
+          "continuingDenials": 39,
+          "lcaFilings": 8705,
+          "avgOfferedWage": 163500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2171,
+          "initialDenials": 43,
+          "continuingApprovals": 3543,
+          "continuingDenials": 35,
+          "lcaFilings": 8000,
+          "avgOfferedWage": 170000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1841,
+          "initialDenials": 37,
+          "continuingApprovals": 3003,
+          "continuingDenials": 30,
+          "lcaFilings": 6782,
+          "avgOfferedWage": 177000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.5,
+          "avgWage": 191000
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.22,
+          "avgWage": 221500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 198000
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.12,
+          "avgWage": 212500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Menlo Park",
+          "stateCode": "CA",
+          "share": 0.38
+        },
+        {
+          "city": "New York",
+          "stateCode": "NY",
+          "share": 0.2
+        },
+        {
+          "city": "Seattle",
+          "stateCode": "WA",
+          "share": 0.18
+        },
+        {
+          "city": "Austin",
+          "stateCode": "TX",
+          "share": 0.12
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 21000,
+          "events": 3
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "microsoft",
+      "name": "Microsoft",
+      "industry": "Technology & Software",
+      "headquartersCity": "Redmond",
+      "stateCode": "WA",
+      "website": "https://www.microsoft.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1949,
+          "initialDenials": 39,
+          "continuingApprovals": 3180,
+          "continuingDenials": 32,
+          "lcaFilings": 7181,
+          "avgOfferedWage": 144000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2297,
+          "initialDenials": 46,
+          "continuingApprovals": 3748,
+          "continuingDenials": 37,
+          "lcaFilings": 8463,
+          "avgOfferedWage": 150000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2111,
+          "initialDenials": 42,
+          "continuingApprovals": 3444,
+          "continuingDenials": 34,
+          "lcaFilings": 7777,
+          "avgOfferedWage": 156000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1796,
+          "initialDenials": 36,
+          "continuingApprovals": 2929,
+          "continuingDenials": 29,
+          "lcaFilings": 6615,
+          "avgOfferedWage": 162000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.48,
+          "avgWage": 175000
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.18,
+          "avgWage": 194500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.18,
+          "avgWage": 181500
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.16,
+          "avgWage": 202500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Redmond",
+          "stateCode": "WA",
+          "share": 0.4
+        },
+        {
+          "city": "Bellevue",
+          "stateCode": "WA",
+          "share": 0.18
+        },
+        {
+          "city": "Mountain View",
+          "stateCode": "CA",
+          "share": 0.16
+        },
+        {
+          "city": "Atlanta",
+          "stateCode": "GA",
+          "share": 0.12
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 10000,
+          "events": 3
+        },
+        {
+          "year": 2025,
+          "employeesAffected": 6000,
+          "events": 2
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "apple",
+      "name": "Apple",
+      "industry": "Technology & Hardware",
+      "headquartersCity": "Cupertino",
+      "stateCode": "CA",
+      "website": "https://www.apple.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1579,
+          "initialDenials": 32,
+          "continuingApprovals": 2575,
+          "continuingDenials": 26,
+          "lcaFilings": 5816,
+          "avgOfferedWage": 146500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 1860,
+          "initialDenials": 37,
+          "continuingApprovals": 3035,
+          "continuingDenials": 30,
+          "lcaFilings": 6853,
+          "avgOfferedWage": 152500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 1709,
+          "initialDenials": 34,
+          "continuingApprovals": 2788,
+          "continuingDenials": 28,
+          "lcaFilings": 6296,
+          "avgOfferedWage": 158500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1472,
+          "initialDenials": 29,
+          "continuingApprovals": 2401,
+          "continuingDenials": 24,
+          "lcaFilings": 5422,
+          "avgOfferedWage": 165000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.4,
+          "avgWage": 178000
+        },
+        {
+          "title": "Hardware Engineer",
+          "share": 0.24,
+          "avgWage": 181500
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.2,
+          "avgWage": 206500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 185000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Cupertino",
+          "stateCode": "CA",
+          "share": 0.46
+        },
+        {
+          "city": "Sunnyvale",
+          "stateCode": "CA",
+          "share": 0.18
+        },
+        {
+          "city": "San Diego",
+          "stateCode": "CA",
+          "share": 0.14
+        },
+        {
+          "city": "Austin",
+          "stateCode": "TX",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "hcl-america",
+      "name": "HCL America",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Sunnyvale",
+      "stateCode": "CA",
+      "website": "https://www.hcltech.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1180,
+          "initialDenials": 59,
+          "continuingApprovals": 1925,
+          "continuingDenials": 48,
+          "lcaFilings": 4347,
+          "avgOfferedWage": 82000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 1398,
+          "initialDenials": 70,
+          "continuingApprovals": 2281,
+          "continuingDenials": 57,
+          "lcaFilings": 5151,
+          "avgOfferedWage": 85000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 1351,
+          "initialDenials": 68,
+          "continuingApprovals": 2203,
+          "continuingDenials": 55,
+          "lcaFilings": 4976,
+          "avgOfferedWage": 88500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1122,
+          "initialDenials": 56,
+          "continuingApprovals": 1831,
+          "continuingDenials": 46,
+          "lcaFilings": 4134,
+          "avgOfferedWage": 92000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.34,
+          "avgWage": 75500
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.3,
+          "avgWage": 96500
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.2,
+          "avgWage": 87500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 103000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Sunnyvale",
+          "stateCode": "CA",
+          "share": 0.24
+        },
+        {
+          "city": "Plano",
+          "stateCode": "TX",
+          "share": 0.2
+        },
+        {
+          "city": "Cary",
+          "stateCode": "NC",
+          "share": 0.18
+        },
+        {
+          "city": "Redmond",
+          "stateCode": "WA",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "slug": "ibm",
+      "name": "IBM",
+      "industry": "Technology & Consulting",
+      "headquartersCity": "Armonk",
+      "stateCode": "NY",
+      "website": "https://www.ibm.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1156,
+          "initialDenials": 46,
+          "continuingApprovals": 1886,
+          "continuingDenials": 38,
+          "lcaFilings": 4259,
+          "avgOfferedWage": 114000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 1369,
+          "initialDenials": 55,
+          "continuingApprovals": 2234,
+          "continuingDenials": 45,
+          "lcaFilings": 5044,
+          "avgOfferedWage": 118500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 1323,
+          "initialDenials": 53,
+          "continuingApprovals": 2158,
+          "continuingDenials": 43,
+          "lcaFilings": 4873,
+          "avgOfferedWage": 123000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1104,
+          "initialDenials": 44,
+          "continuingApprovals": 1802,
+          "continuingDenials": 36,
+          "lcaFilings": 4068,
+          "avgOfferedWage": 128000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.34,
+          "avgWage": 138000
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.24,
+          "avgWage": 143500
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.22,
+          "avgWage": 121500
+        },
+        {
+          "title": "Systems Analyst",
+          "share": 0.2,
+          "avgWage": 105000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Armonk",
+          "stateCode": "NY",
+          "share": 0.2
+        },
+        {
+          "city": "Austin",
+          "stateCode": "TX",
+          "share": 0.22
+        },
+        {
+          "city": "San Jose",
+          "stateCode": "CA",
+          "share": 0.2
+        },
+        {
+          "city": "Research Triangle Park",
+          "stateCode": "NC",
+          "share": 0.16
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 3900,
+          "events": 3
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    }
+  ],
+  "companyBySlug": {
+    "amazon": {
+      "slug": "amazon",
+      "name": "Amazon",
+      "industry": "Technology & E-commerce",
+      "headquartersCity": "Seattle",
+      "stateCode": "WA",
+      "website": "https://www.amazon.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 3648,
+          "initialDenials": 146,
+          "continuingApprovals": 5952,
+          "continuingDenials": 119,
+          "lcaFilings": 13440,
+          "avgOfferedWage": 138500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 4545,
+          "initialDenials": 182,
+          "continuingApprovals": 7415,
+          "continuingDenials": 148,
+          "lcaFilings": 16744,
+          "avgOfferedWage": 144000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 4177,
+          "initialDenials": 167,
+          "continuingApprovals": 6814,
+          "continuingDenials": 136,
+          "lcaFilings": 15387,
+          "avgOfferedWage": 150000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 3521,
+          "initialDenials": 141,
+          "continuingApprovals": 5744,
+          "continuingDenials": 115,
+          "lcaFilings": 12971,
+          "avgOfferedWage": 156000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.42,
+          "avgWage": 168500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.2,
+          "avgWage": 174500
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.18,
+          "avgWage": 187000
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.2,
+          "avgWage": 195000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Seattle",
+          "stateCode": "WA",
+          "share": 0.34
+        },
+        {
+          "city": "Bellevue",
+          "stateCode": "WA",
+          "share": 0.2
+        },
+        {
+          "city": "Arlington",
+          "stateCode": "VA",
+          "share": 0.16
+        },
+        {
+          "city": "New York",
+          "stateCode": "NY",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 18000,
+          "events": 6
+        },
+        {
+          "year": 2024,
+          "employeesAffected": 5200,
+          "events": 3
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "infosys": {
+      "slug": "infosys",
+      "name": "Infosys",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Richardson",
+      "stateCode": "TX",
+      "website": "https://www.infosys.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 3225,
+          "initialDenials": 129,
+          "continuingApprovals": 5262,
+          "continuingDenials": 105,
+          "lcaFilings": 11882,
+          "avgOfferedWage": 87000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 3908,
+          "initialDenials": 156,
+          "continuingApprovals": 6376,
+          "continuingDenials": 128,
+          "lcaFilings": 14398,
+          "avgOfferedWage": 90500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 3672,
+          "initialDenials": 147,
+          "continuingApprovals": 5990,
+          "continuingDenials": 120,
+          "lcaFilings": 13527,
+          "avgOfferedWage": 94000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 3093,
+          "initialDenials": 124,
+          "continuingApprovals": 5047,
+          "continuingDenials": 101,
+          "lcaFilings": 11396,
+          "avgOfferedWage": 98000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.3,
+          "avgWage": 80500
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.3,
+          "avgWage": 103000
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.22,
+          "avgWage": 93000
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.18,
+          "avgWage": 110000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Richardson",
+          "stateCode": "TX",
+          "share": 0.24
+        },
+        {
+          "city": "Indianapolis",
+          "stateCode": "IN",
+          "share": 0.2
+        },
+        {
+          "city": "Raleigh",
+          "stateCode": "NC",
+          "share": 0.18
+        },
+        {
+          "city": "Phoenix",
+          "stateCode": "AZ",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "cognizant": {
+      "slug": "cognizant",
+      "name": "Cognizant Technology Solutions",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Teaneck",
+      "stateCode": "NJ",
+      "website": "https://www.cognizant.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 2605,
+          "initialDenials": 130,
+          "continuingApprovals": 4250,
+          "continuingDenials": 106,
+          "lcaFilings": 9597,
+          "avgOfferedWage": 84500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 3002,
+          "initialDenials": 150,
+          "continuingApprovals": 4899,
+          "continuingDenials": 122,
+          "lcaFilings": 11061,
+          "avgOfferedWage": 88000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2821,
+          "initialDenials": 141,
+          "continuingApprovals": 4603,
+          "continuingDenials": 115,
+          "lcaFilings": 10394,
+          "avgOfferedWage": 91500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 2402,
+          "initialDenials": 120,
+          "continuingApprovals": 3919,
+          "continuingDenials": 98,
+          "lcaFilings": 8849,
+          "avgOfferedWage": 95000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.34,
+          "avgWage": 78000
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.28,
+          "avgWage": 100000
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.2,
+          "avgWage": 90500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.18,
+          "avgWage": 106500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "College Station",
+          "stateCode": "TX",
+          "share": 0.22
+        },
+        {
+          "city": "Teaneck",
+          "stateCode": "NJ",
+          "share": 0.2
+        },
+        {
+          "city": "Phoenix",
+          "stateCode": "AZ",
+          "share": 0.18
+        },
+        {
+          "city": "Atlanta",
+          "stateCode": "GA",
+          "share": 0.16
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 3500,
+          "events": 4
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "alphabet-google": {
+      "slug": "alphabet-google",
+      "name": "Alphabet (Google)",
+      "industry": "Technology & Internet",
+      "headquartersCity": "Mountain View",
+      "stateCode": "CA",
+      "website": "https://www.google.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 2161,
+          "initialDenials": 43,
+          "continuingApprovals": 3526,
+          "continuingDenials": 35,
+          "lcaFilings": 7962,
+          "avgOfferedWage": 151000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2618,
+          "initialDenials": 52,
+          "continuingApprovals": 4271,
+          "continuingDenials": 43,
+          "lcaFilings": 9645,
+          "avgOfferedWage": 157000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2459,
+          "initialDenials": 49,
+          "continuingApprovals": 4012,
+          "continuingDenials": 40,
+          "lcaFilings": 9059,
+          "avgOfferedWage": 163500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 2038,
+          "initialDenials": 41,
+          "continuingApprovals": 3326,
+          "continuingDenials": 33,
+          "lcaFilings": 7510,
+          "avgOfferedWage": 170000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.46,
+          "avgWage": 183500
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.22,
+          "avgWage": 212500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 190500
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.16,
+          "avgWage": 204000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Mountain View",
+          "stateCode": "CA",
+          "share": 0.34
+        },
+        {
+          "city": "Sunnyvale",
+          "stateCode": "CA",
+          "share": 0.22
+        },
+        {
+          "city": "New York",
+          "stateCode": "NY",
+          "share": 0.18
+        },
+        {
+          "city": "Seattle",
+          "stateCode": "WA",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 12000,
+          "events": 2
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "tata-consultancy-services": {
+      "slug": "tata-consultancy-services",
+      "name": "Tata Consultancy Services",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Edison",
+      "stateCode": "NJ",
+      "website": "https://www.tcs.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 2158,
+          "initialDenials": 108,
+          "continuingApprovals": 3520,
+          "continuingDenials": 88,
+          "lcaFilings": 7949,
+          "avgOfferedWage": 83500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2486,
+          "initialDenials": 124,
+          "continuingApprovals": 4056,
+          "continuingDenials": 101,
+          "lcaFilings": 9159,
+          "avgOfferedWage": 87000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2336,
+          "initialDenials": 117,
+          "continuingApprovals": 3812,
+          "continuingDenials": 95,
+          "lcaFilings": 8607,
+          "avgOfferedWage": 90500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 2004,
+          "initialDenials": 100,
+          "continuingApprovals": 3270,
+          "continuingDenials": 82,
+          "lcaFilings": 7384,
+          "avgOfferedWage": 94000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.36,
+          "avgWage": 77000
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.3,
+          "avgWage": 98500
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.2,
+          "avgWage": 89500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.14,
+          "avgWage": 105500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Edison",
+          "stateCode": "NJ",
+          "share": 0.24
+        },
+        {
+          "city": "Cincinnati",
+          "stateCode": "OH",
+          "share": 0.2
+        },
+        {
+          "city": "Milwaukee",
+          "stateCode": "WI",
+          "share": 0.16
+        },
+        {
+          "city": "Santa Clara",
+          "stateCode": "CA",
+          "share": 0.16
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "meta-platforms": {
+      "slug": "meta-platforms",
+      "name": "Meta Platforms",
+      "industry": "Technology & Social Media",
+      "headquartersCity": "Menlo Park",
+      "stateCode": "CA",
+      "website": "https://www.meta.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1994,
+          "initialDenials": 40,
+          "continuingApprovals": 3253,
+          "continuingDenials": 33,
+          "lcaFilings": 7346,
+          "avgOfferedWage": 157500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2363,
+          "initialDenials": 47,
+          "continuingApprovals": 3855,
+          "continuingDenials": 39,
+          "lcaFilings": 8705,
+          "avgOfferedWage": 163500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2171,
+          "initialDenials": 43,
+          "continuingApprovals": 3543,
+          "continuingDenials": 35,
+          "lcaFilings": 8000,
+          "avgOfferedWage": 170000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1841,
+          "initialDenials": 37,
+          "continuingApprovals": 3003,
+          "continuingDenials": 30,
+          "lcaFilings": 6782,
+          "avgOfferedWage": 177000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.5,
+          "avgWage": 191000
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.22,
+          "avgWage": 221500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 198000
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.12,
+          "avgWage": 212500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Menlo Park",
+          "stateCode": "CA",
+          "share": 0.38
+        },
+        {
+          "city": "New York",
+          "stateCode": "NY",
+          "share": 0.2
+        },
+        {
+          "city": "Seattle",
+          "stateCode": "WA",
+          "share": 0.18
+        },
+        {
+          "city": "Austin",
+          "stateCode": "TX",
+          "share": 0.12
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 21000,
+          "events": 3
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "microsoft": {
+      "slug": "microsoft",
+      "name": "Microsoft",
+      "industry": "Technology & Software",
+      "headquartersCity": "Redmond",
+      "stateCode": "WA",
+      "website": "https://www.microsoft.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1949,
+          "initialDenials": 39,
+          "continuingApprovals": 3180,
+          "continuingDenials": 32,
+          "lcaFilings": 7181,
+          "avgOfferedWage": 144000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 2297,
+          "initialDenials": 46,
+          "continuingApprovals": 3748,
+          "continuingDenials": 37,
+          "lcaFilings": 8463,
+          "avgOfferedWage": 150000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 2111,
+          "initialDenials": 42,
+          "continuingApprovals": 3444,
+          "continuingDenials": 34,
+          "lcaFilings": 7777,
+          "avgOfferedWage": 156000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1796,
+          "initialDenials": 36,
+          "continuingApprovals": 2929,
+          "continuingDenials": 29,
+          "lcaFilings": 6615,
+          "avgOfferedWage": 162000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.48,
+          "avgWage": 175000
+        },
+        {
+          "title": "Product Manager",
+          "share": 0.18,
+          "avgWage": 194500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.18,
+          "avgWage": 181500
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.16,
+          "avgWage": 202500
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Redmond",
+          "stateCode": "WA",
+          "share": 0.4
+        },
+        {
+          "city": "Bellevue",
+          "stateCode": "WA",
+          "share": 0.18
+        },
+        {
+          "city": "Mountain View",
+          "stateCode": "CA",
+          "share": 0.16
+        },
+        {
+          "city": "Atlanta",
+          "stateCode": "GA",
+          "share": 0.12
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 10000,
+          "events": 3
+        },
+        {
+          "year": 2025,
+          "employeesAffected": 6000,
+          "events": 2
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "apple": {
+      "slug": "apple",
+      "name": "Apple",
+      "industry": "Technology & Hardware",
+      "headquartersCity": "Cupertino",
+      "stateCode": "CA",
+      "website": "https://www.apple.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1579,
+          "initialDenials": 32,
+          "continuingApprovals": 2575,
+          "continuingDenials": 26,
+          "lcaFilings": 5816,
+          "avgOfferedWage": 146500
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 1860,
+          "initialDenials": 37,
+          "continuingApprovals": 3035,
+          "continuingDenials": 30,
+          "lcaFilings": 6853,
+          "avgOfferedWage": 152500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 1709,
+          "initialDenials": 34,
+          "continuingApprovals": 2788,
+          "continuingDenials": 28,
+          "lcaFilings": 6296,
+          "avgOfferedWage": 158500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1472,
+          "initialDenials": 29,
+          "continuingApprovals": 2401,
+          "continuingDenials": 24,
+          "lcaFilings": 5422,
+          "avgOfferedWage": 165000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.4,
+          "avgWage": 178000
+        },
+        {
+          "title": "Hardware Engineer",
+          "share": 0.24,
+          "avgWage": 181500
+        },
+        {
+          "title": "Machine Learning Engineer",
+          "share": 0.2,
+          "avgWage": 206500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 185000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Cupertino",
+          "stateCode": "CA",
+          "share": 0.46
+        },
+        {
+          "city": "Sunnyvale",
+          "stateCode": "CA",
+          "share": 0.18
+        },
+        {
+          "city": "San Diego",
+          "stateCode": "CA",
+          "share": 0.14
+        },
+        {
+          "city": "Austin",
+          "stateCode": "TX",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "hcl-america": {
+      "slug": "hcl-america",
+      "name": "HCL America",
+      "industry": "IT Services & Consulting",
+      "headquartersCity": "Sunnyvale",
+      "stateCode": "CA",
+      "website": "https://www.hcltech.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1180,
+          "initialDenials": 59,
+          "continuingApprovals": 1925,
+          "continuingDenials": 48,
+          "lcaFilings": 4347,
+          "avgOfferedWage": 82000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 1398,
+          "initialDenials": 70,
+          "continuingApprovals": 2281,
+          "continuingDenials": 57,
+          "lcaFilings": 5151,
+          "avgOfferedWage": 85000
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 1351,
+          "initialDenials": 68,
+          "continuingApprovals": 2203,
+          "continuingDenials": 55,
+          "lcaFilings": 4976,
+          "avgOfferedWage": 88500
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1122,
+          "initialDenials": 56,
+          "continuingApprovals": 1831,
+          "continuingDenials": 46,
+          "lcaFilings": 4134,
+          "avgOfferedWage": 92000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Systems Analyst",
+          "share": 0.34,
+          "avgWage": 75500
+        },
+        {
+          "title": "Software Developer",
+          "share": 0.3,
+          "avgWage": 96500
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.2,
+          "avgWage": 87500
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.16,
+          "avgWage": 103000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Sunnyvale",
+          "stateCode": "CA",
+          "share": 0.24
+        },
+        {
+          "city": "Plano",
+          "stateCode": "TX",
+          "share": 0.2
+        },
+        {
+          "city": "Cary",
+          "stateCode": "NC",
+          "share": 0.18
+        },
+        {
+          "city": "Redmond",
+          "stateCode": "WA",
+          "share": 0.14
+        }
+      ],
+      "layoffs": [],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    "ibm": {
+      "slug": "ibm",
+      "name": "IBM",
+      "industry": "Technology & Consulting",
+      "headquartersCity": "Armonk",
+      "stateCode": "NY",
+      "website": "https://www.ibm.com",
+      "years": [
+        {
+          "fiscalYear": 2021,
+          "initialApprovals": 1156,
+          "initialDenials": 46,
+          "continuingApprovals": 1886,
+          "continuingDenials": 38,
+          "lcaFilings": 4259,
+          "avgOfferedWage": 114000
+        },
+        {
+          "fiscalYear": 2022,
+          "initialApprovals": 1369,
+          "initialDenials": 55,
+          "continuingApprovals": 2234,
+          "continuingDenials": 45,
+          "lcaFilings": 5044,
+          "avgOfferedWage": 118500
+        },
+        {
+          "fiscalYear": 2023,
+          "initialApprovals": 1323,
+          "initialDenials": 53,
+          "continuingApprovals": 2158,
+          "continuingDenials": 43,
+          "lcaFilings": 4873,
+          "avgOfferedWage": 123000
+        },
+        {
+          "fiscalYear": 2024,
+          "initialApprovals": 1104,
+          "initialDenials": 44,
+          "continuingApprovals": 1802,
+          "continuingDenials": 36,
+          "lcaFilings": 4068,
+          "avgOfferedWage": 128000
+        }
+      ],
+      "topJobTitles": [
+        {
+          "title": "Software Engineer",
+          "share": 0.34,
+          "avgWage": 138000
+        },
+        {
+          "title": "Data Scientist",
+          "share": 0.24,
+          "avgWage": 143500
+        },
+        {
+          "title": "Management Consultant",
+          "share": 0.22,
+          "avgWage": 121500
+        },
+        {
+          "title": "Systems Analyst",
+          "share": 0.2,
+          "avgWage": 105000
+        }
+      ],
+      "topWorksites": [
+        {
+          "city": "Armonk",
+          "stateCode": "NY",
+          "share": 0.2
+        },
+        {
+          "city": "Austin",
+          "stateCode": "TX",
+          "share": 0.22
+        },
+        {
+          "city": "San Jose",
+          "stateCode": "CA",
+          "share": 0.2
+        },
+        {
+          "city": "Research Triangle Park",
+          "stateCode": "NC",
+          "share": 0.16
+        }
+      ],
+      "layoffs": [
+        {
+          "year": 2023,
+          "employeesAffected": 3900,
+          "events": 3
+        }
+      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    }
+  },
+  "iceRows": [
+    {
+      "fiscalYear": 2021,
+      "arrests": 74082,
+      "removals": 59011,
+      "criminalArrests": 39000,
+      "nonCriminal": 35082,
+      "detentionAvgDaily": 22000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2022,
+      "arrests": 142750,
+      "removals": 72177,
+      "criminalArrests": 46000,
+      "nonCriminal": 96750,
+      "detentionAvgDaily": 24000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2023,
+      "arrests": 170590,
+      "removals": 142580,
+      "criminalArrests": 73822,
+      "nonCriminal": 96768,
+      "detentionAvgDaily": 36845,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2024,
+      "arrests": 113431,
+      "removals": 271484,
+      "criminalArrests": 88763,
+      "nonCriminal": 24668,
+      "detentionAvgDaily": 37684,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 300000,
+      "removals": 319980,
+      "criminalArrests": 95000,
+      "nonCriminal": 205000,
+      "detentionAvgDaily": 55000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2026,
+      "arrests": 285000,
+      "removals": 330000,
+      "criminalArrests": 105000,
+      "nonCriminal": 180000,
+      "detentionAvgDaily": 60000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    }
+  ],
+  "iceByFy": {
+    "2021": {
+      "fiscalYear": 2021,
+      "arrests": 74082,
+      "removals": 59011,
+      "criminalArrests": 39000,
+      "nonCriminal": 35082,
+      "detentionAvgDaily": 22000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    "2022": {
+      "fiscalYear": 2022,
+      "arrests": 142750,
+      "removals": 72177,
+      "criminalArrests": 46000,
+      "nonCriminal": 96750,
+      "detentionAvgDaily": 24000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    "2023": {
+      "fiscalYear": 2023,
+      "arrests": 170590,
+      "removals": 142580,
+      "criminalArrests": 73822,
+      "nonCriminal": 96768,
+      "detentionAvgDaily": 36845,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    "2024": {
+      "fiscalYear": 2024,
+      "arrests": 113431,
+      "removals": 271484,
+      "criminalArrests": 88763,
+      "nonCriminal": 24668,
+      "detentionAvgDaily": 37684,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    "2025": {
+      "fiscalYear": 2025,
+      "arrests": 300000,
+      "removals": 319980,
+      "criminalArrests": 95000,
+      "nonCriminal": 205000,
+      "detentionAvgDaily": 55000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    "2026": {
+      "fiscalYear": 2026,
+      "arrests": 285000,
+      "removals": 330000,
+      "criminalArrests": 105000,
+      "nonCriminal": 180000,
+      "detentionAvgDaily": 60000,
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    }
+  },
+  "iceByState": [
+    {
+      "fiscalYear": 2025,
+      "arrests": 48000,
+      "removals": 51200,
+      "criminalArrests": 15200,
+      "nonCriminal": 32800,
+      "detentionAvgDaily": 8800,
+      "stateCode": "CA",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 66000,
+      "removals": 70400,
+      "criminalArrests": 20900,
+      "nonCriminal": 45100,
+      "detentionAvgDaily": 12100,
+      "stateCode": "TX",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 21000,
+      "removals": 22400,
+      "criminalArrests": 6700,
+      "nonCriminal": 14400,
+      "detentionAvgDaily": 3900,
+      "stateCode": "NY",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 12000,
+      "removals": 12800,
+      "criminalArrests": 3800,
+      "nonCriminal": 8200,
+      "detentionAvgDaily": 2200,
+      "stateCode": "NJ",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 9000,
+      "removals": 9600,
+      "criminalArrests": 2900,
+      "nonCriminal": 6200,
+      "detentionAvgDaily": 1700,
+      "stateCode": "WA",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 15000,
+      "removals": 16000,
+      "criminalArrests": 4800,
+      "nonCriminal": 10300,
+      "detentionAvgDaily": 2800,
+      "stateCode": "IL",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 18000,
+      "removals": 19200,
+      "criminalArrests": 5700,
+      "nonCriminal": 12300,
+      "detentionAvgDaily": 3300,
+      "stateCode": "GA",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 9000,
+      "removals": 9600,
+      "criminalArrests": 2900,
+      "nonCriminal": 6200,
+      "detentionAvgDaily": 1700,
+      "stateCode": "MA",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 33000,
+      "removals": 35200,
+      "criminalArrests": 10500,
+      "nonCriminal": 22600,
+      "detentionAvgDaily": 6100,
+      "stateCode": "FL",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 9000,
+      "removals": 9600,
+      "criminalArrests": 2900,
+      "nonCriminal": 6200,
+      "detentionAvgDaily": 1700,
+      "stateCode": "VA",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    }
+  ],
+  "iceByCountry": [
+    {
+      "fiscalYear": 2025,
+      "arrests": 15000,
+      "removals": 16000,
+      "criminalArrests": 4800,
+      "nonCriminal": 10300,
+      "detentionAvgDaily": 0,
+      "country": "India",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 6000,
+      "removals": 6400,
+      "criminalArrests": 1900,
+      "nonCriminal": 4100,
+      "detentionAvgDaily": 0,
+      "country": "China",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 3000,
+      "removals": 3200,
+      "criminalArrests": 1000,
+      "nonCriminal": 2100,
+      "detentionAvgDaily": 0,
+      "country": "South Korea",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 3000,
+      "removals": 3200,
+      "criminalArrests": 1000,
+      "nonCriminal": 2100,
+      "detentionAvgDaily": 0,
+      "country": "Canada",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 6000,
+      "removals": 6400,
+      "criminalArrests": 1900,
+      "nonCriminal": 4100,
+      "detentionAvgDaily": 0,
+      "country": "Philippines",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 114000,
+      "removals": 121600,
+      "criminalArrests": 36100,
+      "nonCriminal": 77900,
+      "detentionAvgDaily": 0,
+      "country": "Mexico",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 15000,
+      "removals": 16000,
+      "criminalArrests": 4800,
+      "nonCriminal": 10300,
+      "detentionAvgDaily": 0,
+      "country": "Brazil",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 6000,
+      "removals": 6400,
+      "criminalArrests": 1900,
+      "nonCriminal": 4100,
+      "detentionAvgDaily": 0,
+      "country": "Nigeria",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 3000,
+      "removals": 3200,
+      "criminalArrests": 1000,
+      "nonCriminal": 2100,
+      "detentionAvgDaily": 0,
+      "country": "Vietnam",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    },
+    {
+      "fiscalYear": 2025,
+      "arrests": 48000,
+      "removals": 51200,
+      "criminalArrests": 15200,
+      "nonCriminal": 32800,
+      "detentionAvgDaily": 0,
+      "country": "Guatemala",
+      "sourceName": "ICE Enforcement and Removal Statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "sourceUpdatedAt": "2026-06-09"
+    }
+  ],
+  "DETENTION_NOW": {
+    "value": 73000,
+    "asOf": "2026-01-15"
+  },
+  "cbpRows": [
+    {
+      "fiscalYear": 2021,
+      "border": "southwest",
+      "totalEncounters": 1659206,
+      "singleAdults": 1034800,
+      "familyUnits": 509200,
+      "unaccompaniedMinors": 115200,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2021,
+      "border": "northern",
+      "totalEncounters": 78300,
+      "singleAdults": 48400,
+      "familyUnits": 23600,
+      "unaccompaniedMinors": 6300,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2021,
+      "border": "nationwide",
+      "totalEncounters": 1956519,
+      "singleAdults": 1205700,
+      "familyUnits": 582600,
+      "unaccompaniedMinors": 168200,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2022,
+      "border": "southwest",
+      "totalEncounters": 2206436,
+      "singleAdults": 1343000,
+      "familyUnits": 678400,
+      "unaccompaniedMinors": 185000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2022,
+      "border": "northern",
+      "totalEncounters": 110700,
+      "singleAdults": 68900,
+      "familyUnits": 33400,
+      "unaccompaniedMinors": 8400,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2022,
+      "border": "nationwide",
+      "totalEncounters": 2766582,
+      "singleAdults": 1718100,
+      "familyUnits": 807300,
+      "unaccompaniedMinors": 241200,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2023,
+      "border": "southwest",
+      "totalEncounters": 2045838,
+      "singleAdults": 1295200,
+      "familyUnits": 607500,
+      "unaccompaniedMinors": 143100,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2023,
+      "border": "northern",
+      "totalEncounters": 128000,
+      "singleAdults": 80000,
+      "familyUnits": 38300,
+      "unaccompaniedMinors": 9700,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2023,
+      "border": "nationwide",
+      "totalEncounters": 3201144,
+      "singleAdults": 2009300,
+      "familyUnits": 977100,
+      "unaccompaniedMinors": 214700,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2024,
+      "border": "southwest",
+      "totalEncounters": 1533193,
+      "singleAdults": 954800,
+      "familyUnits": 459500,
+      "unaccompaniedMinors": 118900,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2024,
+      "border": "northern",
+      "totalEncounters": 116000,
+      "singleAdults": 71600,
+      "familyUnits": 34900,
+      "unaccompaniedMinors": 9500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2024,
+      "border": "nationwide",
+      "totalEncounters": 2901142,
+      "singleAdults": 1759400,
+      "familyUnits": 868200,
+      "unaccompaniedMinors": 273500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "southwest",
+      "totalEncounters": 237538,
+      "singleAdults": 145700,
+      "familyUnits": 70800,
+      "unaccompaniedMinors": 21000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "northern",
+      "totalEncounters": 27700,
+      "singleAdults": 17400,
+      "familyUnits": 8500,
+      "unaccompaniedMinors": 1800,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "totalEncounters": 691906,
+      "singleAdults": 424900,
+      "familyUnits": 209500,
+      "unaccompaniedMinors": 57500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "border": "southwest",
+      "totalEncounters": 118000,
+      "singleAdults": 73800,
+      "familyUnits": 34500,
+      "unaccompaniedMinors": 9700,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "border": "northern",
+      "totalEncounters": 8600,
+      "singleAdults": 5300,
+      "familyUnits": 2500,
+      "unaccompaniedMinors": 800,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "border": "nationwide",
+      "totalEncounters": 215876,
+      "singleAdults": 136800,
+      "familyUnits": 63000,
+      "unaccompaniedMinors": 16100,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    }
+  ],
+  "cbpMonthly": [
+    {
+      "fiscalYear": 2025,
+      "month": 10,
+      "border": "southwest",
+      "totalEncounters": 18100,
+      "singleAdults": 11500,
+      "familyUnits": 5500,
+      "unaccompaniedMinors": 1100,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 11,
+      "border": "southwest",
+      "totalEncounters": 19100,
+      "singleAdults": 11800,
+      "familyUnits": 5600,
+      "unaccompaniedMinors": 1700,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 12,
+      "border": "southwest",
+      "totalEncounters": 20500,
+      "singleAdults": 12400,
+      "familyUnits": 6200,
+      "unaccompaniedMinors": 1900,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 1,
+      "border": "southwest",
+      "totalEncounters": 21500,
+      "singleAdults": 13200,
+      "familyUnits": 6400,
+      "unaccompaniedMinors": 1900,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 2,
+      "border": "southwest",
+      "totalEncounters": 17600,
+      "singleAdults": 11000,
+      "familyUnits": 5300,
+      "unaccompaniedMinors": 1300,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 3,
+      "border": "southwest",
+      "totalEncounters": 18600,
+      "singleAdults": 11800,
+      "familyUnits": 5600,
+      "unaccompaniedMinors": 1200,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 4,
+      "border": "southwest",
+      "totalEncounters": 20000,
+      "singleAdults": 12100,
+      "familyUnits": 5900,
+      "unaccompaniedMinors": 2000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 5,
+      "border": "southwest",
+      "totalEncounters": 21000,
+      "singleAdults": 12800,
+      "familyUnits": 6200,
+      "unaccompaniedMinors": 2000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 6,
+      "border": "southwest",
+      "totalEncounters": 19100,
+      "singleAdults": 11900,
+      "familyUnits": 5700,
+      "unaccompaniedMinors": 1500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 7,
+      "border": "southwest",
+      "totalEncounters": 20000,
+      "singleAdults": 12400,
+      "familyUnits": 6000,
+      "unaccompaniedMinors": 1600,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 8,
+      "border": "southwest",
+      "totalEncounters": 19800,
+      "singleAdults": 12400,
+      "familyUnits": 6100,
+      "unaccompaniedMinors": 1300,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "month": 9,
+      "border": "southwest",
+      "totalEncounters": 18900,
+      "singleAdults": 11500,
+      "familyUnits": 5700,
+      "unaccompaniedMinors": 1700,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 10,
+      "border": "southwest",
+      "totalEncounters": 13500,
+      "singleAdults": 8400,
+      "familyUnits": 4100,
+      "unaccompaniedMinors": 1000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 11,
+      "border": "southwest",
+      "totalEncounters": 16000,
+      "singleAdults": 9900,
+      "familyUnits": 4700,
+      "unaccompaniedMinors": 1400,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 12,
+      "border": "southwest",
+      "totalEncounters": 14900,
+      "singleAdults": 9100,
+      "familyUnits": 4400,
+      "unaccompaniedMinors": 1400,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 1,
+      "border": "southwest",
+      "totalEncounters": 14200,
+      "singleAdults": 8800,
+      "familyUnits": 4300,
+      "unaccompaniedMinors": 1100,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 2,
+      "border": "southwest",
+      "totalEncounters": 16400,
+      "singleAdults": 10000,
+      "familyUnits": 4800,
+      "unaccompaniedMinors": 1600,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 3,
+      "border": "southwest",
+      "totalEncounters": 15600,
+      "singleAdults": 9700,
+      "familyUnits": 4800,
+      "unaccompaniedMinors": 1100,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 4,
+      "border": "southwest",
+      "totalEncounters": 14600,
+      "singleAdults": 9200,
+      "familyUnits": 4300,
+      "unaccompaniedMinors": 1100,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2026,
+      "month": 5,
+      "border": "southwest",
+      "totalEncounters": 13800,
+      "singleAdults": 8700,
+      "familyUnits": 4100,
+      "unaccompaniedMinors": 1000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    }
+  ],
+  "cbpByCountry": [
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "India",
+      "totalEncounters": 27700,
+      "singleAdults": 16900,
+      "familyUnits": 8400,
+      "unaccompaniedMinors": 2400,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "China",
+      "totalEncounters": 20800,
+      "singleAdults": 12900,
+      "familyUnits": 6100,
+      "unaccompaniedMinors": 1800,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "South Korea",
+      "totalEncounters": 6900,
+      "singleAdults": 4300,
+      "familyUnits": 2100,
+      "unaccompaniedMinors": 500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Canada",
+      "totalEncounters": 13800,
+      "singleAdults": 8500,
+      "familyUnits": 4300,
+      "unaccompaniedMinors": 1000,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Philippines",
+      "totalEncounters": 13800,
+      "singleAdults": 8500,
+      "familyUnits": 4000,
+      "unaccompaniedMinors": 1300,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Mexico",
+      "totalEncounters": 207600,
+      "singleAdults": 129000,
+      "familyUnits": 63400,
+      "unaccompaniedMinors": 15200,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Brazil",
+      "totalEncounters": 55400,
+      "singleAdults": 34500,
+      "familyUnits": 16400,
+      "unaccompaniedMinors": 4500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Nigeria",
+      "totalEncounters": 6900,
+      "singleAdults": 4400,
+      "familyUnits": 2000,
+      "unaccompaniedMinors": 500,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Vietnam",
+      "totalEncounters": 6900,
+      "singleAdults": 4400,
+      "familyUnits": 2100,
+      "unaccompaniedMinors": 400,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    },
+    {
+      "fiscalYear": 2025,
+      "border": "nationwide",
+      "citizenship": "Guatemala",
+      "totalEncounters": 110700,
+      "singleAdults": 68300,
+      "familyUnits": 33000,
+      "unaccompaniedMinors": 9400,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceUpdatedAt": "2026-06-14"
+    }
+  ],
+  "CBP_LIVE": {
+    "ok": true,
+    "reportingMonthLabel": "April 2026",
+    "currentFy": 2026,
+    "currentFyYtd": 215876,
+    "sourceUpdatedAt": "2026-06-14",
+    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-05/nationwide-encounters-fy23-fy26-apr-aor.csv"
+  },
+  "visaRows": [
+    {
+      "fiscalYear": 2021,
+      "visaClass": "F-1",
+      "category": "student",
+      "issued": 357839,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2022,
+      "visaClass": "F-1",
+      "category": "student",
+      "issued": 411131,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2023,
+      "visaClass": "F-1",
+      "category": "student",
+      "issued": 445245,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "F-1",
+      "category": "student",
+      "issued": 401007,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "issued": 372000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2026,
+      "visaClass": "F-1",
+      "category": "student",
+      "issued": 182000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2021,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "issued": 125000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2022,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "issued": 206002,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2023,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "issued": 191961,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "issued": 190000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "issued": 165000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2026,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "issued": 96000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2021,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "issued": 100148,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2022,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "issued": 284486,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2023,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "issued": 300937,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "issued": 311502,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "issued": 305000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2026,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "issued": 168000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2021,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "issued": 65000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2022,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "issued": 95000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2023,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "issued": 142000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "issued": 145000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "issued": 140000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2026,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "issued": 78000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2021,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "issued": 175000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2022,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "issued": 215000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2023,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "issued": 230000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "issued": 235000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "issued": 228000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2026,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "issued": 124000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    }
+  ],
+  "visaByCountry": [
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "India",
+      "issued": 283397,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "China",
+      "issued": 46680,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "South Korea",
+      "issued": 9024,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Canada",
+      "issued": 5800,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Philippines",
+      "issued": 3400,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Mexico",
+      "issued": 4100,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Brazil",
+      "issued": 2600,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Nigeria",
+      "issued": 1700,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Vietnam",
+      "issued": 1500,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2024,
+      "visaClass": "H-1B",
+      "category": "employment",
+      "country": "Guatemala",
+      "issued": 220,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceUpdatedAt": "2025-03-04"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "India",
+      "issued": 143800,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "China",
+      "issued": 124000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "South Korea",
+      "issued": 24800,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Canada",
+      "issued": 9900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Philippines",
+      "issued": 9900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Mexico",
+      "issued": 14900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Brazil",
+      "issued": 14900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Nigeria",
+      "issued": 14900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Vietnam",
+      "issued": 9900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "F-1",
+      "category": "student",
+      "country": "Guatemala",
+      "issued": 5000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    }
+  ],
+  "H1B_NATIONAL": {
+    "2021": {
+      "approvals": 407071,
+      "denials": 16000
+    },
+    "2022": {
+      "approvals": 442043,
+      "denials": 12000
+    },
+    "2023": {
+      "approvals": 386318,
+      "denials": 15000
+    },
+    "2024": {
+      "approvals": 399395,
+      "denials": 25500
+    },
+    "2025": {
+      "approvals": 358000,
+      "denials": 30000
+    }
+  },
+  "wageRows": [
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "meanWage": 138110,
+      "medianWage": 128440,
+      "employment": 1795000,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Data Scientists",
+      "socCode": "15-2051",
+      "meanWage": 119040,
+      "medianWage": 110710,
+      "employment": 202000,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Computer Systems Analysts",
+      "socCode": "15-1211",
+      "meanWage": 103790,
+      "medianWage": 96520,
+      "employment": 520000,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Computer & Information Systems Managers",
+      "socCode": "11-3021",
+      "meanWage": 171200,
+      "medianWage": 159220,
+      "employment": 592000,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Management Analysts",
+      "socCode": "13-1111",
+      "meanWage": 104660,
+      "medianWage": 97330,
+      "employment": 1003000,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Electrical & Electronics Engineers",
+      "socCode": "17-2070",
+      "meanWage": 117730,
+      "medianWage": 109490,
+      "employment": 311000,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    }
+  ],
+  "wageByState": [
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "CA",
+      "meanWage": 176780,
+      "medianWage": 164410,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "TX",
+      "meanWage": 135350,
+      "medianWage": 125870,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "NY",
+      "meanWage": 158830,
+      "medianWage": 147710,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "NJ",
+      "meanWage": 149160,
+      "medianWage": 138720,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "WA",
+      "meanWage": 168490,
+      "medianWage": 156700,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "IL",
+      "meanWage": 138110,
+      "medianWage": 128440,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "GA",
+      "meanWage": 129820,
+      "medianWage": 120740,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "MA",
+      "meanWage": 160210,
+      "medianWage": 148990,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "FL",
+      "meanWage": 127060,
+      "medianWage": 118170,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    },
+    {
+      "year": 2024,
+      "occupation": "Software Developers",
+      "socCode": "15-1252",
+      "stateCode": "VA",
+      "meanWage": 145020,
+      "medianWage": 134860,
+      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceUrl": "https://www.bls.gov/oes/",
+      "sourceUpdatedAt": "2025-04-03"
+    }
+  ],
+  "layoffRows": [
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "WA",
+      "city": "Seattle",
+      "noticeDate": "2023-02-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "WA",
+      "city": "Bellevue",
+      "noticeDate": "2023-04-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "VA",
+      "city": "Arlington",
+      "noticeDate": "2023-05-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "NY",
+      "city": "New York",
+      "noticeDate": "2023-07-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "WA",
+      "city": "Seattle",
+      "noticeDate": "2023-08-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "WA",
+      "city": "Bellevue",
+      "noticeDate": "2023-10-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "WA",
+      "city": "Seattle",
+      "noticeDate": "2024-02-15",
+      "employeesAffected": 1730,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "WA",
+      "city": "Bellevue",
+      "noticeDate": "2024-05-15",
+      "employeesAffected": 1730,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Amazon",
+      "companySlug": "amazon",
+      "stateCode": "VA",
+      "city": "Arlington",
+      "noticeDate": "2024-08-15",
+      "employeesAffected": 1730,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Cognizant Technology Solutions",
+      "companySlug": "cognizant",
+      "stateCode": "TX",
+      "city": "College Station",
+      "noticeDate": "2023-02-15",
+      "employeesAffected": 880,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Cognizant Technology Solutions",
+      "companySlug": "cognizant",
+      "stateCode": "NJ",
+      "city": "Teaneck",
+      "noticeDate": "2023-04-15",
+      "employeesAffected": 880,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Cognizant Technology Solutions",
+      "companySlug": "cognizant",
+      "stateCode": "AZ",
+      "city": "Phoenix",
+      "noticeDate": "2023-07-15",
+      "employeesAffected": 880,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Cognizant Technology Solutions",
+      "companySlug": "cognizant",
+      "stateCode": "GA",
+      "city": "Atlanta",
+      "noticeDate": "2023-09-15",
+      "employeesAffected": 880,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Alphabet (Google)",
+      "companySlug": "alphabet-google",
+      "stateCode": "CA",
+      "city": "Mountain View",
+      "noticeDate": "2023-02-15",
+      "employeesAffected": 6000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Alphabet (Google)",
+      "companySlug": "alphabet-google",
+      "stateCode": "CA",
+      "city": "Sunnyvale",
+      "noticeDate": "2023-07-15",
+      "employeesAffected": 6000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Meta Platforms",
+      "companySlug": "meta-platforms",
+      "stateCode": "CA",
+      "city": "Menlo Park",
+      "noticeDate": "2023-02-15",
+      "employeesAffected": 7000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Meta Platforms",
+      "companySlug": "meta-platforms",
+      "stateCode": "NY",
+      "city": "New York",
+      "noticeDate": "2023-05-15",
+      "employeesAffected": 7000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Meta Platforms",
+      "companySlug": "meta-platforms",
+      "stateCode": "WA",
+      "city": "Seattle",
+      "noticeDate": "2023-08-15",
+      "employeesAffected": 7000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Microsoft",
+      "companySlug": "microsoft",
+      "stateCode": "WA",
+      "city": "Redmond",
+      "noticeDate": "2023-02-15",
+      "employeesAffected": 3330,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Microsoft",
+      "companySlug": "microsoft",
+      "stateCode": "WA",
+      "city": "Bellevue",
+      "noticeDate": "2023-05-15",
+      "employeesAffected": 3330,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Microsoft",
+      "companySlug": "microsoft",
+      "stateCode": "CA",
+      "city": "Mountain View",
+      "noticeDate": "2023-08-15",
+      "employeesAffected": 3330,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Microsoft",
+      "companySlug": "microsoft",
+      "stateCode": "WA",
+      "city": "Redmond",
+      "noticeDate": "2025-02-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Microsoft",
+      "companySlug": "microsoft",
+      "stateCode": "WA",
+      "city": "Bellevue",
+      "noticeDate": "2025-07-15",
+      "employeesAffected": 3000,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "IBM",
+      "companySlug": "ibm",
+      "stateCode": "NY",
+      "city": "Armonk",
+      "noticeDate": "2023-02-15",
+      "employeesAffected": 1300,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "IBM",
+      "companySlug": "ibm",
+      "stateCode": "TX",
+      "city": "Austin",
+      "noticeDate": "2023-05-15",
+      "employeesAffected": 1300,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "IBM",
+      "companySlug": "ibm",
+      "stateCode": "CA",
+      "city": "San Jose",
+      "noticeDate": "2023-08-15",
+      "employeesAffected": 1300,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Intel",
+      "stateCode": "CA",
+      "city": "Santa Clara",
+      "noticeDate": "2026-03-12",
+      "employeesAffected": 2400,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Salesforce",
+      "stateCode": "CA",
+      "city": "San Francisco",
+      "noticeDate": "2026-02-04",
+      "employeesAffected": 1300,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "UPS",
+      "stateCode": "GA",
+      "city": "Atlanta",
+      "noticeDate": "2026-01-22",
+      "employeesAffected": 1700,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Charter Communications",
+      "stateCode": "TX",
+      "city": "Austin",
+      "noticeDate": "2025-04-15",
+      "employeesAffected": 900,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Wells Fargo",
+      "stateCode": "CA",
+      "city": "San Francisco",
+      "noticeDate": "2024-04-15",
+      "employeesAffected": 1100,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Peloton Interactive",
+      "stateCode": "NY",
+      "city": "New York",
+      "noticeDate": "2024-04-15",
+      "employeesAffected": 650,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "Boeing",
+      "stateCode": "WA",
+      "city": "Everett",
+      "noticeDate": "2025-04-15",
+      "employeesAffected": 2200,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    },
+    {
+      "employerName": "CVS Health",
+      "stateCode": "IL",
+      "city": "Chicago",
+      "noticeDate": "2024-04-15",
+      "employeesAffected": 700,
+      "reason": "Workforce reduction",
+      "sourceName": "State WARN Act Layoff Notices",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "sourceUpdatedAt": "2026-06-12"
+    }
+  ]
+}
