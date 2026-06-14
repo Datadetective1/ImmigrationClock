@@ -1,22 +1,28 @@
-# Automatic data refresh + Netlify rebuild.
+# Automatic data refresh + historical archive + Netlify rebuild.
 #
-# Every 6 hours this runs the near-live fetch (a health check), and ONLY if the
-# refresh succeeded does it ping the Netlify build hook. Netlify then rebuilds
-# from the connected repo — its own `prebuild` step re-fetches the feeds so the
-# fresh data is baked into the new deploy. Failures are logged to the job
-# summary and the previous good build stays live (nothing is triggered).
+# Every 6 hours this:
+#   1. installs deps and runs the real prebuild (scripts/refresh-data.mjs +
+#      scripts/build-dataset.ts) — the SAME pipeline Netlify runs — which
+#      fetches the near-live feeds (BLS, CBP) and appends the latest CBP month
+#      to the growing historical archive (src/lib/generated/history.json),
+#   2. commits the archive + snapshot back to the repo ONLY when the underlying
+#      data actually changed (so the archive persists and grows over time, but
+#      we don't churn a commit every 6h on identical data),
+#   3. pings the Netlify build hook so the live site rebuilds (its own prebuild
+#      re-fetches, so the deploy always reflects current data).
+#
+# Failures are logged to the job summary; the previous good build stays live.
 #
 # REQUIREMENTS:
-#   - Secret NETLIFY_BUILD_HOOK  (✅ you created this)
-#   - The Netlify site must be linked to this GitHub repo, otherwise the build
-#     hook has no source to build from. (Netlify → Site configuration →
-#     Build & deploy → Link repository.)
+#   - Secret NETLIFY_BUILD_HOOK (you created this).
+#   - The Netlify site is linked to this repo so the hook has a source to build.
+#   - If your Netlify site ALSO auto-deploys on git push, the (occasional)
+#     archive commit will trigger an extra deploy; drop the hook step below if so.
 #
 # Note: the BLS public API allows ~25 unauthenticated requests/IP/day. At 4
-# runs/day here plus Netlify's build-time fetch this stays well under the limit;
-# register a free BLS key only if you add many more series.
+# runs/day plus Netlify's build-time fetch this stays well under the limit.
 
-name: Refresh data & rebuild
+name: Refresh data, archive & rebuild
 
 on:
   schedule:
@@ -24,7 +30,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write # needed to commit the growing historical archive
 
 concurrency:
   group: refresh-data
@@ -39,16 +45,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
-      - name: Refresh near-live feeds (health check)
-        run: node scripts/refresh-data.mjs
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh feeds + build dataset (same pipeline as the deploy)
+        run: npm run prebuild
 
       - name: Read refresh status
         id: status
         run: |
           OK=$(node -e "try{process.stdout.write(require('./src/lib/generated/refresh.json').ok?'true':'false')}catch(e){process.stdout.write('false')}")
           echo "ok=$OK" >> "$GITHUB_OUTPUT"
-          node -e "const r=require('./src/lib/generated/refresh.json');const L=['## Data refresh','','- status: '+(r.ok?'✅ ok':'⚠️ errors'),'- ran at: '+r.generatedAt,'- BLS: '+(r.bls&&r.bls.ok?('ok — '+r.bls.period):'STALE'),''];if(r.errors&&r.errors.length){L.push('### Errors');for(const e of r.errors)L.push('- '+e);}require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');"
+          node -e "const r=require('./src/lib/generated/refresh.json');const L=['## Data refresh','','- status: '+(r.ok?'✅ ok':'⚠️ errors'),'- ran at: '+r.generatedAt,'- BLS: '+(r.bls&&r.bls.ok?('ok — '+r.bls.period):'STALE'),'- CBP: '+(r.cbp&&r.cbp.ok?('ok — FY'+r.cbp.currentFy+' YTD '+r.cbp.currentFyYtd+' (through '+r.cbp.reportingMonthLabel+')'):(r.cbp&&r.cbp.stale?'stale (last good)':'unavailable')),''];if(r.errors&&r.errors.length){L.push('### Errors');for(const e of r.errors)L.push('- '+e);}require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');"
+
+      - name: Detect historical-archive change (ignoring timestamps)
+        id: archive
+        run: |
+          git show HEAD:src/lib/generated/history.json > /tmp/old-history.json 2>/dev/null || echo '{}' > /tmp/old-history.json
+          CHANGED=$(node -e "const o=(require('/tmp/old-history.json').cbpNationwideYtd)||[];const n=(require('./src/lib/generated/history.json').cbpNationwideYtd)||[];process.stdout.write(JSON.stringify(o)===JSON.stringify(n)?'false':'true')")
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "Archive changed: $CHANGED" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit archive + snapshot (only when data changed)
+        if: steps.archive.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/lib/generated/history.json src/lib/generated/refresh.json src/lib/generated/dataset.json public/data-manifest.json
+          git commit -m "chore(data): archive CBP release + refresh snapshot [skip ci]"
+          git push
 
       - name: Log failures (no rebuild triggered)
         if: steps.status.outputs.ok != 'true'
