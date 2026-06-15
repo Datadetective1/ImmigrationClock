@@ -344,7 +344,7 @@ async function main() {
     errors.push(`warn_texas: ${warn.note ?? "fetch failed"}`);
   }
 
-  // Overall health gates the scheduled Netlify rebuild. BLS is the canonical
+  // Overall health gates the scheduled production rebuild. BLS is the canonical
   // near-live check; CBP is best-effort (the build keeps last-good on failure).
   const ok = bls.ok;
   const finishedAt = new Date().toISOString();

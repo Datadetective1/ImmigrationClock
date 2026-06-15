@@ -8,8 +8,8 @@
 /out/
 next-env.d.ts
 
-# netlify
-.netlify/
+# vercel
+.vercel/
 
 # production
 /build

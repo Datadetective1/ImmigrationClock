@@ -10,14 +10,14 @@ people to understand — **neutrally, with a source on every number.**
 
 > _Facts first. Trends live. Sources included._
 
-**🔴 Live:** https://immigrationclock.netlify.app
+**🔴 Live:** https://immigrationclock.vercel.app
 
 **Data:** Headline figures are **real, sourced U.S. government numbers** (USCIS, ICE,
 CBP, the State Department, BLS) — e.g. FY2024 H-1B 399,395 approvals (India 283,397),
 ICE removals 271,484, real top-10 employers. FY2024 is the latest complete year for
 most series; FY2025 is preliminary and detention is a dated point-in-time figure.
 Fine-grained per-state / per-country splits are clearly-labeled estimates derived
-from those real totals (see [`/methodology`](https://immigrationclock.netlify.app/methodology)).
+from those real totals (see [`/methodology`](https://immigrationclock.vercel.app/methodology)).
 
 ---
 
@@ -185,15 +185,17 @@ python data_pipeline/run_all_ingestions.py   # legacy Postgres ingestion (not us
 ## ☁️ Deployment
 
 The app builds as a **fully static export** (`next.config.js` → `output: "export"`),
-so any static host serves the generated `out/` directory — no Next.js runtime,
-serverless functions, or database required at runtime.
+so the host just serves the generated `out/` directory — no Next.js server runtime,
+serverless functions, image optimization, or database required at runtime. That
+makes it cheap to run and keeps usage inside the **Vercel Free (Hobby)** tier.
 
-**Live on Netlify:** https://immigrationclock.netlify.app
-(`netlify.toml`: build `npm run build`, publish `out`, Node 20). Set
-`NEXT_PUBLIC_SITE_URL` to the deployed URL so sitemap/canonical/OG links are correct.
+**Live on Vercel:** https://immigrationclock.vercel.app
 
-Deploys also work on Vercel, GitHub Pages, Cloudflare Pages, or `npx serve out` —
-anywhere static files are hosted.
+Deploy by importing the GitHub repo in Vercel — the Next.js framework preset is
+auto-detected and `vercel.json` sets the security headers. Every push to `main`
+auto-deploys. Set `NEXT_PUBLIC_SITE_URL` to your deployed URL so
+sitemap/canonical/OG links are correct. The export also works on GitHub Pages,
+Cloudflare Pages, or `npx serve out` — anywhere static files are hosted.
 
 ### Data pipeline (how the numbers get in)
 
@@ -216,16 +218,20 @@ came from a real fetch are shown as *reported* with the actual reporting month.
 
 ### Tier 2 — automated live data + growing archive
 
-[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs every
-6 hours: it executes the same pipeline, **commits the historical archive back to the
-repo when the data changes** (so it accumulates over time), and triggers a Netlify
-rebuild. To enable it:
+[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs
+**once daily**: it executes the same pipeline, and **only when the underlying data
+actually changed** (ignoring timestamps) commits the refreshed snapshot + archive
+back to the repo. That push to `main` triggers Vercel's git integration to rebuild.
+Because the data moves at most weekly/monthly, this keeps Vercel builds to a handful
+per month — comfortably within the free tier. To enable it:
 
-1. Link this GitHub repo to the Netlify site (enables git builds + build hooks).
-2. Create a Netlify **build hook** and add it as the GitHub secret `NETLIFY_BUILD_HOOK`.
+1. Import this GitHub repo in Vercel (its Git integration auto-deploys pushes to `main`).
+2. That's it — no secret required. *(Optional: if you prefer a Vercel **Deploy Hook**
+   over git auto-deploy, add it as the secret `VERCEL_DEPLOY_HOOK` and the workflow
+   will also ping it on a data change.)*
 
-That's it — CBP and BLS now flow in automatically. To wire additional sources (DOS,
-WARN, …), add a fetcher to `refresh-data.mjs` and consume it in `source-data.ts`.
+CBP, BLS, and Texas WARN now flow in automatically. To wire additional sources (more
+WARN states, …), add a fetcher to `refresh-data.mjs` and consume it in `source-data.ts`.
 
 (The Prisma schema + seed + Python `data_pipeline/` remain in the repo as a legacy
 DB path but are **not** used by the live site, which is fully static + JSON-backed.)
