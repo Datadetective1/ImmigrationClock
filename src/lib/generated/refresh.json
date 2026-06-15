@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-14T04:59:59.783Z",
-  "startedAt": "2026-06-14T04:59:59.097Z",
-  "finishedAt": "2026-06-14T04:59:59.783Z",
+  "generatedAt": "2026-06-14T21:08:14.971Z",
+  "startedAt": "2026-06-14T21:08:12.770Z",
+  "finishedAt": "2026-06-14T21:08:14.971Z",
   "ok": true,
   "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
@@ -10,10 +10,161 @@
     "value": 4.3,
     "period": "May 2026",
     "sourceUpdatedAt": "2026-05-01",
-    "fetchedAt": "2026-06-14T04:59:59.783Z",
+    "fetchedAt": "2026-06-14T21:08:13.358Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
     "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
+  },
+  "cbp": {
+    "ok": true,
+    "stale": false,
+    "reportingMonth": "APR",
+    "reportingMonthLabel": "April 2026",
+    "currentFy": 2026,
+    "currentFyYtd": 215876,
+    "fyTotals": {
+      "2023": 3201144,
+      "2024": 2901142,
+      "2025": 691906
+    },
+    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-05/nationwide-encounters-fy23-fy26-apr-aor.csv",
+    "fetchedAt": "2026-06-14T21:08:14.197Z",
+    "sourceName": "CBP Nationwide Encounters",
+    "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+    "sourceUpdatedAt": "2026-06-14",
+    "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through April 2026."
+  },
+  "warn": {
+    "ok": true,
+    "stale": false,
+    "state": "TX",
+    "ytdYear": 2026,
+    "ytdTotal": 11674,
+    "ytdCount": 64,
+    "prevYear": 2025,
+    "prevTotal": 26606,
+    "prevCount": 287,
+    "recent": [
+      {
+        "noticeDate": "2026-06-09",
+        "employer": "Remington Lodging and Hospitality, LLC (Hilton Houston NASA Clear Lake)",
+        "city": "Houston",
+        "employees": 65
+      },
+      {
+        "noticeDate": "2026-06-08",
+        "employer": "Alan Ritchey Incorporated",
+        "city": "Irving",
+        "employees": 232
+      },
+      {
+        "noticeDate": "2026-06-08",
+        "employer": "El Paso Independent School District",
+        "city": "El Paso",
+        "employees": 250
+      },
+      {
+        "noticeDate": "2026-06-04",
+        "employer": "MW Components (Matthew Warren Inc's USA Fastner Facility)",
+        "city": "Houston",
+        "employees": 53
+      },
+      {
+        "noticeDate": "2026-05-29",
+        "employer": "Toshiba International Corporation",
+        "city": "Houston",
+        "employees": 67
+      },
+      {
+        "noticeDate": "2026-05-19",
+        "employer": "Auzmet Architectural, LLC",
+        "city": "Dallas",
+        "employees": 152
+      }
+    ],
+    "monthly": [
+      {
+        "month": "2025-04",
+        "total": 1732,
+        "count": 19
+      },
+      {
+        "month": "2025-05",
+        "total": 1939,
+        "count": 45
+      },
+      {
+        "month": "2025-06",
+        "total": 2175,
+        "count": 19
+      },
+      {
+        "month": "2025-07",
+        "total": 3722,
+        "count": 48
+      },
+      {
+        "month": "2025-08",
+        "total": 594,
+        "count": 17
+      },
+      {
+        "month": "2025-09",
+        "total": 2068,
+        "count": 17
+      },
+      {
+        "month": "2025-10",
+        "total": 2161,
+        "count": 36
+      },
+      {
+        "month": "2025-11",
+        "total": 3581,
+        "count": 14
+      },
+      {
+        "month": "2025-12",
+        "total": 939,
+        "count": 9
+      },
+      {
+        "month": "2026-01",
+        "total": 2755,
+        "count": 11
+      },
+      {
+        "month": "2026-02",
+        "total": 1050,
+        "count": 12
+      },
+      {
+        "month": "2026-03",
+        "total": 1848,
+        "count": 13
+      },
+      {
+        "month": "2026-04",
+        "total": 4099,
+        "count": 18
+      },
+      {
+        "month": "2026-05",
+        "total": 1322,
+        "count": 6
+      },
+      {
+        "month": "2026-06",
+        "total": 600,
+        "count": 4
+      }
+    ],
+    "fetchedAt": "2026-06-14T21:08:14.971Z",
+    "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
+    "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
+    "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
+    "sourceUpdatedAt": "2026-06-14",
+    "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 11674 employees across 64 notices. Texas only — not national."
   },
   "manifest": [
     {
@@ -23,17 +174,17 @@
       "feed": "BLS Public Data API",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-06-14T04:59:59.783Z",
+      "lastFetchedAt": "2026-06-14T21:08:13.358Z",
       "lastError": null
     },
     {
       "key": "cbp_encounters",
       "name": "CBP Nationwide Encounters",
-      "mode": "published-file",
-      "feed": "CBP Nationwide Encounters (Excel)",
-      "auto": false,
-      "status": "manual",
-      "lastFetchedAt": null,
+      "mode": "auto-fetch",
+      "feed": "CBP Nationwide Encounters (CSV)",
+      "auto": true,
+      "status": "ok",
+      "lastFetchedAt": "2026-06-14T21:08:14.197Z",
       "lastError": null
     },
     {
@@ -79,11 +230,11 @@
     {
       "key": "warn_layoffs",
       "name": "State WARN layoff notices",
-      "mode": "published-portal",
-      "feed": "State WARN portals",
-      "auto": false,
-      "status": "manual",
-      "lastFetchedAt": null,
+      "mode": "auto-fetch (partial)",
+      "feed": "Texas via data.texas.gov (Socrata) — TX only; other states curated",
+      "auto": true,
+      "status": "ok",
+      "lastFetchedAt": "2026-06-14T21:08:14.971Z",
       "lastError": null
     }
   ]

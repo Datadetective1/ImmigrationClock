@@ -43,7 +43,7 @@ export default function PrivacyPage() {
               sent to us.
             </li>
             <li>
-              <strong>Standard server/usage logs.</strong> Our hosting provider (Netlify) may record technical
+              <strong>Standard server/usage logs.</strong> Our hosting provider (Vercel) may record technical
               data such as IP address, browser type, and pages requested, for security and reliability.
             </li>
             <li>

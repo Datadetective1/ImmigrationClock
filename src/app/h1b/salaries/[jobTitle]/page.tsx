@@ -7,7 +7,7 @@ import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { HorizontalBarChart } from "@/components/charts/Charts";
-import { companies, UPDATED } from "@/lib/sample-data";
+import { companies, UPDATED } from "@/lib/dataset";
 import { SALARY_JOB_TITLES } from "@/lib/seo-pages";
 import { LAST_COMPLETE_FY } from "@/lib/data";
 import { formatCurrency, formatNumber, slugify, titleCaseFromSlug } from "@/lib/format";

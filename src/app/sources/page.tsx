@@ -1,7 +1,7 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { SOURCES } from "@/lib/sources";
-import { UPDATED } from "@/lib/sample-data";
+import { UPDATED } from "@/lib/dataset";
 import { formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({

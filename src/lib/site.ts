@@ -23,11 +23,15 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { href: "/", label: "Dashboard" },
+  { href: "/pulse", label: "Pulse" },
+  { href: "/insights", label: "Insights" },
+  { href: "/timeline", label: "Timeline" },
   { href: "/immigration/enforcement-trends", label: "Enforcement" },
   { href: "/border/encounters", label: "Border" },
   { href: "/h1b/top-sponsors", label: "H-1B" },
   { href: "/visa/f1-student-visas", label: "Visas" },
   { href: "/layoffs-vs-h1b", label: "Jobs & Wages" },
+  { href: "/explained", label: "Explained" },
   { href: "/methodology", label: "Methodology" },
   { href: "/sources", label: "Sources" },
 ];
@@ -46,6 +50,8 @@ export const FOOTER_SECTIONS = [
   {
     title: "Explore",
     links: [
+      { href: "/insights", label: "Insights" },
+      { href: "/timeline", label: "Timeline" },
       { href: "/state/CA", label: "State pages" },
       { href: "/country/india", label: "Country pages" },
       { href: "/company/amazon", label: "Employer pages" },
@@ -55,6 +61,7 @@ export const FOOTER_SECTIONS = [
   {
     title: "About the data",
     links: [
+      { href: "/explained", label: "Explained (plain English)" },
       { href: "/data", label: "Data & freshness" },
       { href: "/data-manifest", label: "Data manifest" },
       { href: "/methodology", label: "Methodology" },

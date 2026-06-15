@@ -12,10 +12,10 @@ import {
   enforcementStateData,
   enforcementCountryData,
 } from "@/lib/chart-data";
-import { iceByFy, DETENTION_NOW } from "@/lib/sample-data";
+import { iceByFy, DETENTION_NOW } from "@/lib/dataset";
 import { LATEST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
-import { UPDATED } from "@/lib/sample-data";
+import { UPDATED } from "@/lib/dataset";
 
 export const metadata = buildMetadata({
   title: "Immigration Enforcement Trends",

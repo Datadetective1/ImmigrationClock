@@ -15,6 +15,7 @@ import {
   cbpRows,
   cbpMonthly,
   cbpByCountry,
+  CBP_LIVE,
   visaRows,
   visaByCountry,
   wageRows,
@@ -30,7 +31,7 @@ import {
   H1B_NATIONAL,
   DETENTION_NOW,
   UPDATED,
-} from "./sample-data";
+} from "./dataset";
 import type {
   Metric,
   MetricPeriod,
@@ -82,7 +83,7 @@ export {
   FY_COMPLETENESS,
   LATEST_COMPLETE_FY,
   EMPLOYER_LATEST_FY,
-} from "./sample-data";
+} from "./dataset";
 
 function fyTag(y: number): string {
   return `FY${y}`;
@@ -572,9 +573,19 @@ export function buildMetrics(): Metric[] {
       group: "border",
       href: "/border/encounters",
       status: "GREEN",
-      tooltip:
-        "CBP nationwide encounters. FY2026 is year-to-date (encounters are at multi-decade lows). An encounter is an event, not a person, and is not a deportation.",
-      latest: mp(cbpNow.totalEncounters, CURRENT_FY, "ytd", UPDATED.cbp_encounters, true),
+      tooltip: CBP_LIVE.ok
+        ? `CBP nationwide encounters, fetched live from CBP's published CSV. FY${CURRENT_FY} is year-to-date through ${CBP_LIVE.reportingMonthLabel} (a real reported figure); the trend projects a full-year pace. An encounter is an event, not a person, and is not a deportation.`
+        : "CBP nationwide encounters. FY2026 is year-to-date (encounters are at multi-decade lows). An encounter is an event, not a person, and is not a deportation.",
+      latest: mp(
+        cbpNow.totalEncounters,
+        CURRENT_FY,
+        "ytd",
+        CBP_LIVE.ok && CBP_LIVE.sourceUpdatedAt ? CBP_LIVE.sourceUpdatedAt : UPDATED.cbp_encounters,
+        true,
+        CBP_LIVE.ok
+          ? { provenance: "reported", labelOverride: `FY${CURRENT_FY} through ${CBP_LIVE.reportingMonthLabel}` }
+          : {}
+      ),
       lastComplete: mp(cbpReported.totalEncounters, EMPLOYER_LATEST_FY, "complete", CBP_FY24_PUB, false),
       src: SRC.cbp,
       spark: spk((fy) => cbpRows.find((r) => r.fiscalYear === fy && r.border === "nationwide")?.totalEncounters ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),

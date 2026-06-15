@@ -1,30 +1,33 @@
-# Automatic data refresh + Netlify rebuild.
+# Automatic data refresh + historical archive + Vercel deploy.
 #
-# Every 6 hours this runs the near-live fetch (a health check), and ONLY if the
-# refresh succeeded does it ping the Netlify build hook. Netlify then rebuilds
-# from the connected repo — its own `prebuild` step re-fetches the feeds so the
-# fresh data is baked into the new deploy. Failures are logged to the job
-# summary and the previous good build stays live (nothing is triggered).
+# Once a day this:
+#   1. installs deps and runs the real prebuild (scripts/refresh-data.mjs +
+#      scripts/build-dataset.ts) — the SAME pipeline Vercel runs — which fetches
+#      the near-live feeds (BLS, CBP, Texas WARN) and appends the latest CBP
+#      month to the historical archive (src/lib/generated/history.json),
+#   2. detects whether the underlying DATA actually changed (ignoring timestamps),
+#   3. only if it changed, commits the refreshed snapshot + archive back to the
+#      repo. The push to `main` triggers Vercel's git integration to rebuild
+#      (Vercel's own prebuild re-fetches, so the deploy reflects current data).
 #
-# REQUIREMENTS:
-#   - Secret NETLIFY_BUILD_HOOK  (✅ you created this)
-#   - The Netlify site must be linked to this GitHub repo, otherwise the build
-#     hook has no source to build from. (Netlify → Site configuration →
-#     Build & deploy → Link repository.)
+# Free-tier note: the underlying data moves at most weekly (WARN) / monthly
+# (CBP, BLS), so gating the commit on a real data change keeps Vercel builds to a
+# handful per month — well within Vercel Free (Hobby) limits. A daily cron is
+# plenty for these cadences. Failures keep the last good build live.
 #
-# Note: the BLS public API allows ~25 unauthenticated requests/IP/day. At 4
-# runs/day here plus Netlify's build-time fetch this stays well under the limit;
-# register a free BLS key only if you add many more series.
+# DEPLOY: this repo is connected to Vercel via the Git integration, so any push
+# to `main` auto-deploys. No deploy hook is required. If you instead use a Vercel
+# Deploy Hook, add it as the secret VERCEL_DEPLOY_HOOK and it will also be pinged.
 
-name: Refresh data & rebuild
+name: Refresh data, archive & deploy
 
 on:
   schedule:
-    - cron: "0 */6 * * *" # every 6 hours
+    - cron: "0 11 * * *" # once daily (11:00 UTC) — see free-tier note above
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write # needed to commit the refreshed snapshot + growing archive
 
 concurrency:
   group: refresh-data
@@ -39,29 +42,60 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
-      - name: Refresh near-live feeds (health check)
-        run: node scripts/refresh-data.mjs
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh feeds + build dataset (same pipeline as the deploy)
+        run: npm run prebuild
 
       - name: Read refresh status
         id: status
         run: |
-          OK=$(node -e "try{process.stdout.write(require('./src/lib/generated/refresh.json').ok?'true':'false')}catch(e){process.stdout.write('false')}")
-          echo "ok=$OK" >> "$GITHUB_OUTPUT"
-          node -e "const r=require('./src/lib/generated/refresh.json');const L=['## Data refresh','','- status: '+(r.ok?'✅ ok':'⚠️ errors'),'- ran at: '+r.generatedAt,'- BLS: '+(r.bls&&r.bls.ok?('ok — '+r.bls.period):'STALE'),''];if(r.errors&&r.errors.length){L.push('### Errors');for(const e of r.errors)L.push('- '+e);}require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');"
+          node -e "const r=require('./src/lib/generated/refresh.json');const L=['## Data refresh','','- status: '+(r.ok?'✅ ok':'⚠️ errors'),'- ran at: '+r.generatedAt,'- BLS: '+(r.bls&&r.bls.ok?('ok — '+r.bls.period):'STALE'),'- CBP: '+(r.cbp&&r.cbp.ok?('ok — FY'+r.cbp.currentFy+' YTD '+r.cbp.currentFyYtd+' (through '+r.cbp.reportingMonthLabel+')'):(r.cbp&&r.cbp.stale?'stale (last good)':'unavailable')),'- WARN (TX): '+(r.warn&&r.warn.ok?('ok — '+r.warn.ytdYear+' YTD '+r.warn.ytdTotal):(r.warn&&r.warn.stale?'stale (last good)':'unavailable')),''];if(r.errors&&r.errors.length){L.push('### Errors');for(const e of r.errors)L.push('- '+e);}require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');"
 
-      - name: Log failures (no rebuild triggered)
-        if: steps.status.outputs.ok != 'true'
-        run: echo "::warning::Data refresh reported failures — keeping the last good build live. See job summary."
-
-      - name: Trigger Netlify rebuild (only after a successful refresh)
-        if: steps.status.outputs.ok == 'true'
-        env:
-          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+      - name: Detect real data change (ignoring timestamps)
+        id: changed
         run: |
-          if [ -z "$HOOK" ]; then
-            echo "::error::NETLIFY_BUILD_HOOK secret is not set."
-            exit 1
+          git show HEAD:src/lib/generated/refresh.json > /tmp/old-refresh.json 2>/dev/null || echo '{}' > /tmp/old-refresh.json
+          git show HEAD:src/lib/generated/history.json > /tmp/old-history.json 2>/dev/null || echo '{}' > /tmp/old-history.json
+          CHANGED=$(node -e "
+          const f=require('fs');
+          const j=p=>{try{return JSON.parse(f.readFileSync(p,'utf8'))}catch{return {}}};
+          const sig=(r,h)=>JSON.stringify({
+            bls:[r.bls&&r.bls.value, r.bls&&r.bls.period],
+            cbp:[r.cbp&&r.cbp.currentFyYtd, r.cbp&&r.cbp.fyTotals],
+            warn:[r.warn&&r.warn.ytdTotal, r.warn&&r.warn.ytdCount, r.warn&&r.warn.monthly],
+            hist:((h.cbpNationwideYtd)||[]).map(x=>[x.period,x.cbpNationwideYtd]),
+          });
+          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'));
+          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'));
+          process.stdout.write(a===b?'false':'true');
+          ")
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "Data changed: $CHANGED" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit refreshed data (only when it changed → triggers Vercel deploy)
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json public/data-manifest.json
+          git commit -m "chore(data): refresh snapshot + archive [skip ci]"
+          git push
+
+      - name: Optional Vercel deploy hook
+        if: steps.changed.outputs.changed == 'true'
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$HOOK" ]; then
+            curl -fsS -X POST "$HOOK" && echo "✅ Pinged Vercel deploy hook."
+          else
+            echo "No VERCEL_DEPLOY_HOOK set — relying on Vercel git integration to auto-deploy the pushed commit."
           fi
-          curl -fsS -X POST -d '{"trigger_title":"scheduled-refresh"}' "$HOOK"
-          echo "✅ Triggered Netlify rebuild (it re-fetches near-live data during the build)."
+
+      - name: No change — skip deploy
+        if: steps.changed.outputs.changed != 'true'
+        run: echo "Underlying data unchanged — nothing committed, no Vercel build triggered (free-tier friendly)."

@@ -10,14 +10,14 @@ people to understand — **neutrally, with a source on every number.**
 
 > _Facts first. Trends live. Sources included._
 
-**🔴 Live:** https://immigrationclock.netlify.app
+**🔴 Live:** https://immigrationclock.vercel.app
 
 **Data:** Headline figures are **real, sourced U.S. government numbers** (USCIS, ICE,
 CBP, the State Department, BLS) — e.g. FY2024 H-1B 399,395 approvals (India 283,397),
 ICE removals 271,484, real top-10 employers. FY2024 is the latest complete year for
 most series; FY2025 is preliminary and detention is a dated point-in-time figure.
 Fine-grained per-state / per-country splits are clearly-labeled estimates derived
-from those real totals (see [`/methodology`](https://immigrationclock.netlify.app/methodology)).
+from those real totals (see [`/methodology`](https://immigrationclock.vercel.app/methodology)).
 
 ---
 
@@ -66,8 +66,11 @@ npm run dev
 ```
 
 Open <http://localhost:3000>. The homepage, all section trackers, and every
-employer/state/country page render from the **bundled sample dataset**
-(`src/lib/sample-data.ts`). This is the fastest way to see the product.
+employer/state/country page render from the **generated dataset snapshot**
+(`src/lib/generated/dataset.json`, read via `src/lib/dataset.ts`). That snapshot
+is produced at build time by `scripts/build-dataset.ts` from the curated +
+modeled source in `src/lib/source-data.ts` — run `npm run build:data` to
+regenerate it. This is the fastest way to see the product.
 
 > `npm install` runs `prisma generate` automatically (postinstall). It does **not**
 > need a database connection.
@@ -164,17 +167,17 @@ into Postgres, writes a `RefreshLog`, logs row counts, and **fails gracefully**.
 
 ```bash
 npm install                       # install deps (+ prisma generate)
-npm run dev                       # start dev server (sample data)
-npm run build                     # prisma generate + next build
+npm run dev                       # start dev server (reads generated/dataset.json)
+npm run build                     # prebuild (refresh + build:data) + next build
 npm run start                     # run the production build
 npm run lint                      # eslint
 
-npx prisma generate               # regenerate Prisma client
-npx prisma migrate dev            # create/apply migrations
-npm run seed                      # seed Postgres with sample data
-npx prisma studio                 # browse the database
+npm run refresh                   # fetch near-live feeds (BLS, CBP) → refresh.json + history.json
+npm run build:data                # rebuild generated/dataset.json from source-data.ts
+npm run backfill:history          # (re)seed the historical archive from CBP's monthly CSVs
 
-python data_pipeline/run_all_ingestions.py   # run all ingestions
+npx prisma studio                 # browse the (legacy) database
+python data_pipeline/run_all_ingestions.py   # legacy Postgres ingestion (not used by the site)
 ```
 
 ---
@@ -182,30 +185,56 @@ python data_pipeline/run_all_ingestions.py   # run all ingestions
 ## ☁️ Deployment
 
 The app builds as a **fully static export** (`next.config.js` → `output: "export"`),
-so any static host serves the generated `out/` directory — no Next.js runtime,
-serverless functions, or database required at runtime.
+so the host just serves the generated `out/` directory — no Next.js server runtime,
+serverless functions, image optimization, or database required at runtime. That
+makes it cheap to run and keeps usage inside the **Vercel Free (Hobby)** tier.
 
-**Live on Netlify:** https://immigrationclock.netlify.app
-(`netlify.toml`: build `npm run build`, publish `out`, Node 20). Set
-`NEXT_PUBLIC_SITE_URL` to the deployed URL so sitemap/canonical/OG links are correct.
+**Live on Vercel:** https://immigrationclock.vercel.app
 
-Deploys also work on Vercel, GitHub Pages, Cloudflare Pages, or `npx serve out` —
-anywhere static files are hosted.
+Deploy by importing the GitHub repo in Vercel — the Next.js framework preset is
+auto-detected and `vercel.json` sets the security headers. Every push to `main`
+auto-deploys. Set `NEXT_PUBLIC_SITE_URL` to your deployed URL so
+sitemap/canonical/OG links are correct. The export also works on GitHub Pages,
+Cloudflare Pages, or `npx serve out` — anywhere static files are hosted.
 
-### Tier 2 — automated live data
+### Data pipeline (how the numbers get in)
 
-Because the build is static, fresh data is wired in via **scheduled rebuilds**:
-[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs the
-ingestion pipeline monthly and triggers a Netlify rebuild. To enable it:
+The site reads exactly one file at runtime: `src/lib/generated/dataset.json`. It is
+produced at build time by the `prebuild` step, which runs two scripts:
 
-1. Link this GitHub repo to the Netlify site (enables git builds + build hooks).
-2. Create a Netlify **build hook** and add it as the GitHub secret
-   `NETLIFY_BUILD_HOOK`.
-3. Wire each `data_pipeline/ingest_*.py` script's download step to the agency's
-   current release file and have it emit the refreshed figures the build reads.
+1. **`scripts/refresh-data.mjs`** — fetches the near-live feeds:
+   - **BLS** unemployment (public API), and
+   - **CBP Nationwide Encounters** (parsed from CBP's published monthly CSV).
+   It writes `src/lib/generated/refresh.json` + `public/data-manifest.json`, and
+   **appends** the latest CBP month to the growing archive
+   `src/lib/generated/history.json`. On any fetch failure it keeps the last good
+   value (never fabricates, never crashes the build).
+2. **`scripts/build-dataset.ts`** — runs the curated + modeled source
+   (`src/lib/source-data.ts`), which prefers the live-fetched values when present,
+   and serializes the full dataset to `dataset.json`.
 
-(The Prisma schema + seed + Postgres path remain available via `npm run build:db`
-and `USE_DATABASE=true` if you later move to a server-rendered, DB-backed setup.)
+Everything is labelled **reported / projected / estimated**, and CBP figures that
+came from a real fetch are shown as *reported* with the actual reporting month.
+
+### Tier 2 — automated live data + growing archive
+
+[`.github/workflows/refresh-data.yml`](.github/workflows/refresh-data.yml) runs
+**once daily**: it executes the same pipeline, and **only when the underlying data
+actually changed** (ignoring timestamps) commits the refreshed snapshot + archive
+back to the repo. That push to `main` triggers Vercel's git integration to rebuild.
+Because the data moves at most weekly/monthly, this keeps Vercel builds to a handful
+per month — comfortably within the free tier. To enable it:
+
+1. Import this GitHub repo in Vercel (its Git integration auto-deploys pushes to `main`).
+2. That's it — no secret required. *(Optional: if you prefer a Vercel **Deploy Hook**
+   over git auto-deploy, add it as the secret `VERCEL_DEPLOY_HOOK` and the workflow
+   will also ping it on a data change.)*
+
+CBP, BLS, and Texas WARN now flow in automatically. To wire additional sources (more
+WARN states, …), add a fetcher to `refresh-data.mjs` and consume it in `source-data.ts`.
+
+(The Prisma schema + seed + Python `data_pipeline/` remain in the repo as a legacy
+DB path but are **not** used by the live site, which is fully static + JSON-backed.)
 
 ---
 
@@ -240,8 +269,10 @@ src/
   app/                     # App Router pages, sitemap, robots, /api/og
   components/              # AnimatedCounter, MetricCard, charts, AdSlot, …
   lib/
-    sample-data.ts         # the bundled MVP dataset (10 employers, 10 states, …)
-    data.ts                # selectors / derived metrics (swap in Prisma here)
+    source-data.ts         # build-time curated + modeled source (NOT imported by the app)
+    generated/dataset.json # build-time snapshot the app actually reads
+    dataset.ts             # single runtime data source (reads generated/dataset.json)
+    data.ts                # selectors / derived metrics over dataset.ts
     chart-data.ts          # Recharts row transforms
     sources.ts, seo.ts, site.ts, format.ts, refresh.ts, seo-pages.ts
 prisma/

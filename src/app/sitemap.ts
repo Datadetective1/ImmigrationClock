@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
-import { companies, states, countries } from "@/lib/sample-data";
+import { companies, states, countries } from "@/lib/dataset";
 import { seoPages, SALARY_JOB_TITLES } from "@/lib/seo-pages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -9,6 +9,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticPaths = [
     "/",
+    "/pulse",
+    "/insights",
+    "/timeline",
+    "/explained",
     "/methodology",
     "/sources",
     "/data",

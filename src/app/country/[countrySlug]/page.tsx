@@ -1,13 +1,15 @@
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo";
-import { countries } from "@/lib/sample-data";
+import { countries } from "@/lib/dataset";
 import { countryAggregate } from "@/lib/data";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { RelevanceCard } from "@/components/RelevanceCard";
 import { TrendLineChart } from "@/components/charts/Charts";
+import { countryRelevance } from "@/lib/relevance";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 
 export function generateStaticParams() {
@@ -57,6 +59,8 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <RelevanceCard summaries={countryRelevance(agg.country.slug)} />
+
         <ChartCard
           title="Visa issuance by fiscal year"
           subtitle={`Estimated H-1B and F-1 issuances to nationals of ${agg.country.name}`}

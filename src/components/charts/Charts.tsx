@@ -12,9 +12,28 @@ import {
   Tooltip as RTooltip,
   Legend,
   Cell,
+  ReferenceLine,
 } from "recharts";
 
 const PALETTE = ["#38bdf8", "#f43f5e", "#f59e0b", "#22c55e", "#a78bfa", "#34d399"];
+
+/** Optional event markers overlaid on a time-series chart (x = category value). */
+export interface ChartMarker {
+  x: string;
+  label: string;
+}
+function renderMarkers(markers?: ChartMarker[]) {
+  if (!markers || markers.length === 0) return null;
+  return markers.map((m) => (
+    <ReferenceLine
+      key={`${m.x}-${m.label}`}
+      x={m.x}
+      stroke="#64748b"
+      strokeDasharray="4 3"
+      label={{ value: m.label, position: "insideTopRight", fill: "#94a3b8", fontSize: 9 }}
+    />
+  ));
+}
 
 function compact(n: number): string {
   return new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(n);
@@ -38,12 +57,14 @@ export function TrendLineChart({
   series,
   height = 260,
   currency = false,
+  markers,
 }: {
   data: Record<string, number | string | boolean>[];
   xKey: string;
   series: SeriesDef[];
   height?: number;
   currency?: boolean;
+  markers?: ChartMarker[];
 }) {
   return (
     <div style={{ width: "100%", height }}>
@@ -57,6 +78,7 @@ export function TrendLineChart({
             contentStyle={{ background: "#0f1424", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12 }}
             labelStyle={{ color: "#e2e8f0" }}
           />
+          {renderMarkers(markers)}
           {series.length > 1 ? <Legend wrapperStyle={{ fontSize: 12 }} /> : null}
           {series.map((s, i) => (
             <Line
@@ -82,12 +104,14 @@ export function GroupedBarChart({
   series,
   height = 260,
   currency = false,
+  markers,
 }: {
   data: Record<string, number | string | boolean>[];
   xKey: string;
   series: SeriesDef[];
   height?: number;
   currency?: boolean;
+  markers?: ChartMarker[];
 }) {
   return (
     <div style={{ width: "100%", height }}>
@@ -102,6 +126,7 @@ export function GroupedBarChart({
             contentStyle={{ background: "#0f1424", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12 }}
             labelStyle={{ color: "#e2e8f0" }}
           />
+          {renderMarkers(markers)}
           {series.length > 1 ? <Legend wrapperStyle={{ fontSize: 12 }} /> : null}
           {series.map((s, i) => (
             <Bar

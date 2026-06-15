@@ -9,7 +9,7 @@ import { GroupedBarChart } from "@/components/charts/Charts";
 import { DownloadCsvButton } from "@/components/DownloadCsvButton";
 import { layoffsVsSponsorship, LAST_COMPLETE_FY } from "@/lib/data";
 import { layoffsVsH1bData } from "@/lib/chart-data";
-import { UPDATED } from "@/lib/sample-data";
+import { UPDATED } from "@/lib/dataset";
 import { formatNumber, formatCurrency, fiscalYearLabel } from "@/lib/format";
 
 export const metadata = buildMetadata({

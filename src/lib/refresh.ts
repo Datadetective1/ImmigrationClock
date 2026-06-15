@@ -1,4 +1,4 @@
-import { SOURCES } from "./sources";
+import { SOURCES, SOURCE_BY_KEY } from "./sources";
 import {
   companies,
   cbpRows,
@@ -7,7 +7,9 @@ import {
   wageRows,
   layoffRows,
   UPDATED,
-} from "./sample-data";
+  CBP_LIVE,
+  WARN_LIVE,
+} from "./dataset";
 import refresh from "./generated/refresh.json";
 import type { RefreshRow, Completeness } from "./types";
 
@@ -145,4 +147,139 @@ export function dataManifest(): ManifestRow[] {
       lastError: r.lastError,
     };
   });
+}
+
+// ---------------------------------------------------------------------------
+// Reporting lag — a plain-English, per-source view of how current each dataset
+// is and whether it is a live machine-readable feed or curated/manual. Powers
+// the <ReportingLag /> explainer so users understand why (e.g.) visa data lags.
+// ---------------------------------------------------------------------------
+export interface ReportingLagRow {
+  key: string;
+  name: string;
+  agency: string;
+  cadence: string;
+  live: boolean;
+  liveScope?: string; // e.g. "Texas only"
+  latestPeriod: string; // human description of the newest data
+  dataThrough: string | null; // ISO date the newest data reaches
+  lagMonths: number | null; // months between dataThrough and now
+  labels: string[]; // honesty chips
+  note?: string;
+}
+
+const MONTHS_IDX: Record<string, number> = {
+  January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+  July: 6, August: 7, September: 8, October: 9, November: 10, December: 11,
+};
+
+// "April 2026" -> last day of that month, "2026-04-30".
+function monthLabelToISO(label: string | null | undefined): string | null {
+  const m = /([A-Za-z]+)\s+(\d{4})/.exec(label ?? "");
+  if (!m) return null;
+  const mi = MONTHS_IDX[m[1]];
+  if (mi == null) return null;
+  const y = Number(m[2]);
+  const lastDay = new Date(Date.UTC(y, mi + 1, 0)).getUTCDate();
+  return `${y}-${String(mi + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
+}
+
+function monthsBehind(iso: string | null): number | null {
+  if (!iso) return null;
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return null;
+  return Math.max(0, Math.round((Date.now() - then) / (86400000 * 30.44)));
+}
+
+const CURATED_LABELS = ["Latest official published figures", "Delayed reporting", "Curated / manual source"];
+
+export function reportingLagRows(): ReportingLagRow[] {
+  const bls = (refresh as { bls?: { ok?: boolean; period?: string; sourceUpdatedAt?: string } }).bls;
+  const agency = (k: string) => SOURCE_BY_KEY[k]?.agency ?? "—";
+
+  const rows: ReportingLagRow[] = [
+    {
+      key: "cbp_encounters",
+      name: "CBP Nationwide Encounters",
+      agency: agency("cbp_encounters"),
+      cadence: "monthly",
+      live: !!CBP_LIVE.ok,
+      latestPeriod: CBP_LIVE.ok ? `FY${CBP_LIVE.currentFy} through ${CBP_LIVE.reportingMonthLabel}` : "FY2026 YTD",
+      dataThrough: CBP_LIVE.ok ? monthLabelToISO(CBP_LIVE.reportingMonthLabel) : null,
+      lagMonths: null,
+      labels: CBP_LIVE.ok ? ["Live machine-readable CSV"] : CURATED_LABELS,
+    },
+    {
+      key: "bls_unemployment",
+      name: "BLS Unemployment Rate",
+      agency: "U.S. Bureau of Labor Statistics",
+      cadence: "monthly",
+      live: !!bls?.ok,
+      latestPeriod: bls?.period ?? "—",
+      dataThrough: monthLabelToISO(bls?.period),
+      lagMonths: null,
+      labels: bls?.ok ? ["Live machine-readable API"] : ["Unavailable"],
+    },
+    {
+      key: "warn_layoffs",
+      name: "State WARN Layoff Notices",
+      agency: agency("warn_layoffs"),
+      cadence: "weekly",
+      live: !!WARN_LIVE.ok,
+      liveScope: WARN_LIVE.ok ? "Texas only" : undefined,
+      latestPeriod: WARN_LIVE.ok ? `${WARN_LIVE.ytdYear} year-to-date (Texas)` : "Curated subset",
+      dataThrough: WARN_LIVE.ok ? WARN_LIVE.sourceUpdatedAt ?? null : null,
+      lagMonths: null,
+      labels: WARN_LIVE.ok ? ["Live feed (Texas)", "Other states curated"] : CURATED_LABELS,
+    },
+    {
+      key: "ice_stats",
+      name: "ICE Enforcement & Removals",
+      agency: agency("ice_stats"),
+      cadence: "monthly",
+      live: false,
+      latestPeriod: "FY2026 YTD (ERO dashboard)",
+      dataThrough: UPDATED.ice_stats,
+      lagMonths: null,
+      labels: CURATED_LABELS,
+    },
+    {
+      key: "dos_visa",
+      name: "State Dept Visa Issuances",
+      agency: agency("dos_visa"),
+      cadence: "monthly",
+      live: false,
+      latestPeriod: "Monthly tables to Sep 2025 · FY2024 annual",
+      dataThrough: "2025-09-30",
+      lagMonths: null,
+      labels: CURATED_LABELS,
+      note:
+        "The State Department publishes monthly issuances as PDFs on a lag (no machine-readable feed). Current-year figures shown on the site are clearly-labelled projections until the official tables catch up — we never present them as reported totals.",
+    },
+    {
+      key: "uscis_h1b",
+      name: "USCIS H-1B Employer Data Hub",
+      agency: agency("uscis_h1b"),
+      cadence: "annual",
+      live: false,
+      latestPeriod: "FY2024 (latest release)",
+      dataThrough: "2024-09-30",
+      lagMonths: null,
+      labels: CURATED_LABELS,
+    },
+    {
+      key: "dol_lca",
+      name: "DOL OFLC Disclosure (LCA / PERM)",
+      agency: agency("dol_lca"),
+      cadence: "quarterly",
+      live: false,
+      latestPeriod: "FY2024 (latest release)",
+      dataThrough: "2024-09-30",
+      lagMonths: null,
+      labels: CURATED_LABELS,
+    },
+  ];
+
+  for (const r of rows) r.lagMonths = monthsBehind(r.dataThrough);
+  return rows;
 }

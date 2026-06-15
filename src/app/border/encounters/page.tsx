@@ -5,6 +5,8 @@ import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { BorderExplorer } from "@/components/BorderExplorer";
+import { ChangeTracker } from "@/components/ChangeTracker";
+import { borderChartMarkers } from "@/lib/events";
 import { GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
 import {
   borderYearlyData,
@@ -12,7 +14,7 @@ import {
   borderMonthlyData,
   borderCountryData,
 } from "@/lib/chart-data";
-import { cbpRows, UPDATED } from "@/lib/sample-data";
+import { cbpRows, UPDATED } from "@/lib/dataset";
 import { LATEST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 
@@ -69,7 +71,9 @@ export default function BorderEncountersPage() {
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
-        <BorderExplorer yearly={yearly} demographics={demographics} source={SOURCE} />
+        <ChangeTracker />
+
+        <BorderExplorer yearly={yearly} demographics={demographics} source={SOURCE} markers={borderChartMarkers()} />
 
         <ChartCard
           title="Monthly southwest encounters"
