@@ -11,6 +11,9 @@ next-env.d.ts
 # vercel
 .vercel/
 
+# stale netlify CLI state (migrated away from Netlify)
+.netlify/
+
 # production
 /build
 
