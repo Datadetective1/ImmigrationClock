@@ -31,6 +31,7 @@ export const NAV_LINKS = [
   { href: "/h1b/top-sponsors", label: "H-1B" },
   { href: "/visa/f1-student-visas", label: "Visas" },
   { href: "/layoffs-vs-h1b", label: "Jobs & Wages" },
+  { href: "/explained", label: "Explained" },
   { href: "/methodology", label: "Methodology" },
   { href: "/sources", label: "Sources" },
 ];
@@ -60,6 +61,7 @@ export const FOOTER_SECTIONS = [
   {
     title: "About the data",
     links: [
+      { href: "/explained", label: "Explained (plain English)" },
       { href: "/data", label: "Data & freshness" },
       { href: "/data-manifest", label: "Data manifest" },
       { href: "/methodology", label: "Methodology" },
