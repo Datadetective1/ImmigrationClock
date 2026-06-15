@@ -13,6 +13,7 @@ import { EmployerTable } from "@/components/EmployerTable";
 import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
 import { buildMetrics, topSponsors, LAST_COMPLETE_FY, LAST_REFRESHED } from "@/lib/data";
 import { buildInsights } from "@/lib/insights";
+import { borderChartMarkers } from "@/lib/events";
 import {
   enforcementChartData,
   borderYearlyData,
@@ -222,6 +223,7 @@ export default function HomePage() {
                 data={border}
                 xKey="label"
                 series={[{ key: "Encounters", label: "Encounters", color: "#38bdf8" }]}
+                markers={borderChartMarkers()}
               />
             </ChartCard>
             <ChartCard

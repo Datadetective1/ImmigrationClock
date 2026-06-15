@@ -6,6 +6,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { BorderExplorer } from "@/components/BorderExplorer";
 import { ChangeTracker } from "@/components/ChangeTracker";
+import { borderChartMarkers } from "@/lib/events";
 import { GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
 import {
   borderYearlyData,
@@ -72,7 +73,7 @@ export default function BorderEncountersPage() {
       <div className="container-page space-y-8 py-10">
         <ChangeTracker />
 
-        <BorderExplorer yearly={yearly} demographics={demographics} source={SOURCE} />
+        <BorderExplorer yearly={yearly} demographics={demographics} source={SOURCE} markers={borderChartMarkers()} />
 
         <ChartCard
           title="Monthly southwest encounters"

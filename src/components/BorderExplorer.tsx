@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChartCard } from "./ChartCard";
-import { GroupedBarChart } from "./charts/Charts";
+import { GroupedBarChart, type ChartMarker } from "./charts/Charts";
 
 type Border = "southwest" | "northern" | "nationwide";
 type Row = Record<string, number | string | boolean>;
@@ -17,10 +17,12 @@ export function BorderExplorer({
   yearly,
   demographics,
   source,
+  markers,
 }: {
   yearly: Record<Border, Row[]>;
   demographics: Record<Border, Row[]>;
   source: { sourceName: string; sourceUrl: string; sourceUpdatedAt: string };
+  markers?: ChartMarker[];
 }) {
   const [border, setBorder] = useState<Border>("southwest");
 
@@ -54,6 +56,7 @@ export function BorderExplorer({
             data={yearly[border]}
             xKey="label"
             series={[{ key: "Encounters", label: "Encounters", color: "#38bdf8" }]}
+            markers={markers}
           />
         </ChartCard>
         <ChartCard title="Encounters by demographic" subtitle="Single adults, family units, minors" source={source}>

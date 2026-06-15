@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/",
     "/pulse",
     "/insights",
+    "/timeline",
     "/methodology",
     "/sources",
     "/data",
