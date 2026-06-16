@@ -23,6 +23,7 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { href: "/", label: "Dashboard" },
+  { href: "/for-you", label: "For You" },
   { href: "/pulse", label: "Pulse" },
   { href: "/insights", label: "Insights" },
   { href: "/timeline", label: "Timeline" },
@@ -50,6 +51,7 @@ export const FOOTER_SECTIONS = [
   {
     title: "Explore",
     links: [
+      { href: "/for-you", label: "What this means for you" },
       { href: "/insights", label: "Insights" },
       { href: "/timeline", label: "Timeline" },
       { href: "/state/CA", label: "State pages" },

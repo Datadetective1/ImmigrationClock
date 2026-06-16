@@ -6,6 +6,7 @@ import { DashboardGrid } from "@/components/DashboardGrid";
 import { HookSection } from "@/components/HookSection";
 import { InsightCard } from "@/components/InsightCard";
 import { ChangeFeed } from "@/components/ChangeFeed";
+import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -13,6 +14,7 @@ import { EmployerTable } from "@/components/EmployerTable";
 import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
 import { buildMetrics, topSponsors, LAST_COMPLETE_FY, LAST_REFRESHED } from "@/lib/data";
 import { buildInsights } from "@/lib/insights";
+import { personaSummaries } from "@/lib/relevance";
 import { borderChartMarkers } from "@/lib/events";
 import {
   enforcementChartData,
@@ -96,8 +98,6 @@ export default function HomePage() {
       </section>
 
       <div className="container-page space-y-12 py-10">
-        <AdSlot format="top-banner" />
-
         {/* Counter grid */}
         <section>
           <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
@@ -124,6 +124,9 @@ export default function HomePage() {
           </div>
           <DashboardGrid metrics={metrics} />
         </section>
+
+        {/* What does this mean for you? — persona relevance */}
+        <PersonaRelevance personas={personaSummaries()} />
 
         {/* What changed this month */}
         <section>
