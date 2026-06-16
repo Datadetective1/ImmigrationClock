@@ -28,8 +28,16 @@ export interface RelevanceSummary {
   audience: string;
   points: RelevancePoint[];
 }
+export interface PersonaSummary {
+  key: string;
+  label: string; // "H-1B Worker"
+  question: string; // "What does today's data mean for H-1B workers?"
+  points: RelevancePoint[];
+  links: { href: string; label: string }[];
+}
 
 const r = (text: string, provenance: Provenance): RelevancePoint => ({ text, provenance });
+const pct = (a: number, b: number): number => (b ? ((a - b) / b) * 100 : 0);
 
 // --- Country: applicants + students of a given nationality -------------------
 export function countryRelevance(slug: string): RelevanceSummary[] {
@@ -142,6 +150,142 @@ export function studentRelevance(): RelevanceSummary {
     points.push(r(`The largest estimated source countries for F-1 students are ${topCountries[0]} and ${topCountries[1]}.`, "estimated"));
   }
   return { audience: "International students", points };
+}
+
+// --- Persona experience: "What does this mean for me?" ----------------------
+// National-level summaries for the four audiences who land here most. Computed
+// from the dataset; data context, never advice.
+export function personaSummaries(): PersonaSummary[] {
+  const h24 = H1B_NATIONAL[EMPLOYER_LATEST_FY]; // FY2024 final
+  const h25 = H1B_NATIONAL[LATEST_COMPLETE_FY]; // FY2025 preliminary
+  const india = visaByCountry
+    .filter((v) => v.visaClass === "H-1B")
+    .sort((a, b) => b.issued - a.issued)[0];
+  const indiaShare = india ? (india.issued / h24.approvals) * 100 : 0;
+
+  const f1 = (fy: number) => visaSeries("F-1").find((v) => v.fiscalYear === fy)?.issued ?? 0;
+  const eb = (fy: number) =>
+    visaSeries("EB (employment-based IV)").find((v) => v.fiscalYear === fy)?.issued ?? 0;
+  const f1Proj = Math.round(f1(CURRENT_FY) / FY2026_ELAPSED);
+  const f1PacePct = pct(f1Proj, f1(LATEST_COMPLETE_FY));
+  const ebProj = Math.round(eb(CURRENT_FY) / FY2026_ELAPSED);
+  const ebPacePct = pct(ebProj, eb(LATEST_COMPLETE_FY));
+
+  const sponsors = topSponsors(EMPLOYER_LATEST_FY);
+  const top3 = sponsors.slice(0, 3).reduce((s, c) => s + c.approvals, 0);
+  const totApprovals = sponsors.reduce((s, c) => s + c.approvals, 0);
+  const top3Share = h24.approvals ? (top3 / h24.approvals) * 100 : 0;
+  const wtWage = totApprovals
+    ? Math.round(sponsors.reduce((s, c) => s + c.avgWage * c.approvals, 0) / totApprovals)
+    : 0;
+
+  const apprPct = pct(h25.approvals, h24.approvals);
+
+  return [
+    {
+      key: "h1b-worker",
+      label: "H-1B worker",
+      question: "What does the data mean for H-1B workers?",
+      points: [
+        r(
+          `H-1B approvals were ${formatNumber(h24.approvals)} in FY${EMPLOYER_LATEST_FY}; the preliminary FY${LATEST_COMPLETE_FY} figure is ~${formatNumber(
+            h25.approvals
+          )} — about ${Math.abs(Math.round(apprPct))}% ${apprPct < 0 ? "lower" : "higher"}.`,
+          "projected"
+        ),
+        r(
+          `${india?.country ?? "India"} nationals received ~${Math.round(indiaShare)}% of all approvals, so cap and fee changes land hardest on them.`,
+          "reported"
+        ),
+        r(
+          `Denials edged up from ~${formatNumber(h24.denials)} (FY${EMPLOYER_LATEST_FY}) toward ~${formatNumber(h25.denials)} (FY${LATEST_COMPLETE_FY} preliminary).`,
+          "projected"
+        ),
+        r(
+          `Two recent changes affect applicants: USCIS moved to beneficiary-centric registration (FY2025 cap) and raised filing fees (April 2024).`,
+          "reported"
+        ),
+      ],
+      links: [
+        { href: "/h1b/top-sponsors", label: "Top H-1B sponsors" },
+        { href: "/timeline", label: "Policy timeline" },
+        { href: "/explained", label: "How H-1B works" },
+      ],
+    },
+    {
+      key: "f1-student",
+      label: "International student",
+      question: "What does the data mean for F-1 students?",
+      points: [
+        r(
+          `F-1 student visa issuances were ${formatNumber(f1(EMPLOYER_LATEST_FY))} in FY${EMPLOYER_LATEST_FY} and ${formatNumber(
+            f1(LATEST_COMPLETE_FY)
+          )} in FY${LATEST_COMPLETE_FY}.`,
+          "reported"
+        ),
+        r(
+          `FY${CURRENT_FY} is running ~${Math.abs(Math.round(f1PacePct))}% ${f1PacePct < 0 ? "below" : "above"} last year's pace (projected full-year ~${formatCompact(
+            f1Proj
+          )}).`,
+          "projected"
+        ),
+        r(`A visa is counted when an embassy issues it — separate from school enrollment or your status once inside the U.S.`, "reported"),
+        r(`After graduation, many students move to OPT and then the H-1B cap lottery — where India and China face the most competition.`, "reported"),
+      ],
+      links: [
+        { href: "/visa/f1-student-visas", label: "Student visa tracker" },
+        { href: "/explained", label: "Issuance vs approval" },
+      ],
+    },
+    {
+      key: "employer",
+      label: "Employer",
+      question: "What does the data mean for employers?",
+      points: [
+        r(
+          `The 3 largest sponsors filed ~${Math.round(top3Share)}% of all FY${EMPLOYER_LATEST_FY} H-1B approvals — sponsorship is concentrated among a few firms.`,
+          "reported"
+        ),
+        r(`The approval-weighted average offered wage across top tracked sponsors is ${formatCurrency(wtWage)}.`, "estimated"),
+        r(
+          `National approvals eased ~${Math.abs(Math.round(apprPct))}% from FY${EMPLOYER_LATEST_FY} to the preliminary FY${LATEST_COMPLETE_FY} total.`,
+          "projected"
+        ),
+        r(`Plan around the April 2024 fee increase and the beneficiary-centric registration, which curbed duplicate filings.`, "reported"),
+      ],
+      links: [
+        { href: "/h1b/top-sponsors", label: "Sponsor benchmarks" },
+        { href: "/layoffs-vs-h1b", label: "Layoffs vs sponsorship" },
+        { href: "/timeline", label: "Policy timeline" },
+      ],
+    },
+    {
+      key: "eb-applicant",
+      label: "Green-card applicant",
+      question: "What does the data mean for employment-based green cards?",
+      points: [
+        r(
+          `Employment-based immigrant visa issuances were ~${formatNumber(eb(EMPLOYER_LATEST_FY))} in FY${EMPLOYER_LATEST_FY} and ~${formatNumber(
+            eb(LATEST_COMPLETE_FY)
+          )} in FY${LATEST_COMPLETE_FY}.`,
+          "reported"
+        ),
+        r(
+          `FY${CURRENT_FY} is running ~${Math.abs(Math.round(ebPacePct))}% ${ebPacePct < 0 ? "below" : "above"} last year's pace (projected ~${formatCompact(
+            ebProj
+          )}).`,
+          "projected"
+        ),
+        r(`Employment-based green cards are capped per country, so applicants born in high-demand countries such as India and China face the longest waits.`, "reported"),
+        r(`An H-1B is a temporary work visa; an employment-based green card is permanent residence — different processes and queues.`, "reported"),
+      ],
+      links: [
+        { href: "/visa/f1-student-visas", label: "Visa flow tracker" },
+        { href: "/explained", label: "Visa vs green card" },
+        { href: "/timeline", label: "Policy timeline" },
+      ],
+    },
+  ];
 }
 
 // --- Employers / HR teams (H-1B pages) --------------------------------------

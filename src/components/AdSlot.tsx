@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { PulseSignup } from "./PulseSignup";
 
 type AdFormat = "top-banner" | "sidebar" | "in-content" | "bottom-banner";
 
@@ -59,13 +60,15 @@ export function AdSlot({
     }
   }, [client]);
 
+  // No ad client configured: instead of an empty "ad space" placeholder, use the
+  // slot to grow the newsletter audience (slim strip for banners, full card for
+  // in-content / sidebar). When NEXT_PUBLIC_ADSENSE_CLIENT_ID is set, real ads
+  // render here instead.
   if (!client) {
+    const inline = format === "top-banner" || format === "bottom-banner";
     return (
-      <div
-        className={`flex ${meta.className} ${className} items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.02] text-[11px] uppercase tracking-widest text-slate-600`}
-        aria-hidden
-      >
-        Ad space · {format}
+      <div className={className}>
+        <PulseSignup variant={inline ? "inline" : "card"} />
       </div>
     );
   }
