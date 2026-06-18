@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { search, type SearchResult } from "@/lib/data";
+import { searchEmployers, displayEmployer } from "@/lib/employers";
+import { formatNumber } from "@/lib/format";
 
 const TYPE_LABEL: Record<SearchResult["type"], string> = {
   company: "Employers",
@@ -25,6 +27,9 @@ export function SearchPageClient() {
     type,
     items: results.filter((r) => r.type === type),
   })).filter((g) => g.items.length > 0);
+  // Thousands of real USCIS H-1B sponsors (separate from the curated entities).
+  const employerHits = q.trim() ? searchEmployers(q, 8) : [];
+  const hasAny = grouped.length > 0 || employerHits.length > 0;
 
   function update(v: string) {
     setQ(v);
@@ -55,13 +60,36 @@ export function SearchPageClient() {
           Type to look up any tracked employer, state, country, visa type, or occupation — every result is a
           sourced, labelled data page.
         </p>
-      ) : results.length === 0 ? (
+      ) : !hasAny ? (
         <p className="text-sm text-slate-400">
           No matches for &ldquo;{q}&rdquo;. Try an employer (e.g. Amazon), a state (Texas), a country (India), a
           visa type (H-1B), or a job title.
         </p>
       ) : (
         <div className="space-y-7">
+          {employerHits.length > 0 ? (
+            <section>
+              <h2 className="eyebrow mb-2 text-slate-500">H-1B sponsors · {employerHits.length}</h2>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {employerHits.map((e) => (
+                  <li key={e.slug}>
+                    <Link
+                      href={`/h1b/employers?q=${encodeURIComponent(e.name)}`}
+                      className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 transition-colors hover:border-accent/30 hover:bg-white/[0.04]"
+                    >
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-semibold text-white">{displayEmployer(e.name)}</span>
+                        <span className="block truncate text-xs text-slate-500">
+                          {formatNumber(e.approvals)} H-1B approvals · {e.topState || "—"}
+                        </span>
+                      </span>
+                      <span aria-hidden className="shrink-0 text-accent">→</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
           {grouped.map((g) => (
             <section key={g.type}>
               <h2 className="eyebrow mb-2 text-slate-500">

@@ -52,6 +52,17 @@ export default function TopSponsorsPage() {
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <Link
+          href="/h1b/employers"
+          className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-accent/20 bg-accent/[0.05] px-4 py-3 text-sm transition-colors hover:border-accent/40"
+        >
+          <span className="text-slate-200">
+            Looking for a specific employer? Search the{" "}
+            <strong className="text-white">full directory of thousands of H-1B sponsors</strong>.
+          </span>
+          <span className="shrink-0 font-semibold text-accent">Open employer directory →</span>
+        </Link>
+
         <RelevanceCard summaries={[employerRelevance()]} />
 
         <ChartCard title="Tracked H-1B employers" subtitle="Sort by any column. Download as CSV.">

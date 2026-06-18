@@ -44,6 +44,7 @@ export const FOOTER_SECTIONS = [
       { href: "/immigration/enforcement-trends", label: "Enforcement trends" },
       { href: "/border/encounters", label: "Border encounters" },
       { href: "/h1b/top-sponsors", label: "Top H-1B sponsors" },
+      { href: "/h1b/employers", label: "H-1B employer directory" },
       { href: "/visa/f1-student-visas", label: "F-1 student visas" },
       { href: "/layoffs-vs-h1b", label: "Layoffs vs H-1B" },
     ],

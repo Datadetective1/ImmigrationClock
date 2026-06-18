@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/visa/f1-student-visas",
     "/layoffs-vs-h1b",
     "/h1b/top-sponsors",
+    "/h1b/employers",
   ];
 
   const entries: MetadataRoute.Sitemap = staticPaths.map((p) => ({
