@@ -34,15 +34,29 @@ from those real totals (see [`/methodology`](https://immigrationclock.vercel.app
   LCA filings, offered wages, top job titles, worksites, year-over-year trend, and
   layoffs.
 - **State pages** (`/state/[code]`) and **Country pages** (`/country/[slug]`).
-- **Methodology** and **Sources** pages — every metric defined, every dataset linked.
-- **Admin refresh status** (`/admin/refresh-status`) — per-source ingestion health.
-- **Programmatic SEO pages** — top sponsors, H-1B salaries by job title, H-1B by
-  state, enforcement trends, border encounters, F-1 visas, layoffs-vs-H1B.
-- **AdSense-ready** ad slots, dynamic `sitemap.xml` / `robots.txt`, OpenGraph image
-  route, and full metadata.
-- **Sample data** so the app works the moment you run `npm run dev` — no database
-  required. A Prisma schema + seed + Python ingestion pipeline are included for the
-  live-data path.
+- **H-1B employer directory** (`/h1b/employers`) — search the real USCIS H-1B
+  Employer Data Hub (thousands of sponsors) by name for reported approvals,
+  denials, and approval rate.
+- **For You** (`/for-you`) — pick your situation (H-1B worker, F-1 student,
+  employer, employment-based green-card applicant) and get the data that affects
+  you, labelled and framed as context, not advice.
+- **What changed / Pulse** — a cross-source "what changed this month" feed, a
+  shareable [`/pulse`](https://immigrationclock.vercel.app/pulse) page, and an
+  auto-generated weekly email (preview/copy at `/admin/pulse-email`).
+- **Insights**, **Timeline** (events overlaid on the data), and **Explained**
+  (Simple / Technical / Methodology reading-level toggle).
+- **Search** (`/search`) + a persistent navbar lookup — find any employer, state,
+  country, visa type, or job.
+- **Reporting-lag transparency** (`/data`) — which sources are live vs curated and
+  how far behind each is.
+- **Methodology** / **Sources** / **Admin refresh status** pages; programmatic SEO
+  pages (top sponsors, H-1B salaries, H-1B by state, enforcement, border, F-1).
+- **SEO**: JSON-LD (Organization, WebSite SearchAction, BreadcrumbList), dynamic
+  `sitemap.xml` / `robots.txt`, OpenGraph, full metadata. Ad slots fall back to a
+  newsletter signup until AdSense is configured.
+- **Live + curated data** through a build-time JSON pipeline (BLS, CBP, and Texas
+  WARN fetched live; a growing historical archive). Works the moment you run
+  `npm run dev` — no database required.
 
 ## 🧱 Tech stack
 
