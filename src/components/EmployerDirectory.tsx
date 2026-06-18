@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { EMPLOYERS, EMPLOYERS_META, displayEmployer, type DirectoryEmployer } from "@/lib/employers";
 import { formatNumber, formatRate } from "@/lib/format";
 
@@ -84,7 +85,11 @@ export function EmployerDirectory() {
             {shown.map((e: DirectoryEmployer, i) => (
               <tr key={e.slug} className="border-b border-white/5 last:border-0 hover:bg-white/[0.02]">
                 <td className="px-4 py-2.5 font-mono text-xs text-slate-500">{i + 1}</td>
-                <td className="px-4 py-2.5 font-medium text-white">{displayEmployer(e.name)}</td>
+                <td className="px-4 py-2.5 font-medium">
+                  <Link href={`/employer/${e.slug}`} className="text-white transition-colors hover:text-accent-soft">
+                    {displayEmployer(e.name)}
+                  </Link>
+                </td>
                 <td className="px-4 py-2.5 text-right font-mono tabular-nums text-white">{formatNumber(e.approvals)}</td>
                 <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-400">{formatNumber(e.denials)}</td>
                 <td className="px-4 py-2.5 text-right font-mono tabular-nums text-slate-300">{formatRate(e.approvalRate)}</td>

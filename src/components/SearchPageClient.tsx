@@ -74,7 +74,7 @@ export function SearchPageClient() {
                 {employerHits.map((e) => (
                   <li key={e.slug}>
                     <Link
-                      href={`/h1b/employers?q=${encodeURIComponent(e.name)}`}
+                      href={`/employer/${e.slug}`}
                       className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 transition-colors hover:border-accent/30 hover:bg-white/[0.04]"
                     >
                       <span className="min-w-0">

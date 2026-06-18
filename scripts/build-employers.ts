@@ -90,6 +90,14 @@ async function main() {
     agg.set(name, e);
   }
 
+  // National totals over ALL employers (the real FY denominator for shares).
+  let nationalApprovals = 0;
+  let nationalDenials = 0;
+  for (const e of agg.values()) {
+    nationalApprovals += e.appr;
+    nationalDenials += e.den;
+  }
+
   const slugs = new Set<string>();
   const employers = [...agg.values()]
     .filter((e) => e.appr >= MIN_APPROVALS)
@@ -121,6 +129,9 @@ async function main() {
     sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
     datasetUrl: HOST + latest.url,
     minApprovals: MIN_APPROVALS,
+    nationalApprovals,
+    nationalDenials,
+    totalEmployers: agg.size,
     count: employers.length,
     employers,
   };

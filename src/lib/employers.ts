@@ -18,11 +18,29 @@ export const EMPLOYERS_META = {
   fiscalYear: data.fiscalYear as number,
   count: data.count as number,
   minApprovals: (data as { minApprovals?: number }).minApprovals ?? 10,
+  nationalApprovals: (data as { nationalApprovals?: number }).nationalApprovals ?? 0,
+  nationalDenials: (data as { nationalDenials?: number }).nationalDenials ?? 0,
+  totalEmployers: (data as { totalEmployers?: number }).totalEmployers ?? EMPLOYERS.length,
   sourceName: data.sourceName as string,
   sourceUrl: data.sourceUrl as string,
   datasetUrl: (data as { datasetUrl?: string }).datasetUrl as string,
   generatedAt: data.generatedAt as string,
 };
+
+/** Average Data-Hub approval rate (approvals / (approvals + denials)). */
+export const AVG_APPROVAL_RATE =
+  EMPLOYERS_META.nationalApprovals + EMPLOYERS_META.nationalDenials > 0
+    ? EMPLOYERS_META.nationalApprovals /
+      (EMPLOYERS_META.nationalApprovals + EMPLOYERS_META.nationalDenials)
+    : 0;
+
+// slug -> { employer, rank } (rank = position among all sponsors by approvals).
+const BY_SLUG = new Map<string, { employer: DirectoryEmployer; rank: number }>(
+  EMPLOYERS.map((employer, i) => [employer.slug, { employer, rank: i + 1 }])
+);
+export function employerBySlug(slug: string): { employer: DirectoryEmployer; rank: number } | null {
+  return BY_SLUG.get(slug) ?? null;
+}
 
 /** Name substring match, ranked by approvals (EMPLOYERS is pre-sorted). */
 export function searchEmployers(q: string, limit = 50): DirectoryEmployer[] {

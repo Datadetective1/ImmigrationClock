@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { companies, states, countries } from "@/lib/dataset";
+import { EMPLOYERS } from "@/lib/employers";
 import { seoPages, SALARY_JOB_TITLES } from "@/lib/seo-pages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -48,6 +49,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
   for (const t of SALARY_JOB_TITLES) {
     entries.push({ url: `${base}/h1b/salaries/${t.slug}`, lastModified: now, changeFrequency: "monthly", priority: 0.6 });
+  }
+  for (const e of EMPLOYERS) {
+    entries.push({ url: `${base}/employer/${e.slug}`, lastModified: now, changeFrequency: "yearly", priority: 0.5 });
   }
 
   // De-duplicate any overlap with the programmatic SEO list.

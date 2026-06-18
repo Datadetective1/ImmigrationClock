@@ -1,10 +1,13 @@
 {
-  "generatedAt": "2026-06-18T21:31:14.347Z",
+  "generatedAt": "2026-06-18T21:47:56.565Z",
   "fiscalYear": 2023,
   "sourceName": "USCIS H-1B Employer Data Hub",
   "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
   "datasetUrl": "https://www.uscis.gov/sites/default/files/document/data/h1b_datahubexport-2023.csv",
   "minApprovals": 10,
+  "nationalApprovals": 176949,
+  "nationalDenials": 6350,
+  "totalEmployers": 28061,
   "count": 2614,
   "employers": [
     {
