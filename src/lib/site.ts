@@ -69,6 +69,7 @@ export const FOOTER_SECTIONS = [
       { href: "/methodology", label: "Methodology" },
       { href: "/sources", label: "Sources" },
       { href: "/admin/refresh-status", label: "Refresh status" },
+      { href: "/admin/pulse-email", label: "Pulse email (weekly)" },
     ],
   },
 ];

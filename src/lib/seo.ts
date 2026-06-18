@@ -6,6 +6,7 @@ interface SeoInput {
   description: string;
   path?: string;
   keywords?: string[];
+  noindex?: boolean;
 }
 
 // Builds consistent Next.js Metadata (canonical, OpenGraph, Twitter, OG image).
@@ -14,6 +15,7 @@ export function buildMetadata({
   description,
   path = "/",
   keywords = [],
+  noindex = false,
 }: SeoInput): Metadata {
   const url = `${SITE.url}${path}`;
   const fullTitle =
@@ -47,6 +49,6 @@ export function buildMetadata({
       description,
       images: [ogImage],
     },
-    robots: { index: true, follow: true },
+    robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
   };
 }

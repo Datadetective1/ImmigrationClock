@@ -81,7 +81,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json public/data-manifest.json
+          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json src/lib/generated/pulse-email.json public/data-manifest.json public/pulse-email.html public/pulse-email.txt
           git commit -m "chore(data): refresh snapshot + archive [skip ci]"
           git push
 
