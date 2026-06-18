@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AdSenseScript } from "@/components/AdSenseScript";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import { StructuredData } from "@/components/StructuredData";
 import { SITE } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -32,6 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <StructuredData />
+      </head>
       <body className="min-h-screen">
         {/* AdSense loads only after cookie consent (see ConsentBanner). */}
         <AdSenseScript />
