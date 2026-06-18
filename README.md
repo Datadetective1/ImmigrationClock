@@ -12,6 +12,14 @@ people to understand — **neutrally, with a source on every number.**
 
 **🔴 Live:** https://immigrationclock.vercel.app
 
+**🚀 Deploy your own:** [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2FDatadetective1%2FImmigrationClock)
+
+> **Go live in 3 steps:** (1) merge the open PR into `main`; (2) import the repo at
+> [vercel.com/new](https://vercel.com/new) — Next.js is auto-detected and `vercel.json` sets the
+> security headers; (3) set `NEXT_PUBLIC_SITE_URL` to your Vercel URL (optionally
+> `NEXT_PUBLIC_NEWSLETTER_ENDPOINT` for the Pulse signup). Every push to `main` then auto-deploys, and the
+> daily GitHub Action keeps data fresh — rebuilding only when it actually changes, to stay within the free tier.
+
 **Data:** Headline figures are **real, sourced U.S. government numbers** (USCIS, ICE,
 CBP, the State Department, BLS) — e.g. FY2024 H-1B 399,395 approvals (India 283,397),
 ICE removals 271,484, real top-10 employers. FY2024 is the latest complete year for
