@@ -1,9 +1,25 @@
 import Link from "next/link";
 import { ShareButton } from "./ShareButton";
+import { SITE } from "@/lib/site";
 
 export interface Crumb {
   href: string;
   label: string;
+}
+
+/** BreadcrumbList JSON-LD so search engines show the page's breadcrumb trail. */
+function BreadcrumbJsonLd({ crumbs }: { crumbs: Crumb[] }) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.label,
+      item: `${SITE.url}${c.href}`,
+    })),
+  };
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
 
 export function PageHeader({
@@ -23,6 +39,7 @@ export function PageHeader({
 }) {
   return (
     <header className="border-b border-white/5 bg-ink-900/40">
+      {crumbs && crumbs.length > 0 ? <BreadcrumbJsonLd crumbs={crumbs} /> : null}
       <div className="container-page py-8 sm:py-10">
         {crumbs && crumbs.length > 0 ? (
           <nav className="mb-3 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">

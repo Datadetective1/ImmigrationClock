@@ -60,17 +60,19 @@ jobs:
         run: |
           git show HEAD:src/lib/generated/refresh.json > /tmp/old-refresh.json 2>/dev/null || echo '{}' > /tmp/old-refresh.json
           git show HEAD:src/lib/generated/history.json > /tmp/old-history.json 2>/dev/null || echo '{}' > /tmp/old-history.json
+          git show HEAD:src/lib/generated/employers.json > /tmp/old-employers.json 2>/dev/null || echo '{}' > /tmp/old-employers.json
           CHANGED=$(node -e "
           const f=require('fs');
           const j=p=>{try{return JSON.parse(f.readFileSync(p,'utf8'))}catch{return {}}};
-          const sig=(r,h)=>JSON.stringify({
+          const sig=(r,h,e)=>JSON.stringify({
             bls:[r.bls&&r.bls.value, r.bls&&r.bls.period],
             cbp:[r.cbp&&r.cbp.currentFyYtd, r.cbp&&r.cbp.fyTotals],
             warn:[r.warn&&r.warn.ytdTotal, r.warn&&r.warn.ytdCount, r.warn&&r.warn.monthly],
             hist:((h.cbpNationwideYtd)||[]).map(x=>[x.period,x.cbpNationwideYtd]),
+            emp:[e.fiscalYear, e.count],
           });
-          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'));
-          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'));
+          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'), j('/tmp/old-employers.json'));
+          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'), j('./src/lib/generated/employers.json'));
           process.stdout.write(a===b?'false':'true');
           ")
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
@@ -81,7 +83,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json public/data-manifest.json
+          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json src/lib/generated/pulse-email.json src/lib/generated/employers.json public/data-manifest.json public/pulse-email.html public/pulse-email.txt
           git commit -m "chore(data): refresh snapshot + archive [skip ci]"
           git push
 

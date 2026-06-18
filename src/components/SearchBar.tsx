@@ -109,6 +109,13 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
               ))}
             </ul>
           )}
+          <Link
+            href={`/search?q=${encodeURIComponent(q)}`}
+            onClick={() => setOpen(false)}
+            className="block border-t border-white/10 px-4 py-2.5 text-xs font-semibold text-accent transition-colors hover:bg-white/5 hover:text-accent-soft"
+          >
+            See all results for &ldquo;{q}&rdquo; &rarr;
+          </Link>
         </div>
       ) : null}
     </div>

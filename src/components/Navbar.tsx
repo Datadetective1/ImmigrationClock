@@ -46,17 +46,31 @@ export function Navbar() {
           })}
         </nav>
 
-        <button
-          type="button"
-          className="rounded-lg border border-white/10 p-2 text-slate-300 lg:hidden"
-          aria-label="Toggle navigation"
-          aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {open ? <path d="M6 6l12 12M6 18L18 6" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
+        <div className="flex items-center gap-1.5">
+          <Link
+            href="/search"
+            aria-label="Search immigration data"
+            onClick={() => setOpen(false)}
+            className="rounded-lg border border-white/10 p-2 text-slate-300 transition-colors hover:border-accent/40 hover:text-accent-soft"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" />
+            </svg>
+          </Link>
+
+          <button
+            type="button"
+            className="rounded-lg border border-white/10 p-2 text-slate-300 lg:hidden"
+            aria-label="Toggle navigation"
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {open ? <path d="M6 6l12 12M6 18L18 6" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {open ? (
