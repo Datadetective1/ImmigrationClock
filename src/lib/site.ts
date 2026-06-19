@@ -64,6 +64,7 @@ export const NAV: NavItem[] = [
     href: "/for-you",
     children: [
       { href: "/for-you", label: "What this means for you", desc: "The data read for your situation" },
+      { href: "/key-dates", label: "Key dates & deadlines", desc: "H-1B, tax, DV lottery, OPT — counted down" },
       { href: "/resources", label: "Resources & services", desc: "Legal, tax, money transfer & more" },
       { href: "/explained", label: "Explained", desc: "Plain-English definitions" },
     ],
@@ -90,6 +91,7 @@ export const FOOTER_SECTIONS = [
     title: "Explore",
     links: [
       { href: "/for-you", label: "What this means for you" },
+      { href: "/key-dates", label: "Key dates & deadlines" },
       { href: "/resources", label: "Resources for immigrants" },
       { href: "/insights", label: "Insights" },
       { href: "/timeline", label: "Timeline" },

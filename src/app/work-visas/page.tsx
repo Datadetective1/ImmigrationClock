@@ -5,9 +5,11 @@ import { DashboardGrid } from "@/components/DashboardGrid";
 import { SearchBar } from "@/components/SearchBar";
 import { AdSlot } from "@/components/AdSlot";
 import { ResourcePanel } from "@/components/ResourcePanel";
+import { KeyDates } from "@/components/KeyDates";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { buildMetrics } from "@/lib/data";
 import { partnersForPersona } from "@/lib/partners";
+import { KEY_DATES } from "@/lib/key-dates";
 
 export const metadata = buildMetadata({
   title: "Work & Visas — H-1B Sponsors, Salaries & Visa Data Hub",
@@ -100,6 +102,12 @@ export default function WorkVisasHubPage() {
             ))}
           </div>
         </section>
+
+        <KeyDates
+          dates={KEY_DATES}
+          placement="work-visas-hub"
+          subtitle="H-1B, green-card, tax, and student deadlines — counted down from today."
+        />
 
         <ResourcePanel
           partners={partnersForPersona("h1b-worker", 3)}
