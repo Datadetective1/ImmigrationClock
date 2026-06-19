@@ -3,18 +3,32 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ProvenanceTag } from "./ProvenanceTag";
+import { ResourcePanel } from "./ResourcePanel";
 import type { PersonaSummary } from "@/lib/relevance";
+import type { ResolvedPartner } from "@/lib/partners";
 
 /**
  * "What does this mean for me?" — the visitor picks their situation and gets a
  * tailored, data-driven summary. Data context, not advice (disclaimer below).
+ *
+ * `resourcesByPersona` (optional) maps each persona key to the partner services
+ * most relevant to that situation, rendered right where intent is highest.
  */
-export function PersonaRelevance({ personas }: { personas: PersonaSummary[] }) {
+export function PersonaRelevance({
+  personas,
+  resourcesByPersona,
+}: {
+  personas: PersonaSummary[];
+  resourcesByPersona?: Record<string, ResolvedPartner[]>;
+}) {
   const [active, setActive] = useState(personas[0]?.key);
   const current = personas.find((p) => p.key === active) ?? personas[0];
   if (!current) return null;
 
+  const resources = resourcesByPersona?.[current.key] ?? [];
+
   return (
+    <div className="space-y-6">
     <section className="panel relative overflow-hidden p-5 sm:p-6">
       <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-accent/60 to-transparent" />
       <div className="eyebrow mb-1 text-accent">Personal relevance</div>
@@ -73,5 +87,16 @@ export function PersonaRelevance({ personas }: { personas: PersonaSummary[] }) {
         figure is labelled reported, projected, or estimated; for your own case, consult a qualified professional.
       </p>
     </section>
+
+      {resources.length > 0 ? (
+        <ResourcePanel
+          partners={resources}
+          placement={`for-you-${current.key}`}
+          title={`Helpful services for ${current.label.toLowerCase()}s`}
+          subtitle="Vetted services for this situation — some are partnerships that help keep the data free."
+          compact
+        />
+      ) : null}
+    </div>
   );
 }

@@ -6,6 +6,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
+import { ResourcePanel } from "@/components/ResourcePanel";
+import { partnersByIds } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { RelevanceCard } from "@/components/RelevanceCard";
 import { TrendLineChart } from "@/components/charts/Charts";
@@ -60,6 +62,13 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
 
       <div className="container-page space-y-8 py-10">
         <RelevanceCard summaries={countryRelevance(agg.country.slug)} />
+
+        <ResourcePanel
+          partners={partnersByIds(["wise", "remitly", "boundless"])}
+          placement="country"
+          title={`Services for the ${agg.country.name} community in the U.S.`}
+          subtitle="Send money home at the real exchange rate, and get attorney-reviewed help with applications."
+        />
 
         <ChartCard
           title="Visa issuance by fiscal year"

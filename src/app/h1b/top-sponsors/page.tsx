@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
+import { ResourcePanel } from "@/components/ResourcePanel";
+import { partnersForPersona } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
 import { RelevanceCard } from "@/components/RelevanceCard";
@@ -96,6 +98,13 @@ export default function TopSponsorsPage() {
             </ul>
           </ChartCard>
         </div>
+
+        <ResourcePanel
+          partners={partnersForPersona("h1b-worker", 3)}
+          placement="top-sponsors"
+          title="On (or applying for) an H-1B?"
+          subtitle="Legal help for petitions and transfers, U.S. tax filing, and moving money across borders."
+        />
 
         <AdSlot format="in-content" />
 

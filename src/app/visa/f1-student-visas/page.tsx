@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
+import { ResourcePanel } from "@/components/ResourcePanel";
+import { partnersForPersona } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ReportingLag } from "@/components/ReportingLag";
 import { RelevanceCard } from "@/components/RelevanceCard";
@@ -96,6 +98,13 @@ export default function VisaFlowPage() {
         <AdSlot format="in-content" />
 
         <RelevanceCard summaries={[studentRelevance()]} />
+
+        <ResourcePanel
+          partners={partnersForPersona("f1-student", 3)}
+          placement="visa-f1"
+          title="Services for international students"
+          subtitle="Nonresident tax filing, U.S. health insurance, and connectivity — what students need most."
+        />
 
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard

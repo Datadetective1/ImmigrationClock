@@ -8,6 +8,8 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { AdSlot } from "@/components/AdSlot";
+import { ResourcePanel } from "@/components/ResourcePanel";
+import { partnersForPersona } from "@/lib/partners";
 import { TrendLineChart } from "@/components/charts/Charts";
 import { SourceBadge } from "@/components/SourceBadge";
 import {
@@ -142,6 +144,13 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
             </ul>
           </ChartCard>
         </div>
+
+        <ResourcePanel
+          partners={partnersForPersona("h1b-worker", 3)}
+          placement="company"
+          title="Working with or applying to an H-1B sponsor?"
+          subtitle="Services people researching visa sponsors most often need — legal help, taxes, and moving money."
+        />
 
         <AdSlot format="in-content" />
 

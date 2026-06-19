@@ -47,7 +47,12 @@ from those real totals (see [`/methodology`](https://immigrationclock.vercel.app
   denials, and approval rate.
 - **For You** (`/for-you`) — pick your situation (H-1B worker, F-1 student,
   employer, employment-based green-card applicant) and get the data that affects
-  you, labelled and framed as context, not advice.
+  you, labelled and framed as context, not advice — plus the services that fit it.
+- **Resources** (`/resources`) — a curated, honestly-labelled directory of the
+  services newcomers actually use (immigration legal help, money transfer,
+  nonresident tax, newcomer banking, insurance, eSIM). Contextual "Helpful
+  services" modules also appear on the homepage, company, country, and state pages.
+  This is the site's primary revenue layer — see **Monetization** below.
 - **What changed / Pulse** — a cross-source "what changed this month" feed, a
   shareable [`/pulse`](https://immigrationclock.vercel.app/pulse) page, and an
   auto-generated weekly email (preview/copy at `/admin/pulse-email`).
@@ -260,9 +265,43 @@ DB path but are **not** used by the live site, which is fully static + JSON-back
 
 ---
 
-## 💰 AdSense setup
+## 💰 Monetization
 
-Ad slots render labelled **placeholders** until you provide a publisher id.
+ImmigrationClock sits in one of the highest-intent verticals on the web — people
+making real immigration, money, and tax decisions. There are **four** revenue
+levers, in rough order of revenue-per-visitor for this niche. All work on the
+static export; none require a backend.
+
+### 1. Affiliate / partner links (the biggest lever) ⭐
+
+Contextual **"Helpful services"** modules sit beside (never inside) the data on the
+highest-intent pages — the homepage + `/for-you` persona switcher, every company,
+country, and state page — plus a dedicated [`/resources`](src/app/resources/page.tsx)
+hub. They link to services newcomers genuinely use (immigration legal help, money
+transfer, nonresident tax filing, newcomer banking, student insurance, eSIMs). In
+this niche an affiliate signup/lead is worth far more than a display impression.
+
+- The catalog lives in [`src/lib/partners.ts`](src/lib/partners.ts). Out of the box
+  links point to each service's homepage, so the modules are useful immediately.
+- **To earn**, map each partner id to your tracked affiliate/referral URL via one env
+  var — no code changes:
+  ```env
+  NEXT_PUBLIC_PARTNER_LINKS={"wise":"https://wise.com/invite/abc","sprintax":"https://www.sprintax.com/?ref=you"}
+  ```
+  Ids: `boundless`, `attorney-match`, `wise`, `remitly`, `sprintax`, `resident-tax`,
+  `newcomer-credit`, `newcomer-insurance`, `esim`, `citizenship-prep`. Sign up for each
+  program (Wise, Remitly, Airalo, Sprintax, Boundless, insurance/banking affiliates, etc.),
+  or add/replace partners by editing `partners.ts`.
+- Every outbound link is `rel="sponsored nofollow noopener"`, labelled **Partner**, and
+  carries a `?subid=ic-<placement>` so your affiliate dashboard attributes revenue to the
+  exact module (`for-you-h1b-worker`, `company`, `country`, `state`, `resources-legal`, …).
+- A clear [`/disclosure`](src/app/disclosure/page.tsx) page (FTC/AdSense-compliant) is
+  linked from every module and the footer. Trust is what keeps this earning.
+
+### 2. Display advertising (AdSense)
+
+Ad slots render labelled **placeholders** (a newsletter signup) until you provide a
+publisher id.
 
 1. Get approved for [Google AdSense](https://adsense.google.com).
 2. Set `NEXT_PUBLIC_ADSENSE_CLIENT_ID="ca-pub-XXXXXXXXXXXXXXXX"`.
@@ -270,6 +309,21 @@ Ad slots render labelled **placeholders** until you provide a publisher id.
    real `<ins class="adsbygoogle">` units (top banner, sidebar, in-content, bottom
    banner). Optionally set per-slot ids:
    `NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `..._SIDEBAR`, `..._INCONTENT`, `..._BOTTOM`.
+
+### 3. Newsletter ("Immigration Pulse")
+
+The weekly Pulse signup (`PulseSignup.tsx`) builds an email list you can later
+monetize with sponsorships. Wire it up with `NEXT_PUBLIC_NEWSLETTER_ENDPOINT`
+(Buttondown, ConvertKit, Mailchimp, …). Until then the ad slots double as list-builders.
+
+### 4. Direct support (tip jar)
+
+Set `NEXT_PUBLIC_SUPPORT_URL` to a Buy Me a Coffee / Ko-fi / GitHub Sponsors link to
+show a **♥ Support this project** button in the footer. Hidden until configured.
+
+> **Partner-click analytics:** the modules fire a `partner_click` event to GA4
+> (`gtag`) or Plausible if present, so you can see which placements convert and tune
+> the catalog. No analytics library is required — it's a no-op when none is loaded.
 
 ---
 

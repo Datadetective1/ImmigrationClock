@@ -7,6 +7,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
+import { ResourcePanel } from "@/components/ResourcePanel";
+import { partnersByIds } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { SourceBadge } from "@/components/SourceBadge";
@@ -135,6 +137,13 @@ export default function StatePage({ params }: { params: { stateCode: string } })
             </ChartCard>
           </div>
         </div>
+
+        <ResourcePanel
+          partners={partnersByIds(["attorney-match", "wise", "resident-tax"])}
+          placement="state"
+          title={`Newcomer services in ${agg.state.name}`}
+          subtitle="Find legal help, file your U.S. taxes, and move money — services new arrivals most often need."
+        />
 
         <AdSlot format="in-content" />
 
