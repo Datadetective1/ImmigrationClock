@@ -27,11 +27,14 @@
 
 export type PartnerCategory =
   | "legal"
+  | "documents"
+  | "career"
   | "money-transfer"
   | "tax"
   | "banking"
   | "insurance"
   | "connectivity"
+  | "relocation"
   | "education";
 
 export type PersonaKey =
@@ -66,6 +69,14 @@ export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: stri
     label: "Immigration legal help",
     blurb: "Attorney-reviewed applications and case help — green card, citizenship, work visas, RFEs.",
   },
+  documents: {
+    label: "Documents & credentials",
+    blurb: "Certified translations and U.S. equivalency reports for the foreign documents and degrees USCIS asks for.",
+  },
+  career: {
+    label: "Jobs & visa sponsorship",
+    blurb: "Find employers with a track record of sponsoring work visas and green cards.",
+  },
   "money-transfer": {
     label: "Send money internationally",
     blurb: "Move money across borders at the real exchange rate, without the bank markup.",
@@ -85,6 +96,10 @@ export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: stri
   connectivity: {
     label: "Phone & connectivity",
     blurb: "Get connected the day you land — eSIM data plans, no local contract needed.",
+  },
+  relocation: {
+    label: "Moving & relocation",
+    blurb: "Ship your belongings across borders and get settled once you arrive.",
   },
   education: {
     label: "Exam & document prep",
@@ -222,6 +237,83 @@ const CATALOG: Partner[] = [
     badge: "Free",
     icon: "🎓",
   },
+
+  // --- Documents & credentials (required for most filings) ------------------
+  {
+    id: "credential-evaluation",
+    name: "Foreign degree evaluation",
+    category: "documents",
+    blurb: "Turn your overseas degree into a U.S. equivalency report — accepted by USCIS, employers, and licensing boards.",
+    useWhen: "An employer, USCIS, or a licensing board asks for a U.S. equivalency of your foreign education.",
+    cta: "Evaluate your degree",
+    url: "https://www.wes.org",
+    personas: ["h1b-worker", "eb-applicant", "f1-student", "general"],
+    icon: "📜",
+  },
+  {
+    id: "document-translation",
+    name: "Certified document translation",
+    category: "documents",
+    blurb: "USCIS-compliant certified translations of birth and marriage certificates, diplomas, and other records.",
+    useWhen: "You're filing non-English documents with USCIS and need a certified English translation.",
+    cta: "Get a translation quote",
+    url: "https://www.rushtranslate.com",
+    personas: ["eb-applicant", "h1b-worker", "f1-student", "general"],
+    icon: "📄",
+  },
+
+  // --- Jobs & visa sponsorship ----------------------------------------------
+  {
+    id: "visa-jobs",
+    name: "Jobs that sponsor visas",
+    category: "career",
+    blurb: "Search roles from employers with a track record of H-1B and green-card sponsorship.",
+    useWhen: "You're job-hunting and need an employer willing to sponsor your work visa.",
+    cta: "Find sponsoring employers",
+    url: "https://www.myvisajobs.com",
+    personas: ["f1-student", "h1b-worker", "general"],
+    icon: "💼",
+  },
+
+  // --- Banking & credit (additional) ----------------------------------------
+  {
+    id: "credit-builder",
+    name: "Build your U.S. credit score",
+    category: "banking",
+    blurb: "Credit-builder accounts and secured cards that report to the bureaus, so you can establish a U.S. score from scratch.",
+    useWhen: "You have little or no U.S. credit history and want to start building a score.",
+    cta: "Start building credit",
+    url: "https://www.consumerfinance.gov/consumer-tools/building-credit/",
+    personas: ["f1-student", "h1b-worker", "eb-applicant", "general"],
+    icon: "📈",
+  },
+
+  // --- Moving & relocation ---------------------------------------------------
+  {
+    id: "intl-moving",
+    name: "International moving & shipping",
+    category: "relocation",
+    blurb: "Compare quotes to ship your belongings to or from the U.S. — container, air freight, and door-to-door.",
+    useWhen: "You're relocating across borders and need to move household goods.",
+    cta: "Compare moving quotes",
+    url: "https://www.internationalmovers.com",
+    personas: ["h1b-worker", "eb-applicant", "f1-student", "general"],
+    icon: "📦",
+  },
+
+  // --- Education (additional) ------------------------------------------------
+  {
+    id: "english-prep",
+    name: "Learn English online",
+    category: "education",
+    blurb: "Structured courses and conversation practice for the citizenship interview, school, or work.",
+    useWhen: "You want to strengthen your English for the naturalization interview, study, or your job.",
+    cta: "Start learning English",
+    url: "https://www.usalearns.org",
+    personas: ["eb-applicant", "f1-student", "general"],
+    badge: "Free",
+    icon: "🗣️",
+  },
 ];
 
 // --- Operator overrides ------------------------------------------------------
@@ -260,11 +352,14 @@ export function allPartners(): ResolvedPartner[] {
 export function partnersByCategory(): { category: PartnerCategory; partners: ResolvedPartner[] }[] {
   const order: PartnerCategory[] = [
     "legal",
+    "documents",
+    "career",
     "tax",
-    "money-transfer",
     "banking",
+    "money-transfer",
     "insurance",
     "connectivity",
+    "relocation",
     "education",
   ];
   return order

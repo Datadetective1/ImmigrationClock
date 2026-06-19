@@ -2,8 +2,75 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { NAV_LINKS, SITE } from "@/lib/site";
+import { useEffect, useRef, useState } from "react";
+import { NAV, SITE, type NavItem } from "@/lib/site";
+
+function isActive(pathname: string, item: NavItem): boolean {
+  if (item.href && (pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href)))) return true;
+  return Boolean(item.children?.some((c) => pathname === c.href || (c.href !== "/" && pathname.startsWith(c.href))));
+}
+
+/** Desktop dropdown for a nav group. Opens on hover or keyboard focus. */
+function NavGroup({ item, pathname }: { item: NavItem; pathname: string }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const active = isActive(pathname, item);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <Link
+        href={item.href ?? "#"}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onFocus={() => setOpen(true)}
+        className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+          active ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-white"
+        }`}
+      >
+        {item.label}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden className={`transition-transform ${open ? "rotate-180" : ""}`}>
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </Link>
+
+      {open ? (
+        <div role="menu" className="absolute left-0 top-full z-50 w-72 pt-2">
+          <div className="overflow-hidden rounded-xl border border-white/10 bg-ink-850/95 p-1.5 shadow-glow backdrop-blur-md">
+            {item.children!.map((c) => {
+              const childActive = pathname === c.href;
+              return (
+                <Link
+                  key={c.href}
+                  href={c.href}
+                  role="menuitem"
+                  className={`block rounded-lg px-3 py-2 transition-colors ${
+                    childActive ? "bg-white/10" : "hover:bg-white/5"
+                  }`}
+                >
+                  <span className="block text-sm font-medium text-white">{c.label}</span>
+                  {c.desc ? <span className="mt-0.5 block text-xs text-slate-400">{c.desc}</span> : null}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export function Navbar() {
   const pathname = usePathname();
@@ -28,22 +95,23 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((l) => {
-            const active = pathname === l.href;
-            return (
+          {NAV.map((item) =>
+            item.children ? (
+              <NavGroup key={item.label} item={item} pathname={pathname} />
+            ) : (
               <Link
-                key={l.href}
-                href={l.href}
+                key={item.href}
+                href={item.href!}
                 className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                  active
+                  pathname === item.href
                     ? "bg-white/10 text-white"
                     : "text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
               >
-                {l.label}
+                {item.label}
               </Link>
-            );
-          })}
+            )
+          )}
         </nav>
 
         <div className="flex items-center gap-1.5">
@@ -74,21 +142,39 @@ export function Navbar() {
       </div>
 
       {open ? (
-        <nav className="container-page grid gap-1 pb-4 lg:hidden">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className={`rounded-lg px-3 py-2 text-sm font-medium ${
-                pathname === l.href
-                  ? "bg-white/10 text-white"
-                  : "text-slate-300 hover:bg-white/5"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav className="container-page max-h-[70vh] gap-1 overflow-y-auto pb-4 lg:hidden">
+          {NAV.map((item) =>
+            item.children ? (
+              <div key={item.label} className="mt-2 first:mt-0">
+                <div className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  {item.label}
+                </div>
+                {item.children.map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    onClick={() => setOpen(false)}
+                    className={`block rounded-lg px-3 py-2 text-sm font-medium ${
+                      pathname === c.href ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5"
+                    }`}
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href!}
+                onClick={() => setOpen(false)}
+                className={`mt-1 block rounded-lg px-3 py-2 text-sm font-medium ${
+                  pathname === item.href ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5"
+                }`}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
       ) : null}
     </header>

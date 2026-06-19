@@ -21,29 +21,65 @@ export const SITE = {
     "This platform uses public datasets for informational and research purposes only. It does not provide legal, immigration, employment, or financial advice. It is not a real-time feed — datasets are refreshed on a schedule and lag official reporting. Every figure is labelled reported, projected, or estimated.",
 };
 
-export const NAV_LINKS = [
+// Grouped navigation. Top-level items are either a single link or a hub with a
+// dropdown of related trackers. This keeps the bar to ~6 items (down from 14) and
+// gives each audience a clear home — the two data hubs (Enforcement & Border, Work
+// & Visas) are also the natural seams for a future site split.
+export interface NavChild {
+  href: string;
+  label: string;
+  desc?: string;
+}
+export interface NavItem {
+  label: string;
+  href?: string; // single link, or the hub landing page for a group
+  children?: NavChild[];
+}
+
+export const NAV: NavItem[] = [
   { href: "/", label: "Dashboard" },
-  { href: "/for-you", label: "For You" },
-  { href: "/resources", label: "Resources" },
-  { href: "/pulse", label: "Pulse" },
+  {
+    label: "Enforcement & Border",
+    href: "/enforcement",
+    children: [
+      { href: "/enforcement", label: "Section overview", desc: "The enforcement & border picture at a glance" },
+      { href: "/immigration/enforcement-trends", label: "Enforcement trends", desc: "ICE arrests, removals, detention" },
+      { href: "/border/encounters", label: "Border encounters", desc: "CBP encounters & demographics" },
+      { href: "/timeline", label: "Policy timeline", desc: "Events overlaid on the data" },
+    ],
+  },
+  {
+    label: "Work & Visas",
+    href: "/work-visas",
+    children: [
+      { href: "/work-visas", label: "Section overview", desc: "Visas, sponsors & the workforce at a glance" },
+      { href: "/h1b/top-sponsors", label: "Top H-1B sponsors", desc: "Approvals, denials, offered wages" },
+      { href: "/h1b/employers", label: "Employer directory", desc: "Search 2,600+ real sponsors" },
+      { href: "/visa/f1-student-visas", label: "F-1 student visas", desc: "Issuances by year & country" },
+      { href: "/layoffs-vs-h1b", label: "Layoffs vs H-1B", desc: "Sponsorship & WARN, side by side" },
+    ],
+  },
+  {
+    label: "For Immigrants",
+    href: "/for-you",
+    children: [
+      { href: "/for-you", label: "What this means for you", desc: "The data read for your situation" },
+      { href: "/resources", label: "Resources & services", desc: "Legal, tax, money transfer & more" },
+      { href: "/explained", label: "Explained", desc: "Plain-English definitions" },
+    ],
+  },
   { href: "/insights", label: "Insights" },
-  { href: "/timeline", label: "Timeline" },
-  { href: "/immigration/enforcement-trends", label: "Enforcement" },
-  { href: "/border/encounters", label: "Border" },
-  { href: "/h1b/top-sponsors", label: "H-1B" },
-  { href: "/visa/f1-student-visas", label: "Visas" },
-  { href: "/layoffs-vs-h1b", label: "Jobs & Wages" },
-  { href: "/explained", label: "Explained" },
-  { href: "/methodology", label: "Methodology" },
-  { href: "/sources", label: "Sources" },
+  { href: "/pulse", label: "Pulse" },
 ];
 
 export const FOOTER_SECTIONS = [
   {
     title: "Dashboards",
     links: [
+      { href: "/enforcement", label: "Enforcement & Border hub" },
       { href: "/immigration/enforcement-trends", label: "Enforcement trends" },
       { href: "/border/encounters", label: "Border encounters" },
+      { href: "/work-visas", label: "Work & Visas hub" },
       { href: "/h1b/top-sponsors", label: "Top H-1B sponsors" },
       { href: "/h1b/employers", label: "H-1B employer directory" },
       { href: "/visa/f1-student-visas", label: "F-1 student visas" },
