@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/privacy",
     "/terms",
+    "/enforcement",
+    "/work-visas",
     "/immigration/enforcement-trends",
     "/border/encounters",
     "/visa/f1-student-visas",
