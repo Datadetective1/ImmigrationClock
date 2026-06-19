@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "/",
     "/for-you",
+    "/key-dates",
     "/resources",
     "/disclosure",
     "/pulse",
@@ -26,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/terms",
     "/enforcement",
     "/work-visas",
+    "/migration-map",
     "/immigration/enforcement-trends",
     "/border/encounters",
     "/visa/f1-student-visas",
