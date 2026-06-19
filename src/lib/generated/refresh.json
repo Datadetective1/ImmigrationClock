@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-14T21:08:14.971Z",
-  "startedAt": "2026-06-14T21:08:12.770Z",
-  "finishedAt": "2026-06-14T21:08:14.971Z",
+  "generatedAt": "2026-06-19T03:30:23.716Z",
+  "startedAt": "2026-06-19T03:30:20.987Z",
+  "finishedAt": "2026-06-19T03:30:23.716Z",
   "ok": true,
   "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
@@ -10,7 +10,7 @@
     "value": 4.3,
     "period": "May 2026",
     "sourceUpdatedAt": "2026-05-01",
-    "fetchedAt": "2026-06-14T21:08:13.358Z",
+    "fetchedAt": "2026-06-19T03:30:21.688Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
     "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
@@ -18,21 +18,21 @@
   "cbp": {
     "ok": true,
     "stale": false,
-    "reportingMonth": "APR",
-    "reportingMonthLabel": "April 2026",
+    "reportingMonth": "MAY",
+    "reportingMonthLabel": "May 2026",
     "currentFy": 2026,
-    "currentFyYtd": 215876,
+    "currentFyYtd": 249060,
     "fyTotals": {
       "2023": 3201144,
       "2024": 2901142,
       "2025": 691906
     },
-    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-05/nationwide-encounters-fy23-fy26-apr-aor.csv",
-    "fetchedAt": "2026-06-14T21:08:14.197Z",
+    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-06/nationwide-encounters-fy23-fy26-may-aor.csv",
+    "fetchedAt": "2026-06-19T03:30:22.456Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-    "sourceUpdatedAt": "2026-06-14",
-    "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through April 2026."
+    "sourceUpdatedAt": "2026-06-19",
+    "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through May 2026."
   },
   "warn": {
     "ok": true,
@@ -159,11 +159,11 @@
         "count": 4
       }
     ],
-    "fetchedAt": "2026-06-14T21:08:14.971Z",
+    "fetchedAt": "2026-06-19T03:30:23.716Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
-    "sourceUpdatedAt": "2026-06-14",
+    "sourceUpdatedAt": "2026-06-19",
     "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 11674 employees across 64 notices. Texas only — not national."
   },
   "manifest": [
@@ -174,7 +174,7 @@
       "feed": "BLS Public Data API",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-06-14T21:08:13.358Z",
+      "lastFetchedAt": "2026-06-19T03:30:21.688Z",
       "lastError": null
     },
     {
@@ -184,7 +184,7 @@
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-06-14T21:08:14.197Z",
+      "lastFetchedAt": "2026-06-19T03:30:22.456Z",
       "lastError": null
     },
     {
@@ -234,7 +234,7 @@
       "feed": "Texas via data.texas.gov (Socrata) — TX only; other states curated",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-06-14T21:08:14.971Z",
+      "lastFetchedAt": "2026-06-19T03:30:23.716Z",
       "lastError": null
     }
   ]

@@ -1,8 +1,8 @@
-IMMIGRATION PULSE — June 16, 2026
+IMMIGRATION PULSE — June 19, 2026
 5 things that changed in U.S. immigration. Every figure is sourced and labelled.
 
-1. 31,291 border encounters added in April [Reported]
-   Monthly inflow about level vs the prior month. FY total so far: 215,876.
+1. 33,184 border encounters added in May [Reported]
+   Monthly inflow up vs the prior month. FY total so far: 249,060.
    Source: CBP Nationwide Encounters — https://www.cbp.gov/newsroom/stats/nationwide-encounters
 
 2. Texas layoffs down 68% month-over-month [Reported]
@@ -22,7 +22,7 @@ IMMIGRATION PULSE — June 16, 2026
    Source: U.S. Bureau of Labor Statistics — https://www.bls.gov/cps/
 
 BY THE NUMBERS
-- Border encounters · FY2026 YTD: 215.9K
+- Border encounters · FY2026 YTD: 249.1K
 - ICE removals · FY2026 YTD: 330K
 - Texas layoffs · 2026 YTD: 11,674
 - U.S. unemployment: 4.3%
