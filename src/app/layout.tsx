@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   authors: [{ name: SITE.name }],
   category: "news",
+  verification: {
+    google: "nPRJ1Gd57XNxLJqQA2jrUgZHGOo6V-UI5tYn2YiwohQ",
+  },
 };
 
 export const viewport: Viewport = {
