@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ProvenanceTag } from "./ProvenanceTag";
@@ -34,6 +34,16 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
   const router = useRouter();
   const [cls, setCls] = useState<MapVisaClass>("H-1B");
   const [hover, setHover] = useState<string | null>(null);
+  // Respect the visitor's reduced-motion preference (disables the traveling dots).
+  const [motion, setMotion] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setMotion(!mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
   const nodes = mapFlows(cls);
   const meta = CLASS_META[cls];
   const max = nodes[0]?.issued ?? 1;
@@ -89,19 +99,32 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
               <line key={`h${y}`} x1={0} y1={y} x2={MAP_W} y2={y} stroke="#ffffff" strokeOpacity="0.04" />
             ))}
 
-            {/* arcs origin -> US */}
-            {nodes.map((n) => (
-              <path
-                key={`arc-${n.slug}`}
-                d={arcPath(n)}
-                fill="none"
-                stroke="#38bdf8"
-                strokeOpacity={hover && hover !== n.slug ? 0.12 : 0.5}
-                strokeWidth={1 + (n.issued / max) * 5}
-                strokeLinecap="round"
-                className="flow-arc"
-              />
-            ))}
+            {/* arcs origin -> US, with a glowing dot streaming toward the U.S. */}
+            {nodes.map((n, i) => {
+              const d = arcPath(n);
+              const dim = hover && hover !== n.slug;
+              const weight = n.issued / max;
+              const dur = 2.2 + (1 - weight) * 2.6; // bigger flows move a touch faster
+              return (
+                <g key={`arc-${n.slug}`}>
+                  <path
+                    d={d}
+                    fill="none"
+                    stroke="#38bdf8"
+                    strokeOpacity={dim ? 0.1 : 0.45}
+                    strokeWidth={1 + weight * 5}
+                    strokeLinecap="round"
+                    className="flow-arc"
+                  />
+                  {motion ? (
+                    <circle r={2.5 + weight * 3} fill="#bae6fd" opacity={dim ? 0.2 : 0.95}>
+                      <animateMotion path={d} dur={`${dur}s`} begin={`${i * 0.3}s`} repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0;0.95;0.95;0" dur={`${dur}s`} begin={`${i * 0.3}s`} repeatCount="indefinite" />
+                    </circle>
+                  ) : null}
+                </g>
+              );
+            })}
 
             {/* US destination */}
             <circle cx={USA.x} cy={USA.y} r="46" fill="url(#usGlow)" />
