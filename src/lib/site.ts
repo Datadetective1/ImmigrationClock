@@ -8,8 +8,11 @@ export const SITE = {
   positioning:
     "Track the immigration, visa, enforcement, and workforce numbers shaping America.",
   tagline: "Facts first. Freshness labelled. Sources included.",
+  // Canonical production domain. Override with NEXT_PUBLIC_SITE_URL (e.g. for
+  // local dev or preview deploys); defaults to the live domain so canonical,
+  // sitemap, robots, and OG URLs are correct in production without extra config.
   url:
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "http://localhost:3000",
+    (process.env.NEXT_PUBLIC_SITE_URL || "https://immigrationclock.com").replace(/\/$/, ""),
   twitter: "@immigrationclock",
   // Public contact address — update to your real address (do NOT use a personal
   // inbox you don't want public). Used on About / Privacy / Terms pages.
