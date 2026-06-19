@@ -272,6 +272,11 @@ making real immigration, money, and tax decisions. There are **four** revenue
 levers, in rough order of revenue-per-visitor for this niche. All work on the
 static export; none require a backend.
 
+> **➡️ To turn revenue on, follow [`MONETIZATION.md`](MONETIZATION.md)** — a
+> step-by-step activation playbook (which affiliate programs to join, which env
+> vars to set, and how to read the data). Everything below is already built; the
+> playbook is how you switch it from $0 to earning.
+
 ### 1. Affiliate / partner links (the biggest lever) ⭐
 
 Contextual **"Helpful services"** modules sit beside (never inside) the data on the

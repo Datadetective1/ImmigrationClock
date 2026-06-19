@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AdSenseScript } from "@/components/AdSenseScript";
+import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { StructuredData } from "@/components/StructuredData";
 import { SITE } from "@/lib/site";
@@ -37,8 +38,9 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className="min-h-screen">
-        {/* AdSense loads only after cookie consent (see ConsentBanner). */}
+        {/* AdSense + GA4 load only after cookie consent; Plausible is cookieless. */}
         <AdSenseScript />
+        <AnalyticsScripts />
         <Navbar />
         <main className="min-h-[60vh]">{children}</main>
         <Footer />
