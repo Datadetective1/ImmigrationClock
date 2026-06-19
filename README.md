@@ -277,9 +277,11 @@ static export; none require a backend.
 Contextual **"Helpful services"** modules sit beside (never inside) the data on the
 highest-intent pages — the homepage + `/for-you` persona switcher, every company,
 country, and state page — plus a dedicated [`/resources`](src/app/resources/page.tsx)
-hub. They link to services newcomers genuinely use (immigration legal help, money
-transfer, nonresident tax filing, newcomer banking, student insurance, eSIMs). In
-this niche an affiliate signup/lead is worth far more than a display impression.
+hub. They link to services newcomers genuinely use (immigration legal help,
+certified document translation, foreign-degree evaluation, visa-sponsor job search,
+international money transfer, nonresident tax filing, newcomer banking & credit,
+student insurance, eSIMs, and international moving). In this niche an affiliate
+signup/lead is worth far more than a display impression.
 
 - The catalog lives in [`src/lib/partners.ts`](src/lib/partners.ts). Out of the box
   links point to each service's homepage, so the modules are useful immediately.
@@ -289,9 +291,11 @@ this niche an affiliate signup/lead is worth far more than a display impression.
   NEXT_PUBLIC_PARTNER_LINKS={"wise":"https://wise.com/invite/abc","sprintax":"https://www.sprintax.com/?ref=you"}
   ```
   Ids: `boundless`, `attorney-match`, `wise`, `remitly`, `sprintax`, `resident-tax`,
-  `newcomer-credit`, `newcomer-insurance`, `esim`, `citizenship-prep`. Sign up for each
-  program (Wise, Remitly, Airalo, Sprintax, Boundless, insurance/banking affiliates, etc.),
-  or add/replace partners by editing `partners.ts`.
+  `newcomer-credit`, `newcomer-insurance`, `esim`, `citizenship-prep`,
+  `credential-evaluation`, `document-translation`, `visa-jobs`, `credit-builder`,
+  `intl-moving`, `english-prep`. Sign up for each program (Wise, Remitly, Airalo,
+  Sprintax, Boundless, WES, RushTranslate, insurance/banking affiliates, etc.), or
+  add/replace partners by editing `partners.ts`.
 - Every outbound link is `rel="sponsored nofollow noopener"`, labelled **Partner**, and
   carries a `?subid=ic-<placement>` so your affiliate dashboard attributes revenue to the
   exact module (`for-you-h1b-worker`, `company`, `country`, `state`, `resources-legal`, …).
