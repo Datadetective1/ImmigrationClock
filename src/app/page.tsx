@@ -107,6 +107,20 @@ export default function HomePage() {
       </section>
 
       <div className="container-page space-y-12 py-10">
+        {/* Origin map — the showpiece: first thing visitors see, routes into country pages */}
+        <section>
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <div className="eyebrow mb-1">Origins · interactive</div>
+              <h2 className="section-title">Where America&rsquo;s immigrants come from</h2>
+            </div>
+            <Link href="/migration-map" className="text-sm font-semibold text-accent hover:text-accent-soft">
+              Open the full map →
+            </Link>
+          </div>
+          <MigrationMap />
+        </section>
+
         {/* Counter grid */}
         <section>
           <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
@@ -278,17 +292,6 @@ export default function HomePage() {
           >
             <TrendLineChart data={visa} xKey="label" series={visaDefs} height={300} />
           </ChartCard>
-        </section>
-
-        {/* Origin map — where America's immigrants come from (engagement + routes to country pages) */}
-        <section>
-          <SectionHeading
-            eyebrow="Origins · interactive"
-            title="Where America's immigrants come from"
-            href="/migration-map"
-            hrefLabel="Open the full map"
-          />
-          <MigrationMap />
         </section>
 
         {/* Hook 3 */}
