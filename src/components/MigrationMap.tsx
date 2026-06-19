@@ -61,7 +61,7 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
           <h3 className="text-base font-bold text-white sm:text-lg">Where America&rsquo;s immigrants come from</h3>
           <p className="mt-0.5 text-sm text-slate-400">{meta.blurb}</p>
         </div>
-        <div className="inline-flex rounded-lg border border-white/10 bg-white/5 p-0.5" role="tablist" aria-label="Visa type">
+        <div className="flex flex-wrap gap-1 rounded-lg border border-white/10 bg-white/5 p-0.5" role="tablist" aria-label="Visa type">
           {VISA_CLASSES.map((c) => (
             <button
               key={c}
@@ -73,7 +73,7 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
                 c === cls ? "bg-accent text-ink-950" : "text-slate-300 hover:text-white"
               }`}
             >
-              {c}
+              {CLASS_META[c].tab}
             </button>
           ))}
         </div>

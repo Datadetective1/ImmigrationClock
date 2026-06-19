@@ -10,19 +10,39 @@
 import { visaByCountry, countries } from "./dataset";
 import { slugify } from "./format";
 
-export const VISA_CLASSES = ["H-1B", "F-1"] as const;
+export const VISA_CLASSES = ["H-1B", "F-1", "J-1", "EB (employment-based IV)", "Family-based IV"] as const;
 export type MapVisaClass = (typeof VISA_CLASSES)[number];
 
-export const CLASS_META: Record<MapVisaClass, { label: string; provenance: "reported" | "estimated"; blurb: string }> = {
+export const CLASS_META: Record<MapVisaClass, { tab: string; label: string; provenance: "reported" | "estimated"; blurb: string }> = {
   "H-1B": {
+    tab: "H-1B",
     label: "H-1B workers",
     provenance: "reported",
     blurb: "Where America's H-1B specialty-occupation workers come from.",
   },
   "F-1": {
+    tab: "F-1",
     label: "F-1 students",
     provenance: "estimated",
     blurb: "Estimated origin countries of international students on F-1 visas.",
+  },
+  "J-1": {
+    tab: "J-1",
+    label: "J-1 exchange visitors",
+    provenance: "estimated",
+    blurb: "Estimated origins of exchange visitors — scholars, interns, au pairs, and summer workers.",
+  },
+  "EB (employment-based IV)": {
+    tab: "EB green card",
+    label: "employment-based green-card recipients",
+    provenance: "estimated",
+    blurb: "Estimated origins of employment-based green cards — concentrated in India and China.",
+  },
+  "Family-based IV": {
+    tab: "Family",
+    label: "family-based immigrants",
+    provenance: "estimated",
+    blurb: "Estimated origins of family-sponsored green cards — led by Mexico and the Philippines.",
   },
 };
 

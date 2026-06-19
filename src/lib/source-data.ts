@@ -214,20 +214,27 @@ interface CountrySeed {
   region: string;
   h1bApprovals2024: number; // real (India/China) or estimated (others)
   f1Share: number; // share of F-1 issuances (estimated)
+  // Relative share weights for additional visa classes (estimated, normalized at
+  // build time). Grounded in well-known public distribution patterns: J-1 led by
+  // China/Brazil/India; employment-based green cards concentrated in India/China;
+  // family-based led by Mexico and the Philippines.
+  j1Share: number; // share of J-1 exchange visitors (estimated)
+  ebShare: number; // share of employment-based green cards (estimated)
+  familyShare: number; // share of family-based immigrant visas (estimated)
   borderWeight: number; // share of CBP encounters (estimated)
   removalWeight: number; // share of ICE removals (estimated)
 }
 const COUNTRY_SEEDS: CountrySeed[] = [
-  { slug: "india", name: "India", region: "South Asia", h1bApprovals2024: 283397, f1Share: 0.29, borderWeight: 0.04, removalWeight: 0.05 },
-  { slug: "china", name: "China", region: "East Asia", h1bApprovals2024: 46680, f1Share: 0.25, borderWeight: 0.03, removalWeight: 0.02 },
-  { slug: "south-korea", name: "South Korea", region: "East Asia", h1bApprovals2024: 9024, f1Share: 0.05, borderWeight: 0.01, removalWeight: 0.01 },
-  { slug: "canada", name: "Canada", region: "North America", h1bApprovals2024: 5800, f1Share: 0.02, borderWeight: 0.02, removalWeight: 0.01 },
-  { slug: "philippines", name: "Philippines", region: "Southeast Asia", h1bApprovals2024: 3400, f1Share: 0.02, borderWeight: 0.02, removalWeight: 0.02 },
-  { slug: "mexico", name: "Mexico", region: "North America", h1bApprovals2024: 4100, f1Share: 0.03, borderWeight: 0.30, removalWeight: 0.38 },
-  { slug: "brazil", name: "Brazil", region: "South America", h1bApprovals2024: 2600, f1Share: 0.03, borderWeight: 0.08, removalWeight: 0.05 },
-  { slug: "nigeria", name: "Nigeria", region: "West Africa", h1bApprovals2024: 1700, f1Share: 0.03, borderWeight: 0.01, removalWeight: 0.02 },
-  { slug: "vietnam", name: "Vietnam", region: "Southeast Asia", h1bApprovals2024: 1500, f1Share: 0.02, borderWeight: 0.01, removalWeight: 0.01 },
-  { slug: "guatemala", name: "Guatemala", region: "Central America", h1bApprovals2024: 220, f1Share: 0.01, borderWeight: 0.16, removalWeight: 0.16 },
+  { slug: "india", name: "India", region: "South Asia", h1bApprovals2024: 283397, f1Share: 0.29, j1Share: 0.12, ebShare: 0.40, familyShare: 0.12, borderWeight: 0.04, removalWeight: 0.05 },
+  { slug: "china", name: "China", region: "East Asia", h1bApprovals2024: 46680, f1Share: 0.25, j1Share: 0.18, ebShare: 0.22, familyShare: 0.10, borderWeight: 0.03, removalWeight: 0.02 },
+  { slug: "south-korea", name: "South Korea", region: "East Asia", h1bApprovals2024: 9024, f1Share: 0.05, j1Share: 0.10, ebShare: 0.07, familyShare: 0.03, borderWeight: 0.01, removalWeight: 0.01 },
+  { slug: "canada", name: "Canada", region: "North America", h1bApprovals2024: 5800, f1Share: 0.02, j1Share: 0.04, ebShare: 0.05, familyShare: 0.02, borderWeight: 0.02, removalWeight: 0.01 },
+  { slug: "philippines", name: "Philippines", region: "Southeast Asia", h1bApprovals2024: 3400, f1Share: 0.02, j1Share: 0.06, ebShare: 0.06, familyShare: 0.14, borderWeight: 0.02, removalWeight: 0.02 },
+  { slug: "mexico", name: "Mexico", region: "North America", h1bApprovals2024: 4100, f1Share: 0.03, j1Share: 0.05, ebShare: 0.04, familyShare: 0.32, borderWeight: 0.30, removalWeight: 0.38 },
+  { slug: "brazil", name: "Brazil", region: "South America", h1bApprovals2024: 2600, f1Share: 0.03, j1Share: 0.16, ebShare: 0.04, familyShare: 0.03, borderWeight: 0.08, removalWeight: 0.05 },
+  { slug: "nigeria", name: "Nigeria", region: "West Africa", h1bApprovals2024: 1700, f1Share: 0.03, j1Share: 0.03, ebShare: 0.03, familyShare: 0.04, borderWeight: 0.01, removalWeight: 0.02 },
+  { slug: "vietnam", name: "Vietnam", region: "Southeast Asia", h1bApprovals2024: 1500, f1Share: 0.02, j1Share: 0.04, ebShare: 0.03, familyShare: 0.08, borderWeight: 0.01, removalWeight: 0.01 },
+  { slug: "guatemala", name: "Guatemala", region: "Central America", h1bApprovals2024: 220, f1Share: 0.01, j1Share: 0.02, ebShare: 0.01, familyShare: 0.05, borderWeight: 0.16, removalWeight: 0.16 },
 ];
 
 export const countries: CountryInfo[] = COUNTRY_SEEDS.map((c) => ({
@@ -723,6 +730,28 @@ for (const c of COUNTRY_SEEDS) {
     issued: roundTo((f1Total * c.f1Share) / f1ShareSum, 100),
     ...sourceRef("dos_visa", UPDATED.dos_visa),
   });
+}
+
+// Additional classes — estimated country splits apportioned from the national
+// total by each country's share weight. Labelled "estimated" in the UI.
+const APPORTIONED: { visaClass: string; category: VisaRow["category"]; share: (c: CountrySeed) => number }[] = [
+  { visaClass: "J-1", category: "exchange", share: (c) => c.j1Share },
+  { visaClass: "EB (employment-based IV)", category: "employment", share: (c) => c.ebShare },
+  { visaClass: "Family-based IV", category: "family", share: (c) => c.familyShare },
+];
+for (const a of APPORTIONED) {
+  const total = VISA_REAL[a.visaClass].byYear[LATEST_COMPLETE_FY];
+  const shareSum = COUNTRY_SEEDS.reduce((s, c) => s + a.share(c), 0);
+  for (const c of COUNTRY_SEEDS) {
+    visaByCountry.push({
+      fiscalYear: LATEST_COMPLETE_FY,
+      visaClass: a.visaClass,
+      category: a.category,
+      country: c.name,
+      issued: shareSum ? roundTo((total * a.share(c)) / shareSum, 100) : 0,
+      ...sourceRef("dos_visa", UPDATED.dos_visa),
+    });
+  }
 }
 
 // National H-1B approvals/denials (USCIS) — real FY totals.

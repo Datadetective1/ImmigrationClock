@@ -213,6 +213,9 @@
       "region": "South Asia",
       "h1bApprovals2024": 283397,
       "f1Share": 0.29,
+      "j1Share": 0.12,
+      "ebShare": 0.4,
+      "familyShare": 0.12,
       "borderWeight": 0.04,
       "removalWeight": 0.05
     },
@@ -222,6 +225,9 @@
       "region": "East Asia",
       "h1bApprovals2024": 46680,
       "f1Share": 0.25,
+      "j1Share": 0.18,
+      "ebShare": 0.22,
+      "familyShare": 0.1,
       "borderWeight": 0.03,
       "removalWeight": 0.02
     },
@@ -231,6 +237,9 @@
       "region": "East Asia",
       "h1bApprovals2024": 9024,
       "f1Share": 0.05,
+      "j1Share": 0.1,
+      "ebShare": 0.07,
+      "familyShare": 0.03,
       "borderWeight": 0.01,
       "removalWeight": 0.01
     },
@@ -240,6 +249,9 @@
       "region": "North America",
       "h1bApprovals2024": 5800,
       "f1Share": 0.02,
+      "j1Share": 0.04,
+      "ebShare": 0.05,
+      "familyShare": 0.02,
       "borderWeight": 0.02,
       "removalWeight": 0.01
     },
@@ -249,6 +261,9 @@
       "region": "Southeast Asia",
       "h1bApprovals2024": 3400,
       "f1Share": 0.02,
+      "j1Share": 0.06,
+      "ebShare": 0.06,
+      "familyShare": 0.14,
       "borderWeight": 0.02,
       "removalWeight": 0.02
     },
@@ -258,6 +273,9 @@
       "region": "North America",
       "h1bApprovals2024": 4100,
       "f1Share": 0.03,
+      "j1Share": 0.05,
+      "ebShare": 0.04,
+      "familyShare": 0.32,
       "borderWeight": 0.3,
       "removalWeight": 0.38
     },
@@ -267,6 +285,9 @@
       "region": "South America",
       "h1bApprovals2024": 2600,
       "f1Share": 0.03,
+      "j1Share": 0.16,
+      "ebShare": 0.04,
+      "familyShare": 0.03,
       "borderWeight": 0.08,
       "removalWeight": 0.05
     },
@@ -276,6 +297,9 @@
       "region": "West Africa",
       "h1bApprovals2024": 1700,
       "f1Share": 0.03,
+      "j1Share": 0.03,
+      "ebShare": 0.03,
+      "familyShare": 0.04,
       "borderWeight": 0.01,
       "removalWeight": 0.02
     },
@@ -285,6 +309,9 @@
       "region": "Southeast Asia",
       "h1bApprovals2024": 1500,
       "f1Share": 0.02,
+      "j1Share": 0.04,
+      "ebShare": 0.03,
+      "familyShare": 0.08,
       "borderWeight": 0.01,
       "removalWeight": 0.01
     },
@@ -294,6 +321,9 @@
       "region": "Central America",
       "h1bApprovals2024": 220,
       "f1Share": 0.01,
+      "j1Share": 0.02,
+      "ebShare": 0.01,
+      "familyShare": 0.05,
       "borderWeight": 0.16,
       "removalWeight": 0.16
     }
@@ -305,6 +335,9 @@
       "region": "South Asia",
       "h1bApprovals2024": 283397,
       "f1Share": 0.29,
+      "j1Share": 0.12,
+      "ebShare": 0.4,
+      "familyShare": 0.12,
       "borderWeight": 0.04,
       "removalWeight": 0.05
     },
@@ -314,6 +347,9 @@
       "region": "East Asia",
       "h1bApprovals2024": 46680,
       "f1Share": 0.25,
+      "j1Share": 0.18,
+      "ebShare": 0.22,
+      "familyShare": 0.1,
       "borderWeight": 0.03,
       "removalWeight": 0.02
     },
@@ -323,6 +359,9 @@
       "region": "East Asia",
       "h1bApprovals2024": 9024,
       "f1Share": 0.05,
+      "j1Share": 0.1,
+      "ebShare": 0.07,
+      "familyShare": 0.03,
       "borderWeight": 0.01,
       "removalWeight": 0.01
     },
@@ -332,6 +371,9 @@
       "region": "North America",
       "h1bApprovals2024": 5800,
       "f1Share": 0.02,
+      "j1Share": 0.04,
+      "ebShare": 0.05,
+      "familyShare": 0.02,
       "borderWeight": 0.02,
       "removalWeight": 0.01
     },
@@ -341,6 +383,9 @@
       "region": "Southeast Asia",
       "h1bApprovals2024": 3400,
       "f1Share": 0.02,
+      "j1Share": 0.06,
+      "ebShare": 0.06,
+      "familyShare": 0.14,
       "borderWeight": 0.02,
       "removalWeight": 0.02
     },
@@ -350,6 +395,9 @@
       "region": "North America",
       "h1bApprovals2024": 4100,
       "f1Share": 0.03,
+      "j1Share": 0.05,
+      "ebShare": 0.04,
+      "familyShare": 0.32,
       "borderWeight": 0.3,
       "removalWeight": 0.38
     },
@@ -359,6 +407,9 @@
       "region": "South America",
       "h1bApprovals2024": 2600,
       "f1Share": 0.03,
+      "j1Share": 0.16,
+      "ebShare": 0.04,
+      "familyShare": 0.03,
       "borderWeight": 0.08,
       "removalWeight": 0.05
     },
@@ -368,6 +419,9 @@
       "region": "West Africa",
       "h1bApprovals2024": 1700,
       "f1Share": 0.03,
+      "j1Share": 0.03,
+      "ebShare": 0.03,
+      "familyShare": 0.04,
       "borderWeight": 0.01,
       "removalWeight": 0.02
     },
@@ -377,6 +431,9 @@
       "region": "Southeast Asia",
       "h1bApprovals2024": 1500,
       "f1Share": 0.02,
+      "j1Share": 0.04,
+      "ebShare": 0.03,
+      "familyShare": 0.08,
       "borderWeight": 0.01,
       "removalWeight": 0.01
     },
@@ -386,6 +443,9 @@
       "region": "Central America",
       "h1bApprovals2024": 220,
       "f1Share": 0.01,
+      "j1Share": 0.02,
+      "ebShare": 0.01,
+      "familyShare": 0.05,
       "borderWeight": 0.16,
       "removalWeight": 0.16
     }
@@ -3791,6 +3851,306 @@
       "category": "student",
       "country": "Guatemala",
       "issued": 5000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "India",
+      "issued": 45700,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "China",
+      "issued": 68600,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "South Korea",
+      "issued": 38100,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Canada",
+      "issued": 15200,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Philippines",
+      "issued": 22900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Mexico",
+      "issued": 19100,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Brazil",
+      "issued": 61000,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Nigeria",
+      "issued": 11400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Vietnam",
+      "issued": 15200,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "J-1",
+      "category": "exchange",
+      "country": "Guatemala",
+      "issued": 7600,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "India",
+      "issued": 58900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "China",
+      "issued": 32400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "South Korea",
+      "issued": 10300,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Canada",
+      "issued": 7400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Philippines",
+      "issued": 8800,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Mexico",
+      "issued": 5900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Brazil",
+      "issued": 5900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Nigeria",
+      "issued": 4400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Vietnam",
+      "issued": 4400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "EB (employment-based IV)",
+      "category": "employment",
+      "country": "Guatemala",
+      "issued": 1500,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "India",
+      "issued": 29400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "China",
+      "issued": 24500,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "South Korea",
+      "issued": 7400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Canada",
+      "issued": 4900,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Philippines",
+      "issued": 34300,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Mexico",
+      "issued": 78500,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Brazil",
+      "issued": 7400,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Nigeria",
+      "issued": 9800,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Vietnam",
+      "issued": 19600,
+      "sourceName": "Department of State Visa Statistics",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
+      "sourceUpdatedAt": "2026-05-31"
+    },
+    {
+      "fiscalYear": 2025,
+      "visaClass": "Family-based IV",
+      "category": "family",
+      "country": "Guatemala",
+      "issued": 12300,
       "sourceName": "Department of State Visa Statistics",
       "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
       "sourceUpdatedAt": "2026-05-31"
