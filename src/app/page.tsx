@@ -15,6 +15,7 @@ import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/component
 import { buildMetrics, topSponsors, LAST_COMPLETE_FY, LAST_REFRESHED } from "@/lib/data";
 import { buildInsights } from "@/lib/insights";
 import { personaSummaries } from "@/lib/relevance";
+import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
 import { borderChartMarkers } from "@/lib/events";
 import {
   enforcementChartData,
@@ -67,6 +68,11 @@ export default function HomePage() {
   const visa = visaChartData();
   const visaDefs = visaSeriesDefs();
   const layoffData = layoffsVsH1bData();
+  const personas = personaSummaries();
+  const resourcesByPersona = personas.reduce<Record<string, ResolvedPartner[]>>((acc, p) => {
+    acc[p.key] = partnersForPersona(p.key as PersonaKey, 3);
+    return acc;
+  }, {});
 
   return (
     <div>
@@ -125,8 +131,8 @@ export default function HomePage() {
           <DashboardGrid metrics={metrics} />
         </section>
 
-        {/* What does this mean for you? — persona relevance */}
-        <PersonaRelevance personas={personaSummaries()} />
+        {/* What does this mean for you? — persona relevance + contextual resources */}
+        <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
 
         {/* What changed this month */}
         <section>

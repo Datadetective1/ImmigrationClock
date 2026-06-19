@@ -4,6 +4,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { personaSummaries } from "@/lib/relevance";
+import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
 
 export const metadata = buildMetadata({
   title: "What This Means For You — Immigration Data by Situation",
@@ -20,6 +21,10 @@ export const metadata = buildMetadata({
 
 export default function ForYouPage() {
   const personas = personaSummaries();
+  const resourcesByPersona = personas.reduce<Record<string, ResolvedPartner[]>>((acc, p) => {
+    acc[p.key] = partnersForPersona(p.key as PersonaKey, 3);
+    return acc;
+  }, {});
 
   return (
     <div>
@@ -35,7 +40,7 @@ export default function ForYouPage() {
       />
 
       <div className="container-page max-w-3xl space-y-8 py-10">
-        <PersonaRelevance personas={personas} />
+        <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
 
         <AdSlot format="in-content" />
 

@@ -8,7 +8,12 @@ const LEGAL_LINKS = [
   { href: "/sources", label: "Sources" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
+  { href: "/disclosure", label: "Disclosure" },
 ];
+
+// Optional "tip jar" — set NEXT_PUBLIC_SUPPORT_URL to a Buy Me a Coffee, Ko-fi, or
+// GitHub Sponsors link to show a support button. Hidden until configured.
+const SUPPORT_URL = process.env.NEXT_PUBLIC_SUPPORT_URL;
 
 export function Footer() {
   return (
@@ -52,6 +57,16 @@ export function Footer() {
             </Link>
           ))}
           <CookieSettingsButton className="transition-colors hover:text-white" />
+          {SUPPORT_URL ? (
+            <a
+              href={SUPPORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-accent transition-colors hover:text-accent-soft"
+            >
+              ♥ Support this project
+            </a>
+          ) : null}
         </nav>
 
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-slate-600 sm:flex-row sm:items-center">
