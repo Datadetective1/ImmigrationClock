@@ -75,6 +75,23 @@ body {
   border-radius: 12px !important;
 }
 
+/* Migration map — flowing arcs (illustrative motion over annual data, not live) */
+.flow-arc {
+  stroke-dasharray: 4 10;
+  animation: flow-dash 1.4s linear infinite;
+}
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-arc {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+
 /* Thin scrollbars on tables */
 .scroll-thin::-webkit-scrollbar {
   height: 8px;

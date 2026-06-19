@@ -53,6 +53,7 @@ export const NAV: NavItem[] = [
     href: "/work-visas",
     children: [
       { href: "/work-visas", label: "Section overview", desc: "Visas, sponsors & the workforce at a glance" },
+      { href: "/migration-map", label: "Origin map", desc: "Where H-1B & F-1 visa holders come from" },
       { href: "/h1b/top-sponsors", label: "Top H-1B sponsors", desc: "Approvals, denials, offered wages" },
       { href: "/h1b/employers", label: "Employer directory", desc: "Search 2,600+ real sponsors" },
       { href: "/visa/f1-student-visas", label: "F-1 student visas", desc: "Issuances by year & country" },
@@ -81,6 +82,7 @@ export const FOOTER_SECTIONS = [
       { href: "/immigration/enforcement-trends", label: "Enforcement trends" },
       { href: "/border/encounters", label: "Border encounters" },
       { href: "/work-visas", label: "Work & Visas hub" },
+      { href: "/migration-map", label: "Visa origin map" },
       { href: "/h1b/top-sponsors", label: "Top H-1B sponsors" },
       { href: "/h1b/employers", label: "H-1B employer directory" },
       { href: "/visa/f1-student-visas", label: "F-1 student visas" },

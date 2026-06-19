@@ -9,6 +9,7 @@ import { ChangeFeed } from "@/components/ChangeFeed";
 import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { KeyDates } from "@/components/KeyDates";
 import { KEY_DATES } from "@/lib/key-dates";
+import { MigrationMap } from "@/components/MigrationMap";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -277,6 +278,17 @@ export default function HomePage() {
           >
             <TrendLineChart data={visa} xKey="label" series={visaDefs} height={300} />
           </ChartCard>
+        </section>
+
+        {/* Origin map — where America's immigrants come from (engagement + routes to country pages) */}
+        <section>
+          <SectionHeading
+            eyebrow="Origins · interactive"
+            title="Where America's immigrants come from"
+            href="/migration-map"
+            hrefLabel="Open the full map"
+          />
+          <MigrationMap />
         </section>
 
         {/* Hook 3 */}
