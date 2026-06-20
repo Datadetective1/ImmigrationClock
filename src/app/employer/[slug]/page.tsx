@@ -5,6 +5,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
+import { Faq, type FaqItem } from "@/components/Faq";
+import { ResourcePanel } from "@/components/ResourcePanel";
+import { partnersByIds } from "@/lib/partners";
 import {
   EMPLOYERS,
   EMPLOYERS_META,
@@ -41,6 +44,32 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
   const share = EMPLOYERS_META.nationalApprovals ? (e.approvals / EMPLOYERS_META.nationalApprovals) * 100 : 0;
   const rateDelta = (e.approvalRate - AVG_APPROVAL_RATE) * 100;
   const rateWord = rateDelta > 0.5 ? "above" : rateDelta < -0.5 ? "below" : "in line with";
+
+  // FAQ built from the real record — targets "does {company} sponsor H-1B?" and
+  // emits FAQPage JSON-LD for rich results.
+  const faqItems: FaqItem[] = [
+    {
+      q: `Does ${name} sponsor H-1B visas?`,
+      a:
+        e.approvals > 0
+          ? `Yes. The USCIS H-1B Employer Data Hub shows ${name} had ${formatNumber(e.approvals)} approved H-1B petitions in FY${fy} (${formatNumber(e.denials)} denials, a ${formatRate(e.approvalRate)} approval rate), ranking #${formatNumber(rank)} of ${formatNumber(EMPLOYERS_META.totalEmployers)} sponsoring employers. Past sponsorship does not guarantee any individual petition will be approved.`
+          : `Based on FY${fy} USCIS H-1B Employer Data Hub records, ${name} had no approved H-1B petitions (${formatNumber(e.denials)} denials). Employers can begin or resume sponsorship in any year.`,
+    },
+    {
+      q: `How many H-1B approvals did ${name} have in FY${fy}?`,
+      a: `${name} had ${formatNumber(e.approvals)} H-1B petition approvals and ${formatNumber(e.denials)} denials in FY${fy}, according to the USCIS H-1B Employer Data Hub. That is about ${share >= 0.1 ? share.toFixed(1) : share.toFixed(2)}% of all approvals in the data hub that year.`,
+    },
+    {
+      q: `What is ${name}'s H-1B approval rate?`,
+      a: `${formatRate(e.approvalRate)} in FY${fy} — ${rateWord} the ${formatRate(AVG_APPROVAL_RATE)} average across all sponsoring employers.`,
+    },
+  ];
+  if (e.topState) {
+    faqItems.push({
+      q: `Where does ${name} sponsor the most H-1B workers?`,
+      a: `Most of ${name}'s reported FY${fy} H-1B approvals were in ${e.topState}.`,
+    });
+  }
 
   return (
     <div>
@@ -113,6 +142,16 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
             </a>
           </div>
         </section>
+
+        <Faq items={faqItems} />
+
+        <ResourcePanel
+          partners={partnersByIds(["visa-jobs", "attorney-match"])}
+          placement="employer"
+          title="Looking for visa sponsorship?"
+          subtitle="Find employers that sponsor work visas, and get help from an immigration attorney."
+          compact
+        />
 
         <MethodologyNote>
           Figures are USCIS H-1B Employer Data Hub counts of petition approvals and denials (initial plus

@@ -9,6 +9,7 @@ import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { AdSlot } from "@/components/AdSlot";
 import { ResourcePanel } from "@/components/ResourcePanel";
+import { Faq, type FaqItem } from "@/components/Faq";
 import { partnersForPersona } from "@/lib/partners";
 import { TrendLineChart } from "@/components/charts/Charts";
 import { SourceBadge } from "@/components/SourceBadge";
@@ -53,6 +54,28 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
   const layoffTotal = company.layoffs.reduce((s, l) => s + l.employeesAffected, 0);
   const approvalsPct =
     prev && prev.approvals ? ((latest.approvals - prev.approvals) / prev.approvals) * 100 : 0;
+
+  const topRoles = company.topJobTitles.slice(0, 3).map((t) => t.title);
+  const faqItems: FaqItem[] = [
+    {
+      q: `Does ${company.name} sponsor H-1B visas?`,
+      a: `Yes. ${company.name} had ${formatNumber(latest.approvals)} H-1B petition approvals in ${fiscalYearLabel(
+        LAST_COMPLETE_FY
+      )} (${formatNumber(latest.denials)} denials, a ${formatRate(latest.approvalRate)} approval rate), based on USCIS and Department of Labor records. Past sponsorship does not guarantee any individual petition will be approved.`,
+    },
+    {
+      q: `What is the average H-1B salary at ${company.name}?`,
+      a: `The average offered wage in ${company.name}'s H-1B labor condition applications was ${formatCurrency(
+        latest.avgOfferedWage
+      )}, from Department of Labor LCA disclosure data for ${fiscalYearLabel(LAST_COMPLETE_FY)}.`,
+    },
+  ];
+  if (topRoles.length) {
+    faqItems.push({
+      q: `What jobs does ${company.name} sponsor for H-1B?`,
+      a: `${company.name}'s most-sponsored H-1B job titles include ${topRoles.join(", ")}.`,
+    });
+  }
 
   return (
     <div>
@@ -180,6 +203,8 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
           Visa sponsorship volume and layoff notices are reported independently. A company appearing in
           both datasets does not establish that H-1B sponsorship caused any layoff.
         </MethodologyNote>
+
+        <Faq items={faqItems} />
 
         <div className="flex flex-col gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-4">
           <span className="text-xs uppercase tracking-wider text-slate-500">Sources &amp; last refresh</span>
