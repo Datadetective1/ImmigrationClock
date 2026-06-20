@@ -7,6 +7,7 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { ResourcePanel } from "@/components/ResourcePanel";
+import { Faq, type FaqItem } from "@/components/Faq";
 import { partnersByIds } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { RelevanceCard } from "@/components/RelevanceCard";
@@ -38,6 +39,29 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
     "H-1B visas": s.h1b,
     "F-1 visas": s.f1,
   }));
+
+  const name = agg.country.name;
+  const faqItems: FaqItem[] = [];
+  if (agg.h1b) {
+    faqItems.push({
+      q: `How many H-1B visas go to ${name} nationals?`,
+      a: `An estimated ${formatNumber(agg.h1b.issued)} H-1B visas were attributed to ${name} nationals in FY${agg.h1b.fiscalYear}, apportioned from reported U.S. government totals by ${name}'s share of visa flow. Country-level splits are estimates, not official per-country counts.`,
+    });
+  }
+  if (agg.f1) {
+    faqItems.push({
+      q: `How many F-1 student visas go to ${name}?`,
+      a: `An estimated ${formatNumber(agg.f1.issued)} F-1 student visas went to ${name} nationals in the latest complete fiscal year, apportioned from the national State Department total.`,
+    });
+  }
+  if (agg.ice && (agg.ice.removals || agg.ice.arrests)) {
+    faqItems.push({
+      q: `How many ${name} nationals were removed from the U.S.?`,
+      a: `Public data attributed about ${formatNumber(agg.ice.removals)} removals and ${formatNumber(
+        agg.ice.arrests
+      )} ICE arrests to ${name} nationals in the latest reported year. Enforcement counts describe events involving people of a nationality and are not the same individuals across datasets.`,
+    });
+  }
 
   return (
     <div>
@@ -121,6 +145,8 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
             )}
           </ChartCard>
         </div>
+
+        <Faq items={faqItems} heading={`${name}: common questions`} />
 
         <MethodologyNote>
           Country pages mix multiple datasets that use different definitions and reporting calendars.
