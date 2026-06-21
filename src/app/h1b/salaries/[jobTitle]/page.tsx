@@ -6,6 +6,7 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { Faq, type FaqItem } from "@/components/Faq";
 import { HorizontalBarChart } from "@/components/charts/Charts";
 import { companies, UPDATED } from "@/lib/dataset";
 import { SALARY_JOB_TITLES } from "@/lib/seo-pages";
@@ -54,6 +55,27 @@ export default function SalaryPage({ params }: { params: { jobTitle: string } })
   const minWage = Math.min(...matches.map((m) => m.avgWage));
   const maxWage = Math.max(...matches.map((m) => m.avgWage));
   const totalFilings = matches.reduce((s, m) => s + m.approxFilings, 0);
+
+  const faqItems: FaqItem[] = [
+    {
+      q: `What is the average H-1B salary for a ${title}?`,
+      a: `The average offered wage for ${title} across tracked H-1B sponsors is ${formatCurrency(
+        avgWage
+      )}, ranging from ${formatCurrency(minWage)} to ${formatCurrency(
+        maxWage
+      )}, based on Department of Labor LCA disclosures for FY${LAST_COMPLETE_FY}. Offered wages are what an employer commits to pay, not necessarily actual paid salaries.`,
+    },
+    {
+      q: `Which employers pay the most for H-1B ${title} roles?`,
+      a: `Among tracked sponsors, the highest average offered wage for ${title} is at ${matches[0].name} (${formatCurrency(
+        matches[0].avgWage
+      )}). See the full employer list above.`,
+    },
+    {
+      q: `How many H-1B ${title} positions are sponsored?`,
+      a: `Tracked employers account for about ${formatNumber(totalFilings)} H-1B filings for ${title} roles in FY${LAST_COMPLETE_FY}.`,
+    },
+  ];
 
   return (
     <div>
@@ -108,6 +130,8 @@ export default function SalaryPage({ params }: { params: { jobTitle: string } })
             ))}
           </ul>
         </ChartCard>
+
+        <Faq items={faqItems} heading={`${title} H-1B salaries: common questions`} />
 
         <MethodologyNote>
           Offered wages come from Labor Condition Applications, which state what an employer commits to pay.

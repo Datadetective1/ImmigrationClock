@@ -8,6 +8,7 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { AdSlot } from "@/components/AdSlot";
 import { ResourcePanel } from "@/components/ResourcePanel";
+import { Faq, type FaqItem } from "@/components/Faq";
 import { partnersByIds } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
@@ -45,6 +46,32 @@ export default function StatePage({ params }: { params: { stateCode: string } })
   const warn = WARN_LIVE;
   const showWarnLive =
     agg.state.code === "TX" && warn.ok && warn.ytdTotal != null && (warn.recent?.length ?? 0) > 0;
+
+  const stateName = agg.state.name;
+  const topCos = agg.companies.slice(0, 3).map((c) => c.name);
+  const faqItems: FaqItem[] = [];
+  if (topCos.length) {
+    faqItems.push({
+      q: `Which employers sponsor H-1B visas in ${stateName}?`,
+      a: `Tracked H-1B sponsors with worksites in ${stateName} include ${topCos.join(
+        ", "
+      )}. About ${formatNumber(agg.totalApprovals)} approvals are attributable to tracked employers in the state — a curated subset, not a complete state total.`,
+    });
+  }
+  if (agg.avgWage) {
+    faqItems.push({
+      q: `What is the average H-1B salary in ${stateName}?`,
+      a: `The average offered wage among tracked ${stateName} H-1B sponsors is ${formatCurrency(
+        agg.avgWage
+      )}, from Department of Labor LCA disclosures.`,
+    });
+  }
+  faqItems.push({
+    q: `How many H-1B workers are sponsored in ${stateName}?`,
+    a: `Tracked employers account for about ${formatNumber(
+      agg.totalApprovals
+    )} H-1B approvals attributable to ${stateName} worksites in ${fiscalYearLabel(agg.fiscalYear)}.`,
+  });
 
   return (
     <div>
@@ -187,6 +214,8 @@ export default function StatePage({ params }: { params: { stateCode: string } })
             )}
           </ChartCard>
         </div>
+
+        <Faq items={faqItems} heading={`${stateName} H-1B & immigration: common questions`} />
 
         <MethodologyNote>
           State-level H-1B figures attribute tracked employers to worksites and headquarters; they are a
