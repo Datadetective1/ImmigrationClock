@@ -83,8 +83,8 @@ export function PersonaRelevance({
       </div>
 
       <p className="mt-4 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-slate-500">
-        Data context only — <strong className="text-slate-400">not legal or immigration advice</strong>. Every
-        figure is labelled reported, projected, or estimated; for your own case, consult a qualified professional.
+        Data context, <strong className="text-slate-400">not legal advice</strong> — for your own case, consult
+        a qualified professional.
       </p>
     </section>
 

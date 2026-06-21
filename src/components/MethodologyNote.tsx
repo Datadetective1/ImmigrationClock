@@ -1,6 +1,10 @@
 import Link from "next/link";
 
-/** Neutral caveat callout used throughout to keep claims honest. */
+/**
+ * Neutral caveat callout. Collapsed by default (native <details>) so it doesn't
+ * shout on every page — the rigor stays, one tap away. Keeps the site honest
+ * without the visual weight of an always-open box.
+ */
 export function MethodologyNote({
   children,
   variant = "info",
@@ -8,17 +12,28 @@ export function MethodologyNote({
   children: React.ReactNode;
   variant?: "info" | "warning";
 }) {
-  const tone =
-    variant === "warning"
-      ? "border-status-amber/30 bg-status-amber/5"
-      : "border-accent/20 bg-accent/5";
+  const tone = variant === "warning" ? "border-status-amber/25" : "border-white/10";
+  const summary = variant === "warning" ? "How to read this responsibly" : "Methodology & sources";
+
   return (
-    <div className={`rounded-xl border ${tone} p-4 text-sm leading-relaxed text-slate-300`}>
-      <span className="mr-2 font-semibold text-white">Methodology note:</span>
-      {children}{" "}
-      <Link href="/methodology" className="link-accent whitespace-nowrap">
-        Read the full methodology →
-      </Link>
-    </div>
+    <details className={`group rounded-xl border ${tone} bg-white/[0.02] text-sm`}>
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-400 marker:content-['']">
+        <span className="flex items-center gap-1.5">
+          <span aria-hidden>ⓘ</span> {summary}
+        </span>
+        <span
+          aria-hidden
+          className="text-base font-normal leading-none text-slate-500 transition-transform group-open:rotate-45"
+        >
+          +
+        </span>
+      </summary>
+      <div className="px-4 pb-4 leading-relaxed text-slate-400">
+        {children}{" "}
+        <Link href="/methodology" className="link-accent whitespace-nowrap">
+          Read the full methodology →
+        </Link>
+      </div>
+    </details>
   );
 }

@@ -65,7 +65,9 @@ export function AdSlot({
   // in-content / sidebar). When NEXT_PUBLIC_ADSENSE_CLIENT_ID is set, real ads
   // render here instead.
   if (!client) {
-    const inline = format === "top-banner" || format === "bottom-banner";
+    // Slim strip everywhere except the tall sidebar — keeps the newsletter present
+    // without a full card interrupting content on every page.
+    const inline = format !== "sidebar";
     return (
       <div className={className}>
         <PulseSignup variant={inline ? "inline" : "card"} />
