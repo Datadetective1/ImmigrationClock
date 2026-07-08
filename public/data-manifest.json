@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-02T12:53:58.581Z",
-  "startedAt": "2026-07-02T12:53:55.702Z",
-  "finishedAt": "2026-07-02T12:53:58.581Z",
+  "generatedAt": "2026-07-08T12:14:11.028Z",
+  "startedAt": "2026-07-08T12:14:09.680Z",
+  "finishedAt": "2026-07-08T12:14:11.028Z",
   "ok": true,
   "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
@@ -10,7 +10,7 @@
     "value": 4.2,
     "period": "June 2026",
     "sourceUpdatedAt": "2026-06-01",
-    "fetchedAt": "2026-07-02T12:53:56.347Z",
+    "fetchedAt": "2026-07-08T12:14:10.034Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
     "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
@@ -28,10 +28,10 @@
       "2025": 691906
     },
     "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-06/nationwide-encounters-fy23-fy26-may-aor.csv",
-    "fetchedAt": "2026-07-02T12:53:57.598Z",
+    "fetchedAt": "2026-07-08T12:14:10.443Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-    "sourceUpdatedAt": "2026-07-02",
+    "sourceUpdatedAt": "2026-07-08",
     "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through May 2026."
   },
   "warn": {
@@ -39,47 +39,47 @@
     "stale": false,
     "state": "TX",
     "ytdYear": 2026,
-    "ytdTotal": 11674,
-    "ytdCount": 64,
+    "ytdTotal": 12234,
+    "ytdCount": 69,
     "prevYear": 2025,
     "prevTotal": 26606,
     "prevCount": 287,
     "recent": [
       {
+        "noticeDate": "2026-06-23",
+        "employer": "JPMorgan Chase & Co.",
+        "city": "Plano",
+        "employees": 244
+      },
+      {
+        "noticeDate": "2026-06-16",
+        "employer": "KUEHNE + NAGEL (KN) 2026",
+        "city": "Lewisville",
+        "employees": 90
+      },
+      {
+        "noticeDate": "2026-06-12",
+        "employer": "Fortrex (John Soules Foods, Inc.)",
+        "city": "Tyler",
+        "employees": 85
+      },
+      {
+        "noticeDate": "2026-06-12",
+        "employer": "First Student (DeSoto I.S.D.)",
+        "city": "De Soto",
+        "employees": 74
+      },
+      {
+        "noticeDate": "2026-06-12",
+        "employer": "SAKS GLOBAL (Neiman Marcus)",
+        "city": "Dallas",
+        "employees": 67
+      },
+      {
         "noticeDate": "2026-06-09",
         "employer": "Remington Lodging and Hospitality, LLC (Hilton Houston NASA Clear Lake)",
         "city": "Houston",
         "employees": 65
-      },
-      {
-        "noticeDate": "2026-06-08",
-        "employer": "Alan Ritchey Incorporated",
-        "city": "Irving",
-        "employees": 232
-      },
-      {
-        "noticeDate": "2026-06-08",
-        "employer": "El Paso Independent School District",
-        "city": "El Paso",
-        "employees": 250
-      },
-      {
-        "noticeDate": "2026-06-04",
-        "employer": "MW Components (Matthew Warren Inc's USA Fastner Facility)",
-        "city": "Houston",
-        "employees": 53
-      },
-      {
-        "noticeDate": "2026-05-29",
-        "employer": "Toshiba International Corporation",
-        "city": "Houston",
-        "employees": 67
-      },
-      {
-        "noticeDate": "2026-05-19",
-        "employer": "Auzmet Architectural, LLC",
-        "city": "Dallas",
-        "employees": 152
       }
     ],
     "monthly": [
@@ -155,16 +155,16 @@
       },
       {
         "month": "2026-06",
-        "total": 600,
-        "count": 4
+        "total": 1160,
+        "count": 9
       }
     ],
-    "fetchedAt": "2026-07-02T12:53:58.581Z",
+    "fetchedAt": "2026-07-08T12:14:11.028Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
-    "sourceUpdatedAt": "2026-07-02",
-    "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 11674 employees across 64 notices. Texas only — not national."
+    "sourceUpdatedAt": "2026-07-08",
+    "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 12234 employees across 69 notices. Texas only — not national."
   },
   "manifest": [
     {
@@ -174,7 +174,7 @@
       "feed": "BLS Public Data API",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-07-02T12:53:56.347Z",
+      "lastFetchedAt": "2026-07-08T12:14:10.034Z",
       "lastError": null
     },
     {
@@ -184,7 +184,7 @@
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-07-02T12:53:57.598Z",
+      "lastFetchedAt": "2026-07-08T12:14:10.443Z",
       "lastError": null
     },
     {
@@ -234,7 +234,7 @@
       "feed": "Texas via data.texas.gov (Socrata) — TX only; other states curated",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-07-02T12:53:58.581Z",
+      "lastFetchedAt": "2026-07-08T12:14:11.028Z",
       "lastError": null
     }
   ]
