@@ -1,0 +1,123 @@
+# Wide-net WARN refresh: scrape state WARN portals via biglocalnews/warn-scraper,
+# normalize into the committed cache, rebuild the site's WARN feed + public API,
+# and (only if the data actually changed) commit back to `main` → Vercel deploys.
+#
+# Why a separate job from refresh-data.yml: warn-scraper needs Python + system
+# packages (Xvfb for a few Selenium-based state scrapers) that the site build must
+# NOT depend on. This job produces src/lib/generated/warn-scraper.json (the wide
+# net); build-warn.ts then merges it with the always-live TX/OR/CA adapters. The
+# Vercel build itself stays Python-free — it just reads the committed JSON.
+#
+# Coverage note: warn-scraper is best-effort per state (formats change, some sites
+# rate-limit). A failed state is skipped, not fatal — partial refreshes are fine,
+# and build-warn keeps the last-good feed if everything fails.
+
+name: Refresh WARN feed (wide net)
+
+on:
+  schedule:
+    # Tue & Fri 09:00 UTC. WARN portals update ~weekly; CA's report posts Tue/Thu.
+    - cron: "0 9 * * 2,5"
+  workflow_dispatch:
+    inputs:
+      states:
+        description: "Space-separated postal codes to scrape (or 'all')"
+        required: false
+        default: "wa nj va md ga mn co ma ks in wi"
+
+permissions:
+  contents: write # commit the refreshed cache + regenerated feed
+
+concurrency:
+  group: refresh-warn
+  cancel-in-progress: false
+
+jobs:
+  refresh-warn:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      STATES: ${{ github.event.inputs.states || 'wa nj va md ga mn co ma ks in wi' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install warn-scraper + Xvfb (for Selenium-based state scrapers)
+        run: |
+          sudo apt-get update && sudo apt-get install -y xvfb
+          python -m pip install --upgrade pip
+          pip install warn-scraper
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install node dependencies
+        run: npm ci
+
+      - name: Scrape state WARN portals (best-effort; failures are skipped)
+        continue-on-error: true
+        run: |
+          mkdir -p /tmp/warn
+          echo "Scraping: $STATES"
+          xvfb-run -a warn-scraper --data-dir /tmp/warn --cache-dir /tmp/warn/cache -l warning $STATES || true
+          echo "### Scraped CSVs" >> "$GITHUB_STEP_SUMMARY"
+          for f in /tmp/warn/*.csv; do
+            [ -e "$f" ] || continue
+            echo "- $(basename "$f"): $(($(wc -l < "$f") - 1)) rows" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+      - name: Normalize CSVs → committed cache (src/lib/generated/warn-scraper.json)
+        run: WARN_SCRAPE_DIR=/tmp/warn npm run refresh:warn-scraper
+
+      - name: Rebuild WARN feed + public API from the fresh cache
+        run: npm run build:warn
+
+      - name: Detect real data change (ignoring generatedAt timestamps)
+        id: changed
+        run: |
+          git show HEAD:src/lib/generated/warn.json > /tmp/old-warn.json 2>/dev/null || echo '{}' > /tmp/old-warn.json
+          CHANGED=$(node -e "
+          const crypto=require('crypto');
+          const f=require('fs');
+          const load=p=>{try{return JSON.parse(f.readFileSync(p,'utf8'))}catch{return {}}};
+          // Signature ignores generatedAt; canonicalizes notice order so ties don't churn.
+          const sig=w=>{
+            const keys=(w.notices||[]).map(n=>[n.state,n.normalized,n.noticeDate,n.effectiveDate,n.employees].join('|')).sort();
+            const h=crypto.createHash('sha1').update(keys.join('\n')).digest('hex');
+            return JSON.stringify({n:w.noticeCount,e:w.employeesTotal,emp:w.employerCount,st:(w.states||[]).map(s=>[s.code,s.noticeCount,s.employeesTotal]),h});
+          };
+          const a=sig(load('/tmp/old-warn.json'));
+          const b=sig(load('./src/lib/generated/warn.json'));
+          process.stdout.write(a===b?'false':'true');
+          ")
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "WARN data changed: $CHANGED" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit refreshed WARN data (only when it changed → triggers deploy)
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/lib/generated/warn-scraper.json src/lib/generated/warn.json public/api/warn.json public/api/warn.csv
+          git commit -m "chore(warn): refresh wide-net WARN feed [skip ci]"
+          git push
+
+      - name: Optional Vercel deploy hook
+        if: steps.changed.outputs.changed == 'true'
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$HOOK" ]; then
+            curl -fsS -X POST "$HOOK" && echo "✅ Pinged Vercel deploy hook."
+          else
+            echo "No VERCEL_DEPLOY_HOOK set — relying on Vercel git integration to auto-deploy."
+          fi
+
+      - name: No change — skip
+        if: steps.changed.outputs.changed != 'true'
+        run: echo "WARN data unchanged — nothing committed."

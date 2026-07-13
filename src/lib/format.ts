@@ -59,6 +59,20 @@ export function slugify(s: string): string {
     .replace(/^-|-$/g, "");
 }
 
+// Standardize an employer legal name so the same company matches across datasets
+// (USCIS H-1B, DOL LCA, state WARN). Mirrors data_pipeline/common.normalize_employer
+// so the TS site and the Python pipeline produce the same join keys.
+const EMPLOYER_SUFFIXES =
+  /\b(inc|incorporated|llc|l l c|ltd|limited|corp|corporation|co|company|plc|llp|lp|technologies|technology|solutions|services|usa|us|na)\b/gi;
+export function normalizeEmployer(name: string): string {
+  if (!name || typeof name !== "string") return "";
+  let s = name.toUpperCase();
+  s = s.replace(/[.,&]/g, " ");
+  s = s.replace(EMPLOYER_SUFFIXES, " ");
+  s = s.replace(/\s+/g, " ").trim();
+  return s;
+}
+
 export function titleCaseFromSlug(slug: string): string {
   return slug
     .split("-")

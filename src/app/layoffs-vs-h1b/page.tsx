@@ -10,7 +10,8 @@ import { DownloadCsvButton } from "@/components/DownloadCsvButton";
 import { layoffsVsSponsorship, LAST_COMPLETE_FY } from "@/lib/data";
 import { layoffsVsH1bData } from "@/lib/chart-data";
 import { UPDATED } from "@/lib/dataset";
-import { formatNumber, formatCurrency, fiscalYearLabel } from "@/lib/format";
+import { warnH1bCrossLink, WARN_META } from "@/lib/warn";
+import { formatNumber, formatRate, formatDate, fiscalYearLabel } from "@/lib/format";
 
 export const metadata = buildMetadata({
   title: "Layoffs vs H-1B Sponsorship",
@@ -23,15 +24,21 @@ export const metadata = buildMetadata({
 export default function LayoffsVsH1bPage() {
   const rows = layoffsVsSponsorship();
   const chart = layoffsVsH1bData();
-  const totalLayoffs = rows.reduce((s, r) => s + r.layoffs, 0);
   const totalApprovals = rows.reduce((s, r) => s + r.approvals, 0);
-  const withBoth = rows.filter((r) => r.layoffs > 0 && r.approvals > 0).length;
 
-  const csvRows = rows.map((r) => ({
+  // Live join: employers that appear in BOTH the real WARN feed and the USCIS
+  // H-1B directory. This is the data no single-source layoff tracker can produce.
+  const crossLinked = warnH1bCrossLink();
+  const totalCrossLayoffs = crossLinked.reduce((s, r) => s + r.layoffs, 0);
+
+  const csvRows = crossLinked.map((r) => ({
     employer: r.name,
+    states: r.states.join(" "),
     h1b_approvals: r.approvals,
+    h1b_denials: r.denials,
     layoffs_warn: r.layoffs,
-    avg_offered_wage_usd: r.avgWage,
+    warn_notices: r.notices,
+    latest_notice: r.latestNotice ?? "",
   }));
 
   return (
@@ -47,10 +54,15 @@ export default function LayoffsVsH1bPage() {
         share
       >
         <StatRow>
-          <Stat label="Tracked layoffs" value={formatNumber(totalLayoffs)} sub="Employees (WARN)" />
+          <Stat
+            label="Employers in both datasets"
+            value={String(crossLinked.length)}
+            sub="Live WARN × USCIS H-1B"
+            tooltip="Employers that appear in both the real WARN feed and the USCIS H-1B directory. Appearing in both does not imply one caused the other."
+          />
+          <Stat label="Their WARN layoffs" value={formatNumber(totalCrossLayoffs)} sub="Employees noticed" />
           <Stat label="Tracked H-1B approvals" value={formatNumber(totalApprovals)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
-          <Stat label="Employers in both datasets" value={String(withBoth)} tooltip="Appearing in both does not imply one caused the other." />
-          <Stat label="Employers tracked" value={String(rows.length)} />
+          <Stat label="WARN states covered" value={String(WARN_META.stateCount)} sub="States with open-data feeds" />
         </StatRow>
       </PageHeader>
 
@@ -80,33 +92,46 @@ export default function LayoffsVsH1bPage() {
 
         <AdSlot format="in-content" />
 
-        <ChartCard title="Employer comparison table">
-          <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">
-            <table className="w-full min-w-[640px] text-sm">
-              <thead>
-                <tr className="border-b border-white/10 bg-white/[0.03] text-left text-xs uppercase tracking-wider text-slate-400">
-                  <th className="px-4 py-3 font-medium">Employer</th>
-                  <th className="px-4 py-3 font-medium">H-1B approvals</th>
-                  <th className="px-4 py-3 font-medium">Layoffs (WARN)</th>
-                  <th className="px-4 py-3 font-medium">Avg offered wage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((r) => (
-                  <tr key={r.slug} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03]">
-                    <td className="px-4 py-3">
-                      <Link href={`/company/${r.slug}`} className="font-medium text-white hover:text-accent-soft">
-                        {r.name}
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3 font-mono tabular-nums text-accent-soft">{formatNumber(r.approvals)}</td>
-                    <td className="px-4 py-3 font-mono tabular-nums text-status-red">{formatNumber(r.layoffs)}</td>
-                    <td className="px-4 py-3 font-mono tabular-nums text-slate-300">{formatCurrency(r.avgWage)}</td>
+        <ChartCard
+          title="Every employer in both datasets — live"
+          subtitle={`Matched from ${formatNumber(WARN_META.noticeCount)} real WARN notices across ${WARN_META.stateCount} states against the USCIS H-1B employer directory. Sorted by H-1B approvals.`}
+          source={{ sourceName: "USCIS H-1B Employer Data Hub + State WARN portals", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: WARN_META.maxNoticeDate ?? UPDATED.warn_layoffs }}
+          actions={<DownloadCsvButton rows={csvRows} filename="warn-x-h1b-employers" />}
+        >
+          {crossLinked.length === 0 ? (
+            <p className="text-sm text-slate-400">No overlap in the current feed. Coverage grows as more states publish machine-readable WARN data.</p>
+          ) : (
+            <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">
+              <table className="w-full min-w-[720px] text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 bg-white/[0.03] text-left text-xs uppercase tracking-wider text-slate-400">
+                    <th className="px-4 py-3 font-medium">Employer</th>
+                    <th className="px-4 py-3 font-medium">States</th>
+                    <th className="px-4 py-3 font-medium text-right">H-1B approvals</th>
+                    <th className="px-4 py-3 font-medium text-right">Approval rate</th>
+                    <th className="px-4 py-3 font-medium text-right">Layoffs (WARN)</th>
+                    <th className="px-4 py-3 font-medium">Latest notice</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {crossLinked.map((r) => (
+                    <tr key={r.h1bSlug} className="border-b border-white/5 last:border-0 hover:bg-white/[0.03]">
+                      <td className="px-4 py-3">
+                        <Link href={`/employer/${r.h1bSlug}`} className="font-medium text-white hover:text-accent-soft">
+                          {r.name}
+                        </Link>
+                      </td>
+                      <td className="px-4 py-3 font-mono text-xs text-slate-400">{r.states.join(", ")}</td>
+                      <td className="px-4 py-3 text-right font-mono tabular-nums text-accent-soft">{formatNumber(r.approvals)}</td>
+                      <td className="px-4 py-3 text-right font-mono tabular-nums text-slate-300">{formatRate(r.approvalRate)}</td>
+                      <td className="px-4 py-3 text-right font-mono tabular-nums text-status-red">{formatNumber(r.layoffs)}</td>
+                      <td className="px-4 py-3 font-mono tabular-nums text-slate-500">{r.latestNotice ? formatDate(r.latestNotice) : "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </ChartCard>
 
         <div className="panel panel-pad text-sm leading-relaxed text-slate-300">

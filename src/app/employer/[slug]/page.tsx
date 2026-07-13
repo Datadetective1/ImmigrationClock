@@ -15,7 +15,8 @@ import {
   employerBySlug,
   displayEmployer,
 } from "@/lib/employers";
-import { formatNumber, formatRate } from "@/lib/format";
+import { warnForEmployer } from "@/lib/warn";
+import { formatNumber, formatRate, formatDate } from "@/lib/format";
 
 export function generateStaticParams() {
   return EMPLOYERS.map((e) => ({ slug: e.slug }));
@@ -45,6 +46,11 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
   const rateDelta = (e.approvalRate - AVG_APPROVAL_RATE) * 100;
   const rateWord = rateDelta > 0.5 ? "above" : rateDelta < -0.5 ? "below" : "in line with";
 
+  // Does this same employer also appear in the real WARN layoff feed? If so we
+  // surface it right here — the layoffs-next-to-sponsorship view no layoff-only
+  // tracker can produce. Appearing in both does NOT imply one caused the other.
+  const warn = warnForEmployer(e.name);
+
   // FAQ built from the real record — targets "does {company} sponsor H-1B?" and
   // emits FAQPage JSON-LD for rich results.
   const faqItems: FaqItem[] = [
@@ -68,6 +74,14 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
     faqItems.push({
       q: `Where does ${name} sponsor the most H-1B workers?`,
       a: `Most of ${name}'s reported FY${fy} H-1B approvals were in ${e.topState}.`,
+    });
+  }
+  if (warn) {
+    faqItems.push({
+      q: `Has ${name} filed WARN layoff notices?`,
+      a: `Yes. State WARN portals show ${name} filed ${formatNumber(warn.summary.notices)} layoff notice${
+        warn.summary.notices === 1 ? "" : "s"
+      } covering ${formatNumber(warn.summary.employees)} employees (${warn.summary.states.join(", ")}). WARN notices report planned layoffs; they do not indicate whether or how those roles relate to H-1B sponsorship.`,
     });
   }
 
@@ -142,6 +156,72 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
             </a>
           </div>
         </section>
+
+        {warn ? (
+          <section className="panel panel-pad">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="eyebrow text-status-red">Layoff notices · WARN</span>
+                <ProvenanceTag provenance="reported" />
+              </div>
+              <Link href="/layoffs-vs-h1b" className="text-xs font-semibold text-accent hover:text-accent-soft">
+                Layoffs vs H-1B →
+              </Link>
+            </div>
+            <p className="mb-4 text-sm leading-relaxed text-slate-300">
+              {name} also appears in the state WARN layoff feed:{" "}
+              <strong className="text-white">{formatNumber(warn.summary.employees)}</strong> employees across{" "}
+              <strong className="text-white">{formatNumber(warn.summary.notices)}</strong> notice
+              {warn.summary.notices === 1 ? "" : "s"} ({warn.summary.states.join(", ")}). This sits next to the H-1B
+              record above — a comparison no layoff-only tracker can show.{" "}
+              <span className="text-slate-400">Appearing in both does not imply one caused the other.</span>
+            </p>
+            <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">
+              <table className="w-full min-w-[420px] text-sm">
+                <thead>
+                  <tr className="border-b border-white/10 bg-white/[0.03] text-left text-xs uppercase tracking-wider text-slate-400">
+                    <th className="px-3 py-2 font-medium">Notice date</th>
+                    <th className="px-3 py-2 font-medium">Location</th>
+                    <th className="px-3 py-2 font-medium text-right">Employees</th>
+                    <th className="px-3 py-2 font-medium">Source</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {warn.notices.slice(0, 8).map((n, i) => (
+                    <tr key={`${n.noticeDate}-${i}`} className="border-b border-white/5 last:border-0">
+                      <td className="px-3 py-2 font-mono tabular-nums text-slate-300">
+                        {n.noticeDate ? formatDate(n.noticeDate) : "—"}
+                      </td>
+                      <td className="px-3 py-2 text-slate-400">{[n.city, n.state].filter(Boolean).join(", ")}</td>
+                      <td className="px-3 py-2 text-right font-mono tabular-nums text-status-red">
+                        {n.employees > 0 ? formatNumber(n.employees) : "—"}
+                      </td>
+                      <td className="px-3 py-2">
+                        <a
+                          href={n.sourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-accent-soft hover:underline"
+                        >
+                          {n.state} ↗
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {warn.notices.length > 8 ? (
+              <p className="mt-3 text-xs text-slate-500">
+                Showing 8 of {formatNumber(warn.notices.length)} notices. See the{" "}
+                <Link href="/layoffs" className="link-accent">
+                  full live layoffs feed
+                </Link>
+                .
+              </p>
+            ) : null}
+          </section>
+        ) : null}
 
         <Faq items={faqItems} />
 
