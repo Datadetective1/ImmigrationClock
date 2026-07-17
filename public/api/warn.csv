@@ -1,5 +1,7 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
 UBS,UBS,Weehawken,,NJ,,2026-11-04,58,,https://www.nj.gov/labor/employer-services/warn/
+"Mars WrigleyConfectionary US, LLC",MARS WRIGLEYCONFECTIONARY,Newark,,NJ,,2026-10-16,307,,https://www.nj.gov/labor/employer-services/warn/
+The Cannabist Company,THE CANNABIST,Vineland,,NJ,,2026-10-11,86,,https://www.nj.gov/labor/employer-services/warn/
 Novartis Pharmaceuticals Corporation,NOVARTIS PHARMACEUTICALS,East Hanover,,NJ,,2026-10-02,322,,https://www.nj.gov/labor/employer-services/warn/
 "Samsung SDS America, Inc",SAMSUNG SDS AMERICA,Ridgefield Park,,NJ,,2026-10-01,179,,https://www.nj.gov/labor/employer-services/warn/
 "Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL,Atlantic City,,NJ,,2026-10-01,99,,https://www.nj.gov/labor/employer-services/warn/
@@ -29,16 +31,32 @@ Accupac,ACCUPAC,Lakewood,,NJ,,2026-08-03,260,,https://www.nj.gov/labor/employer-
 JP Morgan Chase,JP MORGAN CHASE,Jersey City,,NJ,,2026-08-03,51,,https://www.nj.gov/labor/employer-services/warn/
 DoubleTree by Hilton,DOUBLETREE BY HILTON,Somerset,,NJ,,2026-08-01,90,,https://www.nj.gov/labor/employer-services/warn/
 Fulton Bank,FULTON BANK,Parsippany,,NJ,,2026-07-31,95,,https://www.nj.gov/labor/employer-services/warn/
+"FreshRealm, Inc.",FRESHREALM,Linden,,NJ,,2026-07-27,628,,https://www.nj.gov/labor/employer-services/warn/
 Novartis,NOVARTIS,East Hanover,,NJ,,2026-07-24,60,,https://www.nj.gov/labor/employer-services/warn/
 "Alan Ritchey, Inc.",ALAN RITCHEY,Phillipsburg,,NJ,,2026-07-17,176,,https://www.nj.gov/labor/employer-services/warn/
 Prudential Insurance Company of America,PRUDENTIAL INSURANCE OF AMERICA,Newark,,NJ,,2026-07-17,53,,https://www.nj.gov/labor/employer-services/warn/
 Bristol Myers Squibb,BRISTOL MYERS SQUIBB,Lawrence Twp,,NJ,,2026-07-16,206,,https://www.nj.gov/labor/employer-services/warn/
+Verizon,VERIZON,Various locations in Washington,,WA,2026-07-16,2026-09-18,54,Permanent,https://esd.wa.gov/about-employees/WARN
+"Eargo, Inc.",EARGO,San Jose,Santa Clara,CA,2026-07-15,2026-09-14,57,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"GMRI, Inc. dba Yard House",GMRI DBA YARD HOUSE,Costa Mesa,Orange,CA,2026-07-14,2026-09-14,78,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Udemy, Inc.",UDEMY,San Francisco,San Francisco,CA,2026-07-14,2026-09-11,28,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Coursera, Inc.",COURSERA,Mountain View,Santa Clara,CA,2026-07-14,2026-09-11,31,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"ELC Beauty LLC (Too Faced Cosmetics, LLC)",ELC BEAUTY (TOO FACED COSMETICS ),Irvine,Orange,CA,2026-07-14,2026-09-30,67,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Red Lobster Restaurants LLC,RED LOBSTER RESTAURANTS,Santa Maria,Santa Barbara,CA,2026-07-14,2026-08-31,37,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"AWCS, LLC (Cottonwood Post-Acute Rehab",AWCS (COTTONWOOD POST-ACUTE REHAB,Woodland,Yolo,CA,2026-07-13,2026-09-11,158,Closure Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+6th Street Center for Youth (Youth for Change),6TH STREET CENTER FOR YOUTH (YOUTH FOR CHANGE),Chico,Butte,CA,2026-07-10,2026-08-31,6,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"GXO Logistics Worldwide, LLC",GXO LOGISTICS WORLDWIDE,San Bernardino,San Bernardino,CA,2026-07-10,2026-09-18,46,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Xpress Delivery LLC (DSJ9),XPRESS DELIVERY (DSJ9),Oakland,Alameda,CA,2026-07-09,2026-09-09,80,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+OnPoint Logistics LLC,ONPOINT LOGISTICS,San Francisco,San Francisco,CA,2026-07-09,2026-09-07,96,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Emerson,EMERSON,Charlottesville  VA,,VA,2026-07-09,,139,Closure,https://www.vec.virginia.gov/warn-notices
+Sentinel Restaurant & Hospitality Group LLC,SENTINEL RESTAURANT HOSPITALITY GROUP,Laguna Beach,Orange,CA,2026-07-08,2026-09-08,113,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 JP Morgan Chase,JP MORGAN CHASE,Jersey City,,NJ,,2026-07-08,172,,https://www.nj.gov/labor/employer-services/warn/
-Medical Faculty Associates Inc. (MFA),MEDICAL FACULTY ASSOCIATES (MFA),"Alexandria, Arlington, Ashburn &amp; Reston VA",,VA,2026-07-08,,105,Layoff,https://www.vec.virginia.gov/warn-notices
+Medical Faculty Associates Inc. (MFA),MEDICAL FACULTY ASSOCIATES (MFA),"Alexandria, Arlington, Ashburn &amp; Reston VA",,VA,2026-07-08,,2,Layoff,https://www.vec.virginia.gov/warn-notices
 "Expeditors International of Washington, Inc.",EXPEDITORS INTERNATIONAL OF WASHINGTON,Various locations in Washington,,WA,2026-07-08,2026-08-07,3,Permanent,https://esd.wa.gov/about-employees/WARN
 LeeMAH Electronics,LEEMAH ELECTRONICS,Brisbane,San Mateo,CA,2026-07-07,2026-09-08,212,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+The Vons Companies Inc.,THE VONS COMPANIES,Pasadena,Los Angeles,CA,2026-07-07,2026-09-05,55,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Obsidian,OBSIDIAN,Irvine,Orange,CA,2026-07-06,2026-09-04,52,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+GEODIS,GEODIS,Redlands,San Bernardino,CA,2026-07-06,2026-09-03,81,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Microsoft,MICROSOFT,Redmond,,WA,2026-07-06,2026-09-04,605,Permanent,https://esd.wa.gov/about-employees/WARN
 Winfit LLC,WINFIT,Mercer County,,NJ,,2026-07-05,5,,https://www.nj.gov/labor/employer-services/warn/
 Labcorp Raritan,LABCORP RARITAN,Raritan,,NJ,,2026-07-03,83,,https://www.nj.gov/labor/employer-services/warn/
@@ -58,8 +76,8 @@ Times Fiber Communications (TFC),TIMES FIBER COMMUNICATIONS (TFC),Pittsylvania C
 "Conduent Commercial Solutions, LLC",CONDUENT COMMERCIAL,Remote in Washington,,WA,2026-06-29,2026-08-28,4,Permanent,https://esd.wa.gov/about-employees/WARN
 PetVet Care Centers,PETVET CARE CENTERS,Vancouver,,WA,2026-06-29,2026-09-04,50,Permanent,https://esd.wa.gov/about-employees/WARN
 "Citibank, N.A.",CITIBANK N A,Hudson and Bergen Counties,,NJ,,2026-06-28,68,,https://www.nj.gov/labor/employer-services/warn/
-FreshRealm,FRESHREALM,Linden,,NJ,,2026-06-27,637,,https://www.nj.gov/labor/employer-services/warn/
 "Genentech, Inc.",GENENTECH,South San Francisco,San Mateo,CA,2026-06-26,2026-07-29,103,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Conduent,CONDUENT,Cypress,Orange,CA,2026-06-26,2026-08-28,51,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Novartis,NOVARTIS,East Hanover,,NJ,,2026-06-26,114,,https://www.nj.gov/labor/employer-services/warn/
 "Flagship Facilities Services, LLC",FLAGSHIP FACILITIES,Seattle,,WA,2026-06-26,2026-07-19,4,Permanent,https://esd.wa.gov/about-employees/WARN
 "Transdev Services, Inc",TRANSDEV,Everett,,WA,2026-06-26,2026-08-29,108,Permanent,https://esd.wa.gov/about-employees/WARN

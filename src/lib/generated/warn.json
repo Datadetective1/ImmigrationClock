@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-14T11:00:45.381Z",
+  "generatedAt": "2026-07-17T10:56:47.121Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -7,8 +7,8 @@
       "agency": "State WARN portal (via warn-scraper)",
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
-      "noticeCount": 2289,
-      "employeesTotal": 368890,
+      "noticeCount": 2291,
+      "employeesTotal": 369274,
       "latestNotice": null
     },
     {
@@ -16,9 +16,9 @@
       "agency": "State WARN portal (via warn-scraper)",
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
-      "noticeCount": 1476,
-      "employeesTotal": 234207,
-      "latestNotice": "2026-07-08"
+      "noticeCount": 1477,
+      "employeesTotal": 234261,
+      "latestNotice": "2026-07-16"
     },
     {
       "code": "TX",
@@ -35,7 +35,7 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "noticeCount": 1113,
-      "employeesTotal": 130124,
+      "employeesTotal": 130021,
       "latestNotice": "2026-07-09"
     },
     {
@@ -52,17 +52,17 @@
       "agency": "California Employment Development Department",
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
-      "noticeCount": 9,
-      "employeesTotal": 655,
-      "latestNotice": "2026-07-07"
+      "noticeCount": 24,
+      "employeesTotal": 1639,
+      "latestNotice": "2026-07-15"
     }
   ],
   "stateCount": 6,
-  "noticeCount": 7640,
-  "employeesTotal": 987988,
-  "employerCount": 5942,
+  "noticeCount": 7658,
+  "employeesTotal": 989307,
+  "employerCount": 5957,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-07-09",
+  "maxNoticeDate": "2026-07-16",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -476,6 +476,18 @@
       "latestNotice": null
     },
     {
+      "normalized": "VERIZON",
+      "name": "Verizon",
+      "slug": "verizon",
+      "notices": 6,
+      "employees": 2045,
+      "states": [
+        "NJ",
+        "WA"
+      ],
+      "latestNotice": "2026-07-16"
+    },
+    {
       "normalized": "BANK OF AMERICA",
       "name": "Bank of America",
       "slug": "bank-of-america",
@@ -498,18 +510,6 @@
         "NJ"
       ],
       "latestNotice": null
-    },
-    {
-      "normalized": "VERIZON",
-      "name": "Verizon",
-      "slug": "verizon",
-      "notices": 5,
-      "employees": 1991,
-      "states": [
-        "NJ",
-        "WA"
-      ],
-      "latestNotice": "2025-11-21"
     },
     {
       "normalized": "BLOOMIN' BRANDS (OUTBACK STEAKHOUSE)",
@@ -1727,18 +1727,6 @@
       "latestNotice": "2025-08-25"
     },
     {
-      "normalized": "FRESHREALM",
-      "name": "FreshRealm",
-      "slug": "freshrealm",
-      "notices": 2,
-      "employees": 813,
-      "states": [
-        "NJ",
-        "TX"
-      ],
-      "latestNotice": "2026-04-27"
-    },
-    {
       "normalized": "ICOS",
       "name": "ICOS Corporation",
       "slug": "icos-corporation",
@@ -1783,6 +1771,18 @@
         "WA"
       ],
       "latestNotice": "2019-02-06"
+    },
+    {
+      "normalized": "FRESHREALM",
+      "name": "FreshRealm, Inc.",
+      "slug": "freshrealm-inc",
+      "notices": 2,
+      "employees": 804,
+      "states": [
+        "NJ",
+        "TX"
+      ],
+      "latestNotice": "2026-04-27"
     },
     {
       "normalized": "ALPHA NATURAL RESOURCES",
@@ -3897,6 +3897,18 @@
       "latestNotice": null
     },
     {
+      "normalized": "GEODIS",
+      "name": "GEODIS",
+      "slug": "geodis",
+      "notices": 2,
+      "employees": 444,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-07-06"
+    },
+    {
       "normalized": "SPIRIT AIRLINES (DFW) MAY 2026",
       "name": "Spirit Airlines (DFW) May 2026",
       "slug": "spirit-airlines-dfw-may-2026",
@@ -5333,17 +5345,6 @@
       "latestNotice": "2023-08-29"
     },
     {
-      "normalized": "GEODIS",
-      "name": "GEODIS",
-      "slug": "geodis",
-      "notices": 1,
-      "employees": 363,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": null
-    },
-    {
       "normalized": "GUEST",
       "name": "Guest Services",
       "slug": "guest-services",
@@ -5489,6 +5490,18 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "CONDUENT",
+      "name": "Conduent",
+      "slug": "conduent",
+      "notices": 2,
+      "employees": 355,
+      "states": [
+        "CA",
+        "WA"
+      ],
+      "latestNotice": "2026-06-26"
     },
     {
       "normalized": "RESTAURANT ASSOCIATES",
@@ -6548,6 +6561,17 @@
       "latestNotice": "2020-05-04"
     },
     {
+      "normalized": "MARS WRIGLEYCONFECTIONARY",
+      "name": "Mars WrigleyConfectionary US, LLC",
+      "slug": "mars-wrigleyconfectionary-us-llc",
+      "notices": 1,
+      "employees": 307,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": null
+    },
+    {
       "normalized": "ZACHRY INDUSTRIAL (BAYTOWN)",
       "name": "Zachry Industrial, Inc. (Baytown)",
       "slug": "zachry-industrial-inc-baytown",
@@ -6661,17 +6685,6 @@
         "WA"
       ],
       "latestNotice": "2019-06-03"
-    },
-    {
-      "normalized": "CONDUENT",
-      "name": "Conduent",
-      "slug": "conduent",
-      "notices": 1,
-      "employees": 304,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2018-06-01"
     },
     {
       "normalized": "INTERFOR",
@@ -15604,6 +15617,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "AWCS (COTTONWOOD POST-ACUTE REHAB",
+      "name": "AWCS, LLC (Cottonwood Post-Acute Rehab",
+      "slug": "awcs-llc-cottonwood-post-acute-rehab",
+      "notices": 1,
+      "employees": 158,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-13"
+    },
+    {
       "normalized": "FUTURE PROOF BRANDS (AUSTIN)",
       "name": "Future Proof Brands LLC (Austin)",
       "slug": "future-proof-brands-llc-austin",
@@ -23232,6 +23256,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "SENTINEL RESTAURANT HOSPITALITY GROUP",
+      "name": "Sentinel Restaurant & Hospitality Group LLC",
+      "slug": "sentinel-restaurant-hospitality-group-llc",
+      "notices": 1,
+      "employees": 113,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-08"
+    },
+    {
       "normalized": "JANUS INTERNATIONAL GROUP",
       "name": "Janus International Group",
       "slug": "janus-international-group",
@@ -25072,17 +25107,6 @@
         "NJ"
       ],
       "latestNotice": null
-    },
-    {
-      "normalized": "MEDICAL FACULTY ASSOCIATES (MFA)",
-      "name": "Medical Faculty Associates Inc. (MFA)",
-      "slug": "medical-faculty-associates-inc-mfa",
-      "notices": 1,
-      "employees": 105,
-      "states": [
-        "VA"
-      ],
-      "latestNotice": "2026-07-08"
     },
     {
       "normalized": "YANG MING (AMERICA) UPDATED",
@@ -27561,6 +27585,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "ONPOINT LOGISTICS",
+      "name": "OnPoint Logistics LLC",
+      "slug": "onpoint-logistics-llc",
+      "notices": 1,
+      "employees": 96,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-09"
     },
     {
       "normalized": "HELPFUL HANDS JOINT BASE SAN ANTONIO-LACKLAND",
@@ -30590,6 +30625,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "THE CANNABIST",
+      "name": "The Cannabist Company",
+      "slug": "the-cannabist-company",
+      "notices": 1,
+      "employees": 86,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": null
+    },
+    {
       "normalized": "SODEXO (SDH EAST ) HCA CLEAR LAKE",
       "name": "Sodexo (SDH Services East, LLC) HCA Clear Lake",
       "slug": "sodexo-sdh-services-east-llc-hca-clear-lake",
@@ -32802,6 +32848,17 @@
       "latestNotice": "2009-05-28"
     },
     {
+      "normalized": "XPRESS DELIVERY (DSJ9)",
+      "name": "Xpress Delivery LLC (DSJ9)",
+      "slug": "xpress-delivery-llc-dsj9",
+      "notices": 1,
+      "employees": 80,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-09"
+    },
+    {
       "normalized": "PARKHURST DINING (RANDOLPH MACON COLLEGE SITE)",
       "name": "Parkhurst Dining LLC (Randolph Macon College Site)",
       "slug": "parkhurst-dining-llc-randolph-macon-college-site",
@@ -33736,6 +33793,17 @@
         "WA"
       ],
       "latestNotice": "2008-01-11"
+    },
+    {
+      "normalized": "GMRI DBA YARD HOUSE",
+      "name": "GMRI, Inc. dba Yard House",
+      "slug": "gmri-inc-dba-yard-house",
+      "notices": 1,
+      "employees": 78,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-14"
     },
     {
       "normalized": "TIMES FIBER COMMUNICATIONS (TFC)",
@@ -38151,6 +38219,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "ELC BEAUTY (TOO FACED COSMETICS )",
+      "name": "ELC Beauty LLC (Too Faced Cosmetics, LLC)",
+      "slug": "elc-beauty-llc-too-faced-cosmetics-llc",
+      "notices": 1,
+      "employees": 67,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-14"
     },
     {
       "normalized": "SAKS GLOBAL (NEIMAN MARCUS)",
@@ -42982,6 +43061,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "EARGO",
+      "name": "Eargo, Inc.",
+      "slug": "eargo-inc",
+      "notices": 1,
+      "employees": 57,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-15"
+    },
+    {
       "normalized": "MARKETSOURCE",
       "name": "MarketSource",
       "slug": "marketsource",
@@ -43970,6 +44060,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "THE VONS COMPANIES",
+      "name": "The Vons Companies Inc.",
+      "slug": "the-vons-companies-inc",
+      "notices": 1,
+      "employees": 55,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-07"
     },
     {
       "normalized": "THE FRESH MARKET",
@@ -47694,6 +47795,17 @@
       "latestNotice": "2004-10-29"
     },
     {
+      "normalized": "GXO LOGISTICS WORLDWIDE",
+      "name": "GXO Logistics Worldwide, LLC",
+      "slug": "gxo-logistics-worldwide-llc",
+      "notices": 1,
+      "employees": 46,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-10"
+    },
+    {
       "normalized": "HILL SMITH",
       "name": "Hill & Smith, Inc.",
       "slug": "hill-smith-inc",
@@ -50038,6 +50150,17 @@
       "latestNotice": "2011-08-23"
     },
     {
+      "normalized": "RED LOBSTER RESTAURANTS",
+      "name": "Red Lobster Restaurants LLC",
+      "slug": "red-lobster-restaurants-llc",
+      "notices": 1,
+      "employees": 37,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-14"
+    },
+    {
       "normalized": "WELLS FARGO AND - 5TH AVE PORT",
       "name": "Wells Fargo and Company - 5th Ave. Port",
       "slug": "wells-fargo-and-company-5th-ave-port",
@@ -51347,6 +51470,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "COURSERA",
+      "name": "Coursera, Inc.",
+      "slug": "coursera-inc",
+      "notices": 1,
+      "employees": 31,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-14"
+    },
+    {
       "normalized": "BLUE DIAMOND GROWERS",
       "name": "Blue Diamond Growers",
       "slug": "blue-diamond-growers",
@@ -52049,6 +52183,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "UDEMY",
+      "name": "Udemy, Inc.",
+      "slug": "udemy-inc",
+      "notices": 1,
+      "employees": 28,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-14"
     },
     {
       "normalized": "CONDUENT COMMERCIAL",
@@ -59553,6 +59698,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "6TH STREET CENTER FOR YOUTH (YOUTH FOR CHANGE)",
+      "name": "6th Street Center for Youth (Youth for Change)",
+      "slug": "6th-street-center-for-youth-youth-for-change",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-10"
+    },
+    {
       "normalized": "FIREBIRD BULK CARRIERS (DILLEY)",
       "name": "Firebird Bulk Carriers, Inc.(Dilley)",
       "slug": "firebird-bulk-carriers-inc-dilley",
@@ -63145,6 +63301,17 @@
       "latestNotice": "2010-09-21"
     },
     {
+      "normalized": "MEDICAL FACULTY ASSOCIATES (MFA)",
+      "name": "Medical Faculty Associates Inc. (MFA)",
+      "slug": "medical-faculty-associates-inc-mfa",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-07-08"
+    },
+    {
       "normalized": "MCDONALD'S",
       "name": "McDonald's Corporation",
       "slug": "mcdonald-s-corporation",
@@ -65713,6 +65880,30 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Mars WrigleyConfectionary US, LLC",
+      "normalized": "MARS WRIGLEYCONFECTIONARY",
+      "city": "Newark",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-10-16",
+      "employees": 307,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "The Cannabist Company",
+      "normalized": "THE CANNABIST",
+      "city": "Vineland",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-10-11",
+      "employees": 86,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Novartis Pharmaceuticals Corporation",
       "normalized": "NOVARTIS PHARMACEUTICALS",
       "city": "East Hanover",
@@ -66061,6 +66252,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "FreshRealm, Inc.",
+      "normalized": "FRESHREALM",
+      "city": "Linden",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-07-27",
+      "employees": 628,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Novartis",
       "normalized": "NOVARTIS",
       "city": "East Hanover",
@@ -66109,6 +66312,150 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Verizon",
+      "normalized": "VERIZON",
+      "city": "Various locations in Washington",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-07-16",
+      "effectiveDate": "2026-09-18",
+      "employees": 54,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Eargo, Inc.",
+      "normalized": "EARGO",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-15",
+      "effectiveDate": "2026-09-14",
+      "employees": 57,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "GMRI, Inc. dba Yard House",
+      "normalized": "GMRI DBA YARD HOUSE",
+      "city": "Costa Mesa",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-07-14",
+      "effectiveDate": "2026-09-14",
+      "employees": 78,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Udemy, Inc.",
+      "normalized": "UDEMY",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-07-14",
+      "effectiveDate": "2026-09-11",
+      "employees": 28,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Coursera, Inc.",
+      "normalized": "COURSERA",
+      "city": "Mountain View",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-14",
+      "effectiveDate": "2026-09-11",
+      "employees": 31,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "ELC Beauty LLC (Too Faced Cosmetics, LLC)",
+      "normalized": "ELC BEAUTY (TOO FACED COSMETICS )",
+      "city": "Irvine",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-07-14",
+      "effectiveDate": "2026-09-30",
+      "employees": 67,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Red Lobster Restaurants LLC",
+      "normalized": "RED LOBSTER RESTAURANTS",
+      "city": "Santa Maria",
+      "county": "Santa Barbara",
+      "state": "CA",
+      "noticeDate": "2026-07-14",
+      "effectiveDate": "2026-08-31",
+      "employees": 37,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "AWCS, LLC (Cottonwood Post-Acute Rehab",
+      "normalized": "AWCS (COTTONWOOD POST-ACUTE REHAB",
+      "city": "Woodland",
+      "county": "Yolo",
+      "state": "CA",
+      "noticeDate": "2026-07-13",
+      "effectiveDate": "2026-09-11",
+      "employees": 158,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "6th Street Center for Youth (Youth for Change)",
+      "normalized": "6TH STREET CENTER FOR YOUTH (YOUTH FOR CHANGE)",
+      "city": "Chico",
+      "county": "Butte",
+      "state": "CA",
+      "noticeDate": "2026-07-10",
+      "effectiveDate": "2026-08-31",
+      "employees": 6,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "GXO Logistics Worldwide, LLC",
+      "normalized": "GXO LOGISTICS WORLDWIDE",
+      "city": "San Bernardino",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-07-10",
+      "effectiveDate": "2026-09-18",
+      "employees": 46,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Xpress Delivery LLC (DSJ9)",
+      "normalized": "XPRESS DELIVERY (DSJ9)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-07-09",
+      "effectiveDate": "2026-09-09",
+      "employees": 80,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "OnPoint Logistics LLC",
+      "normalized": "ONPOINT LOGISTICS",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-07-09",
+      "effectiveDate": "2026-09-07",
+      "employees": 96,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Emerson",
       "normalized": "EMERSON",
       "city": "Charlottesville  VA",
@@ -66119,6 +66466,18 @@
       "employees": 139,
       "layoffType": "Closure",
       "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Sentinel Restaurant & Hospitality Group LLC",
+      "normalized": "SENTINEL RESTAURANT HOSPITALITY GROUP",
+      "city": "Laguna Beach",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-07-08",
+      "effectiveDate": "2026-09-08",
+      "employees": 113,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "JP Morgan Chase",
@@ -66140,7 +66499,7 @@
       "state": "VA",
       "noticeDate": "2026-07-08",
       "effectiveDate": null,
-      "employees": 105,
+      "employees": 2,
       "layoffType": "Layoff",
       "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },
@@ -66169,6 +66528,18 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "The Vons Companies Inc.",
+      "normalized": "THE VONS COMPANIES",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-07-07",
+      "effectiveDate": "2026-09-05",
+      "employees": 55,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Obsidian",
       "normalized": "OBSIDIAN",
       "city": "Irvine",
@@ -66178,6 +66549,18 @@
       "effectiveDate": "2026-09-04",
       "employees": 52,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "GEODIS",
+      "normalized": "GEODIS",
+      "city": "Redlands",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-07-06",
+      "effectiveDate": "2026-09-03",
+      "employees": 81,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -66409,18 +66792,6 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
-      "employer": "FreshRealm",
-      "normalized": "FRESHREALM",
-      "city": "Linden",
-      "county": null,
-      "state": "NJ",
-      "noticeDate": null,
-      "effectiveDate": "2026-06-27",
-      "employees": 637,
-      "layoffType": null,
-      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
-    },
-    {
       "employer": "Genentech, Inc.",
       "normalized": "GENENTECH",
       "city": "South San Francisco",
@@ -66429,6 +66800,18 @@
       "noticeDate": "2026-06-26",
       "effectiveDate": "2026-07-29",
       "employees": 103,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Conduent",
+      "normalized": "CONDUENT",
+      "city": "Cypress",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-06-26",
+      "effectiveDate": "2026-08-28",
+      "employees": 51,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
