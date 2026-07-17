@@ -1,8 +1,8 @@
-IMMIGRATION PULSE — July 8, 2026
+IMMIGRATION PULSE — July 17, 2026
 5 things that changed in U.S. immigration. Every figure is sourced and labelled.
 
-1. 33,184 border encounters added in May [Reported]
-   Monthly inflow up vs the prior month. FY total so far: 249,060.
+1. 31,596 border encounters added in June [Reported]
+   Monthly inflow down vs the prior month. FY total so far: 280,656.
    Source: CBP Nationwide Encounters — https://www.cbp.gov/newsroom/stats/nationwide-encounters
 
 2. Texas layoffs down 12% month-over-month [Reported]
@@ -13,7 +13,7 @@ IMMIGRATION PULSE — July 8, 2026
    At the current pace, FY2026 would reach ~465.9K removals vs 271,484 in FY2024.
    Source: ICE Enforcement and Removal Statistics — https://www.ice.gov/statistics
 
-4. H-1B employer data still lags ~21 months behind the real economy [Reported]
+4. H-1B employer data still lags ~22 months behind the real economy [Reported]
    The latest official USCIS employer release is FY2024 (latest release). Layoffs and the labor market move months before the visa data catches up.
    Source: USCIS H-1B Employer Data Hub — https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub
 
@@ -22,7 +22,7 @@ IMMIGRATION PULSE — July 8, 2026
    Source: U.S. Bureau of Labor Statistics — https://www.bls.gov/cps/
 
 BY THE NUMBERS
-- Border encounters · FY2026 YTD: 249.1K
+- Border encounters · FY2026 YTD: 280.7K
 - ICE removals · FY2026 YTD: 330K
 - Texas layoffs · 2026 YTD: 12,234
 - U.S. unemployment: 4.2%
