@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-24T11:12:58.236Z",
+  "generatedAt": "2026-07-31T11:38:22.501Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -17,8 +17,8 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "noticeCount": 1478,
-      "employeesTotal": 234384,
-      "latestNotice": "2026-07-22"
+      "employeesTotal": 234374,
+      "latestNotice": "2026-07-28"
     },
     {
       "code": "TX",
@@ -52,17 +52,17 @@
       "agency": "California Employment Development Department",
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
-      "noticeCount": 40,
-      "employeesTotal": 2787,
-      "latestNotice": "2026-07-22"
+      "noticeCount": 72,
+      "employeesTotal": 4012,
+      "latestNotice": "2026-07-29"
     }
   ],
   "stateCount": 6,
-  "noticeCount": 7680,
-  "employeesTotal": 991769,
-  "employerCount": 5973,
+  "noticeCount": 7712,
+  "employeesTotal": 992984,
+  "employerCount": 6000,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-07-22",
+  "maxNoticeDate": "2026-07-29",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -534,6 +534,20 @@
       "latestNotice": "2020-09-30"
     },
     {
+      "normalized": "SODEXO",
+      "name": "Sodexo",
+      "slug": "sodexo",
+      "notices": 20,
+      "employees": 1771,
+      "states": [
+        "CA",
+        "NJ",
+        "VA",
+        "WA"
+      ],
+      "latestNotice": "2026-07-24"
+    },
+    {
       "normalized": "TYSON FOODS (AMARILLO B-SHIFT OPERATIONS) UPDATED",
       "name": "Tyson Foods, Inc (Amarillo B-Shift Operations) Updated",
       "slug": "tyson-foods-inc-amarillo-b-shift-operations-updated",
@@ -655,19 +669,6 @@
         "NJ"
       ],
       "latestNotice": null
-    },
-    {
-      "normalized": "SODEXO",
-      "name": "Sodexo",
-      "slug": "sodexo",
-      "notices": 19,
-      "employees": 1607,
-      "states": [
-        "NJ",
-        "VA",
-        "WA"
-      ],
-      "latestNotice": "2024-04-30"
     },
     {
       "normalized": "NEW CENTURY TRANSPORTATION",
@@ -7193,6 +7194,17 @@
         "TX"
       ],
       "latestNotice": "2020-04-01"
+    },
+    {
+      "normalized": "SERVICENOW",
+      "name": "ServiceNow, Inc.",
+      "slug": "servicenow-inc",
+      "notices": 2,
+      "employees": 287,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-28"
     },
     {
       "normalized": "ARAMARK - AT T CENTER",
@@ -14604,6 +14616,18 @@
       "latestNotice": null
     },
     {
+      "normalized": "FEDERAL EXPRESS",
+      "name": "Federal Express Corporation",
+      "slug": "federal-express-corporation",
+      "notices": 3,
+      "employees": 166,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-07-29"
+    },
+    {
       "normalized": "MANAGEMENT TRAINING (WILLACY COUNTY STATE JAIL)",
       "name": "Management & Training Corporation (Willacy County State Jail)",
       "slug": "management-training-corporation-willacy-county-state-jail",
@@ -15550,6 +15574,18 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "FORTREX",
+      "name": "Fortrex",
+      "slug": "fortrex",
+      "notices": 2,
+      "employees": 159,
+      "states": [
+        "CA",
+        "VA"
+      ],
+      "latestNotice": "2026-07-23"
     },
     {
       "normalized": "WALGREENS (GREENS RD )",
@@ -21048,17 +21084,6 @@
       "latestNotice": "2005-09-06"
     },
     {
-      "normalized": "NO MEAT FACTORY",
-      "name": "No Meat Factory USA Inc",
-      "slug": "no-meat-factory-usa-inc",
-      "notices": 1,
-      "employees": 123,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-07-22"
-    },
-    {
       "normalized": "MAGIC LEAP",
       "name": "Magic Leap, Inc.",
       "slug": "magic-leap-inc",
@@ -23323,6 +23348,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "NO MEAT FACTORY",
+      "name": "No Meat Factory USA Inc",
+      "slug": "no-meat-factory-usa-inc",
+      "notices": 1,
+      "employees": 113,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-07-28"
     },
     {
       "normalized": "SENTINEL RESTAURANT HOSPITALITY GROUP",
@@ -32543,6 +32579,17 @@
       "latestNotice": "2004-04-19"
     },
     {
+      "normalized": "PD SYSTEMS",
+      "name": "PD Systems",
+      "slug": "pd-systems",
+      "notices": 1,
+      "employees": 81,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
       "normalized": "SODEXO (SDH EAST ) HCA KINGWOOD",
       "name": "Sodexo (SDH Services East, LLC) HCA Kingwood",
       "slug": "sodexo-sdh-services-east-llc-hca-kingwood",
@@ -34170,6 +34217,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "CHICK-FIL-A FIG",
+      "name": "Chick-fil-A & Fig",
+      "slug": "chick-fil-a-fig",
+      "notices": 1,
+      "employees": 77,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-24"
     },
     {
       "normalized": "AT HOME",
@@ -38037,6 +38095,17 @@
       "latestNotice": "2026-06-29"
     },
     {
+      "normalized": "TENCENT AMERICA",
+      "name": "Tencent America LLC",
+      "slug": "tencent-america-llc",
+      "notices": 1,
+      "employees": 68,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-29"
+    },
+    {
       "normalized": "CITIBANK N A",
       "name": "Citibank, N.A.",
       "slug": "citibank-n-a",
@@ -38046,17 +38115,6 @@
         "NJ"
       ],
       "latestNotice": null
-    },
-    {
-      "normalized": "FORTREX",
-      "name": "Fortrex",
-      "slug": "fortrex",
-      "notices": 1,
-      "employees": 68,
-      "states": [
-        "VA"
-      ],
-      "latestNotice": "2025-12-02"
     },
     {
       "normalized": "BATTELLE MEMORIAL INSTITUTE / PACIFIC NORTHWEST NATIONAL LABORATORY",
@@ -38333,6 +38391,28 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "O'BRIENS MARKET",
+      "name": "O'Briens Market Inc.",
+      "slug": "o-briens-market-inc",
+      "notices": 1,
+      "employees": 67,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "INTEL - SC-12",
+      "name": "Intel Corporation - SC-12",
+      "slug": "intel-corporation-sc-12",
+      "notices": 1,
+      "employees": 67,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-24"
     },
     {
       "normalized": "ELC BEAUTY (TOO FACED COSMETICS )",
@@ -44187,6 +44267,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "SILGAN CONTAINERS",
+      "name": "Silgan Containers",
+      "slug": "silgan-containers",
+      "notices": 1,
+      "employees": 55,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-21"
+    },
+    {
       "normalized": "NBCUNIVERSAL MEDIA - 1460",
       "name": "NBCUniversal Media, LLC - 1460",
       "slug": "nbcuniversal-media-llc-1460",
@@ -46223,15 +46314,15 @@
       "latestNotice": null
     },
     {
-      "normalized": "FEDERAL EXPRESS",
-      "name": "Federal Express Corporation",
-      "slug": "federal-express-corporation",
+      "normalized": "O'BRIEN'S MARKET",
+      "name": "O'Brien's Market Inc.",
+      "slug": "o-brien-s-market-inc",
       "notices": 1,
       "employees": 50,
       "states": [
-        "NJ"
+        "CA"
       ],
-      "latestNotice": null
+      "latestNotice": "2026-07-27"
     },
     {
       "normalized": "MILESTONE",
@@ -52772,6 +52863,17 @@
       "latestNotice": "2004-04-28"
     },
     {
+      "normalized": "UBER (1655 3RD STREET)",
+      "name": "Uber Technologies, Inc. (1655 3rd Street)",
+      "slug": "uber-technologies-inc-1655-3rd-street",
+      "notices": 1,
+      "employees": 26,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
+    },
+    {
       "normalized": "BEND LOCATION",
       "name": "Bend Location",
       "slug": "bend-location",
@@ -53298,6 +53400,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "INTEL - ROBERT NOYCE BUILDING",
+      "name": "Intel Corporation - Robert Noyce Building",
+      "slug": "intel-corporation-robert-noyce-building",
+      "notices": 1,
+      "employees": 24,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-24"
     },
     {
       "normalized": "YELLOW TRUCKING (YRC FREIGHT) TEAMSTERS LOCAL 29",
@@ -55923,6 +56036,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "UBER (REMOTE)",
+      "name": "Uber Technologies, Inc. (Remote)",
+      "slug": "uber-technologies-inc-remote",
+      "notices": 1,
+      "employees": 14,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
+    },
+    {
       "normalized": "RB HEALTH",
       "name": "RB Health",
       "slug": "rb-health",
@@ -57310,6 +57434,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "INTEL - SC-9",
+      "name": "Intel Corporation - SC-9",
+      "slug": "intel-corporation-sc-9",
+      "notices": 1,
+      "employees": 10,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-24"
     },
     {
       "normalized": "NORDSTROM CREDIT BANK",
@@ -59844,6 +59979,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "YERBA MATE",
+      "name": "Yerba Mate Co., LLC",
+      "slug": "yerba-mate-co-llc",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
       "normalized": "6TH STREET CENTER FOR YOUTH (YOUTH FOR CHANGE)",
       "name": "6th Street Center for Youth (Youth for Change)",
       "slug": "6th-street-center-for-youth-youth-for-change",
@@ -61553,6 +61699,17 @@
       "latestNotice": "2004-08-09"
     },
     {
+      "normalized": "YERBA MATE - SAN LEANDRO",
+      "name": "Yerba Mate Co., LLC - San Leandro",
+      "slug": "yerba-mate-co-llc-san-leandro",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
       "normalized": "KROGER-00255",
       "name": "Kroger-00255",
       "slug": "kroger-00255",
@@ -62642,6 +62799,17 @@
       "latestNotice": "2005-11-01"
     },
     {
+      "normalized": "YERBA MATE - SACRAMENTO",
+      "name": "Yerba Mate Co., LLC - Sacramento",
+      "slug": "yerba-mate-co-llc-sacramento",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
       "normalized": "NBCUNIVERSAL MEDIA - 1320",
       "name": "NBCUniversal Media, LLC - 1320",
       "slug": "nbcuniversal-media-llc-1320",
@@ -63480,6 +63648,39 @@
       "latestNotice": "2010-09-21"
     },
     {
+      "normalized": "YERBA MATE - SAN FERNANDO VALLEY",
+      "name": "Yerba Mate Co., LLC - San Fernando Valley",
+      "slug": "yerba-mate-co-llc-san-fernando-valley",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - RIVERSIDE",
+      "name": "Yerba Mate Co., LLC - Riverside",
+      "slug": "yerba-mate-co-llc-riverside",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "INTEL - SC11",
+      "name": "Intel Corporation - SC11",
+      "slug": "intel-corporation-sc11",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-24"
+    },
+    {
       "normalized": "MEDICAL FACULTY ASSOCIATES (MFA)",
       "name": "Medical Faculty Associates Inc. (MFA)",
       "slug": "medical-faculty-associates-inc-mfa",
@@ -64118,6 +64319,105 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "YERBA MATE - BAKERSFIELD/FRESNO",
+      "name": "Yerba Mate Co., LLC - Bakersfield/Fresno",
+      "slug": "yerba-mate-co-llc-bakersfield-fresno",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - SANTA ANA",
+      "name": "Yerba Mate Co., LLC - Santa Ana",
+      "slug": "yerba-mate-co-llc-santa-ana",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - SOUTH SAN FRANCISCO",
+      "name": "Yerba Mate Co., LLC - South San Francisco",
+      "slug": "yerba-mate-co-llc-south-san-francisco",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - SANTA BARBARA",
+      "name": "Yerba Mate Co., LLC - Santa Barbara",
+      "slug": "yerba-mate-co-llc-santa-barbara",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - SANTA MARIA",
+      "name": "Yerba Mate Co., LLC - Santa Maria",
+      "slug": "yerba-mate-co-llc-santa-maria",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MADRE - SANTA CRUZ",
+      "name": "Yerba Madre Co., LLC - Santa Cruz",
+      "slug": "yerba-madre-co-llc-santa-cruz",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - PETALUMA",
+      "name": "Yerba Mate Co., LLC - Petaluma",
+      "slug": "yerba-mate-co-llc-petaluma",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "YERBA MATE - SANTA ROSA",
+      "name": "Yerba Mate Co., LLC - Santa Rosa",
+      "slug": "yerba-mate-co-llc-santa-rosa",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-27"
+    },
+    {
+      "normalized": "UBER (1725 3RD ST )",
+      "name": "Uber Technologies, Inc. (1725 3rd St.)",
+      "slug": "uber-technologies-inc-1725-3rd-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
     },
     {
       "normalized": "ALBANY/MILLERSBURG",
@@ -66491,6 +66791,270 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Tencent America LLC",
+      "normalized": "TENCENT AMERICA",
+      "city": "Irvine",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-07-29",
+      "effectiveDate": "2026-09-28",
+      "employees": 68,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Federal Express Corporation",
+      "normalized": "FEDERAL EXPRESS",
+      "city": "Palm Springs",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-07-29",
+      "effectiveDate": "2026-09-29",
+      "employees": 62,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "ServiceNow, Inc.",
+      "normalized": "SERVICENOW",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-28",
+      "effectiveDate": "2026-09-28",
+      "employees": 154,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "ServiceNow, Inc.",
+      "normalized": "SERVICENOW",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-07-28",
+      "effectiveDate": "2026-09-28",
+      "employees": 133,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Federal Express Corporation",
+      "normalized": "FEDERAL EXPRESS",
+      "city": "Victorville",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-07-28",
+      "effectiveDate": "2026-09-28",
+      "employees": 54,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "No Meat Factory USA Inc",
+      "normalized": "NO MEAT FACTORY",
+      "city": "Stanwood",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-07-28",
+      "effectiveDate": "2026-07-27",
+      "employees": 113,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "PD Systems",
+      "normalized": "PD SYSTEMS",
+      "city": "Fort Hunter Liggett, Building 3360 Hunter Liggett Road Jolon",
+      "county": "Monterey",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-08-28",
+      "employees": 81,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "O'Brien's Market Inc.",
+      "normalized": "O'BRIEN'S MARKET",
+      "city": "Modesto",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-26",
+      "employees": 50,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "O'Briens Market Inc.",
+      "normalized": "O'BRIENS MARKET",
+      "city": "Modesto",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-27",
+      "employees": 67,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - San Leandro",
+      "normalized": "YERBA MATE - SAN LEANDRO",
+      "city": "San Leandro",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Bakersfield/Fresno",
+      "normalized": "YERBA MATE - BAKERSFIELD/FRESNO",
+      "city": "Bakersfield",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC",
+      "normalized": "YERBA MATE",
+      "city": "Santa Fe Springs",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - San Fernando Valley",
+      "normalized": "YERBA MATE - SAN FERNANDO VALLEY",
+      "city": "Chatsworth",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Santa Ana",
+      "normalized": "YERBA MATE - SANTA ANA",
+      "city": "Santa Ana",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Riverside",
+      "normalized": "YERBA MATE - RIVERSIDE",
+      "city": "Riverside",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Sacramento",
+      "normalized": "YERBA MATE - SACRAMENTO",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - South San Francisco",
+      "normalized": "YERBA MATE - SOUTH SAN FRANCISCO",
+      "city": "South San Francisco",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Santa Barbara",
+      "normalized": "YERBA MATE - SANTA BARBARA",
+      "city": "Santa Maria",
+      "county": "Santa Barbara",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Santa Maria",
+      "normalized": "YERBA MATE - SANTA MARIA",
+      "city": "Santa Maria",
+      "county": "Santa Barbara",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Madre Co., LLC - Santa Cruz",
+      "normalized": "YERBA MADRE - SANTA CRUZ",
+      "city": "Santa Cruz",
+      "county": "Santa Cruz",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Petaluma",
+      "normalized": "YERBA MATE - PETALUMA",
+      "city": "Petaluma",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Yerba Mate Co., LLC - Santa Rosa",
+      "normalized": "YERBA MATE - SANTA ROSA",
+      "city": "Santa Rosa",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-07-27",
+      "effectiveDate": "2026-09-01",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "FreshRealm, Inc.",
       "normalized": "FRESHREALM",
       "city": "Linden",
@@ -66503,6 +67067,78 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Chick-fil-A & Fig",
+      "normalized": "CHICK-FIL-A FIG",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-07-24",
+      "effectiveDate": "2026-09-27",
+      "employees": 77,
+      "layoffType": "Layoff Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation - Robert Noyce Building",
+      "normalized": "INTEL - ROBERT NOYCE BUILDING",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-24",
+      "effectiveDate": "2026-08-15",
+      "employees": 24,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation - SC-9",
+      "normalized": "INTEL - SC-9",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-24",
+      "effectiveDate": "2026-08-15",
+      "employees": 10,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation - SC11",
+      "normalized": "INTEL - SC11",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-24",
+      "effectiveDate": "2026-08-15",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation - SC-12",
+      "normalized": "INTEL - SC-12",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-07-24",
+      "effectiveDate": "2026-08-15",
+      "employees": 67,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sodexo",
+      "normalized": "SODEXO",
+      "city": "Anaheim",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-07-24",
+      "effectiveDate": "2026-09-30",
+      "employees": 164,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Novartis",
       "normalized": "NOVARTIS",
       "city": "East Hanover",
@@ -66513,6 +67149,18 @@
       "employees": 60,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Fortrex",
+      "normalized": "FORTREX",
+      "city": "Brawley",
+      "county": "Imperial",
+      "state": "CA",
+      "noticeDate": "2026-07-23",
+      "effectiveDate": "2026-08-21",
+      "employees": 91,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "CraftForce Services, Inc. (2330 Circadian Way)",
@@ -66539,16 +67187,40 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "No Meat Factory USA Inc",
-      "normalized": "NO MEAT FACTORY",
-      "city": "Stanwood",
-      "county": null,
-      "state": "WA",
+      "employer": "Uber Technologies, Inc. (1655 3rd Street)",
+      "normalized": "UBER (1655 3RD STREET)",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
       "noticeDate": "2026-07-22",
-      "effectiveDate": "2026-09-16",
-      "employees": 123,
-      "layoffType": "Permanent",
-      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+      "effectiveDate": "2026-09-21",
+      "employees": 26,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Uber Technologies, Inc. (1725 3rd St.)",
+      "normalized": "UBER (1725 3RD ST )",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-07-22",
+      "effectiveDate": "2026-09-21",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Uber Technologies, Inc. (Remote)",
+      "normalized": "UBER (REMOTE)",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-07-22",
+      "effectiveDate": "2026-09-21",
+      "employees": 14,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "New Leaf Community Markets, Inc.",
@@ -66572,6 +67244,18 @@
       "effectiveDate": "2026-09-26",
       "employees": 108,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Silgan Containers",
+      "normalized": "SILGAN CONTAINERS",
+      "city": "Modesto",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-07-21",
+      "effectiveDate": "2026-09-21",
+      "employees": 55,
+      "layoffType": "Layoff Temporary",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
