@@ -120,7 +120,7 @@ function ResultRow({ event }: { event: IndexedEvent }) {
         href={event.sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 inline-block text-xs font-medium text-accent underline-offset-2 hover:underline"
+        className="mt-1.5 inline-block py-1.5 text-xs font-medium text-accent underline-offset-2 hover:underline"
       >
         Read the original
       </a>

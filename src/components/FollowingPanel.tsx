@@ -68,13 +68,16 @@ function FollowedEvent({ event, follows }: { event: IndexedEvent; follows: strin
         <span className="text-slate-600" aria-hidden>·</span>
         <span className="text-slate-500">{formatDate(event.publishedAt)}</span>
       </div>
-      <h4 className="mt-1 text-sm font-semibold leading-snug text-white">{event.title}</h4>
+      {/* h3, not h4: this sits directly under the panel's h2. Skipping a level
+          breaks heading-by-heading navigation for screen reader users, who use
+          it as the table of contents this page does not otherwise have. */}
+      <h3 className="mt-1 text-sm font-semibold leading-snug text-white">{event.title}</h3>
       <MatchReason ids={matchedFollows(event, follows)} />
       <a
         href={event.sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-1 inline-block text-xs font-medium text-accent underline-offset-2 hover:underline"
+        className="mt-0.5 inline-block py-1.5 text-xs font-medium text-accent underline-offset-2 hover:underline"
       >
         Read the original
       </a>

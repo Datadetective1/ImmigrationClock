@@ -265,7 +265,7 @@ export function EventCard({ event }: { event: ImmigrationEvent }) {
           href={event.sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-medium text-accent underline-offset-2 hover:underline"
+          className="inline-block py-1.5 font-medium text-accent underline-offset-2 hover:underline"
         >
           Read the original
         </a>
