@@ -22,6 +22,21 @@ const config: Config = {
           DEFAULT: "#38bdf8",
           soft: "#7dd3fc",
         },
+        // ACCESSIBILITY OVERRIDE — do not revert to Tailwind's default #64748b.
+        //
+        // `text-slate-500` is used across the platform for the secondary text
+        // that carries our most important trust signals: source names, "data
+        // through" dates, freshness labels, and limitations. Tailwind's default
+        // slate-500 measures 4.23:1 on ink-950 and 3.85:1 on ink-850 — below the
+        // WCAG AA 4.5:1 threshold for body text. Information a reader needs in
+        // order to judge whether to believe a figure must not be the least
+        // legible thing on the page.
+        //
+        // This value measures 6.90:1 on ink-950 and 6.28:1 on ink-850. Every
+        // other colour in this palette already passes AA against both surfaces.
+        slate: {
+          500: "#8b98ad",
+        },
         status: {
           red: "#f43f5e",
           amber: "#f59e0b",

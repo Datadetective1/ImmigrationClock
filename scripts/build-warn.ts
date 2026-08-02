@@ -24,6 +24,11 @@ import * as XLSX from "xlsx";
 import { normalizeEmployer, slugify } from "../src/lib/format";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/warn.json", import.meta.url));
+// Compact rollup of the SAME notices, for surfaces that need real WARN totals
+// (homepage counter, state pages, refresh table) without pulling the multi-MB
+// notice feed into every route's server bundle. Derived here so there is exactly
+// one source of truth: if a number appears on the site, it came from these notices.
+const SUMMARY_OUT = fileURLToPath(new URL("../src/lib/generated/warn-summary.json", import.meta.url));
 // Wide-net cache produced from biglocalnews/warn-scraper by
 // scripts/refresh-warn-scraper.mjs. Committed to the repo and refreshed on a
 // schedule; the site build just reads it (no Python at build time).
@@ -362,7 +367,12 @@ async function main() {
     e.notices += 1;
     e.employees += n.employees;
     e.states.add(n.state);
-    if (n.noticeDate && (!e.latestNotice || n.noticeDate > e.latestNotice)) e.latestNotice = n.noticeDate;
+    // Date by notice date where the state publishes one, else the layoff
+    // effective date. Without the fallback, employers appearing only in
+    // effective-date states (New Jersey) render a bare "—" next to a real
+    // layoff count, which reads as missing data rather than a different basis.
+    const dated = n.noticeDate ?? n.effectiveDate;
+    if (dated && (!e.latestNotice || dated > e.latestNotice)) e.latestNotice = dated;
     byNorm.set(n.normalized, e);
   }
   const byEmployer = [...byNorm.values()]
@@ -373,19 +383,39 @@ async function main() {
   // are reported consistently.
   const summaryByState = new Map<
     string,
-    { noticeCount: number; employeesTotal: number; latestNotice: string | null }
+    {
+      noticeCount: number;
+      employeesTotal: number;
+      latestNotice: string | null;
+      withNoticeDate: number;
+      withEffectiveOnly: number;
+    }
   >();
   for (const n of notices) {
-    const s = summaryByState.get(n.state) ?? { noticeCount: 0, employeesTotal: 0, latestNotice: null };
+    const s =
+      summaryByState.get(n.state) ??
+      { noticeCount: 0, employeesTotal: 0, latestNotice: null, withNoticeDate: 0, withEffectiveOnly: 0 };
     s.noticeCount += 1;
     s.employeesTotal += n.employees;
-    if (n.noticeDate && (!s.latestNotice || n.noticeDate > s.latestNotice)) s.latestNotice = n.noticeDate;
+    if (n.noticeDate) s.withNoticeDate += 1;
+    else if (n.effectiveDate) s.withEffectiveOnly += 1;
+    const dated = n.noticeDate ?? n.effectiveDate; // same basis as byEmployer
+    if (dated && (!s.latestNotice || dated > s.latestNotice)) s.latestNotice = dated;
     summaryByState.set(n.state, s);
   }
   const stateSummaries = [...summaryByState.entries()]
     .map(([code, s]) => {
       const m = stateMeta.get(code) ?? { agency: "State WARN portal", pageUrl: DOL_WARN, datasetUrl: DOL_WARN };
-      return { code, agency: m.agency, pageUrl: m.pageUrl, datasetUrl: m.datasetUrl, ...s };
+      // What kind of date this state actually publishes. Pages use this to word
+      // "latest notice" correctly: an effective-date-only state can legitimately
+      // carry a FUTURE latest date, which must not be described as a filing date.
+      const dateBasis: "notice" | "effective" | "mixed" =
+        s.withNoticeDate > 0 && s.withEffectiveOnly > 0
+          ? "mixed"
+          : s.withEffectiveOnly > 0
+            ? "effective"
+            : "notice";
+      return { code, agency: m.agency, pageUrl: m.pageUrl, datasetUrl: m.datasetUrl, dateBasis, ...s };
     })
     .sort((a, b) => b.employeesTotal - a.employeesTotal);
 
@@ -409,6 +439,85 @@ async function main() {
 
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
+
+  // ---- Compact rollup (warn-summary.json) --------------------------------
+  // Calendar-year totals, overall and per state, computed from the same deduped
+  // notices. States differ in what they publish: most give a notice/received date,
+  // but some (New Jersey) publish only the layoff effective date. We date a notice
+  // by its notice date where published and fall back to the effective date, then
+  // report how many rows used each basis so the mix is never hidden. Notices with
+  // neither date can't be placed in a year and are counted separately.
+  const yearTotals = new Map<number, { employees: number; notices: number }>();
+  const monthTotals = new Map<string, { employees: number; notices: number }>();
+  const stateYearTotals = new Map<string, Map<number, { employees: number; notices: number }>>();
+  let datedByNoticeDate = 0;
+  let datedByEffectiveDate = 0;
+  let noticesWithoutDate = 0;
+  for (const n of notices) {
+    const basis = n.noticeDate ?? n.effectiveDate ?? null;
+    if (!basis) {
+      noticesWithoutDate++;
+      continue;
+    }
+    const year = Number(basis.slice(0, 4));
+    if (!Number.isFinite(year)) {
+      noticesWithoutDate++;
+      continue;
+    }
+    if (n.noticeDate) datedByNoticeDate++;
+    else datedByEffectiveDate++;
+    const y = yearTotals.get(year) ?? { employees: 0, notices: 0 };
+    y.employees += n.employees;
+    y.notices += 1;
+    yearTotals.set(year, y);
+
+    const ym = basis.slice(0, 7); // yyyy-mm
+    const m = monthTotals.get(ym) ?? { employees: 0, notices: 0 };
+    m.employees += n.employees;
+    m.notices += 1;
+    monthTotals.set(ym, m);
+
+    const perState = stateYearTotals.get(n.state) ?? new Map();
+    const sy = perState.get(year) ?? { employees: 0, notices: 0 };
+    sy.employees += n.employees;
+    sy.notices += 1;
+    perState.set(year, sy);
+    stateYearTotals.set(n.state, perState);
+  }
+  const asYearRows = (m: Map<number, { employees: number; notices: number }>) =>
+    [...m.entries()].map(([year, v]) => ({ year, ...v })).sort((a, b) => a.year - b.year);
+
+  const summary = {
+    generatedAt: payload.generatedAt,
+    coverageNote: payload.coverageNote,
+    sourceName: "State WARN Act notices (state open-data portals)",
+    sourceUrl: DOL_WARN,
+    states: stateSummaries,
+    stateCount: payload.stateCount,
+    stateCodes: stateSummaries.map((s) => s.code).sort(),
+    noticeCount: payload.noticeCount,
+    employeesTotal: payload.employeesTotal,
+    employerCount: payload.employerCount,
+    minNoticeDate: payload.minNoticeDate,
+    maxNoticeDate: payload.maxNoticeDate,
+    yearBasisNote:
+      "Yearly totals date each notice by the state-published notice/received date where available, " +
+      "and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). " +
+      "Notices with neither date are excluded from yearly totals but included in the overall counts.",
+    datedByNoticeDate,
+    datedByEffectiveDate,
+    noticesWithoutDate,
+    byYear: asYearRows(yearTotals),
+    // Last 36 months, oldest → newest. Drives month-over-month change detection.
+    byMonth: [...monthTotals.entries()]
+      .map(([month, v]) => ({ month, ...v }))
+      .sort((a, b) => a.month.localeCompare(b.month))
+      .slice(-36),
+    byStateYear: Object.fromEntries(
+      [...stateYearTotals.entries()].map(([code, m]) => [code, asYearRows(m)])
+    ),
+  };
+  await writeFile(SUMMARY_OUT, JSON.stringify(summary, null, 2) + "\n", "utf8");
 
   // Public API artifacts: a documented JSON envelope + a flat CSV of every notice.
   const publicPayload = {
@@ -439,7 +548,7 @@ async function main() {
   console.log(
     `[build-warn] wrote ${notices.length} notices across ${stateSummaries.length} states ` +
       `(${byEmployer.length} employers, ${employeesTotal.toLocaleString()} employees) ` +
-      `+ public /api/warn.json + /api/warn.csv`
+      `+ warn-summary.json + public /api/warn.json + /api/warn.csv`
   );
 }
 

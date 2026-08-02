@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { AdSenseScript } from "@/components/AdSenseScript";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { StructuredData } from "@/components/StructuredData";
@@ -41,11 +40,20 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className="min-h-screen">
-        {/* AdSense + GA4 load only after cookie consent; Plausible is cookieless. */}
-        <AdSenseScript />
+        {/* Plausible is cookieless and loads immediately. GA4 sets cookies and
+            loads only after consent. There is no advertising script: display ads
+            were removed from the platform — see docs/founder-directive-gap-analysis.md
+            (conflict C-2). */}
         <AnalyticsScripts />
+        {/* First tab stop on every page — lets keyboard and screen-reader users
+            jump past the navigation straight to the content. */}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <Navbar />
-        <main className="min-h-[60vh]">{children}</main>
+        <main id="main-content" tabIndex={-1} className="min-h-[60vh]">
+          {children}
+        </main>
         <Footer />
         <ConsentBanner />
       </body>

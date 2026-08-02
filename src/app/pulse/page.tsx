@@ -1,11 +1,12 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ChangeFeed } from "@/components/ChangeFeed";
+import { PulseSignup } from "@/components/PulseSignup";
 import { LAST_REFRESHED, LIVE_BLS, CURRENT_FY } from "@/lib/data";
-import { cbpRows, iceByFy, WARN_LIVE } from "@/lib/dataset";
+import { cbpRows, iceByFy } from "@/lib/dataset";
+import { WARN_SUMMARY, WARN_COVERAGE_SENTENCE } from "@/lib/warn-summary";
 import { formatNumber, formatCompact, formatDate, fiscalYearLabel } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -25,6 +26,7 @@ export const metadata = buildMetadata({
 export default function PulsePage() {
   const borderYtd = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "nationwide");
   const removalsYtd = iceByFy[CURRENT_FY]?.removals;
+  const warnYtd = WARN_SUMMARY.byYear.find((y) => y.year === CURRENT_FY);
 
   return (
     <div>
@@ -50,9 +52,10 @@ export default function PulsePage() {
             sub="Year-to-date"
           />
           <Stat
-            label="Texas layoffs · 2026 YTD"
-            value={WARN_LIVE.ok && WARN_LIVE.ytdTotal != null ? formatNumber(WARN_LIVE.ytdTotal) : "—"}
-            sub="WARN, live (TX)"
+            label={`WARN layoffs · ${CURRENT_FY} YTD`}
+            value={warnYtd ? formatNumber(warnYtd.employees) : "—"}
+            sub={`${WARN_SUMMARY.stateCount} states with open feeds`}
+            tooltip={WARN_COVERAGE_SENTENCE}
           />
           <Stat
             label="U.S. unemployment"
@@ -72,7 +75,7 @@ export default function PulsePage() {
 
         <ChangeFeed />
 
-        <AdSlot format="in-content" />
+        <PulseSignup />
 
         <div className="panel panel-pad">
           <h2 className="text-sm font-semibold text-white">Share the Pulse</h2>

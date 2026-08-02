@@ -2,17 +2,17 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
 import { StateMap } from "@/components/StateMap";
+import { DataStatus } from "@/components/DataStatus";
 import {
   enforcementChartData,
   enforcementCriminalSplit,
   enforcementStateData,
   enforcementCountryData,
 } from "@/lib/chart-data";
-import { iceByFy, DETENTION_NOW } from "@/lib/dataset";
+import { iceByFy, DETENTION_NOW, pointInTimeAge } from "@/lib/dataset";
 import { LATEST_COMPLETE_FY, CURRENT_FY } from "@/lib/data";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 import { UPDATED } from "@/lib/dataset";
@@ -30,6 +30,7 @@ export default function EnforcementTrendsPage() {
   const criminal = enforcementCriminalSplit();
   const byState = enforcementStateData();
   const byCountry = enforcementCountryData();
+  const detentionAge = pointInTimeAge(DETENTION_NOW.asOf, DETENTION_NOW.staleAfterDays);
   const complete = iceByFy[LATEST_COMPLETE_FY]; // FY2025 — last complete year
   const ytd = iceByFy[CURRENT_FY]; // FY2026 — year-to-date
   const pct = (a: number, b: number) => (b ? ((a - b) / b) * 100 : 0);
@@ -60,7 +61,21 @@ export default function EnforcementTrendsPage() {
             value={formatNumber(ytd.removals)}
             sub="Year-to-date"
           />
-          <Stat label="Detention (point-in-time)" value={formatNumber(DETENTION_NOW.value)} sub={`As of ${DETENTION_NOW.asOf}`} tooltip="A snapshot on a specific date, not a running total." />
+          <Stat
+            label="Detention (point-in-time)"
+            value={formatNumber(DETENTION_NOW.value)}
+            sub={
+              detentionAge.stale
+                ? `As of ${DETENTION_NOW.asOf} · ${detentionAge.days} days old`
+                : `As of ${DETENTION_NOW.asOf}`
+            }
+            tooltip={
+              "A snapshot of one specific day, not a running total, and not addable to arrests or removals." +
+              (detentionAge.stale
+                ? " ICE has very likely published newer figures since this snapshot — treat it as dated."
+                : "")
+            }
+          />
           <Stat label={`Removals · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`} value={formatNumber(complete.removals)} sub="Last complete year" />
         </StatRow>
       </PageHeader>
@@ -99,22 +114,31 @@ export default function EnforcementTrendsPage() {
 
         <ChartCard
           title="ICE arrests by state"
-          subtitle={`Latest complete fiscal year (${fiscalYearLabel(LATEST_COMPLETE_FY)})`}
+          subtitle={`Latest complete fiscal year (${fiscalYearLabel(LATEST_COMPLETE_FY)}) — apportioned, not published by state`}
+          tooltip="ICE does not publish arrests broken down by state. This distributes the reported national fiscal-year total across states using our own activity weights. Use it to compare relative scale, not as an official state count."
+          provenance="modeled"
           source={{ sourceName: "ICE / DHS statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
         >
           <StateMap data={byState} label="Arrests by state" unit="" />
         </ChartCard>
 
-        <AdSlot format="in-content" />
 
         <ChartCard
           title="Removals by nationality"
-          subtitle="Where publicly reported"
-          tooltip="Removals describe events involving people of a given nationality — not the same individuals across datasets."
+          subtitle="Apportioned from the reported national total"
+          tooltip="Removals describe events involving people of a given nationality — not the same individuals across datasets. This split is apportioned from the reported national total using our own country weights; ICE does not publish this breakdown at this granularity."
+          provenance="modeled"
           source={{ sourceName: "ICE / DHS statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
         >
           <HorizontalBarChart data={byCountry} labelKey="label" valueKey="value" colorByIndex height={320} />
         </ChartCard>
+
+        <DataStatus
+          sourceKey="ice_stats"
+          surface="enforcement"
+          provenance="modeled"
+          publishedAt={UPDATED.ice_stats}
+        />
 
         <MethodologyNote>
           Arrests, removals, and detention measure different things on different calendars. Rising arrests

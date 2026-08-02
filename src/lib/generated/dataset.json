@@ -15,8 +15,9 @@
   "FY_COMPLETENESS": 0.7083333333333334,
   "LATEST_COMPLETE_FY": 2025,
   "EMPLOYER_LATEST_FY": 2024,
+  "DATAHUB_LATEST_FY": 2023,
   "LATEST_REPORTED_FY": 2024,
-  "DATA_VINTAGE": "ImmigrationClock shows the latest available reporting period per source. Fast sources (CBP, ICE, State Dept, WARN) run through FY2025/FY2026; employer-level H-1B and wage data (USCIS Data Hub, DOL OFLC) lag to FY2024. Each card is labelled complete, YTD, preliminary, or point-in-time.",
+  "DATA_VINTAGE": "ImmigrationClock shows the latest available reporting period per source. Fast sources (CBP, ICE, State Dept, WARN) run through FY2025/FY2026. Per-employer H-1B data comes from the USCIS Employer Data Hub, whose latest published export is FY2023. Wage data (DOL OFLC) and the curated large-sponsor profiles are anchored to FY2024 and are labelled modeled where they are not a direct agency figure. Each card is labelled complete, YTD, preliminary, or point-in-time.",
   "UPDATED": {
     "uscis_h1b": "2025-03-04",
     "uscis_h1b_national": "2026-02-18",
@@ -24,10 +25,10 @@
     "ice_stats": "2026-06-09",
     "ice_annual": "2025-12-18",
     "dhs_stats": "2026-06-09",
-    "cbp_encounters": "2026-07-17",
+    "cbp_encounters": "2026-07-08",
     "dos_visa": "2026-05-31",
     "bls_wages": "2025-04-03",
-    "warn_layoffs": "2026-07-17",
+    "warn_layoffs": "2026-06-12",
     "trac": "2026-06-01"
   },
   "states": [
@@ -540,18 +541,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 18000,
-          "events": 6
-        },
-        {
-          "year": 2024,
-          "employeesAffected": 5200,
-          "events": 3
-        }
-      ],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -645,7 +634,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -737,13 +725,6 @@
           "city": "Atlanta",
           "stateCode": "GA",
           "share": 0.16
-        }
-      ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 3500,
-          "events": 4
         }
       ],
       "sourceName": "USCIS H-1B Employer Data Hub",
@@ -839,13 +820,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 12000,
-          "events": 2
-        }
-      ],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -939,7 +913,6 @@
           "share": 0.16
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1031,13 +1004,6 @@
           "city": "Austin",
           "stateCode": "TX",
           "share": 0.12
-        }
-      ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 21000,
-          "events": 3
         }
       ],
       "sourceName": "USCIS H-1B Employer Data Hub",
@@ -1133,18 +1099,6 @@
           "share": 0.12
         }
       ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 10000,
-          "events": 3
-        },
-        {
-          "year": 2025,
-          "employeesAffected": 6000,
-          "events": 2
-        }
-      ],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1238,7 +1192,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1332,7 +1285,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1424,13 +1376,6 @@
           "city": "Research Triangle Park",
           "stateCode": "NC",
           "share": 0.16
-        }
-      ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 3900,
-          "events": 3
         }
       ],
       "sourceName": "USCIS H-1B Employer Data Hub",
@@ -1528,18 +1473,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 18000,
-          "events": 6
-        },
-        {
-          "year": 2024,
-          "employeesAffected": 5200,
-          "events": 3
-        }
-      ],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1633,7 +1566,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1725,13 +1657,6 @@
           "city": "Atlanta",
           "stateCode": "GA",
           "share": 0.16
-        }
-      ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 3500,
-          "events": 4
         }
       ],
       "sourceName": "USCIS H-1B Employer Data Hub",
@@ -1827,13 +1752,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 12000,
-          "events": 2
-        }
-      ],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -1927,7 +1845,6 @@
           "share": 0.16
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -2019,13 +1936,6 @@
           "city": "Austin",
           "stateCode": "TX",
           "share": 0.12
-        }
-      ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 21000,
-          "events": 3
         }
       ],
       "sourceName": "USCIS H-1B Employer Data Hub",
@@ -2121,18 +2031,6 @@
           "share": 0.12
         }
       ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 10000,
-          "events": 3
-        },
-        {
-          "year": 2025,
-          "employeesAffected": 6000,
-          "events": 2
-        }
-      ],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -2226,7 +2124,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -2320,7 +2217,6 @@
           "share": 0.14
         }
       ],
-      "layoffs": [],
       "sourceName": "USCIS H-1B Employer Data Hub",
       "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "sourceUpdatedAt": "2025-03-04"
@@ -2412,13 +2308,6 @@
           "city": "Research Triangle Park",
           "stateCode": "NC",
           "share": 0.16
-        }
-      ],
-      "layoffs": [
-        {
-          "year": 2023,
-          "employeesAffected": 3900,
-          "events": 3
         }
       ],
       "sourceName": "USCIS H-1B Employer Data Hub",
@@ -2808,7 +2697,8 @@
   ],
   "DETENTION_NOW": {
     "value": 73000,
-    "asOf": "2026-01-15"
+    "asOf": "2026-01-15",
+    "staleAfterDays": 60
   },
   "cbpRows": [
     {
@@ -2820,7 +2710,7 @@
       "unaccompaniedMinors": 115200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2021,
@@ -2831,7 +2721,7 @@
       "unaccompaniedMinors": 6300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2021,
@@ -2842,7 +2732,7 @@
       "unaccompaniedMinors": 168200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2022,
@@ -2853,7 +2743,7 @@
       "unaccompaniedMinors": 185000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2022,
@@ -2864,7 +2754,7 @@
       "unaccompaniedMinors": 8400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2022,
@@ -2875,7 +2765,7 @@
       "unaccompaniedMinors": 241200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2023,
@@ -2886,7 +2776,7 @@
       "unaccompaniedMinors": 143100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2023,
@@ -2897,7 +2787,7 @@
       "unaccompaniedMinors": 9700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2023,
@@ -2908,7 +2798,7 @@
       "unaccompaniedMinors": 214700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2024,
@@ -2919,7 +2809,7 @@
       "unaccompaniedMinors": 118900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2024,
@@ -2930,7 +2820,7 @@
       "unaccompaniedMinors": 9500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2024,
@@ -2941,7 +2831,7 @@
       "unaccompaniedMinors": 273500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -2952,7 +2842,7 @@
       "unaccompaniedMinors": 21000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -2963,7 +2853,7 @@
       "unaccompaniedMinors": 1800,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -2974,7 +2864,7 @@
       "unaccompaniedMinors": 57500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -2985,29 +2875,29 @@
       "unaccompaniedMinors": 9700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
       "border": "northern",
-      "totalEncounters": 11200,
-      "singleAdults": 6900,
-      "familyUnits": 3300,
-      "unaccompaniedMinors": 1000,
+      "totalEncounters": 10000,
+      "singleAdults": 6200,
+      "familyUnits": 2900,
+      "unaccompaniedMinors": 900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
       "border": "nationwide",
-      "totalEncounters": 280656,
-      "singleAdults": 177800,
-      "familyUnits": 81900,
-      "unaccompaniedMinors": 21000,
+      "totalEncounters": 249060,
+      "singleAdults": 157800,
+      "familyUnits": 72700,
+      "unaccompaniedMinors": 18600,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     }
   ],
   "cbpMonthly": [
@@ -3021,7 +2911,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3033,7 +2923,7 @@
       "unaccompaniedMinors": 1700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3045,7 +2935,7 @@
       "unaccompaniedMinors": 1900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3057,7 +2947,7 @@
       "unaccompaniedMinors": 1900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3069,7 +2959,7 @@
       "unaccompaniedMinors": 1300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3081,7 +2971,7 @@
       "unaccompaniedMinors": 1200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3093,7 +2983,7 @@
       "unaccompaniedMinors": 2000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3105,7 +2995,7 @@
       "unaccompaniedMinors": 2000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3117,7 +3007,7 @@
       "unaccompaniedMinors": 1500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3129,7 +3019,7 @@
       "unaccompaniedMinors": 1600,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3141,7 +3031,7 @@
       "unaccompaniedMinors": 1300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3153,7 +3043,7 @@
       "unaccompaniedMinors": 1700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3165,7 +3055,7 @@
       "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3177,7 +3067,7 @@
       "unaccompaniedMinors": 1400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3189,7 +3079,7 @@
       "unaccompaniedMinors": 1400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3201,7 +3091,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3213,7 +3103,7 @@
       "unaccompaniedMinors": 1600,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3225,7 +3115,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3237,7 +3127,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2026,
@@ -3249,7 +3139,7 @@
       "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     }
   ],
   "cbpByCountry": [
@@ -3263,7 +3153,7 @@
       "unaccompaniedMinors": 2400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3275,7 +3165,7 @@
       "unaccompaniedMinors": 1800,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3287,7 +3177,7 @@
       "unaccompaniedMinors": 500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3299,7 +3189,7 @@
       "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3311,7 +3201,7 @@
       "unaccompaniedMinors": 1300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3323,7 +3213,7 @@
       "unaccompaniedMinors": 15200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3335,7 +3225,7 @@
       "unaccompaniedMinors": 4500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3347,7 +3237,7 @@
       "unaccompaniedMinors": 500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3359,7 +3249,7 @@
       "unaccompaniedMinors": 400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     },
     {
       "fiscalYear": 2025,
@@ -3371,16 +3261,16 @@
       "unaccompaniedMinors": 9400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-17"
+      "sourceUpdatedAt": "2026-07-08"
     }
   ],
   "CBP_LIVE": {
     "ok": true,
-    "reportingMonthLabel": "June 2026",
+    "reportingMonthLabel": "May 2026",
     "currentFy": 2026,
-    "currentFyYtd": 280656,
-    "sourceUpdatedAt": "2026-07-17",
-    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-07/nationwide-encounters-fy23-fy26-jun-aor.csv"
+    "currentFyYtd": 249060,
+    "sourceUpdatedAt": "2026-07-08",
+    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-06/nationwide-encounters-fy23-fy26-may-aor.csv"
   },
   "visaRows": [
     {
@@ -4186,7 +4076,7 @@
       "meanWage": 138110,
       "medianWage": 128440,
       "employment": 1795000,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4197,7 +4087,7 @@
       "meanWage": 119040,
       "medianWage": 110710,
       "employment": 202000,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4208,7 +4098,7 @@
       "meanWage": 103790,
       "medianWage": 96520,
       "employment": 520000,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4219,7 +4109,7 @@
       "meanWage": 171200,
       "medianWage": 159220,
       "employment": 592000,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4230,7 +4120,7 @@
       "meanWage": 104660,
       "medianWage": 97330,
       "employment": 1003000,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4241,7 +4131,7 @@
       "meanWage": 117730,
       "medianWage": 109490,
       "employment": 311000,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     }
@@ -4254,7 +4144,7 @@
       "stateCode": "CA",
       "meanWage": 176780,
       "medianWage": 164410,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4265,7 +4155,7 @@
       "stateCode": "TX",
       "meanWage": 135350,
       "medianWage": 125870,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4276,7 +4166,7 @@
       "stateCode": "NY",
       "meanWage": 158830,
       "medianWage": 147710,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4287,7 +4177,7 @@
       "stateCode": "NJ",
       "meanWage": 149160,
       "medianWage": 138720,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4298,7 +4188,7 @@
       "stateCode": "WA",
       "meanWage": 168490,
       "medianWage": 156700,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4309,7 +4199,7 @@
       "stateCode": "IL",
       "meanWage": 138110,
       "medianWage": 128440,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4320,7 +4210,7 @@
       "stateCode": "GA",
       "meanWage": 129820,
       "medianWage": 120740,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4331,7 +4221,7 @@
       "stateCode": "MA",
       "meanWage": 160210,
       "medianWage": 148990,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4342,7 +4232,7 @@
       "stateCode": "FL",
       "meanWage": 127060,
       "medianWage": 118170,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     },
@@ -4353,539 +4243,9 @@
       "stateCode": "VA",
       "meanWage": 145020,
       "medianWage": 134860,
-      "sourceName": "BLS Occupational Employment & Wage Statistics",
+      "sourceName": "BLS Occupational Employment & Wage Statistics (OEWS)",
       "sourceUrl": "https://www.bls.gov/oes/",
       "sourceUpdatedAt": "2025-04-03"
     }
-  ],
-  "layoffRows": [
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "WA",
-      "city": "Seattle",
-      "noticeDate": "2023-02-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "WA",
-      "city": "Bellevue",
-      "noticeDate": "2023-04-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "VA",
-      "city": "Arlington",
-      "noticeDate": "2023-05-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "NY",
-      "city": "New York",
-      "noticeDate": "2023-07-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "WA",
-      "city": "Seattle",
-      "noticeDate": "2023-08-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "WA",
-      "city": "Bellevue",
-      "noticeDate": "2023-10-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "WA",
-      "city": "Seattle",
-      "noticeDate": "2024-02-15",
-      "employeesAffected": 1730,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "WA",
-      "city": "Bellevue",
-      "noticeDate": "2024-05-15",
-      "employeesAffected": 1730,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Amazon",
-      "companySlug": "amazon",
-      "stateCode": "VA",
-      "city": "Arlington",
-      "noticeDate": "2024-08-15",
-      "employeesAffected": 1730,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Cognizant Technology Solutions",
-      "companySlug": "cognizant",
-      "stateCode": "TX",
-      "city": "College Station",
-      "noticeDate": "2023-02-15",
-      "employeesAffected": 880,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Cognizant Technology Solutions",
-      "companySlug": "cognizant",
-      "stateCode": "NJ",
-      "city": "Teaneck",
-      "noticeDate": "2023-04-15",
-      "employeesAffected": 880,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Cognizant Technology Solutions",
-      "companySlug": "cognizant",
-      "stateCode": "AZ",
-      "city": "Phoenix",
-      "noticeDate": "2023-07-15",
-      "employeesAffected": 880,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Cognizant Technology Solutions",
-      "companySlug": "cognizant",
-      "stateCode": "GA",
-      "city": "Atlanta",
-      "noticeDate": "2023-09-15",
-      "employeesAffected": 880,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Alphabet (Google)",
-      "companySlug": "alphabet-google",
-      "stateCode": "CA",
-      "city": "Mountain View",
-      "noticeDate": "2023-02-15",
-      "employeesAffected": 6000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Alphabet (Google)",
-      "companySlug": "alphabet-google",
-      "stateCode": "CA",
-      "city": "Sunnyvale",
-      "noticeDate": "2023-07-15",
-      "employeesAffected": 6000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Meta Platforms",
-      "companySlug": "meta-platforms",
-      "stateCode": "CA",
-      "city": "Menlo Park",
-      "noticeDate": "2023-02-15",
-      "employeesAffected": 7000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Meta Platforms",
-      "companySlug": "meta-platforms",
-      "stateCode": "NY",
-      "city": "New York",
-      "noticeDate": "2023-05-15",
-      "employeesAffected": 7000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Meta Platforms",
-      "companySlug": "meta-platforms",
-      "stateCode": "WA",
-      "city": "Seattle",
-      "noticeDate": "2023-08-15",
-      "employeesAffected": 7000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Microsoft",
-      "companySlug": "microsoft",
-      "stateCode": "WA",
-      "city": "Redmond",
-      "noticeDate": "2023-02-15",
-      "employeesAffected": 3330,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Microsoft",
-      "companySlug": "microsoft",
-      "stateCode": "WA",
-      "city": "Bellevue",
-      "noticeDate": "2023-05-15",
-      "employeesAffected": 3330,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Microsoft",
-      "companySlug": "microsoft",
-      "stateCode": "CA",
-      "city": "Mountain View",
-      "noticeDate": "2023-08-15",
-      "employeesAffected": 3330,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Microsoft",
-      "companySlug": "microsoft",
-      "stateCode": "WA",
-      "city": "Redmond",
-      "noticeDate": "2025-02-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Microsoft",
-      "companySlug": "microsoft",
-      "stateCode": "WA",
-      "city": "Bellevue",
-      "noticeDate": "2025-07-15",
-      "employeesAffected": 3000,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "IBM",
-      "companySlug": "ibm",
-      "stateCode": "NY",
-      "city": "Armonk",
-      "noticeDate": "2023-02-15",
-      "employeesAffected": 1300,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "IBM",
-      "companySlug": "ibm",
-      "stateCode": "TX",
-      "city": "Austin",
-      "noticeDate": "2023-05-15",
-      "employeesAffected": 1300,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "IBM",
-      "companySlug": "ibm",
-      "stateCode": "CA",
-      "city": "San Jose",
-      "noticeDate": "2023-08-15",
-      "employeesAffected": 1300,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Intel",
-      "stateCode": "CA",
-      "city": "Santa Clara",
-      "noticeDate": "2026-03-12",
-      "employeesAffected": 2400,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Salesforce",
-      "stateCode": "CA",
-      "city": "San Francisco",
-      "noticeDate": "2026-02-04",
-      "employeesAffected": 1300,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "UPS",
-      "stateCode": "GA",
-      "city": "Atlanta",
-      "noticeDate": "2026-01-22",
-      "employeesAffected": 1700,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Charter Communications",
-      "stateCode": "TX",
-      "city": "Austin",
-      "noticeDate": "2025-04-15",
-      "employeesAffected": 900,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Wells Fargo",
-      "stateCode": "CA",
-      "city": "San Francisco",
-      "noticeDate": "2024-04-15",
-      "employeesAffected": 1100,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Peloton Interactive",
-      "stateCode": "NY",
-      "city": "New York",
-      "noticeDate": "2024-04-15",
-      "employeesAffected": 650,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "Boeing",
-      "stateCode": "WA",
-      "city": "Everett",
-      "noticeDate": "2025-04-15",
-      "employeesAffected": 2200,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    },
-    {
-      "employerName": "CVS Health",
-      "stateCode": "IL",
-      "city": "Chicago",
-      "noticeDate": "2024-04-15",
-      "employeesAffected": 700,
-      "reason": "Workforce reduction",
-      "sourceName": "State WARN Act Layoff Notices",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "sourceUpdatedAt": "2026-07-17"
-    }
-  ],
-  "WARN_LIVE": {
-    "ok": true,
-    "state": "TX",
-    "ytdYear": 2026,
-    "ytdTotal": 12234,
-    "ytdCount": 69,
-    "prevYear": 2025,
-    "prevTotal": 26606,
-    "prevCount": 287,
-    "recent": [
-      {
-        "noticeDate": "2026-06-23",
-        "employer": "JPMorgan Chase & Co.",
-        "city": "Plano",
-        "employees": 244
-      },
-      {
-        "noticeDate": "2026-06-16",
-        "employer": "KUEHNE + NAGEL (KN) 2026",
-        "city": "Lewisville",
-        "employees": 90
-      },
-      {
-        "noticeDate": "2026-06-12",
-        "employer": "Fortrex (John Soules Foods, Inc.)",
-        "city": "Tyler",
-        "employees": 85
-      },
-      {
-        "noticeDate": "2026-06-12",
-        "employer": "First Student (DeSoto I.S.D.)",
-        "city": "De Soto",
-        "employees": 74
-      },
-      {
-        "noticeDate": "2026-06-12",
-        "employer": "SAKS GLOBAL (Neiman Marcus)",
-        "city": "Dallas",
-        "employees": 67
-      },
-      {
-        "noticeDate": "2026-06-09",
-        "employer": "Remington Lodging and Hospitality, LLC (Hilton Houston NASA Clear Lake)",
-        "city": "Houston",
-        "employees": 65
-      }
-    ],
-    "monthly": [
-      {
-        "month": "2025-04",
-        "total": 1732,
-        "count": 19
-      },
-      {
-        "month": "2025-05",
-        "total": 1939,
-        "count": 45
-      },
-      {
-        "month": "2025-06",
-        "total": 2175,
-        "count": 19
-      },
-      {
-        "month": "2025-07",
-        "total": 3722,
-        "count": 48
-      },
-      {
-        "month": "2025-08",
-        "total": 594,
-        "count": 17
-      },
-      {
-        "month": "2025-09",
-        "total": 2068,
-        "count": 17
-      },
-      {
-        "month": "2025-10",
-        "total": 2161,
-        "count": 36
-      },
-      {
-        "month": "2025-11",
-        "total": 3581,
-        "count": 14
-      },
-      {
-        "month": "2025-12",
-        "total": 939,
-        "count": 9
-      },
-      {
-        "month": "2026-01",
-        "total": 2755,
-        "count": 11
-      },
-      {
-        "month": "2026-02",
-        "total": 1050,
-        "count": 12
-      },
-      {
-        "month": "2026-03",
-        "total": 1848,
-        "count": 13
-      },
-      {
-        "month": "2026-04",
-        "total": 4099,
-        "count": 18
-      },
-      {
-        "month": "2026-05",
-        "total": 1322,
-        "count": 6
-      },
-      {
-        "month": "2026-06",
-        "total": 1160,
-        "count": 9
-      }
-    ],
-    "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
-    "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
-    "sourceUpdatedAt": "2026-07-17"
-  }
+  ]
 }

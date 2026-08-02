@@ -2,9 +2,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MigrationMap } from "@/components/MigrationMap";
-import { ResourcePanel } from "@/components/ResourcePanel";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { partnersByIds } from "@/lib/partners";
 import { mapFiscalYear } from "@/lib/migration-map";
 
 export const metadata = buildMetadata({
@@ -40,12 +38,6 @@ export default function MigrationMapPage() {
       <div className="container-page max-w-5xl space-y-8 py-10">
         <MigrationMap />
 
-        <ResourcePanel
-          partners={partnersByIds(["wise", "remitly", "boundless"])}
-          placement="migration-map"
-          title="Sending money home — or bringing family over?"
-          subtitle="Move money at the real exchange rate, and get attorney-reviewed help with family and work visas."
-        />
 
         <MethodologyNote>
           Country figures combine USCIS H-1B statistics (reported) with apportioned State Department visa

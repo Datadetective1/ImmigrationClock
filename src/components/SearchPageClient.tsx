@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { search, type SearchResult } from "@/lib/data";
 import { searchEmployers, displayEmployer } from "@/lib/employers";
 import { formatNumber } from "@/lib/format";
+import { trackSearch } from "@/lib/analytics";
 
 const TYPE_LABEL: Record<SearchResult["type"], string> = {
   company: "Employers",

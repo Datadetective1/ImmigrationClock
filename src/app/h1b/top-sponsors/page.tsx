@@ -3,9 +3,6 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
-import { ResourcePanel } from "@/components/ResourcePanel";
-import { partnersForPersona } from "@/lib/partners";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
 import { RelevanceCard } from "@/components/RelevanceCard";
@@ -13,6 +10,7 @@ import { HorizontalBarChart } from "@/components/charts/Charts";
 import { employerRelevance } from "@/lib/relevance";
 import { topSponsors, topOccupationsBySponsorship, LAST_COMPLETE_FY } from "@/lib/data";
 import { states, UPDATED } from "@/lib/dataset";
+import { EMPLOYERS_META } from "@/lib/employers";
 import { formatNumber, formatCurrency, formatRate, fiscalYearLabel, slugify } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -46,14 +44,39 @@ export default function TopSponsorsPage() {
         share
       >
         <StatRow>
-          <Stat label="Tracked approvals" value={formatNumber(totalApprovals)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
-          <Stat label="Weighted avg wage" value={formatCurrency(wAvg)} sub="Offered wage" />
-          <Stat label="Avg approval rate" value={formatRate(avgRate)} />
-          <Stat label="Employers tracked" value={String(sponsors.length)} />
+          <Stat
+            label="Tracked approvals"
+            value={formatNumber(totalApprovals)}
+            sub={`${fiscalYearLabel(LAST_COMPLETE_FY)} · ${sponsors.length} curated employers`}
+            provenance="modeled"
+            tooltip={`Approvals across a curated set of ${sponsors.length} large sponsors, anchored to published FY2024 rankings. Not a USCIS total and not the full directory.`}
+          />
+          <Stat
+            label="Weighted avg wage"
+            value={formatCurrency(wAvg)}
+            sub="Offered wage"
+            provenance="modeled"
+            tooltip="Approval-weighted average across the same curated set, derived from DOL LCA disclosure averages."
+          />
+          <Stat label="Avg approval rate" value={formatRate(avgRate)} provenance="modeled" />
+          <Stat label="Employers tracked" value={String(sponsors.length)} sub="Curated profiles" />
         </StatRow>
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <MethodologyNote variant="warning">
+          <strong className="text-slate-200">Two different USCIS products, two different years.</strong> This
+          page ranks a curated set of {sponsors.length} large sponsors anchored to published{" "}
+          {fiscalYearLabel(LAST_COMPLETE_FY)} rankings, with per-year detail modeled — that is why its figures
+          carry a <em>Modeled</em> tag. The{" "}
+          <Link href="/h1b/employers" className="link-accent">employer directory</Link> and every{" "}
+          <Link href="/employer/amazon-com-services-llc" className="link-accent">employer page</Link> instead
+          read the USCIS H-1B Employer Data Hub export directly, whose latest published year is FY
+          {EMPLOYERS_META.fiscalYear} ({formatNumber(EMPLOYERS_META.nationalApprovals)} approvals across{" "}
+          {formatNumber(EMPLOYERS_META.totalEmployers)} employers). The two sets will not add up to each
+          other, and neither is wrong — they are different releases covering different years.
+        </MethodologyNote>
+
         <Link
           href="/h1b/employers"
           className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-accent/20 bg-accent/[0.05] px-4 py-3 text-sm transition-colors hover:border-accent/40"
@@ -99,14 +122,7 @@ export default function TopSponsorsPage() {
           </ChartCard>
         </div>
 
-        <ResourcePanel
-          partners={partnersForPersona("h1b-worker", 3)}
-          placement="top-sponsors"
-          title="On (or applying for) an H-1B?"
-          subtitle="Legal help for petitions and transfers, U.S. tax filing, and moving money across borders."
-        />
 
-        <AdSlot format="in-content" />
 
         <ChartCard title="H-1B sponsorship by state" subtitle="Open a state for employer detail">
           <div className="flex flex-wrap gap-2">

@@ -14,7 +14,8 @@ import { writeFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildChangeFeed } from "../src/lib/changes";
-import { cbpRows, iceByFy, WARN_LIVE, CURRENT_FY } from "../src/lib/dataset";
+import { cbpRows, iceByFy, CURRENT_FY } from "../src/lib/dataset";
+import { WARN_SUMMARY } from "../src/lib/warn-summary";
 import { LIVE_BLS } from "../src/lib/data";
 import { formatCompact, formatNumber } from "../src/lib/format";
 import { SITE } from "../src/lib/site";
@@ -46,10 +47,14 @@ function main() {
   // Key stats
   const borderYtd = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "nationwide");
   const removals = iceByFy[CURRENT_FY]?.removals;
+  const warnYtd = WARN_SUMMARY.byYear.find((y) => y.year === CURRENT_FY);
   const stats: { label: string; value: string }[] = [
     { label: `Border encounters · FY${CURRENT_FY} YTD`, value: borderYtd ? formatCompact(borderYtd.totalEncounters) : "—" },
     { label: `ICE removals · FY${CURRENT_FY} YTD`, value: removals ? formatCompact(removals) : "—" },
-    { label: "Texas layoffs · 2026 YTD", value: WARN_LIVE.ok && WARN_LIVE.ytdTotal != null ? formatNumber(WARN_LIVE.ytdTotal) : "—" },
+    {
+      label: `WARN layoffs · ${CURRENT_FY} YTD (${WARN_SUMMARY.stateCount} states)`,
+      value: warnYtd ? formatNumber(warnYtd.employees) : "—",
+    },
     { label: "U.S. unemployment", value: LIVE_BLS.value != null ? `${LIVE_BLS.value}%` : "—" },
   ];
 

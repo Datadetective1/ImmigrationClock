@@ -8,8 +8,12 @@
  * turns the site from a 10-employer sample into a real, searchable directory of
  * thousands of sponsoring employers — every figure a reported USCIS number.
  *
- * Runs in prebuild. On any failure it leaves the committed employers.json in
- * place (never overwrites with partial/empty data).
+ * Runs in prebuild. On failure it leaves the committed employers.json in place
+ * (never overwrites with partial/empty data) but EXITS NON-ZERO so the failure
+ * is visible. It previously exited 0, which meant a broken scrape looked like a
+ * successful build — that is how the directory silently sat on FY2023 data while
+ * the rest of the site claimed FY2024. Set ALLOW_STALE_EMPLOYERS=1 to downgrade
+ * the failure to a warning (used only when you knowingly want to build offline).
  */
 import { writeFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
@@ -142,6 +146,21 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error(`[build-employers] FAILED (keeping committed employers.json): ${err?.message || err}`);
-  process.exit(0); // best-effort: never break the build; keep last-good directory
+  const allowStale = process.env.ALLOW_STALE_EMPLOYERS === "1";
+  console.error(
+    `[build-employers] FAILED (keeping committed employers.json): ${err?.message || err}`
+  );
+  if (allowStale) {
+    console.warn(
+      "[build-employers] ALLOW_STALE_EMPLOYERS=1 — continuing with the committed directory. " +
+        "The site will show whatever fiscal year that file contains."
+    );
+    process.exit(0);
+  }
+  console.error(
+    "[build-employers] Refusing to pass silently: a failed fetch leaves the employer " +
+      "directory frozen on an older fiscal year while the rest of the site moves on. " +
+      "Fix the source, or set ALLOW_STALE_EMPLOYERS=1 to build with the committed file."
+  );
+  process.exit(1);
 });

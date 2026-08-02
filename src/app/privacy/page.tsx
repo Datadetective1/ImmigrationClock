@@ -1,5 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
+import { ContactLink } from "@/components/ContactLink";
 import { SITE } from "@/lib/site";
 
 export const metadata = buildMetadata({
@@ -109,7 +110,7 @@ export default function PrivacyPage() {
           <p>
             We may update this policy; material changes will be reflected by the &ldquo;last updated&rdquo;
             date above. Questions? Contact{" "}
-            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+            <ContactLink />.
           </p>
         </section>
       </div>

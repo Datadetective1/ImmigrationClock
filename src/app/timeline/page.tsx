@@ -1,6 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EventTimeline } from "@/components/EventTimeline";
 import { timelineEvents } from "@/lib/events";
@@ -40,7 +39,6 @@ export default function TimelinePage() {
 
         <EventTimeline />
 
-        <AdSlot format="in-content" />
 
         <MethodologyNote>
           This timeline is a hand-curated, non-exhaustive selection of widely-reported events, each linked

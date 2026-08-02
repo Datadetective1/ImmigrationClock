@@ -6,7 +6,6 @@ import { stateAggregate } from "@/lib/data";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { HorizontalBarChart } from "@/components/charts/Charts";
 import { formatNumber, formatCurrency, fiscalYearLabel } from "@/lib/format";
@@ -84,7 +83,6 @@ export default function H1bStatePage({ params }: { params: { stateCode: string }
           </div>
         </div>
 
-        <AdSlot format="in-content" />
 
         <ChartCard title="Employer detail">
           <ul className="divide-y divide-white/5">

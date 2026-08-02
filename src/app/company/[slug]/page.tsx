@@ -7,16 +7,17 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { AdSlot } from "@/components/AdSlot";
-import { ResourcePanel } from "@/components/ResourcePanel";
 import { Faq, type FaqItem } from "@/components/Faq";
-import { partnersForPersona } from "@/lib/partners";
 import { TrendLineChart } from "@/components/charts/Charts";
 import { SourceBadge } from "@/components/SourceBadge";
+import { ProvenanceTag } from "@/components/ProvenanceTag";
+import { warnForEmployer } from "@/lib/warn";
+import { WARN_COVERAGE_SENTENCE, WARN_SOURCE } from "@/lib/warn-summary";
 import {
   formatNumber,
   formatCurrency,
   formatRate,
+  formatDate,
   fiscalYearLabel,
 } from "@/lib/format";
 
@@ -29,7 +30,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   if (!company) return buildMetadata({ title: "Employer not found", description: "", path: `/company/${params.slug}` });
   return buildMetadata({
     title: `${company.name} — H-1B & Workforce Data`,
-    description: `Public records: ${company.name} H-1B approvals, denials, approval rate, offered wages, top job titles, worksites, and layoffs.`,
+    description: `Public records: ${company.name} H-1B approvals, denials, approval rate, offered wages, top job titles, worksites, and any state-filed WARN layoff notices.`,
     path: `/company/${company.slug}`,
     keywords: [company.name, "H-1B sponsor", "visa sponsorship", company.industry],
   });
@@ -51,7 +52,10 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
     label: fiscalYearLabel(t.fiscalYear),
     "Avg offered wage": t.avgWage,
   }));
-  const layoffTotal = company.layoffs.reduce((s, l) => s + l.employeesAffected, 0);
+  // Real WARN notices filed under this employer's name, matched through the
+  // shared normalizer. Null when the employer has no notice in the covered
+  // states — which is not the same as "this employer had no layoffs".
+  const warn = warnForEmployer(company.name);
   const approvalsPct =
     prev && prev.approvals ? ((latest.approvals - prev.approvals) / prev.approvals) * 100 : 0;
 
@@ -168,40 +172,74 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
           </ChartCard>
         </div>
 
-        <ResourcePanel
-          partners={partnersForPersona("h1b-worker", 3)}
-          placement="company"
-          title="Working with or applying to an H-1B sponsor?"
-          subtitle="Services people researching visa sponsors most often need — legal help, taxes, and moving money."
-        />
 
-        <AdSlot format="in-content" />
 
         <ChartCard
           title="Public layoff notices (WARN)"
-          subtitle={layoffTotal > 0 ? `${formatNumber(layoffTotal)} employees across tracked notices` : "No tracked WARN notices"}
-          source={{ sourceName: "State WARN Act Layoff Notices", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: company.sourceUpdatedAt }}
+          subtitle={
+            warn
+              ? `${formatNumber(warn.summary.employees)} employees across ${formatNumber(
+                  warn.summary.notices
+                )} state-filed notice${warn.summary.notices === 1 ? "" : "s"} (${warn.summary.states.join(", ")})`
+              : "No WARN notice found for this employer in the covered states"
+          }
+          source={WARN_SOURCE}
         >
-          {company.layoffs.length > 0 ? (
-            <ul className="divide-y divide-white/5">
-              {company.layoffs.map((l) => (
-                <li key={l.year} className="flex items-center justify-between py-2.5">
-                  <span className="text-sm text-slate-200">Calendar year {l.year}</span>
-                  <span className="flex items-center gap-4">
-                    <span className="text-xs text-slate-500">{l.events} notice{l.events === 1 ? "" : "s"}</span>
-                    <span className="font-mono text-sm tabular-nums text-status-red">{formatNumber(l.employeesAffected)}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
+          {warn ? (
+            <>
+              <div className="mb-3">
+                <ProvenanceTag provenance="reported" />
+              </div>
+              <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">
+                <table className="w-full min-w-[420px] text-sm">
+                  <thead>
+                    <tr className="border-b border-white/10 bg-white/[0.03] text-left text-xs uppercase tracking-wider text-slate-400">
+                      <th className="px-3 py-2 font-medium">Notice date</th>
+                      <th className="px-3 py-2 font-medium">Location</th>
+                      <th className="px-3 py-2 font-medium text-right">Employees</th>
+                      <th className="px-3 py-2 font-medium">Source</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {warn.notices.slice(0, 8).map((n, i) => (
+                      <tr key={`${n.noticeDate ?? n.effectiveDate}-${i}`} className="border-b border-white/5 last:border-0">
+                        <td className="px-3 py-2 font-mono tabular-nums text-slate-300">
+                          {n.noticeDate ? formatDate(n.noticeDate) : n.effectiveDate ? `eff. ${formatDate(n.effectiveDate)}` : "—"}
+                        </td>
+                        <td className="px-3 py-2 text-slate-400">{[n.city, n.state].filter(Boolean).join(", ")}</td>
+                        <td className="px-3 py-2 text-right font-mono tabular-nums text-status-red">
+                          {n.employees > 0 ? formatNumber(n.employees) : "—"}
+                        </td>
+                        <td className="px-3 py-2">
+                          <a href={n.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-xs text-accent-soft hover:underline">
+                            {n.state} ↗
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {warn.notices.length > 8 ? (
+                <p className="mt-3 text-xs text-slate-500">
+                  Showing 8 of {formatNumber(warn.notices.length)} notices. See the{" "}
+                  <Link href="/layoffs" className="link-accent">full live layoffs feed</Link>.
+                </p>
+              ) : null}
+            </>
           ) : (
-            <p className="text-sm text-slate-400">No public WARN layoff notices are tracked for this employer in the current window.</p>
+            <p className="text-sm leading-relaxed text-slate-400">
+              No WARN notice filed under this employer&rsquo;s name appears in our feed.{" "}
+              {WARN_COVERAGE_SENTENCE} An absence here is not evidence that no layoffs occurred.
+            </p>
           )}
         </ChartCard>
 
         <MethodologyNote variant="warning">
-          Visa sponsorship volume and layoff notices are reported independently. A company appearing in
-          both datasets does not establish that H-1B sponsorship caused any layoff.
+          Visa sponsorship volume and layoff notices are reported independently, by different agencies, on
+          different calendars. An employer appearing in both datasets does not establish that H-1B
+          sponsorship caused any layoff, and the datasets do not identify the immigration status of
+          affected workers.
         </MethodologyNote>
 
         <Faq items={faqItems} />

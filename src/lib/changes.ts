@@ -9,7 +9,8 @@
 // =============================================================================
 import type { Provenance, TrendDirection } from "./types";
 import { cbpLatestChange } from "./history";
-import { WARN_LIVE, iceByFy, CURRENT_FY, EMPLOYER_LATEST_FY, FY2026_ELAPSED } from "./dataset";
+import { iceByFy, CURRENT_FY, EMPLOYER_LATEST_FY, FY2026_ELAPSED } from "./dataset";
+import { WARN_SUMMARY, WARN_SOURCE, warnCompleteMonths } from "./warn-summary";
 import { LIVE_BLS } from "./data";
 import { reportingLagRows } from "./refresh";
 import { formatNumber, formatCompact } from "./format";
@@ -80,35 +81,32 @@ export function buildChangeFeed(): ChangeItem[] {
     });
   }
 
-  // 2. Texas WARN layoffs — last complete month vs the month before
-  const monthly = WARN_LIVE.ok ? WARN_LIVE.monthly ?? [] : [];
-  if (monthly.length >= 3) {
-    const now = new Date();
-    const cur = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
-    const complete = monthly.filter((m) => m.month < cur);
-    const latest = complete[complete.length - 1];
-    const prior = complete[complete.length - 2];
-    if (latest && prior) {
-      const pct = prior.total ? ((latest.total - prior.total) / prior.total) * 100 : 0;
-      const showPct = Math.abs(Math.round(pct)) >= 1;
-      items.push({
-        key: "warn-tx-mom",
-        title: `Texas layoffs ${pct >= 1 ? "up" : pct <= -1 ? "down" : "roughly flat"}${
-          showPct ? ` ${Math.abs(Math.round(pct))}%` : ""
-        } month-over-month`,
-        detail: `${formatNumber(latest.total)} employees across ${latest.count} WARN notices in ${monthFull(
-          latest.month
-        )}, vs ${formatNumber(prior.total)} in ${monthFull(prior.month)}. Texas only.`,
-        direction: dir(pct),
-        metric: showPct ? signed(pct) : undefined,
-        group: "workforce",
-        provenance: "reported",
-        period: `${monthShort(latest.month)} vs ${monthShort(prior.month)}`,
-        sourceName: "Texas WARN Notices",
-        sourceUrl: WARN_LIVE.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6",
-        href: "/state/TX",
-      });
-    }
+  // 2. WARN layoffs across the covered states — last complete month vs the one
+  //    before. The current month is excluded (still accumulating notices).
+  const { latest: warnLatest, prior: warnPrior } = warnCompleteMonths();
+  if (warnLatest && warnPrior) {
+    const pct = warnPrior.employees
+      ? ((warnLatest.employees - warnPrior.employees) / warnPrior.employees) * 100
+      : 0;
+    const showPct = Math.abs(Math.round(pct)) >= 1;
+    items.push({
+      key: "warn-mom",
+      title: `WARN layoff notices ${pct >= 1 ? "up" : pct <= -1 ? "down" : "roughly flat"}${
+        showPct ? ` ${Math.abs(Math.round(pct))}%` : ""
+      } month-over-month`,
+      detail:
+        `${formatNumber(warnLatest.employees)} employees across ${formatNumber(warnLatest.notices)} notices in ` +
+        `${monthFull(warnLatest.month)}, vs ${formatNumber(warnPrior.employees)} in ${monthFull(warnPrior.month)}. ` +
+        `Covers ${WARN_SUMMARY.stateCount} states (${WARN_SUMMARY.stateCodes.join(", ")}) — not a national total.`,
+      direction: dir(pct),
+      metric: showPct ? signed(pct) : undefined,
+      group: "workforce",
+      provenance: "reported",
+      period: `${monthShort(warnLatest.month)} vs ${monthShort(warnPrior.month)}`,
+      sourceName: WARN_SOURCE.sourceName,
+      sourceUrl: WARN_SOURCE.sourceUrl,
+      href: "/layoffs",
+    });
   }
 
   // 3. ICE removals vs the last reported full-year pace (projected)

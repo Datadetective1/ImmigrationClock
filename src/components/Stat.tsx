@@ -1,8 +1,15 @@
 import { Tooltip } from "./Tooltip";
 import { TrendBadge } from "./TrendBadge";
-import type { TrendDirection } from "@/lib/types";
+import { ProvenanceTag } from "./ProvenanceTag";
+import type { TrendDirection, Provenance } from "@/lib/types";
 
-/** Small KPI block used in headers and summary rows. */
+/**
+ * Small KPI block used in headers and summary rows.
+ *
+ * `provenance` renders the integrity tag inline. Pass it on any figure that is
+ * not a straight reported number so a modeled value can never be mistaken for a
+ * published one at a glance.
+ */
 export function Stat({
   label,
   value,
@@ -10,6 +17,7 @@ export function Stat({
   tooltip,
   trend,
   trendPct,
+  provenance,
 }: {
   label: string;
   value: string;
@@ -17,6 +25,7 @@ export function Stat({
   tooltip?: string;
   trend?: TrendDirection;
   trendPct?: number;
+  provenance?: Provenance;
 }) {
   return (
     <div className="panel panel-pad">
@@ -28,7 +37,10 @@ export function Stat({
         <span className="font-mono text-2xl font-semibold tabular-nums text-white">{value}</span>
         {trend ? <TrendBadge trend={trend} pct={trendPct} /> : null}
       </div>
-      {sub ? <div className="mt-1 text-xs text-slate-500">{sub}</div> : null}
+      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+        {sub ? <span className="text-xs text-slate-500">{sub}</span> : null}
+        {provenance ? <ProvenanceTag provenance={provenance} /> : null}
+      </div>
     </div>
   );
 }

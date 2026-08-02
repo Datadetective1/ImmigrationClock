@@ -1,6 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { personaSummaries } from "@/lib/relevance";
@@ -42,7 +41,6 @@ export default function ForYouPage() {
       <div className="container-page max-w-3xl space-y-8 py-10">
         <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
 
-        <AdSlot format="in-content" />
 
         <MethodologyNote>
           These summaries are computed automatically from the same public datasets used across the site

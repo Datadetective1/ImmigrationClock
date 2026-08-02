@@ -1,5 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
+import { ContactLink } from "@/components/ContactLink";
 import { SITE } from "@/lib/site";
 import Link from "next/link";
 
@@ -62,7 +63,7 @@ export default function AboutPage() {
           <h2>Contact</h2>
           <p>
             Corrections, source suggestions, or questions are welcome at{" "}
-            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. If you spot a number that doesn&rsquo;t
+            <ContactLink />. If you spot a number that doesn&rsquo;t
             match its source, please tell us.
           </p>
         </section>

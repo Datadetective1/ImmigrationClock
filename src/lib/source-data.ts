@@ -21,6 +21,9 @@ import type {
 } from "./types";
 import { sourceRef } from "./sources";
 import refresh from "./generated/refresh.json";
+// Read at build time so the fiscal year we CLAIM always equals the fiscal year we
+// INGESTED. build-employers.ts runs before build-dataset.ts in prebuild.
+import employers from "./generated/employers.json";
 
 // Live-fetched CBP nationwide encounters (scripts/refresh-data.mjs writes this
 // during prebuild, just before this module is serialized). When present we use
@@ -39,24 +42,6 @@ const cbpLive = (
   }
 ).cbp;
 
-// Live-fetched Texas WARN layoff notices (data.texas.gov). Texas only — other
-// states stay curated/modeled. Surfaced as a reported figure on the TX page.
-interface WarnLiveShape {
-  ok?: boolean;
-  state?: string;
-  ytdYear?: number;
-  ytdTotal?: number | null;
-  ytdCount?: number | null;
-  prevYear?: number;
-  prevTotal?: number | null;
-  prevCount?: number | null;
-  recent?: { noticeDate: string; employer: string; city: string; employees: number }[];
-  monthly?: { month: string; total: number; count: number }[];
-  sourceName?: string;
-  sourceUrl?: string;
-  sourceUpdatedAt?: string | null;
-}
-const warnLive = (refresh as { warn?: WarnLiveShape }).warn;
 
 // ---------------------------------------------------------------------------
 // REAL DATA — sourced from official U.S. government public datasets.
@@ -87,15 +72,31 @@ export const FY2026_ELAPSED = 8.5 / 12;
 export const FY_COMPLETENESS = FY2026_ELAPSED;
 // Last fully-finished fiscal year (used as "last complete" comparison).
 export const LATEST_COMPLETE_FY = 2025;
-// USCIS H-1B Employer Data Hub + DOL OFLC disclosure data lag ~12-18 months, so
-// employer-level / wage data's latest *available* complete year is FY2024.
+// TWO DIFFERENT USCIS PRODUCTS, TWO DIFFERENT LATEST YEARS. Conflating them is
+// what produced the FY drift corrected on 2026-08-01:
+//
+//   DATAHUB_LATEST_FY — the H-1B Employer Data Hub (per-employer approvals and
+//     denials). Read from the file we actually ingested, never hardcoded, so the
+//     site can no longer claim a year the data does not cover.
+//
+//   EMPLOYER_LATEST_FY — the anchor year of the curated large-sponsor profiles
+//     below. These come from published FY2024 sponsor rankings, NOT from the
+//     Data Hub, and their per-year detail is modeled. Anything derived from them
+//     is labelled `modeled` in the UI.
+//
+// Because the Data Hub trails the rankings, these two are currently different
+// years. That is a fact about the sources, and pages must show whichever one
+// actually backs the number in front of the reader.
+export const DATAHUB_LATEST_FY = employers.fiscalYear as number;
 export const EMPLOYER_LATEST_FY = 2024;
 const EMPLOYER_YEARS = [2021, 2022, 2023, 2024];
-// Back-compat alias (employer/Data-Hub latest available year).
+// Back-compat alias (curated-profile anchor year).
 export const LATEST_REPORTED_FY = EMPLOYER_LATEST_FY;
 
 export const DATA_VINTAGE =
-  "ImmigrationClock shows the latest available reporting period per source. Fast sources (CBP, ICE, State Dept, WARN) run through FY2025/FY2026; employer-level H-1B and wage data (USCIS Data Hub, DOL OFLC) lag to FY2024. Each card is labelled complete, YTD, preliminary, or point-in-time.";
+  "ImmigrationClock shows the latest available reporting period per source. Fast sources (CBP, ICE, State Dept, WARN) run through FY2025/FY2026. Per-employer H-1B data comes from the USCIS Employer Data Hub, whose latest published export is FY" +
+  `${DATAHUB_LATEST_FY}` +
+  ". Wage data (DOL OFLC) and the curated large-sponsor profiles are anchored to FY2024 and are labelled modeled where they are not a direct agency figure. Each card is labelled complete, YTD, preliminary, or point-in-time.";
 
 // Source last-updated dates (publication dates of the releases used).
 export const UPDATED = {
@@ -126,31 +127,6 @@ export const CBP_LIVE = cbpLive?.ok
       currentFyYtd: cbpLive.currentFyYtd ?? null,
       sourceUpdatedAt: cbpLive.sourceUpdatedAt ?? null,
       datasetUrl: cbpLive.datasetUrl ?? null,
-    }
-  : { ok: false as const };
-
-// When Texas WARN was fetched live, reflect the real fetch date on its badge.
-if (warnLive?.ok && warnLive.sourceUpdatedAt) {
-  UPDATED.warn_layoffs = warnLive.sourceUpdatedAt;
-}
-
-// Real Texas WARN summary + recent notices (reported). Texas only — surfaced as
-// its own clearly-labelled element; national/other-state layoffs stay modeled.
-export const WARN_LIVE = warnLive?.ok
-  ? {
-      ok: true as const,
-      state: warnLive.state ?? "TX",
-      ytdYear: warnLive.ytdYear ?? null,
-      ytdTotal: warnLive.ytdTotal ?? null,
-      ytdCount: warnLive.ytdCount ?? null,
-      prevYear: warnLive.prevYear ?? null,
-      prevTotal: warnLive.prevTotal ?? null,
-      prevCount: warnLive.prevCount ?? null,
-      recent: warnLive.recent ?? [],
-      monthly: warnLive.monthly ?? [],
-      sourceName: warnLive.sourceName ?? "Texas WARN Notices",
-      sourceUrl: warnLive.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6",
-      sourceUpdatedAt: warnLive.sourceUpdatedAt ?? null,
     }
   : { ok: false as const };
 
@@ -268,7 +244,6 @@ interface CompanySeed {
   denialRate: number;
   titles: { title: string; share: number; wageMult: number }[];
   worksites: { city: string; stateCode: string; share: number }[];
-  layoffYears: { year: number; employeesAffected: number; events: number }[];
 }
 
 const T = {
@@ -299,10 +274,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Arlington", stateCode: "VA", share: 0.16 },
       { city: "New York", stateCode: "NY", share: 0.14 },
     ],
-    layoffYears: [
-      { year: 2023, employeesAffected: 18000, events: 6 },
-      { year: 2024, employeesAffected: 5200, events: 3 },
-    ],
   },
   {
     slug: "infosys", name: "Infosys", industry: "IT Services & Consulting",
@@ -320,7 +291,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Raleigh", stateCode: "NC", share: 0.18 },
       { city: "Phoenix", stateCode: "AZ", share: 0.14 },
     ],
-    layoffYears: [],
   },
   {
     slug: "cognizant", name: "Cognizant Technology Solutions", industry: "IT Services & Consulting",
@@ -338,7 +308,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Phoenix", stateCode: "AZ", share: 0.18 },
       { city: "Atlanta", stateCode: "GA", share: 0.16 },
     ],
-    layoffYears: [{ year: 2023, employeesAffected: 3500, events: 4 }],
   },
   {
     slug: "alphabet-google", name: "Alphabet (Google)", industry: "Technology & Internet",
@@ -356,7 +325,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "New York", stateCode: "NY", share: 0.18 },
       { city: "Seattle", stateCode: "WA", share: 0.14 },
     ],
-    layoffYears: [{ year: 2023, employeesAffected: 12000, events: 2 }],
   },
   {
     slug: "tata-consultancy-services", name: "Tata Consultancy Services", industry: "IT Services & Consulting",
@@ -374,7 +342,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Milwaukee", stateCode: "WI", share: 0.16 },
       { city: "Santa Clara", stateCode: "CA", share: 0.16 },
     ],
-    layoffYears: [],
   },
   {
     slug: "meta-platforms", name: "Meta Platforms", industry: "Technology & Social Media",
@@ -392,7 +359,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Seattle", stateCode: "WA", share: 0.18 },
       { city: "Austin", stateCode: "TX", share: 0.12 },
     ],
-    layoffYears: [{ year: 2023, employeesAffected: 21000, events: 3 }],
   },
   {
     slug: "microsoft", name: "Microsoft", industry: "Technology & Software",
@@ -409,10 +375,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Bellevue", stateCode: "WA", share: 0.18 },
       { city: "Mountain View", stateCode: "CA", share: 0.16 },
       { city: "Atlanta", stateCode: "GA", share: 0.12 },
-    ],
-    layoffYears: [
-      { year: 2023, employeesAffected: 10000, events: 3 },
-      { year: 2025, employeesAffected: 6000, events: 2 },
     ],
   },
   {
@@ -431,7 +393,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "San Diego", stateCode: "CA", share: 0.14 },
       { city: "Austin", stateCode: "TX", share: 0.14 },
     ],
-    layoffYears: [],
   },
   {
     slug: "hcl-america", name: "HCL America", industry: "IT Services & Consulting",
@@ -449,7 +410,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "Cary", stateCode: "NC", share: 0.18 },
       { city: "Redmond", stateCode: "WA", share: 0.14 },
     ],
-    layoffYears: [],
   },
   {
     slug: "ibm", name: "IBM", industry: "Technology & Consulting",
@@ -467,7 +427,6 @@ const COMPANY_SEEDS: CompanySeed[] = [
       { city: "San Jose", stateCode: "CA", share: 0.2 },
       { city: "Research Triangle Park", stateCode: "NC", share: 0.16 },
     ],
-    layoffYears: [{ year: 2023, employeesAffected: 3900, events: 3 }],
   },
 ];
 
@@ -524,7 +483,6 @@ export const companies: Company[] = COMPANY_SEEDS.map((seed) => {
       avgWage: roundTo(latestWage * t.wageMult, 500),
     })),
     topWorksites: seed.worksites,
-    layoffs: seed.layoffYears,
     ...sourceRef("uscis_h1b", UPDATED.uscis_h1b),
   };
 });
@@ -597,7 +555,21 @@ export const iceByCountry: IceRow[] = COUNTRY_SEEDS.map((c) => {
 });
 
 // ICE detention — most recent point-in-time figure (real, dated).
-export const DETENTION_NOW = { value: 73000, asOf: "2026-01-15" }; // highest in system history
+// Point-in-time ICE detention population, hand-transcribed from ICE's published
+// detention statistics. It carries `staleAfterDays` because a point-in-time
+// figure does not stay true: unlike a fiscal-year total, it describes one day and
+// silently becomes wrong. Once past that window the UI says so rather than
+// presenting a months-old snapshot as current.
+//
+// No superlative is attached to this number. We do not hold the historical series
+// that would be needed to support a claim like "highest ever", and the Directive
+// requires every statistic to be traceable. (Such a claim was attached here until
+// 2026-08-01; see docs/data-corrections.md.)
+export const DETENTION_NOW = {
+  value: 73000,
+  asOf: "2026-01-15",
+  staleAfterDays: 60,
+};
 
 // ---------------------------------------------------------------------------
 // CBP encounters — REAL nationwide totals + southwest Border Patrol apprehensions
@@ -798,45 +770,22 @@ export const wageByState: WageRow[] = STATE_SEEDS.map((s) => ({
 }));
 
 // ---------------------------------------------------------------------------
-// WARN layoffs — derived from publicly reported company layoff events
+// WARN layoffs — INTENTIONALLY EMPTY.
+//
+// This module previously synthesized individual "WARN notices": it split
+// press-reported annual layoff totals into fabricated events with invented
+// notice dates, and carried a hardcoded list of named employers with invented
+// filing dates. Those rows were stamped with the State WARN Act source name and
+// a dol.gov URL and rendered under a "Recent layoff notices (WARN)" heading —
+// presenting records no state agency ever published as government filings.
+//
+// They were removed on 2026-08-01. Every layoff figure on the site now comes
+// from src/lib/generated/warn.json and warn-summary.json: real notices filed
+// with state agencies, each keeping its own source URL. See
+// docs/data-corrections.md.
+//
+// This export is retained (empty and frozen) so nothing can silently
+// reintroduce modeled layoff rows through the old path. Read real layoffs via
+// src/lib/warn-summary.ts (totals) or src/lib/warn.ts (individual notices).
 // ---------------------------------------------------------------------------
-export const layoffRows: LayoffRow[] = [];
-for (const seed of COMPANY_SEEDS) {
-  for (const ly of seed.layoffYears) {
-    for (let e = 0; e < ly.events; e++) {
-      const month = roundTo(2 + (e / Math.max(1, ly.events)) * 9, 1);
-      const affected = roundTo(ly.employeesAffected / ly.events, 10);
-      layoffRows.push({
-        employerName: seed.name,
-        companySlug: seed.slug,
-        stateCode: seed.worksites[e % seed.worksites.length].stateCode,
-        city: seed.worksites[e % seed.worksites.length].city,
-        noticeDate: `${ly.year}-${String(month).padStart(2, "0")}-15`,
-        employeesAffected: affected,
-        reason: "Workforce reduction",
-        ...sourceRef("warn_layoffs", UPDATED.warn_layoffs),
-      });
-    }
-  }
-}
-const EXTRA_LAYOFFS: { name: string; state: string; city: string; date: string; n: number }[] = [
-  { name: "Intel", state: "CA", city: "Santa Clara", date: "2026-03-12", n: 2400 },
-  { name: "Salesforce", state: "CA", city: "San Francisco", date: "2026-02-04", n: 1300 },
-  { name: "UPS", state: "GA", city: "Atlanta", date: "2026-01-22", n: 1700 },
-  { name: "Charter Communications", state: "TX", city: "Austin", date: "2025-04-15", n: 900 },
-  { name: "Wells Fargo", state: "CA", city: "San Francisco", date: "2024-04-15", n: 1100 },
-  { name: "Peloton Interactive", state: "NY", city: "New York", date: "2024-04-15", n: 650 },
-  { name: "Boeing", state: "WA", city: "Everett", date: "2025-04-15", n: 2200 },
-  { name: "CVS Health", state: "IL", city: "Chicago", date: "2024-04-15", n: 700 },
-];
-for (const x of EXTRA_LAYOFFS) {
-  layoffRows.push({
-    employerName: x.name,
-    stateCode: x.state,
-    city: x.city,
-    noticeDate: x.date,
-    employeesAffected: x.n,
-    reason: "Workforce reduction",
-    ...sourceRef("warn_layoffs", UPDATED.warn_layoffs),
-  });
-}
+export const layoffRows: readonly LayoffRow[] = Object.freeze([]);

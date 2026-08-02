@@ -1,44 +1,76 @@
-import { SOURCES, SOURCE_BY_KEY } from "./sources";
+import { SOURCES, SOURCE_BY_KEY, monthsSinceVerified } from "./sources";
 import {
   companies,
   cbpRows,
   iceRows,
   visaRows,
   wageRows,
-  layoffRows,
   UPDATED,
   CBP_LIVE,
-  WARN_LIVE,
 } from "./dataset";
+import { WARN_SUMMARY } from "./warn-summary";
+import { EMPLOYERS_META } from "./employers";
 import refresh from "./generated/refresh.json";
 import type { RefreshRow, Completeness } from "./types";
 
 // Latest reporting period in the dataset per source (what the freshness logic
 // surfaces on the cards).
+//
+// TODO(Phase 2): these periods are still hand-maintained for the curated sources.
+// They move to the event model, which will carry a real data-through date per
+// release. The machine-ingested sources (CBP, BLS, WARN, USCIS Data Hub) already
+// derive their period from the pipeline output below rather than from this table.
 const LATEST_PERIOD: Record<string, { period: string; completeness: Completeness; updatedKey: keyof typeof UPDATED }> = {
-  uscis_h1b: { period: "FY2024", completeness: "complete", updatedKey: "uscis_h1b" },
+  // Derived from the file we actually ingested — never hardcoded. Hardcoding this
+  // is what let the site claim FY2024 while serving an FY2023 export.
+  uscis_h1b: {
+    period: `FY${EMPLOYERS_META.fiscalYear}`,
+    completeness: "complete",
+    updatedKey: "uscis_h1b",
+  },
+  uscis_h1b_national: { period: "FY2025 (preliminary)", completeness: "preliminary", updatedKey: "uscis_h1b_national" },
   dol_lca: { period: "FY2024", completeness: "complete", updatedKey: "dol_lca" },
   ice_stats: { period: "FY2026 YTD", completeness: "ytd", updatedKey: "ice_stats" },
   dhs_stats: { period: "FY2025", completeness: "complete", updatedKey: "dhs_stats" },
-  cbp_encounters: { period: "FY2026 YTD", completeness: "ytd", updatedKey: "cbp_encounters" },
+  cbp_encounters: {
+    period: CBP_LIVE.ok && CBP_LIVE.reportingMonthLabel
+      ? `FY${CBP_LIVE.currentFy} through ${CBP_LIVE.reportingMonthLabel}`
+      : "FY2026 YTD",
+    completeness: "ytd",
+    updatedKey: "cbp_encounters",
+  },
   dos_visa: { period: "FY2026 YTD", completeness: "ytd", updatedKey: "dos_visa" },
   bls_wages: { period: "May 2024 (OEWS)", completeness: "complete", updatedKey: "bls_wages" },
-  warn_layoffs: { period: "2026 YTD", completeness: "ytd", updatedKey: "warn_layoffs" },
-  trac: { period: "Mar 2026", completeness: "preliminary", updatedKey: "trac" },
+  bls_unemployment: {
+    period: (refresh as { bls?: { period?: string } }).bls?.period ?? "—",
+    completeness: "point_in_time",
+    updatedKey: "bls_wages",
+  },
+  warn_layoffs: {
+    period: WARN_SUMMARY.maxNoticeDate
+      ? `Notices through ${WARN_SUMMARY.maxNoticeDate}`
+      : "No notices",
+    completeness: "ytd",
+    updatedKey: "warn_layoffs",
+  },
+  trac: { period: "Not ingested", completeness: "preliminary", updatedKey: "trac" },
 };
 
-// Row counts per source (sample dataset). With USE_DATABASE on, replace with
-// SELECT count(*) per table via Prisma.
+// How many records each source actually contributes to the shipped snapshot.
+// A source we do not ingest contributes 0 — attributing rows to it would imply an
+// ingestion that never ran.
 const ROW_COUNTS: Record<string, number> = {
-  uscis_h1b: companies.reduce((s, c) => s + c.years.length, 0),
+  uscis_h1b: EMPLOYERS_META.count,
+  uscis_h1b_national: 0,
   dol_lca: companies.reduce((s, c) => s + c.topJobTitles.length * c.years.length, 0),
   ice_stats: iceRows.length,
   dhs_stats: iceRows.length,
   cbp_encounters: cbpRows.length,
   dos_visa: visaRows.length,
   bls_wages: wageRows.length,
-  warn_layoffs: layoffRows.length,
-  trac: iceRows.length,
+  bls_unemployment: (refresh as { bls?: { value?: number | null } }).bls?.value != null ? 1 : 0,
+  warn_layoffs: WARN_SUMMARY.noticeCount,
+  trac: 0, // registered but not ingested
 };
 
 function addDays(iso: string, days: number): string {
@@ -54,8 +86,47 @@ const NEXT_REFRESH_DAYS: Record<string, number> = {
   weekly: 7,
 };
 
-// One source intentionally shown as FAILED to exercise the admin UI.
-const FAILED_KEYS = new Set<string>(["bls_wages"]);
+// Real per-source pipeline outcome, read from refresh.json (written by
+// scripts/refresh-data.mjs) plus the generated snapshots.
+//
+// This function previously hardcoded one source to FAILED "to exercise the admin
+// UI", and derived every other status from nothing at all. A page whose entire
+// job is to report whether the platform is honest about its data cannot itself
+// display a fabricated status. Removed 2026-08-01; see docs/data-corrections.md.
+function pipelineStatus(key: string): { status: RefreshRow["status"]; error?: string } {
+  const src = SOURCE_BY_KEY[key];
+  if (!src) return { status: "PENDING" };
+
+  // Curated sources are not fetched by any pipeline, so they have no run outcome
+  // to report. Saying SUCCESS would imply an automated check that never happened.
+  if (src.ingestion === "curated") return { status: "PENDING" };
+  if (src.ingestion === "planned") {
+    return { status: "PENDING", error: "Registered as a source to cover; ingestion not built yet." };
+  }
+
+  const r = refresh as Record<string, unknown>;
+  const feed = src.refreshKey ? (r[src.refreshKey] as { ok?: boolean; stale?: boolean } | undefined) : undefined;
+
+  // WARN and the employer directory are built by their own scripts, so their
+  // health is the presence of real output rather than a refresh.json flag.
+  if (key === "warn_layoffs") {
+    return WARN_SUMMARY.noticeCount > 0
+      ? { status: "SUCCESS" }
+      : { status: "FAILED", error: "No WARN notices in the current snapshot." };
+  }
+  if (key === "uscis_h1b") {
+    return EMPLOYERS_META.count > 0
+      ? { status: "SUCCESS" }
+      : { status: "FAILED", error: "Employer directory is empty." };
+  }
+
+  if (!feed) return { status: "PENDING" };
+  if (feed.ok) return { status: "SUCCESS" };
+  if (feed.stale) {
+    return { status: "PARTIAL", error: "Last fetch failed; serving the last good snapshot." };
+  }
+  return { status: "FAILED", error: "Last scheduled fetch did not return usable data." };
+}
 
 export function refreshRows(): RefreshRow[] {
   return SOURCES.map((s) => {
@@ -63,9 +134,12 @@ export function refreshRows(): RefreshRow[] {
     const sourceUpdatedAt =
       (UPDATED as Record<string, string>)[fresh?.updatedKey ?? s.key] ??
       (UPDATED as Record<string, string>)[s.key] ??
-      "2026-01-01";
-    const last = sourceUpdatedAt;
-    const status = FAILED_KEYS.has(s.key) ? "FAILED" : "SUCCESS";
+      s.lastVerifiedAt;
+    // When we actually pulled it. For curated sources there is no fetch, so this
+    // is the agency's publication date — the honest answer to "how did this get
+    // here" is "a human transcribed the published report".
+    const lastRefreshAt = REFRESH_STATUS.generatedAt.slice(0, 10);
+    const outcome = pipelineStatus(s.key);
     return {
       key: s.key,
       name: s.name,
@@ -74,13 +148,15 @@ export function refreshRows(): RefreshRow[] {
       latestPeriod: fresh?.period ?? "—",
       completeness: fresh?.completeness ?? "complete",
       sourceUpdatedAt,
-      lastRefreshAt: last,
-      nextRefreshAt: addDays(last, NEXT_REFRESH_DAYS[s.cadence] ?? 30),
+      lastRefreshAt: s.ingestion === "curated" ? sourceUpdatedAt : lastRefreshAt,
+      lastVerifiedAt: s.lastVerifiedAt,
+      monthsSinceVerified: monthsSinceVerified(s.key),
+      ingestion: s.ingestion,
+      tier: s.tier,
+      nextRefreshAt: addDays(lastRefreshAt, NEXT_REFRESH_DAYS[s.cadence] ?? 30),
       rowCount: ROW_COUNTS[s.key] ?? 0,
-      status: status as RefreshRow["status"],
-      errorMessage: FAILED_KEYS.has(s.key)
-        ? "HTTP 503 from source endpoint during last scheduled pull; serving last good snapshot."
-        : undefined,
+      status: outcome.status,
+      errorMessage: outcome.error,
     };
   });
 }
@@ -225,12 +301,18 @@ export function reportingLagRows(): ReportingLagRow[] {
       name: "State WARN Layoff Notices",
       agency: agency("warn_layoffs"),
       cadence: "weekly",
-      live: !!WARN_LIVE.ok,
-      liveScope: WARN_LIVE.ok ? "Texas only" : undefined,
-      latestPeriod: WARN_LIVE.ok ? `${WARN_LIVE.ytdYear} year-to-date (Texas)` : "Curated subset",
-      dataThrough: WARN_LIVE.ok ? WARN_LIVE.sourceUpdatedAt ?? null : null,
+      live: WARN_SUMMARY.noticeCount > 0,
+      liveScope: `${WARN_SUMMARY.stateCount} states: ${WARN_SUMMARY.stateCodes.join(", ")}`,
+      latestPeriod: WARN_SUMMARY.maxNoticeDate
+        ? `Notices through ${WARN_SUMMARY.maxNoticeDate}`
+        : "No notices",
+      dataThrough: WARN_SUMMARY.maxNoticeDate,
       lagMonths: null,
-      labels: WARN_LIVE.ok ? ["Live feed (Texas)", "Other states curated"] : CURATED_LABELS,
+      labels: [
+        `${WARN_SUMMARY.noticeCount.toLocaleString()} real notices`,
+        "Every notice links to its state portal",
+        "Partial state coverage — not a national total",
+      ],
     },
     {
       key: "ice_stats",

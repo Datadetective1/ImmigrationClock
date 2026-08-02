@@ -4,7 +4,6 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { HorizontalBarChart } from "@/components/charts/Charts";
@@ -113,7 +112,6 @@ export default function SalaryPage({ params }: { params: { jobTitle: string } })
           />
         </ChartCard>
 
-        <AdSlot format="in-content" />
 
         <ChartCard title="Sponsoring employers" subtitle={`Average offered wage for ${title}`}>
           <ul className="divide-y divide-white/5">

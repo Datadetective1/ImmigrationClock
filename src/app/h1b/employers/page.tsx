@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerDirectory } from "@/components/EmployerDirectory";
+import { DataStatus } from "@/components/DataStatus";
 import { EMPLOYERS_META } from "@/lib/employers";
 import { formatNumber } from "@/lib/format";
 
@@ -42,7 +42,14 @@ export default function EmployerDirectoryPage() {
           <EmployerDirectory />
         </Suspense>
 
-        <AdSlot format="in-content" />
+
+        <DataStatus
+          sourceKey="uscis_h1b"
+          surface="employer-directory"
+          provenance="reported"
+          dataThrough={`FY${EMPLOYERS_META.fiscalYear}`}
+          refreshedAt={EMPLOYERS_META.generatedAt.slice(0, 10)}
+        />
 
         <MethodologyNote>
           Figures are USCIS H-1B Employer Data Hub counts of petition approvals and denials (initial plus

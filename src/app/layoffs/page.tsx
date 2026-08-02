@@ -3,15 +3,17 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { DownloadCsvButton } from "@/components/DownloadCsvButton";
+import { PulseSignup } from "@/components/PulseSignup";
+import { DataStatus } from "@/components/DataStatus";
 import {
   recentNotices,
   warnH1bCrossLink,
   WARN_META,
   WARN_STATES,
 } from "@/lib/warn";
+import { WARN_SUMMARY } from "@/lib/warn-summary";
 import { formatNumber, formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -68,6 +70,14 @@ export default function LayoffsPage() {
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <DataStatus
+          sourceKey="warn_layoffs"
+          surface="layoffs"
+          provenance="reported"
+          dataThrough={WARN_SUMMARY.maxNoticeDate}
+          refreshedAt={WARN_SUMMARY.generatedAt.slice(0, 10)}
+        />
+
         <MethodologyNote>
           There is no national WARN feed. This tracks the states that publish a{" "}
           <span className="font-semibold text-white">structured, machine-readable</span> feed — a growing subset,
@@ -126,7 +136,7 @@ export default function LayoffsPage() {
           </div>
         ) : null}
 
-        <AdSlot format="in-content" />
+        <PulseSignup />
 
         <ChartCard
           title="Most recent notices"

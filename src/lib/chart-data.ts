@@ -12,7 +12,6 @@ import {
   visaClasses,
   visaCountryBreakdown,
   topSponsors,
-  layoffsVsSponsorship,
   CURRENT_FY,
 } from "./data";
 import { fiscalYearLabel, monthLabel } from "./format";
@@ -123,10 +122,7 @@ export function sponsorBarData(limit = 8) {
     .map((s) => ({ label: s.name.split(" ")[0], value: s.approvals }));
 }
 
-export function layoffsVsH1bData() {
-  return layoffsVsSponsorship().map((c) => ({
-    label: c.name.split(" ")[0],
-    "H-1B approvals": c.approvals,
-    "Layoffs (WARN)": c.layoffs,
-  }));
-}
+// NOTE: the former `layoffsVsH1bData()` charted modeled per-company layoff totals
+// against modeled sponsorship. It was removed on 2026-08-01 along with the
+// synthetic layoff rows it depended on. /layoffs-vs-h1b now charts the real
+// WARN × USCIS join directly (see warnH1bCrossLink() in src/lib/warn.ts).

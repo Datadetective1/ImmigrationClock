@@ -31,8 +31,23 @@ type Win = {
   __plq?: unknown[];
 };
 
+/**
+ * Respect Do Not Track / Global Privacy Control.
+ *
+ * Plausible is cookieless and sets nothing, so this is not legally required —
+ * it is honoured because a reader who has asked not to be measured has asked
+ * clearly, and the Founder Directive treats public trust as a security feature.
+ */
+function readerOptedOut(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const n = navigator as Navigator & { doNotTrack?: string; globalPrivacyControl?: boolean };
+  const w = window as Window & { doNotTrack?: string };
+  return n.doNotTrack === "1" || w.doNotTrack === "1" || n.globalPrivacyControl === true;
+}
+
 function loadPlausible() {
   if (!PLAUSIBLE_DOMAIN || document.getElementById("plausible-js")) return;
+  if (readerOptedOut()) return;
   const s = document.createElement("script");
   s.id = "plausible-js";
   s.defer = true;
@@ -64,6 +79,7 @@ function AnalyticsInner() {
     if (!GA_ID) return;
 
     function load() {
+      if (readerOptedOut()) return;
       if (getConsent() !== "accepted") return;
       const w = window as unknown as Win;
       if (!document.getElementById("ga-js")) {

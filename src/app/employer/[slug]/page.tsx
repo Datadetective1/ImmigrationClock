@@ -6,8 +6,7 @@ import { Stat, StatRow } from "@/components/Stat";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { Faq, type FaqItem } from "@/components/Faq";
-import { ResourcePanel } from "@/components/ResourcePanel";
-import { partnersByIds } from "@/lib/partners";
+import { DataStatus } from "@/components/DataStatus";
 import {
   EMPLOYERS,
   EMPLOYERS_META,
@@ -225,12 +224,13 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
 
         <Faq items={faqItems} />
 
-        <ResourcePanel
-          partners={partnersByIds(["visa-jobs", "attorney-match"])}
-          placement="employer"
-          title="Looking for visa sponsorship?"
-          subtitle="Find employers that sponsor work visas, and get help from an immigration attorney."
-          compact
+
+        <DataStatus
+          sourceKey="uscis_h1b"
+          surface="employer"
+          provenance="reported"
+          dataThrough={`FY${EMPLOYERS_META.fiscalYear}`}
+          refreshedAt={EMPLOYERS_META.generatedAt.slice(0, 10)}
         />
 
         <MethodologyNote>

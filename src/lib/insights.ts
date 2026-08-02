@@ -7,7 +7,10 @@
 // cards update automatically when the snapshot changes. We state direction and
 // magnitude — never causation.
 // =============================================================================
-import { topSponsors, layoffsVsSponsorship, LIVE_BLS } from "./data";
+import { topSponsors, LIVE_BLS } from "./data";
+import { warnH1bCrossLink } from "./warn";
+import { WARN_SOURCE, WARN_SUMMARY } from "./warn-summary";
+import { EMPLOYERS_META } from "./employers";
 import {
   cbpRows,
   iceByFy,
@@ -15,8 +18,8 @@ import {
   visaByCountry,
   visaRows,
   DETENTION_NOW,
+  pointInTimeAge,
   UPDATED,
-  WARN_LIVE,
   EMPLOYER_LATEST_FY,
   LATEST_COMPLETE_FY,
   CURRENT_FY,
@@ -135,22 +138,32 @@ export function buildInsights(): Insight[] {
     });
   }
 
-  // --- 4. Detention near record (enforcement, reported) --------------------
+  // --- 4. Detention vs the last reported average (enforcement, reported) ---
+  // This headline previously made an all-time superlative claim about the
+  // detention figure. We do not hold the historical series needed to support one,
+  // so it was removed on 2026-08-01. The comparison we CAN source is against the
+  // last reported fiscal-year average, which is what the headline now states.
   const detBase = iceByFy[EMPLOYER_LATEST_FY].detentionAvgDaily;
   const detPct = pctChange(DETENTION_NOW.value, detBase);
+  const detAge = pointInTimeAge(DETENTION_NOW.asOf, DETENTION_NOW.staleAfterDays);
   out.push({
-    key: "detention-record",
+    key: "detention-vs-fy-average",
     stat: formatCompact(DETENTION_NOW.value),
-    headline: `ICE detention is near a record ~${formatCompact(DETENTION_NOW.value)} — almost double FY${EMPLOYER_LATEST_FY}`,
-    detail: `The point-in-time detained population is up ~${Math.round(
-      detPct
-    )}% from the FY${EMPLOYER_LATEST_FY} average daily count (${formatNumber(detBase)}).`,
+    headline: `ICE detention stood at ~${formatCompact(DETENTION_NOW.value)} on ${
+      DETENTION_NOW.asOf
+    } — about ${Math.round(detPct)}% above the FY${EMPLOYER_LATEST_FY} daily average`,
+    detail:
+      `A point-in-time count of people held on one specific day, compared with the FY${EMPLOYER_LATEST_FY} ` +
+      `average daily population (${formatNumber(detBase)}).` +
+      (detAge.stale
+        ? ` This snapshot is ${detAge.days} days old — ICE has very likely published newer figures since, so treat it as dated rather than current.`
+        : ""),
     whyItMatters:
-      "Detention capacity is a concrete, fundable constraint on enforcement — it tends to move before removal totals do.",
+      "Detention capacity is a concrete, fundable constraint on enforcement — it tends to move before removal totals do. It is a stock, not a flow, and cannot be added to arrests or removals.",
     group: "enforcement",
     provenance: "reported",
     trend: "UP",
-    periodLabel: `As of ${DETENTION_NOW.asOf}`,
+    periodLabel: `Snapshot · ${DETENTION_NOW.asOf}`,
     href: "/immigration/enforcement-trends",
     ...SRC.ice,
     sourceUpdatedAt: UPDATED.ice_stats,
@@ -185,8 +198,9 @@ export function buildInsights(): Insight[] {
     });
   }
 
-  // --- 6. Layoffs alongside sponsorship (workforce, estimated) -------------
-  const byLayoffs = layoffsVsSponsorship()
+  // --- 6. Layoffs alongside sponsorship (workforce, reported) -------------
+  // Built from the real WARN × USCIS join, not from modeled per-company totals.
+  const byLayoffs = warnH1bCrossLink()
     .filter((c) => c.layoffs > 0 && c.approvals > 0)
     .sort((a, b) => b.layoffs - a.layoffs);
   const topLayoff = byLayoffs[0];
@@ -194,40 +208,50 @@ export function buildInsights(): Insight[] {
     out.push({
       key: "layoffs-vs-sponsorship",
       stat: formatCompact(topLayoff.layoffs),
-      headline: `${topLayoff.name}: ~${formatCompact(topLayoff.layoffs)} layoffs alongside ${formatNumber(
+      headline: `${topLayoff.name}: ${formatCompact(topLayoff.layoffs)} employees in WARN notices, alongside ${formatNumber(
         topLayoff.approvals
       )} H-1B approvals`,
-      detail: `Tracked layoffs and H-1B sponsorship at the same firm, shown side by side. This does NOT prove anyone was replaced — layoffs and sponsorship are separate events.`,
+      detail:
+        `${formatNumber(byLayoffs.length)} employers appear in both the state WARN feed and the USCIS H-1B ` +
+        `employer directory. Both figures are reported records from their own agencies. This does NOT prove ` +
+        `anyone was replaced — the datasets do not identify the immigration status of affected workers.`,
       whyItMatters:
-        "This is the comparison that fuels the loudest claims online. Seeing both real numbers together — with the causation caveat — is more useful than either in isolation.",
+        "This is the comparison that fuels the loudest claims online. Seeing both reported numbers together — with the causation caveat — is more useful than either in isolation.",
       group: "workforce",
-      provenance: "estimated",
-      periodLabel: `Layoffs since 2023 · H-1B FY${EMPLOYER_LATEST_FY}`,
+      provenance: "reported",
+      periodLabel: `WARN notices · H-1B FY${EMPLOYERS_META.fiscalYear}`,
       href: "/layoffs-vs-h1b",
-      sourceName: "USCIS + public WARN / layoff notices",
-      sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn",
-      sourceUpdatedAt: UPDATED.warn_layoffs,
+      sourceName: "USCIS H-1B Employer Data Hub + state WARN portals",
+      sourceUrl: WARN_SOURCE.sourceUrl,
+      sourceUpdatedAt: WARN_SOURCE.sourceUpdatedAt,
     });
   }
 
-  // --- 7. Texas WARN layoffs (workforce, reported, live single-state) ------
-  if (WARN_LIVE.ok && WARN_LIVE.ytdTotal != null) {
+  // --- 7. WARN layoffs across the covered states (workforce, reported) ----
+  const warnThisYear = WARN_SUMMARY.byYear.find((y) => y.year === CURRENT_FY);
+  const warnLastYear = WARN_SUMMARY.byYear.find((y) => y.year === CURRENT_FY - 1);
+  if (warnThisYear) {
     out.push({
-      key: "texas-warn",
-      stat: formatCompact(WARN_LIVE.ytdTotal),
-      headline: `Texas: ~${formatCompact(WARN_LIVE.ytdTotal)} layoffs across ${WARN_LIVE.ytdCount} WARN notices so far in ${WARN_LIVE.ytdYear}`,
-      detail: `Real layoff notices filed with the Texas Workforce Commission, fetched live. For context, Texas employers filed ${formatNumber(
-        WARN_LIVE.prevTotal ?? 0
-      )} layoffs across ${WARN_LIVE.prevCount} notices in all of ${WARN_LIVE.prevYear}.`,
+      key: "warn-current-year",
+      stat: formatCompact(warnThisYear.employees),
+      headline: `${formatCompact(warnThisYear.employees)} employees covered by WARN notices so far in ${CURRENT_FY}`,
+      detail:
+        `${formatNumber(warnThisYear.notices)} notices filed with state agencies across ` +
+        `${WARN_SUMMARY.stateCount} states (${WARN_SUMMARY.stateCodes.join(", ")})` +
+        (warnLastYear
+          ? `. For context, the same states recorded ${formatNumber(warnLastYear.employees)} employees across ` +
+            `${formatNumber(warnLastYear.notices)} notices in all of ${CURRENT_FY - 1}.`
+          : ".") +
+        " This is not a national total — most states do not publish WARN data in a machine-readable form.",
       whyItMatters:
-        "WARN notices are the earliest official signal of large layoffs. Texas is one of the few states publishing them as live structured data — a direct read on local labor stress, separate from visa policy.",
+        "WARN notices are the earliest official signal of large layoffs. They are filed with state agencies before the layoffs happen, which makes them a leading indicator of labor stress — separate from visa policy.",
       group: "workforce",
       provenance: "reported",
-      periodLabel: `${WARN_LIVE.ytdYear} YTD · Texas only`,
-      href: "/state/TX",
-      sourceName: WARN_LIVE.sourceName ?? "Texas WARN Notices",
-      sourceUrl: WARN_LIVE.sourceUrl ?? "https://data.texas.gov/d/8w53-c4f6",
-      sourceUpdatedAt: WARN_LIVE.sourceUpdatedAt ?? UPDATED.warn_layoffs,
+      periodLabel: `${CURRENT_FY} YTD · ${WARN_SUMMARY.stateCount} states`,
+      href: "/layoffs",
+      sourceName: WARN_SOURCE.sourceName,
+      sourceUrl: WARN_SOURCE.sourceUrl,
+      sourceUpdatedAt: WARN_SOURCE.sourceUpdatedAt,
     });
   }
 

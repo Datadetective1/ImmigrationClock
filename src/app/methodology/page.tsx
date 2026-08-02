@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
+import { EMPLOYERS_META } from "@/lib/employers";
+import { WARN_COVERAGE_SENTENCE, WARN_SUMMARY } from "@/lib/warn-summary";
 
 export const metadata = buildMetadata({
   title: "Methodology",
@@ -128,13 +130,91 @@ export default function MethodologyPage() {
         </section>
 
         <section className="space-y-3">
+          <h2 className="section-title">The four integrity labels</h2>
+          <p className="text-sm leading-relaxed text-slate-300">
+            Every figure on this site carries one of four labels. They are not decoration — they describe
+            exactly how much weight a number can bear.
+          </p>
+          <ul className="space-y-2.5 text-sm leading-relaxed text-slate-300">
+            <li>
+              <span className="font-semibold text-status-green">✓ Reported</span> — the agency published
+              this exact number for this exact period. We only reformatted it.
+            </li>
+            <li>
+              <span className="font-semibold text-status-amber">≈ Projected</span> — we extrapolated a
+              reported partial period to a full one, by scaling the year-to-date total by the share of the
+              fiscal year elapsed. It assumes the current pace continues.
+            </li>
+            <li>
+              <span className="font-semibold text-slate-300">~ Estimated</span> — we apportioned a reported
+              total using a share the agency itself published.
+            </li>
+            <li>
+              <span className="font-semibold text-slate-300">◇ Modeled</span> — we apportioned a reported
+              national total using <em>our own</em> assumed weights, which the agency has never published.
+              This is the weakest claim we make. ICE arrests by state, removals by nationality, border
+              encounters by citizenship, and the curated employer/wage views are all modeled. Read them as
+              illustrative of relative scale, never as official counts.
+            </li>
+          </ul>
+        </section>
+
+        <section className="space-y-3">
           <h2 className="section-title">Tracked subsets vs national totals</h2>
           <p className="text-sm leading-relaxed text-slate-300">
             Employer, state, and occupation views are built from a curated set of large, public H-1B
-            sponsors. These are a meaningful sample, not the entire country. National counters (for
-            example, total H-1B approvals or border encounters) are drawn from agency-wide totals and are
-            labelled accordingly.
+            sponsors. These are a meaningful sample, not the entire country, and they are labelled{" "}
+            <span className="chip">Modeled</span>. National counters (for example, total H-1B approvals or
+            border encounters) are drawn from agency-wide totals and are labelled accordingly.
           </p>
+          <p className="text-sm leading-relaxed text-slate-300">
+            Two USCIS products can disagree on the latest year, and we do not hide that. Per-employer
+            approvals come from the <strong className="text-slate-200">H-1B Employer Data Hub</strong>,
+            whose most recent published export is FY{EMPLOYERS_META.fiscalYear}. National petition totals
+            come from a separate USCIS release that runs a year ahead. Figures from the two will not add up
+            to each other.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="section-title">Layoff (WARN) coverage</h2>
+          <p className="text-sm leading-relaxed text-slate-300">
+            {WARN_COVERAGE_SENTENCE} Every notice we show is a real filing republished from a state
+            agency&rsquo;s open-data portal, with a link back to that portal on each row. We do not
+            estimate, model, or infer layoff notices — if a state has no machine-readable feed, we show
+            nothing for it and say so.
+          </p>
+          <p className="text-sm leading-relaxed text-slate-300">
+            {WARN_SUMMARY.yearBasisNote}
+          </p>
+          <p className="text-sm leading-relaxed text-slate-300">
+            WARN notices report <em>planned</em> layoffs. They do not indicate whether or how the affected
+            roles relate to visa sponsorship, and no dataset here identifies the immigration status of
+            affected workers.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="section-title">Corrections</h2>
+          <p className="text-sm leading-relaxed text-slate-300">
+            When we get something wrong we say so, in public, with the date. Corrections are recorded in{" "}
+            <code className="rounded bg-white/5 px-1.5 py-0.5 text-xs">docs/data-corrections.md</code> in
+            the project repository.
+          </p>
+          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+              2026-08-01 — Synthetic layoff records removed
+            </div>
+            <p className="mt-2 text-sm leading-relaxed text-slate-300">
+              Until this date, some state and employer pages displayed individual &ldquo;WARN
+              notices&rdquo; that this site had generated rather than ingested: annual layoff totals
+              reported in the press, split into invented notices with invented filing dates, and shown
+              under a government source label. Those records have been deleted. Every layoff figure now
+              comes from real notices filed with state agencies, each linking back to its own state
+              portal. Some displayed totals changed as a result. Automated tests now block any
+              reintroduction of generated records.
+            </p>
+          </div>
         </section>
 
         <section className="space-y-3">

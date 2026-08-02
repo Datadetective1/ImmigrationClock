@@ -60,6 +60,23 @@ export function recentNotices(limit = 200): WarnNotice[] {
   return WARN_NOTICES.slice(0, limit);
 }
 
+/**
+ * Most-recent real notices filed in one state. WARN_NOTICES is already sorted
+ * newest-first, so filtering preserves that order. Returns an empty array both
+ * when a state has no covered feed and when it has one with no notices — callers
+ * must use warnCoversState() to tell those two cases apart before writing copy.
+ */
+export function noticesForState(stateCode: string, limit = 8): WarnNotice[] {
+  const code = stateCode.toUpperCase();
+  const out: WarnNotice[] = [];
+  for (const n of WARN_NOTICES) {
+    if (n.state !== code) continue;
+    out.push(n);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 // normalized H-1B employer name -> directory record (built once per process).
 const H1B_BY_NORM = new Map<string, DirectoryEmployer>();
 for (const e of EMPLOYERS) {

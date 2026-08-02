@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ProvenanceTag } from "./ProvenanceTag";
-import { ResourcePanel } from "./ResourcePanel";
 import type { PersonaSummary } from "@/lib/relevance";
 import type { ResolvedPartner } from "@/lib/partners";
 
@@ -88,15 +87,6 @@ export function PersonaRelevance({
       </p>
     </section>
 
-      {resources.length > 0 ? (
-        <ResourcePanel
-          partners={resources}
-          placement={`for-you-${current.key}`}
-          title={`Helpful services for ${current.label.toLowerCase()}s`}
-          subtitle="Vetted services for this situation — some are partnerships that help keep the data free."
-          compact
-        />
-      ) : null}
     </div>
   );
 }

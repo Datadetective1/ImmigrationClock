@@ -20,7 +20,6 @@ import {
   visaByCountry,
   wageRows,
   wageByState,
-  layoffRows,
   stateWeight,
   countrySeedBySlug,
   CURRENT_FY,
@@ -30,6 +29,7 @@ import {
   FY2026_ELAPSED,
   H1B_NATIONAL,
   DETENTION_NOW,
+  pointInTimeAge,
   UPDATED,
 } from "./dataset";
 import type {
@@ -44,6 +44,16 @@ import type {
   SourceRef,
 } from "./types";
 import refresh from "./generated/refresh.json";
+import { EMPLOYERS, EMPLOYERS_META, displayEmployer } from "./employers";
+import {
+  WARN_SUMMARY,
+  WARN_SOURCE,
+  WARN_COVERAGE_SENTENCE,
+  warnEmployeesInYear,
+  warnNoticesInYear,
+  warnStateSummary,
+  warnYearsForState,
+} from "./warn-summary";
 
 // When the refresh pipeline last ran (this build). NOT a real-time claim.
 export const LAST_REFRESHED: string = refresh.generatedAt;
@@ -188,10 +198,11 @@ export function stateAggregate(code: string) {
         )
       : 0;
 
-  const stateLayoffs = layoffRows
-    .filter((l) => l.stateCode === state.code)
-    .sort((a, b) => b.noticeDate.localeCompare(a.noticeDate));
-  const layoffTotal = stateLayoffs.reduce((s, l) => s + l.employeesAffected, 0);
+  // Real WARN totals for this state, or null when the state has no covered feed.
+  // `null` and `0` mean different things here and the UI must distinguish them:
+  // null = we have no data for this state; 0 = the state is covered and filed none.
+  const warnState = warnStateSummary(state.code);
+  const warnYears = warnYearsForState(state.code);
 
   const ice = iceByState.find((r) => r.stateCode === state.code);
   const wage = wageByState.find((w) => w.stateCode === state.code);
@@ -217,8 +228,8 @@ export function stateAggregate(code: string) {
     avgWage,
     swWageMean: wage?.meanWage ?? null,
     companies: stateCompanies,
-    layoffs: stateLayoffs,
-    layoffTotal,
+    warnState,
+    warnYears,
     ice,
     topOccupations,
     h1bWeight: stateWeight[state.code] ?? 0,
@@ -323,21 +334,9 @@ export function topOccupationsBySponsorship() {
     .sort((a, b) => b.approxApprovals - a.approxApprovals);
 }
 
-export function layoffsVsSponsorship() {
-  return companies
-    .map((c) => {
-      const latest = companyTotals(c, LAST_COMPLETE_FY)!;
-      const layoffs = c.layoffs.reduce((s, l) => s + l.employeesAffected, 0);
-      return {
-        slug: c.slug,
-        name: c.name,
-        approvals: latest.approvals,
-        layoffs,
-        avgWage: latest.avgOfferedWage,
-      };
-    })
-    .sort((a, b) => b.layoffs - a.layoffs);
-}
+// `layoffsVsSponsorship()` was removed on 2026-08-01. It paired modeled per-company
+// layoff totals with modeled sponsorship. /layoffs-vs-h1b now uses the real
+// WARN × USCIS join, warnH1bCrossLink(), in src/lib/warn.ts.
 
 export function allWageRows() {
   return wageRows;
@@ -345,9 +344,9 @@ export function allWageRows() {
 export function wagesByStateRows() {
   return [...wageByState].sort((a, b) => b.meanWage - a.meanWage);
 }
-export function allLayoffs() {
-  return [...layoffRows].sort((a, b) => b.noticeDate.localeCompare(a.noticeDate));
-}
+// `allLayoffs()` was removed on 2026-08-01. It returned synthesized layoff rows.
+// For real notices use recentNotices() / warnForEmployer() in src/lib/warn.ts,
+// or the rollups in src/lib/warn-summary.ts.
 
 // ---------------------------------------------------------------------------
 // Live counter grid (homepage) — latest-available period per metric
@@ -360,7 +359,7 @@ const SRC = {
   uscisNational: { sourceName: "USCIS H-1B petition statistics", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: UPDATED.uscis_h1b_national },
   dos: { sourceName: "Department of State Visa Statistics", sourceUrl: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html", sourceUpdatedAt: UPDATED.dos_visa },
   dol: { sourceName: "DOL OFLC Disclosure Data (LCA / PERM)", sourceUrl: "https://www.dol.gov/agencies/eta/foreign-labor/performance", sourceUpdatedAt: UPDATED.dol_lca },
-  warn: { sourceName: "State WARN Act Layoff Notices", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: UPDATED.warn_layoffs },
+  warn: WARN_SOURCE,
 };
 
 function periodLabel(fy: number | undefined, completeness: Completeness, isLatest: boolean): string {
@@ -415,10 +414,10 @@ function ytdTrend(ytd: number, lastComplete: number): { trend: TrendDirection; t
   return { trend: dir(p), trendPct: p };
 }
 
+// Employees covered by REAL state-filed WARN notices dated to a calendar year.
+// Partial-coverage figure — see WARN_COVERAGE_SENTENCE, surfaced in the tooltip.
 function layoffsInYear(y: number): number {
-  return layoffRows
-    .filter((l) => l.noticeDate.startsWith(String(y)))
-    .reduce((s, l) => s + l.employeesAffected, 0);
+  return warnEmployeesInYear(y);
 }
 
 interface BuildArgs {
@@ -477,6 +476,7 @@ export function buildMetrics(): Metric[] {
   const arrestsTrend = ytdTrend(iceByFy[CURRENT_FY].arrests, iceReported.arrests);
   const removalsTrend = ytdTrend(iceByFy[CURRENT_FY].removals, iceReported.removals);
   const detentionPct = pct(DETENTION_NOW.value, iceReported.detentionAvgDaily);
+  const detentionAge = pointInTimeAge(DETENTION_NOW.asOf, DETENTION_NOW.staleAfterDays);
 
   // ---- Border ----
   const cbpNow = cbpRows.find((r) => r.fiscalYear === CURRENT_FY && r.border === "nationwide")!;
@@ -495,8 +495,9 @@ export function buildMetrics(): Metric[] {
   const f1Trend = ytdTrend(f1Now.issued, f1Reported.issued);
 
   // ---- Workforce ----
-  const sponsors = topSponsors(EMPLOYER_LATEST_FY);
-  const topEmployer = sponsors[0];
+  // Real Data Hub #1, not the curated profile set — those disagreed on both the
+  // employer name and the fiscal year before the 2026-08 correction.
+  const topDirectoryEmployer = EMPLOYERS[0];
   function weightedWage(fy: number): number {
     const s = topSponsors(fy);
     const tot = s.reduce((a, c) => a + c.approvals, 0);
@@ -507,9 +508,16 @@ export function buildMetrics(): Metric[] {
   const layoffsLatest = layoffsInYear(CURRENT_FY);
   const layoffsComplete = layoffsInYear(LATEST_COMPLETE_FY);
 
-  const topState = states
-    .map((s) => ({ code: s.code, name: s.name, w: stateWeight[s.code] ?? 0 }))
-    .sort((a, b) => b.w - a.w)[0];
+  // Top state by real Data Hub approvals (each employer's primary worksite
+  // state), replacing the hand-assigned stateWeight ranking.
+  const stateApprovals = new Map<string, number>();
+  for (const e of EMPLOYERS) {
+    if (!e.topState) continue;
+    stateApprovals.set(e.topState, (stateApprovals.get(e.topState) ?? 0) + e.approvals);
+  }
+  const topDirectoryState = [...stateApprovals.entries()]
+    .map(([code, approvals]) => ({ code, approvals }))
+    .sort((a, b) => b.approvals - a.approvals)[0] ?? { code: "—", approvals: 0 };
 
   const topNationality = visaByCountry
     .filter((v) => v.visaClass === "H-1B")
@@ -558,8 +566,16 @@ export function buildMetrics(): Metric[] {
       href: "/immigration/enforcement-trends",
       status: "RED",
       tooltip:
-        "People in ICE detention on a specific date — a point-in-time figure, not a fiscal-year total. Among the highest levels in the system's history.",
-      latest: mp(DETENTION_NOW.value, undefined, "point_in_time", DETENTION_NOW.asOf, true),
+        `People in ICE detention on ${DETENTION_NOW.asOf} — a point-in-time snapshot of one day, not a fiscal-year total. ` +
+        (detentionAge.stale
+          ? `This snapshot is ${detentionAge.days} days old and ICE has almost certainly published newer figures since; treat it as dated. `
+          : "") +
+        "Detention counts cannot be added to arrests or removals — they measure different things.",
+      latest: mp(DETENTION_NOW.value, undefined, "point_in_time", DETENTION_NOW.asOf, true, {
+        labelOverride: detentionAge.stale
+          ? `Snapshot · ${DETENTION_NOW.asOf} (${detentionAge.days} days old)`
+          : undefined,
+      }),
       lastComplete: mp(iceReported.detentionAvgDaily, EMPLOYER_LATEST_FY, "complete", ICE_FY24_PUB, false, { labelOverride: `${fyTag(EMPLOYER_LATEST_FY)} avg daily` }),
       src: { ...SRC.iceStats, sourceUpdatedAt: DETENTION_NOW.asOf },
       spark: spk((fy) => iceByFy[fy]?.detentionAvgDaily ?? 0, MACRO_YEARS, [CURRENT_FY, LATEST_COMPLETE_FY]),
@@ -647,11 +663,19 @@ export function buildMetrics(): Metric[] {
       label: "Top H-1B sponsoring employer",
       unit: "approvals",
       group: "workforce",
-      href: `/company/${topEmployer.slug}`,
+      href: `/employer/${topDirectoryEmployer.slug}`,
       status: "GREEN",
       tooltip:
-        "Employer with the most H-1B approvals in the latest available USCIS Employer Data Hub release (FY2024). Sponsorship volume does not by itself indicate displacement of U.S. workers.",
-      latest: mp(topEmployer.approvals, EMPLOYER_LATEST_FY, "complete", UPDATED.uscis_h1b, true, { display: topEmployer.name }),
+        `Employer with the most H-1B approvals in the latest published USCIS Employer Data Hub export (FY${EMPLOYERS_META.fiscalYear}), ` +
+        "read directly from that file. Sponsorship volume does not by itself indicate displacement of U.S. workers.",
+      latest: mp(
+        topDirectoryEmployer.approvals,
+        EMPLOYERS_META.fiscalYear,
+        "complete",
+        UPDATED.uscis_h1b,
+        true,
+        { display: displayEmployer(topDirectoryEmployer.name) }
+      ),
       src: SRC.uscisHub,
     }),
     buildMetric({
@@ -662,23 +686,34 @@ export function buildMetrics(): Metric[] {
       href: "/layoffs-vs-h1b",
       status: "GREEN",
       tooltip:
-        "Approval-weighted average offered wage across the top H-1B employers (DOL LCA disclosure data), latest available year (FY2024).",
-      latest: mp(avgWage, EMPLOYER_LATEST_FY, "complete", UPDATED.dol_lca, true),
+        "Approval-weighted average offered wage across a curated set of large H-1B employers, derived from DOL LCA disclosure averages and anchored to FY2024. This is a modeled figure over a subset, not a published national average wage.",
+      latest: mp(avgWage, EMPLOYER_LATEST_FY, "complete", UPDATED.dol_lca, true, {
+        provenance: "modeled",
+      }),
       src: SRC.dol,
       spark: spk(weightedWage, EMP_YEARS, []),
       trend: "UP",
     }),
     buildMetric({
       key: "layoffs_year",
-      label: "Layoffs tracked",
+      label: "Layoffs noticed (WARN)",
       unit: "employees",
       group: "workforce",
-      href: "/layoffs-vs-h1b",
+      href: "/layoffs",
       status: "AMBER",
       tooltip:
-        "Employees affected by tracked WARN Act layoff notices in the current calendar year to date. Layoffs do not prove replacement by foreign workers — see methodology.",
-      latest: mp(layoffsLatest, CURRENT_FY, "ytd", UPDATED.warn_layoffs, true, { labelOverride: `${CURRENT_FY} YTD`, provenance: "estimated" }),
-      lastComplete: mp(layoffsComplete, LATEST_COMPLETE_FY, "complete", UPDATED.warn_layoffs, false, { labelOverride: `${LATEST_COMPLETE_FY}`, provenance: "estimated" }),
+        `Employees covered by real WARN Act layoff notices dated to ${CURRENT_FY}. ` +
+        `${WARN_SUMMARY.yearBasisNote} ${WARN_COVERAGE_SENTENCE} ` +
+        "Every notice links back to the state portal it came from. " +
+        "Layoffs do not prove replacement by foreign workers — see methodology.",
+      latest: mp(layoffsLatest, CURRENT_FY, "ytd", WARN_SOURCE.sourceUpdatedAt, true, {
+        labelOverride: `${CURRENT_FY} · ${WARN_SUMMARY.stateCount} states`,
+        provenance: "reported",
+      }),
+      lastComplete: mp(layoffsComplete, LATEST_COMPLETE_FY, "complete", WARN_SOURCE.sourceUpdatedAt, false, {
+        labelOverride: `${LATEST_COMPLETE_FY} · ${WARN_SUMMARY.stateCount} states`,
+        provenance: "reported",
+      }),
       src: SRC.warn,
       spark: spk(layoffsInYear, [2022, 2023, 2024, 2025, 2026], [CURRENT_FY]),
     }),
@@ -686,12 +721,14 @@ export function buildMetrics(): Metric[] {
       key: "top_h1b_state",
       label: "Top state for H-1B sponsorship",
       group: "workforce",
-      href: `/state/${topState.code}`,
+      href: `/h1b/state/${topDirectoryState.code}`,
       status: "GREEN",
       tooltip:
-        "State with the largest share of H-1B sponsorship among the top employers and their worksites (latest available employer data, FY2024).",
-      latest: mp(0, EMPLOYER_LATEST_FY, "complete", UPDATED.dol_lca, true, { display: topState.name }),
-      src: SRC.dol,
+        `State with the most H-1B approvals in the FY${EMPLOYERS_META.fiscalYear} USCIS Employer Data Hub, counted from each employer's primary worksite state in that file.`,
+      latest: mp(topDirectoryState.approvals, EMPLOYERS_META.fiscalYear, "complete", UPDATED.uscis_h1b, true, {
+        display: topDirectoryState.code,
+      }),
+      src: SRC.uscisHub,
     }),
     buildMetric({
       key: "top_nationality",

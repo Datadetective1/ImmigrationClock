@@ -3,15 +3,14 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { GroupedBarChart } from "@/components/charts/Charts";
 import { DownloadCsvButton } from "@/components/DownloadCsvButton";
-import { layoffsVsSponsorship, LAST_COMPLETE_FY } from "@/lib/data";
-import { layoffsVsH1bData } from "@/lib/chart-data";
-import { UPDATED } from "@/lib/dataset";
+import { DataStatus } from "@/components/DataStatus";
 import { warnH1bCrossLink, WARN_META } from "@/lib/warn";
-import { formatNumber, formatRate, formatDate, fiscalYearLabel } from "@/lib/format";
+import { WARN_COVERAGE_SENTENCE, WARN_SUMMARY, WARN_SOURCE } from "@/lib/warn-summary";
+import { EMPLOYERS_META } from "@/lib/employers";
+import { formatNumber, formatRate, formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
   title: "Layoffs vs H-1B Sponsorship",
@@ -22,14 +21,23 @@ export const metadata = buildMetadata({
 });
 
 export default function LayoffsVsH1bPage() {
-  const rows = layoffsVsSponsorship();
-  const chart = layoffsVsH1bData();
-  const totalApprovals = rows.reduce((s, r) => s + r.approvals, 0);
-
   // Live join: employers that appear in BOTH the real WARN feed and the USCIS
   // H-1B directory. This is the data no single-source layoff tracker can produce.
+  // Every figure on this page comes from this join — there is no modeled layer.
   const crossLinked = warnH1bCrossLink();
   const totalCrossLayoffs = crossLinked.reduce((s, r) => s + r.layoffs, 0);
+  const totalApprovals = crossLinked.reduce((s, r) => s + r.approvals, 0);
+
+  // Chart the ten matched employers with the largest WARN totals. Labels use the
+  // real employer name (truncated for the axis), not a first-word guess.
+  const chart = [...crossLinked]
+    .sort((a, b) => b.layoffs - a.layoffs)
+    .slice(0, 10)
+    .map((r) => ({
+      label: r.name.length > 18 ? `${r.name.slice(0, 17)}…` : r.name,
+      "H-1B approvals": r.approvals,
+      "Layoffs (WARN)": r.layoffs,
+    }));
 
   const csvRows = crossLinked.map((r) => ({
     employer: r.name,
@@ -60,13 +68,36 @@ export default function LayoffsVsH1bPage() {
             sub="Live WARN × USCIS H-1B"
             tooltip="Employers that appear in both the real WARN feed and the USCIS H-1B directory. Appearing in both does not imply one caused the other."
           />
-          <Stat label="Their WARN layoffs" value={formatNumber(totalCrossLayoffs)} sub="Employees noticed" />
-          <Stat label="Tracked H-1B approvals" value={formatNumber(totalApprovals)} sub={fiscalYearLabel(LAST_COMPLETE_FY)} />
-          <Stat label="WARN states covered" value={String(WARN_META.stateCount)} sub="States with open-data feeds" />
+          <Stat
+            label="Their WARN layoffs"
+            value={formatNumber(totalCrossLayoffs)}
+            sub="Employees noticed"
+            tooltip="Total employees covered by WARN notices filed by these matched employers, across the states in the feed."
+          />
+          <Stat
+            label="Their H-1B approvals"
+            value={formatNumber(totalApprovals)}
+            sub={`FY${EMPLOYERS_META.fiscalYear} · USCIS`}
+            tooltip="USCIS H-1B Employer Data Hub approvals for the same matched employers. Reported figures, not estimates."
+          />
+          <Stat
+            label="WARN states covered"
+            value={String(WARN_META.stateCount)}
+            sub={WARN_SUMMARY.stateCodes.join(", ")}
+            tooltip={WARN_COVERAGE_SENTENCE}
+          />
         </StatRow>
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        <DataStatus
+          sourceKey="warn_layoffs"
+          surface="layoffs-vs-h1b"
+          provenance="reported"
+          dataThrough={WARN_SUMMARY.maxNoticeDate}
+          refreshedAt={WARN_SUMMARY.generatedAt.slice(0, 10)}
+        />
+
         <MethodologyNote variant="warning">
           The most important caveat on this page: a company can lay off workers in one division and sponsor
           H-1B workers in another, in different roles, cities, and years. WARN notices say nothing about who
@@ -74,9 +105,13 @@ export default function LayoffsVsH1bPage() {
         </MethodologyNote>
 
         <ChartCard
-          title="H-1B approvals vs WARN layoffs by employer"
-          subtitle={`H-1B approvals (${fiscalYearLabel(LAST_COMPLETE_FY)}) and tracked WARN layoff totals`}
-          source={{ sourceName: "USCIS + DOL + State WARN portals", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: UPDATED.warn_layoffs }}
+          title="The ten matched employers with the largest WARN totals"
+          subtitle={`Real WARN notice totals beside USCIS FY${EMPLOYERS_META.fiscalYear} H-1B approvals for the same employer. Both bars are reported figures.`}
+          source={{
+            sourceName: `USCIS H-1B Employer Data Hub + ${WARN_SOURCE.sourceName}`,
+            sourceUrl: WARN_SOURCE.sourceUrl,
+            sourceUpdatedAt: WARN_SOURCE.sourceUpdatedAt,
+          }}
           actions={<DownloadCsvButton rows={csvRows} filename="layoffs-vs-h1b" />}
         >
           <GroupedBarChart
@@ -90,12 +125,15 @@ export default function LayoffsVsH1bPage() {
           />
         </ChartCard>
 
-        <AdSlot format="in-content" />
 
         <ChartCard
           title="Every employer in both datasets — live"
           subtitle={`Matched from ${formatNumber(WARN_META.noticeCount)} real WARN notices across ${WARN_META.stateCount} states against the USCIS H-1B employer directory. Sorted by H-1B approvals.`}
-          source={{ sourceName: "USCIS H-1B Employer Data Hub + State WARN portals", sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn", sourceUpdatedAt: WARN_META.maxNoticeDate ?? UPDATED.warn_layoffs }}
+          source={{
+            sourceName: "USCIS H-1B Employer Data Hub + State WARN portals",
+            sourceUrl: WARN_SOURCE.sourceUrl,
+            sourceUpdatedAt: WARN_SOURCE.sourceUpdatedAt,
+          }}
           actions={<DownloadCsvButton rows={csvRows} filename="warn-x-h1b-employers" />}
         >
           {crossLinked.length === 0 ? (
@@ -141,6 +179,11 @@ export default function LayoffsVsH1bPage() {
             <li>H-1B approvals include both new and continuing workers already in their roles.</li>
             <li>No dataset here records whether a laid-off worker was replaced, or by whom.</li>
             <li>Correlation in these bars is not causation. Treat it as a prompt for questions, not a verdict.</li>
+            <li>{WARN_COVERAGE_SENTENCE} An employer with no notice here may still have laid off workers in a state we don&rsquo;t yet cover.</li>
+            <li>
+              Employers are matched by a normalized name. Matching is best-effort — verify against the state
+              portal link on any individual notice before relying on it.
+            </li>
           </ul>
         </div>
       </div>

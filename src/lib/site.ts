@@ -13,10 +13,18 @@ export const SITE = {
   // sitemap, robots, and OG URLs are correct in production without extra config.
   url:
     (process.env.NEXT_PUBLIC_SITE_URL || "https://immigrationclock.com").replace(/\/$/, ""),
-  twitter: "@immigrationclock",
-  // Public contact address — update to your real address (do NOT use a personal
-  // inbox you don't want public). Used on About / Privacy / Terms pages.
-  contactEmail: "hello@immigrationclock.com",
+  // Social + contact are OPT-IN via environment variables, and default to empty.
+  //
+  // These appear in schema.org `sameAs` and on public pages, which means they are
+  // claims the platform makes about itself. Asserting an account or inbox that is
+  // not actually owned and monitored is the same category of error as publishing
+  // an unsourced statistic — so they stay absent until configured, rather than
+  // being hardcoded to a plausible-looking guess.
+  //
+  // Set NEXT_PUBLIC_TWITTER_HANDLE (the handle including its leading @) and
+  // NEXT_PUBLIC_CONTACT_EMAIL once the account and inbox genuinely exist.
+  twitter: process.env.NEXT_PUBLIC_TWITTER_HANDLE || "",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   searchPlaceholder: "Search employer, state, visa type, job title, or country.",
   heroDisclaimer:
     "Figures come from official U.S. government releases (USCIS, ICE, CBP, the State Department, and BLS). This is not a real-time feed: most datasets are published monthly to yearly. We show the latest available period and label every number reported, projected, or estimated.",

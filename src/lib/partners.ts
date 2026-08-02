@@ -1,28 +1,28 @@
 // =============================================================================
-// PARTNER / RESOURCE CATALOG — the site's primary revenue layer.
+// RESOURCES CATALOG
 //
-// ImmigrationClock sits in one of the highest-intent, highest-value verticals on
-// the web: people making real immigration, money, and tax decisions. The most
-// useful AND most monetizable thing we can do for them is point them — clearly
-// and honestly — to vetted services they already need (immigration legal help,
-// international money transfer, non-resident tax filing, newcomer banking,
-// student/visitor health insurance, eSIMs). Most of these run affiliate or
-// referral programs that pay per signup/lead, which in this niche is far more
-// valuable per visitor than display ads.
+// Founder Directive Part 5: "Revenue is earned by creating additional value, not
+// by restricting essential public information", and Part 1: "Trust is the
+// product. Revenue is the consequence of trust."
 //
-// PRINCIPLES (so this stays trustworthy, which is what keeps it earning):
-//   • Every placement is clearly labelled "Partner" and links to /disclosure.
-//   • We only list services a real newcomer would plausibly want.
-//   • Outbound partner links use rel="sponsored nofollow noopener".
-//   • Nothing here is advice; it sits beside data, never inside it.
+// This catalog was previously described as the site's primary revenue layer and
+// rendered 16 partners across state pages, country pages, employer pages, the
+// persona experience, and key dates. That put commercial offers inside the data
+// experience, which is the tension the Directive resolves in favour of trust.
 //
-// HOW THE OPERATOR TURNS THIS INTO MONEY (no code changes required):
-//   Set NEXT_PUBLIC_PARTNER_LINKS to a JSON object mapping partner id -> your
-//   tracked affiliate/referral URL, e.g. in Vercel env:
-//     NEXT_PUBLIC_PARTNER_LINKS={"wise":"https://wise.com/invite/...","sprintax":"https://..."}
-//   Any id you don't override falls back to the partner's public homepage, so the
-//   module is useful (but un-attributed) out of the box. You can also just edit the
-//   `url` fields below directly.
+// As of 2026-08-01:
+//   • The catalog is trimmed to services that answer a genuine IMMIGRATION need.
+//     Generic newcomer commerce (money transfer, eSIM, insurance, moving, job
+//     boards, consumer tax prep) was removed. It was not immigration information,
+//     and it is the first thing a journalist or researcher would discount us for.
+//   • Entries are split into OFFICIAL (free government / nonprofit resources,
+//     no commercial relationship) and PARTNER (commercial, clearly labelled).
+//   • Resources render ONLY on /resources. Data pages, employer pages, topic
+//     pages, methodology, and the persona experience stay editorially clean.
+//   • Display advertising was removed from the platform entirely.
+//
+// Compensation must never influence data presentation or ranking. Nothing in this
+// file is referenced by any ranking, chart, or figure anywhere in the codebase.
 // =============================================================================
 
 export type PartnerCategory =
@@ -62,6 +62,14 @@ export interface Partner {
   badge?: string;
   /** Emoji icon (kept text-only so the static export has zero image weight). */
   icon: string;
+  /**
+   * `official` — a free government or nonprofit resource. No commercial
+   * relationship exists or may exist. Carries no "Partner" label, needs no
+   * affiliate disclosure, and is never rel="sponsored".
+   * `partner` — a commercial service. Always labelled, always disclosed, always
+   * rel="sponsored".
+   */
+  kind: "official" | "partner";
 }
 
 export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: string }> = {
@@ -110,7 +118,6 @@ export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: stri
 // The catalog. Defaults point to each service's public homepage; replace with your
 // tracked affiliate/referral links via NEXT_PUBLIC_PARTNER_LINKS (see header).
 const CATALOG: Partner[] = [
-  // --- Immigration legal help (highest value per lead) ----------------------
   {
     id: "boundless",
     name: "Boundless",
@@ -122,6 +129,7 @@ const CATALOG: Partner[] = [
     personas: ["eb-applicant", "h1b-worker", "general"],
     badge: "Attorney-reviewed",
     icon: "⚖️",
+    kind: "partner",
   },
   {
     id: "attorney-match",
@@ -133,34 +141,8 @@ const CATALOG: Partner[] = [
     url: "https://www.americanbar.org/groups/legal_services/flh-home/flh-lawyer-referral-directory/",
     personas: ["h1b-worker", "eb-applicant", "employer", "general"],
     icon: "🧑‍⚖️",
+    kind: "official",
   },
-
-  // --- Money transfer / remittance ------------------------------------------
-  {
-    id: "wise",
-    name: "Wise",
-    category: "money-transfer",
-    blurb: "Send money abroad at the mid-market rate with low, transparent fees and a multi-currency account.",
-    useWhen: "You support family abroad or move money between countries and currencies.",
-    cta: "See live transfer rates",
-    url: "https://wise.com",
-    personas: ["h1b-worker", "f1-student", "eb-applicant", "general"],
-    badge: "Popular",
-    icon: "💸",
-  },
-  {
-    id: "remitly",
-    name: "Remitly",
-    category: "money-transfer",
-    blurb: "Remittances built for immigrants — fast bank deposits and cash pickup to dozens of countries.",
-    useWhen: "You send money home regularly and want delivery to a local bank or cash pickup.",
-    cta: "Send your first transfer",
-    url: "https://www.remitly.com",
-    personas: ["h1b-worker", "f1-student", "general"],
-    icon: "🌍",
-  },
-
-  // --- Tax filing ------------------------------------------------------------
   {
     id: "sprintax",
     name: "Sprintax",
@@ -172,59 +154,8 @@ const CATALOG: Partner[] = [
     personas: ["f1-student", "general"],
     badge: "For students",
     icon: "🧾",
+    kind: "partner",
   },
-  {
-    id: "resident-tax",
-    name: "File your U.S. taxes",
-    category: "tax",
-    blurb: "Guided federal and state filing once you pass the substantial-presence test and file as a resident.",
-    useWhen: "You're now a U.S. tax resident (e.g. on H-1B or a green card) and want simple guided filing.",
-    cta: "File your return",
-    url: "https://www.irs.gov/filing/free-file-do-your-federal-taxes-for-free",
-    personas: ["h1b-worker", "eb-applicant", "general"],
-    icon: "📊",
-  },
-
-  // --- Banking & credit ------------------------------------------------------
-  {
-    id: "newcomer-credit",
-    name: "Newcomer banking & credit",
-    category: "banking",
-    blurb: "Open a U.S. account and get a credit card using your visa and global credit history — no SSN credit file required.",
-    useWhen: "You just arrived and need a bank account and a way to start a U.S. credit score.",
-    cta: "Compare newcomer accounts",
-    url: "https://www.consumerfinance.gov/consumer-tools/credit-reports-and-scores/",
-    personas: ["h1b-worker", "f1-student", "eb-applicant", "general"],
-    icon: "🏦",
-  },
-
-  // --- Insurance -------------------------------------------------------------
-  {
-    id: "newcomer-insurance",
-    name: "Student & visitor health insurance",
-    category: "insurance",
-    blurb: "Medical coverage designed for international students, exchange visitors, and new arrivals to the U.S.",
-    useWhen: "Your school, J-1 program, or family visit needs U.S.-compliant health coverage.",
-    cta: "Get an insurance quote",
-    url: "https://www.healthcare.gov/immigrants/",
-    personas: ["f1-student", "general"],
-    icon: "🩺",
-  },
-
-  // --- Connectivity ----------------------------------------------------------
-  {
-    id: "esim",
-    name: "Airalo eSIM",
-    category: "connectivity",
-    blurb: "Land with data already working — a U.S. eSIM you install before your flight, no contract.",
-    useWhen: "You're arriving in the U.S. and want a phone connection the moment you land.",
-    cta: "Get a U.S. eSIM",
-    url: "https://www.airalo.com",
-    personas: ["f1-student", "h1b-worker", "general"],
-    icon: "📱",
-  },
-
-  // --- Education / exam prep -------------------------------------------------
   {
     id: "citizenship-prep",
     name: "Citizenship test prep",
@@ -236,9 +167,8 @@ const CATALOG: Partner[] = [
     personas: ["eb-applicant", "general"],
     badge: "Free",
     icon: "🎓",
+    kind: "official",
   },
-
-  // --- Documents & credentials (required for most filings) ------------------
   {
     id: "credential-evaluation",
     name: "Foreign degree evaluation",
@@ -249,6 +179,7 @@ const CATALOG: Partner[] = [
     url: "https://www.wes.org",
     personas: ["h1b-worker", "eb-applicant", "f1-student", "general"],
     icon: "📜",
+    kind: "partner",
   },
   {
     id: "document-translation",
@@ -260,22 +191,8 @@ const CATALOG: Partner[] = [
     url: "https://www.rushtranslate.com",
     personas: ["eb-applicant", "h1b-worker", "f1-student", "general"],
     icon: "📄",
+    kind: "partner",
   },
-
-  // --- Jobs & visa sponsorship ----------------------------------------------
-  {
-    id: "visa-jobs",
-    name: "Jobs that sponsor visas",
-    category: "career",
-    blurb: "Search roles from employers with a track record of H-1B and green-card sponsorship.",
-    useWhen: "You're job-hunting and need an employer willing to sponsor your work visa.",
-    cta: "Find sponsoring employers",
-    url: "https://www.myvisajobs.com",
-    personas: ["f1-student", "h1b-worker", "general"],
-    icon: "💼",
-  },
-
-  // --- Banking & credit (additional) ----------------------------------------
   {
     id: "credit-builder",
     name: "Build your U.S. credit score",
@@ -286,33 +203,7 @@ const CATALOG: Partner[] = [
     url: "https://www.consumerfinance.gov/consumer-tools/building-credit/",
     personas: ["f1-student", "h1b-worker", "eb-applicant", "general"],
     icon: "📈",
-  },
-
-  // --- Moving & relocation ---------------------------------------------------
-  {
-    id: "intl-moving",
-    name: "International moving & shipping",
-    category: "relocation",
-    blurb: "Compare quotes to ship your belongings to or from the U.S. — container, air freight, and door-to-door.",
-    useWhen: "You're relocating across borders and need to move household goods.",
-    cta: "Compare moving quotes",
-    url: "https://www.internationalmovers.com",
-    personas: ["h1b-worker", "eb-applicant", "f1-student", "general"],
-    icon: "📦",
-  },
-
-  // --- Education (additional) ------------------------------------------------
-  {
-    id: "english-prep",
-    name: "Learn English online",
-    category: "education",
-    blurb: "Structured courses and conversation practice for the citizenship interview, school, or work.",
-    useWhen: "You want to strengthen your English for the naturalization interview, study, or your job.",
-    cta: "Start learning English",
-    url: "https://www.usalearns.org",
-    personas: ["eb-applicant", "f1-student", "general"],
-    badge: "Free",
-    icon: "🗣️",
+    kind: "official",
   },
 ];
 
@@ -344,6 +235,9 @@ function resolve(p: Partner): ResolvedPartner {
 }
 
 /** Whole catalog, resolved. */
+/** The raw catalog, for tests and audits that must see every entry. */
+export const PARTNERS_ALL: Partner[] = CATALOG;
+
 export function allPartners(): ResolvedPartner[] {
   return CATALOG.map(resolve);
 }

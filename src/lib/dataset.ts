@@ -38,6 +38,8 @@ export const FY2026_ELAPSED = ds.FY2026_ELAPSED as number;
 export const FY_COMPLETENESS = ds.FY_COMPLETENESS as number;
 export const LATEST_COMPLETE_FY = ds.LATEST_COMPLETE_FY as number;
 export const EMPLOYER_LATEST_FY = ds.EMPLOYER_LATEST_FY as number;
+/** Fiscal year of the USCIS Employer Data Hub export actually ingested. */
+export const DATAHUB_LATEST_FY = ds.DATAHUB_LATEST_FY as number;
 export const LATEST_REPORTED_FY = ds.LATEST_REPORTED_FY as number;
 export const DATA_VINTAGE = ds.DATA_VINTAGE as string;
 export const UPDATED = ds.UPDATED as Record<string, string>;
@@ -56,7 +58,28 @@ export const iceRows = ds.iceRows as unknown as IceRow[];
 export const iceByFy = ds.iceByFy as unknown as Record<number, IceRow>;
 export const iceByState = ds.iceByState as unknown as IceRow[];
 export const iceByCountry = ds.iceByCountry as unknown as IceRow[];
-export const DETENTION_NOW = ds.DETENTION_NOW as { value: number; asOf: string };
+export const DETENTION_NOW = ds.DETENTION_NOW as {
+  value: number;
+  asOf: string;
+  /** Days after `asOf` beyond which this snapshot must be shown as dated. */
+  staleAfterDays: number;
+};
+
+/**
+ * Whether a point-in-time figure has outlived its useful window. A snapshot of a
+ * single day does not stay true the way a fiscal-year total does, so the UI must
+ * be able to say "this is a dated snapshot" instead of implying it is current.
+ */
+export function pointInTimeAge(
+  asOf: string,
+  staleAfterDays: number,
+  now = new Date()
+): { days: number; stale: boolean } {
+  const then = new Date(asOf).getTime();
+  if (Number.isNaN(then)) return { days: 0, stale: false };
+  const days = Math.max(0, Math.round((now.getTime() - then) / 86_400_000));
+  return { days, stale: days > staleAfterDays };
+}
 
 // ---- Border (CBP) ----
 export const cbpRows = ds.cbpRows as unknown as CbpRow[];
@@ -86,22 +109,8 @@ export const wageRows = ds.wageRows as unknown as WageRow[];
 export const wageByState = ds.wageByState as unknown as WageRow[];
 
 // ---- Layoffs (WARN) ----
-export const layoffRows = ds.layoffRows as unknown as LayoffRow[];
-
-// Real Texas WARN feed (reported). Texas only; other states stay modeled.
-export interface WarnLive {
-  ok: boolean;
-  state?: string;
-  ytdYear?: number | null;
-  ytdTotal?: number | null;
-  ytdCount?: number | null;
-  prevYear?: number | null;
-  prevTotal?: number | null;
-  prevCount?: number | null;
-  recent?: { noticeDate: string; employer: string; city: string; employees: number }[];
-  monthly?: { month: string; total: number; count: number }[];
-  sourceName?: string;
-  sourceUrl?: string;
-  sourceUpdatedAt?: string | null;
-}
-export const WARN_LIVE = ds.WARN_LIVE as unknown as WarnLive;
+// Deliberately absent. Layoff data is not part of this snapshot: it comes from
+// real state filings via src/lib/warn.ts (individual notices) and
+// src/lib/warn-summary.ts (rollups). Do not add a layoff export here — that path
+// is how modeled layoff records reached production before the 2026-08 correction.
+// See docs/data-corrections.md.

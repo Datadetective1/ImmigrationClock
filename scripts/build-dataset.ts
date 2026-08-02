@@ -34,6 +34,7 @@ async function main() {
     FY_COMPLETENESS: S.FY_COMPLETENESS,
     LATEST_COMPLETE_FY: S.LATEST_COMPLETE_FY,
     EMPLOYER_LATEST_FY: S.EMPLOYER_LATEST_FY,
+    DATAHUB_LATEST_FY: S.DATAHUB_LATEST_FY,
     LATEST_REPORTED_FY: S.LATEST_REPORTED_FY,
     DATA_VINTAGE: S.DATA_VINTAGE,
     UPDATED: S.UPDATED,
@@ -63,9 +64,9 @@ async function main() {
     // Wages
     wageRows: S.wageRows,
     wageByState: S.wageByState,
-    // Layoffs
-    layoffRows: S.layoffRows,
-    WARN_LIVE: S.WARN_LIVE,
+    // Layoffs are NOT part of this snapshot. They live in warn.json /
+    // warn-summary.json, built by scripts/build-warn.ts from real state filings.
+    // Nothing modeled may re-enter through here — see docs/data-corrections.md.
   };
 
   await mkdir(dirname(OUT), { recursive: true });
@@ -75,7 +76,7 @@ async function main() {
   console.log(
     `[build-dataset] companies=${S.companies.length} states=${S.states.length} ` +
       `countries=${S.countries.length} cbpRows=${S.cbpRows.length} ` +
-      `visaRows=${S.visaRows.length} layoffRows=${S.layoffRows.length}`
+      `visaRows=${S.visaRows.length} (layoffs: see build-warn.ts)`
   );
 }
 

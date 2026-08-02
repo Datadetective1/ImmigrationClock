@@ -15,14 +15,24 @@ export function getConsent(): string | null {
 }
 
 /**
- * Lightweight cookie/consent banner. Until the visitor accepts, the AdSense
- * script is not loaded (see AdSenseScript), so no advertising cookies are set.
+ * Cookie consent banner — rendered ONLY when something on the page actually sets
+ * cookies.
  *
- * NOTE: For personalized ads to EEA/UK/CH visitors, AdSense policy requires a
- * Google-certified CMP. Enable it free in AdSense → "Privacy & messaging"; this
- * banner is the baseline cookie notice + load gate for other regions.
+ * Today that means Google Analytics 4 and nothing else: display advertising was
+ * removed from the platform, and Plausible is cookieless. Showing a consent
+ * prompt when no cookie is set would be theatre — it interrupts the reader,
+ * teaches them to dismiss notices without reading, and asks permission for
+ * something that isn't happening. So with only Plausible configured, no banner
+ * appears at all.
  */
+const NEEDS_CONSENT = Boolean(process.env.NEXT_PUBLIC_GA_ID);
+
 export function ConsentBanner() {
+  if (!NEEDS_CONSENT) return null;
+  return <ConsentBannerInner />;
+}
+
+function ConsentBannerInner() {
   const [mounted, setMounted] = useState(false);
   const [choice, setChoice] = useState<string | null>(null);
 
@@ -53,8 +63,9 @@ export function ConsentBanner() {
       <div className="container-page">
         <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-ink-850/95 p-4 shadow-glow backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs leading-relaxed text-slate-300 sm:max-w-2xl">
-            We use cookies, including from Google AdSense, to show ads and keep the site running. You can
-            accept these, or decline to browse without advertising cookies. See our{" "}
+            We&rsquo;d like to use Google Analytics cookies to understand which pages help people, so we can
+            improve them. Declining changes nothing about what you can read — the site carries no advertising.
+            See our{" "}
             <Link href="/privacy" className="text-accent hover:text-accent-soft">
               Privacy Policy
             </Link>

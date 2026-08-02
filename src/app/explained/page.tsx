@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ExplainList } from "@/components/ExplainList";
 import { EXPLAINERS } from "@/lib/explainers";
@@ -37,7 +36,6 @@ export default function ExplainedPage() {
       <div className="container-page max-w-4xl space-y-8 py-10">
         <ExplainList items={EXPLAINERS} />
 
-        <AdSlot format="in-content" />
 
         <MethodologyNote>
           These explanations are a starting point, not legal advice. For exact definitions, reporting

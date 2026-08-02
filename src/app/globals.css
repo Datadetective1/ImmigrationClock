@@ -11,6 +11,38 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Respect a reader's motion preference globally, not just on the map. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* A visible focus ring on every interactive element, for keyboard users.
+   `:focus-visible` means pointer users never see it, so there is no reason to
+   suppress it — which is what most "outline: none" resets end up doing. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid theme("colors.accent.DEFAULT");
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip link — the first thing a keyboard or screen-reader user reaches.
+   Visually hidden until focused, then pinned to the top-left. */
+.skip-link {
+  @apply sr-only;
+}
+.skip-link:focus {
+  @apply not-sr-only fixed left-4 top-4 z-[100] rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950;
+}
+
 body {
   @apply bg-ink-950 text-slate-200 antialiased;
   background-image: radial-gradient(

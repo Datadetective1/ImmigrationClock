@@ -1,8 +1,8 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { InsightCard } from "@/components/InsightCard";
+import { PulseSignup } from "@/components/PulseSignup";
 import { buildInsights } from "@/lib/insights";
 import { LAST_REFRESHED } from "@/lib/data";
 import { formatDate } from "@/lib/format";
@@ -54,7 +54,7 @@ export default function InsightsPage() {
           ))}
         </div>
 
-        <AdSlot format="in-content" />
+        <PulseSignup />
 
         <MethodologyNote>
           Insights are derived automatically from the same public datasets shown across the site

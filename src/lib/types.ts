@@ -15,11 +15,16 @@ export type Completeness =
   | "estimated"; // estimated pace from latest reporting
 
 // Where a number comes from — the integrity dimension. We never present a
-// projected or estimated figure as an official reported one.
-export type Provenance =
-  | "reported" // a real figure published by the source agency
-  | "projected" // a model/projection computed from reported data (labelled)
-  | "estimated"; // derived/apportioned from reported totals (labelled)
+// projected, estimated, or modeled figure as an official reported one.
+//
+// The distinction between these matters and is not cosmetic:
+//   reported  — the agency published this exact number for this exact period.
+//   projected — we extrapolated a reported partial period to a full one.
+//   estimated — we apportioned a reported total using a published share.
+//   modeled   — we apportioned a reported total using OUR OWN assumed weights,
+//               which the agency never published. The weakest claim we make;
+//               it must always carry a visible label saying so.
+export type Provenance = "reported" | "projected" | "estimated" | "modeled";
 
 export interface SourceRef {
   sourceName: string;
@@ -106,7 +111,9 @@ export interface Company extends SourceRef {
   years: CompanyYear[];
   topJobTitles: { title: string; share: number; avgWage: number }[];
   topWorksites: { city: string; stateCode: string; share: number }[];
-  layoffs: { year: number; employeesAffected: number; events: number }[];
+  // NOTE: this type deliberately has no `layoffs` field. Layoff data belongs to
+  // the real WARN feed and is looked up by employer name via warnForEmployer()
+  // in src/lib/warn.ts. See docs/data-corrections.md.
 }
 
 export interface StateInfo extends SourceRef {
@@ -178,20 +185,22 @@ export interface RefreshRow {
   cadence: string;
   latestPeriod: string; // latest reporting period in the dataset, e.g. "FY2026 YTD"
   completeness: Completeness;
-  sourceUpdatedAt: string; // when the source published its latest release
-  lastRefreshAt: string; // when we last ingested it
+  sourceUpdatedAt: string; // when the SOURCE published its latest release
+  lastRefreshAt: string; // when WE last ingested it
+  /** When a human last confirmed the source's URL, shape, and cadence. */
+  lastVerifiedAt: string;
+  /** Months since that confirmation — shown so a stale check is visible. */
+  monthsSinceVerified: number | null;
+  /** How the data reaches the site: live-api | live-file | scheduled-scrape | curated | planned. */
+  ingestion: string;
+  /** official | official-aggregated | third-party. Non-official must be marked. */
+  tier: string;
   nextRefreshAt: string;
   rowCount: number;
   status: RefreshStatus;
   errorMessage?: string;
 }
 
-export interface SourceDef {
-  key: string;
-  name: string;
-  agency: string;
-  description: string;
-  homepageUrl: string;
-  datasetUrl: string;
-  cadence: string;
-}
+// NOTE: `SourceDef` now lives in src/lib/sources.ts, alongside the registry it
+// describes, and carries the tier / ingestion / verification fields the Founder
+// Directive requires. It was removed from here to keep exactly one definition.

@@ -15,7 +15,6 @@ import {
   LATEST_COMPLETE_FY,
   CURRENT_FY,
   FY2026_ELAPSED,
-  WARN_LIVE,
   visaByCountry,
 } from "./dataset";
 import { formatNumber, formatCompact, formatCurrency } from "./format";
@@ -87,23 +86,38 @@ export function stateRelevance(code: string): RelevanceSummary[] {
   const name = agg.state.name;
 
   const workerPoints: RelevancePoint[] = [
-    r(
-      `Tracked employers sponsor about ${formatNumber(agg.totalApprovals)} H-1B workers across ${agg.companies.length} firms with worksites in ${name}.`,
-      "estimated"
-    ),
+    agg.totalApprovals > 0
+      ? r(
+          `Tracked employers sponsor about ${formatNumber(agg.totalApprovals)} H-1B workers across ${agg.companies.length} firms with worksites in ${name}.`,
+          "modeled"
+        )
+      : // No curated profile covers this state. Saying "about 0 workers" would be
+        // a false claim about the state rather than a statement about our data.
+        r(
+          `None of our curated large-sponsor profiles has a worksite in ${name}, so no state sponsorship estimate is shown. Search the full USCIS employer directory for sponsors here.`,
+          "reported"
+        ),
   ];
   if (agg.avgWage) {
-    workerPoints.push(r(`The average offered wage among those sponsors is ${formatCurrency(agg.avgWage)}.`, "estimated"));
+    workerPoints.push(r(`The average offered wage among those sponsors is ${formatCurrency(agg.avgWage)}.`, "modeled"));
   }
-  if (code === "TX" && WARN_LIVE.ok && WARN_LIVE.ytdTotal != null) {
+  if (agg.warnState) {
     workerPoints.push(
       r(
-        `Texas employers have filed ${formatNumber(WARN_LIVE.ytdTotal)} layoffs across ${WARN_LIVE.ytdCount} WARN notices so far in ${WARN_LIVE.ytdYear} — a live read on local labor stress.`,
+        `${name} employers have filed ${formatNumber(agg.warnState.noticeCount)} WARN notices covering ` +
+          `${formatNumber(agg.warnState.employeesTotal)} employees — a direct read on local labor stress, ` +
+          `filed with the state and linked to its portal.`,
         "reported"
       )
     );
-  } else if (agg.layoffTotal) {
-    workerPoints.push(r(`Tracked WARN layoff notices in ${name} total about ${formatNumber(agg.layoffTotal)} employees.`, "estimated"));
+  } else {
+    workerPoints.push(
+      r(
+        `${name} does not publish WARN layoff notices in a machine-readable format we can ingest yet, so ` +
+          `no layoff figure is shown here.`,
+        "reported"
+      )
+    );
   }
 
   const topNames = agg.companies.slice(0, 3).map((c) => c.name.split(" ")[0]);
@@ -116,7 +130,7 @@ export function stateRelevance(code: string): RelevanceSummary[] {
           topNames.length
             ? `The largest tracked H-1B sponsors with ${name} worksites include ${topNames.join(", ")}.`
             : `No tracked H-1B sponsors have major worksites here.`,
-          "estimated"
+          "modeled"
         ),
         r(`Sponsorship volume alone does not indicate that any U.S. worker was displaced — see methodology.`, "reported"),
       ],

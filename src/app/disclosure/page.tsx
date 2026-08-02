@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
+import { ContactLink } from "@/components/ContactLink";
 import { SITE } from "@/lib/site";
 
 export const metadata = buildMetadata({
@@ -89,7 +90,7 @@ export default function DisclosurePage() {
           <h2>Questions</h2>
           <p>
             If anything here is unclear, or you believe a listing is inaccurate, contact{" "}
-            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> and we&rsquo;ll review it.
+            <ContactLink /> and we&rsquo;ll review it.
           </p>
         </section>
       </div>

@@ -17,7 +17,15 @@ const META: Record<Provenance, { label: string; cls: string; icon: string; title
     label: "Estimated",
     icon: "~",
     cls: "text-slate-400",
-    title: "Derived/apportioned from reported totals — an estimate, not an official figure.",
+    title:
+      "Apportioned from a reported total using a share the source agency published — an estimate, not an official figure.",
+  },
+  modeled: {
+    label: "Modeled",
+    icon: "◇",
+    cls: "text-slate-400",
+    title:
+      "Apportioned from a reported national total using our own assumed weights. The agency does not publish this breakdown. Treat it as illustrative, not as an official count — see /methodology.",
   },
 };
 

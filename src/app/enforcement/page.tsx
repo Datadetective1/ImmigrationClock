@@ -2,7 +2,6 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { DashboardGrid } from "@/components/DashboardGrid";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { buildMetrics } from "@/lib/data";
 
@@ -82,7 +81,6 @@ export default function EnforcementHubPage() {
           </div>
         </section>
 
-        <AdSlot format="in-content" />
 
         <MethodologyNote variant="warning">
           Enforcement and border datasets use different definitions and reporting calendars. An encounter is

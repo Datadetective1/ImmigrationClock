@@ -8,7 +8,7 @@ import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { KeyDates } from "@/components/KeyDates";
 import { KEY_DATES } from "@/lib/key-dates";
 import { MigrationMap } from "@/components/MigrationMap";
-import { AdSlot } from "@/components/AdSlot";
+import { PulseSignup } from "@/components/PulseSignup";
 import { buildMetrics, LAST_REFRESHED } from "@/lib/data";
 import { personaSummaries } from "@/lib/relevance";
 import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
@@ -163,7 +163,7 @@ export default function HomePage() {
           &mdash; with a source and date on every figure.
         </HookSection>
 
-        <AdSlot format="bottom-banner" />
+        <PulseSignup />
       </div>
     </div>
   );

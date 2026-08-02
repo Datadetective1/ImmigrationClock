@@ -2,12 +2,12 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
-import { AdSlot } from "@/components/AdSlot";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { BorderExplorer } from "@/components/BorderExplorer";
 import { ChangeTracker } from "@/components/ChangeTracker";
 import { borderChartMarkers } from "@/lib/events";
 import { GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
+import { DataStatus } from "@/components/DataStatus";
 import {
   borderYearlyData,
   borderDemographicsData,
@@ -88,16 +88,23 @@ export default function BorderEncountersPage() {
           />
         </ChartCard>
 
-        <AdSlot format="in-content" />
 
         <ChartCard
           title="Encounters by citizenship"
-          subtitle={`Nationwide · ${fiscalYearLabel(LATEST_COMPLETE_FY)}`}
-          tooltip="Where CBP publishes nationality detail. Encounters are events, not unique people."
+          subtitle={`Nationwide · ${fiscalYearLabel(LATEST_COMPLETE_FY)} — apportioned from the reported total`}
+          tooltip="Encounters are events, not unique people. This citizenship split is apportioned from the reported nationwide total using our own country weights, so it shows relative scale rather than CBP's own published nationality counts."
+          provenance="modeled"
           source={SOURCE}
         >
           <HorizontalBarChart data={byCountry} labelKey="label" valueKey="value" colorByIndex height={320} />
         </ChartCard>
+
+        <DataStatus
+          sourceKey="cbp_encounters"
+          surface="border"
+          provenance="reported"
+          publishedAt={UPDATED.cbp_encounters}
+        />
 
         <MethodologyNote>
           Encounters count events at or near the border, including repeat encounters of the same person.

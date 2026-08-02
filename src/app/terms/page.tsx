@@ -1,5 +1,6 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
+import { ContactLink } from "@/components/ContactLink";
 import { SITE } from "@/lib/site";
 import Link from "next/link";
 
@@ -84,7 +85,7 @@ export default function TermsPage() {
           <h2>Changes &amp; contact</h2>
           <p>
             We may update these terms; continued use after changes constitutes acceptance. Questions? Contact{" "}
-            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.
+            <ContactLink />.
           </p>
         </section>
       </div>

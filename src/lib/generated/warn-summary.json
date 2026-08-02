@@ -1,0 +1,706 @@
+{
+  "generatedAt": "2026-08-01T16:53:06.426Z",
+  "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
+  "sourceName": "State WARN Act notices (state open-data portals)",
+  "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+  "states": [
+    {
+      "code": "NJ",
+      "agency": "State WARN portal (via warn-scraper)",
+      "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
+      "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
+      "dateBasis": "effective",
+      "noticeCount": 2289,
+      "employeesTotal": 368890,
+      "latestNotice": "2026-11-04",
+      "withNoticeDate": 0,
+      "withEffectiveOnly": 2278
+    },
+    {
+      "code": "WA",
+      "agency": "State WARN portal (via warn-scraper)",
+      "pageUrl": "https://esd.wa.gov/about-employees/WARN",
+      "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
+      "dateBasis": "notice",
+      "noticeCount": 1476,
+      "employeesTotal": 234207,
+      "latestNotice": "2026-07-08",
+      "withNoticeDate": 1476,
+      "withEffectiveOnly": 0
+    },
+    {
+      "code": "TX",
+      "agency": "Texas Workforce Commission",
+      "pageUrl": "https://data.texas.gov/d/8w53-c4f6",
+      "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
+      "dateBasis": "notice",
+      "noticeCount": 2358,
+      "employeesTotal": 216368,
+      "latestNotice": "2026-06-23",
+      "withNoticeDate": 2358,
+      "withEffectiveOnly": 0
+    },
+    {
+      "code": "OR",
+      "agency": "Oregon Higher Education Coordinating Commission",
+      "pageUrl": "https://data.oregon.gov/d/ijbz-jpx8",
+      "datasetUrl": "https://data.oregon.gov/resource/ijbz-jpx8.json",
+      "dateBasis": "notice",
+      "noticeCount": 395,
+      "employeesTotal": 37744,
+      "latestNotice": "2026-05-13",
+      "withNoticeDate": 395,
+      "withEffectiveOnly": 0
+    },
+    {
+      "code": "CA",
+      "agency": "California Employment Development Department",
+      "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
+      "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
+      "dateBasis": "notice",
+      "noticeCount": 72,
+      "employeesTotal": 4012,
+      "latestNotice": "2026-07-29",
+      "withNoticeDate": 72,
+      "withEffectiveOnly": 0
+    }
+  ],
+  "stateCount": 5,
+  "stateCodes": [
+    "CA",
+    "NJ",
+    "OR",
+    "TX",
+    "WA"
+  ],
+  "noticeCount": 6590,
+  "employeesTotal": 861221,
+  "employerCount": 5257,
+  "minNoticeDate": "2004-01-12",
+  "maxNoticeDate": "2026-07-29",
+  "yearBasisNote": "Yearly totals date each notice by the state-published notice/received date where available, and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). Notices with neither date are excluded from yearly totals but included in the overall counts.",
+  "datedByNoticeDate": 4301,
+  "datedByEffectiveDate": 2278,
+  "noticesWithoutDate": 11,
+  "byYear": [
+    {
+      "year": 2004,
+      "employees": 17191,
+      "notices": 120
+    },
+    {
+      "year": 2005,
+      "employees": 19774,
+      "notices": 182
+    },
+    {
+      "year": 2006,
+      "employees": 18113,
+      "notices": 146
+    },
+    {
+      "year": 2007,
+      "employees": 19931,
+      "notices": 157
+    },
+    {
+      "year": 2008,
+      "employees": 32762,
+      "notices": 198
+    },
+    {
+      "year": 2009,
+      "employees": 26857,
+      "notices": 208
+    },
+    {
+      "year": 2010,
+      "employees": 18306,
+      "notices": 139
+    },
+    {
+      "year": 2011,
+      "employees": 20297,
+      "notices": 123
+    },
+    {
+      "year": 2012,
+      "employees": 19498,
+      "notices": 140
+    },
+    {
+      "year": 2013,
+      "employees": 14115,
+      "notices": 113
+    },
+    {
+      "year": 2014,
+      "employees": 30578,
+      "notices": 148
+    },
+    {
+      "year": 2015,
+      "employees": 29158,
+      "notices": 209
+    },
+    {
+      "year": 2016,
+      "employees": 15591,
+      "notices": 109
+    },
+    {
+      "year": 2017,
+      "employees": 12908,
+      "notices": 126
+    },
+    {
+      "year": 2018,
+      "employees": 14132,
+      "notices": 113
+    },
+    {
+      "year": 2019,
+      "employees": 34873,
+      "notices": 294
+    },
+    {
+      "year": 2020,
+      "employees": 227215,
+      "notices": 1825
+    },
+    {
+      "year": 2021,
+      "employees": 29793,
+      "notices": 240
+    },
+    {
+      "year": 2022,
+      "employees": 18203,
+      "notices": 169
+    },
+    {
+      "year": 2023,
+      "employees": 60049,
+      "notices": 452
+    },
+    {
+      "year": 2024,
+      "employees": 61123,
+      "notices": 446
+    },
+    {
+      "year": 2025,
+      "employees": 78369,
+      "notices": 574
+    },
+    {
+      "year": 2026,
+      "employees": 41283,
+      "notices": 348
+    }
+  ],
+  "byMonth": [
+    {
+      "month": "2023-12",
+      "employees": 2360,
+      "notices": 17
+    },
+    {
+      "month": "2024-01",
+      "employees": 5335,
+      "notices": 53
+    },
+    {
+      "month": "2024-02",
+      "employees": 8047,
+      "notices": 32
+    },
+    {
+      "month": "2024-03",
+      "employees": 2133,
+      "notices": 22
+    },
+    {
+      "month": "2024-04",
+      "employees": 5088,
+      "notices": 27
+    },
+    {
+      "month": "2024-05",
+      "employees": 5933,
+      "notices": 40
+    },
+    {
+      "month": "2024-06",
+      "employees": 8442,
+      "notices": 44
+    },
+    {
+      "month": "2024-07",
+      "employees": 2946,
+      "notices": 34
+    },
+    {
+      "month": "2024-08",
+      "employees": 3551,
+      "notices": 55
+    },
+    {
+      "month": "2024-09",
+      "employees": 3392,
+      "notices": 29
+    },
+    {
+      "month": "2024-10",
+      "employees": 4196,
+      "notices": 27
+    },
+    {
+      "month": "2024-11",
+      "employees": 4916,
+      "notices": 51
+    },
+    {
+      "month": "2024-12",
+      "employees": 7144,
+      "notices": 32
+    },
+    {
+      "month": "2025-01",
+      "employees": 2329,
+      "notices": 24
+    },
+    {
+      "month": "2025-02",
+      "employees": 4997,
+      "notices": 32
+    },
+    {
+      "month": "2025-03",
+      "employees": 5217,
+      "notices": 47
+    },
+    {
+      "month": "2025-04",
+      "employees": 3064,
+      "notices": 36
+    },
+    {
+      "month": "2025-05",
+      "employees": 7031,
+      "notices": 65
+    },
+    {
+      "month": "2025-06",
+      "employees": 6283,
+      "notices": 44
+    },
+    {
+      "month": "2025-07",
+      "employees": 9252,
+      "notices": 81
+    },
+    {
+      "month": "2025-08",
+      "employees": 3345,
+      "notices": 47
+    },
+    {
+      "month": "2025-09",
+      "employees": 11864,
+      "notices": 52
+    },
+    {
+      "month": "2025-10",
+      "employees": 15786,
+      "notices": 78
+    },
+    {
+      "month": "2025-11",
+      "employees": 5577,
+      "notices": 40
+    },
+    {
+      "month": "2025-12",
+      "employees": 3624,
+      "notices": 28
+    },
+    {
+      "month": "2026-01",
+      "employees": 7675,
+      "notices": 55
+    },
+    {
+      "month": "2026-02",
+      "employees": 5296,
+      "notices": 37
+    },
+    {
+      "month": "2026-03",
+      "employees": 4868,
+      "notices": 45
+    },
+    {
+      "month": "2026-04",
+      "employees": 5677,
+      "notices": 36
+    },
+    {
+      "month": "2026-05",
+      "employees": 5763,
+      "notices": 36
+    },
+    {
+      "month": "2026-06",
+      "employees": 3533,
+      "notices": 28
+    },
+    {
+      "month": "2026-07",
+      "employees": 5710,
+      "notices": 82
+    },
+    {
+      "month": "2026-08",
+      "employees": 1492,
+      "notices": 18
+    },
+    {
+      "month": "2026-09",
+      "employees": 532,
+      "notices": 6
+    },
+    {
+      "month": "2026-10",
+      "employees": 679,
+      "notices": 4
+    },
+    {
+      "month": "2026-11",
+      "employees": 58,
+      "notices": 1
+    }
+  ],
+  "byStateYear": {
+    "NJ": [
+      {
+        "year": 2004,
+        "employees": 11257,
+        "notices": 78
+      },
+      {
+        "year": 2005,
+        "employees": 13028,
+        "notices": 110
+      },
+      {
+        "year": 2006,
+        "employees": 11445,
+        "notices": 88
+      },
+      {
+        "year": 2007,
+        "employees": 15164,
+        "notices": 97
+      },
+      {
+        "year": 2008,
+        "employees": 21037,
+        "notices": 132
+      },
+      {
+        "year": 2009,
+        "employees": 16361,
+        "notices": 136
+      },
+      {
+        "year": 2010,
+        "employees": 14987,
+        "notices": 107
+      },
+      {
+        "year": 2011,
+        "employees": 14451,
+        "notices": 88
+      },
+      {
+        "year": 2012,
+        "employees": 14772,
+        "notices": 91
+      },
+      {
+        "year": 2013,
+        "employees": 9035,
+        "notices": 72
+      },
+      {
+        "year": 2014,
+        "employees": 24003,
+        "notices": 99
+      },
+      {
+        "year": 2015,
+        "employees": 23637,
+        "notices": 170
+      },
+      {
+        "year": 2016,
+        "employees": 8813,
+        "notices": 52
+      },
+      {
+        "year": 2017,
+        "employees": 7705,
+        "notices": 82
+      },
+      {
+        "year": 2018,
+        "employees": 10687,
+        "notices": 79
+      },
+      {
+        "year": 2019,
+        "employees": 10269,
+        "notices": 79
+      },
+      {
+        "year": 2020,
+        "employees": 74329,
+        "notices": 226
+      },
+      {
+        "year": 2021,
+        "employees": 10781,
+        "notices": 60
+      },
+      {
+        "year": 2022,
+        "employees": 3851,
+        "notices": 33
+      },
+      {
+        "year": 2023,
+        "employees": 11431,
+        "notices": 103
+      },
+      {
+        "year": 2024,
+        "employees": 14450,
+        "notices": 98
+      },
+      {
+        "year": 2025,
+        "employees": 13045,
+        "notices": 89
+      },
+      {
+        "year": 2026,
+        "employees": 13250,
+        "notices": 109
+      }
+    ],
+    "CA": [
+      {
+        "year": 2026,
+        "employees": 4012,
+        "notices": 72
+      }
+    ],
+    "WA": [
+      {
+        "year": 2004,
+        "employees": 5934,
+        "notices": 42
+      },
+      {
+        "year": 2005,
+        "employees": 6746,
+        "notices": 72
+      },
+      {
+        "year": 2006,
+        "employees": 6668,
+        "notices": 58
+      },
+      {
+        "year": 2007,
+        "employees": 4767,
+        "notices": 60
+      },
+      {
+        "year": 2008,
+        "employees": 11725,
+        "notices": 66
+      },
+      {
+        "year": 2009,
+        "employees": 10496,
+        "notices": 72
+      },
+      {
+        "year": 2010,
+        "employees": 3319,
+        "notices": 32
+      },
+      {
+        "year": 2011,
+        "employees": 5846,
+        "notices": 35
+      },
+      {
+        "year": 2012,
+        "employees": 4726,
+        "notices": 49
+      },
+      {
+        "year": 2013,
+        "employees": 5080,
+        "notices": 41
+      },
+      {
+        "year": 2014,
+        "employees": 6575,
+        "notices": 49
+      },
+      {
+        "year": 2015,
+        "employees": 5521,
+        "notices": 39
+      },
+      {
+        "year": 2016,
+        "employees": 6778,
+        "notices": 57
+      },
+      {
+        "year": 2017,
+        "employees": 5203,
+        "notices": 44
+      },
+      {
+        "year": 2018,
+        "employees": 3445,
+        "notices": 34
+      },
+      {
+        "year": 2019,
+        "employees": 10051,
+        "notices": 67
+      },
+      {
+        "year": 2020,
+        "employees": 46674,
+        "notices": 264
+      },
+      {
+        "year": 2021,
+        "employees": 3228,
+        "notices": 31
+      },
+      {
+        "year": 2022,
+        "employees": 5691,
+        "notices": 34
+      },
+      {
+        "year": 2023,
+        "employees": 21466,
+        "notices": 73
+      },
+      {
+        "year": 2024,
+        "employees": 12195,
+        "notices": 60
+      },
+      {
+        "year": 2025,
+        "employees": 31257,
+        "notices": 132
+      },
+      {
+        "year": 2026,
+        "employees": 10816,
+        "notices": 65
+      }
+    ],
+    "TX": [
+      {
+        "year": 2019,
+        "employees": 14553,
+        "notices": 148
+      },
+      {
+        "year": 2020,
+        "employees": 90990,
+        "notices": 1206
+      },
+      {
+        "year": 2021,
+        "employees": 13413,
+        "notices": 123
+      },
+      {
+        "year": 2022,
+        "employees": 7303,
+        "notices": 86
+      },
+      {
+        "year": 2023,
+        "employees": 23894,
+        "notices": 222
+      },
+      {
+        "year": 2024,
+        "employees": 27375,
+        "notices": 217
+      },
+      {
+        "year": 2025,
+        "employees": 26606,
+        "notices": 287
+      },
+      {
+        "year": 2026,
+        "employees": 12234,
+        "notices": 69
+      }
+    ],
+    "OR": [
+      {
+        "year": 2020,
+        "employees": 15222,
+        "notices": 129
+      },
+      {
+        "year": 2021,
+        "employees": 2371,
+        "notices": 26
+      },
+      {
+        "year": 2022,
+        "employees": 1358,
+        "notices": 16
+      },
+      {
+        "year": 2023,
+        "employees": 3258,
+        "notices": 54
+      },
+      {
+        "year": 2024,
+        "employees": 7103,
+        "notices": 71
+      },
+      {
+        "year": 2025,
+        "employees": 7461,
+        "notices": 66
+      },
+      {
+        "year": 2026,
+        "employees": 971,
+        "notices": 33
+      }
+    ]
+  }
+}

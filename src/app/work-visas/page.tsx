@@ -3,12 +3,9 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { DashboardGrid } from "@/components/DashboardGrid";
 import { SearchBar } from "@/components/SearchBar";
-import { AdSlot } from "@/components/AdSlot";
-import { ResourcePanel } from "@/components/ResourcePanel";
 import { KeyDates } from "@/components/KeyDates";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { buildMetrics } from "@/lib/data";
-import { partnersForPersona } from "@/lib/partners";
 import { KEY_DATES } from "@/lib/key-dates";
 
 export const metadata = buildMetadata({
@@ -109,14 +106,7 @@ export default function WorkVisasHubPage() {
           subtitle="H-1B, green-card, tax, and student deadlines — counted down from today."
         />
 
-        <ResourcePanel
-          partners={partnersForPersona("h1b-worker", 3)}
-          placement="work-visas-hub"
-          title="On the H-1B or green-card journey?"
-          subtitle="Legal help for petitions and transfers, U.S. tax filing, and moving money across borders."
-        />
 
-        <AdSlot format="in-content" />
 
         <MethodologyNote variant="warning">
           H-1B approvals (USCIS) differ from visa issuances (State Department) and from LCA filings (DOL).
