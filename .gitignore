@@ -31,6 +31,18 @@ yarn-error.log*
 .env
 .env*.local
 
+# secrets — never commit credentials. Use .env (ignored above) or the host's
+# environment-variable settings. `.env.example` is the ONLY file that may
+# describe these keys, and only with placeholder values.
+pass.txt
+passwords.txt
+secrets.txt
+credentials.txt
+*.key
+*credentials*.json
+service-account*.json
+.env.backup
+
 # prisma
 /prisma/dev.db
 /prisma/*.db-journal
