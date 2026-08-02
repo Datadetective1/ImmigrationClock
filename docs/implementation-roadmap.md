@@ -106,33 +106,35 @@ See [who-is-affected.md](who-is-affected.md).
 - ✅ **2A** — event model, impact model, country registry, event store, reader.
 - 🟡 **2B** — 8 of 11 adapters built: Federal Register, Executive Actions,
   USCIS Newsroom, USCIS Policy Manual, Federal Courts, Congress, CBP, DOL/OFLC.
+- ✅ **2C** — `/what-changed` shipped 2026-08-02. First consumer of the event
+  store; `EventCard` is reusable for 2D entity pages.
+- ⬜ **2D / 2E** — not started.
 
 **Action required:** Congress is built and tested but ingests nothing until a
 free key from https://api.congress.gov is set as `CONGRESS_API_KEY`. It reports
 itself as unconfigured rather than failing, so this is silent unless checked.
 
-**Founder decision (2026-08-02) — next phase.** After CBP and DOL, work shifts from
-adding sources to the product itself: search, filtering, personalized tracking,
-alerts, explanations, and usability. Remaining low-value adapters (ICE, state
-agencies, SEVIS, PERM/LCA bulk files) wait behind that.
+### Founder decisions on Phase 2
 
-**Founder decision (2026-08-02) — court coverage.** Federal courts are ingested
-for decisions that establish or change immigration law, and not for the people
-in a case. Routine individual petitions, asylum appeals, visa denials, and
-detainee habeas cases are excluded, because a feed of "Liu v. Noem",
-"Hernandez v. Noem", "Prado-Majano v. Blanche" is the individual-immigrant
-profiling `/methodology` promises not to do. The accepted cost: a landmark
-decision captioned with an individual's name is excluded along with the routine
-ones, since the filter reads parties from the caption. Surfacing those needs an
-editorial review step rather than an automatic rule.
-- ✅ **2C** — `/what-changed` shipped 2026-08-02. First consumer of the event
-  store; `EventCard` is reusable for 2D entity pages.
-- ⬜ **2D / 2E** — not started.
+**2026-08-02 — next phase.** After CBP and DOL, work shifts from adding sources
+to the product itself: search, filtering, personalized tracking, alerts,
+explanations of policy changes, and usability. The remaining low-value adapters
+(ICE, state agencies, SEVIS, PERM/LCA bulk files) wait behind that.
 
-**Founder decision (2026-08-02):** Department of State is externally blocked
-rather than unbuilt (see the adapter table), so 2C shipped on the four working
-sources instead of waiting. Blocked adapters stay documented in the registry and
-are revisited only if the publisher exposes a supported machine-readable source.
+**2026-08-02 — court coverage.** Federal courts are ingested for decisions that
+establish or change immigration law, and not for the people in a case. Routine
+individual petitions, asylum appeals, visa denials, and detainee habeas cases
+are excluded, because a feed of "Liu v. Noem", "Hernandez v. Noem",
+"Prado-Majano v. Blanche" is the individual-immigrant profiling `/methodology`
+promises not to do. The accepted cost: a landmark decision captioned with an
+individual's name is excluded along with the routine ones, since the filter
+reads parties from the caption. Surfacing those needs an editorial review step
+rather than an automatic rule.
+
+**2026-08-02 — Department of State.** Externally blocked rather than unbuilt
+(see the adapter table), so 2C shipped on the four working sources instead of
+waiting. Blocked adapters stay documented in the registry and are revisited only
+if the publisher exposes a supported machine-readable source.
 
 **Why 2C landed before adapters 5–9.** The event pipeline was write-only for its
 first four adapters: nothing under `src/app` read `@/lib/event-store`, so no

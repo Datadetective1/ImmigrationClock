@@ -46,6 +46,44 @@ import { validateEvent, dedupeEvents, sortEvents, type ImmigrationEvent } from "
 const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.meta.url));
 
 /**
+ * A slim companion to the store, written for the BROWSER.
+ *
+ * /what-changed needs to search and filter the whole archive, which on a static
+ * site means the data has to reach the client. The full store is 332KB at 190
+ * events and grows without bound — shipping it would put the entire archive,
+ * every evidence quote and limitation, into a page bundle.
+ *
+ * The index carries only what a result row needs, which is roughly a quarter of
+ * the size. It is generated HERE, by the same run that writes the store, so the
+ * two cannot drift: there is no second pipeline to forget to run.
+ */
+const INDEX_OUT = fileURLToPath(new URL("../src/lib/generated/events-index.json", import.meta.url));
+
+/** Summary length in the index. Enough to recognise an event, not to replace it. */
+const INDEX_SUMMARY_CHARS = 220;
+
+function buildIndex(events: ImmigrationEvent[]) {
+  return events.map((e) => ({
+    id: e.id,
+    title: e.title,
+    publishedAt: e.publishedAt,
+    effectiveAt: e.effectiveAt ?? null,
+    scheduled: e.scheduled ?? false,
+    severity: e.severity,
+    classification: e.classification,
+    sourceKey: e.sourceKey,
+    sourceUrl: e.sourceUrl,
+    summary:
+      e.summary.length > INDEX_SUMMARY_CHARS
+        ? `${e.summary.slice(0, INDEX_SUMMARY_CHARS).trimEnd()}…`
+        : e.summary,
+    // Entity ids power "does this affect me" filtering by country, visa, or
+    // agency without shipping the whole impact record.
+    entityIds: [...new Set(e.entities.map((l) => l.entityId))],
+  }));
+}
+
+/**
  * Adapter implementations, attached to their registry entries.
  *
  * The registry declares all sixteen sources; this is where the built ones get
@@ -225,6 +263,14 @@ async function main() {
 
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
+
+  // The browser index, written from the same merged list in the same run.
+  const index = buildIndex(merged);
+  const indexJson = JSON.stringify({ generatedAt: payload.generatedAt, events: index });
+  await writeFile(INDEX_OUT, indexJson + "\n", "utf8");
+  console.log(
+    `[build-events] wrote search index: ${index.length} event(s), ${(indexJson.length / 1024).toFixed(0)}KB`
+  );
 
   const added = merged.length - existing.length;
   console.log(

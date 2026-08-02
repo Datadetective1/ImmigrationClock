@@ -21,6 +21,7 @@ const read = (rel: string) => readFileSync(join(root, rel), "utf8");
 
 const PAGE = read("src/app/what-changed/page.tsx");
 const CARD = read("src/components/EventCard.tsx");
+const EXPLORER = read("src/components/EventExplorer.tsx");
 
 describe("what-changed surface", () => {
   it("is the first consumer of the event store", () => {
@@ -36,6 +37,40 @@ describe("what-changed surface", () => {
 
   it("is submitted for crawling", () => {
     expect(read("src/app/sitemap.ts")).toContain('"/what-changed"');
+  });
+
+  it("lets a reader search the whole archive, not just the visible feed", () => {
+    // The feed is bounded to 30 days. Without search, the older events in the
+    // store would be unreachable — present in the data and invisible to readers.
+    expect(PAGE).toMatch(/<EventExplorer>/);
+    expect(EXPLORER).toMatch(/from "@\/lib\/event-index"/);
+  });
+
+  it("keeps the editorial feed as the default view", () => {
+    // Search is a tool a reader reaches for. Presenting an empty search box as
+    // the answer to "what changed" would invert the point of the page.
+    expect(EXPLORER).toMatch(/active \? \(/);
+    expect(EXPLORER).toMatch(/children/);
+  });
+
+  it("reports zero-result searches, the platform's most valuable signal", () => {
+    expect(EXPLORER).toMatch(/trackSearch/);
+  });
+
+  it("does not present an empty result as 'nothing happened'", () => {
+    // An empty search means our archive cannot answer the question. That is our
+    // gap, and saying otherwise would claim coverage we do not have.
+    expect(EXPLORER).toMatch(/statement about what we have recorded/);
+  });
+
+  it("keeps a proposal marked as not in force in compact result rows too", () => {
+    // The full card has a banner. A result row is smaller but must not lose the
+    // one distinction that changes what a reader believes they must do.
+    expect(EXPLORER).toMatch(/proposed_rule: "Proposed rule — not in force"/);
+  });
+
+  it("tells the reader a result row is not the whole entry", () => {
+    expect(EXPLORER).toMatch(/Search results are summaries/);
   });
 
   it("leads with change rather than routine paperwork", () => {

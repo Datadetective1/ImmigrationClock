@@ -29,6 +29,7 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EventCard } from "@/components/EventCard";
+import { EventExplorer } from "@/components/EventExplorer";
 import { formatDate } from "@/lib/format";
 import {
   EVENTS,
@@ -120,7 +121,12 @@ export default function WhatChangedPage() {
           </div>
         ) : null}
 
-        {days.length === 0 ? (
+        {/* Search and filtering wrap the feed rather than replacing it. With no
+            filter set the editorial view below renders untouched; the moment one
+            is set, results from the WHOLE archive take its place. Presenting an
+            empty search box as the answer to "what changed" would be backwards. */}
+        <EventExplorer>
+          {days.length === 0 ? (
           <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-slate-300">
             No significant changes have been recorded in the current window. That is a statement about
             what our sources published, not a guarantee that nothing happened — see the coverage note
@@ -156,8 +162,8 @@ export default function WhatChangedPage() {
           <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-slate-300">
             Showing the most recent {days.length} days of change. The store holds{" "}
             <span className="font-semibold text-white">{olderCount}</span> older recorded change
-            {olderCount === 1 ? "" : "s"} going back to {formatDate(EVENT_STORE_META.since)}, which are not
-            listed here yet — search and filtering are being built next.
+            {olderCount === 1 ? "" : "s"} going back to {formatDate(EVENT_STORE_META.since)} — use the
+            search box above to reach the whole archive.
           </p>
         ) : null}
 
@@ -180,6 +186,7 @@ export default function WhatChangedPage() {
             </div>
           </details>
         ) : null}
+        </EventExplorer>
 
         <MethodologyNote>
           Every event here comes from an official U.S. government source and links to the original
