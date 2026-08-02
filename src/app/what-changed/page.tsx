@@ -30,6 +30,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EventCard } from "@/components/EventCard";
 import { EventExplorer } from "@/components/EventExplorer";
+import { FollowingPanel } from "@/components/FollowingPanel";
 import { formatDate } from "@/lib/format";
 import {
   EVENTS,
@@ -120,6 +121,11 @@ export default function WhatChangedPage() {
             </ul>
           </div>
         ) : null}
+
+        {/* "What changed FOR ME" comes before "what changed", because for most
+            readers it is the only question they actually have. Renders its own
+            empty state when nothing is followed, so it is never dead space. */}
+        <FollowingPanel />
 
         {/* Search and filtering wrap the feed rather than replacing it. With no
             filter set the editorial view below renders untouched; the moment one

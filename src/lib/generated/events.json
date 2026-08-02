@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-02T13:51:00.157Z",
+  "generatedAt": "2026-08-02T13:55:31.154Z",
   "since": "2025-01-01",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:50:57.880Z",
+      "lastRunAt": "2026-08-02T13:55:29.573Z",
       "ok": true,
       "eventCount": 14,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:50:58.045Z",
+      "lastRunAt": "2026-08-02T13:55:29.762Z",
       "ok": true,
       "eventCount": 2,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:50:58.307Z",
+      "lastRunAt": "2026-08-02T13:55:30.013Z",
       "ok": true,
       "eventCount": 112,
       "warnings": [
@@ -40,7 +40,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:50:58.404Z",
+      "lastRunAt": "2026-08-02T13:55:30.124Z",
       "ok": true,
       "eventCount": 46,
       "warnings": []
@@ -49,7 +49,7 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:50:59.615Z",
+      "lastRunAt": "2026-08-02T13:55:30.566Z",
       "ok": true,
       "eventCount": 2,
       "warnings": [
@@ -60,7 +60,7 @@
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:50:59.616Z",
+      "lastRunAt": "2026-08-02T13:55:30.567Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
@@ -71,7 +71,7 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-08-02T13:50:59.715Z",
+      "lastRunAt": "2026-08-02T13:55:30.680Z",
       "ok": true,
       "eventCount": 7,
       "warnings": [
@@ -82,7 +82,7 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:51:00.153Z",
+      "lastRunAt": "2026-08-02T13:55:31.150Z",
       "ok": true,
       "eventCount": 7,
       "warnings": []
@@ -1735,6 +1735,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:lebanon",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -2347,6 +2353,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:yemen",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -2565,6 +2577,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:yemen",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -2845,6 +2863,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:somalia",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -3689,6 +3713,48 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:el-salvador",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        },
+        {
+          "entityId": "country:guatemala",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:colombia",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:honduras",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:ecuador",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:haiti",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "country:cuba",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -3748,6 +3814,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:ethiopia",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -4381,6 +4453,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:haiti",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -4440,6 +4518,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:myanmar",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -4749,6 +4833,18 @@
         },
         {
           "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "country:south-sudan",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        },
+        {
+          "entityId": "country:sudan",
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.6
@@ -5647,6 +5743,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:syria",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -5859,6 +5961,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:venezuela",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -6012,6 +6120,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:venezuela",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -7339,6 +7453,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:nicaragua",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -7398,6 +7518,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:honduras",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -7504,6 +7630,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:haiti",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -8258,6 +8390,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:nepal",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -8366,6 +8504,18 @@
           "relation": "categorized_as",
           "basis": "explicit",
           "confidence": 1
+        },
+        {
+          "entityId": "country:canada",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:mexico",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -8492,6 +8642,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.95
+        },
+        {
+          "entityId": "country:cameroon",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {
@@ -8705,6 +8861,12 @@
         },
         {
           "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        },
+        {
+          "entityId": "country:afghanistan",
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
@@ -9583,6 +9745,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:haiti",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
         }
       ],
       "impact": {
@@ -9743,6 +9911,12 @@
           "relation": "mentions",
           "basis": "matched",
           "confidence": 0.85
+        },
+        {
+          "entityId": "country:venezuela",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
         }
       ],
       "impact": {

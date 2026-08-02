@@ -22,6 +22,7 @@
 // =============================================================================
 
 import { ALIAS_INDEX, type EntityId } from "./entities";
+import { findCountriesInText } from "./countries";
 
 export interface EntityMention {
   entityId: EntityId;
@@ -97,6 +98,34 @@ export function resolveEntityMentions(text: string): EntityMention[] {
       confidence: confidenceFor(m.alias),
     });
   }
+
+  // COUNTRIES.
+  //
+  // The alias index is built from SEED_ENTITIES, which does not contain the ~200
+  // countries — those live in their own registry with their own matcher, because
+  // country names carry ambiguities ("Georgia", "Jordan", "Chad") that need
+  // sentence context rather than a flat alias list.
+  //
+  // For a long time nothing joined the two, and the cost was concrete: nineteen
+  // TPS events naming Venezuela, Haiti, Syria, Somalia and others carried NO
+  // country link, so "does anything affect Venezuelans?" returned nothing across
+  // the entire archive.
+  //
+  // These are `mentions` edges at matched confidence — a deliberately weak,
+  // clearly-labelled claim. The strict evidence path for "who is affected" is
+  // impact.countries, which still requires a designation sentence and a verbatim
+  // quote and is untouched by this. Saying a document MENTIONS a country and
+  // saying it AFFECTS that country's nationals are different claims, and only
+  // the first is being made here.
+  for (const hit of findCountriesInText(text)) {
+    if (found.has(hit.entityId)) continue;
+    found.set(hit.entityId, {
+      entityId: hit.entityId,
+      matchedText: hit.surface,
+      confidence: confidenceFor(hit.surface),
+    });
+  }
+
   return [...found.values()];
 }
 
