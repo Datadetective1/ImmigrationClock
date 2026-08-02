@@ -106,16 +106,22 @@ See [who-is-affected.md](who-is-affected.md).
 - ✅ **2A** — event model, impact model, country registry, event store, reader.
 - 🟡 **2B** — 4 of 11 adapters built: Federal Register, Executive Actions,
   USCIS Newsroom, USCIS Policy Manual.
-- ⬜ **2C / 2D / 2E** — not started.
+- ✅ **2C** — `/what-changed` shipped 2026-08-02. First consumer of the event
+  store; `EventCard` is reusable for 2D entity pages.
+- ⬜ **2D / 2E** — not started.
 
-**Founder decision (2026-08-01):** 2C `/what-changed` waits until the USCIS
-Policy Manual and Department of State adapters are both complete, so the first
-user-facing surface launches carrying several authoritative sources rather than
-one. Adapters 5–9 follow 2C.
+**Founder decision (2026-08-02):** Department of State is externally blocked
+rather than unbuilt (see the adapter table), so 2C shipped on the four working
+sources instead of waiting. Blocked adapters stay documented in the registry and
+are revisited only if the publisher exposes a supported machine-readable source.
 
-**Known gap:** the event store has no UI consumer yet. Nothing under `src/app`
-reads `@/lib/event-store`, so every event built so far is invisible to readers.
-This is the reason 2C is scheduled next rather than later.
+**Why 2C landed before adapters 5–9.** The event pipeline was write-only for its
+first four adapters: nothing under `src/app` read `@/lib/event-store`, so no
+human had ever looked at the output. Rendering it exposed four defects that had
+passed every test — evidence quotes cut mid-word, markup leaking into quotes,
+rulemaking boilerplate presented as an obligation, and a non-immigration DOJ
+notice leading the page. Each later adapter can now be validated against a real
+surface instead of tests alone.
 
 #### Adapter status within 2B
 
@@ -123,9 +129,9 @@ This is the reason 2C is scheduled next rather than later.
 |---|---------|--------|------|
 | 1 | USCIS Newsroom | ✅ built | RSS. Individual criminal cases excluded by editorial policy. |
 | 2 | USCIS Policy Manual | ✅ built | HTML scrape; severity from USCIS's own Policy Alert / Technical Update labels. |
-| 3 | Department of State | ⬜ next | |
-| 4 | Visa Bulletin | ⬜ | `blocked` — table of dates, mis-parse is actively misleading. Needs a verification step. |
-| 5 | Federal Courts | ⬜ | CourtListener has a free API. Scope must be tightly filtered. |
+| 3 | Department of State | 🚫 blocked | Verified 2026-08-01: state.gov site-wide errors; travel.state.gov behind Cloudflare bot protection, which we do not circumvent. DOS rulemaking already arrives via the Federal Register adapter — guarded by test. |
+| 4 | Visa Bulletin | 🚫 blocked | Same Cloudflare barrier (hosted on travel.state.gov), plus its own risk: a table of dates where a mis-parse is a confidently wrong fact rather than a missing event. |
+| 5 | Federal Courts | ⬜ next | CourtListener has a free API. Scope must be tightly filtered. |
 | 6 | Congress | ⬜ | Congress.gov API, key required. Introduction is not change. |
 | 7 | Department of Labor | ⬜ | PERM + LCA quarterly bulk files. |
 | 8 | CBP | ⬜ | Already ingested as statistics; needs event emission. |
