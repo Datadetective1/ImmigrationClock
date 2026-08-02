@@ -75,6 +75,27 @@ export function failedAdapters() {
   return EVENT_STORE_META.adapters.filter((a) => !a.ok);
 }
 
+/**
+ * Adapters that ran without failing but returned nothing.
+ *
+ * `ok` means "did not fail", which is NOT the same as "is feeding us data". An
+ * unconfigured source (Congress without its API key) reports ok and contributes
+ * zero — correctly, because a missing key is a configuration gap rather than an
+ * outage, and conflating the two would hide real outages in the build.
+ *
+ * But the reader-facing claim must not inherit that distinction. Counting a
+ * source that has produced nothing toward "we track N sources" overstates
+ * coverage, which is the one thing this platform promises not to do.
+ */
+export function silentAdapters() {
+  return EVENT_STORE_META.adapters.filter((a) => a.ok && a.eventCount === 0);
+}
+
+/** Adapters that actually put events in the store. The only honest count. */
+export function contributingAdapters() {
+  return EVENT_STORE_META.adapters.filter((a) => a.ok && a.eventCount > 0);
+}
+
 
 
 /**
@@ -122,15 +143,41 @@ export function eventsAffecting(id: EntityId): ImmigrationEvent[] {
 /**
  * Honest one-line description of what the store currently covers. Rendered
  * wherever events are shown, so a thin feed is never mistaken for a quiet month.
+ *
+ * THE COUNT IS OF SOURCES THAT ACTUALLY CONTRIBUTED, not of sources that did not
+ * fail. Those are different numbers, and the difference is exactly the kind of
+ * quiet overstatement this platform exists not to make: at the time of writing,
+ * eight adapters reported `ok` while seven had produced any events, because
+ * Congress runs fine and ingests nothing until its API key is present. Saying
+ * "eight sources" would have claimed coverage we did not have.
+ *
+ * A source that is registered and silent is disclosed separately rather than
+ * absorbed into the headline, so a reader can see both what is feeding the
+ * archive and what is not.
  */
 export function eventCoverageNote(): string {
-  const live = EVENT_STORE_META.adapters.filter((a) => a.ok).length;
+  const contributing = contributingAdapters().length;
   const failed = failedAdapters().length;
-  const base =
-    `Tracking ${EVENTS.length} government events from ${live} automated source${live === 1 ? "" : "s"}, ` +
-    `since ${EVENT_STORE_META.since}. More sources are being added — see the methodology page for the full list, ` +
-    "including the ones we do not yet ingest.";
-  return failed > 0
-    ? `${base} ${failed} source${failed === 1 ? "" : "s"} failed on the last run, so recent items from ${failed === 1 ? "it" : "them"} may be missing.`
-    : base;
+  const silent = silentAdapters().length;
+
+  const parts = [
+    `Tracking ${EVENTS.length} government events from ${contributing} automated ` +
+      `source${contributing === 1 ? "" : "s"}, since ${EVENT_STORE_META.since}. ` +
+      "More sources are being added — see the methodology page for the full list, " +
+      "including the ones we do not yet ingest.",
+  ];
+
+  if (silent > 0) {
+    parts.push(
+      `${silent} further source${silent === 1 ? " is" : "s are"} connected but ` +
+        `${silent === 1 ? "has" : "have"} contributed nothing yet, so ${silent === 1 ? "it is" : "they are"} not counted above.`
+    );
+  }
+  if (failed > 0) {
+    parts.push(
+      `${failed} source${failed === 1 ? "" : "s"} failed on the last run, so recent items from ` +
+        `${failed === 1 ? "it" : "them"} may be missing.`
+    );
+  }
+  return parts.join(" ");
 }

@@ -13,7 +13,15 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 
-import { EVENTS, significantEvents, eventCoverageNote } from "@/lib/event-store";
+import {
+  EVENTS,
+  significantEvents,
+  eventCoverageNote,
+  contributingAdapters,
+  silentAdapters,
+  failedAdapters,
+  EVENT_STORE_META,
+} from "@/lib/event-store";
 import { NAV } from "@/lib/site";
 import { sortResults } from "@/lib/event-index";
 import {
@@ -345,5 +353,46 @@ describe("error and not-found boundaries", () => {
 
   it("keeps a 404 that points somewhere useful", () => {
     expect(NOT_FOUND).toMatch(/export default function/);
+  });
+});
+
+// =============================================================================
+// COVERAGE CLAIMS
+//
+// The one number a reader uses to judge how much of the landscape this
+// represents. Overstating it is the single most damaging thing the platform can
+// do to itself, because every other honesty guarantee is then suspect.
+// =============================================================================
+describe("coverage claim honesty", () => {
+  it("counts sources that CONTRIBUTED, not sources that merely did not fail", () => {
+    // REGRESSION, found in the launch review: eight adapters reported ok while
+    // seven had produced any events. Congress runs fine and ingests nothing
+    // until its API key is present — correctly `ok`, because a missing key is a
+    // configuration gap rather than an outage. But the reader-facing count must
+    // not inherit that: "8 sources" claimed coverage that did not exist.
+    const claimed = Number(/from (\d+) automated source/.exec(eventCoverageNote())![1]);
+    expect(claimed).toBe(contributingAdapters().length);
+    for (const a of contributingAdapters()) {
+      expect(a.eventCount, `${a.key} counted with no events`).toBeGreaterThan(0);
+    }
+  });
+
+  it("never counts a silent source toward the headline", () => {
+    const claimed = Number(/from (\d+) automated source/.exec(eventCoverageNote())![1]);
+    expect(claimed + silentAdapters().length + failedAdapters().length).toBe(
+      EVENT_STORE_META.adapters.length
+    );
+  });
+
+  it("discloses a connected-but-silent source rather than hiding it", () => {
+    // Not counting it is right; pretending it does not exist is not.
+    if (silentAdapters().length > 0) {
+      expect(eventCoverageNote()).toMatch(/contributed nothing yet/);
+    }
+  });
+
+  it("never claims more events than the store holds", () => {
+    const claimed = Number(/Tracking (\d+) government events/.exec(eventCoverageNote())![1]);
+    expect(claimed).toBe(EVENTS.length);
   });
 });
