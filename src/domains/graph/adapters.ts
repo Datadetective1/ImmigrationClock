@@ -115,12 +115,22 @@ export const ADAPTERS: SourceAdapter[] = [
       "Policy alerts and technical updates to the controlling adjudication guidance USCIS officers apply. HTML with no API, so it is scraped — but unlike the Visa Bulletin it publishes documents rather than a table of dates, so a parse failure yields a missing event rather than a confidently wrong figure. Severity follows USCIS's own labelling.",
   },
   {
+    key: "dos-announcements",
+    name: "State Department visa announcements",
+    sourceKey: "dos_visa",
+    status: "blocked",
+    blockedReason:
+      "State Department publishing channels are not machine-accessible to an identified crawler. Verified 2026-08-01: every www.state.gov URL, including the homepage and the press-release feed, returned a site-wide 'Technical Difficulties' page; travel.state.gov returned HTTP 403 from Cloudflare bot protection, which we do not attempt to circumvent. The only feed that resolved was the Travel Advisories XML, which is safety guidance for U.S. citizens travelling abroad rather than immigration policy, so it is deliberately not ingested. DOS RULEMAKING IS ALREADY COVERED: the Federal Register adapter tracks the state-department agency slug, so DOS visa rules and public notices reach the event store through it. This adapter would add consular announcements that never reach the Federal Register — it is not a gap in DOS policy coverage.",
+    coverage:
+      "Consular announcements, visa news, and operational notices from the Bureau of Consular Affairs that are not published in the Federal Register.",
+  },
+  {
     key: "visa-bulletin",
     name: "Visa Bulletin",
     sourceKey: "dos_visa",
     status: "blocked",
     blockedReason:
-      "Published monthly as HTML with an inconsistent table structure and no API. Parsing is feasible but priority-date movement is consequential enough that a mis-parse would be seriously misleading — it needs a verification step before it can be trusted.",
+      "Two independent blockers. First, access: the bulletin is published on travel.state.gov, which returned HTTP 403 from Cloudflare bot protection when verified on 2026-08-01 — the same root cause that blocks the DOS announcements adapter. Second, and unchanged even if access were restored: the bulletin is a TABLE OF DATES with an inconsistent structure, and a mis-parsed priority date is not a degraded event but a confidently wrong fact a reader will act on. It needs a verification step, not a blind parse.",
     coverage:
       "Monthly final-action and filing dates by preference category and country of chargeability.",
   },
@@ -201,7 +211,8 @@ export const ADAPTERS: SourceAdapter[] = [
     name: "State Department visa statistics",
     sourceKey: "dos_visa",
     status: "blocked",
-    blockedReason: "Published as monthly PDFs with no machine-readable feed. Currently transcribed by hand.",
+    blockedReason:
+      "Published as monthly PDFs with no machine-readable feed, and hosted on travel.state.gov, which returned HTTP 403 from Cloudflare bot protection when verified on 2026-08-01. Currently transcribed by hand.",
     coverage: "Nonimmigrant and immigrant visa issuances by class and country.",
   },
   {

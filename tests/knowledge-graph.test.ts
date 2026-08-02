@@ -17,7 +17,12 @@ import {
   primaryEventsForEntity,
   type ImmigrationEvent,
 } from "@/domains/graph/events";
-import { ADAPTERS, runnableAdapters, adapterCoverageSummary } from "@/domains/graph/adapters";
+import {
+  ADAPTERS,
+  runnableAdapters,
+  adapterCoverageSummary,
+  adaptersByStatus,
+} from "@/domains/graph/adapters";
 import { resolveEntityMentions, isPubliclyAssertable, PUBLIC_CONFIDENCE_FLOOR } from "@/domains/graph/resolve";
 import { __testing as FR } from "@/domains/graph/adapters/federal-register";
 import { __testing as EA } from "@/domains/graph/adapters/executive-actions";
@@ -237,6 +242,37 @@ describe("adapter registry", () => {
   it("points every adapter at a real registry source", () => {
     for (const a of ADAPTERS) {
       expect(SOURCE_BY_KEY[a.sourceKey], `${a.key} references unknown source ${a.sourceKey}`).toBeDefined();
+    }
+  });
+
+  it("keeps DOS policy coverage even though the DOS adapters are blocked", () => {
+    // The State Department's own channels are unreachable to an identified
+    // crawler (state.gov site-wide errors, travel.state.gov behind Cloudflare),
+    // so DOS visa rules reach the platform ONLY through the Federal Register.
+    // If this agency slug is ever dropped from the FR adapter, the platform
+    // silently loses State Department policy entirely — with three adapters
+    // marked "blocked" making it look intentional. This is the guard.
+    expect(FR.__agencySlugs["state-department"]).toBe("agency:dos");
+  });
+
+  it("routes both DOS adapters and the Visa Bulletin at a real source", () => {
+    for (const key of ["dos-announcements", "dos-visa-statistics", "visa-bulletin"]) {
+      const a = ADAPTERS.find((x) => x.key === key);
+      expect(a, `${key} is not registered`).toBeDefined();
+      expect(SOURCE_BY_KEY[a!.sourceKey]).toBeDefined();
+    }
+  });
+
+  it("gives every blocked adapter a specific, dated reason rather than a shrug", () => {
+    // "No API" is not a reason a reader can evaluate. A blocked source has to
+    // say what was actually observed and when, so the claim can be re-checked
+    // and the block revisited when the obstacle clears.
+    for (const a of adaptersByStatus("blocked")) {
+      expect(a.blockedReason!.length, `${a.key}: reason is too thin to audit`).toBeGreaterThan(80);
+      expect(
+        /\b20\d\d-\d\d-\d\d\b/.test(a.blockedReason!) || /PDF|XLSX|spreadsheet/i.test(a.blockedReason!),
+        `${a.key}: reason cites neither a verification date nor a concrete format obstacle`
+      ).toBe(true);
     }
   });
 

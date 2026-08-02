@@ -377,4 +377,14 @@ export const federalRegisterAdapter: SourceAdapter = {
 // Exported for tests: classification and severity are the rules most likely to
 // mislead if they drift, so they are pinned directly rather than only through
 // the adapter's network path.
-export const __testing = { classify, severity, isImmigrationRelevant, toEvent, topicLink };
+export const __testing = {
+  classify,
+  severity,
+  isImmigrationRelevant,
+  toEvent,
+  topicLink,
+  // Exposed so a test can assert the tracked-agency map still covers agencies
+  // that have no adapter of their own. State is the live case: its own channels
+  // are unreachable, so this map is the platform's only route to DOS policy.
+  __agencySlugs: AGENCY_SLUGS,
+};

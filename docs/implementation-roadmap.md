@@ -104,8 +104,32 @@ See [who-is-affected.md](who-is-affected.md).
 
 ### Progress
 - ✅ **2A** — event model, impact model, country registry, event store, reader.
-- 🟡 **2B** — 2 of 11 adapters built (Federal Register, Executive Actions).
+- 🟡 **2B** — 4 of 11 adapters built: Federal Register, Executive Actions,
+  USCIS Newsroom, USCIS Policy Manual.
 - ⬜ **2C / 2D / 2E** — not started.
+
+**Founder decision (2026-08-01):** 2C `/what-changed` waits until the USCIS
+Policy Manual and Department of State adapters are both complete, so the first
+user-facing surface launches carrying several authoritative sources rather than
+one. Adapters 5–9 follow 2C.
+
+**Known gap:** the event store has no UI consumer yet. Nothing under `src/app`
+reads `@/lib/event-store`, so every event built so far is invisible to readers.
+This is the reason 2C is scheduled next rather than later.
+
+#### Adapter status within 2B
+
+| # | Adapter | Status | Note |
+|---|---------|--------|------|
+| 1 | USCIS Newsroom | ✅ built | RSS. Individual criminal cases excluded by editorial policy. |
+| 2 | USCIS Policy Manual | ✅ built | HTML scrape; severity from USCIS's own Policy Alert / Technical Update labels. |
+| 3 | Department of State | ⬜ next | |
+| 4 | Visa Bulletin | ⬜ | `blocked` — table of dates, mis-parse is actively misleading. Needs a verification step. |
+| 5 | Federal Courts | ⬜ | CourtListener has a free API. Scope must be tightly filtered. |
+| 6 | Congress | ⬜ | Congress.gov API, key required. Introduction is not change. |
+| 7 | Department of Labor | ⬜ | PERM + LCA quarterly bulk files. |
+| 8 | CBP | ⬜ | Already ingested as statistics; needs event emission. |
+| 9 | ICE | ⬜ | `blocked` — XLSX with drifting sheet layouts. |
 
 ### 2.1 The Event model
 A canonical `ImmigrationEvent` with exactly the fields the Directive specifies
