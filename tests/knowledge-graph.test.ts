@@ -216,6 +216,7 @@ describe("adapter registry", () => {
       "federal-register",
       "executive-actions",
       "uscis-newsroom",
+      "uscis-policy-manual",
       "visa-bulletin",
       "federal-courts",
       "congress",

@@ -35,6 +35,7 @@ import { runnableAdapters, ADAPTERS } from "../src/domains/graph/adapters";
 import { federalRegisterAdapter } from "../src/domains/graph/adapters/federal-register";
 import { executiveActionsAdapter } from "../src/domains/graph/adapters/executive-actions";
 import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsroom";
+import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
 import { validateEvent, dedupeEvents, sortEvents, type ImmigrationEvent } from "../src/domains/graph/events";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.meta.url));
@@ -45,7 +46,12 @@ const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.met
  * The registry declares all sixteen sources; this is where the built ones get
  * their `fetchEvents`. Adding an adapter means one import and one line here.
  */
-const IMPLEMENTATIONS = [federalRegisterAdapter, executiveActionsAdapter, uscisNewsroomAdapter];
+const IMPLEMENTATIONS = [
+  federalRegisterAdapter,
+  executiveActionsAdapter,
+  uscisNewsroomAdapter,
+  uscisPolicyManualAdapter,
+];
 
 function attachImplementations() {
   for (const impl of IMPLEMENTATIONS) {

@@ -12,6 +12,10 @@
 // this platform.
 // =============================================================================
 
+// Text normalization lives in ./text.ts, shared with the HTML-based adapters so
+// the decode ordering is implemented once rather than copied per source.
+import { plainText as text, richText } from "./text";
+
 export interface RssItem {
   title: string;
   link: string;
@@ -22,60 +26,6 @@ export interface RssItem {
   guid: string | null;
   /** Raw categories, where the feed provides them. */
   categories: string[];
-}
-
-/**
- * ORDER MATTERS, and getting it wrong is silent.
- *
- * These stages are separate functions rather than one pass because the previous
- * single-pass version stripped tags BEFORE decoding, which produced three
- * different wrong answers depending on how a feed encoded its markup:
- *
- *   <![CDATA[Plain text.]]>        → null      (the tag-stripper ate the whole
- *                                               CDATA wrapper AND its contents,
- *                                               so a real summary became "no
- *                                               summary was published" — a false
- *                                               statement about the source)
- *   <![CDATA[<p>Markup.</p>]]>     → "Markup. ]]>"   (orphaned CDATA terminator)
- *   &lt;p&gt;Escaped.&lt;/p&gt;    → "<p>Escaped.</p>" (decoding after stripping
- *                                                     re-created the tags)
- *
- * The correct order is: unwrap CDATA → decode entities → strip tags → collapse.
- * Every feed encoding converges on the same clean text.
- */
-function unwrapCdata(s: string): string {
-  return s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
-}
-
-function decodeEntities(s: string): string {
-  return (
-    s
-      .replace(/&nbsp;/gi, " ")
-      .replace(/&lt;/gi, "<")
-      .replace(/&gt;/gi, ">")
-      .replace(/&quot;/gi, '"')
-      .replace(/&#39;|&apos;/gi, "'")
-      .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-      .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
-      // `&amp;` is decoded LAST, deliberately. Decoding it first turns a
-      // double-encoded "&amp;lt;p&amp;gt;" into a live "<p>" tag, which is the
-      // opposite of what the author encoded.
-      .replace(/&amp;/gi, "&")
-  );
-}
-
-function collapse(s: string): string {
-  return s.replace(/\s+/g, " ").trim();
-}
-
-/** Plain fields: title, link, guid, category. No markup expected. */
-function text(s: string): string {
-  return collapse(decodeEntities(unwrapCdata(s)));
-}
-
-/** Rich fields: description, summary, content. May legitimately carry markup. */
-function richText(s: string): string {
-  return collapse(decodeEntities(unwrapCdata(s)).replace(/<[^>]+>/g, " "));
 }
 
 function tag(block: string, name: string): string | null {

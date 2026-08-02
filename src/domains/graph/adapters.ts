@@ -107,6 +107,14 @@ export const ADAPTERS: SourceAdapter[] = [
       "Policy manual updates, alerts, and cap announcements. USCIS publishes RSS, which is stable and machine-readable.",
   },
   {
+    key: "uscis-policy-manual",
+    name: "USCIS Policy Manual",
+    sourceKey: "uscis_policy_manual",
+    status: "ready",
+    coverage:
+      "Policy alerts and technical updates to the controlling adjudication guidance USCIS officers apply. HTML with no API, so it is scraped — but unlike the Visa Bulletin it publishes documents rather than a table of dates, so a parse failure yields a missing event rather than a confidently wrong figure. Severity follows USCIS's own labelling.",
+  },
+  {
     key: "visa-bulletin",
     name: "Visa Bulletin",
     sourceKey: "dos_visa",

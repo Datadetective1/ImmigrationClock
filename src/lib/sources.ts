@@ -291,6 +291,26 @@ export const SOURCES: SourceDef[] = [
       "An agency announcement is not the legal instrument. Effect and detail arrive separately in the Federal Register or the USCIS Policy Manual. Individual criminal-prosecution press releases carried on the same feed are excluded by editorial policy — see docs/editorial-policy.md.",
   },
   {
+    key: "uscis_policy_manual",
+    name: "USCIS Policy Manual",
+    agency: "U.S. Citizenship and Immigration Services (DHS)",
+    tier: "official",
+    description:
+      "Policy alerts and technical updates to the controlling adjudication guidance USCIS officers apply, each listing the formal Policy Manual sections it changes.",
+    homepageUrl: "https://www.uscis.gov/policy-manual",
+    datasetUrl: "https://www.uscis.gov/policy-manual/updates",
+    cadence: "continuous",
+    ingestion: "scheduled-scrape",
+    refreshKey: "uscisPolicyManual",
+    typicalLagMonths: 0,
+    // Verified 2026-08-01: the updates page was fetched during this session and
+    // returned 341 structured update rows, each with a machine-readable
+    // <time datetime> and its affected-section citations.
+    lastVerifiedAt: "2026-08-01",
+    limitations:
+      "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+  },
+  {
     key: "federal_courts",
     name: "Federal court decisions",
     agency: "U.S. federal judiciary",

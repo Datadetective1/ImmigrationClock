@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-02T04:34:40.055Z",
+  "generatedAt": "2026-08-02T04:51:19.073Z",
   "since": "2026-05-04",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:34:39.675Z",
+      "lastRunAt": "2026-08-02T04:51:18.646Z",
       "ok": true,
       "eventCount": 15,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:34:39.835Z",
+      "lastRunAt": "2026-08-02T04:51:18.823Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -28,18 +28,27 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:34:40.045Z",
+      "lastRunAt": "2026-08-02T04:51:18.994Z",
       "ok": true,
       "eventCount": 10,
       "warnings": [
         "11 individual criminal-case press release(s) excluded by editorial policy (see adapter header)"
       ]
+    },
+    {
+      "key": "uscis-policy-manual",
+      "name": "USCIS Policy Manual",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T04:51:19.061Z",
+      "ok": true,
+      "eventCount": 4,
+      "warnings": []
     }
   ],
   "counts": {
-    "total": 41,
+    "total": 45,
     "bySeverity": {
-      "major": 15,
+      "major": 19,
       "routine": 12,
       "notable": 14
     },
@@ -49,8 +58,8 @@
       "proposed_rule": 2,
       "court_decision": 2,
       "deadline": 5,
-      "executive_action": 2,
-      "updated_information": 1
+      "updated_information": 5,
+      "executive_action": 2
     }
   },
   "events": [
@@ -1128,6 +1137,122 @@
       ]
     },
     {
+      "id": "uscis_policy_manual:20260713-attorneysandrepresentatives",
+      "sourceKey": "uscis_policy_manual",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "updated_information",
+      "severity": "major",
+      "title": "Policy alert: Attorneys and Representatives",
+      "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual regarding attorneys and representatives, consolidating and updating guidance that was previously contained in the Adjudicator’s Field Manual (AFM).",
+      "publishedAt": "2026-07-13",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260713-AttorneysAndRepresentatives.pdf",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "policy:uscis-pm-volume-1-part-d",
+          "relation": "amends",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM D.1; 1 USCIS-PM D.2; 1 USCIS-PM D.3; 1 USCIS-PM D.4; 1 USCIS-PM D.5 (General Policies and Procedures)."
+      ]
+    },
+    {
+      "id": "uscis_policy_manual:20260710-signaturerequirements",
+      "sourceKey": "uscis_policy_manual",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "updated_information",
+      "severity": "major",
+      "title": "Policy alert: Signature Requirements for the Submission of Benefit Requests",
+      "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to clarify the signature requirements that apply when submitting immigration benefit requests.",
+      "publishedAt": "2026-07-10",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260710-SignatureRequirements.pdf",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "policy:uscis-pm-volume-1-part-b",
+          "relation": "amends",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "policy:uscis-pm-volume-7-part-a",
+          "relation": "amends",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.2; 7 USCIS-PM A.3 (General Policies and Procedures; Adjustment of Status)."
+      ]
+    },
+    {
       "id": "uscis_newsroom:a50f0237-4ed6-416b-8f57-e85b0823de70",
       "sourceKey": "uscis_newsroom",
       "issuingAgencyId": "agency:uscis",
@@ -1178,6 +1303,61 @@
       "reviewStatus": "auto",
       "limitations": [
         "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_policy_manual:20260626-religiousworkersperiodofstay",
+      "sourceKey": "uscis_policy_manual",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "updated_information",
+      "severity": "major",
+      "title": "Policy alert: Improving Continuity for Religious Organizations and Their Employees",
+      "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to implement the regulatory change to the requirement on how long a nonimmigrant religious worker (R-1) must remain outside the United States after reaching the 5-year statutory maximum period of stay.",
+      "publishedAt": "2026-06-26",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260626-ReligiousWorkersPeriodOfStay.pdf",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "policy:uscis-pm-volume-2-part-o",
+          "relation": "amends",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM O.7 (Nonimmigrants)."
       ]
     },
     {
@@ -1474,6 +1654,61 @@
         "A presidential document directs the executive branch. How and when it reaches individual cases depends on the agency guidance that implements it, which is published separately.",
         "The Federal Register published no abstract for this document; read the original.",
         "Signed 2026-05-21 and published 2026-05-27. It may have taken effect on signing."
+      ]
+    },
+    {
+      "id": "uscis_policy_manual:20260508-deferredaction",
+      "sourceKey": "uscis_policy_manual",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "updated_information",
+      "severity": "major",
+      "title": "Policy alert: Deferred Action as an Extraordinary Use of Prosecutorial Discretion",
+      "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to reaffirm deferred action as an extraordinary use of prosecutorial discretion.",
+      "publishedAt": "2026-05-08",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260508-DeferredAction.pdf",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "policy:uscis-pm-volume-1",
+          "relation": "amends",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM I (General Policies and Procedures)."
       ]
     },
     {
