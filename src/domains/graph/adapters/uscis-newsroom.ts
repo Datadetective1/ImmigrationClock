@@ -43,6 +43,7 @@
 // argued with, rather than buried.
 // =============================================================================
 
+import { capEvents } from "../adapters";
 import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
 import type { EventClassification, EventEntityLink, EventSeverity, ImmigrationEvent } from "../events";
 import { entityId } from "../entities";
@@ -258,10 +259,11 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   if (excludedIrrelevant > 0) warnings.push(`${excludedIrrelevant} item(s) were not policy-relevant`);
   if (excludedUndated > 0) warnings.push(`${excludedUndated} item(s) had no parseable publication date`);
 
+  const capped = capEvents(keep, ctx.limit);
   return {
     adapterKey: "uscis-newsroom",
-    events: keep.slice(0, ctx.limit).map((i) => toEvent(i, verifiedAt)),
-    warnings,
+    events: capped.events.map((i) => toEvent(i, verifiedAt)),
+    warnings: [...warnings, ...capped.warnings],
     failed: false,
   };
 }

@@ -63,10 +63,27 @@ function groupByDay(events: typeof EVENTS) {
   return [...days.entries()].sort((a, b) => b[0].localeCompare(a[0]));
 }
 
+/**
+ * How many days of change the lead feed shows.
+ *
+ * Backfilling the archive to January 2025 took this page to 183 events across
+ * 110 days — about 128,000 pixels, or thirty-five screens. Everything in the
+ * store is real and none of it should be deleted, but a wall that long stops
+ * answering "what changed" and starts being a database dump.
+ *
+ * So the feed is bounded and SAYS it is bounded, with the total stated above it.
+ * Real filtering and search replace this in the next phase; until then a limit
+ * the reader can see beats an unusable page.
+ */
+const LEAD_FEED_DAYS = 30;
+
 export default function WhatChangedPage() {
   const significant = EVENTS.filter((e) => e.severity !== "routine");
   const routine = EVENTS.filter((e) => e.severity === "routine");
-  const days = groupByDay(significant);
+  const allDays = groupByDay(significant);
+  const days = allDays.slice(0, LEAD_FEED_DAYS);
+  const shownCount = days.reduce((n, [, evts]) => n + evts.length, 0);
+  const olderCount = significant.length - shownCount;
   const failed = failedAdapters();
 
   return (
@@ -131,6 +148,18 @@ export default function WhatChangedPage() {
             ))}
           </div>
         )}
+
+        {/* The feed is bounded, so it has to say so. An unexplained cut-off
+            reads as "this is everything", which would understate our own
+            coverage — the opposite of the usual failure, and still wrong. */}
+        {olderCount > 0 ? (
+          <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-slate-300">
+            Showing the most recent {days.length} days of change. The store holds{" "}
+            <span className="font-semibold text-white">{olderCount}</span> older recorded change
+            {olderCount === 1 ? "" : "s"} going back to {formatDate(EVENT_STORE_META.since)}, which are not
+            listed here yet — search and filtering are being built next.
+          </p>
+        ) : null}
 
         {/* Routine notices are real documents and stay visible. They are just
             not allowed to crowd out the answer to "what changed". */}

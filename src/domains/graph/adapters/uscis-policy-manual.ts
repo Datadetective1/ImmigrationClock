@@ -54,6 +54,7 @@
 // is not.
 // =============================================================================
 
+import { capEvents } from "../adapters";
 import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
 import type {
   EventClassification,
@@ -451,10 +452,11 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   const verifiedAt = new Date().toISOString().slice(0, 10);
   const inWindow = parsed.filter((u) => u.publishedAt! >= ctx.since);
 
+  const capped = capEvents(inWindow, ctx.limit);
   return {
     adapterKey: key,
-    events: inWindow.slice(0, ctx.limit).map((u) => toEvent(u, verifiedAt)),
-    warnings,
+    events: capped.events.map((u) => toEvent(u, verifiedAt)),
+    warnings: [...warnings, ...capped.warnings],
     failed: false,
   };
 }

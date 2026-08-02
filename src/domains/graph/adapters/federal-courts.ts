@@ -55,6 +55,7 @@
 // coverage string so the gap is visible rather than implied.
 // =============================================================================
 
+import { capEvents } from "../adapters";
 import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
 import type { EventEntityLink, EventSeverity, ImmigrationEvent } from "../events";
 import { entityId } from "../entities";
@@ -404,7 +405,13 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   if (excludedOther > 0) warnings.push(`${excludedOther} decision(s) were not precedential or had no government party`);
   if (excludedUndated > 0) warnings.push(`${excludedUndated} decision(s) had no filing date`);
 
-  return { adapterKey: key, events: kept.slice(0, ctx.limit), warnings, failed: false };
+  const capped = capEvents(kept, ctx.limit);
+  return {
+    adapterKey: key,
+    events: capped.events,
+    warnings: [...warnings, ...capped.warnings],
+    failed: false,
+  };
 }
 
 export const federalCourtsAdapter: SourceAdapter = {

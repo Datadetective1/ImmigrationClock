@@ -233,6 +233,29 @@ export const ADAPTERS: SourceAdapter[] = [
   },
 ];
 
+/**
+ * Apply the per-run cap, and SAY SO when it bites.
+ *
+ * Every adapter ends with `slice(0, ctx.limit)`, and every one of them used to
+ * do it silently. That is the worst kind of data loss: a backfill run over 2025
+ * had USCIS return exactly 100 events, which looks like a number and is
+ * actually a ceiling — the documents beyond it were dropped with nothing in the
+ * build output to say they existed.
+ *
+ * A cap is a legitimate guard against one source dominating a run. Hiding that
+ * it engaged is not.
+ */
+export function capEvents<T>(events: T[], limit: number): { events: T[]; warnings: string[] } {
+  if (events.length <= limit) return { events, warnings: [] };
+  return {
+    events: events.slice(0, limit),
+    warnings: [
+      `truncated to the per-run cap of ${limit} (had ${events.length}). ` +
+        "The newest are kept; re-run with a narrower window to pick up the rest.",
+    ],
+  };
+}
+
 export const ADAPTER_BY_KEY = new Map(ADAPTERS.map((a) => [a.key, a]));
 
 export function adaptersByStatus(status: AdapterStatus): SourceAdapter[] {

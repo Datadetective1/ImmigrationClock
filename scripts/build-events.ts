@@ -25,6 +25,7 @@
  *   npm run build:events            # incremental, last 90 days
  *   EVENTS_SINCE=2026-01-01 npm run build:events
  *   EVENTS_OFFLINE=1 npm run build:events   # validate the store without network
+ *   EVENTS_LIMIT=500 npm run build:events   # raise the per-adapter cap
  */
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
@@ -38,6 +39,7 @@ import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsro
 import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
 import { federalCourtsAdapter } from "../src/domains/graph/adapters/federal-courts";
 import { congressAdapter } from "../src/domains/graph/adapters/congress";
+import { cbpEncountersAdapter } from "../src/domains/graph/adapters/cbp-encounters";
 import { validateEvent, dedupeEvents, sortEvents, type ImmigrationEvent } from "../src/domains/graph/events";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.meta.url));
@@ -55,6 +57,7 @@ const IMPLEMENTATIONS = [
   uscisPolicyManualAdapter,
   federalCourtsAdapter,
   congressAdapter,
+  cbpEncountersAdapter,
 ];
 
 function attachImplementations() {
@@ -123,6 +126,11 @@ async function main() {
 
   const since = process.env.EVENTS_SINCE || daysAgo(90);
   const offline = process.env.EVENTS_OFFLINE === "1";
+  // Per-adapter cap, so one source cannot dominate a run. Raised from 100 after
+  // a backfill showed USCIS silently losing 12 documents to it — the cap now
+  // reports when it engages (see capEvents), and can be lifted for a deep
+  // backfill without editing code.
+  const limit = Number(process.env.EVENTS_LIMIT) || 250;
   const existing = await readExisting();
   console.log(`[build-events] ${existing.length} event(s) already in the store; fetching since ${since}`);
 
@@ -137,7 +145,7 @@ async function main() {
   let anySucceeded = false;
 
   for (const adapter of adapters) {
-    const result = await adapter.fetchEvents!({ since, limit: 100, offline });
+    const result = await adapter.fetchEvents!({ since, limit, offline });
 
     // Validate before anything reaches the store. A malformed event is dropped,
     // never published, and always reported.

@@ -44,6 +44,7 @@
 // conflating the two would make a real outage harder to see.
 // =============================================================================
 
+import { capEvents } from "../adapters";
 import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
 import type { EventEntityLink, EventSeverity, ImmigrationEvent } from "../events";
 import { entityId } from "../entities";
@@ -320,7 +321,13 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   }
   if (undated > 0) warnings.push(`${undated} bill(s) had no usable action date`);
 
-  return { adapterKey: key, events: events.slice(0, ctx.limit), warnings, failed: false };
+  const capped = capEvents(events, ctx.limit);
+  return {
+    adapterKey: key,
+    events: capped.events,
+    warnings: [...warnings, ...capped.warnings],
+    failed: false,
+  };
 }
 
 export const congressAdapter: SourceAdapter = {

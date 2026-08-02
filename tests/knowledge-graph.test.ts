@@ -22,6 +22,7 @@ import {
   runnableAdapters,
   adapterCoverageSummary,
   adaptersByStatus,
+  capEvents,
 } from "@/domains/graph/adapters";
 import { resolveEntityMentions, isPubliclyAssertable, PUBLIC_CONFIDENCE_FLOOR } from "@/domains/graph/resolve";
 import { __testing as FR } from "@/domains/graph/adapters/federal-register";
@@ -289,6 +290,27 @@ describe("adapter registry", () => {
     for (const a of runnableAdapters()) {
       expect(typeof a.fetchEvents).toBe("function");
     }
+  });
+
+  it("says so when the per-run cap truncates a source", () => {
+    // REGRESSION: every adapter ended with a silent slice(0, limit). A backfill
+    // over 2025 had USCIS return exactly 100 events — which looks like a number
+    // and was actually a ceiling. Twelve real documents were dropped with
+    // nothing in the build output to say they had existed.
+    const capped = capEvents([1, 2, 3, 4, 5], 3);
+    expect(capped.events).toEqual([1, 2, 3]);
+    expect(capped.warnings.join(" ")).toMatch(/truncated to the per-run cap of 3 \(had 5\)/);
+  });
+
+  it("stays silent when the cap does not engage", () => {
+    const untouched = capEvents([1, 2], 10);
+    expect(untouched.events).toEqual([1, 2]);
+    expect(untouched.warnings).toEqual([]);
+  });
+
+  it("reports the cap exactly at the boundary", () => {
+    expect(capEvents([1, 2, 3], 3).warnings).toEqual([]);
+    expect(capEvents([1, 2, 3, 4], 3).warnings).toHaveLength(1);
   });
 
   it("summarises coverage without implying completeness", () => {
