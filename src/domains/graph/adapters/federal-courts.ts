@@ -60,7 +60,7 @@ import type { EventEntityLink, EventSeverity, ImmigrationEvent } from "../events
 import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
-import { plainText } from "../text";
+import { plainText, containsAnyTerm } from "../text";
 
 const API = "https://www.courtlistener.com/api/rest/v4/search/";
 const UA = "ImmigrationClock/1.0 (+https://immigrationclock.com)";
@@ -136,19 +136,11 @@ const STATE_NAMES = [
 
 export type PartyKind = "government" | "organization" | "individual";
 
-/** Word-boundary match so "co." does not fire inside "Colorado". */
-function hasMarker(lower: string, markers: string[]): boolean {
-  return markers.some((m) => {
-    const esc = m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(`(^|[^a-z])${esc}([^a-z]|$)`, "i").test(lower);
-  });
-}
-
 export function classifyParty(raw: string): PartyKind {
   const lower = plainText(raw).toLowerCase().trim();
   if (!lower) return "individual";
-  if (hasMarker(lower, GOVERNMENT_MARKERS)) return "government";
-  if (hasMarker(lower, ORGANIZATION_MARKERS)) return "organization";
+  if (containsAnyTerm(lower, GOVERNMENT_MARKERS)) return "government";
+  if (containsAnyTerm(lower, ORGANIZATION_MARKERS)) return "organization";
   if (STATE_NAMES.includes(lower)) return "organization";
   // Presumed a person. This is the safe default: a misfiled organization costs
   // one case, a misfiled person publishes someone's immigration matter.

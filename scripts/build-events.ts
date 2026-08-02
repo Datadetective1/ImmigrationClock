@@ -37,6 +37,7 @@ import { executiveActionsAdapter } from "../src/domains/graph/adapters/executive
 import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsroom";
 import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
 import { federalCourtsAdapter } from "../src/domains/graph/adapters/federal-courts";
+import { congressAdapter } from "../src/domains/graph/adapters/congress";
 import { validateEvent, dedupeEvents, sortEvents, type ImmigrationEvent } from "../src/domains/graph/events";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.meta.url));
@@ -53,6 +54,7 @@ const IMPLEMENTATIONS = [
   uscisNewsroomAdapter,
   uscisPolicyManualAdapter,
   federalCourtsAdapter,
+  congressAdapter,
 ];
 
 function attachImplementations() {

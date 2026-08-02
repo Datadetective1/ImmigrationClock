@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-02T05:21:27.098Z",
+  "generatedAt": "2026-08-02T05:29:27.944Z",
   "since": "2026-05-04",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:21:23.008Z",
+      "lastRunAt": "2026-08-02T05:29:27.056Z",
       "ok": true,
       "eventCount": 14,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:21:23.123Z",
+      "lastRunAt": "2026-08-02T05:29:27.168Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:21:23.292Z",
+      "lastRunAt": "2026-08-02T05:29:27.337Z",
       "ok": true,
       "eventCount": 10,
       "warnings": [
@@ -39,7 +39,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:21:23.373Z",
+      "lastRunAt": "2026-08-02T05:29:27.424Z",
       "ok": true,
       "eventCount": 4,
       "warnings": []
@@ -48,11 +48,22 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:21:27.078Z",
+      "lastRunAt": "2026-08-02T05:29:27.931Z",
       "ok": true,
       "eventCount": 2,
       "warnings": [
         "18 decision(s) naming private individuals excluded by editorial policy (see adapter header)"
+      ]
+    },
+    {
+      "key": "congress",
+      "name": "Congress — bills and public laws",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T05:29:27.932Z",
+      "ok": true,
+      "eventCount": 0,
+      "warnings": [
+        "CONGRESS_API_KEY is not set, so Congress is not being ingested. Get a free key at https://api.congress.gov and set it in the environment. This is a configuration gap, not a source outage."
       ]
     }
   ],

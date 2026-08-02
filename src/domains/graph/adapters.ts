@@ -146,9 +146,9 @@ export const ADAPTERS: SourceAdapter[] = [
     key: "congress",
     name: "Congress — bills and public laws",
     sourceKey: "congress",
-    status: "planned",
+    status: "ready",
     coverage:
-      "Introduced, advanced, and enacted immigration legislation via the free Congress.gov API (key required). Most introduced bills never become law, so severity rules must not treat introduction as change.",
+      "Immigration bills that have moved past introduction: reported by committee, passed a chamber, or enacted, via the official Congress.gov API. Introduced and referred bills are excluded — roughly 2% of bills become law, so reporting introductions as change would be wrong nearly every time, and wrong in the direction that alarms readers. Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing."
   },
   {
     key: "warn",

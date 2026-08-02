@@ -12,6 +12,7 @@
 // =============================================================================
 import { describe, it, expect } from "vitest";
 import { parseFeed, parseFeedDate } from "@/domains/graph/rss";
+import { containsTerm, containsAnyTerm } from "@/domains/graph/text";
 
 const THIS_YEAR = new Date().getUTCFullYear();
 
@@ -205,5 +206,68 @@ describe("feed item parsing", () => {
     // One malformed feed must not take down an ingestion run.
     expect(parseFeed("")).toEqual([]);
     expect(parseFeed("<html><body>404 Not Found</body></html>")).toEqual([]);
+  });
+});
+
+// =============================================================================
+// WHOLE-TERM MATCHING
+//
+// This codebase shipped the same bug three times, in three adapters, each by
+// writing `haystack.includes(term)` against a keyword list. The cases below are
+// the three real failures, kept as the regression suite for the shared matcher
+// that replaced them.
+// =============================================================================
+describe("whole-term matching", () => {
+  it("does not match a term buried inside a longer word", () => {
+    // REAL BUG 1: "petition" matched "Procedures for Submission of Petitions
+    // for Rulemaking", so a DOJ Administrative Procedure Act notice was ranked
+    // major and led /what-changed.
+    expect(containsTerm("procedures for submission of petitions for rulemaking", "petition")).toBe(false);
+
+    // REAL BUG 2: "ice " matched "Post Office Naming Act".
+    expect(containsTerm("Post Office Naming Act", "ice")).toBe(false);
+
+    // REAL BUG 3: "co." would have matched inside "Colorado" when classifying a
+    // court party as an organization.
+    expect(containsTerm("Colorado", "co.")).toBe(false);
+  });
+
+  it("matches the same terms when they stand alone", () => {
+    expect(containsTerm("Immigrant Petition for Alien Workers", "petition")).toBe(true);
+    expect(containsTerm("ICE arrests rose", "ice")).toBe(true);
+    expect(containsTerm("Acme Co. v. Noem", "co.")).toBe(true);
+  });
+
+  it("matches terms that legitimately contain punctuation", () => {
+    // \b would break on these, which is why the boundary is non-alphanumeric.
+    expect(containsTerm("H-1B Integrity and Fairness Act", "h-1b")).toBe(true);
+    expect(containsTerm("United States v. Texas", "u.s.")).toBe(false);
+    expect(containsTerm("U.S. Citizenship and Immigration Services", "u.s.")).toBe(true);
+  });
+
+  it("matches multi-word terms", () => {
+    expect(containsTerm("Temporary Protected Status for Haiti", "temporary protected status")).toBe(true);
+    expect(containsTerm("Border Security Act", "border security")).toBe(true);
+  });
+
+  it("is case-insensitive at both ends", () => {
+    expect(containsTerm("ASYLUM PROCESSING ACT", "asylum")).toBe(true);
+    expect(containsTerm("asylum processing act", "ASYLUM")).toBe(true);
+  });
+
+  it("matches at the very start and very end of a string", () => {
+    expect(containsTerm("visa", "visa")).toBe(true);
+    expect(containsTerm("Diversity visa", "visa")).toBe(true);
+    expect(containsTerm("visa reform", "visa")).toBe(true);
+  });
+
+  it("returns false for an empty term rather than matching everything", () => {
+    expect(containsTerm("anything at all", "")).toBe(false);
+    expect(containsTerm("anything at all", "   ")).toBe(false);
+  });
+
+  it("checks a whole list in one call", () => {
+    expect(containsAnyTerm("Post Office Naming Act", ["ice", "visa", "asylum"])).toBe(false);
+    expect(containsAnyTerm("Asylum Processing Act", ["ice", "visa", "asylum"])).toBe(true);
   });
 });

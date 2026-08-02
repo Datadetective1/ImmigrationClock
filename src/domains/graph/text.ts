@@ -66,6 +66,38 @@ export function plainText(s: string): string {
   return collapse(decodeEntities(unwrapCdata(s)));
 }
 
+/**
+ * WHOLE-TERM MATCHING — the fix for a bug this codebase has now shipped three
+ * times, in three different adapters, each time by writing `haystack.includes()`
+ * against a keyword list:
+ *
+ *   "petition"  matched "Procedures for Submission of Petitions for Rulemaking",
+ *               so a DOJ Administrative Procedure Act notice was ranked major
+ *               and led /what-changed.
+ *   "co."       would have matched inside "Colorado" when classifying a court
+ *               party as an organization.
+ *   "ice "      matched "Post Office Naming Act", making a post-office bill an
+ *               immigration bill.
+ *
+ * A substring match on a short keyword is never safe against English. This does
+ * the boundary check once so no future adapter has to remember.
+ *
+ * Boundaries are non-alphanumeric rather than \b, because the terms themselves
+ * contain punctuation — "h-1b", "u.s.", "8 cfr" all have to match as written.
+ */
+export function containsTerm(haystack: string, term: string): boolean {
+  const t = term.trim().toLowerCase();
+  if (!t) return false;
+  const escaped = t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(haystack.toLowerCase());
+}
+
+/** True when any term matches as a whole term. */
+export function containsAnyTerm(haystack: string, terms: string[]): boolean {
+  const lower = haystack.toLowerCase();
+  return terms.some((t) => containsTerm(lower, t));
+}
+
 /** Rich fields: descriptions, summaries, page bodies. May carry markup. */
 export function richText(s: string): string {
   // Block-level tags become spaces rather than nothing, so "<p>a</p><p>b</p>"
