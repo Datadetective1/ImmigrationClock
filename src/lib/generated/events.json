@@ -1,0 +1,2282 @@
+{
+  "generatedAt": "2026-08-02T04:34:40.055Z",
+  "since": "2026-05-04",
+  "adapters": [
+    {
+      "key": "federal-register",
+      "name": "Federal Register",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T04:34:39.675Z",
+      "ok": true,
+      "eventCount": 15,
+      "warnings": [
+        "85 document(s) from tracked agencies were not immigration-related"
+      ]
+    },
+    {
+      "key": "executive-actions",
+      "name": "Executive Orders & Presidential Proclamations",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T04:34:39.835Z",
+      "ok": true,
+      "eventCount": 1,
+      "warnings": [
+        "63 presidential document(s) were not immigration-related"
+      ]
+    },
+    {
+      "key": "uscis-newsroom",
+      "name": "USCIS newsroom & policy alerts",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T04:34:40.045Z",
+      "ok": true,
+      "eventCount": 10,
+      "warnings": [
+        "11 individual criminal-case press release(s) excluded by editorial policy (see adapter header)"
+      ]
+    }
+  ],
+  "counts": {
+    "total": 41,
+    "bySeverity": {
+      "major": 15,
+      "routine": 12,
+      "notable": 14
+    },
+    "byClassification": {
+      "final_rule": 3,
+      "announcement": 26,
+      "proposed_rule": 2,
+      "court_decision": 2,
+      "deadline": 5,
+      "executive_action": 2,
+      "updated_information": 1
+    }
+  },
+  "events": [
+    {
+      "id": "federal_register:2026-15726",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dos",
+      "classification": "final_rule",
+      "severity": "major",
+      "title": "Visas: Visa Bond Program",
+      "summary": "This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond (\"visa bond\") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.",
+      "publishedAt": "2026-08-03",
+      "scheduled": true,
+      "effectiveAt": "2026-08-03",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15726?publication_date=2026-08-03",
+      "entities": [
+        {
+          "entityId": "agency:dos",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "visa:b-1-b-2",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:b-1-b-2",
+            "basis": "stated",
+            "evidence": "An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond (\"visa bond\") to ensure that the alien maintains his or her nonimmigrant status and departs as required.",
+            "confidence": 1
+          }
+        ],
+        "agencies": [
+          {
+            "entityId": "agency:dos",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "partial",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond (\"visa bond\") to ensure that the alien maintains his or her nonimmigrant status and departs as required.",
+          "effectiveFrom": "2026-08-03"
+        },
+        "scopeDefinedElsewhere": {
+          "evidence": "quired from certain business/pleasure (B-1/B-2) visa applicants who are nationals of countries with high overstay rates, deficient information sharing, insufficient identity verification and criminal records, and that need improvement in the area of screening and vetting and the security of travel…",
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+        }
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "Currently on public inspection and scheduled to publish on 2026-08-03. The text can still change before then."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15673",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate Updates for Non-Range Occupations",
+      "summary": "The Employment and Training Administration (ETA) of the Department of Labor (DOL) is issuing this notice to announce updates to the Adverse Effect Wage Rates (AEWR) for the employment of temporary or seasonal nonimmigrant foreign workers (H-2A workers) to perform agricultural labor or services in non-range occupations. AEWRs are the minimum wage rates that must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment to ensure that the wages and working conditions of workers in the United States similarly employed are not adversely affected.",
+      "publishedAt": "2026-08-03",
+      "scheduled": true,
+      "effectiveAt": "2026-08-03",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15673/labor-certification-process-for-the-temporary-employment-of-foreign-workers-in-agriculture-in-the",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15673?publication_date=2026-08-03",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        },
+        {
+          "entityId": "visa:h-2a",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "AEWRs are the minimum wage rates that must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment to ensure that the wages and working conditions of workers in the United States similarly employed are not adversely affected.",
+          "effectiveFrom": "2026-08-03"
+        },
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "Currently on public inspection and scheduled to publish on 2026-08-03. The text can still change before then."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15620",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Amendment to Exemption for Certain Prohibited Transactions Involving AT&T Inc. (Together With AT&T Inc.'s Affiliates, AT&T or the Applicant) Located in Dallas, Texas",
+      "summary": "Prohibited Transaction Exemption (PTE) 2014-06 provided an exemption for AT&T to contribute approximately $9.21 billion of employer securities (the Preferred Interests) and other assets to the AT&T Pension Benefit Plan (the Plan). This notice amends PTE 2014-06 to permit certain modifications (the Modifications) that were made with respect to the terms and provisions governing the Plan's holding and disposition of the Preferred Interests. Absent this amendment to PTE 2014-06 (Exemption Amendment), the Modifications would have resulted in violations of the prohibited transaction provisions of the Employee Retirement Income Security Act of 1974 (ERISA) and/or the Internal Revenue Code of 1986 (the Code).",
+      "publishedAt": "2026-08-03",
+      "scheduled": true,
+      "effectiveAt": "2013-09-09",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15620/amendment-to-exemption-for-certain-prohibited-transactions-involving-atandt-inc-together-with-atandt",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15620?publication_date=2026-08-03",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "Currently on public inspection and scheduled to publish on 2026-08-03. The text can still change before then."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15610",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Extension; Free Trade Agreements (FTAs)",
+      "summary": "The Department of Homeland Security, U.S. Customs and Border Protection (CBP) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). The information collection is published in the Federal Register to obtain comments from the public and affected agencies.",
+      "publishedAt": "2026-08-03",
+      "scheduled": true,
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15610/agency-information-collection-activities-extension-free-trade-agreements-ftas",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15610?publication_date=2026-08-03",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:cbp",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:border",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:cbp",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "Currently on public inspection and scheduled to publish on 2026-08-03. The text can still change before then."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15609",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Revision; Cargo Manifest/Declaration, Stow Plan, Container Status Messages and Importer Security Filing",
+      "summary": "The Department of Homeland Security, U.S. Customs and Border Protection (CBP) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). The information collection is published in the Federal Register to obtain comments from the public and affected agencies.",
+      "publishedAt": "2026-08-03",
+      "scheduled": true,
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15609/agency-information-collection-activities-revision-cargo-manifestdeclaration-stow-plan-container",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15609?publication_date=2026-08-03",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:cbp",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:border",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:cbp",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "Currently on public inspection and scheduled to publish on 2026-08-03. The text can still change before then."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15530",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Customs User Fees To Be Adjusted for Inflation in Fiscal Year 2027",
+      "summary": "This document announces that U.S. Customs and Border Protection (CBP) is adjusting certain customs user fees and corresponding limitations established by the Consolidated Omnibus Budget Reconciliation Act (COBRA) for Fiscal Year 2027 in accordance with the Fixing America's Surface Transportation Act (FAST Act) as implemented by the CBP regulations.",
+      "publishedAt": "2026-07-31",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/31/2026-15530/customs-user-fees-to-be-adjusted-for-inflation-in-fiscal-year-2027",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15530?publication_date=2026-07-31",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:cbp",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:border",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:cbp",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-15434",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:doj",
+      "classification": "final_rule",
+      "severity": "major",
+      "title": "Procedures for Submission and Consideration of Petitions for Rulemaking",
+      "summary": "Pursuant to the Administrative Procedure Act, the Department of Justice (\"the Department\") is adopting a process for considering petitions submitted by interested persons requesting that the Department issue, amend, or repeal a rule.",
+      "publishedAt": "2026-07-30",
+      "effectiveAt": "2026-07-31",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15434/procedures-for-submission-and-consideration-of-petitions-for-rulemaking",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15434?publication_date=2026-07-30",
+      "entities": [
+        {
+          "entityId": "agency:doj",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:doj",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "If you wish to provide comments regarding this rulemaking, you must submit comments, identified by the agency name and referencing this rule's Regulatory Identification Number (``RIN'') ``1105-AB84'', by one of the two methods below: <bullet> Federal eRulemaking Portal: <a href=\"https://www.regulations.gov\">https://www.regulations.gov</a>.",
+          "effectiveFrom": "2026-07-31"
+        },
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-15458",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:doj",
+      "classification": "proposed_rule",
+      "severity": "notable",
+      "title": "Civil Money Penalty for Actions in Contempt of an Immigration Judge's Proper Exercise of Authority",
+      "summary": "This notice of proposed rulemaking (\"NPRM\") would implement a provision of the Immigration and Nationality Act (\"INA\" or \"the Act\") that authorizes Immigration Judges, under regulations prescribed by the Attorney General, to sanction by civil money penalty any action (or inaction) in contempt of the proper exercise of their authority by certain individuals. The rule would: define the scope of the contempt authority; provide procedures for contempt findings, penalty determinations, and penalty payment; establish an appellate process; and implement oversight of the use of contempt authority. The rule would also make conforming changes to the grounds for practitioner discipline.",
+      "publishedAt": "2026-07-30",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15458/civil-money-penalty-for-actions-in-contempt-of-an-immigration-judges-proper-exercise-of-authority",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15458?publication_date=2026-07-30",
+      "entities": [
+        {
+          "entityId": "agency:doj",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:eoir",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:doj",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:eoir",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "Electronic comments must be submitted on or before September 28, 2026.",
+          "effectiveFrom": null
+        },
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "This is a PROPOSED rule. It is not in force, may change before finalisation, and may never be finalised."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15450",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dos",
+      "classification": "proposed_rule",
+      "severity": "notable",
+      "title": "Exchange Visitor Program-Termination of Program Participation, Extension of Program and Reinstatement to Valid Program Status",
+      "summary": "The Department of State's (Department's) Bureau of Educational and Cultural Affairs administers the Exchange Visitor Program, as set forth at 22 CFR part 62, wherein exchange visitors on educational and cultural exchange programs travel to the United States in the J visa category. The Department tracks the status and geographic location of exchange visitors through the Student and Exchange Visitor Information System (SEVIS), a database administered by the Department of Homeland Security. This Notice of Proposed Rulemaking (Proposed Rule) seeks to clarify the conditions under which a sponsor must terminate an exchange visitor's program and authorizes the Department, in its discretion, to terminate an exchange visitor's program in limited circumstances; modifies Extension of Program and Reinstatement to valid program status in their entirety by eliminating outdated requirements and introducing updated procedures that make use of current SEVIS functionality; amends Definitions to include definitions for \"Unauthorized Employment\" and \"Valid Program Status\"; and rescinds the separate extension of program provision for au pairs.",
+      "publishedAt": "2026-07-30",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15450/exchange-visitor-program-termination-of-program-participation-extension-of-program-and-reinstatement",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15450?publication_date=2026-07-30",
+      "entities": [
+        {
+          "entityId": "agency:dos",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:international-students",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "visa:j-1",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dos",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "However, consistent with existing regulations, if exchange visitors are seeking to extend beyond the permitted maximum duration, sponsors must obtain Department approval.",
+          "effectiveFrom": null
+        },
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "This is a PROPOSED rule. It is not in force, may change before finalisation, and may never be finalised."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15424",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Attestation for Employers Seeking To Employ H-2B Nonimmigrant Workers Under Section 105 of Division G, Title I of the Further Consolidated Appropriations Act, 2024, Public Law 118-47, as Extended by Public Law 119-37",
+      "summary": "The Department of Labor (DOL) is submitting this Employment and Training Administration (ETA)-sponsored information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). Public comments on the ICR are invited.",
+      "publishedAt": "2026-07-30",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15424/agency-information-collection-activities-submission-for-omb-review-comment-request-attestation-for",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15424?publication_date=2026-07-30",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        },
+        {
+          "entityId": "visa:h-2b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-15310",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Air Declaration Zone Test: Extension",
+      "summary": "This notice announces that U.S. Customs and Border Protection (CBP) is extending the Air Declaration Zone Test for an additional two years. Current CBP regulations require each traveler to provide a CBP officer with an oral or written declaration of all articles brought into the United States. The Air Declaration Zone Test streamlines the processing of travelers who enter the United States at air ports of entry by allowing a demonstrative initial declaration to separate travelers who do not have items to declare from those who have items to declare and, in some cases, replace the provision of oral or written declarations.",
+      "publishedAt": "2026-07-29",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/29/2026-15310/air-declaration-zone-test-extension",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15310?publication_date=2026-07-29",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:cbp",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:border",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:cbp",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-15268",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dos",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "30-Day Notice of Proposed Information Collection: Petition To Classify Special Immigrant Under INA 203(b)(4) as an Employee or Former Employee of the U.S. Government Abroad, or the Surviving Spouse or Child of an Employee of the U.S. Government Abroad",
+      "summary": "The Department of State has submitted the information collection described below to the Office of Management and Budget (OMB) for approval. In accordance with the Paperwork Reduction Act of 1995, we are requesting comments on this collection from all interested individuals and organizations. The purpose of this Notice is to allow 30 days for public comment.",
+      "publishedAt": "2026-07-29",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/29/2026-15268/30-day-notice-of-proposed-information-collection-petition-to-classify-special-immigrant-under-ina",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15268?publication_date=2026-07-29",
+      "entities": [
+        {
+          "entityId": "agency:dos",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dos",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-15190",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "final_rule",
+      "severity": "major",
+      "title": "Affirmative Asylum Referrals Without Interview",
+      "summary": "The Department of Homeland Security (DHS) is amending its regulations to permit U.S. Citizenship and Immigration Services (USCIS) to refer certain affirmative asylum applications to the Department of Justice (DOJ) Executive Office for Immigration Review (EOIR) without interview. USCIS still offers an interview prior to a grant or denial of asylum. DHS is also removing the requirement that a letter communicating the basis for referral of asylum include an assessment of the alien's credibility.",
+      "publishedAt": "2026-07-28",
+      "effectiveAt": "2026-07-28",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/28/2026-15190/affirmative-asylum-referrals-without-interview",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15190?publication_date=2026-07-28",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "agency:eoir",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "visa:asylum",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        },
+        {
+          "entityId": "agency:doj",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "Aliens Ineligible To Apply for Asylum E.",
+            "confidence": 1
+          }
+        ],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "partial",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "Written comments on this interim final rule must be submitted on or before September 28, 2026.",
+          "effectiveFrom": "2026-07-28"
+        }
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "uscis_newsroom:6cb32b1f-d5c7-4442-8669-dcc45acc03b1",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "USCIS Announces Rule Change to Asylum System to Reduce Backlog",
+      "summary": "The United States Department of Homeland Security (DHS) released the following statement after U.S. Citizenship and Immigration Services (USCIS) announced a rule change designed to reduce the backlog in the asylum system.",
+      "publishedAt": "2026-07-27",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-announces-rule-change-to-asylum-system-to-reduce-backlog",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "federal_register:2026-15096",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Determination Pursuant to Section 102 of the Illegal Immigration Reform and Immigrant Responsibility Act of 1996, as Amended",
+      "summary": "The Secretary of Homeland Security has determined, pursuant to law, that it is necessary to waive certain laws, regulations, and other legal requirements in order to ensure the expeditious construction of barriers and roads in the vicinity of the international land border in the state of Texas.",
+      "publishedAt": "2026-07-27",
+      "effectiveAt": "2026-07-27",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/27/2026-15096/determination-pursuant-to-section-102-of-the-illegal-immigration-reform-and-immigrant-responsibility",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15096?publication_date=2026-07-27",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:border",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-14965",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: Request for Fee Waiver",
+      "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
+      "publishedAt": "2026-07-24",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/24/2026-14965/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14965?publication_date=2026-07-24",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "uscis_newsroom:8f630370-2ec1-4315-b0d4-10c635c66e2f",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "court_decision",
+      "severity": "major",
+      "title": "Court Issues Administrative Stay of Certain USCIS Policies",
+      "summary": "On July 21, 2026, the U.S. District Court for the District of Massachusetts issued an order in Venez. Ass’n of Mass., et al. v. United States Citizenship and Immigr. Servs., et al., 26-cv-13038-NMG (D. Mass.), granting, in part, plaintiffs’ emergency motion for an administrative stay of certain USCIS policies based on H.R. 1, the Reconciliation Act of 2025—known as the One Big Beautiful Bill Act.",
+      "publishedAt": "2026-07-23",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/court-issues-administrative-stay-of-certain-uscis-policies",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:8d0937a2-6564-412c-8b12-7db83e9fbb39",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "deadline",
+      "severity": "major",
+      "title": "USCIS Reaches Fiscal Year 2027 H-1B Cap",
+      "summary": "U.S. Citizenship and Immigration Services has received enough petitions to reach the congressionally mandated 65,000 H-1B visa regular cap and the 20,000 H-1B visa U.S. advanced degree exemption, known as the master’s cap, for fiscal year 2027.",
+      "publishedAt": "2026-07-17",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-reaches-fiscal-year-2027-h-1b-cap",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:h-1b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:b5acd7dc-27e8-425a-b07f-475232781dcc",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "US Citizenship and Immigration Services Rescinds 2022 Public Charge Regulation",
+      "summary": "The Department of Homeland Security (DHS) has issued a final rule rescinding the 2022 Biden-era regulation regarding public charge determinations, further aligning immigration law with Congressional intent that aliens in the United States be self-reliant and not dependent on taxpayer-funded government benefits.",
+      "publishedAt": "2026-07-16",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/us-citizenship-and-immigration-services-rescinds-2022-public-charge-regulation",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:a50f0237-4ed6-416b-8f57-e85b0823de70",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "USCIS Opens Asylum Office in Atlanta",
+      "summary": "U.S. Citizenship and Immigration Services (USCIS) is opening an asylum office in Atlanta. Beginning July 8, 2026, the Atlanta Asylum Office will conduct interviews for affirmative asylum applicants at three locations.",
+      "publishedAt": "2026-07-01",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-opens-asylum-office-in-atlanta",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:asylum",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:a6faaa5a-5fe0-4b88-9ea4-32e8b88e4b53",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "Important Notice for Clients of Former Immigration Attorney Alexandra Lozano",
+      "summary": "On May 26, 2026, Alexandra Lozano resigned from the State Bar of Washington in lieu of discipline and is permanently barred from practicing law in Washington.",
+      "publishedAt": "2026-06-26",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/important-notice-for-clients-of-former-immigration-attorney-alexandra-lozano",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:7aff7d4a-ff4c-4f02-bc99-8e07f66327de",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "court_decision",
+      "severity": "major",
+      "title": "Court Order on Hold Policies",
+      "summary": "On June 5, 2026, the U.S. District Court for the District of Rhode Island issued an order in Dorcas International Institute of Rhode Island, et al. v. United States Citizenship and Immigration Services, et al., 26-cv-00132-JJM-PAS (D.RI.), vacating PM 602-0192, PM 602-0194, and PA 2025-26.",
+      "publishedAt": "2026-06-12",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/court-order-on-hold-policies",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:773065fc-36ba-4a14-aa77-0e84807699c7",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "USCIS Opens Asylum Office in San Antonio",
+      "summary": "U.S. Citizenship and Immigration Services opened an additional asylum office location in San Antonio, Texas. Beginning May 28, 2026, aliens who filed for asylum with USCIS who reside in the jurisdiction of the Houston Asylum Office may be interviewed at either the Houston Asylum Office or the San Antonio Asylum Office.",
+      "publishedAt": "2026-06-05",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-opens-asylum-office-in-san-antonio",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "Beginning May 28, 2026, aliens who filed for asylum with USCIS who reside in the jurisdiction of the Houston Asylum Office may be interviewed at either the Houston Asylum Office or the San Antonio Asylum Office.",
+            "confidence": 1
+          }
+        ],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "partial"
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:b0466551-54fd-4a1c-840c-537c1c2a36cd",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "major",
+      "title": "DHS Automatically Extends Temporary Protected Status for Lebanon",
+      "summary": "The Department of Homeland Security posted a Federal Register notice on the six-month automatic extension of Temporary Protected Status (TPS) for Lebanon, from May 28, 2026, through Nov. 27, 2026. Under the TPS statute, if the secretary of homeland security does not decide whether a country still qualifies for TPS at least 60 days before the country’s TPS designation expires, its TPS designation is automatically extended for six months.",
+      "publishedAt": "2026-05-28",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/dhs-automatically-extends-temporary-protected-status-for-lebanon",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "visa:tps",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:c8430a92-8de1-462b-a945-782e6056ae02",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "U.S. Citizenship and Immigration Services Will Grant ‘Adjustment of Status’ Only in Extraordinary Circumstances",
+      "summary": "U.S. Citizenship and Immigration Services today announced a new policy memo reiterating the fact that, consistent with long-standing immigration law and immigration court decisions, aliens seeking adjustment of status must do so through consular processing via the Department of State outside of the country.",
+      "publishedAt": "2026-05-22",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/us-citizenship-and-immigration-services-will-grant-adjustment-of-status-only-in-extraordinary",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "federal_register:2026-10598",
+      "sourceKey": "federal_register",
+      "classification": "executive_action",
+      "severity": "notable",
+      "title": "Determination: Emergency Presidential Determination on Refugee Admissions for Fiscal Year 2026",
+      "summary": "No abstract was published with this document.",
+      "publishedAt": "2026-05-21",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-10598?publication_date=2026-05-27",
+      "entities": [
+        {
+          "entityId": "executive_action:presidential-document-2026-10598",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "This document does not state in structured terms who is affected. Read the original for scope."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A presidential document directs the executive branch. How and when it reaches individual cases depends on the agency guidance that implements it, which is published separately.",
+        "The Federal Register published no abstract for this document; read the original.",
+        "Signed 2026-05-21 and published 2026-05-27. It may have taken effect on signing."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:0287d2b3-14d8-41de-af72-3c449ceb0489",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "deadline",
+      "severity": "major",
+      "title": "Cap Reached for Second Allocation of Returning Worker H-2B Visas for Fiscal Year 2026",
+      "summary": "U.S. Citizenship and Immigration Services received enough petitions to reach the cap for the additional 27,736 H-2B visas made available for the second allocation of returning workers for fiscal year 2026 with start dates from April 1 to April 30, 2026, under the H-2B supplemental cap temporary final rule (fiscal year 2026 TFR).",
+      "publishedAt": "2026-04-29",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/cap-reached-for-second-allocation-of-returning-worker-h-2b-visas-for-fiscal-year-2026",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:h-2b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:8a3df02f-11cf-4587-8297-799444d999d1",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "DHS Announces Consequences for Unpaid Annual Asylum Fees, Unveils New H.R. 1 Requirements",
+      "summary": "The Department of Homeland Security (DHS) is announcing an interim final rule to implement immigration fees and requirements from the H.R. 1 Reconciliation Act of 2025 (One Big Beautiful Bill Act).",
+      "publishedAt": "2026-04-28",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/dhs-announces-consequences-for-unpaid-annual-asylum-fees-unveils-new-hr-1-requirements",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "federal_register:2026-06601",
+      "sourceKey": "federal_register",
+      "classification": "executive_action",
+      "severity": "major",
+      "title": "Executive Order 14399: Ensuring Citizenship Verification and Integrity in Federal Elections",
+      "summary": "No abstract was published with this document.",
+      "publishedAt": "2026-03-31",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/04/03/2026-06601/ensuring-citizenship-verification-and-integrity-in-federal-elections",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-06601?publication_date=2026-04-03",
+      "entities": [
+        {
+          "entityId": "executive_action:executive-order-14399",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "actionRequired": {
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "evidence": "(i) Proposed provisions specifying that all outbound ballot mail must be mailed in an envelope that:",
+          "effectiveFrom": null
+        },
+        "undetermined": "This document does not state in structured terms who is affected. Read the original for scope."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A presidential document directs the executive branch. How and when it reaches individual cases depends on the agency guidance that implements it, which is published separately.",
+        "The Federal Register published no abstract for this document; read the original.",
+        "Signed 2026-03-31 and published 2026-04-03. It may have taken effect on signing."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:3f480495-b1a7-4ef9-b61a-f604d3d0923c",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "FY 2027 H-1B Initial Registration Selection Process Completed",
+      "summary": "U.S. Citizenship and Immigration Services has received enough electronic registrations for unique beneficiaries during the initial registration period to reach the fiscal year 2027 H-1B numerical allocations (known as the H-1B cap), including the advanced degree exemption (master’s cap).",
+      "publishedAt": "2026-03-31",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/fy-2027-h-1b-initial-registration-selection-process-completed",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:h-1b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:3f600150-14ec-435f-9a96-ea4e52949fac",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "updated_information",
+      "severity": "notable",
+      "title": "Update on USCIS’ Strengthened Screening and Vetting",
+      "summary": "Since taking office, President Trump has prioritized national security and public safety by implementing a series of executive orders and proclamations that mandate strict screening and vetting of foreign nationals seeking entry or immigration benefits.",
+      "publishedAt": "2026-03-30",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/update-on-uscis-strengthened-screening-and-vetting",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:a3bc7691-0146-4d4d-876b-c9e89c8ff3f5",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "deadline",
+      "severity": "major",
+      "title": "USCIS Reaches H-2B Cap for Second Half of FY 2026 and Filing Dates Now Available for Supplemental Visa Allocations",
+      "summary": "U.S. Citizenship and Immigration Services has received enough petitions to meet the H-2B statutory cap for the second half of fiscal year 2026.",
+      "publishedAt": "2026-03-20",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-reaches-h-2b-cap-for-second-half-of-fy-2026-and-filing-dates-now-available-for-supplemental",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:h-2b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:2adfd095-0521-4f7b-8540-a0db750868ba",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "major",
+      "title": "DHS Terminates Temporary Protected Status for Yemen",
+      "summary": "The Department of Homeland Security has posted a Federal Register notice regarding the termination of Temporary Protected Status (TPS) for Yemen.",
+      "publishedAt": "2026-03-02",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/dhs-terminates-temporary-protected-status-for-yemen-0",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "visa:tps",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:34eedf25-37a7-460f-9f51-b82662038a50",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "DHS Proposes Rule to Prioritize Americans' Safety by Strengthening Screening of Asylum Seekers",
+      "summary": "The Department of Homeland Security (DHS) is proposing a rule to reduce the incentive for aliens to file fraudulent asylum claims so they can obtain work authorizations.",
+      "publishedAt": "2026-02-20",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/dhs-proposes-rule-to-prioritize-americans-safety-by-strengthening-screening-of-asylum-seekers",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:7af4ec07-4eb6-4217-abce-186ab658312c",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "deadline",
+      "severity": "major",
+      "title": "Cap Reached for First Allocation of Returning Worker H-2B Visas FY 2026",
+      "summary": "U.S. Citizenship and Immigration Services received enough petitions to reach the cap for the additional 18,490 H-2B visas made available for the first allocation of returning workers of fiscal year 2026 with start dates from Jan. 1 to March 31, 2026, under the H-2B supplemental cap temporary final rule (FY 2026 TFR).",
+      "publishedAt": "2026-02-13",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/cap-reached-for-first-allocation-of-returning-worker-h-2b-visas-fy-2026",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:h-2b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:8e202430-cabf-420f-8b7c-804e3b8f10ad",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "major",
+      "title": "DHS Terminates Temporary Protected Status for Yemen",
+      "summary": "Secretary of Homeland Security Kristi Noem today announced the termination of Temporary Protected Status for Yemen. The termination is effective 60 days after the notice is published in the Federal Register.",
+      "publishedAt": "2026-02-13",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/dhs-terminates-temporary-protected-status-for-yemen",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:tps",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:023fcea4-8e08-4512-b5c4-33033db19e0f",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "deadline",
+      "severity": "major",
+      "title": "FY 2027 H-1B Cap Initial Registration Period Opens on March 4",
+      "summary": "U.S. Citizenship and Immigration Services announced that the initial registration period for the fiscal year (FY) 2027 H-1B cap will open at noon Eastern on March 4 and run through noon Eastern on March 19, 2026.",
+      "publishedAt": "2026-01-30",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/fy-2027-h-1b-cap-initial-registration-period-opens-on-march-4",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:h-1b",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:a112ac0b-93b6-49a7-a0f0-8ed837b5e1d3",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "DHS Reduces Wait Times for Thousands of Religious Workers Abroad",
+      "summary": "The U.S. Department of Homeland Security has issued an interim final rule to religious organizations and their communities allowing thousands of religious workers—including priests, nuns, and rabbis—that previously were required to remain outside the United States before returning, to resume their essential services.",
+      "publishedAt": "2026-01-14",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/dhs-reduces-wait-times-for-thousands-of-religious-workers-abroad",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:5a8ffeb6-42e1-42d1-ae44-b342022cb549",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "major",
+      "title": "Homeland Security Terminates Somalia’s Temporary Protected Status Designation",
+      "summary": "Today, the United States Secretary of Homeland Security Kristi Noem announced the termination of Somalia’s designation for Temporary Protected Status (TPS). The termination will be effective on March 17, 2026.",
+      "publishedAt": "2026-01-13",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/homeland-security-terminates-somalias-temporary-protected-status-designation",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "visa:tps",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:0bc3dcbe-9e89-4c81-bc25-0d2c149e2c9d",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "USCIS to Increase Premium Processing Fees",
+      "summary": "The Department of Homeland Security (DHS) is publishing a final rule that will increase USCIS fees for premium processing to reflect the amount of inflation from June 2023 through June 2025.",
+      "publishedAt": "2026-01-09",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-to-increase-premium-processing-fees",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:091e0a08-7163-442f-ae1c-087ede3c3356",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "DHS Launches Landmark USCIS Fraud Investigation in Minnesota",
+      "summary": "The Department of Homeland Security and U.S. Citizenship and Immigration Services have launched Operation PARRIS in Minnesota, a sweeping initiative reexamining thousands of refugee cases through new background checks and intensive verification of refugee claims.",
+      "publishedAt": "2026-01-09",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/dhs-launches-landmark-uscis-fraud-investigation-in-minnesota",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    }
+  ]
+}
