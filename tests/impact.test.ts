@@ -294,3 +294,132 @@ describe("event store", () => {
     }
   });
 });
+
+// =============================================================================
+// EVIDENCE INTEGRITY
+//
+// A quote is the platform's entire basis for saying a document affects someone.
+// These three failures all shipped into the committed store and were only
+// caught when /what-changed rendered them — a quote that is truncated, contains
+// markup, or is about the wrong thing is worse than no quote, because it wears
+// the authority of the source while misrepresenting it.
+// =============================================================================
+describe("evidence integrity", () => {
+  it("never cuts an evidence quote mid-word", () => {
+    // REGRESSION: long passages were chunked with a fixed-width slice, so the
+    // Visa Bond rule's evidence began "quired from certain business/pleasure
+    // (B-1/B-2) visa applicants…" — presented as verbatim text the source never
+    // wrote.
+    const long =
+      "The Secretary has determined that a visa bond may be required from certain business or pleasure applicants " +
+      "who are nationals of countries with high overstay rates, deficient information sharing, insufficient identity " +
+      "verification and criminal records, and that need improvement in the area of screening and vetting and the " +
+      "security of travel documents issued to their nationals by their governments as determined by the Secretary.";
+    const impact = extractImpact({ title: "Visas: Visa Bond Program", abstract: long, agencyIds: [] });
+
+    for (const e of allImpacted(impact)) {
+      if (!e.evidence) continue;
+      // Strip the ellipses the windowing function legitimately adds, then check
+      // the remaining edges fall on whole words.
+      const inner = e.evidence.replace(/^…/, "").replace(/…$/, "").trim();
+      expect(long.includes(inner.split(" ").slice(1, -1).join(" ")), `mangled quote: ${e.evidence}`).toBe(
+        true
+      );
+    }
+  });
+
+  it("strips markup out of evidence quotes", () => {
+    // REGRESSION: Federal Register raw text carries "<bullet>" and inline
+    // anchors, which leaked verbatim into a quoted passage.
+    const withMarkup =
+      "Nationals of the following countries are required to post a bond: " +
+      '<bullet> Country A. <a href="https://www.regulations.gov">https://www.regulations.gov</a>. ' +
+      "The requirement applies to B-1/B-2 applicants.";
+    const impact = extractImpact({ title: "Bond rule", abstract: withMarkup, agencyIds: [] });
+
+    const quotes = [
+      ...allImpacted(impact).map((e) => e.evidence ?? ""),
+      impact.actionRequired?.evidence ?? "",
+      impact.scopeDefinedElsewhere?.evidence ?? "",
+    ].filter(Boolean);
+
+    expect(quotes.length).toBeGreaterThan(0);
+    for (const q of quotes) {
+      expect(q, `markup leaked into a quote: ${q}`).not.toMatch(/<[^>]+>/);
+      expect(q).not.toMatch(/&lt;|&gt;|&amp;/);
+    }
+  });
+
+  it("does not present comment-submission instructions as an obligation", () => {
+    // REGRESSION: a DOJ rulemaking-procedure notice rendered under "what the
+    // document says may be required" with the text "you must submit comments,
+    // identified by the agency name and referencing this rule's RIN" — which is
+    // addressed to commenters, not to immigrants, and reads as alarming.
+    const boilerplate =
+      "If you wish to provide comments regarding this rulemaking, you must submit comments, identified by the " +
+      "agency name and referencing this rule's Regulatory Identification Number, by one of the two methods below: " +
+      "Federal eRulemaking Portal: https://www.regulations.gov.";
+    const impact = extractImpact({
+      title: "Procedures for Submission and Consideration of Petitions for Rulemaking",
+      abstract: boilerplate,
+      agencyIds: [],
+    });
+    expect(impact.actionRequired).toBeUndefined();
+  });
+
+  it("still finds a genuine operative requirement", () => {
+    // The boilerplate filter must not suppress real obligations.
+    const real =
+      "An alien applying for a visa as a temporary visitor for business or pleasure may be required to submit a " +
+      "bond to ensure that the alien maintains his or her nonimmigrant status and departs as required.";
+    const impact = extractImpact({ title: "Visa Bond Program", abstract: real, agencyIds: [] });
+    expect(impact.actionRequired).toBeDefined();
+    expect(impact.actionRequired!.evidence).toMatch(/may be required to submit a bond/);
+  });
+
+  it("finds the real requirement even when boilerplate comes first", () => {
+    const mixed =
+      "Comments must be received by August 1. You must submit comments identified by the docket number. " +
+      "Covered applicants are required to post a bond of up to $20,000 before a visa is issued.";
+    const impact = extractImpact({ title: "Bond rule", abstract: mixed, agencyIds: [] });
+    expect(impact.actionRequired?.evidence).toMatch(/required to post a bond/);
+    expect(impact.actionRequired?.evidence).not.toMatch(/docket/i);
+  });
+
+  // ---------------------------------------------------------------------------
+  // The extractor being correct is not the same as the SHIPPED data being clean.
+  // The store is committed and merge-never-replace, so an event ingested under
+  // an older extractor keeps whatever it was given. These audit what readers
+  // actually see.
+  // ---------------------------------------------------------------------------
+  const committedQuotes = EVENTS.flatMap((e) => {
+    const im = e.impact;
+    if (!im) return [];
+    return [
+      ...allImpacted(im).map((x) => ({ id: e.id, q: x.evidence })),
+      { id: e.id, q: im.actionRequired?.evidence },
+      { id: e.id, q: im.scopeDefinedElsewhere?.evidence },
+    ].filter((x): x is { id: string; q: string } => Boolean(x.q));
+  });
+
+  it("ships no markup in any committed evidence quote", () => {
+    const bad = committedQuotes.filter(({ q }) => /<[^>]+>|&lt;|&gt;/.test(q));
+    expect(bad.map((b) => `${b.id}: ${b.q.slice(0, 80)}`)).toEqual([]);
+  });
+
+  it("ships no comment-submission boilerplate as a stated obligation", () => {
+    const bad = EVENTS.filter((e) =>
+      /submit comments|regulations\.gov|regulatory identification number/i.test(
+        e.impact?.actionRequired?.evidence ?? ""
+      )
+    );
+    expect(bad.map((e) => e.id)).toEqual([]);
+  });
+
+  it("ships no evidence quote that opens mid-word", () => {
+    // A quote windowed out of a longer passage legitimately starts with "…".
+    // One that starts with a bare lowercase fragment is a truncation artefact.
+    const bad = committedQuotes.filter(({ q }) => /^[a-z]/.test(q.trim()));
+    expect(bad.map((b) => `${b.id}: ${b.q.slice(0, 60)}`)).toEqual([]);
+  });
+});

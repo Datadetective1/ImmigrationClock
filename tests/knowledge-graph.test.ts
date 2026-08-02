@@ -358,6 +358,34 @@ describe("federal register rules", () => {
     }
   });
 
+  it("does not treat rulemaking-procedure documents as immigration at all", () => {
+    // REGRESSION: bare "petition" in the relevance list matched an
+    // Administrative Procedure Act notice about petitioning DOJ to change a
+    // regulation. It had no immigration content, was ranked major, and led
+    // /what-changed. The same word had already been removed from topicLink()
+    // for the same reason; this filter kept it.
+    expect(
+      FR.isImmigrationRelevant(
+        doc({
+          title: "Procedures for Submission and Consideration of Petitions for Rulemaking",
+          abstract:
+            "Pursuant to the Administrative Procedure Act, the Department of Justice is adopting a process for considering petitions submitted by interested persons requesting that the Department issue, amend, or repeal a rule.",
+        })
+      )
+    ).toBe(false);
+  });
+
+  it("still keeps genuine immigration petition documents", () => {
+    // The narrowing must not cost real coverage.
+    for (const title of [
+      "Petition for Alien Relative; Revision of Form I-130",
+      "Immigrant Petition for Alien Workers",
+      "Nonimmigrant Petition Based on Blanket L Petition",
+    ]) {
+      expect(FR.isImmigrationRelevant(doc({ title, abstract: null })), title).toBe(true);
+    }
+  });
+
   it("does not categorise rulemaking-procedure documents as employer sponsorship", () => {
     // Regression: "petition" alone matched "Petitions for Rulemaking".
     const link = FR.topicLink(doc({ title: "Procedures for Submission and Consideration of Petitions for Rulemaking", abstract: null }));

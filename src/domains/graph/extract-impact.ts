@@ -16,6 +16,7 @@
 import type { EntityId } from "./entities";
 import { entityId, VISA_CATEGORIES } from "./entities";
 import { findCountriesInText } from "./countries";
+import { richText } from "./text";
 import {
   EMPTY_IMPACT,
   type ActionRequired,
@@ -64,11 +65,31 @@ function sentences(text: string): string[] {
       out.push(span);
       continue;
     }
-    for (let i = 0; i < span.length; i += MAX_SPAN) {
-      out.push(span.slice(i, i + MAX_SPAN).trim());
-    }
+    // Chunk on WORD boundaries. A fixed-width slice cuts mid-word and produces
+    // an evidence quote that begins "quired from certain..." — presented to the
+    // reader as verbatim source text when the source never said it. On a
+    // platform whose entire claim is that quotes are real, a mangled quote is
+    // worse than no quote.
+    out.push(...chunkOnWords(span, MAX_SPAN));
   }
   return out.filter(Boolean);
+}
+
+/** Split a long span into <= max-length pieces without breaking a word. */
+function chunkOnWords(span: string, max: number): string[] {
+  const words = span.split(" ");
+  const chunks: string[] = [];
+  let current = "";
+  for (const w of words) {
+    if (current && current.length + 1 + w.length > max) {
+      chunks.push(current);
+      current = w;
+    } else {
+      current = current ? `${current} ${w}` : w;
+    }
+  }
+  if (current) chunks.push(current);
+  return chunks.map((c) => c.trim()).filter(Boolean);
 }
 
 /**
@@ -94,8 +115,12 @@ function windowAround(text: string, phrase: string, radius = 180): string | null
   return `${start > 0 ? "…" : ""}${flat.slice(start, end).trim()}${end < flat.length ? "…" : ""}`;
 }
 
+/** Trim to a length without cutting a word in half. */
 function clip(s: string, max = 320): string {
-  return s.length > max ? `${s.slice(0, max - 3)}…` : s;
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${(lastSpace > max * 0.5 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }
 
 /**
@@ -291,7 +316,13 @@ function isCountryDesignationSentence(sentence: string): boolean {
  * kind of assertion that should not ship unreviewed.
  */
 export function extractImpact(src: ImpactSourceText): EventImpact {
-  const text = [src.title, src.abstract ?? "", src.body ?? ""].filter(Boolean).join(" ");
+  // Normalize BEFORE extracting. Federal Register raw text carries its own
+  // markup — "<bullet>" and inline anchors — and USCIS bodies carry HTML. An
+  // evidence quote is supposed to be what the document says, so leaking
+  // "<a href=...>" into a quoted passage breaks the one promise this module
+  // makes. Doing it here rather than per-adapter means no future source can
+  // forget.
+  const text = richText([src.title, src.abstract ?? "", src.body ?? ""].filter(Boolean).join(" "));
   if (!text.trim()) return { ...EMPTY_IMPACT };
 
   const allSentences = sentences(text);
@@ -387,6 +418,32 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
 }
 
 /**
+ * Instructions about the RULEMAKING PROCESS, not about anyone's immigration
+ * obligations.
+ *
+ * Nearly every Federal Register document contains "you must submit comments,
+ * identified by the agency name and referencing this rule's RIN…". That matches
+ * a requirement phrase and reads, under a heading that says "what the document
+ * says may be required", as though an immigrant must do it. It is addressed to
+ * commenters, and surfacing it as an obligation is both wrong and alarming.
+ *
+ * These sentences are skipped so the extractor keeps looking for a real
+ * operative requirement, and reports none if there isn't one.
+ */
+function isProceduralBoilerplate(lower: string): boolean {
+  return (
+    /\bsubmit (written )?comments?\b/.test(lower) ||
+    /\bcomments? must be (received|submitted|identified)\b/.test(lower) ||
+    /\bregulatory identification number\b|\brin\b/.test(lower) ||
+    /\bregulations\.gov\b/.test(lower) ||
+    /\bfederal erulemaking portal\b/.test(lower) ||
+    /\bdocket\b.*\bnumber\b/.test(lower) ||
+    /\bpaperwork reduction act\b/.test(lower) ||
+    /\bomb control number\b/.test(lower)
+  );
+}
+
+/**
  * Find the document's own statement of what affected people may have to do.
  *
  * Returns a CONDITIONAL paraphrase plus the verbatim sentence. Never authored
@@ -399,7 +456,8 @@ function extractActionRequired(
 ): ActionRequired | undefined {
   const hit = allSentences.find((s) => {
     const l = s.toLowerCase();
-    return REQUIREMENT_PHRASES.some((p) => l.includes(p));
+    if (!REQUIREMENT_PHRASES.some((p) => l.includes(p))) return false;
+    return !isProceduralBoilerplate(l);
   });
   if (!hit) return undefined;
 

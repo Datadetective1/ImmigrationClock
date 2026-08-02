@@ -49,6 +49,10 @@ export interface NavItem {
 
 export const NAV: NavItem[] = [
   { href: "/", label: "Dashboard" },
+  // Second position, deliberately. "What changed" is the platform's flagship
+  // answer and the reason a reader comes back; burying it under a section menu
+  // would make the recurring question the hardest one to reach.
+  { href: "/what-changed", label: "What changed" },
   {
     label: "Enforcement & Border",
     href: "/enforcement",

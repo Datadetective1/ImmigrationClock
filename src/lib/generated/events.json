@@ -1,23 +1,23 @@
 {
-  "generatedAt": "2026-08-02T04:51:19.073Z",
+  "generatedAt": "2026-08-02T05:07:36.683Z",
   "since": "2026-05-04",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:51:18.646Z",
+      "lastRunAt": "2026-08-02T05:07:36.320Z",
       "ok": true,
-      "eventCount": 15,
+      "eventCount": 14,
       "warnings": [
-        "85 document(s) from tracked agencies were not immigration-related"
+        "86 document(s) from tracked agencies were not immigration-related"
       ]
     },
     {
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:51:18.823Z",
+      "lastRunAt": "2026-08-02T05:07:36.432Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:51:18.994Z",
+      "lastRunAt": "2026-08-02T05:07:36.599Z",
       "ok": true,
       "eventCount": 10,
       "warnings": [
@@ -39,21 +39,21 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-02T04:51:19.061Z",
+      "lastRunAt": "2026-08-02T05:07:36.672Z",
       "ok": true,
       "eventCount": 4,
       "warnings": []
     }
   ],
   "counts": {
-    "total": 45,
+    "total": 44,
     "bySeverity": {
-      "major": 19,
+      "major": 18,
       "routine": 12,
       "notable": 14
     },
     "byClassification": {
-      "final_rule": 3,
+      "final_rule": 2,
       "announcement": 26,
       "proposed_rule": 2,
       "court_decision": 2,
@@ -124,7 +124,7 @@
           "effectiveFrom": "2026-08-03"
         },
         "scopeDefinedElsewhere": {
-          "evidence": "quired from certain business/pleasure (B-1/B-2) visa applicants who are nationals of countries with high overstay rates, deficient information sharing, insufficient identity verification and criminal records, and that need improvement in the area of screening and vetting and the security of travel…",
+          "evidence": "Under the Program, as discussed further below, visa bonds may be required from certain business/pleasure (B-1/B-2) visa applicants who are nationals of countries with high overstay rates, deficient information sharing, insufficient identity verification and criminal records, and that need improvement in the area of screening and vetting and the security of travel…",
           "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
         }
       },
@@ -419,56 +419,6 @@
       "reviewStatus": "auto"
     },
     {
-      "id": "federal_register:2026-15434",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:doj",
-      "classification": "final_rule",
-      "severity": "major",
-      "title": "Procedures for Submission and Consideration of Petitions for Rulemaking",
-      "summary": "Pursuant to the Administrative Procedure Act, the Department of Justice (\"the Department\") is adopting a process for considering petitions submitted by interested persons requesting that the Department issue, amend, or repeal a rule.",
-      "publishedAt": "2026-07-30",
-      "effectiveAt": "2026-07-31",
-      "lastVerifiedAt": "2026-08-02",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15434/procedures-for-submission-and-consideration-of-petitions-for-rulemaking",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15434?publication_date=2026-07-30",
-      "entities": [
-        {
-          "entityId": "agency:doj",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:policy-changes",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.6
-        }
-      ],
-      "impact": {
-        "countries": [],
-        "visaCategories": [],
-        "agencies": [
-          {
-            "entityId": "agency:doj",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "If you wish to provide comments regarding this rulemaking, you must submit comments, identified by the agency name and referencing this rule's Regulatory Identification Number (``RIN'') ``1105-AB84'', by one of the two methods below: <bullet> Federal eRulemaking Portal: <a href=\"https://www.regulations.gov\">https://www.regulations.gov</a>.",
-          "effectiveFrom": "2026-07-31"
-        },
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
-      },
-      "reviewStatus": "auto"
-    },
-    {
       "id": "federal_register:2026-15458",
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:doj",
@@ -522,7 +472,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Electronic comments must be submitted on or before September 28, 2026.",
+          "evidence": "Any oral statements that were not recorded must be summarized in writing by the Immigration Judge for inclusion in the contempt Record of Proceeding.",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."

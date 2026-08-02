@@ -60,6 +60,26 @@ function attachImplementations() {
   }
 }
 
+/**
+ * RETRACTIONS — the escape hatch that merge-never-replace requires.
+ *
+ * Rule 1 says a source dropping a document must not erase what we recorded.
+ * That is right for outages, and wrong for our own mistakes: when an adapter's
+ * relevance filter is too loose, the junk it ingested is preserved forever and
+ * no amount of fixing the filter removes it. Tightening a filter would silently
+ * become a no-op for everything already in the store.
+ *
+ * So retraction is explicit rather than automatic. An id lands here only by a
+ * reviewed code change, it carries its reason, and it lives in git history — so
+ * removing an event from the public store is as auditable as adding one. A
+ * source outage still cannot delete anything, because an outage cannot edit
+ * this file.
+ */
+const RETRACTED: Record<string, string> = {
+  "federal_register:2026-15434":
+    "Not an immigration document. An Administrative Procedure Act notice about petitioning DOJ to issue, amend, or repeal a regulation, ingested because the relevance filter matched the bare word 'petition'. The filter was narrowed on 2026-08-02; this removes the event it already admitted.",
+};
+
 interface EventStoreFile {
   generatedAt: string;
   /** Events, newest first. */
@@ -161,7 +181,18 @@ async function main() {
   // Merge: a freshly fetched event replaces its committed twin by stable id, and
   // everything previously recorded is retained. dedupeEvents keeps first-seen,
   // so fresh must come first.
-  const merged = sortEvents(dedupeEvents([...fresh, ...existing]));
+  const all = sortEvents(dedupeEvents([...fresh, ...existing]));
+
+  // Apply retractions last, so a re-ingested event cannot sneak a retracted id
+  // back into the store.
+  const merged = all.filter((e) => !RETRACTED[e.id]);
+  const removed = all.length - merged.length;
+  if (removed > 0) {
+    console.log(`[build-events] retracted ${removed} event(s):`);
+    for (const e of all.filter((x) => RETRACTED[x.id])) {
+      console.log(`  - ${e.id}: ${RETRACTED[e.id]}`);
+    }
+  }
 
   const bySeverity: Record<string, number> = {};
   const byClassification: Record<string, number> = {};

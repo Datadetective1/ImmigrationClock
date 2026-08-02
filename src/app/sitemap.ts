@@ -56,6 +56,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const STATIC: [path: string, lastModified: Date, freq: Entry["changeFrequency"], priority: number][] = [
     ["/", buildDate, "daily", 1],
     // Change + analysis surfaces — move with the data.
+    // /what-changed rebuilds whenever an adapter finds a new government
+    // document, which is most publication days, so it is crawled daily.
+    ["/what-changed", buildDate, "daily", 0.9],
     ["/pulse", buildDate, "weekly", 0.9],
     ["/insights", buildDate, "weekly", 0.8],
     ["/timeline", buildDate, "monthly", 0.6],

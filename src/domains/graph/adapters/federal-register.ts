@@ -133,7 +133,18 @@ const RELEVANCE_TERMS = [
   "permanent resident", "adjustment of status", "parole", "tps",
   "temporary protected status", "daca", "employment authorization",
   "labor certification", "perm", "sevis", "student and exchange",
-  "petition", "uscis", "consular",
+  // "petition" ALONE IS NOT HERE, deliberately. It matched "Procedures for
+  // Submission and Consideration of Petitions for Rulemaking" — an
+  // Administrative Procedure Act notice about petitioning DOJ to change a
+  // regulation, with no immigration content whatsoever. It was ranked "major"
+  // and led /what-changed.
+  //
+  // The same word caused the same bug in topicLink() below, where it was fixed;
+  // this filter kept it. Immigration petition documents always carry another
+  // term from this list (immigrant, nonimmigrant, visa, alien, USCIS), so the
+  // specific phrases below lose nothing.
+  "immigrant petition", "nonimmigrant petition", "visa petition", "petition for alien",
+  "uscis", "consular",
 ];
 
 function isImmigrationRelevant(doc: FrDocument): boolean {
