@@ -40,6 +40,19 @@ export interface AdapterContext {
   limit: number;
   /** Set for local/CI runs that must not hit the network. */
   offline?: boolean;
+  /**
+   * Stable ids already in the committed store.
+   *
+   * Lets an adapter skip work it has already done. This matters when enriching
+   * a list costs one request PER ITEM — Congress has to fetch each law's detail
+   * to read its policy area, which is ~104 requests for a full Congress and
+   * exactly 0 once the archive is warm, because an enacted law never changes.
+   *
+   * Optional and advisory: an adapter that ignores it is still correct, just
+   * slower. Nothing may rely on it for correctness, because a cold store passes
+   * an empty set.
+   */
+  knownIds?: ReadonlySet<string>;
 }
 
 export interface AdapterResult {

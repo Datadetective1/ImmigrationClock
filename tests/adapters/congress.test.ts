@@ -24,6 +24,7 @@ function bill(over: Record<string, unknown> = {}) {
     latestAction: { actionDate: "2026-07-15", text: "Became Public Law No: 119-42." },
     updateDate: "2026-07-16T00:00:00Z",
     originChamber: "House",
+    policyArea: null,
     ...over,
   } as never;
 }
@@ -103,6 +104,75 @@ describe("immigration relevance", () => {
     ]) {
       expect(CG.isImmigrationRelevant(bill({ title })), title).toBe(false);
     }
+  });
+});
+
+// =============================================================================
+// COVERAGE STRATEGY
+//
+// Both regressions below were found by verifying the adapter against the live
+// API rather than by a unit test — which is the point of verifying.
+// =============================================================================
+describe("which Congress to read", () => {
+  it("computes the Congress for a year rather than hardcoding it", () => {
+    // Hardcoding 119 would quietly stop finding new laws in January 2027.
+    expect(CG.congressForYear(2025)).toBe(119);
+    expect(CG.congressForYear(2026)).toBe(119);
+    expect(CG.congressForYear(2027)).toBe(120);
+    expect(CG.congressForYear(1789)).toBe(1);
+  });
+
+  it("covers every Congress the window touches, newest first", () => {
+    expect(CG.congressesInRange("2025-01-01", new Date("2026-08-02"))).toEqual([119]);
+    expect(CG.congressesInRange("2023-01-01", new Date("2026-08-02"))).toEqual([119, 118]);
+  });
+
+  it("bounds how far back it will reach", () => {
+    // A very old `since` must not fan out into dozens of API sweeps.
+    expect(CG.congressesInRange("1990-01-01", new Date("2026-08-02")).length).toBeLessThanOrEqual(4);
+  });
+});
+
+describe("relevance from the CRS policy area", () => {
+  it("finds an immigration law whose title contains no immigration word", () => {
+    // REGRESSION, found against the live API: title matching alone scored ZERO
+    // immigration laws across the 104 public laws of the 119th Congress. The
+    // Laken Riley Act and the Secure America Act are both immigration statutes
+    // named after a person and a slogan. A platform tracking immigration policy
+    // that misses the Laken Riley Act is failing at its core job.
+    expect(
+      CG.isImmigrationRelevant(bill({ title: "Laken Riley Act", policyArea: { name: "Immigration" } }))
+    ).toBe(true);
+    expect(
+      CG.isImmigrationRelevant(bill({ title: "Secure America Act", policyArea: { name: "Immigration" } }))
+    ).toBe(true);
+  });
+
+  it("still misses nothing the title would have caught", () => {
+    // The title check stays as a secondary signal for bills filed under another
+    // policy area that nonetheless carry immigration provisions.
+    expect(
+      CG.isImmigrationRelevant(bill({ title: "Border Security Supplemental", policyArea: { name: "Armed Forces" } }))
+    ).toBe(true);
+  });
+
+  it("excludes a law whose policy area is something else", () => {
+    for (const [title, area] of [
+      ["Lulu's Law", "Science, Technology, Communications"],
+      ["21st Century ROAD to Housing Act", "Housing and Community Development"],
+      ["Emergency Conservation Program Improvement Act", "Agriculture and Food"],
+    ] as const) {
+      expect(CG.isImmigrationRelevant(bill({ title, policyArea: { name: area } })), title).toBe(false);
+    }
+  });
+
+  it("is not fooled by casing or padding in the policy area", () => {
+    expect(CG.isImmigrationRelevant(bill({ title: "X", policyArea: { name: "  immigration " } }))).toBe(true);
+  });
+
+  it("falls back to the title when no policy area is present", () => {
+    expect(CG.isImmigrationRelevant(bill({ title: "Asylum Processing Act", policyArea: null }))).toBe(true);
+    expect(CG.isImmigrationRelevant(bill({ title: "Post Office Naming Act", policyArea: null }))).toBe(false);
   });
 });
 

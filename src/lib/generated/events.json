@@ -1,80 +1,79 @@
 {
-  "generatedAt": "2026-08-02T13:30:12.575Z",
-  "since": "2026-05-04",
+  "generatedAt": "2026-08-02T13:51:00.157Z",
+  "since": "2025-01-01",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.416Z",
+      "lastRunAt": "2026-08-02T13:50:57.880Z",
       "ok": true,
-      "eventCount": 0,
+      "eventCount": 14,
       "warnings": [
-        "offline: skipped"
+        "86 document(s) from tracked agencies were not immigration-related"
       ]
     },
     {
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.416Z",
+      "lastRunAt": "2026-08-02T13:50:58.045Z",
       "ok": true,
-      "eventCount": 0,
+      "eventCount": 2,
       "warnings": [
-        "offline: skipped"
+        "98 presidential document(s) were not immigration-related"
       ]
     },
     {
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.416Z",
+      "lastRunAt": "2026-08-02T13:50:58.307Z",
       "ok": true,
-      "eventCount": 0,
+      "eventCount": 112,
       "warnings": [
-        "offline: skipped"
+        "75 individual criminal-case press release(s) excluded by editorial policy (see adapter header)",
+        "2 item(s) were not policy-relevant"
       ]
     },
     {
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.416Z",
+      "lastRunAt": "2026-08-02T13:50:58.404Z",
       "ok": true,
-      "eventCount": 0,
-      "warnings": [
-        "offline: skipped"
-      ]
+      "eventCount": 46,
+      "warnings": []
     },
     {
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.416Z",
+      "lastRunAt": "2026-08-02T13:50:59.615Z",
       "ok": true,
-      "eventCount": 0,
+      "eventCount": 2,
       "warnings": [
-        "offline: skipped"
+        "18 decision(s) naming private individuals excluded by editorial policy (see adapter header)"
       ]
     },
     {
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.417Z",
+      "lastRunAt": "2026-08-02T13:50:59.616Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
-        "offline: skipped"
+        "CONGRESS_API_KEY is not set, so Congress is not being ingested. Get a free key at https://api.congress.gov and set it in the environment. This is a configuration gap, not a source outage."
       ]
     },
     {
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-08-02T13:30:12.570Z",
+      "lastRunAt": "2026-08-02T13:50:59.715Z",
       "ok": true,
-      "eventCount": 1,
+      "eventCount": 7,
       "warnings": [
         "2 CBP release(s) had no publication month recorded and were skipped rather than dated by guess"
       ]
@@ -83,12 +82,10 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-08-02T13:30:12.571Z",
+      "lastRunAt": "2026-08-02T13:51:00.153Z",
       "ok": true,
-      "eventCount": 0,
-      "warnings": [
-        "offline: skipped"
-      ]
+      "eventCount": 7,
+      "warnings": []
     }
   ],
   "counts": {

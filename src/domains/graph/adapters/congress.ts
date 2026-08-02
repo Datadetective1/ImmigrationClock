@@ -42,6 +42,37 @@
 // With no key the adapter reports "not configured" and returns cleanly. It does
 // NOT fail the build: an unconfigured source is a known gap, not an outage, and
 // conflating the two would make a real outage harder to see.
+//
+// -----------------------------------------------------------------------------
+// COVERAGE IS ENACTED LAW, AND THAT WAS MEASURED
+// -----------------------------------------------------------------------------
+// The obvious query — /bill sorted by updateDate — does not work. Measured
+// against the live API on 2026-08-02: of the 250 most recently updated bills,
+// 250 were still at "introduced". Recently-updated skews almost entirely to
+// fresh introductions, because introduction is itself an update. An adapter
+// built on it would report zero events forever while appearing to run fine.
+//
+// So this reads /law/{congress}, which returns exactly the bills that became
+// public law. Every one is unambiguously `became_law`, and enactment is the
+// stage that actually changes what the law says.
+//
+// Bills that have passed one chamber are NOT comprehensively tracked. The API
+// offers no filter for legislative stage, and finding them would mean paginating
+// the whole corpus on every build. That gap is stated in the adapter's warnings
+// and coverage rather than papered over.
+//
+// -----------------------------------------------------------------------------
+// WHY EACH LAW COSTS A SECOND REQUEST
+// -----------------------------------------------------------------------------
+// Relevance comes from the CRS-assigned policy area, which appears only on the
+// bill DETAIL endpoint. That enrichment is not optional: matching titles alone
+// scored ZERO immigration laws across the 104 public laws of the 119th Congress,
+// because Congress names legislation after people and slogans. The Laken Riley
+// Act and the Secure America Act are both immigration statutes whose titles
+// contain no immigration word.
+//
+// The cost is bounded by `ctx.knownIds`: an enacted law never changes, so a warm
+// store re-fetches nothing and only new laws cost a request.
 // =============================================================================
 
 import { capEvents } from "../adapters";
@@ -65,6 +96,14 @@ export interface CongressBill {
   updateDate?: string | null;
   url?: string | null;
   originChamber?: string | null;
+  /**
+   * CRS-assigned policy area, e.g. { name: "Immigration" }. Present only on the
+   * bill DETAIL endpoint, which is why the adapter enriches each law rather than
+   * trusting the list.
+   */
+  policyArea?: { name?: string } | null;
+  /** Public law numbers, present once enacted. */
+  laws?: { number?: string; type?: string }[] | null;
 }
 
 /** Where a bill has actually got to. Read from the chamber's recorded action. */
@@ -138,7 +177,27 @@ const RELEVANCE_TERMS = [
   "diversity visa", "sanctuary", "alien", "aliens",
 ];
 
+/**
+ * Immigration relevance.
+ *
+ * POLICY AREA IS AUTHORITATIVE. Congress assigns every bill a single policy area
+ * through the Congressional Research Service, and "Immigration" is one of them.
+ * That is the publisher's own taxonomy — the same kind of signal as USCIS's
+ * Policy Alert label or a court's nature-of-suit code — and it beats anything we
+ * could infer.
+ *
+ * IT ALSO FIXES A REAL MISS. Title matching alone scored ZERO immigration laws
+ * across the 104 public laws of the 119th Congress, because Congress names
+ * legislation after people and slogans: the Laken Riley Act and the Secure
+ * America Act are both immigration statutes whose titles contain no immigration
+ * word at all. A platform tracking immigration policy that misses the Laken
+ * Riley Act is failing at the thing it exists to do.
+ *
+ * The title check is kept as a secondary signal, for bills whose policy area is
+ * something else but which carry immigration provisions in the title.
+ */
 export function isImmigrationRelevant(bill: CongressBill): boolean {
+  if (bill.policyArea?.name?.trim().toLowerCase() === "immigration") return true;
   // containsAnyTerm, never String.includes. A bare `includes` on this list would
   // match "ice" inside "Post Office Naming Act" and "alien" inside "alienation".
   return containsAnyTerm(plainText(bill.title ?? ""), RELEVANCE_TERMS);
@@ -237,6 +296,67 @@ export function apiKey(): string | undefined {
   return k && k !== "DEMO_KEY" ? k : undefined;
 }
 
+/**
+ * Which Congress covers a given year.
+ *
+ * The 1st Congress sat in 1789 and each runs two years, so 2025 and 2026 are
+ * both the 119th. Computed rather than hardcoded, so this does not quietly stop
+ * finding new laws in January 2027.
+ */
+export function congressForYear(year: number): number {
+  return Math.floor((year - 1789) / 2) + 1;
+}
+
+/** Every Congress touching the window, newest first. */
+export function congressesInRange(since: string, now = new Date()): number[] {
+  const startYear = Number(since.slice(0, 4));
+  const endYear = now.getUTCFullYear();
+  if (!Number.isFinite(startYear)) return [congressForYear(endYear)];
+  const first = congressForYear(startYear);
+  const last = congressForYear(endYear);
+  const out: number[] = [];
+  for (let c = last; c >= first && out.length < 4; c--) out.push(c);
+  return out;
+}
+
+async function getJson(url: string, timeoutMs = 30_000): Promise<unknown> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { headers: { "User-Agent": UA }, signal: controller.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status} from api.congress.gov`);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** Every public law enacted by a Congress. Around 100–400 per Congress. */
+async function listLaws(congress: number, token: string): Promise<CongressBill[]> {
+  const params = new URLSearchParams({ format: "json", limit: "250", api_key: token });
+  const payload = (await getJson(`${API}/law/${congress}?${params}`)) as { bills?: CongressBill[] };
+  return (payload.bills ?? []).map((b) => ({ ...b, congress }));
+}
+
+/**
+ * Fetch a bill's detail, which is the only place the CRS policy area appears.
+ *
+ * One request per law. That is why `ctx.knownIds` matters: a warm store skips
+ * everything it already has, so the steady-state cost is the handful of laws
+ * enacted since the last run.
+ */
+async function fetchBillDetail(bill: CongressBill, token: string): Promise<CongressBill | null> {
+  const type = (bill.type ?? "").toLowerCase();
+  const params = new URLSearchParams({ format: "json", api_key: token });
+  const payload = (await getJson(
+    `${API}/bill/${bill.congress}/${type}/${bill.number}?${params}`,
+    20_000
+  )) as { bill?: CongressBill };
+  if (!payload.bill) return null;
+  // Keep the list's congress, which the detail endpoint echoes but we already trust.
+  return { ...bill, ...payload.bill, congress: bill.congress };
+}
+
 async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   const key = "congress";
   if (ctx.offline) {
@@ -257,69 +377,76 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     };
   }
 
-  const params = new URLSearchParams({
-    format: "json",
-    limit: "250",
-    sort: "updateDate+desc",
-    fromDateTime: `${ctx.since}T00:00:00Z`,
-    api_key: token,
-  });
-
-  let payload: { bills?: CongressBill[] };
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 30_000);
-    const res = await fetch(`${API}/bill?${params}`, {
-      headers: { "User-Agent": UA },
-      signal: controller.signal,
-    }).finally(() => clearTimeout(timer));
-    if (!res.ok) {
-      return { adapterKey: key, events: [], warnings: [`HTTP ${res.status} from api.congress.gov`], failed: true };
-    }
-    payload = await res.json();
-  } catch (err) {
-    return {
-      adapterKey: key,
-      events: [],
-      warnings: [`fetch failed: ${(err as Error)?.message ?? String(err)}`],
-      failed: true,
-    };
-  }
-
-  const bills = payload.bills ?? [];
   const warnings: string[] = [];
+  const verifiedAt = new Date().toISOString().slice(0, 10);
   const events: ImmigrationEvent[] = [];
   let notRelevant = 0;
-  let stillIntroduced = 0;
   let undated = 0;
+  let enrichFailures = 0;
+  let skippedKnown = 0;
 
-  const verifiedAt = new Date().toISOString().slice(0, 10);
+  for (const congress of congressesInRange(ctx.since)) {
+    let laws: CongressBill[];
+    try {
+      laws = await listLaws(congress, token);
+    } catch (err) {
+      return {
+        adapterKey: key,
+        events: [],
+        warnings: [...warnings, `fetch failed for the ${congress}th Congress: ${(err as Error)?.message ?? String(err)}`],
+        failed: true,
+      };
+    }
 
-  for (const bill of bills) {
-    if (!isImmigrationRelevant(bill)) {
-      notRelevant++;
-      continue;
+    for (const law of laws) {
+      // An enacted law never changes, so once it is in the store there is
+      // nothing to re-read — and skipping it avoids a detail request.
+      if (ctx.knownIds?.has(stableId(law))) {
+        skippedKnown++;
+        continue;
+      }
+      if (law.latestAction?.actionDate && law.latestAction.actionDate < ctx.since) continue;
+
+      // Policy area lives on the detail endpoint only, and it is the whole
+      // reason this adapter finds the Laken Riley Act at all.
+      let detailed = law;
+      try {
+        detailed = (await fetchBillDetail(law, token)) ?? law;
+      } catch {
+        enrichFailures++;
+      }
+
+      if (!isImmigrationRelevant(detailed)) {
+        notRelevant++;
+        continue;
+      }
+      const stage = stageFromAction(detailed.latestAction?.text);
+      if (!isReportable(stage)) continue;
+
+      const e = toEvent(detailed, stage, verifiedAt);
+      if (!e.publishedAt) {
+        undated++;
+        continue;
+      }
+      events.push(e);
     }
-    const stage = stageFromAction(bill.latestAction?.text);
-    if (!isReportable(stage)) {
-      stillIntroduced++;
-      continue;
-    }
-    const e = toEvent(bill, stage, verifiedAt);
-    if (!e.publishedAt) {
-      undated++;
-      continue;
-    }
-    events.push(e);
   }
 
-  if (notRelevant > 0) warnings.push(`${notRelevant} bill(s) were not immigration-related`);
-  if (stillIntroduced > 0) {
+  if (skippedKnown > 0) {
+    warnings.push(`${skippedKnown} enacted law(s) already in the store were not re-fetched`);
+  }
+  if (notRelevant > 0) warnings.push(`${notRelevant} enacted law(s) were not immigration-related`);
+  if (undated > 0) warnings.push(`${undated} law(s) had no usable action date`);
+  if (enrichFailures > 0) {
     warnings.push(
-      `${stillIntroduced} immigration bill(s) excluded as introduced-only — introduction is not change (see adapter header)`
+      `${enrichFailures} law(s) could not be enriched with their policy area and were judged on title alone`
     );
   }
-  if (undated > 0) warnings.push(`${undated} bill(s) had no usable action date`);
+  warnings.push(
+    "Coverage is ENACTED LAW. Bills that have passed one chamber but are not yet law are not comprehensively " +
+      "tracked: the API offers no way to filter by legislative stage, and a sweep of recently-updated bills " +
+      "returns almost entirely fresh introductions (measured: 250 of 250)."
+  );
 
   const capped = capEvents(events, ctx.limit);
   return {
@@ -336,11 +463,13 @@ export const congressAdapter: SourceAdapter = {
   sourceKey: SOURCE_KEY,
   status: "ready",
   coverage:
-    "Immigration bills that have moved past introduction: reported by committee, passed a chamber, or enacted. Introduced and referred bills are excluded — roughly 2% of bills become law, so reporting introductions as change would be wrong nearly every time, and wrong in the direction that alarms readers. Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing.",
+    "Immigration laws ENACTED by Congress, read from the official /law endpoint so every item is unambiguously public law. Relevance comes from the CRS-assigned policy area rather than the title, because Congress names legislation after people and slogans — the Laken Riley Act is an immigration statute whose title contains no immigration word. Bills short of enactment are NOT comprehensively tracked: the API cannot filter by legislative stage, and a sweep of recently-updated bills returns almost entirely fresh introductions (measured: 250 of 250). Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing.",
   fetchEvents,
 };
 
 export const __testing = {
+  congressForYear,
+  congressesInRange,
   stageFromAction,
   severity,
   isReportable,

@@ -172,6 +172,9 @@ async function main() {
   // backfill without editing code.
   const limit = Number(process.env.EVENTS_LIMIT) || 250;
   const existing = await readExisting();
+  // Advisory to adapters whose enrichment costs a request per item. See
+  // AdapterContext.knownIds.
+  const knownIds: ReadonlySet<string> = new Set(existing.map((e) => e.id));
   console.log(`[build-events] ${existing.length} event(s) already in the store; fetching since ${since}`);
 
   const adapters = runnableAdapters();
@@ -185,7 +188,7 @@ async function main() {
   let anySucceeded = false;
 
   for (const adapter of adapters) {
-    const result = await adapter.fetchEvents!({ since, limit, offline });
+    const result = await adapter.fetchEvents!({ since, limit, offline, knownIds });
 
     // Validate before anything reaches the store. A malformed event is dropped,
     // never published, and always reported.
