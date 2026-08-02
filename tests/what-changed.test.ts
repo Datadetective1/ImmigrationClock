@@ -16,6 +16,12 @@ import { join } from "node:path";
 import { EVENTS, significantEvents, eventCoverageNote } from "@/lib/event-store";
 import { NAV } from "@/lib/site";
 import { sortResults } from "@/lib/event-index";
+import {
+  CLASSIFICATION_LABEL,
+  SEVERITY_LABEL,
+  SEVERITY_SHORT,
+  isNotInForce,
+} from "@/lib/event-labels";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (rel: string) => readFileSync(join(root, rel), "utf8");
@@ -66,8 +72,11 @@ describe("what-changed surface", () => {
 
   it("keeps a proposal marked as not in force in compact result rows too", () => {
     // The full card has a banner. A result row is smaller but must not lose the
-    // one distinction that changes what a reader believes they must do.
-    expect(EXPLORER).toMatch(/proposed_rule: "Proposed rule — not in force"/);
+    // one distinction that changes what a reader believes they must do — so both
+    // surfaces read the SAME label from the shared module rather than each
+    // keeping a copy that can drift.
+    expect(EXPLORER).toMatch(/from "@\/lib\/event-labels"/);
+    expect(EXPLORER).toMatch(/classificationLabel\(/);
   });
 
   it("tells the reader a result row is not the whole entry", () => {
@@ -105,9 +114,44 @@ describe("what-changed surface", () => {
 describe("event card integrity", () => {
   it("marks a proposed rule as not in force", () => {
     // The single most damaging thing this page could do is let someone believe
-    // an obligation exists when a proposal is only open for comment.
-    expect(CARD).toMatch(/proposed_rule: "Proposed rule — not in force"/);
+    // an obligation exists when a proposal is only open for comment. The wording
+    // is asserted against the shared label module, which is the one place it now
+    // lives; the card adds the banner on top of it.
+    expect(CLASSIFICATION_LABEL.proposed_rule).toBe("Proposed rule — not in force");
+    expect(isNotInForce("proposed_rule")).toBe(true);
+    expect(isNotInForce("final_rule")).toBe(false);
     expect(CARD).toMatch(/creates no obligation today/);
+  });
+
+  it("keeps the not-in-force warning in the LABEL, not only in styling", () => {
+    // Colour and a banner are layout. The label survives every layout, so the
+    // consequential part is written into the words themselves.
+    expect(CLASSIFICATION_LABEL.proposed_rule).toMatch(/not in force/);
+  });
+
+  it("defines every classification and severity the model can produce", () => {
+    // A missing entry would render a raw enum like "historical_revision" to a
+    // reader.
+    for (const c of [
+      "new_information", "updated_information", "correction", "historical_revision",
+      "announcement", "data_release", "proposed_rule", "final_rule",
+      "executive_action", "court_decision", "legislative_action", "deadline",
+    ] as const) {
+      expect(CLASSIFICATION_LABEL[c], `no label for ${c}`).toBeTruthy();
+    }
+    for (const s of ["major", "notable", "routine"] as const) {
+      expect(SEVERITY_LABEL[s], `no label for ${s}`).toBeTruthy();
+      expect(SEVERITY_SHORT[s], `no short label for ${s}`).toBeTruthy();
+    }
+  });
+
+  it("keeps only one definition of the classification labels", () => {
+    // REGRESSION: EventCard and EventExplorer each carried their own copy, which
+    // meant three copies of "Proposed rule — not in force" in one codebase. One
+    // could drift and start describing a proposal as a rule on a single surface
+    // while the other still got it right, and nothing would fail.
+    expect(CARD).not.toMatch(/proposed_rule:\s*"/);
+    expect(EXPLORER).not.toMatch(/proposed_rule:\s*"/);
   });
 
   it("words a scheduled document as scheduled, never as published", () => {
@@ -150,8 +194,12 @@ describe("event card integrity", () => {
   it("does not colour severity as good or bad", () => {
     // The platform reports; it does not editorialize about whether a change is
     // welcome. Amber is reserved for the factual "this is not in force" banner.
-    const severityBlock = CARD.slice(CARD.indexOf("const SEVERITY_LABEL"), CARD.indexOf("function entityName"));
-    expect(severityBlock).not.toMatch(/status-red|status-green|text-red|text-green/);
+    for (const label of Object.values(SEVERITY_LABEL)) {
+      expect(label).not.toMatch(/urgent|alarm|danger|warning/i);
+    }
+    // Amber is reserved for the factual "this is not in force" banner, never for
+    // severity.
+    expect(CARD).not.toMatch(/severity === "major".*status-(red|amber)/s);
   });
 
   it("never phrases required action as advice", () => {
@@ -251,5 +299,51 @@ describe("paging", () => {
 
   it("tells the reader how much of the result set they are seeing", () => {
     expect(EXPLORER).toMatch(/Showing \{visible\} of \{results\.length\}/);
+  });
+});
+
+// =============================================================================
+// PRODUCTION READINESS
+//
+// The site is a static export: there is no server to catch a failure, so the
+// browser is the only place one can be handled.
+// =============================================================================
+describe("error and not-found boundaries", () => {
+  const ERROR_PAGE = read("src/app/error.tsx");
+  const NOT_FOUND = read("src/app/not-found.tsx");
+  // Comments explain what the screen must NOT say and quote those phrases, so a
+  // negative assertion has to read what actually renders, not the reasoning.
+  const ERROR_RENDERED = ERROR_PAGE.replace(/\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
+
+  it("has an error boundary at all", () => {
+    // Without one, an exception in any client component leaves a blank page and
+    // no way back.
+    expect(ERROR_PAGE).toMatch(/export default function Error/);
+    expect(ERROR_PAGE).toMatch(/"use client"/);
+  });
+
+  it("offers a way to recover rather than a dead end", () => {
+    expect(ERROR_PAGE).toMatch(/onClick=\{reset\}/);
+    expect(ERROR_RENDERED).toMatch(/Try again/);
+  });
+
+  it("never lets a crash masquerade as an answer about the data", () => {
+    // THE critical rule for this screen. "No data available" or "nothing found"
+    // would be a claim about U.S. immigration policy made by a component that
+    // only knows rendering threw. On a platform whose promise is that a quiet
+    // feed means a quiet feed, that would be the worst possible failure mode.
+    expect(ERROR_RENDERED).toMatch(/not a statement about/);
+    expect(ERROR_RENDERED).toMatch(/no data has changed/i);
+    expect(ERROR_RENDERED).not.toMatch(/no data available|no results found|nothing to show/i);
+  });
+
+  it("sends no error report anywhere", () => {
+    // A crash report carrying a URL and stack trace from someone reading about
+    // asylum policy is exactly the record /methodology promises not to hold.
+    expect(ERROR_RENDERED).not.toMatch(/fetch\(|sendBeacon|navigator\.send/);
+  });
+
+  it("keeps a 404 that points somewhere useful", () => {
+    expect(NOT_FOUND).toMatch(/export default function/);
   });
 });

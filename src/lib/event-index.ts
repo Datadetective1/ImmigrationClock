@@ -44,8 +44,6 @@ export const EVENT_INDEX: IndexedEvent[] = [...(FILE.events ?? [])].sort((a, b) 
   b.publishedAt.localeCompare(a.publishedAt)
 );
 
-export const EVENT_INDEX_GENERATED_AT = FILE.generatedAt;
-
 export interface EventFilters {
   /** Free text over title and summary. */
   q?: string;
@@ -122,10 +120,6 @@ export function indexedSourceKeys(): string[] {
   return [...new Set(EVENT_INDEX.map((e) => e.sourceKey))].sort();
 }
 
-/** Distinct classifications present, so the UI never offers an empty filter. */
-export function indexedClassifications(): EventClassification[] {
-  return [...new Set(EVENT_INDEX.map((e) => e.classification))].sort() as EventClassification[];
-}
 
 /** Group results by publication day, newest first. */
 export function groupByDay(events: IndexedEvent[]): { date: string; events: IndexedEvent[] }[] {

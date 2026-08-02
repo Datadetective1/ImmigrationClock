@@ -10,6 +10,14 @@
 // Nothing here fetches. The store is generated at build time and committed, in
 // the same shape as the WARN and employer snapshots, which keeps the site a
 // static export and keeps a source outage from taking pages down.
+//
+// WHAT THIS MODULE DELIBERATELY DOES NOT DO
+// Ad-hoc querying — by date, severity, classification — belongs to
+// @/lib/event-index, which serves the browser from a slim payload. This module
+// keeps only what needs the FULL event: the server-rendered feed, and the graph
+// traversals whose semantics live nowhere else (an event that CHANGES an entity
+// versus one that merely mentions it, versus one whose stated impact names it).
+// Duplicating filters across both would give two answers to the same question.
 // =============================================================================
 
 import store from "./generated/events.json";
@@ -18,8 +26,6 @@ import {
   sortEvents,
   eventsForEntity,
   primaryEventsForEntity,
-  type EventClassification,
-  type EventSeverity,
   type ImmigrationEvent,
 } from "@/domains/graph/events";
 import type { EntityId } from "@/domains/graph/entities";
@@ -69,15 +75,7 @@ export function failedAdapters() {
   return EVENT_STORE_META.adapters.filter((a) => !a.ok);
 }
 
-/** Events published on or after a date. */
-export function eventsSince(isoDate: string): ImmigrationEvent[] {
-  return EVENTS.filter((e) => e.publishedAt >= isoDate);
-}
 
-/** The most recent N events. */
-export function recentEvents(limit = 20): ImmigrationEvent[] {
-  return EVENTS.slice(0, limit);
-}
 
 /**
  * Events that actually represent change, for the "What Changed" surface.
@@ -91,13 +89,7 @@ export function significantEvents(limit = 20): ImmigrationEvent[] {
   return EVENTS.filter((e) => e.severity !== "routine").slice(0, limit);
 }
 
-export function eventsBySeverity(severity: EventSeverity): ImmigrationEvent[] {
-  return EVENTS.filter((e) => e.severity === severity);
-}
 
-export function eventsByClassification(c: EventClassification): ImmigrationEvent[] {
-  return EVENTS.filter((e) => e.classification === c);
-}
 
 /** Every event touching an entity, in any relation. */
 export function eventsForEntityId(id: EntityId): ImmigrationEvent[] {
@@ -126,19 +118,6 @@ export function eventsAffecting(id: EntityId): ImmigrationEvent[] {
   });
 }
 
-/** Events grouped by publication date, newest day first. For the daily feed. */
-export function eventsByDay(limit = 7): { date: string; events: ImmigrationEvent[] }[] {
-  const days = new Map<string, ImmigrationEvent[]>();
-  for (const e of EVENTS) {
-    const list = days.get(e.publishedAt) ?? [];
-    list.push(e);
-    days.set(e.publishedAt, list);
-  }
-  return [...days.entries()]
-    .sort((a, b) => b[0].localeCompare(a[0]))
-    .slice(0, limit)
-    .map(([date, events]) => ({ date, events }));
-}
 
 /**
  * Honest one-line description of what the store currently covers. Rendered

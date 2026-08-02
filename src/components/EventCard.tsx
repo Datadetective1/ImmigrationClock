@@ -35,40 +35,7 @@ import { ENTITY_BY_ID } from "@/domains/graph/entities";
 import { impactDisclaimer, type EventImpact, type ImpactedEntity } from "@/domains/graph/impact";
 import type { EventClassification, EventSeverity, ImmigrationEvent } from "@/domains/graph/events";
 import { SOURCE_BY_KEY } from "@/lib/sources";
-
-/**
- * Plain-English label for each classification.
- *
- * The event model's vocabulary is precise but internal. "proposed_rule" means
- * nothing to a reader; "Proposed rule — not in force" means exactly the right
- * thing, and says the consequential part in the label itself.
- */
-const CLASSIFICATION_LABEL: Record<EventClassification, string> = {
-  new_information: "New information",
-  updated_information: "Updated",
-  correction: "Correction",
-  historical_revision: "Historical revision",
-  announcement: "Announcement",
-  data_release: "Data release",
-  proposed_rule: "Proposed rule — not in force",
-  final_rule: "Final rule",
-  executive_action: "Executive action",
-  court_decision: "Court decision",
-  legislative_action: "Legislative action",
-  deadline: "Deadline",
-};
-
-/**
- * Severity, worded as what it means rather than how alarmed to be.
- *
- * Deliberately not colour-coded. A red badge would tell a reader this change is
- * bad, which is an editorial claim the platform does not make.
- */
-const SEVERITY_LABEL: Record<EventSeverity, string> = {
-  major: "Changes what someone can or must do",
-  notable: "Meaningful movement",
-  routine: "Routine",
-};
+import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
 
 function entityName(entityId: string): string {
   const known = ENTITY_BY_ID.get(entityId as never);
@@ -182,7 +149,7 @@ function WhoIsAffected({ impact }: { impact: EventImpact }) {
 
 export function EventCard({ event }: { event: ImmigrationEvent }) {
   const source = SOURCE_BY_KEY[event.sourceKey];
-  const isProposal = event.classification === "proposed_rule";
+  const isProposal = isNotInForce(event.classification);
 
   return (
     <article className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 sm:p-5">

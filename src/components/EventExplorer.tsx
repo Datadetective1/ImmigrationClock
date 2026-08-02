@@ -31,6 +31,13 @@ import { formatDate } from "@/lib/format";
 import { trackSearch } from "@/lib/analytics";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import {
+  CLASSIFICATION_LABEL,
+  SEVERITY_LABEL,
+  SEVERITY_SHORT,
+  classificationLabel,
+  isNotInForce,
+} from "@/lib/event-labels";
+import {
   EVENT_INDEX,
   filterEvents,
   hasActiveFilters,
@@ -42,33 +49,6 @@ import {
   type SortOrder,
 } from "@/lib/event-index";
 import type { EventSeverity } from "@/domains/graph/events";
-
-const SEVERITY_LABEL: Record<EventSeverity, string> = {
-  major: "Changes what someone can or must do",
-  notable: "Meaningful movement",
-  routine: "Routine",
-};
-
-const SEVERITY_SHORT: Record<EventSeverity, string> = {
-  major: "Major",
-  notable: "Notable",
-  routine: "Routine",
-};
-
-const CLASSIFICATION_LABEL: Record<string, string> = {
-  new_information: "New information",
-  updated_information: "Updated",
-  correction: "Correction",
-  historical_revision: "Historical revision",
-  announcement: "Announcement",
-  data_release: "Data release",
-  proposed_rule: "Proposed rule — not in force",
-  final_rule: "Final rule",
-  executive_action: "Executive action",
-  court_decision: "Court decision",
-  legislative_action: "Legislative action",
-  deadline: "Deadline",
-};
 
 function Chip({
   active,
@@ -100,7 +80,7 @@ function Chip({
 
 function ResultRow({ event }: { event: IndexedEvent }) {
   const source = SOURCE_BY_KEY[event.sourceKey];
-  const isProposal = event.classification === "proposed_rule";
+  const isProposal = isNotInForce(event.classification);
 
   return (
     <li className="border-t border-white/5 py-4 first:border-t-0">
@@ -113,7 +93,7 @@ function ResultRow({ event }: { event: IndexedEvent }) {
         </span>
         {/* A proposal must never read as a rule, even in a compact row. */}
         <span className={isProposal ? "font-semibold text-status-amber" : "text-slate-400"}>
-          {CLASSIFICATION_LABEL[event.classification] ?? event.classification}
+          {classificationLabel(event.classification)}
         </span>
         {source ? (
           <>
@@ -308,7 +288,7 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
               onClick={() => toggle(classifications, c, setClassifications)}
               count={classificationFacets[c] ?? 0}
             >
-              {CLASSIFICATION_LABEL[c] ?? c}
+              {classificationLabel(c)}
             </Chip>
           ))}
         </div>
