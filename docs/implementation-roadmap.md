@@ -104,8 +104,12 @@ See [who-is-affected.md](who-is-affected.md).
 
 ### Progress
 - ✅ **2A** — event model, impact model, country registry, event store, reader.
-- 🟡 **2B** — 5 of 11 adapters built: Federal Register, Executive Actions,
-  USCIS Newsroom, USCIS Policy Manual, Federal Courts.
+- 🟡 **2B** — 6 of 11 adapters built: Federal Register, Executive Actions,
+  USCIS Newsroom, USCIS Policy Manual, Federal Courts, Congress.
+
+**Action required:** Congress is built and tested but ingests nothing until a
+free key from https://api.congress.gov is set as `CONGRESS_API_KEY`. It reports
+itself as unconfigured rather than failing, so this is silent unless checked.
 
 **Founder decision (2026-08-02) — court coverage.** Federal courts are ingested
 for decisions that establish or change immigration law, and not for the people
@@ -142,7 +146,7 @@ surface instead of tests alone.
 | 3 | Department of State | 🚫 blocked | Verified 2026-08-01: state.gov site-wide errors; travel.state.gov behind Cloudflare bot protection, which we do not circumvent. DOS rulemaking already arrives via the Federal Register adapter — guarded by test. |
 | 4 | Visa Bulletin | 🚫 blocked | Same Cloudflare barrier (hosted on travel.state.gov), plus its own risk: a table of dates where a mis-parse is a confidently wrong fact rather than a missing event. |
 | 5 | Federal Courts | ✅ built | CourtListener, keyless. Policy-impact only: institutional litigation and published appellate rulings. Individual petitions, asylum appeals, visa denials, and detainee cases excluded by editorial policy — ~9 in 10 decisions filtered out. |
-| 6 | Congress | ⬜ next | Congress.gov API, key required. Introduction is not change. |
+| 6 | Congress | ✅ built | Official Congress.gov API. Introduced and referred bills excluded — ~2% become law, so introduction is not change. **Needs `CONGRESS_API_KEY`**; reports as unconfigured until set. |
 | 7 | Department of Labor | ⬜ | PERM + LCA quarterly bulk files. |
 | 8 | CBP | ⬜ | Already ingested as statistics; needs event emission. |
 | 9 | ICE | ⬜ | `blocked` — XLSX with drifting sheet layouts. |
