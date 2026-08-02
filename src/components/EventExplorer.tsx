@@ -245,7 +245,12 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search all 190+ recorded changes — try “H-1B”, “asylum”, “fee”…"
+            // Counted from the index rather than written into the copy. A
+            // hardcoded "190+" is correct on the day it is typed and quietly
+            // wrong forever after — a small dishonesty, but on this platform a
+            // number in the interface that nobody recomputes is exactly the
+            // habit that erodes the rest.
+            placeholder={`Search all ${EVENT_INDEX.length} recorded changes — try “H-1B”, “asylum”, “fee”…`}
             aria-label="Search recorded immigration policy changes"
             className="w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
           />
