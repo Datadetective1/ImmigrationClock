@@ -36,6 +36,8 @@ import { impactDisclaimer, type EventImpact, type ImpactedEntity } from "@/domai
 import type { EventClassification, EventSeverity, ImmigrationEvent } from "@/domains/graph/events";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
+import { explainEvent } from "@/domains/graph/explain";
+import { labelForEntity } from "@/lib/entity-labels";
 
 function entityName(entityId: string): string {
   const known = ENTITY_BY_ID.get(entityId as never);
@@ -147,6 +149,41 @@ function WhoIsAffected({ impact }: { impact: EventImpact }) {
   );
 }
 
+/**
+ * "What this means" — derived, never generated.
+ *
+ * Every sentence restates one verified field, and the field is named beside it,
+ * so a reader can audit an explanation the same way they can audit an evidence
+ * quote. Nothing here is a model's opinion about a document.
+ *
+ * Renders nothing when the event carries too little to say anything true. A
+ * short explanation is the honest outcome; padding it would be inventing.
+ */
+function WhatThisMeans({ event }: { event: ImmigrationEvent }) {
+  const clauses = explainEvent(event, undefined, labelForEntity);
+  if (clauses.length === 0) return null;
+
+  return (
+    <div className="mt-3 rounded-xl border border-white/5 bg-white/[0.015] p-3">
+      <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-400">What this means</h4>
+      <ul className="mt-1.5 space-y-1.5">
+        {clauses.map((c) => (
+          <li key={c.basis} className="text-sm leading-relaxed text-slate-300">
+            {c.text}{" "}
+            <span className="whitespace-nowrap text-[11px] text-slate-600" title="The event field this restates">
+              ({c.basis})
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-2 text-xs leading-relaxed text-slate-500">
+        Derived from this event&rsquo;s own recorded fields — not written by a model, and not an
+        interpretation of anyone&rsquo;s case.
+      </p>
+    </div>
+  );
+}
+
 export function EventCard({ event }: { event: ImmigrationEvent }) {
   const source = SOURCE_BY_KEY[event.sourceKey];
   const isProposal = isNotInForce(event.classification);
@@ -192,9 +229,14 @@ export function EventCard({ event }: { event: ImmigrationEvent }) {
 
       <p className="mt-2 text-sm leading-relaxed text-slate-300">{event.summary}</p>
 
+      {/* A reviewed, human- or model-drafted explanation, when one exists. The
+          field is currently unpopulated and gated by reviewStatus; the derived
+          explanation below covers every event in the meantime. */}
       {event.whyItMatters ? (
         <p className="mt-2 text-sm leading-relaxed text-slate-400">{event.whyItMatters}</p>
       ) : null}
+
+      <WhatThisMeans event={event} />
 
       {event.impact ? <WhoIsAffected impact={event.impact} /> : null}
 
