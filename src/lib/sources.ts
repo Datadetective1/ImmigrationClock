@@ -134,6 +134,26 @@ export const SOURCES: SourceDef[] = [
       "An LCA is a wage attestation filed before a petition — it is not an approval and not evidence anyone was hired. Offered wages are what the employer attested, not what was paid.",
   },
   {
+    key: "dol_oflc",
+    name: "DOL Office of Foreign Labor Certification announcements",
+    agency: "U.S. Department of Labor, Office of Foreign Labor Certification",
+    tier: "official",
+    description:
+      "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage determinations, and the FLAG filing system — the labor-certification step that precedes a USCIS petition.",
+    homepageUrl: "https://flag.dol.gov",
+    datasetUrl: "https://flag.dol.gov/announcements",
+    cadence: "continuous",
+    ingestion: "scheduled-scrape",
+    refreshKey: "dolOflc",
+    typicalLagMonths: 0,
+    // Verified 2026-08-02: the announcements page was fetched during this
+    // session and returned 10 structured rows, each linking to a date-stamped
+    // /announcement/YYYY-MM-DD path.
+    lastVerifiedAt: "2026-08-02",
+    limitations:
+      "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. A certification is not a visa, not an approval, and not permission to work. Much of what OFLC posts is release notes for its filing software, which change how the system behaves rather than what the law requires; those are recorded as routine. The listing publishes no effective date as a field, so events from this source do not assert one. DOL rulemaking is not duplicated here — it arrives through the Federal Register adapter.",
+  },
+  {
     key: "ice_stats",
     name: "ICE Enforcement and Removal Statistics",
     agency: "U.S. Immigration and Customs Enforcement (DHS)",

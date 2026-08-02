@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-02T05:40:56.778Z",
+  "generatedAt": "2026-08-02T13:25:18.982Z",
   "since": "2025-01-01",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:40:56.010Z",
+      "lastRunAt": "2026-08-02T13:25:17.373Z",
       "ok": true,
       "eventCount": 14,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:40:56.131Z",
+      "lastRunAt": "2026-08-02T13:25:17.543Z",
       "ok": true,
       "eventCount": 2,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:40:56.294Z",
+      "lastRunAt": "2026-08-02T13:25:17.741Z",
       "ok": true,
       "eventCount": 112,
       "warnings": [
@@ -40,7 +40,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:40:56.383Z",
+      "lastRunAt": "2026-08-02T13:25:17.870Z",
       "ok": true,
       "eventCount": 46,
       "warnings": []
@@ -49,7 +49,7 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:40:56.668Z",
+      "lastRunAt": "2026-08-02T13:25:18.400Z",
       "ok": true,
       "eventCount": 2,
       "warnings": [
@@ -60,7 +60,7 @@
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:40:56.669Z",
+      "lastRunAt": "2026-08-02T13:25:18.401Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
@@ -71,29 +71,38 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-08-02T05:40:56.775Z",
+      "lastRunAt": "2026-08-02T13:25:18.507Z",
       "ok": true,
       "eventCount": 7,
       "warnings": [
         "2 CBP release(s) had no publication month recorded and were skipped rather than dated by guess"
       ]
+    },
+    {
+      "key": "dol-oflc",
+      "name": "DOL Office of Foreign Labor Certification",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T13:25:18.978Z",
+      "ok": true,
+      "eventCount": 7,
+      "warnings": []
     }
   ],
   "counts": {
-    "total": 183,
+    "total": 190,
     "bySeverity": {
       "major": 78,
-      "routine": 27,
-      "notable": 78
+      "routine": 31,
+      "notable": 81
     },
     "byClassification": {
       "final_rule": 3,
-      "announcement": 94,
+      "announcement": 98,
       "proposed_rule": 2,
       "court_decision": 6,
       "deadline": 11,
       "data_release": 7,
-      "updated_information": 58,
+      "updated_information": 61,
       "executive_action": 2
     }
   },
@@ -1392,6 +1401,54 @@
       ]
     },
     {
+      "id": "dol_oflc:announcement-2026-06-30",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "updated_information",
+      "severity": "routine",
+      "title": "Foreign Labor Application Gateway (FLAG) Online Filing Release Notes 6/30/2026",
+      "summary": "PW filers can now respond to multiple RFIs on a single case; the RFI response case action, which was previously disabled after the first response, will now be available for any subsequent RFIs sent to the filer. CW-1 filers can now request deadline extensions for their Recruitment Report and Notice...",
+      "publishedAt": "2026-06-30",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-06-30",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "This is a release note for OFLC's online filing systems. It describes how the filing software behaves, not what the law requires.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
+      ]
+    },
+    {
       "id": "uscis_policy_manual:20260626-religiousworkersperiodofstay",
       "sourceKey": "uscis_policy_manual",
       "issuingAgencyId": "agency:uscis",
@@ -2204,6 +2261,54 @@
       "reviewStatus": "auto",
       "limitations": [
         "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "dol_oflc:announcement-2026-03-12",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "OFLC Announces Webinar on March 25, 2026, to Provide Technical Assistance to Stakeholders on the Process for Filing CW-1 Applications for Employment in the Commonwealth of the Northern Mariana Islands",
+      "summary": "The Office of Foreign Labor Certification invites interested stakeholders to participate in a webinar that provides technical assistance and helpful tips for preparing the CW-1 Application for Prevailing Wage Determination (Form ETA-9141C), the Application for Temporary Employment Certification ...",
+      "publishedAt": "2026-03-12",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-03-12",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
     {
@@ -3769,6 +3874,54 @@
       ]
     },
     {
+      "id": "dol_oflc:announcement-2025-12-11",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "updated_information",
+      "severity": "routine",
+      "title": "OFLC Issues Technical Release Notes for an Update to Registration Number Linking Ability 12/11/2025",
+      "summary": "FLAG has updated the 9142B Registration Number linking to return matches for registration number records containing Primary Worksite MSAs, which were created in prior years but map to a current MSA value.",
+      "publishedAt": "2025-12-11",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2025-12-11",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "This is a release note for OFLC's online filing systems. It describes how the filing software behaves, not what the law requires.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
+      ]
+    },
+    {
       "id": "uscis_policy_manual:20251205-biometricscollection",
       "sourceKey": "uscis_policy_manual",
       "issuingAgencyId": "agency:uscis",
@@ -4775,6 +4928,54 @@
         "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
+      ]
+    },
+    {
+      "id": "dol_oflc:announcement-2025-10-31",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "The Department of Labor Announces that the Office of Foreign Labor Certification has Resumed Application Processing",
+      "summary": "The Department of Labor has resumed processing of employer requests for prevailing wages and labor certification determinations for temporary and permanent employment in the United States. The Office of Foreign Labor Certification’s (OFLC) Foreign Labor Application Gateway (FLAG) system is now...",
+      "publishedAt": "2025-10-31",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2025-10-31",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
     {
@@ -8362,6 +8563,60 @@
       ]
     },
     {
+      "id": "dol_oflc:announcement-2025-05-16",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "The Department of Labor Announces Additional Guidance for the H-2A Program in Washington State for Non-Range Occupations; Compliance with District Court Order",
+      "summary": "Consistent with the modified order in the case Familias Unidas Por La Justicia, the Department is providing this notice that all relevant employers employing workers in a specific crop or agricultural activity must offer and pay the applicable active prevailing piece rate wage for work performed in...",
+      "publishedAt": "2025-05-16",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2025-05-16",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "visa:h-2a",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
+      ]
+    },
+    {
       "id": "uscis_policy_manual:2025-05-13-removal-of-covid-19-vaccine-requirement",
       "sourceKey": "uscis_policy_manual",
       "issuingAgencyId": "agency:uscis",
@@ -9352,6 +9607,54 @@
       ]
     },
     {
+      "id": "dol_oflc:announcement-2025-02-20",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "Notice to Stakeholders regarding aligning record retention activities with regulatory requirements established by the National Archives and Records Administration (NARA)",
+      "summary": "The Department of Labor’s Employment and Training Administration (ETA) is providing notice that the Office of Foreign Labor Certification (OFLC) will be aligning record retention activities with regulatory requirements established by the National Archives and Records Administration (NARA) (36 CFR...",
+      "publishedAt": "2025-02-20",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2025-02-20",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
+      ]
+    },
+    {
       "id": "uscis_newsroom:811dbd7d-7e86-4e5d-91ad-afbf96c4347e",
       "sourceKey": "uscis_newsroom",
       "issuingAgencyId": "agency:uscis",
@@ -9461,6 +9764,54 @@
       "reviewStatus": "auto",
       "limitations": [
         "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "dol_oflc:announcement-2025-02-03",
+      "sourceKey": "dol_oflc",
+      "issuingAgencyId": "agency:dol",
+      "classification": "updated_information",
+      "severity": "routine",
+      "title": "Permanent Employment Certification (PERM) Online Filing Release Notes 02/03/2025",
+      "summary": "For the 9089, cases can now be withdrawn in the action menu if in a “request for review” status. This option will remain available until the BALCA package has been prepared. Once the package has been prepared and sent to BALCA, the withdraw option will no longer be available. For 9089 cases, in...",
+      "publishedAt": "2025-02-03",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://flag.dol.gov/announcement/2025-02-03",
+      "entities": [
+        {
+          "entityId": "agency:dol",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:employers",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dol",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "This is a release note for OFLC's online filing systems. It describes how the filing software behaves, not what the law requires.",
+        "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
     {

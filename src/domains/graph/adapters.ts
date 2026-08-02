@@ -182,6 +182,14 @@ export const ADAPTERS: SourceAdapter[] = [
     coverage: "National unemployment rate, as labour-market context. Already ingested.",
   },
   {
+    key: "dol-oflc",
+    name: "DOL Office of Foreign Labor Certification",
+    sourceKey: "dol_oflc",
+    status: "ready",
+    coverage:
+      "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage, and the FLAG filing system — the labor-certification step before a USCIS petition. Filing-system release notes and webinars are recorded as routine: real, but they change no obligation. DOL rulemaking is not duplicated here; the Federal Register adapter already tracks the labor-department and employment-and-training-administration slugs.",
+  },
+  {
     key: "dol-perm",
     name: "DOL PERM disclosure data",
     sourceKey: "dol_lca",

@@ -104,12 +104,17 @@ See [who-is-affected.md](who-is-affected.md).
 
 ### Progress
 - ✅ **2A** — event model, impact model, country registry, event store, reader.
-- 🟡 **2B** — 6 of 11 adapters built: Federal Register, Executive Actions,
-  USCIS Newsroom, USCIS Policy Manual, Federal Courts, Congress.
+- 🟡 **2B** — 8 of 11 adapters built: Federal Register, Executive Actions,
+  USCIS Newsroom, USCIS Policy Manual, Federal Courts, Congress, CBP, DOL/OFLC.
 
 **Action required:** Congress is built and tested but ingests nothing until a
 free key from https://api.congress.gov is set as `CONGRESS_API_KEY`. It reports
 itself as unconfigured rather than failing, so this is silent unless checked.
+
+**Founder decision (2026-08-02) — next phase.** After CBP and DOL, work shifts from
+adding sources to the product itself: search, filtering, personalized tracking,
+alerts, explanations, and usability. Remaining low-value adapters (ICE, state
+agencies, SEVIS, PERM/LCA bulk files) wait behind that.
 
 **Founder decision (2026-08-02) — court coverage.** Federal courts are ingested
 for decisions that establish or change immigration law, and not for the people
@@ -147,8 +152,8 @@ surface instead of tests alone.
 | 4 | Visa Bulletin | 🚫 blocked | Same Cloudflare barrier (hosted on travel.state.gov), plus its own risk: a table of dates where a mis-parse is a confidently wrong fact rather than a missing event. |
 | 5 | Federal Courts | ✅ built | CourtListener, keyless. Policy-impact only: institutional litigation and published appellate rulings. Individual petitions, asylum appeals, visa denials, and detainee cases excluded by editorial policy — ~9 in 10 decisions filtered out. |
 | 6 | Congress | ✅ built | Official Congress.gov API. Introduced and referred bills excluded — ~2% become law, so introduction is not change. **Needs `CONGRESS_API_KEY`**; reports as unconfigured until set. |
-| 7 | Department of Labor | ⬜ | PERM + LCA quarterly bulk files. |
-| 8 | CBP | ⬜ | Already ingested as statistics; needs event emission. |
+| 7 | Department of Labor | ✅ built | OFLC announcements (PERM, H-2A, H-2B, prevailing wage, FLAG). Date taken from the machine-generated URL path, not display prose; conflicting dates are skipped. Filing-software release notes are routine. DOL rulemaking arrives via Federal Register, not duplicated. |
+| 8 | CBP | ✅ built | Projects the existing pipeline into events rather than re-fetching — one dataset, one reading. Works offline. Each monthly release is routine regardless of magnitude. |
 | 9 | ICE | ⬜ | `blocked` — XLSX with drifting sheet layouts. |
 
 ### 2.1 The Event model

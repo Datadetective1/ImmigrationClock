@@ -40,6 +40,7 @@ import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-po
 import { federalCourtsAdapter } from "../src/domains/graph/adapters/federal-courts";
 import { congressAdapter } from "../src/domains/graph/adapters/congress";
 import { cbpEncountersAdapter } from "../src/domains/graph/adapters/cbp-encounters";
+import { dolOflcAdapter } from "../src/domains/graph/adapters/dol-oflc";
 import { validateEvent, dedupeEvents, sortEvents, type ImmigrationEvent } from "../src/domains/graph/events";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.meta.url));
@@ -58,6 +59,7 @@ const IMPLEMENTATIONS = [
   federalCourtsAdapter,
   congressAdapter,
   cbpEncountersAdapter,
+  dolOflcAdapter,
 ];
 
 function attachImplementations() {
