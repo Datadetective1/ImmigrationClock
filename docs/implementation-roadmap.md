@@ -104,8 +104,18 @@ See [who-is-affected.md](who-is-affected.md).
 
 ### Progress
 - ✅ **2A** — event model, impact model, country registry, event store, reader.
-- 🟡 **2B** — 4 of 11 adapters built: Federal Register, Executive Actions,
-  USCIS Newsroom, USCIS Policy Manual.
+- 🟡 **2B** — 5 of 11 adapters built: Federal Register, Executive Actions,
+  USCIS Newsroom, USCIS Policy Manual, Federal Courts.
+
+**Founder decision (2026-08-02) — court coverage.** Federal courts are ingested
+for decisions that establish or change immigration law, and not for the people
+in a case. Routine individual petitions, asylum appeals, visa denials, and
+detainee habeas cases are excluded, because a feed of "Liu v. Noem",
+"Hernandez v. Noem", "Prado-Majano v. Blanche" is the individual-immigrant
+profiling `/methodology` promises not to do. The accepted cost: a landmark
+decision captioned with an individual's name is excluded along with the routine
+ones, since the filter reads parties from the caption. Surfacing those needs an
+editorial review step rather than an automatic rule.
 - ✅ **2C** — `/what-changed` shipped 2026-08-02. First consumer of the event
   store; `EventCard` is reusable for 2D entity pages.
 - ⬜ **2D / 2E** — not started.
@@ -131,8 +141,8 @@ surface instead of tests alone.
 | 2 | USCIS Policy Manual | ✅ built | HTML scrape; severity from USCIS's own Policy Alert / Technical Update labels. |
 | 3 | Department of State | 🚫 blocked | Verified 2026-08-01: state.gov site-wide errors; travel.state.gov behind Cloudflare bot protection, which we do not circumvent. DOS rulemaking already arrives via the Federal Register adapter — guarded by test. |
 | 4 | Visa Bulletin | 🚫 blocked | Same Cloudflare barrier (hosted on travel.state.gov), plus its own risk: a table of dates where a mis-parse is a confidently wrong fact rather than a missing event. |
-| 5 | Federal Courts | ⬜ next | CourtListener has a free API. Scope must be tightly filtered. |
-| 6 | Congress | ⬜ | Congress.gov API, key required. Introduction is not change. |
+| 5 | Federal Courts | ✅ built | CourtListener, keyless. Policy-impact only: institutional litigation and published appellate rulings. Individual petitions, asylum appeals, visa denials, and detainee cases excluded by editorial policy — ~9 in 10 decisions filtered out. |
+| 6 | Congress | ⬜ next | Congress.gov API, key required. Introduction is not change. |
 | 7 | Department of Labor | ⬜ | PERM + LCA quarterly bulk files. |
 | 8 | CBP | ⬜ | Already ingested as statistics; needs event emission. |
 | 9 | ICE | ⬜ | `blocked` — XLSX with drifting sheet layouts. |

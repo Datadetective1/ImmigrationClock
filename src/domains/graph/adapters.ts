@@ -138,9 +138,9 @@ export const ADAPTERS: SourceAdapter[] = [
     key: "federal-courts",
     name: "Federal court decisions",
     sourceKey: "federal_courts",
-    status: "planned",
+    status: "ready",
     coverage:
-      "Decisions affecting immigration administration. CourtListener offers a free API; PACER does not. Scope must be tightly filtered — most federal litigation is irrelevant here.",
+      "Decisions that establish or change immigration law: published appellate rulings and institutional litigation against immigration agencies, via CourtListener's free API. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are excluded by editorial policy — the platform reports the legal rule, not the people in a case. Measured against live data, this excludes roughly 9 in 10 immigration decisions.",
   },
   {
     key: "congress",

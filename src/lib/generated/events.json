@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-02T05:07:36.683Z",
+  "generatedAt": "2026-08-02T05:21:27.098Z",
   "since": "2026-05-04",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:07:36.320Z",
+      "lastRunAt": "2026-08-02T05:21:23.008Z",
       "ok": true,
       "eventCount": 14,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:07:36.432Z",
+      "lastRunAt": "2026-08-02T05:21:23.123Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:07:36.599Z",
+      "lastRunAt": "2026-08-02T05:21:23.292Z",
       "ok": true,
       "eventCount": 10,
       "warnings": [
@@ -39,24 +39,35 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-02T05:07:36.672Z",
+      "lastRunAt": "2026-08-02T05:21:23.373Z",
       "ok": true,
       "eventCount": 4,
       "warnings": []
+    },
+    {
+      "key": "federal-courts",
+      "name": "Federal court decisions",
+      "status": "ready",
+      "lastRunAt": "2026-08-02T05:21:27.078Z",
+      "ok": true,
+      "eventCount": 2,
+      "warnings": [
+        "18 decision(s) naming private individuals excluded by editorial policy (see adapter header)"
+      ]
     }
   ],
   "counts": {
-    "total": 44,
+    "total": 46,
     "bySeverity": {
       "major": 18,
       "routine": 12,
-      "notable": 14
+      "notable": 16
     },
     "byClassification": {
       "final_rule": 2,
       "announcement": 26,
       "proposed_rule": 2,
-      "court_decision": 2,
+      "court_decision": 4,
       "deadline": 5,
       "updated_information": 5,
       "executive_action": 2
@@ -1203,6 +1214,55 @@
       ]
     },
     {
+      "id": "federal_courts:10919523",
+      "sourceKey": "federal_courts",
+      "classification": "court_decision",
+      "severity": "notable",
+      "title": "League of Women Voters v. U.S. Department of Homeland Security",
+      "summary": "District Court, District of Columbia issued a decision in League of Women Voters v. U.S. Department of Homeland Security, filed 2026-07-08, docket Civil Action No. 2025-3501. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "publishedAt": "2026-07-08",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10919523/league-of-women-voters-v-us-department-of-homeland-security/",
+      "entities": [
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "court_case:dcd-10919523",
+          "relation": "affects",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "This document does not state in structured terms who is affected. Read the original for scope."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
+        "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+      ]
+    },
+    {
       "id": "uscis_newsroom:a50f0237-4ed6-416b-8f57-e85b0823de70",
       "sourceKey": "uscis_newsroom",
       "issuingAgencyId": "agency:uscis",
@@ -1355,6 +1415,55 @@
       "reviewStatus": "auto",
       "limitations": [
         "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
+      "id": "federal_courts:10878158",
+      "sourceKey": "federal_courts",
+      "classification": "court_decision",
+      "severity": "notable",
+      "title": "League of Women Voters v. U.S. Department of Homeland Security",
+      "summary": "District Court, District of Columbia issued a decision in League of Women Voters v. U.S. Department of Homeland Security, filed 2026-06-22, docket Civil Action No. 2025-3501. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "publishedAt": "2026-06-22",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10878158/league-of-women-voters-v-us-department-of-homeland-security/",
+      "entities": [
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "court_case:dcd-10878158",
+          "relation": "affects",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:dhs",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "This document does not state in structured terms who is affected. Read the original for scope."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
+        "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
       ]
     },
     {

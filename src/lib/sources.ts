@@ -318,13 +318,17 @@ export const SOURCES: SourceDef[] = [
     description:
       "Decisions from federal district courts, courts of appeals, and the Supreme Court affecting immigration administration.",
     homepageUrl: "https://www.uscourts.gov",
-    datasetUrl: "https://www.courtlistener.com/api/",
+    datasetUrl: "https://www.courtlistener.com/api/rest/v4/search/",
     cadence: "continuous",
-    ingestion: "planned",
+    ingestion: "live-api",
+    refreshKey: "federalCourts",
     typicalLagMonths: 0,
-    lastVerifiedAt: "2026-08-01",
+    // Verified 2026-08-02: the CourtListener v4 search API was queried during
+    // this session, keyless, and returned current opinions with the caption,
+    // court, filing date, docket, and precedential status this platform uses.
+    lastVerifiedAt: "2026-08-02",
     limitations:
-      "Not yet ingested. A decision's reach depends on its court and whether it is stayed or appealed — a district-court injunction is not nationwide law, and presenting one as such would seriously mislead.",
+      "A decision's reach depends on its court and whether it is stayed or appealed — a district-court injunction is not nationwide law, and presenting one as such would seriously mislead. We report only decisions that establish or change immigration law: published appellate rulings and institutional litigation. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are deliberately excluded, because this platform reports the legal rule rather than the people in a case. That filter identifies parties from the caption, so a landmark decision captioned with an individual's name is excluded along with the routine ones. CourtListener publishes no summary for these decisions, so events report court, date, docket, and precedential status only.",
   },
   {
     key: "congress",
