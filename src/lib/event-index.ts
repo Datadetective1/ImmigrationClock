@@ -139,3 +139,37 @@ export function groupByDay(events: IndexedEvent[]): { date: string; events: Inde
     .sort((a, b) => b[0].localeCompare(a[0]))
     .map(([date, evts]) => ({ date, events: evts }));
 }
+
+/**
+ * Result ordering.
+ *
+ * Lives here rather than in the explorer component for two reasons: pure logic
+ * belongs beside the other pure filters, and exporting a non-component value
+ * from a "use client" component file breaks Fast Refresh — Next warns about it
+ * explicitly, and the dev server was doing a full reload on every edit.
+ *
+ * The comparator is TOTAL. Equal keys fall back to date and then to id, so the
+ * order can never depend on the engine's sort stability — otherwise a reader who
+ * changes a filter and comes back sees rows rearranged for no reason they can
+ * perceive.
+ */
+export type SortOrder = "newest" | "oldest" | "importance";
+
+const SEVERITY_RANK: Record<EventSeverity, number> = { major: 0, notable: 1, routine: 2 };
+
+export function sortResults(events: IndexedEvent[], order: SortOrder): IndexedEvent[] {
+  const out = [...events];
+  out.sort((a, b) => {
+    if (order === "importance") {
+      const d = SEVERITY_RANK[a.severity] - SEVERITY_RANK[b.severity];
+      if (d !== 0) return d;
+    }
+    const dateCmp =
+      order === "oldest"
+        ? a.publishedAt.localeCompare(b.publishedAt)
+        : b.publishedAt.localeCompare(a.publishedAt);
+    if (dateCmp !== 0) return dateCmp;
+    return a.id.localeCompare(b.id);
+  });
+  return out;
+}

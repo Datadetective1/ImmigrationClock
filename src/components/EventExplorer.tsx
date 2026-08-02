@@ -36,8 +36,10 @@ import {
   hasActiveFilters,
   facetCounts,
   groupByDay,
+  sortResults,
   type EventFilters,
   type IndexedEvent,
+  type SortOrder,
 } from "@/lib/event-index";
 import type { EventSeverity } from "@/domains/graph/events";
 
@@ -146,18 +148,51 @@ function ResultRow({ event }: { event: IndexedEvent }) {
   );
 }
 
+/**
+ * Results are paged rather than dumped.
+ *
+ * At 190 events rendering everything is survivable; at a few thousand it is a
+ * multi-second layout and a scroll bar that means nothing. Paging is a property
+ * of the component rather than the data, so the archive can grow without this
+ * page changing.
+ */
+const PAGE_SIZE = 25;
+
+const SORT_LABEL: Record<SortOrder, string> = {
+  newest: "Newest first",
+  oldest: "Oldest first",
+  importance: "Most important first",
+};
+
 export function EventExplorer({ children }: { children: React.ReactNode }) {
   const [q, setQ] = useState("");
   const [severity, setSeverity] = useState<EventSeverity[]>([]);
   const [sources, setSources] = useState<string[]>([]);
+  const [classifications, setClassifications] = useState<string[]>([]);
+  const [order, setOrder] = useState<SortOrder>("newest");
+  const [visible, setVisible] = useState(PAGE_SIZE);
   const searchId = useId();
 
   const filters: EventFilters = useMemo(
-    () => ({ q, severity, sourceKey: sources }),
-    [q, severity, sources]
+    () => ({
+      q,
+      severity,
+      sourceKey: sources,
+      classification: classifications.length ? (classifications as EventFilters["classification"]) : undefined,
+    }),
+    [q, severity, sources, classifications]
   );
   const active = hasActiveFilters(filters);
-  const results = useMemo(() => (active ? filterEvents(EVENT_INDEX, filters) : []), [active, filters]);
+  const results = useMemo(
+    () => (active ? sortResults(filterEvents(EVENT_INDEX, filters), order) : []),
+    [active, filters, order]
+  );
+
+  // Any change to the query resets paging: leaving a reader 200 rows deep in a
+  // result set they just replaced is disorienting.
+  useEffect(() => {
+    setVisible(PAGE_SIZE);
+  }, [q, severity, sources, classifications, order]);
 
   // Facets are computed against everything EXCEPT the facet being offered, so a
   // count never reads as zero for an option that would actually return results.
@@ -179,10 +214,22 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(t);
   }, [q, results.length]);
 
-  const grouped = useMemo(() => groupByDay(results), [results]);
+  // Only the visible page is grouped and rendered. Grouping the whole result set
+  // would do the expensive work regardless of what is on screen.
+  const page = useMemo(() => results.slice(0, visible), [results, visible]);
+  const grouped = useMemo(() => groupByDay(page), [page]);
+
   const availableSources = useMemo(
     () => [...new Set(EVENT_INDEX.map((e) => e.sourceKey))].sort(),
     []
+  );
+  const availableClassifications = useMemo(
+    () => [...new Set(EVENT_INDEX.map((e) => e.classification))].sort(),
+    []
+  );
+  const classificationFacets = useMemo(
+    () => facetCounts(filterEvents(EVENT_INDEX, { q, severity, sourceKey: sources })).byClassification,
+    [q, severity, sources]
   );
 
   function toggle<T>(list: T[], value: T, set: (v: T[]) => void) {
@@ -193,6 +240,7 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
     setQ("");
     setSeverity([]);
     setSources([]);
+    setClassifications([]);
   }
 
   return (
@@ -251,19 +299,50 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
           ))}
         </div>
 
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs text-slate-500">Kind</span>
+          {availableClassifications.map((c) => (
+            <Chip
+              key={c}
+              active={classifications.includes(c)}
+              onClick={() => toggle(classifications, c, setClassifications)}
+              count={classificationFacets[c] ?? 0}
+            >
+              {CLASSIFICATION_LABEL[c] ?? c}
+            </Chip>
+          ))}
+        </div>
+
         {active ? (
-          <div className="flex items-center justify-between gap-3 border-t border-white/5 pt-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-3">
             <p className="text-sm text-slate-300">
               <span className="font-semibold text-white">{results.length}</span>{" "}
               {results.length === 1 ? "change" : "changes"} found across the whole archive
             </p>
-            <button
-              type="button"
-              onClick={clearAll}
-              className="rounded-lg border border-white/10 px-3 py-1 text-xs text-slate-300 hover:border-white/20 hover:text-white"
-            >
-              Clear filters
-            </button>
+            <div className="flex items-center gap-2">
+              <label htmlFor={`${searchId}-sort`} className="text-xs text-slate-500">
+                Sort
+              </label>
+              <select
+                id={`${searchId}-sort`}
+                value={order}
+                onChange={(e) => setOrder(e.target.value as SortOrder)}
+                className="rounded-lg border border-white/10 bg-ink-850/80 px-2 py-1 text-xs text-slate-200 focus:border-accent/50 focus:outline-none"
+              >
+                {(Object.keys(SORT_LABEL) as SortOrder[]).map((o) => (
+                  <option key={o} value={o}>
+                    {SORT_LABEL[o]}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={clearAll}
+                className="rounded-lg border border-white/10 px-3 py-1 text-xs text-slate-300 hover:border-white/20 hover:text-white"
+              >
+                Clear filters
+              </button>
+            </div>
           </div>
         ) : null}
       </div>
@@ -300,6 +379,21 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
                 </ul>
               </section>
             ))}
+            {results.length > visible ? (
+              <div className="flex flex-col items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setVisible((v) => v + PAGE_SIZE)}
+                  className="rounded-lg border border-white/15 px-4 py-2 text-sm font-medium text-slate-200 hover:border-accent/50 hover:text-white"
+                >
+                  Show {Math.min(PAGE_SIZE, results.length - visible)} more
+                </button>
+                <p className="text-xs text-slate-500">
+                  Showing {visible} of {results.length}
+                </p>
+              </div>
+            ) : null}
+
             <p className="text-xs leading-relaxed text-slate-500">
               Search results are summaries. Each links to the government document it came from — open the
               original before relying on it, and read the full entry for the caveats that apply.

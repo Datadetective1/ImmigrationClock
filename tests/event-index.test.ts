@@ -24,6 +24,9 @@ import {
 } from "@/lib/event-index";
 import { EVENTS } from "@/lib/event-store";
 import { SOURCE_BY_KEY } from "@/lib/sources";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
 const ev = (over: Partial<IndexedEvent> = {}): IndexedEvent => ({
   id: "federal_register:1",
@@ -202,5 +205,49 @@ describe("day grouping", () => {
 
   it("returns nothing for an empty set", () => {
     expect(groupByDay([])).toEqual([]);
+  });
+});
+
+// =============================================================================
+// PERFORMANCE BUDGET
+//
+// The index is downloaded by every visitor to /what-changed. It grows with the
+// archive, and nothing about adding an adapter makes that growth visible — so
+// the budget is asserted here, where crossing it fails the build instead of
+// quietly costing every reader on a slow connection.
+// =============================================================================
+describe("index size budget", () => {
+  const root = fileURLToPath(new URL("..", import.meta.url));
+  const raw = readFileSync(join(root, "src/lib/generated/events-index.json"), "utf8");
+  const kb = raw.length / 1024;
+
+  it("stays inside the browser payload budget", () => {
+    // 400KB uncompressed is roughly 80KB over the wire. Past that the archive
+    // needs a bounded window shipped to the client with the older tail served
+    // separately — a real architectural change, and this test is the trigger
+    // for having that conversation rather than discovering it in production.
+    expect(kb, `events-index.json is ${kb.toFixed(0)}KB`).toBeLessThan(400);
+  });
+
+  it("carries no field a result row does not use", () => {
+    // Every field is paid for by every visitor. Impact records, limitations and
+    // evidence quotes belong in the store, not the browser.
+    const allowed = new Set([
+      "id", "title", "publishedAt", "effectiveAt", "scheduled", "severity",
+      "classification", "sourceKey", "sourceUrl", "summary", "entityIds",
+    ]);
+    for (const e of EVENT_INDEX.slice(0, 40)) {
+      for (const key of Object.keys(e)) {
+        expect(allowed.has(key), `index carries unused field "${key}"`).toBe(true);
+      }
+    }
+  });
+
+  it("ships no evidence quotes or limitations to the browser", () => {
+    for (const e of EVENT_INDEX as unknown as Record<string, unknown>[]) {
+      expect(e.impact).toBeUndefined();
+      expect(e.limitations).toBeUndefined();
+      expect(e.entities).toBeUndefined();
+    }
   });
 });

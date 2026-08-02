@@ -15,6 +15,7 @@ import { join } from "node:path";
 
 import { EVENTS, significantEvents, eventCoverageNote } from "@/lib/event-store";
 import { NAV } from "@/lib/site";
+import { sortResults } from "@/lib/event-index";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (rel: string) => readFileSync(join(root, rel), "utf8");
@@ -185,5 +186,70 @@ describe("what the surface actually publishes", () => {
     for (const e of EVENTS.filter((x) => x.publishedAt > today)) {
       expect(e.scheduled, `${e.id} is future-dated but not marked scheduled`).toBe(true);
     }
+  });
+});
+
+// =============================================================================
+// ARCHIVE EXPERIENCE — sorting and paging
+//
+// Sorting must be TOTAL. A comparator that returns 0 for equal keys leaves the
+// order at the mercy of the engine's sort stability, so a reader who scrolls,
+// changes a filter, and comes back sees rows in a different order for no reason
+// they can perceive.
+// =============================================================================
+describe("result ordering", () => {
+  const e = (id: string, publishedAt: string, severity: "major" | "notable" | "routine") =>
+    ({
+      id, publishedAt, severity,
+      title: id, effectiveAt: null, scheduled: false,
+      classification: "final_rule" as const,
+      sourceKey: "federal_register", sourceUrl: "https://x.gov", summary: "", entityIds: [],
+    });
+
+  it("sorts newest and oldest first", () => {
+    const rows = [e("a", "2026-01-01", "major"), e("b", "2026-07-01", "major")];
+    expect(sortResults(rows, "newest").map((r) => r.id)).toEqual(["b", "a"]);
+    expect(sortResults(rows, "oldest").map((r) => r.id)).toEqual(["a", "b"]);
+  });
+
+  it("sorts by importance before date", () => {
+    const rows = [e("routine-new", "2026-07-01", "routine"), e("major-old", "2026-01-01", "major")];
+    expect(sortResults(rows, "importance").map((r) => r.id)).toEqual(["major-old", "routine-new"]);
+  });
+
+  it("breaks every tie deterministically", () => {
+    // Same date, same severity. Without the id fallback the order would depend
+    // on engine sort stability and could differ between renders.
+    const rows = [e("b", "2026-07-01", "major"), e("a", "2026-07-01", "major")];
+    expect(sortResults(rows, "newest").map((r) => r.id)).toEqual(["a", "b"]);
+    expect(sortResults(rows, "importance").map((r) => r.id)).toEqual(["a", "b"]);
+  });
+
+  it("does not mutate its input", () => {
+    const rows = [e("b", "2026-01-01", "major"), e("a", "2026-07-01", "major")];
+    sortResults(rows, "newest");
+    expect(rows.map((r) => r.id)).toEqual(["b", "a"]);
+  });
+});
+
+describe("paging", () => {
+  it("renders a bounded page rather than the whole result set", () => {
+    // At 190 events rendering everything is survivable; at a few thousand it is
+    // a multi-second layout. Paging is a property of the component so the
+    // archive can grow without this page changing.
+    expect(EXPLORER).toMatch(/const PAGE_SIZE = \d+/);
+    expect(EXPLORER).toMatch(/results\.slice\(0, visible\)/);
+  });
+
+  it("groups only what is on screen", () => {
+    expect(EXPLORER).toMatch(/groupByDay\(page\)/);
+  });
+
+  it("resets paging when the query changes", () => {
+    expect(EXPLORER).toMatch(/setVisible\(PAGE_SIZE\)/);
+  });
+
+  it("tells the reader how much of the result set they are seeing", () => {
+    expect(EXPLORER).toMatch(/Showing \{visible\} of \{results\.length\}/);
   });
 });
