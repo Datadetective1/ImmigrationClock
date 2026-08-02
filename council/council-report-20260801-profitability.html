@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Council — ImmigrationClock: the path to profit</title>
+<style>
+  :root{
+    --bg:#ffffff; --panel:#fbfbfa; --ink:#1a1a1a; --muted:#6b6b6b;
+    --line:#e5e3df; --accent:#1f4d8f; --warn:#a8442a; --good:#2c6e49;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:48px 24px 96px}
+  header.top{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:36px}
+  .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 10px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 12px; letter-spacing:-.02em}
+  .sub{color:var(--muted); font-size:15px; margin:0}
+  .sub a{color:var(--accent); text-decoration:none}
+
+  .qbox{background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--accent);
+    padding:20px 22px; border-radius:4px; margin:0 0 36px}
+  .qbox h2{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; font-weight:600}
+  .qbox p{margin:0 0 10px; font-size:14.5px}
+  .qbox p:last-child{margin:0}
+
+  h2.sec{font-size:20px; letter-spacing:-.01em; margin:44px 0 14px}
+  h2.sec .num{color:var(--muted); font-weight:400; margin-right:8px}
+  p{margin:0 0 14px}
+  code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; background:rgba(0,0,0,.05); padding:1px 5px; border-radius:3px}
+
+  .verdict{background:#0f1720; color:#e9eef4; border-radius:6px; padding:26px; margin:0 0 34px}
+  .verdict h2{margin:0 0 12px; font-size:19px; color:#fff; letter-spacing:-.01em}
+  .verdict p{margin:0 0 12px; font-size:15.5px; color:#c9d4e0}
+  .verdict p:last-child{margin:0}
+  .verdict strong{color:#fff}
+
+  .agree{border-left:3px solid var(--good); background:#f6faf7; padding:18px 20px; border-radius:4px}
+  .agree ul{margin:0; padding-left:18px}
+  .agree li{margin-bottom:10px}
+  .agree li:last-child{margin-bottom:0}
+
+  .blind{border-left:3px solid var(--warn); background:#fdf7f5; padding:18px 20px; border-radius:4px}
+  .blind ul{margin:0; padding-left:18px}
+  .blind li{margin-bottom:10px}
+  .blind li:last-child{margin-bottom:0}
+
+  .clash{border:1px solid var(--line); border-radius:4px; padding:16px 18px; margin-bottom:14px}
+  .clash h3{margin:0 0 8px; font-size:15.5px}
+  .clash .vs{font-size:14px; color:var(--muted); margin:0 0 10px}
+  .clash .res{font-size:14px; margin:0; padding-top:10px; border-top:1px dashed var(--line)}
+  .clash .res b{color:var(--accent)}
+
+  .unan{background:#fdf3f0; border:2px solid var(--warn); border-radius:6px; padding:20px 22px; margin:0 0 18px}
+  .unan .lbl{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--warn); font-weight:700; margin:0 0 8px}
+  .unan h3{margin:0 0 10px; font-size:16.5px}
+  .unan p{margin:0 0 10px; font-size:14.5px}
+  .unan p:last-child{margin:0}
+
+  .grid{margin:6px 0 8px; overflow-x:auto}
+  .grid table{width:100%; border-collapse:collapse; min-width:660px; font-size:13.5px}
+  .grid th,.grid td{border:1px solid var(--line); padding:9px 10px; text-align:center}
+  .grid th{background:var(--panel); font-weight:600; font-size:12px}
+  .grid th.rowh,.grid td.rowh{text-align:left; font-weight:600; background:var(--panel); white-space:nowrap}
+  .y{color:var(--good); font-weight:700}
+  .n{color:var(--warn); font-weight:700}
+  .m{color:var(--muted)}
+  .legend{font-size:12.5px; color:var(--muted); margin:0 0 16px}
+
+  .step{border:1px solid var(--line); border-radius:4px; margin-bottom:12px; overflow:hidden}
+  .step .hd{display:flex; gap:12px; align-items:baseline; padding:12px 16px; background:var(--panel); border-bottom:1px solid var(--line)}
+  .step .when{font-size:11px; letter-spacing:.07em; text-transform:uppercase; font-weight:700; padding:3px 8px; border-radius:3px; white-space:nowrap}
+  .w0{background:#e8f1e9; color:var(--good)}
+  .w1{background:#e9eff7; color:var(--accent)}
+  .w2{background:#f0efec; color:var(--muted)}
+  .step .hd h3{margin:0; font-size:15.5px; font-weight:650}
+  .step .bd{padding:14px 16px; font-size:14.5px}
+  .step .bd p{margin:0}
+
+  details{border:1px solid var(--line); border-radius:4px; margin-bottom:10px; background:var(--panel)}
+  details[open]{background:#fff}
+  summary{cursor:pointer; padding:13px 16px; font-weight:600; font-size:15px; list-style:none;
+    display:flex; justify-content:space-between; align-items:center; gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+"; color:var(--muted); font-weight:400; font-size:18px}
+  details[open] summary::after{content:"−"}
+  summary .tag{font-size:11px; font-weight:500; color:var(--muted)}
+  details .body{padding:14px 16px 16px; font-size:14.5px; border-top:1px solid var(--line)}
+  details .body p{margin:0 0 12px}
+  details .body p:last-child{margin:0}
+
+  .first{border:2px solid var(--accent); border-radius:6px; padding:22px 24px; margin:28px 0 8px; background:#f7f9fc}
+  .first .lbl{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 10px}
+  .first p{margin:0 0 12px; font-size:16px}
+  .first p:last-child{margin:0; font-size:14.5px; color:var(--muted)}
+
+  .kill{border:1px dashed var(--warn); border-radius:4px; padding:16px 18px; margin:18px 0 0; font-size:14.5px; background:#fffcfb}
+  .kill strong{color:var(--warn)}
+
+  footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--muted)}
+  footer p{margin:0 0 6px}
+
+  @media (max-width:620px){ .wrap{padding:32px 18px 72px} h1{font-size:24px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">LLM Council · session 2 · 5 advisors · 1 peer-review round</p>
+  <h1>How ImmigrationClock becomes a profitable business</h1>
+  <p class="sub">Convened 1 August 2026 · builds on <a href="council-report-20260801.html">session 1: the 10-stage sequence</a></p>
+</header>
+
+<div class="qbox">
+  <h2>The question</h2>
+  <p><strong>"Given the current state of ImmigrationClock, how do I turn it into a profitable business?"</strong></p>
+  <p>Solo founder. Live free static U.S. immigration data dashboard on the Vercel free tier, near-zero opex, ~zero revenue, low traffic, ~2 months of solo build. Assets: 2,600+ programmatic H-1B sponsor pages, state/country/salary pages, visa-origin map, Key Dates countdown, <code>/for-you</code> persona switcher, <code>/layoffs-vs-h1b</code>, an unwired weekly newsletter — and <strong>a free no-key public WARN layoffs API: 6,527 notices, 5,202 employers, 857,864 affected employees, 5 states, back to 2004</strong>, every row linking to the government source, with a <code>normalized</code> employer name built to join against H-1B/LCA data. Plus a daily-committed point-in-time archive of federal data that gets silently revised upstream. Monetization fully built but switched off behind env vars. No LLC, no list, no audience.</p>
+  <p>Asked specifically: <em>name the buyer, the product, the price, and the sales motion. How long, what does it cost, what's the ceiling — and is "profitable business" even the right goal?</em></p>
+</div>
+
+<div class="verdict">
+  <h2>Council verdict, in one paragraph</h2>
+  <p>All five advisors, from five different angles, arrived at the same object: <strong>the join</strong> — WARN layoff notices matched to H-1B sponsors, dated, with a government source on every row. The dashboard is marketing collateral for it. Sell that as an employer-level intelligence subscription to immigration law firms, <strong>at $400–500/month billed annually — not the $99 two advisors proposed</strong> — and sell it <em>before</em> building anything. The realistic outcome is a cash-flowing asset around $40–60k ARR, not a company. And the boldest path on the table, alt-data to hedge funds, was rejected by every single reviewer — the only unanimous verdict across both sessions.</p>
+</div>
+
+<h2 class="sec"><span class="num">01</span>Where the council agrees</h2>
+<div class="agree">
+  <ul>
+    <li><strong>The dashboard is not the product — the join is.</strong> "WARN layoff notices, matched to H-1B sponsors, updated daily, with the government source on every row." That's the one sentence a stranger understood immediately. Forty route types are collateral for it.</li>
+    <li><strong>You have supply and zero demand evidence.</strong> Two months of building, zero conversations quoting a price. The off-switch on monetization is the tell: someone who likes building and doesn't like asking strangers for money.</li>
+    <li><strong>Sell before you build.</strong> Four of five prescribed the same move: 20–50 hand-written emails to named humans, with a hand-made sample and a number attached. Not "would you pay" — <em>what</em>.</li>
+    <li><strong>Form the LLC.</strong> Nobody invoices from a hobby, and you're currently personally liable for every modeled estimate anyone cites.</li>
+    <li><strong>The realistic outcome is a cash-flowing asset, not a company.</strong> Both advisors who priced it landed near ~10 customers and a solo ceiling around $60k ARR.</li>
+  </ul>
+</div>
+
+<h2 class="sec"><span class="num">02</span>Where the advisors landed</h2>
+<p class="legend"><span class="y">✓</span> agrees · <span class="n">✗</span> disagrees · <span class="m">—</span> didn't address</p>
+<div class="grid">
+<table>
+  <tr><th class="rowh">&nbsp;</th><th>Contrarian</th><th>First Principles</th><th>Expansionist</th><th>Outsider</th><th>Executor</th></tr>
+  <tr><td class="rowh">The join is the product</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+  <tr><td class="rowh">Sell before building</td><td class="y">✓</td><td class="y">✓</td><td class="n">✗ build 50 states</td><td class="y">✓</td><td class="y">✓</td></tr>
+  <tr><td class="rowh">Named a price</td><td class="m">$1.5k/yr</td><td class="m">—</td><td class="m">$30–75k/yr</td><td class="m">$99/mo</td><td class="m">$99/mo</td></tr>
+  <tr><td class="rowh">Gave a kill criterion</td><td class="y">30 days</td><td class="y">20 emails</td><td class="n">✗</td><td class="y">90 days</td><td class="y">30 days</td></tr>
+  <tr><td class="rowh">"Asset, not a company"</td><td class="m">—</td><td class="y">✓</td><td class="n">✗ $1–2M ARR</td><td class="y">✓</td><td class="y">✓</td></tr>
+  <tr><td class="rowh"><em>Peer votes: strongest</em></td><td class="m">0</td><td class="y">4</td><td class="m">0</td><td class="m">0</td><td class="m">1</td></tr>
+  <tr><td class="rowh"><em>Peer votes: biggest blind spot</em></td><td class="m">0</td><td class="m">0</td><td class="n">5</td><td class="m">0</td><td class="m">0</td></tr>
+</table>
+</div>
+
+<h2 class="sec"><span class="num">03</span>Where the council clashes</h2>
+
+<div class="unan">
+  <p class="lbl">Unanimous — 5 of 5 reviewers</p>
+  <h3>The alt-data path is not real yet</h3>
+  <p>The Expansionist made the boldest claim in either session: hedge funds pay $30–75k/yr for a revision-tracked layoff feed; ceiling $1–2M ARR; acquisition by Revelio or Lightcast at 4–8×. <strong>Every reviewer independently named it the biggest blind spot</strong> — the only unanimous verdict across both councils.</p>
+  <p>The objections stack. Funds require ODD questionnaires, provenance and scraping-ToS review, PII attestation, MNPI policy, and typically 3+ years of point-in-time history to backtest. You have ~60 days of archive and no legal entity. And "50 states is the same scraper times ten" is wrong — many states publish WARN as PDFs or portal-only. As one reviewer put it: <em>a multiple on zero revenue isn't an exit, it's a mood.</em></p>
+  <p><strong>What survives:</strong> the archive only becomes valuable if you keep committing it, and that costs you nothing. Keep it running three years and this thesis becomes testable. Don't organize the next 90 days around it.</p>
+</div>
+
+<div class="clash">
+  <h3>Is $99/month right? — No. It's too low.</h3>
+  <p class="vs"><strong>Executor &amp; Outsider:</strong> $99/mo is where a corporate card clears without approval; ten firms = $12k/yr; that's a realistic 90-day outcome, not a fantasy. — <strong>Reviewer 4:</strong> $99 is an anchor, not a derivation. A signed H-1B transfer case is worth $3–8k to a firm. If the feed surfaces even one a quarter, you're underpricing by an order of magnitude — and cheap prices attract the buyers who churn fastest.</p>
+  <p class="res"><b>The chair sides with Reviewer 4.</b> Test <strong>$400–500/month, billed annually ($4,800/yr firm-wide)</strong>. Ten customers at that price is $48k — the difference between a hobby that pays for dinner and something worth your next 200 hours.</p>
+</div>
+
+<div class="clash">
+  <h3>Does neutrality kill the thesis?</h3>
+  <p class="vs"><strong>Contrarian:</strong> your buyers pay for <em>conclusions</em>, and you built a site that explicitly refuses to state one. — <strong>Outsider (sharper version):</strong> you claim neutrality and ship a page called <code>/layoffs-vs-h1b</code>. A normal person reads that URL as the causal claim. A law firm's compliance reviewer reads it and stops replying.</p>
+  <p class="res"><b>Resolution:</b> neutrality is correct for the data product; the URL is a liability for the enterprise sale. Rename it — same page, shipped as "Sponsorship and workforce reductions, side by side."</p>
+</div>
+
+<h2 class="sec"><span class="num">04</span>Blind spots the peer review caught</h2>
+<div class="blind">
+  <ul>
+    <li><strong>Bar rules constrain how you sell to attorneys.</strong> Most state bars restrict fee-sharing and paid referrals with non-lawyers, and solicitation after a triggering event is what Model Rule 7.3 was written for. <em>This changes the pitch, not the viability:</em> sell employer-level <strong>market intelligence on subscription</strong> — the compliant shape — never per-lead pricing on people. (One reviewer called the join "a list of identifiable people on a deportation clock." That overstates what you hold — WARN notices name employers, not employees, and your site carries no individual-level data. But the framing caution is why the subscription shape is right.)</li>
+    <li><strong>COGS is the number nobody priced.</strong> Fifty fragile PDF/portal parsers breaking monthly is 10–20 unpaid hours a month. At 10 × $99 you clear roughly minimum wage. This is the strongest argument against "go to 50 states" and <em>for</em> raising the price instead of the coverage.</li>
+    <li><strong>The free no-key API cannibalizes the paid tier</strong> — and no advisor named a path from free to paid. Add API keys and rate limits <em>now</em>, while nobody depends on it. You can't un-free it later.</li>
+    <li><strong>Revenue here is countercyclical and episodic.</strong> Layoffs cool; firms churn between hiring waves. Annual contracts for that reason alone.</li>
+    <li><strong>Nobody asked your runway.</strong> Full-time or nights changes every recommendation in this transcript.</li>
+  </ul>
+</div>
+
+<h2 class="sec"><span class="num">05</span>The recommendation</h2>
+<p><strong>Sell an employer-level layoff-and-sponsorship intelligence subscription to immigration law firms, at $400–500/month billed annually, before you build anything else.</strong></p>
+
+<div class="step">
+  <div class="hd"><span class="when w0">This weekend · $0</span><h3>Make the sample by hand</h3></div>
+  <div class="bd"><p>Run the join you already have the pieces for — <code>normalized</code> employer names in <code>warn.json</code> against your 2,600-sponsor dataset — for the last 30 days across your 5 states. Format it as a plain email: <em>"14 employers filed WARN notices this month and appear in USCIS H-1B sponsor data. Here they are, with the state portal link for each."</em> Hand-made is fine. It should look like something a paralegal spent a day on.</p></div>
+</div>
+
+<div class="step">
+  <div class="hd"><span class="when w1">Week 1 · ~$300</span><h3>Clear the four gates</h3></div>
+  <div class="bd"><p>Form the LLC. Quarantine the modeled estimates behind a flag. Add API keys + rate limits to the free feed. Rename <code>/layoffs-vs-h1b</code>. Each of these blocks a sale you haven't made yet.</p></div>
+</div>
+
+<div class="step">
+  <div class="hd"><span class="when w1">Weeks 1–3</span><h3>Forty emails, ten a day</h3></div>
+  <div class="bd"><p>Named immigration attorneys at 10–50-lawyer firms, sourced from AILA chapter directories. Attach the sample. State the price: <strong>$4,800/year, firm-wide.</strong> Ask for 15 minutes, not a signature.</p></div>
+</div>
+
+<div class="step">
+  <div class="hd"><span class="when w2">Two hours, once</span><h3>Turn the affiliate env vars on</h3></div>
+  <div class="bd"><p>Then never think about it again. It's a revenue baseline, not a strategy.</p></div>
+</div>
+
+<div class="kill">
+  <strong>Kill criterion — take it seriously.</strong> 40 emails, zero calls booked by day 30 means law firms aren't the buyer; next stop is recruiting/mobility ops, not more features. If both fail by day 90, you have an excellent portfolio piece and a genuine free public good — and the right move is to say that out loud and stop spending weekends on it. The near-zero operating cost is the trap: it lets this run for years while technically "profitable" at $40/month.
+</div>
+
+<p style="margin-top:22px"><strong>On the question you actually asked:</strong> "profitable business" is the wrong target. It costs ~$0 to run — it's technically profitable already. The scarce resource is your next 200 hours. Aim for a <strong>cash-flowing asset at $40–60k ARR</strong>, keep the archive committing daily as a free option on the Expansionist's thesis, and let the acquisition conversation find you rather than designing for it.</p>
+
+<div class="first">
+  <p class="lbl">The one thing to do first</p>
+  <p><strong>Build one week's WARN × H-1B cross-reference by hand and email it, with a price, to twenty named immigration attorneys.</strong></p>
+  <p>You already have both datasets and a <code>normalized</code> employer key that exists specifically to join them — this is a script you can write in an hour, not a product. It tests the thesis (is the join valuable?), the buyer (is it law firms?), and the price (does $4,800/year get a reply or a laugh?) simultaneously. One weekend, zero dollars, and every other recommendation here is downstream of its answer.</p>
+</div>
+
+<h2 class="sec"><span class="num">06</span>The advisors, in full</h2>
+
+<details>
+  <summary><span>The First Principles Thinker <span class="tag">— 4 of 5 peer votes for strongest</span></span></summary>
+  <div class="body">
+    <p>You're asking how to make it profitable. It costs ~$0/month to run. It is already profitable. The scarce resource here isn't money, it's your next 200 hours — so the real question is: <strong>what's the highest-return use of those hours, and does this project deserve them?</strong></p>
+    <p>Second reframe. You think you built a dashboard. You didn't. You built one non-obvious thing: a maintained <code>normalized</code> employer key that joins layoff notices to visa sponsorship, refreshed daily, with a point-in-time history. Everything else — 2,600 pages, the animated map, the persona switcher, the countdown — is marketing collateral for that join. Stop evaluating the site. Evaluate the join.</p>
+    <p>Third, and the one that actually matters. Nobody buys data. Data is a cost center with no deadline attached. People buy <strong>triggers</strong>: an event that starts a clock on someone else's problem. Your join produces exactly one of those, and it's a good one — an H-1B holder laid off has ~60 days before status lapses. That single event simultaneously creates a client for an immigration attorney, a candidate for a recruiter, and a compliance obligation for the employer who filed the LCA. You are sitting on a dated, sourced, daily-refreshed feed of countdown starts, and you're currently monetizing it with eSIM affiliate links.</p>
+    <p>So the right question isn't "who might value this." It's <strong>"who is right now paying a human to assemble this by hand?"</strong> That's the only budget that provably exists. Find three of them. Not a survey — find the actual person, ask what they do on Monday morning, and ask what it costs them.</p>
+    <p>Fourth: don't build anything. Send twenty emails with a hand-made version of the answer attached. If zero reply, the asset is worth zero and the elegance of the pipeline is irrelevant. That test costs one weekend and zero dollars. Run it before any other advice in this room.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Executor <span class="tag">— best plan; 1 peer vote for strongest</span></span></summary>
+  <div class="body">
+    <p><strong>Monday morning, three things, in order.</strong></p>
+    <p><strong>1. Today (2 hours, $0):</strong> Turn on the affiliate env vars and AdSense. Not because $40/month matters — because it's a two-hour switch that gives you a live revenue baseline and stops you optimizing in the dark. Do it and never think about it again.</p>
+    <p><strong>2. Week 1 (6 hours, $0):</strong> Quarantine the modeled estimates behind a flag. You cannot show a law firm a dataset where some cells are labelled "estimate." Kill or hide. This is the gate on everything below it.</p>
+    <p><strong>3. Weeks 1–4, the actual job:</strong> The product is <strong>the WARN×H-1B join as a weekly alert email</strong>, not a dashboard. "17 employers who filed WARN notices this month have active LCAs. Here's the list, here's the source link." That's a Google Sheet plus a cron you already have. Build time: 1 weekend.</p>
+    <p><strong>Sales motion:</strong> 50 hand-written emails to named immigration attorneys at 10–50-lawyer firms, sourced from AILA's directory. 10/day, 5 days. Ask for a 15-minute call, not a sale. Price: <strong>$99/month, or $1,500/year for firm-wide.</strong> Don't invent tiers. Ten firms = $12K–15K/year, and that's a realistic 90-day outcome, not a fantasy one.</p>
+    <p><strong>Costs:</strong> LLC + registered agent, ~$300. Stripe, $0 upfront. Email provider, ~$20/month. Total cash risk under $500.</p>
+    <p><strong>Ceiling:</strong> ~40 firms / $60K ARR before you need a second person for support. That's a cash-flowing asset, not a business. Fine. Optimize for that, and the acquisition conversation finds you.</p>
+    <p><strong>Kill criterion:</strong> 50 emails, zero calls booked by day 30 — the buyer isn't law firms. Move to recruiting ops.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Outsider <span class="tag">— zero context, fresh eyes</span></span></summary>
+  <div class="body">
+    <p><strong>The tell is the off switch.</strong> Monetization is fully built and disabled by an environment variable. Two months of work, zero conversations with a buyer. That's not a business waiting on a decision — that's someone who likes building and doesn't like asking strangers for money. Everything below is downstream of that.</p>
+    <p><strong>As a first-time visitor:</strong> the name says clock, the site is forty route types. I don't know what to do here or why I'd come back. And you say you refuse to assert causation, but you shipped a page called <code>/layoffs-vs-h1b</code>. A normal person reads that URL as the causal claim. A law firm's compliance person reads it and stops replying. Pick one: neutral utility or the spicy page. You can't sell both.</p>
+    <p><strong>The only thing I'd remember:</strong> "WARN layoff notices, matched to H-1B sponsors, updated daily, with the government source on every row." I understood that in one sentence. That is the product. The dashboard is a marketing site for it, at best.</p>
+    <p><strong>Concrete:</strong> form the LLC (~$500, one afternoon — nobody sends an invoice to a hobby). Then email 50 named humans — immigration attorneys, mobility leads, a labor reporter — with one sentence and a link to a free CSV. Ask what they'd pay. Not "would you," what. Price where a corporate card clears without approval: $99/month.</p>
+    <p><strong>Ten customers is $12k/year.</strong> That's real money and not a job. Call it a cash-flowing asset, not a business, and stop measuring yourself against a company.</p>
+    <p><strong>Ninety days.</strong> If you can't get ten strangers to pay by then, the answer isn't more features — it's that nobody wanted it, and you'll have learned that for $500 instead of another year.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Contrarian <span class="tag">— looks for the fatal flaw</span></span></summary>
+  <div class="body">
+    <p><strong>The fatal flaw isn't monetization. It's that you built two months of supply without a single conversation about demand.</strong> Everything in that brief is inventory. Zero of it is evidence a human will send money.</p>
+    <p><strong>The WARN API.</strong> You gave it away — free, no key, no signup — which means you've already established the price. Five states of fifty is a demo. WARN feeds are public; a competent contractor rebuilds your scraper in a week. Nothing here is defensible except your willingness to maintain it, which is a job, not a moat.</p>
+    <p><strong>The point-in-time archive.</strong> Two months deep. Nobody buys a 60-day history. It becomes valuable in year three, if you're still alive, and only with provenance rigor that survives a deposition. You're describing a lottery ticket that pays out after the point you'd have quit.</p>
+    <p><strong>2,600 programmatic pages.</strong> MyVisaJobs and h1bdata.info have a decade of links on you. Scaled-content penalties are real. That's a deindexing risk, not an asset.</p>
+    <p><strong>The neutrality constraint kills your own thesis.</strong> The buyers you named — law firms, newsrooms, diligence — pay for <em>conclusions</em>. You built a site that explicitly refuses to say the interesting thing. Meanwhile, unincorporated, you're personally liable for every modeled estimate someone cites.</p>
+    <p><strong>The 30-day falsification test:</strong> email twenty named humans at immigration firms and mobility teams. Not for feedback — quote a price. $1,500/year, data access. If zero say yes in thirty days, you have a portfolio piece, not a business, and the correct move is to say so out loud rather than build route forty-one.</p>
+    <p>The near-zero operating cost is the trap. It lets this consume weekends for years while technically "profitable" at $40/month.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Expansionist <span class="tag">— 5 of 5 peer votes for biggest blind spot</span></span></summary>
+  <div class="body">
+    <p><strong>You built a lead-gen site and accidentally built a data company. Stop optimizing the wrong asset.</strong></p>
+    <p>The WARN API isn't a feature. It's the only free, normalized, entity-resolved national layoff feed that joins to H-1B/LCA. Intellizence, Revelio, and Lightcast sell adjacent data for six figures. You're giving it away at 5 states. <strong>Go to 50.</strong> That's the whole unlock — and it's the same scraper pattern you already wrote, times ten.</p>
+    <p>Who actually pays, ranked by willingness:</p>
+    <p><strong>1. Alt-data / equity research.</strong> WARN filings are a leading indicator of quarterly headcount. A hedge fund pays $30–75k/yr for a clean, timestamped, revision-tracked layoff feed — and your point-in-time archive is <em>specifically</em> what they buy, because backtests die without it. This is the single highest-value thing you own and you're treating it as a footnote.<br>
+    <strong>2. HR tech / recruiting platforms</strong> embedding your feed: $500–2k/mo API seats. They won't build state scrapers.<br>
+    <strong>3. PE/corporate diligence and mobility teams:</strong> $5–15k/yr.</p>
+    <p>Ceiling: consumer affiliate caps at $40/mo. This caps around <strong>$1–2M ARR</strong> as a solo operator, and it's an acquisition target for Revelio, Lightcast, Envoy, or Deel at 4–8x — which is the real exit.</p>
+    <p>The adjacent play nobody's named: <strong>be the citation layer.</strong> Free API + free archive means journalists, academics, and LLMs cite immigrationclock as canonical. That citation graph <em>is</em> your distribution, your credibility, and your defensibility. Give the data away harder, sell the freshness, the SLA, the history, and the join.</p>
+    <p>Keep the free tier loud. Sell the timestamp.</p>
+  </div>
+</details>
+
+<h2 class="sec"><span class="num">07</span>Peer review highlights</h2>
+
+<details>
+  <summary><span>What the reviewers said <span class="tag">— 5 anonymized reviews</span></span></summary>
+  <div class="body">
+    <p><strong>Review 1.</strong> Strongest: First Principles — the only one naming the product <em>mechanism</em> rather than the asset; "nobody buys data, people buy triggers" plus the 60-day grace clock converts a dataset into an event three budgets already fund. Blind spot: Expansionist — alt-data is fantasy at 60 days of archive with no entity. Missed by all: bar rules restrict fee-sharing and paid referrals with non-lawyers, so subscription-to-data is the compliant shape; revenue is countercyclical; nobody asked the founder's runway.</p>
+    <p><strong>Review 2 (procurement lens).</strong> Strongest: First Principles. Blind spot: Expansionist — funds require ODD questionnaires, provenance and scraping-ToS review, PII attestation, MNPI policy, W-9/COI/DPA, and 3+ years of history. "50 states = same scraper ×10" is wrong; many states are PDF or portal-only. Missed by all: procurement mechanics and liability — no entity, no SLA, no E&amp;O, and a missed notice in an attorney's feed is malpractice-adjacent. <em>The free no-key API cannibalizes the paid tier — add keys and rate limits now.</em></p>
+    <p><strong>Review 3 (legal lens).</strong> Strongest: First Principles. Blind spot: Expansionist — hedge funds don't buy from unincorporated individuals; a multiple on zero revenue "isn't an exit, it's a mood." Missed by all: solicitation rules (Model Rule 7.3) regulate how attorneys can act on a triggered list; FCRA attaches if recruiting use informs an employment decision; normalization errors create trade-libel exposure with no LLC; at 50 states the SLA <em>is</em> the product, and it's a job you can't quit.</p>
+    <p><strong>Review 4 (unit economics).</strong> Strongest: First Principles. Blind spot: Expansionist — every number asserted; WARN skews small/private employers, a weak signal for tradeable names. Missed by all: <strong>COGS</strong> — 50 fragile parsers = 10–20 unpaid hrs/mo; at 10×$99 the founder clears minimum wage. <strong>$99/mo is an anchor, not a derivation</strong> — a signed H-1B transfer case is worth $3–8k to a firm. Churn is episodic. Sales CAC in founder-hours priced at zero by all five.</p>
+    <p><strong>Review 5 (executability).</strong> Strongest: Executor — the only plan that survives contact with a calendar: hours, dollars, a price, a named list source, an admitted ceiling, a dated kill criterion. First Principles has the better insight but no price and no date, so it's a reframe, not a plan — "A + E's framing is the actual answer." Blind spot: Expansionist. Missed by all: <strong>the maintenance liability</strong> — the day someone pays, a free hobby becomes an uptime obligation with no backup and no vacation.</p>
+  </div>
+</details>
+
+<footer>
+  <p>Council convened 1 August 2026, session 2 · 5 advisors, 1 anonymized peer-review round, chairman synthesis.</p>
+  <p>Counciled: given the current state of ImmigrationClock, how do I turn it into a profitable business?</p>
+  <p>Full transcript: <code>council/council-transcript-20260801-profitability.md</code> · Methodology by Andrej Karpathy.</p>
+</footer>
+
+</div>
+</body>
+</html>

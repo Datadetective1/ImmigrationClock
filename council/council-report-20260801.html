@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Council — ImmigrationClock: the 10-stage sequence</title>
+<style>
+  :root{
+    --bg:#ffffff; --panel:#fbfbfa; --ink:#1a1a1a; --muted:#6b6b6b;
+    --line:#e5e3df; --accent:#1f4d8f; --warn:#a8442a; --good:#2c6e49;
+    --max:820px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max); margin:0 auto; padding:48px 24px 96px}
+  header.top{border-bottom:1px solid var(--line); padding-bottom:28px; margin-bottom:40px}
+  .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:0 0 10px}
+  h1{font-size:30px; line-height:1.25; margin:0 0 12px; letter-spacing:-.02em}
+  .sub{color:var(--muted); font-size:15px; margin:0}
+  .qbox{
+    background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--accent);
+    padding:20px 22px; border-radius:4px; margin:0 0 44px;
+  }
+  .qbox h2{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px; font-weight:600}
+  .qbox p{margin:0 0 10px; font-size:15px}
+  .qbox p:last-child{margin-bottom:0}
+  .qbox ol{margin:8px 0 0; padding-left:20px; font-size:14px; color:var(--muted); columns:2; column-gap:28px}
+  .qbox ol li{margin-bottom:3px; break-inside:avoid}
+
+  h2.sec{
+    font-size:20px; letter-spacing:-.01em; margin:44px 0 14px; padding-top:8px;
+  }
+  h2.sec .num{color:var(--muted); font-weight:400; margin-right:8px}
+  p{margin:0 0 14px}
+  strong{font-weight:650}
+  ul.tight{margin:0 0 16px; padding-left:20px}
+  ul.tight li{margin-bottom:9px}
+
+  .agree{border-left:3px solid var(--good); background:#f6faf7; padding:18px 20px; border-radius:4px}
+  .agree ul{margin:0; padding-left:18px}
+  .agree li{margin-bottom:10px}
+  .agree li:last-child{margin-bottom:0}
+
+  .clash{border:1px solid var(--line); border-radius:4px; padding:16px 18px; margin-bottom:14px}
+  .clash h3{margin:0 0 8px; font-size:15px}
+  .clash .vs{font-size:14px; color:var(--muted); margin:0 0 10px}
+  .clash .res{font-size:14px; margin:0; padding-top:10px; border-top:1px dashed var(--line)}
+  .clash .res b{color:var(--accent)}
+
+  .blind{border-left:3px solid var(--warn); background:#fdf7f5; padding:18px 20px; border-radius:4px}
+  .blind ul{margin:0; padding-left:18px}
+  .blind li{margin-bottom:9px}
+  .blind li:last-child{margin-bottom:0}
+
+  /* alignment grid */
+  .grid{width:100%; border-collapse:collapse; font-size:13.5px; margin:6px 0 8px; display:block; overflow-x:auto}
+  .grid table{width:100%; border-collapse:collapse; min-width:640px}
+  .grid th,.grid td{border:1px solid var(--line); padding:9px 10px; text-align:center; vertical-align:middle}
+  .grid th{background:var(--panel); font-weight:600; font-size:12px; letter-spacing:.03em}
+  .grid th.rowh, .grid td.rowh{text-align:left; font-weight:600; background:var(--panel); white-space:nowrap}
+  .y{color:var(--good); font-weight:700}
+  .n{color:var(--warn); font-weight:700}
+  .m{color:var(--muted)}
+  .legend{font-size:12.5px; color:var(--muted); margin:0 0 20px}
+
+  /* stage plan */
+  .stage{border:1px solid var(--line); border-radius:4px; margin-bottom:12px; overflow:hidden}
+  .stage .hd{display:flex; gap:12px; align-items:baseline; padding:12px 16px; background:var(--panel); border-bottom:1px solid var(--line)}
+  .stage .when{font-size:11px; letter-spacing:.08em; text-transform:uppercase; font-weight:700; padding:3px 8px; border-radius:3px; white-space:nowrap}
+  .now{background:#e8f1e9; color:var(--good)}
+  .soon{background:#e9eff7; color:var(--accent)}
+  .later{background:#f0efec; color:var(--muted)}
+  .stage .hd h3{margin:0; font-size:15.5px; font-weight:650}
+  .stage .bd{padding:14px 16px; font-size:14.5px}
+  .stage .bd p{margin:0 0 10px}
+  .stage .bd p:last-child{margin:0}
+
+  details{border:1px solid var(--line); border-radius:4px; margin-bottom:10px; background:var(--panel)}
+  details[open]{background:#fff}
+  summary{
+    cursor:pointer; padding:13px 16px; font-weight:600; font-size:15px; list-style:none;
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+"; color:var(--muted); font-weight:400; font-size:18px}
+  details[open] summary::after{content:"−"}
+  summary .tag{font-size:11px; font-weight:500; color:var(--muted); letter-spacing:.04em}
+  details .body{padding:0 16px 16px; font-size:14.5px; border-top:1px solid var(--line); padding-top:14px}
+  details .body p{margin:0 0 12px}
+  details .body p:last-child{margin:0}
+
+  .verdict{
+    background:#0f1720; color:#e9eef4; border-radius:6px; padding:26px 26px 24px; margin:8px 0 34px;
+  }
+  .verdict h2{margin:0 0 12px; font-size:19px; color:#fff; letter-spacing:-.01em}
+  .verdict p{margin:0 0 12px; font-size:15.5px; color:#c9d4e0}
+  .verdict p:last-child{margin:0}
+  .verdict strong{color:#fff}
+
+  .first{
+    border:2px solid var(--accent); border-radius:6px; padding:22px 24px; margin:28px 0 8px; background:#f7f9fc;
+  }
+  .first .lbl{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 10px}
+  .first p{margin:0 0 12px; font-size:16px}
+  .first p:last-child{margin:0; font-size:14.5px; color:var(--muted)}
+
+  footer{margin-top:56px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--muted)}
+  footer p{margin:0 0 6px}
+
+  @media (max-width:620px){
+    .wrap{padding:32px 18px 72px}
+    h1{font-size:24px}
+    .qbox ol{columns:1}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">LLM Council · 5 advisors · 1 peer-review round · chairman synthesis</p>
+  <h1>ImmigrationClock and the 10-stage company sequence</h1>
+  <p class="sub">Convened 1 August 2026 · verdict below</p>
+</header>
+
+<div class="qbox">
+  <h2>The question</h2>
+  <p>A solo founder has built <strong>ImmigrationClock</strong> — a free, static U.S. immigration data dashboard modeled on usdebtclock.org. Live, ~2 months of solo work, ~zero revenue, low traffic. Sourced government numbers (USCIS, ICE, CBP, State, BLS) on enforcement, removals, detention, border encounters, H-1B across 2,600+ sponsors, F-1 visas, WARN layoffs, wages — every figure labelled <em>reported / projected / estimated</em>, with a public methodology page. Some fine-grained state/country splits are openly labelled modeled estimates. Positioning is deliberately neutral; the site refuses to assert causation between immigration and layoffs. Monetization (affiliates, AdSense, newsletter, tip jar) is fully built but switched off. A free public WARN-layoffs API just shipped.</p>
+  <p>The founder wants to run this through a fixed 10-stage sequence and asks what to actually <em>do</em> at each stage:</p>
+  <ol>
+    <li>The Problem</li>
+    <li>The Mission</li>
+    <li>The Principles</li>
+    <li>The Things We'll Never Do</li>
+    <li>The Competitive Moat</li>
+    <li>The Roadmap</li>
+    <li>The Product</li>
+    <li>The Brand</li>
+    <li>The Culture</li>
+    <li>The Founder Book</li>
+  </ol>
+</div>
+
+<div class="verdict">
+  <h2>Council verdict, in one paragraph</h2>
+  <p>The framework is sound as a <strong>founder's operating discipline</strong> and unsound as a <strong>discovery process</strong>. Stages 1, 2, 5 and 6 are answers you don't have yet — writing them now guarantees you write them from imagination and then defend them for a year. Four of five advisors said this independently. Run the sequence, but reordered: do the two stages you can already answer <em>this week</em> (the moat is an engineering act, not an essay; the Never-Do list is three legal floors, not a philosophy), spend 90 days generating the evidence, then write the rest so they're right instead of aspirational.</p>
+</div>
+
+<h2 class="sec"><span class="num">01</span>Where the council agrees</h2>
+<div class="agree">
+  <ul>
+    <li><strong>Don't write stages 1–6 now.</strong> Four of five, independently. "Autobiography, not strategy." "A constitution for a country with no citizens." "A diary."</li>
+    <li><strong>Your visitor is not your customer.</strong> An anxious visa holder is worth cents per session — that arithmetic, not execution, is what caps the affiliate stack near $40/month. The budgets sit with law firms, corporate mobility teams, recruiters, diligence shops, and newsrooms.</li>
+    <li><strong>The modeled state/country splits are a liability.</strong> Three advisors flagged them; two reviewers escalated. Honest labelling protects you ethically and not at all reputationally — a screenshot strips the label. And it is specifically disqualifying for institutional buyers.</li>
+    <li><strong>The WARN API + H-1B sponsor cross-reference is the most commercially interesting thing you own</strong> — and it's a footer link.</li>
+    <li><strong>Turn analytics and monetization on now</strong> — as instrumentation, not income. You can't reason about a funnel you refuse to measure.</li>
+  </ul>
+</div>
+
+<h2 class="sec"><span class="num">02</span>Where the advisors landed</h2>
+<p class="legend">How each advisor came down on the four questions that actually divided them. <span class="y">✓</span> agrees · <span class="n">✗</span> disagrees · <span class="m">—</span> didn't address.</p>
+<div class="grid">
+<table>
+  <tr>
+    <th class="rowh">&nbsp;</th>
+    <th>Contrarian</th><th>First Principles</th><th>Expansionist</th><th>Outsider</th><th>Executor</th>
+  </tr>
+  <tr>
+    <td class="rowh">Skip / defer stages 1–6</td>
+    <td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td>
+  </tr>
+  <tr>
+    <td class="rowh">A real moat exists</td>
+    <td class="n">✗ none</td><td class="y">✓ archive</td><td class="y">✓ free tier</td><td class="m">—</td><td class="y">✓ distribution</td>
+  </tr>
+  <tr>
+    <td class="rowh">Kill the modeled estimates</td>
+    <td class="y">✓</td><td class="y">✓</td><td class="n">✗</td><td class="y">✓</td><td class="m">—</td>
+  </tr>
+  <tr>
+    <td class="rowh">Money is in B2B, not consumers</td>
+    <td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="n">✗</td><td class="m">—</td>
+  </tr>
+  <tr>
+    <td class="rowh">Peer-review votes: strongest</td>
+    <td class="m">0</td><td class="y">3</td><td class="m">1</td><td class="m">0</td><td class="m">1</td>
+  </tr>
+  <tr>
+    <td class="rowh">Peer-review votes: biggest blind spot</td>
+    <td class="n">2</td><td class="m">0</td><td class="n">2</td><td class="n">1</td><td class="m">0</td>
+  </tr>
+</table>
+</div>
+
+<h2 class="sec"><span class="num">03</span>Where the council clashes</h2>
+
+<div class="clash">
+  <h3>Neutrality: moat, or the reason nobody comes?</h3>
+  <p class="vs"><strong>Contrarian:</strong> immigration numbers are contested by construction, so "neutral" means both audiences pass you over for a source that flatters them. That's not a virtue, it's why traffic is low. — <strong>Reviewer 4:</strong> in reference data the moat is never the code, it's being the URL people cite. Neutrality is exactly what lets a newsroom, a court filing, or a Wikipedia editor link to you instead of a partisan source.</p>
+  <p class="res"><b>Resolution:</b> both are right about different phases. Neutrality is a <em>poor acquisition strategy and an excellent retention-and-citation strategy</em>. It won't win your first thousand visitors — nothing about "labelled freshness" makes anyone click. It's what makes visitor ten thousand cite you. Keep it; stop expecting it to do a job it can't do.</p>
+</div>
+
+<div class="clash">
+  <h3>Is there a moat at all?</h3>
+  <p class="vs"><strong>Contrarian:</strong> none — a weekend clone; your daily refresh is a cron job, not a defense. <strong>First Principles:</strong> your <code>refresh snapshot + archive</code> commits are point-in-time captures of federal data that gets silently revised, restated, and deleted. Nobody can recreate what the numbers said on a Tuesday in March. You can, forever.</p>
+  <p class="res"><b>Resolution:</b> the archive wins, 3 of 5 reviewers. It's the only claim that compounds whether or not a single person visits.</p>
+</div>
+
+<div class="clash">
+  <h3>Consumer or B2B?</h3>
+  <p class="vs"><strong>Outsider:</strong> the one place a human leans forward is <em>"did my employer lay people off while sponsoring visas?"</em> — a real search someone types at 11pm. <strong>First Principles / Expansionist:</strong> that human is worth $0.40 a session. <strong>Reviewer 1:</strong> the Outsider's 20-strangers test samples precisely the audience that can't fund the company.</p>
+  <p class="res"><b>Resolution:</b> consumer is the traffic engine, B2B is the revenue. The failure mode isn't picking one — it's confusing which is which.</p>
+</div>
+
+<h2 class="sec"><span class="num">04</span>Blind spots the peer review caught</h2>
+<div class="blind">
+  <ul>
+    <li><strong>No corporate entity, and nobody mentioned it.</strong> A solo founder publishing contested immigration figures under their own name is exposed on personal assets. LLC + E&amp;O insurance isn't stage-4 philosophy, it's Tuesday.</li>
+    <li><strong>Naming employers who lay off while sponsoring</strong> — your most commercial feature — carries defamation and source-ToS exposure, on top of the UPL/bar-referral problem in lawyer lead-gen.</li>
+    <li><strong>Bus-factor one is a procurement blocker.</strong> Legal and mobility teams won't buy a feed from one person with no SLA. Every paid-feed plan in this council assumed that away.</li>
+    <li><strong>A paid SLA converts a zero-cost hobby into permanent solo on-call.</strong> Multi-state WARN scrapers break constantly. That obligation — not doctrine — is the real portfolio→company threshold.</li>
+    <li><strong>Nobody diagnosed why traffic is low.</strong> 2,600 programmatic pages need indexation, backlinks, and months. That's a fixable distribution problem being misread as a strategy problem.</li>
+    <li><strong>The outreach channel was never specified.</strong> Every advisor ended in "email 20–30 strangers" without saying where a founder with no list gets them.</li>
+    <li><strong>Seasonality is a free launch calendar</strong> — March H-1B lottery, OPT cycles, tax season — and nobody used it.</li>
+    <li><strong>AI answer engines cite labelled, sourced data.</strong> An emerging distribution surface your methodology discipline is unusually well-suited for.</li>
+  </ul>
+</div>
+
+<h2 class="sec"><span class="num">05</span>The recommendation: your 10 stages, reordered</h2>
+
+<div class="stage">
+  <div class="hd"><span class="when now">This week</span><h3>Stage 5 — The Competitive Moat</h3></div>
+  <div class="bd"><p>Not an essay. An engineering act. Your daily <code>refresh snapshot + archive</code> commits are the only asset nobody can regenerate — federal immigration data gets silently revised and pulled. Make that archive explicit, immutable, and dated: a first-class product surface with its own page, not a build artifact. You already own the answer to stage 5.</p></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when now">This week</span><h3>Stage 4 — The Things We'll Never Do <em>(partial only)</em></h3></div>
+  <div class="bd">
+    <p>Write only the three lines that are legal-and-integrity <em>floors</em>, not strategy pre-commitments: (a) no individual-level data, ever; (b) no unlabelled derived numbers — quarantine or kill the modeled state/country splits before any institutional conversation; (c) no partner whose interest conflicts with the data's neutrality.</p>
+    <p>Leave the rest blank. A full Never-Do list written pre-revenue is a pre-commitment against every model you haven't tried. <strong>Also: form the LLC.</strong></p>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when soon">Next 90 days</span><h3>Stage 7 — The Product <em>(yes, out of order)</em></h3></div>
+  <div class="bd"><p>Instrument everything, then follow the traffic. Elevate the WARN API and <code>/layoffs-vs-h1b</code> from footer links to front doors — those are the only two surfaces anyone on this council leaned toward. Ship the embeddable branded widgets: news sites and university international-student offices paste them in, and every embed is a permanent backlink. That's how usdebtclock became a citation default.</p></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when soon">Next 90 days</span><h3>Stage 1 — The Problem <em>(derived, not declared)</em></h3></div>
+  <div class="bd"><p>Interview 30 immigration attorneys and corporate mobility leads with one question: <em>what number did you reconstruct by hand last quarter?</em> Get the list from state bar immigration-section directories, AILA chapter pages, and LinkedIn mobility titles — that's the channel every advisor left unspecified. When three say the same thing, you have a problem statement narrower and stranger than anything you'd write from a blank page.</p></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when soon">Next 90 days</span><h3>Stage 8 — The Brand <em>(one sentence only)</em></h3></div>
+  <div class="bd"><p>The sharpest line in the whole session: <em>"Facts first. Freshness labelled." describes your internal hygiene, not a promise to anyone. Nobody has ever gone to bed wanting labelled freshness.</em> Replace it with the sentence a real person would type at 11pm. You already know what it is — it's sitting on your <code>/layoffs-vs-h1b</code> page.</p></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when later">At ~90 days</span><h3>Stages 2, 3, 6 — Mission, Principles, Roadmap</h3></div>
+  <div class="bd"><p>Plus the remainder of stage 4. Written with evidence in hand, they'll be right instead of aspirational. This is an afternoon, not a retreat.</p></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when later">Replace</span><h3>Stage 9 — The Culture</h3></div>
+  <div class="bd"><p>You have no team. Culture for one person is procrastination in a suit. Replace it with a one-page <em>contractor brief</em> for the first person you'll actually pay.</p></div>
+</div>
+
+<div class="stage">
+  <div class="hd"><span class="when later">Replace</span><h3>Stage 10 — The Founder Book</h3></div>
+  <div class="bd"><p>Don't write a book. Start a dated, append-only log <em>now</em>: decisions, why, what you expected, what happened. The Founder Book is what that log becomes in year three. Written today it's fiction; kept as a log it's the most valuable document you'll own.</p></div>
+</div>
+
+<p style="margin-top:20px; font-size:14.5px; color:var(--muted)">
+The chair sides with the <strong>First Principles Thinker</strong> on what the asset is, the <strong>Executor</strong> on sequencing, and takes the <strong>Expansionist's</strong> embeddable widgets as the distribution mechanism nobody else supplied. It explicitly rejects the <strong>Contrarian's</strong> "there is no moat" — clonability is irrelevant if you own the citation graph — while accepting every one of its legal warnings. And it rejects the <strong>Outsider's</strong> 20-strangers test as the <em>primary</em> instrument, since it samples the audience that cannot fund the company — though its brand critique stands as the single best observation of the session.
+</p>
+
+<div class="first">
+  <p class="lbl">The one thing to do first</p>
+  <p><strong>Open Google Search Console and your analytics, and answer one question: how many of the 2,600 sponsor pages are actually indexed, and what queries are they getting impressions for?</strong></p>
+  <p>You already wired GA4 and added the Search Console verification tag — the data may already be sitting there. Thirty minutes, and it decides everything downstream. If those pages are indexed and drawing impressions, you have a <em>conversion</em> problem and the Executor's week is exactly right. If they aren't indexed at all, every strategic question in this council is premature and you have exactly one job: distribution. Nobody on the council could tell you which, because nobody looked. Look.</p>
+</div>
+
+<h2 class="sec"><span class="num">06</span>The advisors, in full</h2>
+
+<details>
+  <summary><span>The Contrarian <span class="tag">— looks for the fatal flaw</span></span></summary>
+  <div class="body">
+    <p><strong>The modeled estimates are a loaded gun pointed at the only asset you have.</strong></p>
+    <p>You built a trust brand and then filled it with numbers you invented. "Openly labelled" doesn't survive a screenshot. The first time a state-level "estimated removals" figure gets quoted in a political fight and someone traces it back to your interpolation, "Facts first" becomes the headline of your obituary. TRAC Syracuse spent 30 years and actual FOIA litigation earning the credibility you're synthesizing in a GitHub Action. Kill every derived split or move it behind a separate, uglier label. This is stage 4 and it's the only stage that matters right now.</p>
+    <p><strong>The moat question answers itself: there is none.</strong> Public data, public methodology, static site, near-zero cost. Any competent dev clones this in a weekend. Your daily refresh is a cron job, not a defense. And the usdebtclock analogy is broken — the debt is one number nobody disputes. Immigration numbers are contested by construction, so "neutral" means both audiences pass you over for a source that flatters them. That's not a positioning virtue, it's why traffic is low.</p>
+    <p><strong>Monetization is off because turning it on would produce a number you don't want to see.</strong> The doctrine exercise is the same avoidance in a nicer outfit. A Founder Book for a company of one is a diary.</p>
+    <p><strong>Also unexamined:</strong> immigration-lawyer lead-gen has bar-referral and UPL exposure in several states — that's a legal review, not an affiliate signup. And monetizing anxiety (Remitly, Boundless, lawyers) while claiming neutrality is a contradiction your critics will find before you do.</p>
+    <p><strong>Do this instead of stages 1–10:</strong> switch everything on for 30 days. Then email twenty immigration law firms and relocation vendors offering the H-1B sponsor dataset as a paid feed. If nobody pays, the doctrine was never the bottleneck.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The First Principles Thinker <span class="tag">— rebuilds the question from scratch · 3 peer votes for strongest</span></span></summary>
+  <div class="body">
+    <p>You're asking "how do I turn my site into a company." Wrong question. The right one: <strong>what do I own that nobody else can regenerate?</strong></p>
+    <p>Strip it down. A dashboard of public government numbers is not an asset — anyone with a scraper and two months can rebuild it. The mission statement won't stop them. The moat you actually have is sitting in <code>data_pipeline/</code> and your <code>chore(data): refresh snapshot + archive</code> commits: <strong>point-in-time captures of federal data that gets silently revised, retroactively restated, and deleted.</strong> USCIS pulls quarterly reports. ICE changes definitions mid-year. Nobody can go back and recreate what the numbers said on a Tuesday in March. You can, from day one, forever. That compounds whether or not a single person visits the site.</p>
+    <p>So the honest reframe of your ten stages: stages 1–6 are not inputs, they're <em>outputs</em>. You cannot know why the company must exist before you know who bleeds without it. Writing doctrine now is autobiography, not strategy.</p>
+    <p>Second reframe: the site is not the product, it's the demo. The affiliate stack assumes your visitor is the customer. Your visitor is an anxious visa holder worth $0.40 a session — that's why it structurally caps at $40/month. The people who pay for immigration data are law firms, corporate mobility teams, policy shops, and funds trading labor-market signals. You already shipped a free WARN API — that's the real business leaking out sideways.</p>
+    <p>Do this instead of stage 1: email 30 immigration attorneys and mobility leads. Ask what number they had to reconstruct by hand last quarter. If three say the same thing, <em>that's</em> your problem statement — and it will be narrower and stranger than anything you'd have written from a blank page.</p>
+    <p>Also: kill the modeled state/country splits before selling to institutions. Estimates are fine for a public dashboard, fatal for a data product.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Expansionist <span class="tag">— hunts the upside everyone missed</span></span></summary>
+  <div class="body">
+    <p>The WARN API is the company. The dashboard is the demo.</p>
+    <p>You shipped a free public API for multi-state layoff data and buried it as a feature. Layoff data is bought today by recruiters, PE diligence teams, commercial real estate analysts, journalists, and short sellers — none of whom care about immigration. Cross-referenced with 2,600 H-1B sponsors, you have something nobody has: a company-level signal of which employers are both laying off and sponsoring. That's an alert product with a real buyer.</p>
+    <p>What that does to the ten stages: collapse 1–6 into one weekend. They're a positioning exercise, not a discovery exercise, and your positioning is already correct. Neutrality plus labelled methodology is a licensable asset — it's why a newsroom can cite you and a compliance team can cite you. Write it once, cheaply.</p>
+    <p>Then spend the recovered time on the three expansions hiding in what you already built:</p>
+    <p><strong>Data-as-product.</strong> Free tier stays free forever (that's the moat and the top of funnel). Paid tier is history, webhooks, bulk export, SLA. $99–499/month, sold to ten customers, beats every affiliate module combined.</p>
+    <p><strong>B2B mirror.</strong> Same data, inverted audience. "Which of my competitors sponsor H-1Bs, at what wage, with what denial rate" is a sales-intel query. Immigration law firms will pay for sponsor-level denial benchmarking they currently reconstruct by hand.</p>
+    <p><strong>Embeddable widgets.</strong> Give away branded charts that news sites and university international-student offices paste into pages. Every embed is a backlink and a permanent traffic source. This is how usdebtclock became a reference.</p>
+    <p>Turn monetization on now — not for the $40, but because live conversion data is the only input that makes stages 7–10 worth writing.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Outsider <span class="tag">— zero context, fresh eyes</span></span></summary>
+  <div class="body">
+    <p><strong>I have no idea what this is for, and that's the whole problem.</strong></p>
+    <p>"The Immigration Clock. Facts first. Freshness labelled. Sources included." That's not a promise to me — it's a description of your internal hygiene. Nobody has ever gone to bed wanting labelled freshness. usdebtclock.org works because everyone already carries the anxiety ("we owe <em>how much</em>?"). "Immigration" isn't one number. I don't know what I'm supposed to feel when the counters spin, and I don't know what I'm supposed to do next.</p>
+    <p>Second: I don't know who I am on this site. The homepage offers me Enforcement, Work &amp; Visas, Jobs &amp; Wages, Insights, Pulse, Resources — six doors, no signal about which one is mine. An H-1B holder, a journalist, an anxious American, and an immigration lawyer are four different products. You built one thing wearing four hats.</p>
+    <p>The one place I actually leaned forward: <strong>layoffs-vs-h1b</strong>. "Did my employer lay people off while sponsoring visas?" is a question a real human already has, in their own words, before they meet you. That's not a chart — that's a search someone types at 11pm. Everything else on the site is a chart.</p>
+    <p>Also, as a stranger: "modeled estimates derived from real totals" reads as <em>you made the number up</em>. Your honesty labelling is admirable and it will be quoted against you.</p>
+    <p><strong>What to do:</strong> skip stages 1–6. Send the site to 20 strangers, watch them for 90 seconds, and write down the first question each one asks out loud. If the same question appears five times, you have a company. Your doctrine is currently a constitution for a country with no citizens.</p>
+  </div>
+</details>
+
+<details>
+  <summary><span>The Executor <span class="tag">— what do you do Monday morning?</span></span></summary>
+  <div class="body">
+    <p>Stages 1–6 and 8–10 are a weekend of writing that produces zero evidence. Do them later, in an afternoon, once you know who shows up. Here's what Monday actually looks like.</p>
+    <p><strong>Monday:</strong> Turn monetization ON. All of it. Not to make money — to measure intent. Affiliate clicks are the cheapest demand signal you'll ever get. Zero traffic × zero monetization = zero information. Zero traffic × live modules = a click-through rate you can reason about.</p>
+    <p><strong>Tuesday:</strong> Install Plausible (free tier or $9). You cannot say "low traffic" as a strategy input until you know which three pages get 90% of it. Bet: the H-1B sponsor pages, not the homepage. If so, that's your product, and the clock is the marketing.</p>
+    <p><strong>Wednesday:</strong> Ship the newsletter signup above the fold on those three pages only. One question in the confirmation email: "What were you trying to find out?" Fifty replies beats a founder book.</p>
+    <p><strong>Thursday:</strong> Post the free WARN API to Hacker News, r/h1b, r/immigration, and email ten immigration reporters with a link and a one-line "here's a dataset nobody else publishes daily." That API is your only genuinely defensible asset — moat (stage 5) is a distribution question, not a doc.</p>
+    <p><strong>Friday:</strong> Write down one number — pick H-1B sponsor page sessions/week — and a target for 90 days.</p>
+    <p>The dangerous part of the ten-stage sequence is stage 4. "The Things We'll Never Do" written before revenue becomes a pre-commitment against every business model you haven't tried yet. Write it after you know what tempts you.</p>
+    <p>Do the doctrine at stage 90 days, with data in hand. It'll be right instead of aspirational.</p>
+  </div>
+</details>
+
+<h2 class="sec"><span class="num">07</span>Peer review highlights</h2>
+
+<details>
+  <summary><span>What the reviewers said <span class="tag">— 5 anonymized reviews</span></span></summary>
+  <div class="body">
+    <p><strong>Review 1.</strong> Strongest: First Principles — the only one naming a genuinely non-regenerable asset, and its action generates the problem statement rather than assuming it. Biggest blind spot: the Outsider — its 20-strangers test samples exactly the audience worth $0.40 a session, and it never registers that a public API exists. All five missed: founder risk in a politically charged domain (no entity, no takedown/harassment planning), defamation exposure in naming employers, and nobody asked whether this is full-time or nights.</p>
+    <p><strong>Review 2 (regulated-data lens).</strong> Strongest: First Principles — only response identifying something that compounds without traffic. Biggest blind spot: the Expansionist — asserts a $99–499/mo business without a single conversation, and never addresses the modeled estimates that <em>disqualify</em> it from the institutional buyers it wants. All five missed the regulated-business basics: LLC, E&amp;O, state WARN redistribution terms, and the fact that a paid SLA converts a zero-cost hobby into permanent one-person on-call.</p>
+    <p><strong>Review 3 (go-to-market lens).</strong> Strongest: First Principles. Biggest blind spot: the Expansionist — asserts a layoff-data buyer without checking that Layoffs.fyi, state WARN portals, Revelio and Live Data already serve it, mostly free or far better funded. All five missed: low traffic <em>has a cause</em> — 2,600 programmatic pages need indexation and backlinks, and nobody diagnosed it — and a solo founder is a procurement blocker.</p>
+    <p><strong>Review 4 (distribution lens).</strong> Strongest: the Expansionist — the only one naming a distribution mechanism rather than a research task. Biggest blind spot: the Contrarian — declares "no moat" while missing that in reference data the moat is being the URL people cite; clonability is irrelevant if you own the citation graph. All five missed discovery entirely: long-tail search ("does [Company] sponsor H-1B?" × 2,600 pages), seasonality as a launch calendar, attribution terms on the free API, and AI answer engines citing labelled sourced data.</p>
+    <p><strong>Review 5 (executability lens).</strong> Strongest: the Executor — the only advice calibrated to one person's week, day-by-day and reversible; and its stage-4 point is the sharpest psychological read in the set. Biggest blind spot: the Contrarian — diagnoses avoidance, then prescribes three hard things at once with no ordering and no branch if the test fails. All five missed: <em>where do the outreach emails come from?</em> — every advisor ends in cold outreach by a founder with no list — and the on-call obligation that is the real portfolio→company threshold.</p>
+  </div>
+</details>
+
+<footer>
+  <p>Council convened 1 August 2026 · 5 advisors, 1 anonymized peer-review round, chairman synthesis.</p>
+  <p>Counciled: whether to run ImmigrationClock through a 10-stage company-building sequence, and what to do at each stage.</p>
+  <p>Full transcript: <code>council/council-transcript-20260801.md</code> · Methodology by Andrej Karpathy.</p>
+</footer>
+
+</div>
+</body>
+</html>
