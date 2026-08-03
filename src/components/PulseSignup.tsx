@@ -89,10 +89,12 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
     );
   }
 
+  // Padding trimmed p-5/sm:p-6 -> p-4/sm:p-5. Same panel, same trust messaging,
+  // less vertical cost on the dashboard.
   return (
-    <section id="subscribe" className="panel relative overflow-hidden p-5 sm:p-6">
+    <section id="subscribe" className="panel relative overflow-hidden p-4 sm:p-5">
       <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-accent/60 to-transparent" />
-      <div className="grid gap-4 sm:grid-cols-[1.2fr_1fr] sm:items-center">
+      <div className="grid gap-3 sm:grid-cols-[1.2fr_1fr] sm:items-center">
         <div>
           <div className="eyebrow mb-1 text-accent">Newsletter</div>
           <h2 className="text-lg font-bold text-white sm:text-xl">Get the weekly Immigration Pulse</h2>

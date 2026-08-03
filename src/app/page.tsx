@@ -3,11 +3,9 @@ import { SITE } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 import { SearchBar } from "@/components/SearchBar";
 import { DashboardGrid } from "@/components/DashboardGrid";
-import { HookSection } from "@/components/HookSection";
 import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { KeyDates } from "@/components/KeyDates";
 import { KEY_DATES } from "@/lib/key-dates";
-import { MigrationMap } from "@/components/MigrationMap";
 import { PulseSignup } from "@/components/PulseSignup";
 import { buildMetrics, LAST_REFRESHED } from "@/lib/data";
 import { personaSummaries } from "@/lib/relevance";
@@ -25,37 +23,19 @@ export const metadata = buildMetadata({
 
 // "Explore the data" — the homepage routes into the full sections instead of
 // rendering every chart inline. Each destination is its own focused page.
+/**
+ * Explore destinations. Was six description cards; now six links.
+ *
+ * The descriptions are not lost — each destination page carries its own
+ * introduction, which is where a description belongs anyway.
+ */
 const EXPLORE = [
-  {
-    href: "/enforcement",
-    title: "Enforcement & Border",
-    desc: "ICE arrests, removals, and detention, plus CBP border encounters.",
-  },
-  {
-    href: "/work-visas",
-    title: "Work & Visas",
-    desc: "H-1B sponsors, salaries, F-1 students, and the immigrant workforce.",
-  },
-  {
-    href: "/layoffs-vs-h1b",
-    title: "Jobs & Wages",
-    desc: "Layoffs and visa sponsorship shown side by side, with offered wages.",
-  },
-  {
-    href: "/insights",
-    title: "Insights",
-    desc: "Plain-language takeaways drawn automatically from the data.",
-  },
-  {
-    href: "/pulse",
-    title: "Weekly Pulse",
-    desc: "The biggest U.S. immigration changes, summarized every week.",
-  },
-  {
-    href: "/resources",
-    title: "Resources",
-    desc: "Services newcomers use: legal help, taxes, money transfer, and more.",
-  },
+  { href: "/data", title: "Statistics" },
+  { href: "/what-changed", title: "Latest changes" },
+  { href: "/migration-map", title: "Countries" },
+  { href: "/work-visas", title: "Visas" },
+  { href: "/insights", title: "Insights" },
+  { href: "/resources", title: "Resources" },
 ];
 
 export default function HomePage() {
@@ -65,7 +45,14 @@ export default function HomePage() {
   // The archive, surfaced. `significantEvents` already excludes routine
   // paperwork, so this is what actually CHANGED rather than what was merely
   // published.
-  const recent = significantEvents(6);
+  const recent = significantEvents(5);
+
+  // The four headline numbers. Ordered deliberately rather than by whatever
+  // buildMetrics() happens to return, so the row reads the same on every build.
+  const FEATURED_KEYS = ["ice_arrests_fy", "removals_fy", "h1b_approvals_fy", "border_encounters_fy"];
+  const featured = FEATURED_KEYS.map((k) => metrics.find((m) => m.key === k)).filter(
+    (m): m is NonNullable<typeof m> => Boolean(m)
+  );
   const contributing = contributingAdapters().length;
   const heroCoverage =
     `${EVENTS.length.toLocaleString()} government changes recorded from ${contributing} official sources` +
@@ -80,7 +67,7 @@ export default function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/5">
-        <div className="container-page py-12 sm:py-16">
+        <div className="container-page py-10 sm:py-14">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
               <span className="pulse-live" />
@@ -142,7 +129,17 @@ export default function HomePage() {
                 — a hero is the wrong place to spend a reader's attention on it,
                 and burying the offer under hedging was costing more trust than
                 it bought. */}
-            <p className="mx-auto mt-5 max-w-2xl text-xs leading-relaxed text-slate-500">
+            {/* Freshness badge, kept from the statistics section header that this
+                restructure removed. It belongs in the hero anyway: "when was this
+                last updated" is a trust question, and trust questions are asked
+                before a reader scrolls, not after. */}
+            <div className="mt-6 flex justify-center">
+              <span className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-slate-400">
+                Last refreshed {formatDate(LAST_REFRESHED)}
+              </span>
+            </div>
+
+            <p className="mx-auto mt-4 max-w-2xl text-xs leading-relaxed text-slate-500">
               {heroCoverage}{" "}
               <Link href="/methodology" className="link-accent">
                 How we source and label every figure →
@@ -152,88 +149,67 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="container-page space-y-12 py-10">
-        {/* WHAT CHANGED leads the page. It used to be absent from the homepage
-            entirely while the origin map opened it — a showpiece ahead of the
-            product. An attorney checking for current policy movement, and an
-            immigrant asking whether something affects them, are both served by
-            this block and neither was served by the map. */}
+      {/* Vertical rhythm tightened from space-y-12/py-10 to space-y-8/py-8.
+          The dashboard should read as a landing page, not a documentation
+          portal — same components, same styling, less air between them. */}
+      <div className="container-page space-y-7 py-8">
+        {/* SECTION 2 — Latest changes. Leads the body: it is the product. */}
         <RecentChanges
           events={recent}
-          heading="What changed recently"
+          heading="Latest immigration changes"
           intro="The most significant changes we have recorded, newest first. Routine paperwork notices are kept out of this list and remain searchable in the full archive."
           linkLabel={`See all ${EVENTS.length.toLocaleString()} recorded changes`}
         />
 
-        {/* Origin map — a showpiece, now placed after the product's actual answer. */}
-        <section>
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <div className="eyebrow mb-1">Origins · interactive</div>
-              <h2 className="section-title">Where America&rsquo;s immigrants come from</h2>
-            </div>
-            <Link href="/migration-map" className="text-sm font-semibold text-accent hover:text-accent-soft">
-              Open the full map →
-            </Link>
-          </div>
-          <MigrationMap />
-        </section>
-
-        {/* Counter grid — the "Clock" identity */}
+        {/* SECTION 3 — Four headline numbers, not thirteen.
+            The other nine are not deleted: /data now renders the complete grid
+            with its view toggle. A visitor deciding whether to trust this site
+            is served by four numbers they recognise; someone comparing fiscal
+            years is served by the statistics page, one click away. */}
         <section>
           <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
               <div className="eyebrow mb-1">Latest available · auto-refreshed</div>
-              <h2 className="section-title">The latest available numbers</h2>
+              <h2 className="section-title">Key immigration numbers</h2>
             </div>
-            <span className="shrink-0 rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] text-slate-400">
-              Last refreshed {formatDate(LAST_REFRESHED)}
-            </span>
+            <Link href="/data" className="shrink-0 py-1.5 text-sm font-semibold text-accent hover:text-accent-soft">
+              View all statistics →
+            </Link>
           </div>
-          <p className="mb-5 text-sm text-slate-400">
-            Each counter shows its source&rsquo;s freshest reporting period, labelled reported, projected, or
-            estimated. This is <strong className="text-slate-300">not a real-time feed</strong>.{" "}
-            <Link href="/data" className="link-accent">How freshness works →</Link>
+          <DashboardGrid metrics={featured} showModeToggle={false} />
+          <p className="mt-3 text-xs leading-relaxed text-slate-500">
+            Each counter shows its source&rsquo;s freshest reporting period, labelled reported,
+            projected, or estimated. This is <strong className="text-slate-400">not a real-time
+            feed</strong>. <Link href="/data" className="link-accent">How freshness works →</Link>
           </p>
-          <DashboardGrid metrics={metrics} />
         </section>
 
-        {/* What does this mean for you? — persona relevance + contextual resources */}
-        <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
+        {/* SECTION 4 — Personal relevance, compressed to three bullets. */}
+        <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} compact />
 
-        {/* Key dates — the honest urgency layer, routing to tax/legal partners */}
-        <KeyDates dates={KEY_DATES} placement="home" limit={4} />
+        {/* SECTION 5 — The next three deadlines only. */}
+        {/* KeyDates renders its own "All dates →" link in the header, so the
+            brief's "View all dates" requirement is already met without a second
+            competing link below the list. */}
+        <KeyDates dates={KEY_DATES} placement="home" limit={3} />
 
-        {/* Explore the data — route into the full sections instead of inlining them */}
+        {/* EXPLORE — was six large description cards taking most of a screen.
+            Same six destinations, as a single wrapped row of links. Nothing is
+            unreachable; it just no longer costs a screen to say so. */}
         <section>
-          <div className="mb-5">
-            <div className="eyebrow mb-1">Explore</div>
-            <h2 className="section-title">Go deeper into the data</h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="section-title mb-3">Explore</h2>
+          <nav aria-label="Explore the site" className="flex flex-wrap gap-2">
             {EXPLORE.map((c) => (
               <Link
                 key={c.href}
                 href={c.href}
-                className="group flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.02] p-5 transition-colors hover:border-accent/40 hover:bg-accent/[0.04]"
+                className="rounded-lg border border-white/10 bg-white/[0.02] px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:border-accent/40 hover:bg-accent/[0.06] hover:text-white"
               >
-                <h3 className="text-base font-semibold text-white">{c.title}</h3>
-                <p className="mt-1.5 flex-1 text-sm leading-relaxed text-slate-400">{c.desc}</p>
-                <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-accent transition-colors group-hover:text-accent-soft">
-                  Open
-                  <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-                </span>
+                {c.title}
               </Link>
             ))}
-          </div>
+          </nav>
         </section>
-
-        {/* Closing brand statement */}
-        <HookSection title="Numbers People Argue About. Sources Everyone Can Check.">
-          Immigration is one of America&rsquo;s most emotional debates. This site does not tell you what to
-          think. It shows the public numbers behind enforcement, visas, jobs, wages, and workforce change
-          &mdash; with a source and date on every figure.
-        </HookSection>
 
         <ReportError />
 

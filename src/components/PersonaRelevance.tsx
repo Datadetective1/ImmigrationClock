@@ -16,9 +16,19 @@ import type { ResolvedPartner } from "@/lib/partners";
 export function PersonaRelevance({
   personas,
   resourcesByPersona,
+  compact = false,
 }: {
   personas: PersonaSummary[];
   resourcesByPersona?: Record<string, ResolvedPartner[]>;
+  /**
+   * Homepage mode: three bullets, a one-line summary, and a Learn more button.
+   *
+   * The full set of points is not deleted — /for-you renders this same
+   * component without `compact` and shows every one. A landing visitor deciding
+   * whether this site is for them is served by three; a reader who has already
+   * clicked "what does this mean for me" is served by all of them.
+   */
+  compact?: boolean;
 }) {
   const [active, setActive] = useState(personas[0]?.key);
   const current = personas.find((p) => p.key === active) ?? personas[0];
@@ -56,7 +66,7 @@ export function PersonaRelevance({
       <div className="mt-4">
         <h3 className="text-base font-semibold text-white">{current.question}</h3>
         <ul className="mt-3 space-y-2.5">
-          {current.points.map((pt, i) => (
+          {(compact ? current.points.slice(0, 3) : current.points).map((pt, i) => (
             <li key={i} className="flex gap-2 text-sm leading-relaxed text-slate-300">
               <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/70" />
               <span>
@@ -66,7 +76,27 @@ export function PersonaRelevance({
           ))}
         </ul>
 
-        {current.links.length > 0 ? (
+        {/* One-sentence summary + a single next step, instead of a row of
+            competing links. Compact mode has one job: tell the reader whether
+            this affects them, then get them to the page that says how. */}
+        {compact ? (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-3">
+            <p className="text-sm leading-relaxed text-slate-400">
+              {current.points.length > 3
+                ? `Three of ${current.points.length} figures that move for this situation.`
+                : "The figures that move for this situation."}{" "}
+              Full detail, with every source and date, is on the For you page.
+            </p>
+            <Link
+              href="/for-you"
+              className="shrink-0 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-accent transition-colors hover:border-accent/40 hover:text-accent-soft"
+            >
+              Learn more →
+            </Link>
+          </div>
+        ) : null}
+
+        {!compact && current.links.length > 0 ? (
           <div className="mt-4 flex flex-wrap gap-2">
             {current.links.map((l) => (
               <Link

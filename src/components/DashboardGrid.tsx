@@ -10,13 +10,27 @@ const MODES: { key: CardMode; label: string }[] = [
   { key: "trend", label: "5-year trend" },
 ];
 
-/** Responsive grid of live metric counters with a freshness view toggle. */
-export function DashboardGrid({ metrics }: { metrics: Metric[] }) {
+/**
+ * Responsive grid of live metric counters with a freshness view toggle.
+ *
+ * `showModeToggle` exists so the homepage can feature four headline numbers
+ * without the view switcher, while the full statistics page on /data keeps it.
+ * The toggle is not removed from the product, only from the surface where it
+ * costs vertical space and answers a question a landing visitor has not asked
+ * yet.
+ */
+export function DashboardGrid({
+  metrics,
+  showModeToggle = true,
+}: {
+  metrics: Metric[];
+  showModeToggle?: boolean;
+}) {
   const [mode, setMode] = useState<CardMode>("latest");
 
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2">
+      <div className={`mb-4 flex items-center gap-2 ${showModeToggle ? "" : "hidden"}`}>
         <span className="text-xs uppercase tracking-wider text-slate-500">View:</span>
         <div className="inline-flex rounded-lg border border-white/10 bg-white/5 p-0.5">
           {MODES.map((m) => (

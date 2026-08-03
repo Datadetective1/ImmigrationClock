@@ -101,14 +101,14 @@ export function KeyDates({
         </Link>
       </div>
 
-      <ul className="mt-4 space-y-3">
+      <ul className="mt-3 space-y-2">
         {shown.map(({ d, next, dleft }) => {
           const partners = partnersByIds(d.partnerIds).slice(0, 2);
           const place = `${placement}-${d.id}`;
           return (
             <li
               key={d.id}
-              className="rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-white/20"
+              className="rounded-xl border border-white/10 bg-white/[0.02] p-3.5 transition-colors hover:border-white/20"
             >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
@@ -123,7 +123,7 @@ export function KeyDates({
                 <Countdown row={{ d, next, dleft }} />
               </div>
 
-              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-white/5 pt-2.5">
+              <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-white/5 pt-2">
                 <a
                   href={d.sourceUrl}
                   target="_blank"

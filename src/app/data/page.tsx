@@ -2,10 +2,11 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
+import { DashboardGrid } from "@/components/DashboardGrid";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { FreshnessBadge } from "@/components/FreshnessBadge";
 import { ReportingLag } from "@/components/ReportingLag";
-import { LAST_REFRESHED, LIVE_BLS, REFRESH_MANIFEST } from "@/lib/data";
+import { LAST_REFRESHED, LIVE_BLS, REFRESH_MANIFEST, buildMetrics } from "@/lib/data";
 import { formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -42,6 +43,26 @@ export default function DataPage() {
       </PageHeader>
 
       <div className="container-page max-w-4xl space-y-8 py-10">
+        {/* THE FULL STATISTICS GRID.
+            The homepage features four headline numbers and links here for the
+            rest. This is where "the rest" lives — every metric the dashboard
+            ever showed, with the freshness view toggle (latest available / last
+            complete FY / 5-year trend) that the compact homepage row omits.
+            Nothing was removed from the product in that restructure; it moved
+            here, which is the page a reader is on when they want all of it. */}
+        <section id="all-statistics">
+          <div className="mb-4">
+            <div className="eyebrow mb-1">Every tracked figure</div>
+            <h2 className="section-title">All statistics</h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
+              Every number this site tracks, each labelled reported, projected, or estimated. Switch the
+              view to compare the latest available period against the last complete fiscal year, or see
+              the five-year trend.
+            </p>
+          </div>
+          <DashboardGrid metrics={buildMetrics()} />
+        </section>
+
         <section className="space-y-3">
           <h2 className="section-title">Three labels on every number</h2>
           <p className="text-sm leading-relaxed text-slate-300">
