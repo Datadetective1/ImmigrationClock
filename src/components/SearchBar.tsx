@@ -6,6 +6,19 @@ import Link from "next/link";
 import { search, type SearchResult } from "@/lib/data";
 import { SITE } from "@/lib/site";
 
+/**
+ * What the search box can actually answer, shown as examples.
+ *
+ * The placeholder already lists the CATEGORIES ("employer, state, visa type,
+ * job title, or country") but a category is an abstraction — "H-1B" and
+ * "Amazon" are the things a reader recognises. Two of each kind, because the
+ * point is to convey the RANGE in one glance rather than to be a menu.
+ *
+ * Clicking one types it. There is no new query path and no request: the same
+ * client-side search() runs either way.
+ */
+const SEARCH_EXAMPLES = ["H-1B", "F-1", "India", "Canada", "Amazon", "Google", "California", "Texas"];
+
 const TYPE_LABEL: Record<SearchResult["type"], string> = {
   company: "Employer",
   state: "State",
@@ -82,6 +95,32 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
           </kbd>
         ) : null}
       </div>
+
+      {/* Examples appear only when the box is focused AND empty, so they never
+          compete with real results. */}
+      {open && !q ? (
+        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-ink-850 p-3 shadow-glow">
+          <p className="px-1 text-xs text-slate-500">Try searching for</p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {SEARCH_EXAMPLES.map((ex) => (
+              <button
+                key={ex}
+                type="button"
+                // onMouseDown, not onClick: the input's blur would close this
+                // panel before a click ever landed.
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  setQ(ex);
+                  setActive(0);
+                }}
+                className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1.5 text-xs text-slate-300 transition-colors hover:border-accent/50 hover:bg-accent/10 hover:text-white"
+              >
+                {ex}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {open && q ? (
         <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-ink-850 shadow-glow">

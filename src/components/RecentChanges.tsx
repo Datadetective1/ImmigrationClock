@@ -27,11 +27,18 @@ function ChangeRow({ event }: { event: ImmigrationEvent }) {
   const proposal = isNotInForce(event.classification);
 
   return (
-    <li className="border-t border-white/5 py-3 first:border-t-0 first:pt-0">
+    <li className="border-t border-white/5 py-4 first:border-t-0 first:pt-0 last:pb-0">
+      {/* ROW 1 — importance and kind. What this is, before what it says.
+          Importance is a weight, never a colour: a red badge would tell the
+          reader a change is bad, which is an editorial claim this platform does
+          not make. Only "not in force" gets colour, because that one is a
+          factual warning rather than a judgement. */}
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
         <span
           className={
-            event.severity === "major" ? "font-semibold text-white" : "font-medium text-slate-300"
+            event.severity === "major"
+              ? "font-semibold text-white"
+              : "font-medium text-slate-300"
           }
         >
           {SEVERITY_SHORT[event.severity]}
@@ -39,44 +46,42 @@ function ChangeRow({ event }: { event: ImmigrationEvent }) {
         <span className="text-slate-600" aria-hidden>
           ·
         </span>
-        {/* A proposal must never read as a rule, even in a one-line row. */}
         <span className={proposal ? "font-semibold text-status-amber" : "text-slate-400"}>
           {CLASSIFICATION_LABEL[event.classification]}
         </span>
+      </div>
+
+      {/* ROW 2 — the title, given its own line and the most weight on the card. */}
+      <h3 className="mt-1.5 text-sm font-semibold leading-snug text-white">
+        <Link href="/what-changed" className="inline-block py-1 hover:text-accent">
+          {event.title}
+        </Link>
+      </h3>
+
+      {/* ROW 3 — provenance and action, on one baseline. Source and date belong
+          together: they are the same question ("who said this, and when"), and
+          separating them across rows made the reader hunt for half the answer. */}
+      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+        {source ? <span className="text-slate-400">{source.name}</span> : null}
         {source ? (
-          <>
-            <span className="text-slate-600" aria-hidden>
-              ·
-            </span>
-            <span className="text-slate-400">{source.name}</span>
-          </>
+          <span className="text-slate-600" aria-hidden>
+            ·
+          </span>
         ) : null}
-        <span className="text-slate-600" aria-hidden>
-          ·
-        </span>
         <span className="text-slate-500">
           {isScheduled(event)
             ? `Scheduled for ${formatDate(event.publishedAt)}`
             : formatDate(event.publishedAt)}
         </span>
+        <a
+          href={event.sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-auto inline-block py-1 font-medium text-accent underline-offset-2 hover:underline"
+        >
+          Read the original ↗
+        </a>
       </div>
-
-      {/* inline-block + py so the tap target clears 24px (WCAG 2.2 AA 2.5.8)
-          without opening a gap in the line. */}
-      <h3 className="mt-1 text-sm font-semibold leading-snug text-white">
-        <Link href="/what-changed" className="inline-block py-0.5 hover:text-accent">
-          {event.title}
-        </Link>
-      </h3>
-
-      <a
-        href={event.sourceUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-1 inline-block py-1 text-xs font-medium text-accent underline-offset-2 hover:underline"
-      >
-        Read the government document →
-      </a>
     </li>
   );
 }

@@ -83,9 +83,9 @@ export function PersonaRelevance({
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-3">
             <p className="text-sm leading-relaxed text-slate-400">
               {current.points.length > 3
-                ? `Three of ${current.points.length} figures that move for this situation.`
-                : "The figures that move for this situation."}{" "}
-              Full detail, with every source and date, is on the For you page.
+                ? `Three of ${current.points.length} figures for this situation.`
+                : "The figures for this situation."}{" "}
+              Every source and date is on the For you page.
             </p>
             <Link
               href="/for-you"

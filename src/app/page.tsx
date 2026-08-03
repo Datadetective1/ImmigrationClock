@@ -85,39 +85,40 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-balance text-base text-slate-300 sm:text-lg">
-              Rules, executive actions, agency guidance and court decisions — each one linked to the
-              government document it came from, with what that document says about who is affected.
-              Plus the public data on enforcement, visas, and the immigrant workforce.
+              Rules, executive actions, agency guidance and court decisions — each linked to the
+              government document it came from, and what that document says about who it affects.
             </p>
 
-            {/* The four things a reader can actually do, in the order the three
-                audiences ask for them: what happened, does it affect me, keep me
-                posted, and tell me by email. */}
-            <div className="mx-auto mt-7 flex max-w-2xl flex-wrap items-center justify-center gap-2.5">
+            {/* CTA HIERARCHY. Four buttons of equal weight is four buttons of
+                no weight — the reader has to read all of them to choose. One
+                primary action, three quieter alternates: same four
+                destinations, but the eye now lands somewhere first.
+
+                The primary is larger and carries the accent fill; the alternates
+                drop to a lighter border and no fill, and sit on their own row so
+                they read as "or" rather than as peers. */}
+            <div className="mx-auto mt-8 flex max-w-2xl flex-col items-center gap-3">
               <Link
                 href="/what-changed"
-                className="rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft"
+                className="rounded-lg bg-accent px-6 py-3 text-base font-semibold text-ink-950 shadow-card transition-colors hover:bg-accent-soft"
               >
                 See what changed
               </Link>
-              <Link
-                href="/for-you"
-                className="rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-accent/50 hover:bg-accent/10"
-              >
-                Find changes affecting me
-              </Link>
-              <Link
-                href="/what-changed#follow"
-                className="rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-accent/50 hover:bg-accent/10"
-              >
-                Follow a country or visa
-              </Link>
-              <Link
-                href="/pulse#subscribe"
-                className="rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-accent/50 hover:bg-accent/10"
-              >
-                Get the weekly email
-              </Link>
+              <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5">
+                {[
+                  { href: "/for-you", label: "Find changes affecting me" },
+                  { href: "/what-changed#follow", label: "Follow a country or visa" },
+                  { href: "/pulse#subscribe", label: "Get the weekly email" },
+                ].map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="rounded-lg px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
             </div>
 
             <div className="mx-auto mt-7 max-w-xl">
@@ -157,7 +158,7 @@ export default function HomePage() {
         <RecentChanges
           events={recent}
           heading="Latest immigration changes"
-          intro="The most significant changes we have recorded, newest first. Routine paperwork notices are kept out of this list and remain searchable in the full archive."
+          intro="Newest first. Routine paperwork is left out here and stays searchable in the archive."
           linkLabel={`See all ${EVENTS.length.toLocaleString()} recorded changes`}
         />
 
@@ -178,9 +179,10 @@ export default function HomePage() {
           </div>
           <DashboardGrid metrics={featured} showModeToggle={false} />
           <p className="mt-3 text-xs leading-relaxed text-slate-500">
-            Each counter shows its source&rsquo;s freshest reporting period, labelled reported,
-            projected, or estimated. This is <strong className="text-slate-400">not a real-time
-            feed</strong>. <Link href="/data" className="link-accent">How freshness works →</Link>
+            Every number is labelled reported, projected, or estimated, and shows the latest period
+            its source has published. This is{" "}
+            <strong className="text-slate-400">not a real-time feed</strong>.{" "}
+            <Link href="/data" className="link-accent">How freshness works →</Link>
           </p>
         </section>
 
