@@ -38,6 +38,7 @@ import {
   eventCoverageNote,
   failedAdapters,
 } from "@/lib/event-store";
+import { INDEX_COVERAGE } from "@/lib/event-index";
 import { sortEvents } from "@/domains/graph/events";
 
 export const metadata = buildMetadata({
@@ -81,9 +82,21 @@ const LEAD_FEED_DAYS = 30;
 
 export default function WhatChangedPage() {
   const significant = EVENTS.filter((e) => e.severity !== "routine");
-  const routine = EVENTS.filter((e) => e.severity === "routine");
   const allDays = groupByDay(significant);
   const days = allDays.slice(0, LEAD_FEED_DAYS);
+
+  // Routine notices are bounded to the SAME window as the lead feed, which is
+  // what the disclosure below has always claimed and what the code did not do.
+  //
+  // It filtered the whole archive. At 190 events that was 31 cards and nobody
+  // noticed; after the backfill to 859 it was 460 fully-rendered cards — a 4MB
+  // HTML document, and a label reading "in the same period" over events from
+  // eighteen months earlier. Both halves of that are bugs, and the honesty one
+  // is the worse of the two.
+  const windowStart = days.length ? days[days.length - 1][0] : null;
+  const allRoutine = EVENTS.filter((e) => e.severity === "routine");
+  const routine = windowStart ? allRoutine.filter((e) => e.publishedAt >= windowStart) : [];
+  const olderRoutineCount = allRoutine.length - routine.length;
   const shownCount = days.reduce((n, [, evts]) => n + evts.length, 0);
   const olderCount = significant.length - shownCount;
   const failed = failedAdapters();
@@ -168,8 +181,15 @@ export default function WhatChangedPage() {
           <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-slate-300">
             Showing the most recent {days.length} days of change. The store holds{" "}
             <span className="font-semibold text-white">{olderCount}</span> older recorded change
-            {olderCount === 1 ? "" : "s"} going back to {formatDate(EVENT_STORE_META.since)} — use the
-            search box above to reach the whole archive.
+            {olderCount === 1 ? "" : "s"}
+            {EVENT_STORE_META.earliestEvent
+              ? ` going back to ${formatDate(EVENT_STORE_META.earliestEvent)}`
+              : ""}{" "}
+            {" — use the search box above to reach "}
+            {/* Not "the whole archive" when the search index is a payload-bounded
+                window. The search box states its own reach; this must agree with
+                it rather than promise more. */}
+            {INDEX_COVERAGE.bounded ? `the ${INDEX_COVERAGE.indexed} most recent of them` : "the whole archive"}.
           </p>
         ) : null}
 
@@ -182,8 +202,11 @@ export default function WhatChangedPage() {
             </summary>
             <p className="mt-2 text-xs leading-relaxed text-slate-500">
               Scheduled statistical releases, paperwork notices, and technical updates the publisher
-              itself describes as non-substantive. Kept here in full so nothing is hidden, and kept out
-              of the feed above so it still answers the question it claims to.
+              itself describes as non-substantive. Kept out of the feed above so it still answers the
+              question it claims to.
+              {olderRoutineCount > 0
+                ? ` A further ${olderRoutineCount} routine notice${olderRoutineCount === 1 ? "" : "s"} published before this window ${olderRoutineCount === 1 ? "is" : "are"} in the archive rather than listed here — filter by “Routine” in the search above to read them.`
+                : ""}
             </p>
             <div className="mt-4 space-y-4">
               {sortEvents(routine).map((e) => (
@@ -200,8 +223,12 @@ export default function WhatChangedPage() {
           never by a language model, and never by how much attention an item might attract. Where a
           document states who is affected, we quote it; where we inferred something, it is labelled as
           our inference. We do not summarise legal requirements as advice. The store was last built{" "}
-          {formatDate(EVENT_STORE_META.generatedAt.slice(0, 10))} and covers documents published since{" "}
-          {formatDate(EVENT_STORE_META.since)}.
+          {formatDate(EVENT_STORE_META.generatedAt.slice(0, 10))}
+          {EVENT_STORE_META.earliestEvent
+            ? ` and holds documents published from ${formatDate(EVENT_STORE_META.earliestEvent)} onward`
+            : ""}
+          . The most recent build looked back over documents published since{" "}
+          {formatDate(EVENT_STORE_META.since)}; everything recorded before that is retained.
         </MethodologyNote>
       </div>
     </div>

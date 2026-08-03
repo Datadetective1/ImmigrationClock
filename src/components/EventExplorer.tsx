@@ -39,6 +39,7 @@ import {
 } from "@/lib/event-labels";
 import {
   EVENT_INDEX,
+  INDEX_COVERAGE,
   filterEvents,
   hasActiveFilters,
   facetCounts,
@@ -48,7 +49,7 @@ import {
   type IndexedEvent,
   type SortOrder,
 } from "@/lib/event-index";
-import type { EventSeverity } from "@/domains/graph/events";
+import { isScheduled, type EventSeverity } from "@/domains/graph/events";
 
 function Chip({
   active,
@@ -107,7 +108,8 @@ function ResultRow({ event }: { event: IndexedEvent }) {
           ·
         </span>
         <span className="text-slate-500">
-          {event.scheduled
+          {/* Derived, not the stored flag — see isScheduled(). */}
+          {isScheduled(event)
             ? `Scheduled for ${formatDate(event.publishedAt)}`
             : formatDate(event.publishedAt)}
         </span>
@@ -250,11 +252,28 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
             // wrong forever after — a small dishonesty, but on this platform a
             // number in the interface that nobody recomputes is exactly the
             // habit that erodes the rest.
-            placeholder={`Search all ${EVENT_INDEX.length} recorded changes — try “H-1B”, “asylum”, “fee”…`}
+            // "all" is dropped when the index is a window, because it would not
+            // be true — see INDEX_COVERAGE.
+            placeholder={`Search ${INDEX_COVERAGE.bounded ? "" : "all "}${EVENT_INDEX.length} recorded changes — try “H-1B”, “asylum”, “fee”…`}
             aria-label="Search recorded immigration policy changes"
-            className="w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
+            className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
           />
         </div>
+
+        {/* The search box covers a payload-bounded window on a large archive.
+            Saying so is not optional: an unstated window makes an absent result
+            look like an absent event, which is the one inference this platform
+            must never invite. */}
+        {INDEX_COVERAGE.bounded ? (
+          <p className="text-xs leading-relaxed text-slate-500">
+            Search covers the most recent {INDEX_COVERAGE.indexed} of{" "}
+            {INDEX_COVERAGE.stored} recorded changes
+            {INDEX_COVERAGE.oldest ? ` (back to ${INDEX_COVERAGE.oldest})` : ""}. The remaining{" "}
+            {INDEX_COVERAGE.notIndexed} are kept in the archive and still appear on the country, visa,
+            and agency pages they affect — they are held back from the search index only to keep this
+            page light on slow connections.
+          </p>
+        ) : null}
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-slate-500">Importance</span>
@@ -302,7 +321,10 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-3">
             <p className="text-sm text-slate-300">
               <span className="font-semibold text-white">{results.length}</span>{" "}
-              {results.length === 1 ? "change" : "changes"} found across the whole archive
+              {results.length === 1 ? "change" : "changes"} found
+              {INDEX_COVERAGE.bounded
+                ? ` in the ${INDEX_COVERAGE.indexed} searchable changes`
+                : " across the whole archive"}
             </p>
             <div className="flex items-center gap-2">
               <label htmlFor={`${searchId}-sort`} className="text-xs text-slate-500">
@@ -339,8 +361,9 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
           <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
             <p className="text-sm text-slate-200">Nothing in the archive matches that.</p>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">
-              That is a statement about what we have recorded, not about what has happened. The archive
-              covers the sources listed on the methodology page from January 2025 onward — a change
+              That is a statement about what we have recorded, not about what has happened. Search
+              covers the sources listed on the methodology page
+              {INDEX_COVERAGE.oldest ? ` from ${INDEX_COVERAGE.oldest} onward` : ""} — a change
               published elsewhere, or before then, will not appear here.
             </p>
           </div>

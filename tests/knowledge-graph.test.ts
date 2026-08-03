@@ -11,6 +11,7 @@ import {
 } from "@/domains/graph/entities";
 import {
   validateEvent,
+  isScheduled,
   sortEvents,
   dedupeEvents,
   publishableEvents,
@@ -167,8 +168,26 @@ describe("event validation", () => {
     expect(validateEvent(makeEvent({ publishedAt: future, scheduled: true }))).toEqual([]);
   });
 
-  it("refuses a scheduled flag on an already-published event", () => {
-    expect(validateEvent(makeEvent({ scheduled: true })).join()).toMatch(/publication date has passed/);
+  it("accepts a scheduled flag whose publication date has since arrived", () => {
+    // This used to be an error, and that was wrong. `scheduled` records what the
+    // SOURCE said when we ingested — that the document was on public inspection
+    // ahead of publication. The calendar moving on does not falsify that, and
+    // treating it as corruption turned the whole store invalid overnight: five
+    // Federal Register documents ingested on 2 August for publication on the 3rd
+    // failed validation the moment UTC rolled over.
+    expect(validateEvent(makeEvent({ scheduled: true }))).toEqual([]);
+  });
+
+  it("derives scheduled-ness from the date rather than the stored flag", () => {
+    const future = new Date(Date.now() + 3 * 86_400_000).toISOString().slice(0, 10);
+    const past = "2025-01-06";
+    // A stale flag must not make a published document read as forthcoming...
+    expect(isScheduled({ publishedAt: past })).toBe(false);
+    // ...and a genuinely future date is scheduled whether or not it was flagged.
+    expect(isScheduled({ publishedAt: future })).toBe(true);
+    // Boundary: the day it publishes, it is published.
+    const today = new Date().toISOString().slice(0, 10);
+    expect(isScheduled({ publishedAt: today }, today)).toBe(false);
   });
 
   it("refuses an explicit link with less than full confidence", () => {

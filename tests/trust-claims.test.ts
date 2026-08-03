@@ -1,12 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
 import { SOURCES, SOURCE_BY_KEY, officialSources, monthsSinceVerified } from "@/lib/sources";
 import { refreshRows } from "@/lib/refresh";
 import { buildInsights } from "@/lib/insights";
 import { buildMetrics } from "@/lib/data";
 import { SITE } from "@/lib/site";
+import { jsonLd } from "@/lib/seo";
+import { EVENTS, EVENT_STORE_META, eventCoverageNote } from "@/lib/event-store";
 
 const src = (rel: string) =>
   readFileSync(fileURLToPath(new URL(`../src/${rel}`, import.meta.url)), "utf8");
@@ -160,5 +163,129 @@ describe("self-claims", () => {
       const s = src(`app/${page}/page.tsx`);
       expect(s, `${page} still builds a raw mailto`).not.toContain("mailto:${SITE.contactEmail}");
     }
+  });
+});
+
+// =============================================================================
+// ARCHIVE COVERAGE — the store must describe itself by what it HOLDS.
+//
+// Both regressions below shipped to production and were found by audit, not by
+// this suite. They are the same class of error: a number that looks like a fact
+// about our data but is actually an artefact of the last build.
+// =============================================================================
+describe("archive coverage claims", () => {
+  it("dates the archive from its oldest event, not the last run's lookback", () => {
+    // `since` is one build's window. Rendering it as the coverage boundary told
+    // readers the archive began 2026-05-04 on a page showing events from 2025.
+    const oldest = EVENTS.reduce<string | null>(
+      (min, e) => (min === null || e.publishedAt < min ? e.publishedAt : min),
+      null
+    );
+    expect(EVENT_STORE_META.earliestEvent).toBe(oldest);
+    // No ordering holds between the two: the archive starts at its oldest
+    // DOCUMENT, which can fall either side of a given run's lookback. That they
+    // are independent is the whole point — one cannot stand in for the other.
+  });
+
+  it("never quotes the run window as the archive's start to a reader", () => {
+    const note = eventCoverageNote();
+    expect(note).not.toContain(EVENT_STORE_META.since);
+    if (EVENT_STORE_META.earliestEvent) {
+      expect(note).toContain(EVENT_STORE_META.earliestEvent);
+    }
+  });
+
+  it("paginates every Federal Register query instead of reading page one", () => {
+    // Measured 2026-08-02: page-one-only read 100 of 4,196 matching documents
+    // and reported no truncation. Any reintroduction of a bare `per_page` cap on
+    // these two adapters is that bug returning.
+    for (const a of ["federal-register", "executive-actions"]) {
+      const s = src(`domains/graph/adapters/${a}.ts`);
+      expect(s, `${a} must not hand-roll a page size`).not.toContain("per_page");
+      expect(s, `${a} must read the whole window`).toContain("fetchAllDocuments");
+      expect(s, `${a} must report when the per-run cap engages`).toContain("capEvents");
+    }
+  });
+});
+
+// =============================================================================
+// STRUCTURED DATA — JSON-LD is injected as raw HTML, so it must be escaped.
+// =============================================================================
+describe("json-ld injection safety", () => {
+  it("neutralises a tag-closing sequence in third-party text", () => {
+    // Breadcrumb labels on /employer/[slug] come from DOL disclosure files.
+    const evil = { name: "Acme </script><img src=x onerror=alert(1)>" };
+    const out = jsonLd(evil);
+    expect(out).not.toContain("</script>");
+    expect(out).not.toContain("<img");
+    // Escaping must not corrupt the data itself.
+    expect(JSON.parse(out).name).toBe(evil.name);
+  });
+
+  it("is used by every script tag that injects structured data", () => {
+    for (const c of ["Faq", "PageHeader", "StructuredData"]) {
+      const s = src(`components/${c}.tsx`);
+      expect(s, `${c} injects unescaped JSON`).not.toMatch(
+        /__html:\s*JSON\.stringify/
+      );
+      expect(s, `${c} should use the escaping helper`).toContain("jsonLd(");
+    }
+  });
+});
+
+// =============================================================================
+// MOBILE INPUT SIZING
+//
+// iOS Safari zooms the viewport whenever a focused input renders below 16px,
+// and does not zoom back out. On a text box that is a page-jump on every tap.
+// Missed on the site-wide SearchBar during the first accessibility pass because
+// only the /what-changed explorer was checked — so it is asserted across every
+// text input rather than fixed one component at a time.
+// =============================================================================
+describe("typed inputs are at least 16px on mobile", () => {
+  // Every .tsx under src, discovered rather than listed.
+  //
+  // The first version of this test named five components by hand and passed
+  // while PulseSignup — the newsletter field, the one interaction the site
+  // actually asks a reader to complete — sat at 14px. A hardcoded inventory
+  // is the same defect as reading page one of a paginated API: it reports
+  // confidently on whatever it happened to enumerate.
+  function tsxFiles(dir: string, acc: string[] = []): string[] {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const p = join(dir, entry.name);
+      if (entry.isDirectory()) tsxFiles(p, acc);
+      else if (entry.name.endsWith(".tsx")) acc.push(p);
+    }
+    return acc;
+  }
+
+  const SRC = fileURLToPath(new URL("../src", import.meta.url));
+  // Controls that are not typed into never trigger the iOS zoom.
+  const NOT_TYPED = new Set(["hidden", "checkbox", "radio", "submit", "button", "range", "color"]);
+
+  it("finds inputs to check at all", () => {
+    // Guards the guard: a regex that silently matches nothing would make every
+    // assertion below vacuously true.
+    expect(tsxFiles(SRC).length).toBeGreaterThan(20);
+  });
+
+  it("uses at least text-base on every element that takes typed text", () => {
+    const offenders: string[] = [];
+    let checked = 0;
+    for (const file of tsxFiles(SRC)) {
+      const source = readFileSync(file, "utf8");
+      for (const m of source.matchAll(/<input[\s\S]*?\/>/g)) {
+        const el = m[0];
+        const type = (/type="([^"]*)"/.exec(el) ?? [, "text"])[1];
+        if (NOT_TYPED.has(type)) continue;
+        checked++;
+        const cls = (/className="([^"]*)"/.exec(el) ?? [, ""])[1];
+        if (/\btext-(xs|sm)\b/.test(cls)) {
+          offenders.push(`${file.split(/[\/]/).pop()} (type=${type})`);
+        }
+      }
+    }
+    expect(checked, "no typed inputs were inspected — the matcher is broken").toBeGreaterThan(0);
+    expect(offenders, "inputs below 16px make iOS zoom the viewport on focus").toEqual([]);
   });
 });
