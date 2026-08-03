@@ -188,6 +188,26 @@ function daysBetween(a: string, b: string): number {
   return Math.abs(Date.parse(b) - Date.parse(a)) / 86_400_000;
 }
 
+/**
+ * Is this document STILL awaiting publication?
+ *
+ * Derived, never read from the stored `scheduled` flag. The flag is an
+ * ingest-time observation ("the Federal Register had this on public inspection
+ * when we fetched it") and it does not expire on its own — so a card driven by
+ * the flag goes on saying "scheduled for publication on 3 August" on the 4th,
+ * the 5th, and forever.
+ *
+ * The only thing that decides this is whether the publication date has arrived,
+ * so that is the only thing consulted. Callers pass `today` explicitly so a
+ * server render and a test can both pin it.
+ */
+export function isScheduled(
+  e: Pick<ImmigrationEvent, "publishedAt">,
+  today = new Date().toISOString().slice(0, 10)
+): boolean {
+  return e.publishedAt > today;
+}
+
 /** Events safe to show publicly. `draft` never renders. */
 export function publishableEvents(events: ImmigrationEvent[]): ImmigrationEvent[] {
   return events.filter((e) => e.reviewStatus !== "draft");
@@ -273,9 +293,15 @@ export function validateEvent(e: ImmigrationEvent): string[] {
       errors.push(`${e.id}: publishedAt is more than 30 days in the future`);
     }
   }
-  if (e.scheduled && e.publishedAt <= today) {
-    errors.push(`${e.id}: marked scheduled but its publication date has passed`);
-  }
+  // NOT an error: `scheduled` records what the SOURCE said at ingest — that the
+  // document was on public inspection ahead of its publication date. That
+  // observation stays true forever; what changes is the calendar. A document
+  // ingested on the 2nd for publication on the 3rd would otherwise turn the
+  // whole store invalid overnight, which is the passage of time being reported
+  // as data corruption.
+  //
+  // Whether an event is scheduled RIGHT NOW is a question about today, so it is
+  // derived at read time by isScheduled() rather than trusted from the flag.
   if (e.lastVerifiedAt > today) errors.push(`${e.id}: lastVerifiedAt is in the future`);
 
   if (e.impact) errors.push(...validateImpact(e.impact, e.id));

@@ -34,6 +34,12 @@ export interface IndexedEvent {
 
 interface IndexFile {
   generatedAt: string;
+  /** Events in the STORE. May exceed the number shipped to the browser. */
+  storedTotal?: number;
+  /** Events actually in this file. */
+  indexedTotal?: number;
+  /** Publication date of the oldest event search can reach. */
+  oldestIndexed?: string | null;
   events: IndexedEvent[];
 }
 
@@ -43,6 +49,32 @@ const FILE = indexFile as unknown as IndexFile;
 export const EVENT_INDEX: IndexedEvent[] = [...(FILE.events ?? [])].sort((a, b) =>
   b.publishedAt.localeCompare(a.publishedAt)
 );
+
+/**
+ * How far search actually reaches.
+ *
+ * The index is capped at a payload budget (see scripts/build-events.ts), so on a
+ * large archive it is a WINDOW, not the whole thing. A search box that silently
+ * covers less than the archive it claims to search is the same failure as an
+ * adapter that reads page one: the reader concludes an event does not exist.
+ *
+ * So the shortfall is exported and rendered. `bounded` is the flag a surface
+ * must check before telling anyone it searched everything.
+ */
+export const INDEX_COVERAGE = {
+  /** Events held in the store. */
+  stored: FILE.storedTotal ?? EVENT_INDEX.length,
+  /** Events reachable from the browser. */
+  indexed: FILE.indexedTotal ?? EVENT_INDEX.length,
+  /** Oldest event search can reach, or null on an empty index. */
+  oldest: FILE.oldestIndexed ?? (EVENT_INDEX.length ? EVENT_INDEX[EVENT_INDEX.length - 1].publishedAt : null),
+  get notIndexed(): number {
+    return Math.max(0, this.stored - this.indexed);
+  },
+  get bounded(): boolean {
+    return this.notIndexed > 0;
+  },
+};
 
 export interface EventFilters {
   /** Free text over title and summary. */

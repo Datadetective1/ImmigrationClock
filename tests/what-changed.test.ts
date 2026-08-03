@@ -163,11 +163,18 @@ describe("event card integrity", () => {
   });
 
   it("words a scheduled document as scheduled, never as published", () => {
-    // Federal Register documents on public inspection carry a future date. The
-    // store marks them `scheduled`; presenting one as "Published" would report
-    // something that has not happened yet.
-    expect(CARD).toMatch(/event\.scheduled/);
+    // Federal Register documents on public inspection carry a future date, and
+    // presenting one as "Published" would report something that has not happened.
+    //
+    // The check is that the wording is DERIVED from the date. Reading the stored
+    // `scheduled` flag was the previous implementation and is now a bug: the flag
+    // never expires, so a card driven by it goes on saying "scheduled for
+    // publication on 3 August" on the 4th and every day after.
+    expect(CARD).toMatch(/isScheduled\(event\)/);
+    expect(CARD).not.toMatch(/event\.scheduled\s*$/m);
     expect(CARD).toMatch(/Scheduled for publication on/);
+    // Both surfaces must agree, or one drifts while the other stays right.
+    expect(EXPLORER).toMatch(/isScheduled\(event\)/);
   });
 
   it("separates what the document states from what we inferred", () => {
@@ -394,5 +401,48 @@ describe("coverage claim honesty", () => {
   it("never claims more events than the store holds", () => {
     const claimed = Number(/Tracking (\d+) government events/.exec(eventCoverageNote())![1]);
     expect(claimed).toBe(EVENTS.length);
+  });
+});
+
+// =============================================================================
+// PAGE WEIGHT — a disclosure that says "in the same period" must mean it.
+//
+// The routine-notice panel filtered the WHOLE archive while labelling itself as
+// covering the lead feed's period. At 190 events that was 31 cards and invisible;
+// at 859 it was 460 fully-rendered cards, a 4MB HTML document, and a period claim
+// that was false by eighteen months. Both failure modes grow with the archive,
+// which is exactly the kind of bug a fixed-size fixture never surfaces.
+// =============================================================================
+describe("routine panel is bounded to the period it claims", () => {
+  const page = read("src/app/what-changed/page.tsx");
+
+  it("filters routine notices by the lead feed's window", () => {
+    expect(page, "routine must be windowed, not archive-wide").toMatch(
+      /allRoutine\.filter\(\(e\) => e\.publishedAt >= windowStart\)/
+    );
+    // The unbounded form must not come back.
+    expect(page).not.toMatch(
+      /const routine = EVENTS\.filter\(\(e\) => e\.severity === "routine"\)/
+    );
+  });
+
+  it("discloses routine notices held outside the window rather than dropping them", () => {
+    expect(page).toContain("olderRoutineCount");
+    expect(page).toMatch(/published before this window/);
+  });
+
+  it("keeps the rendered window small enough to ship", () => {
+    // Mirrors the page's own computation. The lead feed is bounded to 30 days of
+    // SIGNIFICANT events; the routine panel must cover that same span and no
+    // more. A few hundred cards is a heavy page; a few thousand is a broken one.
+    const significant = EVENTS.filter((e) => e.severity !== "routine");
+    const dayKeys = [...new Set(significant.map((e) => e.publishedAt))]
+      .sort((a, b) => b.localeCompare(a))
+      .slice(0, 30);
+    const windowStart = dayKeys[dayKeys.length - 1];
+    const rendered =
+      significant.filter((e) => e.publishedAt >= windowStart).length +
+      EVENTS.filter((e) => e.severity === "routine" && e.publishedAt >= windowStart).length;
+    expect(rendered, `${rendered} event cards would render on /what-changed`).toBeLessThan(300);
   });
 });

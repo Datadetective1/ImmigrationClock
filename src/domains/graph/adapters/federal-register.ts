@@ -19,7 +19,7 @@
 // after this structured extraction has already happened.
 // =============================================================================
 
-import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
+import { capEvents, type AdapterContext, type AdapterResult, type SourceAdapter } from "../adapters";
 import type {
   EventClassification,
   EventSeverity,
@@ -29,9 +29,12 @@ import type {
 import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
-
-const API = "https://www.federalregister.gov/api/v1/documents.json";
-const UA = { "User-Agent": "ImmigrationClock/1.0 (+https://immigrationclock.com)" };
+import {
+  BODY_FETCH_CONCURRENCY,
+  FR_UA as UA,
+  fetchAllDocuments,
+  mapWithConcurrency,
+} from "./federal-register-api";
 
 /**
  * Agencies we track, mapped from the Federal Register's own slugs to our entity
@@ -147,8 +150,38 @@ const RELEVANCE_TERMS = [
   "uscis", "consular",
 ];
 
-function isImmigrationRelevant(doc: FrDocument): boolean {
-  const haystack = `${doc.title} ${doc.abstract ?? ""}`.toLowerCase();
+/**
+ * Remove agency PROPER NAMES before testing topical relevance.
+ *
+ * "U.S. Customs and Border Protection" contains the word "border", and CBP names
+ * itself in the abstract of everything it publishes — so the bare term "border"
+ * matched every customs document the agency has ever issued. Measured on the
+ * live store 2026-08-03: 167 of 685 Federal Register events (24%) had NO
+ * immigration signal except CBP's own name, and 21 of those were ranked major.
+ * Cargo manifests, free-trade agreements, quarterly IRS interest rates and an
+ * ultrasound-transducer country-of-origin determination were all being published
+ * as U.S. immigration policy changes.
+ *
+ * This is the third time a bare keyword has done this — "petition" caused it
+ * twice — and the lesson is the same each time: an agency's identity is not
+ * evidence of a document's subject. Attribution already comes from the API's
+ * structured `agencies` array as an explicit link, so nothing is lost by
+ * refusing to read it as topic.
+ *
+ * Note this strips only AMBIGUOUS agency names. USCIS is not stripped: that
+ * agency does immigration and nothing else, so its name genuinely is evidence.
+ */
+function withoutAgencyNames(text: string): string {
+  return text
+    .replace(/u\.?s\.?\s+customs and border protection/g, " ")
+    .replace(/customs and border protection/g, " ")
+    .replace(/\bcbp\b/g, " ");
+}
+
+// Takes only the two fields it reads, so the build script can re-apply it to a
+// STORED event when retracting what an older, looser filter admitted.
+function isImmigrationRelevant(doc: Pick<FrDocument, "title" | "abstract">): boolean {
+  const haystack = withoutAgencyNames(`${doc.title} ${doc.abstract ?? ""}`.toLowerCase());
   return RELEVANCE_TERMS.some((t) => haystack.includes(t));
 }
 
@@ -167,7 +200,10 @@ function agencyLinks(doc: FrDocument): EventEntityLink[] {
 
 /** Choose the topic this document belongs under, by explicit keyword rule. */
 function topicLink(doc: FrDocument): EventEntityLink | null {
-  const h = `${doc.title} ${doc.abstract ?? ""}`.toLowerCase();
+  // Same agency-name strip as the relevance filter, and for the same reason:
+  // "Customs and Border Protection" was filing every customs rule under the
+  // border topic, which is how topic:border came to hold 232 events.
+  const h = withoutAgencyNames(`${doc.title} ${doc.abstract ?? ""}`.toLowerCase());
   const RULES: [string, string[]][] = [
     ["h1b", ["h-1b", "specialty occupation", "cap-subject"]],
     ["international-students", ["f-1", "sevis", "student and exchange", "optional practical training"]],
@@ -314,7 +350,6 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   }
 
   const params = new URLSearchParams({
-    per_page: String(Math.min(ctx.limit, 100)),
     order: "newest",
     "conditions[publication_date][gte]": ctx.since,
   });
@@ -326,53 +361,44 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     params.append("fields[]", f);
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30_000);
-  try {
-    const res = await fetch(`${API}?${params}`, { headers: UA, signal: controller.signal });
-    if (!res.ok) {
-      return {
-        adapterKey: "federal-register",
-        events: [],
-        warnings: [`HTTP ${res.status} from the Federal Register API`],
-        failed: true,
-      };
-    }
-    const body = (await res.json()) as { results?: FrDocument[] };
-    const docs = body.results ?? [];
-    const verifiedAt = new Date().toISOString().slice(0, 10);
-
-    const relevant = docs.filter(isImmigrationRelevant);
-    const skipped = docs.length - relevant.length;
-    if (skipped > 0) {
-      warnings.push(`${skipped} document(s) from tracked agencies were not immigration-related`);
-    }
-
-    // Two passes: classify from metadata first, then fetch full text only for
-    // the documents whose scope actually matters to a reader.
-    const events = await Promise.all(
-      relevant.map(async (d) => {
-        const provisional = severity(d, classify(d));
-        const body = provisional === "routine" ? null : await fetchBody(d.raw_text_url);
-        if (provisional !== "routine" && !body) {
-          warnings.push(`could not fetch full text for ${d.document_number}; impact from abstract only`);
-        }
-        return toEvent(d, verifiedAt, body);
-      })
-    );
-
-    return { adapterKey: "federal-register", events, warnings, failed: false };
-  } catch (err) {
+  // Read the WHOLE window, not the first page. See federal-register-api.ts for
+  // what page-one-only cost us.
+  const { documents: docs, truncation, error } = await fetchAllDocuments<FrDocument>(params);
+  if (error) {
     // Never throw: one failing source must not take down an ingestion run.
-    return {
-      adapterKey: "federal-register",
-      events: [],
-      warnings: [`fetch failed: ${(err as Error)?.message ?? String(err)}`],
-      failed: true,
-    };
-  } finally {
-    clearTimeout(timer);
+    return { adapterKey: "federal-register", events: [], warnings: [error], failed: true };
   }
+  if (truncation) warnings.push(truncation);
+
+  const verifiedAt = new Date().toISOString().slice(0, 10);
+
+  const relevant = docs.filter(isImmigrationRelevant);
+  const skipped = docs.length - relevant.length;
+  if (skipped > 0) {
+    warnings.push(
+      `${skipped} of ${docs.length} document(s) from tracked agencies were not immigration-related`
+    );
+  }
+
+  // Cap BEFORE reading full texts. One relevant document yields exactly one
+  // event, so capping documents is capping events — and it keeps the number of
+  // full-text reads proportionate to what we will actually publish instead of
+  // to the size of the window.
+  const capped = capEvents(relevant, ctx.limit);
+  warnings.push(...capped.warnings);
+
+  // Two passes: classify from metadata first, then fetch full text only for the
+  // documents whose scope actually matters to a reader.
+  const events = await mapWithConcurrency(capped.events, BODY_FETCH_CONCURRENCY, async (d) => {
+    const provisional = severity(d, classify(d));
+    const body = provisional === "routine" ? null : await fetchBody(d.raw_text_url);
+    if (provisional !== "routine" && !body) {
+      warnings.push(`could not fetch full text for ${d.document_number}; impact from abstract only`);
+    }
+    return toEvent(d, verifiedAt, body);
+  });
+
+  return { adapterKey: "federal-register", events, warnings, failed: false };
 }
 
 export const federalRegisterAdapter: SourceAdapter = {

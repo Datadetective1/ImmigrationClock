@@ -30,6 +30,7 @@ import { useMemo, useState, useEffect, useId } from "react";
 import { formatDate } from "@/lib/format";
 import { trackSearch } from "@/lib/analytics";
 import { SOURCE_BY_KEY } from "@/lib/sources";
+import { labelForEntity } from "@/lib/entity-labels";
 import {
   CLASSIFICATION_LABEL,
   SEVERITY_LABEL,
@@ -39,6 +40,7 @@ import {
 } from "@/lib/event-labels";
 import {
   EVENT_INDEX,
+  INDEX_COVERAGE,
   filterEvents,
   hasActiveFilters,
   facetCounts,
@@ -48,7 +50,7 @@ import {
   type IndexedEvent,
   type SortOrder,
 } from "@/lib/event-index";
-import type { EventSeverity } from "@/domains/graph/events";
+import { isScheduled, type EventSeverity } from "@/domains/graph/events";
 
 function Chip({
   active,
@@ -107,7 +109,8 @@ function ResultRow({ event }: { event: IndexedEvent }) {
           ·
         </span>
         <span className="text-slate-500">
-          {event.scheduled
+          {/* Derived, not the stored flag — see isScheduled(). */}
+          {isScheduled(event)
             ? `Scheduled for ${formatDate(event.publishedAt)}`
             : formatDate(event.publishedAt)}
         </span>
@@ -151,16 +154,33 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
   const [classifications, setClassifications] = useState<string[]>([]);
   const [order, setOrder] = useState<SortOrder>("newest");
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const [entity, setEntity] = useState<string | null>(null);
   const searchId = useId();
+
+  // Deep link: /what-changed?entity=country:india
+  //
+  // Read from location rather than useSearchParams, deliberately. This page is
+  // statically generated; useSearchParams would push it into dynamic rendering
+  // or require a Suspense boundary around the whole explorer, and neither is
+  // worth it for a filter that only has to apply after hydration.
+  //
+  // Without this, every "see changes affecting X" link on a country, visa, or
+  // agency page would land on an unfiltered archive and quietly lose the reader's
+  // intent.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("entity");
+    if (id && /^[a-z_]+:[a-z0-9-]+$/i.test(id)) setEntity(id);
+  }, []);
 
   const filters: EventFilters = useMemo(
     () => ({
       q,
       severity,
       sourceKey: sources,
+      entityId: entity ?? undefined,
       classification: classifications.length ? (classifications as EventFilters["classification"]) : undefined,
     }),
-    [q, severity, sources, classifications]
+    [q, severity, sources, classifications, entity]
   );
   const active = hasActiveFilters(filters);
   const results = useMemo(
@@ -221,6 +241,9 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
     setSeverity([]);
     setSources([]);
     setClassifications([]);
+    // The entity filter arrives from the URL, so clearing must drop it too —
+    // otherwise "Clear filters" leaves a filter the reader cannot see applied.
+    setEntity(null);
   }
 
   return (
@@ -250,11 +273,28 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
             // wrong forever after — a small dishonesty, but on this platform a
             // number in the interface that nobody recomputes is exactly the
             // habit that erodes the rest.
-            placeholder={`Search all ${EVENT_INDEX.length} recorded changes — try “H-1B”, “asylum”, “fee”…`}
+            // "all" is dropped when the index is a window, because it would not
+            // be true — see INDEX_COVERAGE.
+            placeholder={`Search ${INDEX_COVERAGE.bounded ? "" : "all "}${EVENT_INDEX.length} recorded changes — try “H-1B”, “asylum”, “fee”…`}
             aria-label="Search recorded immigration policy changes"
-            className="w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
+            className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
           />
         </div>
+
+        {/* The search box covers a payload-bounded window on a large archive.
+            Saying so is not optional: an unstated window makes an absent result
+            look like an absent event, which is the one inference this platform
+            must never invite. */}
+        {INDEX_COVERAGE.bounded ? (
+          <p className="text-xs leading-relaxed text-slate-500">
+            Search covers the most recent {INDEX_COVERAGE.indexed} of{" "}
+            {INDEX_COVERAGE.stored} recorded changes
+            {INDEX_COVERAGE.oldest ? ` (back to ${INDEX_COVERAGE.oldest})` : ""}. The remaining{" "}
+            {INDEX_COVERAGE.notIndexed} are kept in the archive and still appear on the country, visa,
+            and agency pages they affect — they are held back from the search index only to keep this
+            page light on slow connections.
+          </p>
+        ) : null}
 
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-slate-500">Importance</span>
@@ -298,11 +338,34 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
           ))}
         </div>
 
+        {/* An entity filter applied from a URL must be VISIBLE and removable.
+            A filtered result set that looks unfiltered is how a reader concludes
+            the archive is empty. */}
+        {entity ? (
+          <div className="flex flex-wrap items-center gap-2 border-t border-white/5 pt-3">
+            <span className="text-xs text-slate-500">Showing only changes linked to</span>
+            <button
+              type="button"
+              onClick={() => setEntity(null)}
+              className="group rounded-full border border-accent/50 bg-accent/15 px-3 py-1 text-xs text-white hover:border-status-amber/60"
+              aria-label={`Remove the ${labelForEntity(entity)} filter`}
+            >
+              {labelForEntity(entity)}
+              <span className="ml-1.5 text-slate-400 group-hover:text-status-amber" aria-hidden>
+                ×
+              </span>
+            </button>
+          </div>
+        ) : null}
+
         {active ? (
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-3">
             <p className="text-sm text-slate-300">
               <span className="font-semibold text-white">{results.length}</span>{" "}
-              {results.length === 1 ? "change" : "changes"} found across the whole archive
+              {results.length === 1 ? "change" : "changes"} found
+              {INDEX_COVERAGE.bounded
+                ? ` in the ${INDEX_COVERAGE.indexed} searchable changes`
+                : " across the whole archive"}
             </p>
             <div className="flex items-center gap-2">
               <label htmlFor={`${searchId}-sort`} className="text-xs text-slate-500">
@@ -339,8 +402,9 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
           <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
             <p className="text-sm text-slate-200">Nothing in the archive matches that.</p>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">
-              That is a statement about what we have recorded, not about what has happened. The archive
-              covers the sources listed on the methodology page from January 2025 onward — a change
+              That is a statement about what we have recorded, not about what has happened. Search
+              covers the sources listed on the methodology page
+              {INDEX_COVERAGE.oldest ? ` from ${INDEX_COVERAGE.oldest} onward` : ""} — a change
               published elsewhere, or before then, will not appear here.
             </p>
           </div>

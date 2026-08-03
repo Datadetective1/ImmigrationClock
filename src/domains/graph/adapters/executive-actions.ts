@@ -21,14 +21,17 @@
 // real designation language to work with here.
 // =============================================================================
 
-import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
+import { capEvents, type AdapterContext, type AdapterResult, type SourceAdapter } from "../adapters";
 import type { EventClassification, EventEntityLink, EventSeverity, ImmigrationEvent } from "../events";
 import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
-
-const API = "https://www.federalregister.gov/api/v1/documents.json";
-const UA = { "User-Agent": "ImmigrationClock/1.0 (+https://immigrationclock.com)" };
+import {
+  BODY_FETCH_CONCURRENCY,
+  FR_UA as UA,
+  fetchAllDocuments,
+  mapWithConcurrency,
+} from "./federal-register-api";
 
 interface PresDocument {
   document_number: string;
@@ -200,7 +203,6 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   }
 
   const params = new URLSearchParams({
-    per_page: String(Math.min(ctx.limit, 100)),
     order: "newest",
     "conditions[publication_date][gte]": ctx.since,
   });
@@ -212,50 +214,35 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     params.append("fields[]", f);
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30_000);
-  try {
-    const res = await fetch(`${API}?${params}`, { headers: UA, signal: controller.signal });
-    if (!res.ok) {
-      return {
-        adapterKey: "executive-actions",
-        events: [],
-        warnings: [`HTTP ${res.status} from the Federal Register API`],
-        failed: true,
-      };
-    }
-    const body = (await res.json()) as { results?: PresDocument[] };
-    const docs = body.results ?? [];
-    const verifiedAt = new Date().toISOString().slice(0, 10);
-
-    const relevant = docs.filter(isImmigrationRelevant);
-    const skipped = docs.length - relevant.length;
-    if (skipped > 0) {
-      warnings.push(`${skipped} presidential document(s) were not immigration-related`);
-    }
-
-    // Presidential documents are few and consequential — always read the full
-    // text. Proclamations restricting entry name their countries inline, which
-    // is where "who is affected" matters most.
-    const events = await Promise.all(
-      relevant.map(async (d) => {
-        const text = await fetchBody(d.raw_text_url);
-        if (!text) warnings.push(`could not fetch full text for ${d.document_number}`);
-        return toEvent(d, verifiedAt, text);
-      })
-    );
-
-    return { adapterKey: "executive-actions", events, warnings, failed: false };
-  } catch (err) {
-    return {
-      adapterKey: "executive-actions",
-      events: [],
-      warnings: [`fetch failed: ${(err as Error)?.message ?? String(err)}`],
-      failed: true,
-    };
-  } finally {
-    clearTimeout(timer);
+  // Read the WHOLE window. Presidential documents run to hundreds per year, so
+  // page one was missing executive actions outright — see federal-register-api.ts.
+  const { documents: docs, truncation, error } = await fetchAllDocuments<PresDocument>(params);
+  if (error) {
+    return { adapterKey: "executive-actions", events: [], warnings: [error], failed: true };
   }
+  if (truncation) warnings.push(truncation);
+
+  const verifiedAt = new Date().toISOString().slice(0, 10);
+
+  const relevant = docs.filter(isImmigrationRelevant);
+  const skipped = docs.length - relevant.length;
+  if (skipped > 0) {
+    warnings.push(`${skipped} of ${docs.length} presidential document(s) were not immigration-related`);
+  }
+
+  const capped = capEvents(relevant, ctx.limit);
+  warnings.push(...capped.warnings);
+
+  // Presidential documents are few and consequential — always read the full
+  // text. Proclamations restricting entry name their countries inline, which is
+  // where "who is affected" matters most.
+  const events = await mapWithConcurrency(capped.events, BODY_FETCH_CONCURRENCY, async (d) => {
+    const text = await fetchBody(d.raw_text_url);
+    if (!text) warnings.push(`could not fetch full text for ${d.document_number}`);
+    return toEvent(d, verifiedAt, text);
+  });
+
+  return { adapterKey: "executive-actions", events, warnings, failed: false };
 }
 
 export const executiveActionsAdapter: SourceAdapter = {

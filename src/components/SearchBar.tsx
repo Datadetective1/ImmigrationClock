@@ -70,7 +70,11 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
           onKeyDown={onKeyDown}
           placeholder={SITE.searchPlaceholder}
           aria-label="Search"
-          className="w-full bg-transparent text-sm text-white placeholder:text-slate-500 focus:outline-none"
+          // 16px, not 14px: iOS Safari zooms the viewport on focus for any input
+          // below 16px, which on the site-wide search box means the page jumps
+          // and the reader has to pinch back out. text-base everywhere an input
+          // takes typed text.
+          className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
         />
         {q ? (
           <kbd className="hidden rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-slate-500 sm:inline">

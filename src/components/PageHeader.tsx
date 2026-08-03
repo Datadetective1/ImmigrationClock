@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ShareButton } from "./ShareButton";
 import { SITE } from "@/lib/site";
+import { jsonLd } from "@/lib/seo";
 
 export interface Crumb {
   href: string;
@@ -19,7 +20,7 @@ function BreadcrumbJsonLd({ crumbs }: { crumbs: Crumb[] }) {
       item: `${SITE.url}${c.href}`,
     })),
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(data) }} />;
 }
 
 export function PageHeader({

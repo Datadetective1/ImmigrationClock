@@ -13,6 +13,9 @@ import { buildMetrics, LAST_REFRESHED } from "@/lib/data";
 import { personaSummaries } from "@/lib/relevance";
 import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
 import { formatDate } from "@/lib/format";
+import { RecentChanges } from "@/components/RecentChanges";
+import { EVENTS, EVENT_STORE_META, significantEvents, contributingAdapters } from "@/lib/event-store";
+import { ReportError } from "@/components/ReportError";
 
 export const metadata = buildMetadata({
   title: SITE.title,
@@ -58,6 +61,16 @@ const EXPLORE = [
 export default function HomePage() {
   const metrics = buildMetrics();
   const personas = personaSummaries();
+
+  // The archive, surfaced. `significantEvents` already excludes routine
+  // paperwork, so this is what actually CHANGED rather than what was merely
+  // published.
+  const recent = significantEvents(6);
+  const contributing = contributingAdapters().length;
+  const heroCoverage =
+    `${EVENTS.length.toLocaleString()} government changes recorded from ${contributing} official sources` +
+    `${EVENT_STORE_META.earliestEvent ? `, back to ${formatDate(EVENT_STORE_META.earliestEvent)}` : ""}. ` +
+    "Every figure is labelled reported, projected, or estimated, and this is not a real-time feed.";
   const resourcesByPersona = personas.reduce<Record<string, ResolvedPartner[]>>((acc, p) => {
     acc[p.key] = partnersForPersona(p.key as PersonaKey, 3);
     return acc;
@@ -73,27 +86,86 @@ export default function HomePage() {
               <span className="pulse-live" />
               {SITE.tagline}
             </div>
-            <h1 className="text-balance text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
-              The Immigration{" "}
+            {/* The headline says what the product DOES. "The Immigration Clock"
+                is the name, not an explanation — a first-time visitor met with
+                a brand word, a hedged paragraph and an H-1B origin map could not
+                tell what this site was for. The name still leads the wordmark in
+                the navbar; the homepage has one job, which is to be understood. */}
+            <h1 className="text-balance text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+              Track every U.S. immigration change,{" "}
               <span className="bg-gradient-to-r from-accent via-accent-soft to-status-red bg-clip-text text-transparent">
-                Clock
+                back to the official source
               </span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-balance text-base text-slate-300 sm:text-lg">
-              {SITE.subtitle}
+              Rules, executive actions, agency guidance and court decisions — each one linked to the
+              government document it came from, with what that document says about who is affected.
+              Plus the public data on enforcement, visas, and the immigrant workforce.
             </p>
+
+            {/* The four things a reader can actually do, in the order the three
+                audiences ask for them: what happened, does it affect me, keep me
+                posted, and tell me by email. */}
+            <div className="mx-auto mt-7 flex max-w-2xl flex-wrap items-center justify-center gap-2.5">
+              <Link
+                href="/what-changed"
+                className="rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft"
+              >
+                See what changed
+              </Link>
+              <Link
+                href="/for-you"
+                className="rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-accent/50 hover:bg-accent/10"
+              >
+                Find changes affecting me
+              </Link>
+              <Link
+                href="/what-changed#follow"
+                className="rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-accent/50 hover:bg-accent/10"
+              >
+                Follow a country or visa
+              </Link>
+              <Link
+                href="/pulse#subscribe"
+                className="rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-accent/50 hover:bg-accent/10"
+              >
+                Get the weekly email
+              </Link>
+            </div>
+
             <div className="mx-auto mt-7 max-w-xl">
               <SearchBar />
             </div>
-            <p className="mx-auto mt-4 max-w-2xl text-xs leading-relaxed text-slate-500">
-              {SITE.heroDisclaimer}
+
+            {/* Freshness and coverage in ONE line rather than a paragraph of
+                caveats. The full disclaimer still lives on /data and /methodology
+                — a hero is the wrong place to spend a reader's attention on it,
+                and burying the offer under hedging was costing more trust than
+                it bought. */}
+            <p className="mx-auto mt-5 max-w-2xl text-xs leading-relaxed text-slate-500">
+              {heroCoverage}{" "}
+              <Link href="/methodology" className="link-accent">
+                How we source and label every figure →
+              </Link>
             </p>
           </div>
         </div>
       </section>
 
       <div className="container-page space-y-12 py-10">
-        {/* Origin map — the showpiece: first thing visitors see, routes into country pages */}
+        {/* WHAT CHANGED leads the page. It used to be absent from the homepage
+            entirely while the origin map opened it — a showpiece ahead of the
+            product. An attorney checking for current policy movement, and an
+            immigrant asking whether something affects them, are both served by
+            this block and neither was served by the map. */}
+        <RecentChanges
+          events={recent}
+          heading="What changed recently"
+          intro="The most significant changes we have recorded, newest first. Routine paperwork notices are kept out of this list and remain searchable in the full archive."
+          linkLabel={`See all ${EVENTS.length.toLocaleString()} recorded changes`}
+        />
+
+        {/* Origin map — a showpiece, now placed after the product's actual answer. */}
         <section>
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -162,6 +234,8 @@ export default function HomePage() {
           think. It shows the public numbers behind enforcement, visas, jobs, wages, and workforce change
           &mdash; with a source and date on every figure.
         </HookSection>
+
+        <ReportError />
 
         <PulseSignup />
       </div>

@@ -13,6 +13,8 @@ import { visaSeries } from "@/lib/data";
 import { LATEST_COMPLETE_FY, EMPLOYER_LATEST_FY, CURRENT_FY } from "@/lib/data";
 import { UPDATED } from "@/lib/dataset";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
+import { EntityChanges } from "@/components/EntityChanges";
+import { entityId } from "@/domains/graph/entities";
 
 export const metadata = buildMetadata({
   title: "F-1 Student Visas & Visa Flow",
@@ -72,6 +74,10 @@ export default function VisaFlowPage() {
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        {/* Policy movement before statistics. A student asking "does this
+            affect me" is not asking about FY issuance totals. */}
+        <EntityChanges entityId={entityId("visa", "F-1")} label="F-1 student visas" kind="visa" />
+
         <section className="space-y-2">
           <h2 className="text-sm font-semibold text-white">Why visa data lags</h2>
           <p className="text-sm leading-relaxed text-slate-400">

@@ -1,3 +1,4 @@
+import { jsonLd } from "@/lib/seo";
 export interface FaqItem {
   q: string;
   /** Plain text — rendered visibly AND used as the FAQPage answer for rich results. */
@@ -13,7 +14,7 @@ export interface FaqItem {
 export function Faq({ items, heading = "Frequently asked questions" }: { items: FaqItem[]; heading?: string }) {
   if (!items.length) return null;
 
-  const jsonLd = {
+  const faqData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: items.map((it) => ({
@@ -27,7 +28,7 @@ export function Faq({ items, heading = "Frequently asked questions" }: { items: 
     <section className="panel panel-pad">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqData) }}
       />
       <h2 className="mb-1 text-lg font-bold text-white">{heading}</h2>
       <div className="divide-y divide-white/5">

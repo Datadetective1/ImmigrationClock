@@ -1,4 +1,5 @@
 import { SITE } from "@/lib/site";
+import { jsonLd } from "@/lib/seo";
 
 /**
  * Site-wide JSON-LD: Organization + WebSite with a SearchAction so Google can
@@ -42,7 +43,7 @@ export function StructuredData() {
     <script
       type="application/ld+json"
       // JSON.stringify of our own static config — safe, not user input.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: jsonLd(data) }}
     />
   );
 }

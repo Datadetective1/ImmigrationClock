@@ -33,7 +33,7 @@ import Link from "next/link";
 import { formatDate } from "@/lib/format";
 import { ENTITY_BY_ID } from "@/domains/graph/entities";
 import { impactDisclaimer, type EventImpact, type ImpactedEntity } from "@/domains/graph/impact";
-import type { EventClassification, EventSeverity, ImmigrationEvent } from "@/domains/graph/events";
+import { isScheduled, type EventClassification, type EventSeverity, type ImmigrationEvent } from "@/domains/graph/events";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
 import { explainEvent } from "@/domains/graph/explain";
@@ -252,9 +252,11 @@ export function EventCard({ event }: { event: ImmigrationEvent }) {
       ) : null}
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-white/5 pt-3 text-xs text-slate-500">
-        {/* INVARIANT 2. Scheduled is not published. */}
+        {/* INVARIANT 2. Scheduled is not published. Derived from the date rather
+            than the stored flag, so a document does not go on announcing itself
+            as forthcoming after the day it was published. */}
         <span>
-          {event.scheduled
+          {isScheduled(event)
             ? `Scheduled for publication on ${formatDate(event.publishedAt)}`
             : `Published ${formatDate(event.publishedAt)}`}
         </span>

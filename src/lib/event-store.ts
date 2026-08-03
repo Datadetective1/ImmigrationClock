@@ -57,9 +57,50 @@ export const EVENTS: ImmigrationEvent[] = sortEvents(
   publishableEvents((FILE.events ?? []) as ImmigrationEvent[])
 );
 
+/**
+ * The archive's REAL span, measured from the events in it.
+ *
+ * `FILE.since` is the window the last RUN looked back over — an operational
+ * detail of one build, and emphatically not a description of the archive. The
+ * two diverge the moment a run uses a shorter window than the store already
+ * holds, which is the normal case: the committed archive reaches back to
+ * January 2025 while a routine incremental run looks back 90 days.
+ *
+ * Rendering `since` as the coverage boundary told every reader of /what-changed
+ * that the archive began on the date of the last build's lookback — measured in
+ * production on 2026-08-02: "covers documents published since May 4, 2026",
+ * printed on a page then displaying twenty events from 2025 and earlier. Merge-
+ * never-replace is precisely what makes that claim wrong, so the span has to be
+ * derived from the events rather than from the run that last touched them.
+ *
+ * Understating coverage is a smaller sin than overstating it. It is still a
+ * false statement about our own data, on the surface that exists to be trusted.
+ */
+function archiveSpan(): { from: string | null; to: string | null } {
+  if (EVENTS.length === 0) return { from: null, to: null };
+  let from = EVENTS[0].publishedAt;
+  let to = EVENTS[0].publishedAt;
+  for (const e of EVENTS) {
+    if (e.publishedAt < from) from = e.publishedAt;
+    if (e.publishedAt > to) to = e.publishedAt;
+  }
+  return { from, to };
+}
+
+const SPAN = archiveSpan();
+
 export const EVENT_STORE_META = {
   generatedAt: FILE.generatedAt,
+  /**
+   * The lookback window of the most recent build. Operational — correct on the
+   * refresh-status page, wrong anywhere that describes the archive to a reader.
+   * Use `earliestEvent` for that.
+   */
   since: FILE.since,
+  /** Publication date of the OLDEST event actually held. Null on an empty store. */
+  earliestEvent: SPAN.from,
+  /** Publication date of the newest event actually held. */
+  latestEvent: SPAN.to,
   counts: FILE.counts,
   adapters: FILE.adapters ?? [],
 };
@@ -160,9 +201,13 @@ export function eventCoverageNote(): string {
   const failed = failedAdapters().length;
   const silent = silentAdapters().length;
 
+  // The archive's own earliest event, never the last run's lookback window —
+  // see EVENT_STORE_META.earliestEvent for what that distinction cost.
+  const from = EVENT_STORE_META.earliestEvent;
+
   const parts = [
     `Tracking ${EVENTS.length} government events from ${contributing} automated ` +
-      `source${contributing === 1 ? "" : "s"}, since ${EVENT_STORE_META.since}. ` +
+      `source${contributing === 1 ? "" : "s"}${from ? `, going back to ${from}` : ""}. ` +
       "More sources are being added — see the methodology page for the full list, " +
       "including the ones we do not yet ingest.",
   ];

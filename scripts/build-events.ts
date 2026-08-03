@@ -33,7 +33,8 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { runnableAdapters, ADAPTERS } from "../src/domains/graph/adapters";
-import { federalRegisterAdapter } from "../src/domains/graph/adapters/federal-register";
+import { federalRegisterAdapter, __testing as frTesting } from "../src/domains/graph/adapters/federal-register";
+const { isImmigrationRelevant } = frTesting;
 import { executiveActionsAdapter } from "../src/domains/graph/adapters/executive-actions";
 import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsroom";
 import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
@@ -61,6 +62,23 @@ const INDEX_OUT = fileURLToPath(new URL("../src/lib/generated/events-index.json"
 
 /** Summary length in the index. Enough to recognise an event, not to replace it. */
 const INDEX_SUMMARY_CHARS = 220;
+
+/**
+ * Hard ceiling on what /what-changed ships to the browser.
+ *
+ * 400KB uncompressed is roughly 80KB over the wire, and tests/event-index.test.ts
+ * asserts it. The archive grows without bound; this does not. When the two
+ * collide the index gets SHORTER — the store keeps every event, and the page
+ * says which window search covers.
+ *
+ * Truncating silently would be the same class of error as the Federal Register
+ * page-one bug: a reader searching the "whole archive" and finding nothing would
+ * conclude the event never happened. So the cut is reported in the index file
+ * itself and rendered on the page.
+ */
+const INDEX_BUDGET_BYTES = 400 * 1024;
+/** Leave headroom so a single long title cannot tip the file over the budget. */
+const INDEX_TARGET_BYTES = Math.floor(INDEX_BUDGET_BYTES * 0.95);
 
 function buildIndex(events: ImmigrationEvent[]) {
   return events.map((e) => ({
@@ -126,6 +144,47 @@ const RETRACTED: Record<string, string> = {
   "federal_register:2026-15434":
     "Not an immigration document. An Administrative Procedure Act notice about petitioning DOJ to issue, amend, or repeal a regulation, ingested because the relevance filter matched the bare word 'petition'. The filter was narrowed on 2026-08-02; this removes the event it already admitted.",
 };
+
+/**
+ * RULE-BASED RETRACTION — for when a filter bug admitted more than a list can hold.
+ *
+ * The id map above is the right instrument for a handful of mistakes. It is the
+ * wrong one for 167, which is how many customs documents the Federal Register
+ * adapter ingested because "U.S. Customs and Border Protection" contains the
+ * word "border" (see withoutAgencyNames in that adapter). Pasting 167 ids here
+ * would be unreviewable and would rot the moment the count changed.
+ *
+ * So the rule is expressed as the thing we actually mean: AN EVENT THE CURRENT
+ * FILTER WOULD NOT ADMIT DOES NOT BELONG IN THE STORE. It stays auditable —
+ * this is a reviewed code change with a stated reason, living in git history,
+ * exactly like the map — and it self-corrects rather than needing a new id list
+ * every time the filter is tightened.
+ *
+ * It applies ONLY to sources whose filter is re-runnable against stored fields.
+ * A source outage still cannot delete anything, because an outage cannot edit
+ * this file.
+ */
+const RETRACTION_RULES: { reason: string; applies: (e: ImmigrationEvent) => boolean }[] = [
+  {
+    reason:
+      "Not an immigration document. Ingested because the relevance filter read " +
+      "'Customs and Border Protection' — the agency's own name — as the topical " +
+      "term 'border'. Measured 2026-08-03: 24% of Federal Register events had no " +
+      "immigration signal except that name. The filter was corrected the same day; " +
+      "this removes what it had already admitted.",
+    applies: (e) =>
+      e.sourceKey === "federal_register" &&
+      !isImmigrationRelevant({ title: e.title, abstract: e.summary }),
+  },
+];
+
+function retractionReason(e: ImmigrationEvent): string | null {
+  if (RETRACTED[e.id]) return RETRACTED[e.id];
+  for (const rule of RETRACTION_RULES) {
+    if (rule.applies(e)) return rule.reason;
+  }
+  return null;
+}
 
 interface EventStoreFile {
   generatedAt: string;
@@ -240,12 +299,21 @@ async function main() {
 
   // Apply retractions last, so a re-ingested event cannot sneak a retracted id
   // back into the store.
-  const merged = all.filter((e) => !RETRACTED[e.id]);
+  const merged = all.filter((e) => retractionReason(e) === null);
   const removed = all.length - merged.length;
   if (removed > 0) {
+    // Group by reason: 167 identical lines is not a log, it is noise.
+    const byReason = new Map<string, string[]>();
+    for (const e of all) {
+      const reason = retractionReason(e);
+      if (!reason) continue;
+      byReason.set(reason, [...(byReason.get(reason) ?? []), e.id]);
+    }
     console.log(`[build-events] retracted ${removed} event(s):`);
-    for (const e of all.filter((x) => RETRACTED[x.id])) {
-      console.log(`  - ${e.id}: ${RETRACTED[e.id]}`);
+    for (const [reason, ids] of byReason) {
+      console.log(`  - ${ids.length} event(s): ${reason}`);
+      for (const id of ids.slice(0, 5)) console.log(`      ${id}`);
+      if (ids.length > 5) console.log(`      … and ${ids.length - 5} more`);
     }
   }
 
@@ -268,11 +336,43 @@ async function main() {
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
 
   // The browser index, written from the same merged list in the same run.
-  const index = buildIndex(merged);
-  const indexJson = JSON.stringify({ generatedAt: payload.generatedAt, events: index });
+  // `merged` is already newest-first, so trimming from the end drops the oldest.
+  const full = buildIndex(merged);
+  let index = full;
+  const envelope = (events: typeof full) =>
+    JSON.stringify({
+      generatedAt: payload.generatedAt,
+      // What the STORE holds, so the page can state how far search reaches
+      // relative to the whole archive rather than presenting a window as the lot.
+      storedTotal: merged.length,
+      indexedTotal: events.length,
+      oldestIndexed: events.length ? events[events.length - 1].publishedAt : null,
+      events,
+    });
+
+  if (envelope(full).length > INDEX_TARGET_BYTES) {
+    // Binary search for the largest prefix that fits. Cheaper and more exact
+    // than guessing an average event size, which varies by a factor of three
+    // between a CBP release and a Federal Register rule.
+    let lo = 0;
+    let hi = full.length;
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2);
+      if (envelope(full.slice(0, mid)).length <= INDEX_TARGET_BYTES) lo = mid;
+      else hi = mid - 1;
+    }
+    index = full.slice(0, lo);
+  }
+
+  const indexJson = envelope(index);
   await writeFile(INDEX_OUT, indexJson + "\n", "utf8");
+  const dropped = full.length - index.length;
   console.log(
-    `[build-events] wrote search index: ${index.length} event(s), ${(indexJson.length / 1024).toFixed(0)}KB`
+    `[build-events] wrote search index: ${index.length} event(s), ${(indexJson.length / 1024).toFixed(0)}KB` +
+      (dropped > 0
+        ? ` — ${dropped} older event(s) held in the store but not shipped to the browser ` +
+          `(${(INDEX_BUDGET_BYTES / 1024).toFixed(0)}KB payload budget). The page discloses the window.`
+        : "")
   );
 
   const added = merged.length - existing.length;
