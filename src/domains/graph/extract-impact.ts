@@ -75,7 +75,19 @@ function sentences(text: string): string[] {
   return out.filter(Boolean);
 }
 
-/** Split a long span into <= max-length pieces without breaking a word. */
+/**
+ * Split a long span into <= max-length pieces without breaking a word.
+ *
+ * Every chunk after the first BEGINS MID-SENTENCE, and every chunk before the
+ * last ENDS mid-sentence. Those chunks are quoted to the reader verbatim, so an
+ * unmarked one presents "jurisdictions) when the agency is required to publish"
+ * as though the document opened a sentence that way. It did not.
+ *
+ * Marking the cut with an ellipsis is the same convention windowAround() already
+ * uses, and it keeps the quote honest: still verbatim, now visibly a fragment.
+ * Found by running the full 859-event backfill through the evidence-integrity
+ * test, which the 190-event store had never given enough material to trip.
+ */
 function chunkOnWords(span: string, max: number): string[] {
   const words = span.split(" ");
   const chunks: string[] = [];
@@ -89,7 +101,13 @@ function chunkOnWords(span: string, max: number): string[] {
     }
   }
   if (current) chunks.push(current);
-  return chunks.map((c) => c.trim()).filter(Boolean);
+
+  const trimmed = chunks.map((c) => c.trim()).filter(Boolean);
+  return trimmed.map((c, i) => {
+    const opensMidSentence = i > 0;
+    const endsMidSentence = i < trimmed.length - 1;
+    return `${opensMidSentence ? "…" : ""}${c}${endsMidSentence ? "…" : ""}`;
+  });
 }
 
 /**
@@ -120,7 +138,10 @@ function clip(s: string, max = 320): string {
   if (s.length <= max) return s;
   const cut = s.slice(0, max - 1);
   const lastSpace = cut.lastIndexOf(" ");
-  return `${(lastSpace > max * 0.5 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
+  const body = (lastSpace > max * 0.5 ? cut.slice(0, lastSpace) : cut).trimEnd();
+  // The span may already carry a chunk marker; one ellipsis says everything two
+  // would.
+  return body.endsWith("…") ? body : `${body}…`;
 }
 
 /**

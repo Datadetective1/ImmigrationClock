@@ -62,6 +62,23 @@ const INDEX_OUT = fileURLToPath(new URL("../src/lib/generated/events-index.json"
 /** Summary length in the index. Enough to recognise an event, not to replace it. */
 const INDEX_SUMMARY_CHARS = 220;
 
+/**
+ * Hard ceiling on what /what-changed ships to the browser.
+ *
+ * 400KB uncompressed is roughly 80KB over the wire, and tests/event-index.test.ts
+ * asserts it. The archive grows without bound; this does not. When the two
+ * collide the index gets SHORTER — the store keeps every event, and the page
+ * says which window search covers.
+ *
+ * Truncating silently would be the same class of error as the Federal Register
+ * page-one bug: a reader searching the "whole archive" and finding nothing would
+ * conclude the event never happened. So the cut is reported in the index file
+ * itself and rendered on the page.
+ */
+const INDEX_BUDGET_BYTES = 400 * 1024;
+/** Leave headroom so a single long title cannot tip the file over the budget. */
+const INDEX_TARGET_BYTES = Math.floor(INDEX_BUDGET_BYTES * 0.95);
+
 function buildIndex(events: ImmigrationEvent[]) {
   return events.map((e) => ({
     id: e.id,
@@ -268,11 +285,43 @@ async function main() {
   await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n", "utf8");
 
   // The browser index, written from the same merged list in the same run.
-  const index = buildIndex(merged);
-  const indexJson = JSON.stringify({ generatedAt: payload.generatedAt, events: index });
+  // `merged` is already newest-first, so trimming from the end drops the oldest.
+  const full = buildIndex(merged);
+  let index = full;
+  const envelope = (events: typeof full) =>
+    JSON.stringify({
+      generatedAt: payload.generatedAt,
+      // What the STORE holds, so the page can state how far search reaches
+      // relative to the whole archive rather than presenting a window as the lot.
+      storedTotal: merged.length,
+      indexedTotal: events.length,
+      oldestIndexed: events.length ? events[events.length - 1].publishedAt : null,
+      events,
+    });
+
+  if (envelope(full).length > INDEX_TARGET_BYTES) {
+    // Binary search for the largest prefix that fits. Cheaper and more exact
+    // than guessing an average event size, which varies by a factor of three
+    // between a CBP release and a Federal Register rule.
+    let lo = 0;
+    let hi = full.length;
+    while (lo < hi) {
+      const mid = Math.ceil((lo + hi) / 2);
+      if (envelope(full.slice(0, mid)).length <= INDEX_TARGET_BYTES) lo = mid;
+      else hi = mid - 1;
+    }
+    index = full.slice(0, lo);
+  }
+
+  const indexJson = envelope(index);
   await writeFile(INDEX_OUT, indexJson + "\n", "utf8");
+  const dropped = full.length - index.length;
   console.log(
-    `[build-events] wrote search index: ${index.length} event(s), ${(indexJson.length / 1024).toFixed(0)}KB`
+    `[build-events] wrote search index: ${index.length} event(s), ${(indexJson.length / 1024).toFixed(0)}KB` +
+      (dropped > 0
+        ? ` — ${dropped} older event(s) held in the store but not shipped to the browser ` +
+          `(${(INDEX_BUDGET_BYTES / 1024).toFixed(0)}KB payload budget). The page discloses the window.`
+        : "")
   );
 
   const added = merged.length - existing.length;

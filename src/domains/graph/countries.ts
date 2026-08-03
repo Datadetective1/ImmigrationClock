@@ -340,6 +340,15 @@ function sentences(text: string): string[] {
     .filter(Boolean);
 }
 
+/** Trim to a length on a word boundary, marking the cut. */
+function clipOnWord(s: string, max: number): string {
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  const body = (lastSpace > max * 0.5 ? cut.slice(0, lastSpace) : cut).trimEnd();
+  return body.endsWith("…") ? body : `${body}…`;
+}
+
 /**
  * Find countries named in a document, with the sentence that names each one.
  *
@@ -370,7 +379,12 @@ export function findCountriesInText(text: string): CountryMatch[] {
         surface: m.surface,
         // Trim very long sentences so the evidence quote stays readable while
         // still showing the reader exactly where the claim comes from.
-        evidence: sentence.length > 320 ? `${sentence.slice(0, 317)}…` : sentence,
+        //
+        // Trimmed on a WORD boundary. A fixed-width slice cuts mid-word and
+        // hands the reader "…required from certain juris" as verbatim source
+        // text — the same defect extract-impact.ts fixed in its own chunker, and
+        // the same reason it matters: a mangled quote is worse than no quote.
+        evidence: clipOnWord(sentence, 320),
       });
     }
   }

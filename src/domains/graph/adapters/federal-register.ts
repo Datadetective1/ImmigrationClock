@@ -19,7 +19,7 @@
 // after this structured extraction has already happened.
 // =============================================================================
 
-import type { AdapterContext, AdapterResult, SourceAdapter } from "../adapters";
+import { capEvents, type AdapterContext, type AdapterResult, type SourceAdapter } from "../adapters";
 import type {
   EventClassification,
   EventSeverity,
@@ -29,9 +29,12 @@ import type {
 import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
-
-const API = "https://www.federalregister.gov/api/v1/documents.json";
-const UA = { "User-Agent": "ImmigrationClock/1.0 (+https://immigrationclock.com)" };
+import {
+  BODY_FETCH_CONCURRENCY,
+  FR_UA as UA,
+  fetchAllDocuments,
+  mapWithConcurrency,
+} from "./federal-register-api";
 
 /**
  * Agencies we track, mapped from the Federal Register's own slugs to our entity
@@ -314,7 +317,6 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   }
 
   const params = new URLSearchParams({
-    per_page: String(Math.min(ctx.limit, 100)),
     order: "newest",
     "conditions[publication_date][gte]": ctx.since,
   });
@@ -326,53 +328,44 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     params.append("fields[]", f);
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30_000);
-  try {
-    const res = await fetch(`${API}?${params}`, { headers: UA, signal: controller.signal });
-    if (!res.ok) {
-      return {
-        adapterKey: "federal-register",
-        events: [],
-        warnings: [`HTTP ${res.status} from the Federal Register API`],
-        failed: true,
-      };
-    }
-    const body = (await res.json()) as { results?: FrDocument[] };
-    const docs = body.results ?? [];
-    const verifiedAt = new Date().toISOString().slice(0, 10);
-
-    const relevant = docs.filter(isImmigrationRelevant);
-    const skipped = docs.length - relevant.length;
-    if (skipped > 0) {
-      warnings.push(`${skipped} document(s) from tracked agencies were not immigration-related`);
-    }
-
-    // Two passes: classify from metadata first, then fetch full text only for
-    // the documents whose scope actually matters to a reader.
-    const events = await Promise.all(
-      relevant.map(async (d) => {
-        const provisional = severity(d, classify(d));
-        const body = provisional === "routine" ? null : await fetchBody(d.raw_text_url);
-        if (provisional !== "routine" && !body) {
-          warnings.push(`could not fetch full text for ${d.document_number}; impact from abstract only`);
-        }
-        return toEvent(d, verifiedAt, body);
-      })
-    );
-
-    return { adapterKey: "federal-register", events, warnings, failed: false };
-  } catch (err) {
+  // Read the WHOLE window, not the first page. See federal-register-api.ts for
+  // what page-one-only cost us.
+  const { documents: docs, truncation, error } = await fetchAllDocuments<FrDocument>(params);
+  if (error) {
     // Never throw: one failing source must not take down an ingestion run.
-    return {
-      adapterKey: "federal-register",
-      events: [],
-      warnings: [`fetch failed: ${(err as Error)?.message ?? String(err)}`],
-      failed: true,
-    };
-  } finally {
-    clearTimeout(timer);
+    return { adapterKey: "federal-register", events: [], warnings: [error], failed: true };
   }
+  if (truncation) warnings.push(truncation);
+
+  const verifiedAt = new Date().toISOString().slice(0, 10);
+
+  const relevant = docs.filter(isImmigrationRelevant);
+  const skipped = docs.length - relevant.length;
+  if (skipped > 0) {
+    warnings.push(
+      `${skipped} of ${docs.length} document(s) from tracked agencies were not immigration-related`
+    );
+  }
+
+  // Cap BEFORE reading full texts. One relevant document yields exactly one
+  // event, so capping documents is capping events — and it keeps the number of
+  // full-text reads proportionate to what we will actually publish instead of
+  // to the size of the window.
+  const capped = capEvents(relevant, ctx.limit);
+  warnings.push(...capped.warnings);
+
+  // Two passes: classify from metadata first, then fetch full text only for the
+  // documents whose scope actually matters to a reader.
+  const events = await mapWithConcurrency(capped.events, BODY_FETCH_CONCURRENCY, async (d) => {
+    const provisional = severity(d, classify(d));
+    const body = provisional === "routine" ? null : await fetchBody(d.raw_text_url);
+    if (provisional !== "routine" && !body) {
+      warnings.push(`could not fetch full text for ${d.document_number}; impact from abstract only`);
+    }
+    return toEvent(d, verifiedAt, body);
+  });
+
+  return { adapterKey: "federal-register", events, warnings, failed: false };
 }
 
 export const federalRegisterAdapter: SourceAdapter = {

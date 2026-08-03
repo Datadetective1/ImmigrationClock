@@ -45,7 +45,7 @@
 // explanation, which is the honest outcome — padding it would be inventing.
 // =============================================================================
 
-import type { ImmigrationEvent } from "./events";
+import { isScheduled, type ImmigrationEvent } from "./events";
 
 /**
  * Turns an entity id into words. Injected rather than imported so this domain
@@ -97,7 +97,8 @@ function forceClause(e: ImmigrationEvent, today: string): ExplanationClause | nu
       };
 
     case "final_rule":
-      if (e.scheduled) {
+      // Derived from today, not from the stored flag — see isScheduled().
+      if (isScheduled(e, today)) {
         return {
           text: `This is a final rule scheduled for publication on ${e.publishedAt}. Its text can still change before then.`,
           basis: "classification + scheduled",
