@@ -11,7 +11,7 @@ import { KEY_DATES } from "@/lib/key-dates";
 export const metadata = buildMetadata({
   title: "Work & Visas — H-1B Sponsors, Salaries & Visa Data Hub",
   description:
-    "Everything on U.S. work visas and the immigrant workforce: top H-1B sponsors, a searchable directory of 2,600+ employers, offered wages, F-1 student visas, and layoffs vs sponsorship — sourced and labelled.",
+    "U.S. work visas and the immigrant workforce: top H-1B sponsors, 2,600+ employers, offered wages, F-1 student visas and layoffs vs sponsorship.",
   path: "/work-visas",
   keywords: [
     "H-1B sponsors",

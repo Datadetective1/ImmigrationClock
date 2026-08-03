@@ -1,6 +1,8 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { SourceBadge } from "@/components/SourceBadge";
+import { LAST_REFRESHED } from "@/lib/data";
 import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { FollowingPanel } from "@/components/FollowingPanel";
 import { personaSummaries } from "@/lib/relevance";
@@ -9,7 +11,7 @@ import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib
 export const metadata = buildMetadata({
   title: "What This Means For You — Immigration Data by Situation",
   description:
-    "Pick your situation — H-1B worker, international student, employer, or employment-based green-card applicant — and see what the latest U.S. immigration data means for you. Sourced and labelled, never advice.",
+    "H-1B worker, student, employer or green-card applicant: see what the latest U.S. immigration data means for your situation. Sourced, never advice.",
   path: "/for-you",
   keywords: [
     "what does H-1B data mean for me",
@@ -49,6 +51,15 @@ export default function ForYouPage() {
 
         <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
 
+
+        {/* Every figure above carries its own provenance tag, but the page as a
+            whole had no date and no link out. Trust signals must not require a
+            reader to already know where to look. */}
+        <SourceBadge
+          sourceName="All sources used on this site"
+          sourceUrl="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub"
+          sourceUpdatedAt={LAST_REFRESHED}
+        />
 
         <MethodologyNote>
           These summaries are computed automatically from the same public datasets used across the site

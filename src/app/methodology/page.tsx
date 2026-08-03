@@ -7,7 +7,7 @@ import { WARN_COVERAGE_SENTENCE, WARN_SUMMARY } from "@/lib/warn-summary";
 export const metadata = buildMetadata({
   title: "Methodology",
   description:
-    "How ImmigrationClock defines and distinguishes immigration metrics: arrests vs removals vs detention, encounters vs deportations, LCA filings vs approvals, and why some counters are estimated.",
+    "How we define each metric: arrests vs removals vs detention, encounters vs deportations, filings vs approvals, and why some counters are estimated.",
   path: "/methodology",
 });
 

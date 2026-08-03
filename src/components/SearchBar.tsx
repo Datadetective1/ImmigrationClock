@@ -125,9 +125,26 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
       {open && q ? (
         <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-white/10 bg-ink-850 shadow-glow">
           {results.length === 0 ? (
-            <p className="px-4 py-3 text-sm text-slate-500">
-              No matches. Try an employer, state, country, visa type, or job title.
-            </p>
+            // A dead end should still offer a way forward. The old copy repeated
+            // the categories the reader had just failed to match; this says what
+            // was searched, that the miss is about OUR data rather than their
+            // spelling, and gives one working next step.
+            <div className="px-4 py-3">
+              <p className="text-sm text-slate-300">
+                Nothing matches &ldquo;{q}&rdquo;.
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-slate-500">
+                This box searches employers, states, countries, visa types and job titles. Policy
+                changes live in the archive.
+              </p>
+              <Link
+                href={`/what-changed?q=${encodeURIComponent(q)}`}
+                className="mt-2 inline-block py-1 text-xs font-semibold text-accent hover:underline"
+                onClick={() => setOpen(false)}
+              >
+                Search the change archive for &ldquo;{q}&rdquo; →
+              </Link>
+            </div>
           ) : (
             <ul className="max-h-80 overflow-auto scroll-thin py-1">
               {results.map((r, i) => (

@@ -4,7 +4,7 @@ export const SITE = {
   name: "ImmigrationClock",
   title: "The Immigration Clock",
   subtitle:
-    "The latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact — every figure labelled reported, projected, or estimated.",
+    "U.S. immigration policy changes traced to official sources, plus public data on enforcement, visas and the immigrant workforce.",
   positioning:
     "Track the immigration, visa, enforcement, and workforce numbers shaping America.",
   tagline: "Facts first. Freshness labelled. Sources included.",

@@ -3,12 +3,14 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { KeyDates } from "@/components/KeyDates";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { formatDate } from "@/lib/format";
+import { LAST_REFRESHED } from "@/lib/data";
 import { KEY_DATES } from "@/lib/key-dates";
 
 export const metadata = buildMetadata({
   title: "Key U.S. Immigration Dates & Deadlines",
   description:
-    "Don't miss a window: H-1B registration, the tax filing deadline, the Diversity Visa lottery, the fiscal-year H-1B start, the monthly Visa Bulletin, and the F-1 OPT window — counted down, with the official source for each.",
+    "H-1B registration, the Diversity Visa lottery, the Visa Bulletin, the F-1 OPT window and more — counted down, each with its official source.",
   path: "/key-dates",
   keywords: [
     "H-1B registration dates",
@@ -35,6 +37,12 @@ export default function KeyDatesPage() {
       />
 
       <div className="container-page max-w-3xl space-y-8 py-10">
+        {/* Page-level currency. Individual items link to their own sources, but
+            without a date on the page a reader cannot tell if the LIST is current. */}
+        <p className="text-xs leading-relaxed text-slate-500">
+          Reviewed {formatDate(LAST_REFRESHED)}. Deadlines are checked against the official source for each. Dates set by an agency can move; always confirm on the linked government page before relying on one.
+        </p>
+
         <KeyDates
           dates={KEY_DATES}
           placement="key-dates-page"

@@ -58,7 +58,7 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="eyebrow mb-1 text-accent">Origins</div>
-          <h3 className="text-base font-bold text-white sm:text-lg">Where America&rsquo;s immigrants come from</h3>
+          <h2 className="text-base font-bold text-white sm:text-lg">Where America&rsquo;s immigrants come from</h2>
           <p className="mt-0.5 text-sm text-slate-400">{meta.blurb}</p>
         </div>
         <div className="flex flex-wrap gap-1 rounded-lg border border-white/10 bg-white/5 p-0.5" role="tablist" aria-label="Visa type">

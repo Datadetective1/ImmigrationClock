@@ -39,7 +39,7 @@ function PartnerCard({ partner, placement }: { partner: ResolvedPartner; placeme
           </span>
         </span>
       </div>
-      <h4 className="mt-2 text-sm font-semibold text-white">{partner.name}</h4>
+      <h3 className="mt-2 text-sm font-semibold text-white">{partner.name}</h3>
       <p className="mt-1 text-xs leading-relaxed text-slate-400">{partner.blurb}</p>
       <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
         <span className="font-medium text-slate-400">Use it when:</span> {partner.useWhen}
@@ -83,7 +83,7 @@ export function ResourcePanel({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <div className="eyebrow mb-1 text-accent">Resources</div>
-          <h3 className="text-base font-bold text-white sm:text-lg">{title}</h3>
+          <h2 className="text-base font-bold text-white sm:text-lg">{title}</h2>
           {subtitle ? <p className="mt-0.5 text-sm text-slate-400">{subtitle}</p> : null}
         </div>
       </div>

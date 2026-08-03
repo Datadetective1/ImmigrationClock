@@ -3,12 +3,14 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MigrationMap } from "@/components/MigrationMap";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { SourceBadge } from "@/components/SourceBadge";
+import { UPDATED } from "@/lib/dataset";
 import { mapFiscalYear } from "@/lib/migration-map";
 
 export const metadata = buildMetadata({
   title: "Where America's Immigrants Come From — Visa Origin Map",
   description:
-    "An interactive map of the top origin countries for U.S. H-1B workers and F-1 students, sized by volume. Pick a visa type and explore each country's full visa and remittance picture. Sourced and labelled — not live tracking.",
+    "An interactive map of the top origin countries for U.S. H-1B workers and F-1 students. Pick a visa type and explore each country. Not live tracking.",
   path: "/migration-map",
   keywords: [
     "where do H-1B workers come from",
@@ -38,6 +40,13 @@ export default function MigrationMapPage() {
       <div className="container-page max-w-5xl space-y-8 py-10">
         <MigrationMap />
 
+
+        {/* Source + date, above the note rather than buried in it. */}
+        <SourceBadge
+          sourceName="USCIS H-1B Employer Data Hub"
+          sourceUrl="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub"
+          sourceUpdatedAt={UPDATED.uscis_h1b}
+        />
 
         <MethodologyNote>
           Country figures combine USCIS H-1B statistics (reported) with apportioned State Department visa

@@ -104,27 +104,37 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
           {/* What a subscriber is actually agreeing to. "Five things, weekly" is
               a pitch; this is the contract, and a reader deciding whether to
               hand over an address should not have to infer it. */}
+          {/* The contract, not the pitch. Someone deciding whether to hand over
+              an address wants six specifics — what arrives, how often, how long
+              it takes to read, when the first one comes, what happens to their
+              address, and how to stop. Each line answers exactly one. */}
           <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-slate-400">
             <li className="flex gap-2">
               <span className="text-accent" aria-hidden>—</span>
-              <span>One email a week. Nothing else, ever — no partner mail, no sponsor blasts.</span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>—</span>
               <span>
-                Each item links to the government document it came from, so you can check it yourself.
+                <strong className="text-slate-300">Five changes, once a week.</strong> About a two-minute
+                read.
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-accent" aria-hidden>—</span>
+              <span>Every item links to the government document it came from.</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
               <span>
-                Unsubscribe from any issue in one click. We never sell or share your address.
+                Your address is stored with our email provider and used for this only. Never sold, never
+                shared.
               </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
+              <span>Unsubscribe from any issue in one click.</span>
             </li>
           </ul>
           <p className="mt-3 text-sm">
             <Link href="/pulse" className="link-accent">
-              Read this week&rsquo;s edition before subscribing →
+              Read this week&rsquo;s edition first →
             </Link>
           </p>
         </div>

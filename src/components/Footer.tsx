@@ -30,9 +30,12 @@ export function Footer() {
 
           {FOOTER_SECTIONS.map((section) => (
             <div key={section.title}>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+              {/* h2, not h3: the footer sits on every page, and on pages whose body
+                  has no h2 these group titles followed the h1 directly — a skipped
+                  level for anyone navigating by heading. */}
+              <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 {section.title}
-              </h3>
+              </h2>
               <ul className="mt-3 space-y-2">
                 {section.links.map((l) => (
                   <li key={l.href}>

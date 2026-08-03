@@ -1,13 +1,15 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
+import { formatDate } from "@/lib/format";
+import { LAST_REFRESHED } from "@/lib/data";
 import { EventTimeline } from "@/components/EventTimeline";
 import { timelineEvents } from "@/lib/events";
 
 export const metadata = buildMetadata({
   title: "Immigration Timeline — Policy, Law & the Data",
   description:
-    "A curated timeline of major U.S. immigration events — Title 42's end, the asylum proclamation, H-1B and fee changes, administration changes — each linked to the official source and the data figure at that time.",
+    "A timeline of major U.S. immigration events, each linked to its official source and the data figure at the time.",
   path: "/timeline",
   keywords: [
     "immigration timeline",
@@ -35,6 +37,12 @@ export default function TimelinePage() {
       />
 
       <div className="container-page max-w-3xl space-y-8 py-10">
+        {/* Page-level currency. Individual items link to their own sources, but
+            without a date on the page a reader cannot tell if the LIST is current. */}
+        <p className="text-xs leading-relaxed text-slate-500">
+          Reviewed {formatDate(LAST_REFRESHED)}. Events are added as they happen and are not edited afterwards. Each entry links to the government source that recorded it.
+        </p>
+
         <p className="text-xs text-slate-400">{count} events · newest first · curated and non-exhaustive.</p>
 
         <EventTimeline />

@@ -8,7 +8,7 @@ import { partnersByCategory, CATEGORY_META } from "@/lib/partners";
 export const metadata = buildMetadata({
   title: "Resources for Immigrants — Legal Help, Money Transfer, Taxes & More",
   description:
-    "A curated directory of services newcomers to the U.S. actually use: attorney-reviewed immigration applications, international money transfer, nonresident tax filing, newcomer banking, student health insurance, and eSIMs.",
+    "Services newcomers to the U.S. actually use: immigration applications, money transfer, nonresident tax filing, banking, health insurance and eSIMs.",
   path: "/resources",
   keywords: [
     "immigration resources",

@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 export const metadata = buildMetadata({
   title: "Advertising & Affiliate Disclosure",
   description:
-    "How ImmigrationClock makes money: display advertising and affiliate partnerships. What that means for you, and the editorial line we hold so the data stays trustworthy.",
+    "How ImmigrationClock makes money, what that means for you, and the editorial line we hold so the data stays trustworthy.",
   path: "/disclosure",
 });
 

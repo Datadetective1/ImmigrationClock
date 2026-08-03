@@ -56,7 +56,7 @@ export function ExplainList({ items }: { items: Explainer[] }) {
           return (
             <div key={item.key} className="panel panel-pad">
               <div className={`eyebrow mb-1 ${g.cls}`}>{g.label}</div>
-              <h3 className="text-base font-bold text-white">{item.term}</h3>
+              <h2 className="text-base font-bold text-white">{item.term}</h2>
               <p className="mt-2 text-sm leading-relaxed text-slate-300">{item[level]}</p>
             </div>
           );

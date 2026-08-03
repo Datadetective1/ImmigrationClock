@@ -34,7 +34,7 @@ export function ChartCard({
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <h3 className="text-base font-semibold text-white">{title}</h3>
+            <h2 className="text-base font-semibold text-white">{title}</h2>
             {tooltip ? <Tooltip text={tooltip} /> : null}
             {provenance ? <ProvenanceTag provenance={provenance} /> : null}
           </div>

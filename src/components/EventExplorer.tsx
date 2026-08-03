@@ -168,8 +168,14 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
   // agency page would land on an unfiltered archive and quietly lose the reader's
   // intent.
   useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("entity");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("entity");
     if (id && /^[a-z_]+:[a-z0-9-]+$/i.test(id)) setEntity(id);
+    // ?q= comes from the site-wide search box's "no matches" state, which offers
+    // to look in the change archive instead. That offer has to actually filter,
+    // or it is a link that pretends to work.
+    const term = params.get("q");
+    if (term) setQ(term.slice(0, 100));
   }, []);
 
   const filters: EventFilters = useMemo(

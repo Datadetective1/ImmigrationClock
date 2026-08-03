@@ -8,7 +8,7 @@ import { EXPLAINERS } from "@/lib/explainers";
 export const metadata = buildMetadata({
   title: "Immigration Data, Explained — Simple, Technical, or Methodology",
   description:
-    "Plain-language explanations of the core immigration concepts — border encounters, ICE arrests vs removals vs detention, H-1B, visa issuance, WARN layoffs, and our data labels — with a reading-level toggle.",
+    "Plain-language explanations of border encounters, ICE arrests vs removals vs detention, H-1B, visa issuance and WARN layoffs.",
   path: "/explained",
   keywords: [
     "immigration explained",
