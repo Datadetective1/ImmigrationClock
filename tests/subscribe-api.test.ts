@@ -17,7 +17,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { POST, GET } from "@/app/api/subscribe/route";
 
 const KEY = "re_test_key";
-const AUDIENCE = "aud_123";
 
 /** Each test gets its own IP so the module-level rate limiter cannot bleed. */
 let ipCounter = 0;
@@ -57,7 +56,6 @@ function mockResend(responses: { contact?: Response; email?: Response } = {}) {
 
 beforeEach(() => {
   vi.stubEnv("RESEND_API_KEY", KEY);
-  vi.stubEnv("RESEND_AUDIENCE_ID", AUDIENCE);
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
@@ -137,13 +135,13 @@ describe("abuse resistance", () => {
 });
 
 describe("storing the subscriber", () => {
-  it("adds the contact to the configured audience, authenticated", async () => {
+  it("creates an account-level contact, authenticated", async () => {
     const calls = mockResend();
     const res = await POST(post(VALID));
     expect(res.status).toBe(200);
 
     const contact = calls.find((c) => c.url.includes("/contacts"))!;
-    expect(contact.url).toBe(`https://api.resend.com/audiences/${AUDIENCE}/contacts`);
+    expect(contact.url).toBe("https://api.resend.com/contacts");
     expect(contact.auth).toBe(`Bearer ${KEY}`);
     expect(contact.body).toMatchObject({ email: "reader@example.com", unsubscribed: false });
   });
@@ -186,13 +184,13 @@ describe("does not leak who is on the list", () => {
 
   it("never echoes the provider's response body to the client", async () => {
     mockResend({
-      contact: new Response("Invalid audience id aud_secret_internal", { status: 422 }),
+      contact: new Response("Invalid request; internal ref srv_secret_internal", { status: 422 }),
     });
     const res = await POST(post(VALID));
     expect(res.status).toBe(502);
     const text = JSON.stringify(await res.json());
-    expect(text).not.toContain("aud_secret_internal");
-    expect(text).not.toContain("Invalid audience");
+    expect(text).not.toContain("srv_secret_internal");
+    expect(text).not.toContain("Invalid request");
   });
 
   it("never returns the API key, whatever goes wrong", async () => {

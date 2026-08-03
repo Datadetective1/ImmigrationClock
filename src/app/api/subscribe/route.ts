@@ -135,13 +135,12 @@ function welcomeEmail(email: string) {
 
 export async function POST(req: Request): Promise<Response> {
   const key = process.env.RESEND_API_KEY;
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
 
   // Configuration is a server problem, not the visitor's fault, and it must not
-  // masquerade as success. The UI only renders the form when these are set at
+  // masquerade as success. The UI only renders the form when the key is set at
   // build time, so reaching this branch means the deployment drifted.
-  if (!key || !audienceId) {
-    console.error("[subscribe] RESEND_API_KEY or RESEND_AUDIENCE_ID is not configured");
+  if (!key) {
+    console.error("[subscribe] RESEND_API_KEY is not configured");
     return json(
       { ok: false, error: "Signups are not available right now. Nothing was stored." },
       503
@@ -176,12 +175,14 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   // ---- Store the contact -----------------------------------------------------
+  // Account-level contacts. Resend Audiences are deprecated and the current
+  // Contacts API no longer takes an audience id — this is the REST equivalent of
+  // `resend.contacts.create({ email, unsubscribed: false })`, called with fetch
+  // rather than the SDK so the project keeps its dependency-light build and this
+  // route stays a single file with no runtime package to track.
   let contactRes: Response;
   try {
-    contactRes = await resend(`/audiences/${encodeURIComponent(audienceId)}/contacts`, key, {
-      email,
-      unsubscribed: false,
-    });
+    contactRes = await resend("/contacts", key, { email, unsubscribed: false });
   } catch (err) {
     console.error(`[subscribe] contact request failed: ${(err as Error)?.message}`);
     return json({ ok: false, error: "We could not reach the email service. Try again shortly." }, 502);
@@ -193,7 +194,21 @@ export async function POST(req: Request): Promise<Response> {
     // otherwise would confirm that the address is on the list.
     const duplicate = contactRes.status === 409 || /already|exists|duplicate/i.test(detail);
     if (!duplicate) {
-      console.error(`[subscribe] Resend contact ${contactRes.status}: ${detail.slice(0, 300)}`);
+      // A sending-only API key can send email but cannot create contacts, which
+      // fails HERE and nowhere else — the welcome email would still go out, so
+      // the symptom is "subscribers receive mail but the list stays empty".
+      // Named explicitly because that is a genuinely confusing thing to debug
+      // from a generic 502.
+      if (contactRes.status === 401 || contactRes.status === 403) {
+        console.error(
+          `[subscribe] Resend rejected contact creation (${contactRes.status}). ` +
+            "Creating contacts requires a FULL ACCESS API key; a sending-only key is not enough. " +
+            "Check the key's permission at https://resend.com/api-keys — and run " +
+            "`node scripts/verify-resend.mjs` to confirm."
+        );
+      } else {
+        console.error(`[subscribe] Resend contact ${contactRes.status}: ${detail.slice(0, 300)}`);
+      }
       return json({ ok: false, error: "We could not complete the signup. Try again shortly." }, 502);
     }
     // Already subscribed: report the same success, and do not re-send a welcome.

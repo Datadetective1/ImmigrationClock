@@ -26,7 +26,7 @@ export type NewsletterState =
   | { kind: "not-configured" };
 
 export interface NewsletterEnv {
-  /** Set when RESEND_API_KEY and RESEND_AUDIENCE_ID are both present. */
+  /** Set when RESEND_API_KEY is present. That is the only requirement. */
   resendConfigured?: boolean;
   buttondownUsername?: string;
   customEndpoint?: string;

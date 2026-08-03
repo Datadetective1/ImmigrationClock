@@ -2,9 +2,9 @@
 // NEWSLETTER SIGNUP — "Immigration Pulse"
 //
 // A SERVER component. That is the whole point of the split: whether signups are
-// open depends on RESEND_API_KEY and RESEND_AUDIENCE_ID, which are server-only
-// secrets. Resolving the state here means the decision is made where the
-// credentials actually are, instead of being mirrored into a NEXT_PUBLIC_ flag
+// open depends on RESEND_API_KEY, a server-only secret. Resolving the state here
+// means the decision is made where the credential actually is, instead of being
+// mirrored into a NEXT_PUBLIC_ flag
 // that can drift out of sync with them and leave the form promising something
 // the server cannot deliver.
 //
@@ -24,7 +24,10 @@ import { PulseSignupForm } from "./PulseSignupForm";
 
 function resolveState() {
   return newsletterState({
-    resendConfigured: Boolean(process.env.RESEND_API_KEY && process.env.RESEND_AUDIENCE_ID),
+    // The API key is the whole requirement. Resend Audiences are deprecated and
+    // the current Contacts API is account-level, so there is no audience id to
+    // check for — requiring one would keep the form hidden forever.
+    resendConfigured: Boolean(process.env.RESEND_API_KEY),
     buttondownUsername: process.env.NEXT_PUBLIC_BUTTONDOWN_USERNAME,
     customEndpoint: process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT,
     mode: process.env.NEXT_PUBLIC_NEWSLETTER_MODE,
@@ -94,9 +97,32 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
           <div className="eyebrow mb-1 text-accent">Newsletter</div>
           <h2 className="text-lg font-bold text-white sm:text-xl">Get the weekly Immigration Pulse</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
-            Five things that changed in U.S. immigration, every week — sourced and labelled, no spin.{" "}
+            Five things that changed in U.S. immigration, every week — sourced and labelled, no spin.
+          </p>
+          {/* What a subscriber is actually agreeing to. "Five things, weekly" is
+              a pitch; this is the contract, and a reader deciding whether to
+              hand over an address should not have to infer it. */}
+          <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-slate-400">
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
+              <span>One email a week. Nothing else, ever — no partner mail, no sponsor blasts.</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
+              <span>
+                Each item links to the government document it came from, so you can check it yourself.
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
+              <span>
+                Unsubscribe from any issue in one click. We never sell or share your address.
+              </span>
+            </li>
+          </ul>
+          <p className="mt-3 text-sm">
             <Link href="/pulse" className="link-accent">
-              See this week&rsquo;s Pulse →
+              Read this week&rsquo;s edition before subscribing →
             </Link>
           </p>
         </div>
