@@ -3,9 +3,17 @@
 Everything an operator needs to take this repository to production, and the
 reasoning behind the choices that are not obvious.
 
-The site is a **fully static export** (`output: "export"` in `next.config.js`).
-There is no server runtime, no database, and no serverless function. Vercel
-builds it and serves `out/` as files. Any static host works.
+The site is **statically generated with one serverless function**. All ~2,700
+pages are prerendered at build from the committed data layer, so a source outage
+still cannot take a page down. The single exception is `POST /api/subscribe`,
+added on 2026-08-03 for newsletter signup: Resend requires a secret API key, and
+a static site has nowhere to keep one — a key shipped to the browser is a
+published key.
+
+`output: "export"` was therefore removed from `next.config.js`. Page rendering
+does not depend on the function, so if it is down the site is unaffected apart
+from signup. **A static host is no longer sufficient**; the deployment target
+needs to run Next.js server functions (Vercel does, on the free tier).
 
 ---
 
@@ -28,7 +36,11 @@ gitignored and must never be committed.
 | `CONGRESS_API_KEY` | **recommended** | The Congress adapter ingests nothing and reports itself *unconfigured* (not failed). Free key: <https://api.congress.gov>. Must also be added as a **GitHub Actions secret** or the daily refresh loses the source. |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | no | No Plausible analytics. |
 | `NEXT_PUBLIC_GA_ID` | no | No Google Analytics. |
-| `NEXT_PUBLIC_BUTTONDOWN_USERNAME` | no | Newsletter signup renders as unavailable rather than posting nowhere. |
+| **`RESEND_API_KEY`** | **YES for signup** | Newsletter signup does not render. No `NEXT_PUBLIC_` prefix, ever — that would publish the key to every visitor. |
+| **`RESEND_AUDIENCE_ID`** | **YES for signup** | As above. Both are required together; either alone does nothing. |
+| `RESEND_FROM_EMAIL` | no | Defaults to `Immigration Clock <noreply@immigrationclock.com>`. Must be on a Resend-verified domain. |
+| `RESEND_API_BASE` | no | Test seam only. Points the route at a stub. Must stay unset in production. |
+| `NEXT_PUBLIC_BUTTONDOWN_USERNAME` | no | Unused unless you want a third-party provider *instead of* Resend — it takes precedence. |
 | `NEXT_PUBLIC_NEWSLETTER_ENDPOINT` | no | Custom subscribe endpoint; takes precedence over the Buttondown username. |
 | `NEXT_PUBLIC_NEWSLETTER_MODE` | no | Overrides signup presentation. |
 | `NEXT_PUBLIC_PARTNER_LINKS` / `NEXT_PUBLIC_SUPPORT_URL` | no | Partner/support links are hidden. |
@@ -43,26 +55,50 @@ gitignored and must never be committed.
 
 ---
 
-## 2. The contact address is an open launch item
+## 2. Email
 
-`NEXT_PUBLIC_CONTACT_EMAIL` is **not set**, and nothing in this repository sets
-it. The site therefore ships with **no way for a reader to report an incorrect
-figure**.
+Inbound is Cloudflare Email Routing; outbound is Resend. Addresses in use:
 
-For a platform whose entire proposition is accuracy and correction, that is a
-structural hole rather than a missing nicety, and it is the one launch blocker
-this work could not close from inside the codebase: publishing an address is an
-outward-facing decision about a real inbox that someone has to monitor.
+| Address | Used by |
+|---|---|
+| `hello@` | `NEXT_PUBLIC_CONTACT_EMAIL` — rendered on /about, /privacy, /terms, /disclosure, and set as `Reply-To` on the welcome email |
+| `noreply@` | Sender for newsletter transactional mail (`RESEND_FROM_EMAIL`) |
+| `security@`, `privacy@`, `support@`, `admin@` | Created and routed, **not yet referenced by the application** |
 
-**Before public beta, set it to an address you actually read.** A forwarding
-alias (`corrections@…`) is preferable to a personal inbox — it will be scraped
-and it will attract spam.
+The last row is deliberate rather than forgotten. Wiring them means deciding
+where each belongs (a `security.txt`, a privacy-request route, a support
+surface that does not yet exist), and this codebase does not hardcode an inbox
+it cannot prove is monitored — see `tests/trust-claims.test.ts`. Raise it as
+its own small change when you want them surfaced.
 
-The plumbing is already complete and tested: `/about`, `/privacy`, `/terms` and
-`/disclosure` render a contact route the moment the variable exists, and
-`tests/trust-claims.test.ts` asserts none of them ever emit an empty `mailto:`.
+### Newsletter signup
 
----
+`POST /api/subscribe` adds the address to the Resend audience and sends a
+welcome email. **Single opt-in**: the contact is stored on submit, and the
+welcome email is what makes that defensible — nobody is added silently. Double
+opt-in is a roadmap item, not a shipped feature.
+
+The route is public and unauthenticated, so it is written for the internet:
+
+- A duplicate signup returns **exactly** what a new one returns. Reporting
+  "already subscribed" would turn the form into an enumeration oracle, and
+  "is this person a reader of an immigration site" is a question this
+  audience cannot afford to have answered.
+- Upstream responses are never echoed to the client; detail goes to the log.
+- Honeypot field, explicit-consent requirement, and best-effort per-IP rate
+  limiting (5/min). **That limiter is per-instance and resets on cold start** —
+  it raises the cost of casual abuse and will not stop a distributed attacker.
+  Real protection belongs at the edge; see ROADMAP.md.
+
+Verified end-to-end against a stubbed Resend on 2026-08-03: contact stored with
+`unsubscribed: false`, welcome email sent from `noreply@` with `Reply-To:
+hello@`, duplicate suppressed without a second email, invalid address and
+missing consent both rejected before any upstream call.
+
+**Not verified against the live Resend API** — that needs the real key, which
+only you hold. After the first deploy, subscribe once with your own address and
+confirm the contact appears in the Resend audience and the welcome email
+arrives.
 
 ## 3. Analytics
 
@@ -98,14 +134,22 @@ header**, or the browser will silently block it. This is the intended tradeoff:
 a new tracker cannot be added by accident.
 
 `script-src` carries `'unsafe-inline'`, which is a real weakening and not an
-oversight. Next.js inlines its hydration payload into every page, and CSP nonces
-require a server to mint one per request — which a static export does not have.
-Removing it breaks every page. What the policy still buys is worth having:
-`object-src 'none'` and `base-uri 'self'` remove the classic injection
-escalations, `frame-ancestors` blocks clickjacking, and `connect-src` pins where
-data can be sent. The site renders no user-supplied content and stores no
-credentials, so the residual risk from inline script is small. Revisit if a
-server runtime is ever introduced.
+oversight. Next.js inlines its hydration payload into every page, and removing
+the directive breaks every page.
+
+Nonces are the proper fix and they need a server to mint one per request. Until
+2026-08-03 there was no server, which settled the question. There is one now —
+but only for `/api/subscribe`; every *page* is still statically generated at
+build time, so there is still no per-request moment at which a nonce could be
+issued. Adopting nonces would mean making pages dynamic, which trades the
+reliability the whole architecture is built on for a hardening measure this
+threat model barely needs. Recorded in ROADMAP.md rather than done.
+
+What the policy still buys is worth having: `object-src 'none'` and
+`base-uri 'self'` remove the classic injection escalations, `frame-ancestors`
+blocks clickjacking, and `connect-src` pins where data can be sent. The site
+renders no user-supplied content and stores no credentials in the browser, so
+the residual risk from inline script is small.
 
 ---
 
@@ -166,10 +210,29 @@ EVENTS_SINCE=2025-01-01 EVENTS_LIMIT=1000 npm run build:events
 
 ## 6. Pre-launch checklist
 
-- [ ] **Set `NEXT_PUBLIC_CONTACT_EMAIL`** in Vercel (§2 — open blocker).
+Done:
+
+- [x] `NEXT_PUBLIC_CONTACT_EMAIL` set (`hello@`) — verified live in production.
+- [x] Cloudflare Email Routing configured and tested.
+- [x] Resend domain verified.
+- [x] Repository public, so CI status checks are enforceable.
+
+Still required:
+
+- [ ] Set **`RESEND_API_KEY`** and **`RESEND_AUDIENCE_ID`** in Vercel, then
+      **redeploy** — both are read at build time, so the signup form will not
+      appear until a build runs with them present.
 - [ ] Set `CONGRESS_API_KEY` in Vercel **and** as a GitHub Actions secret.
-- [ ] Enable branch protection on `main` requiring the CI `verify` job.
-- [ ] Set `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` and/or `NEXT_PUBLIC_GA_ID` if you want analytics.
-- [ ] Confirm the deployed response carries `Content-Security-Policy` and check the browser console on `/` and `/what-changed` for violations.
-- [ ] Confirm `/admin/*` returns `noindex` and is absent from `sitemap.xml` (it is robots-disallowed, `noindex`, and unlisted — but it is **publicly reachable**, so it must never display anything sensitive).
-- [ ] Run one `workflow_dispatch` of **Refresh data** and confirm it commits `events.json` and `events-index.json`.
+      Without the secret, the daily refresh silently loses the Congress source.
+- [ ] Enable **branch protection on `main` requiring the CI `verify` job**.
+- [ ] After the first deploy with Resend live: subscribe once with your own
+      address, confirm the contact lands in the Resend audience and the welcome
+      email arrives. This is the only part of the signup flow that cannot be
+      verified without the real key.
+- [ ] Confirm the deployed response carries `Content-Security-Policy`, and check
+      the browser console on `/` and `/pulse` for violations.
+- [ ] Optional: `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` and/or `NEXT_PUBLIC_GA_ID`.
+
+Note: `/admin/*` is `noindex`, robots-disallowed and absent from the sitemap,
+but it is **publicly reachable** — a statically generated site cannot
+authenticate. It must never display anything sensitive.

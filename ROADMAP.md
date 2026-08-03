@@ -9,9 +9,10 @@ a scale this product has not reached. Nothing here affects correctness today.
 Where an item has a **trigger**, that is the measurable condition under which it
 stops being optional.
 
-The current design is a static export with a committed data layer. That choice
-buys enormous reliability — a source outage cannot take a page down — and its
-limits are known rather than discovered. These items are the limits.
+The current design is statically generated pages over a committed data layer,
+plus one serverless function for newsletter signup. That choice buys enormous
+reliability — a source outage cannot take a page down — and its limits are known
+rather than discovered. These items are the limits.
 
 ---
 
@@ -105,6 +106,59 @@ the same class of frozen-clock error as item 5.
 
 **Later.** A small client component for relative age. Deferred as not worth a
 hydration boundary while the daily refresh holds.
+
+---
+
+## 6b. Newsletter: double opt-in
+
+**Today.** Single opt-in. `POST /api/subscribe` stores the contact in the Resend
+audience on submit and sends a welcome email. Nobody is added silently, which is
+what makes single opt-in defensible, and it is standard practice.
+
+**Later.** Double opt-in — store nothing until the recipient clicks a
+confirmation link. Two reasons it is better: someone can currently subscribe an
+address they do not own (a harassment vector, mitigated but not removed by the
+welcome email), and GDPR consent is far easier to evidence with a confirmation
+click than with a server log.
+
+It can be done statelessly with an HMAC-signed token and a second route, so it
+does not require a database. Deferred because it is more surface than the launch
+should add and it doubles the failure modes of the one flow that must work.
+
+**Trigger.** First sign of list poisoning, first complaint from someone who did
+not subscribe, or any EU-targeted marketing.
+
+---
+
+## 6c. Rate limiting at the edge
+
+**Today.** `/api/subscribe` rate-limits per IP in an in-memory Map: 5 requests a
+minute. Serverless instances are ephemeral and horizontally scaled, so this is
+per-instance and resets on cold start. It raises the cost of casual abuse and
+will not stop a distributed attacker.
+
+**Later.** Vercel WAF or Cloudflare rate limiting in front of the route, which is
+where this belongs — shared state, and it never runs our code or bills our
+function invocations for traffic we are going to reject anyway.
+
+**Trigger.** Any abuse of the endpoint, or the first time function invocations
+look wrong on the Vercel dashboard.
+
+---
+
+## 6d. CSP nonces
+
+**Today.** `script-src` carries `'unsafe-inline'` because Next inlines its
+hydration payload into every page.
+
+**Later.** Per-request nonces. Note the constraint has changed but not gone: the
+site now has a server for `/api/subscribe`, but every *page* is still statically
+generated at build, so there is no per-request moment at which a nonce could be
+issued. Adopting nonces means making pages dynamic — trading the reliability the
+architecture is built on for hardening this threat model barely needs.
+
+**Trigger.** Pages becoming dynamic for some other reason, or the site beginning
+to render user-supplied content.
 
 ---
 

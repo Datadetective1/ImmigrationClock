@@ -1,60 +1,41 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-
 // =============================================================================
 // NEWSLETTER SIGNUP — "Immigration Pulse"
 //
-// Correctness rule for this component: it must never tell someone they are
-// subscribed unless a provider actually received their address. The previous
-// version optimistically rendered "✓ You're on the list." with no provider
-// configured, so every address typed into it was discarded. Fixed 2026-08-01;
-// see docs/data-corrections.md.
+// A SERVER component. That is the whole point of the split: whether signups are
+// open depends on RESEND_API_KEY and RESEND_AUDIENCE_ID, which are server-only
+// secrets. Resolving the state here means the decision is made where the
+// credentials actually are, instead of being mirrored into a NEXT_PUBLIC_ flag
+// that can drift out of sync with them and leave the form promising something
+// the server cannot deliver.
 //
-// How it works now
-// ----------------
-// The form is a NATIVE HTML POST straight to the provider. That is deliberate:
-// a fetch() to a cross-origin subscribe endpoint has to run in `no-cors` mode,
-// which makes the response unreadable, so the page cannot tell success from
-// failure and would have to guess. A native POST hands the browser to the
-// provider, and the visitor sees the provider's real confirmation or error.
-// No guessing, and no API key in client code.
+// The interactive half lives in PulseSignupForm ("use client").
 //
-// Configuration (all public, none secret):
-//   NEXT_PUBLIC_BUTTONDOWN_USERNAME  — Buttondown newsletter username. Posts to
-//                                      buttondown.com/api/emails/embed-subscribe/<username>.
-//   NEXT_PUBLIC_NEWSLETTER_ENDPOINT  — full subscribe URL for any other provider.
-//                                      Takes precedence over the Buttondown var.
-//   NEXT_PUBLIC_NEWSLETTER_MODE      — "dev" disables submission entirely so local
-//                                      and preview builds cannot add test
-//                                      addresses to the live audience.
+// CONFIGURATION IS READ AT BUILD TIME. These pages are statically generated, so
+// adding the Resend variables to Vercel requires a redeploy before the form
+// appears — the same way NEXT_PUBLIC_* has always behaved here.
 //
-// With nothing configured the form does not render an email field at all. We ask
-// for an address only when we can actually store it.
+// With nothing configured the panel renders no email field at all. We ask for an
+// address only when we can actually store it.
 // =============================================================================
 
+import Link from "next/link";
 import { newsletterState, canSubscribe } from "@/lib/newsletter";
+import { PulseSignupForm } from "./PulseSignupForm";
 
-// Resolved once at module load. next.js inlines NEXT_PUBLIC_* at build time, so
-// these must be referenced as full literal property accesses, not destructured.
-const STATE = newsletterState({
-  buttondownUsername: process.env.NEXT_PUBLIC_BUTTONDOWN_USERNAME,
-  customEndpoint: process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT,
-  mode: process.env.NEXT_PUBLIC_NEWSLETTER_MODE,
-});
-const CAN_SUBSCRIBE = canSubscribe(STATE);
-const ENDPOINT = STATE.kind === "open" ? STATE.endpoint : null;
-const DEV_MODE = STATE.kind === "dev-disabled";
-
-const CONSENT_TEXT =
-  "Email me the weekly Immigration Pulse. I can unsubscribe from any email.";
+function resolveState() {
+  return newsletterState({
+    resendConfigured: Boolean(process.env.RESEND_API_KEY && process.env.RESEND_AUDIENCE_ID),
+    buttondownUsername: process.env.NEXT_PUBLIC_BUTTONDOWN_USERNAME,
+    customEndpoint: process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT,
+    mode: process.env.NEXT_PUBLIC_NEWSLETTER_MODE,
+  });
+}
 
 /** Shared "we can't take signups yet" copy — honest, and never a fake success. */
-function NotOpenNotice({ compact = false }: { compact?: boolean }) {
+function NotOpenNotice({ compact = false, devMode }: { compact?: boolean; devMode: boolean }) {
   return (
     <p className={`${compact ? "text-xs" : "text-sm"} leading-relaxed text-slate-400`}>
-      {DEV_MODE ? (
+      {devMode ? (
         <>
           <strong className="text-slate-300">Signup disabled in this environment.</strong> This is a
           development or preview build, so the form is switched off to keep test addresses out of the
@@ -80,7 +61,9 @@ function NotOpenNotice({ compact = false }: { compact?: boolean }) {
  * is a slim banner-row variant used where ad slots would otherwise sit.
  */
 export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" }) {
-  const [consented, setConsented] = useState(false);
+  const state = resolveState();
+  const open = canSubscribe(state);
+  const devMode = state.kind === "dev-disabled";
 
   if (variant === "inline") {
     return (
@@ -89,7 +72,7 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
           <span aria-hidden>📬</span> <strong className="text-white">Immigration Pulse</strong> — the 5
           biggest changes each week.
         </div>
-        {CAN_SUBSCRIBE ? (
+        {open ? (
           <Link
             href="/pulse#subscribe"
             className="shrink-0 rounded-lg bg-accent px-3 py-1.5 text-center text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft"
@@ -97,7 +80,7 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
             Subscribe
           </Link>
         ) : (
-          <NotOpenNotice compact />
+          <NotOpenNotice compact devMode={devMode} />
         )}
       </div>
     );
@@ -118,58 +101,14 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
           </p>
         </div>
         <div>
-          {CAN_SUBSCRIBE ? (
-            <form
-              action={ENDPOINT as string}
-              method="post"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col gap-2"
-            >
-              <label htmlFor="pulse-email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="pulse-email"
-                type="email"
-                name="email"
-                required
-                autoComplete="email"
-                placeholder="you@email.com"
-                // 16px — below that iOS zooms on focus and does not zoom back.
-                // On the newsletter field that lands on the one interaction the
-                // site actually asks a reader to complete.
-                className="w-full rounded-lg border border-white/10 bg-ink-950/60 px-3 py-2 text-base text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none"
-              />
-              <label className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-400">
-                <input
-                  type="checkbox"
-                  name="consent"
-                  required
-                  checked={consented}
-                  onChange={(e) => setConsented(e.target.checked)}
-                  className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-white/20 bg-ink-950/60 accent-accent"
-                />
-                <span>{CONSENT_TEXT}</span>
-              </label>
-              <button
-                type="submit"
-                disabled={!consented}
-                className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Subscribe
-              </button>
-              <p className="text-[11px] text-slate-500">
-                Opens our email provider to confirm. One email a week. Unsubscribe from any email. See our{" "}
-                <Link href="/privacy" className="link-accent">
-                  privacy policy
-                </Link>
-                .
-              </p>
-            </form>
+          {open ? (
+            <PulseSignupForm
+              provider={state.provider}
+              endpoint={state.provider === "external" ? state.endpoint : undefined}
+            />
           ) : (
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
-              <NotOpenNotice />
+              <NotOpenNotice devMode={devMode} />
             </div>
           )}
         </div>
