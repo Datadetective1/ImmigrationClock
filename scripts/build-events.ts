@@ -33,7 +33,8 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { runnableAdapters, ADAPTERS } from "../src/domains/graph/adapters";
-import { federalRegisterAdapter } from "../src/domains/graph/adapters/federal-register";
+import { federalRegisterAdapter, __testing as frTesting } from "../src/domains/graph/adapters/federal-register";
+const { isImmigrationRelevant } = frTesting;
 import { executiveActionsAdapter } from "../src/domains/graph/adapters/executive-actions";
 import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsroom";
 import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
@@ -143,6 +144,47 @@ const RETRACTED: Record<string, string> = {
   "federal_register:2026-15434":
     "Not an immigration document. An Administrative Procedure Act notice about petitioning DOJ to issue, amend, or repeal a regulation, ingested because the relevance filter matched the bare word 'petition'. The filter was narrowed on 2026-08-02; this removes the event it already admitted.",
 };
+
+/**
+ * RULE-BASED RETRACTION — for when a filter bug admitted more than a list can hold.
+ *
+ * The id map above is the right instrument for a handful of mistakes. It is the
+ * wrong one for 167, which is how many customs documents the Federal Register
+ * adapter ingested because "U.S. Customs and Border Protection" contains the
+ * word "border" (see withoutAgencyNames in that adapter). Pasting 167 ids here
+ * would be unreviewable and would rot the moment the count changed.
+ *
+ * So the rule is expressed as the thing we actually mean: AN EVENT THE CURRENT
+ * FILTER WOULD NOT ADMIT DOES NOT BELONG IN THE STORE. It stays auditable —
+ * this is a reviewed code change with a stated reason, living in git history,
+ * exactly like the map — and it self-corrects rather than needing a new id list
+ * every time the filter is tightened.
+ *
+ * It applies ONLY to sources whose filter is re-runnable against stored fields.
+ * A source outage still cannot delete anything, because an outage cannot edit
+ * this file.
+ */
+const RETRACTION_RULES: { reason: string; applies: (e: ImmigrationEvent) => boolean }[] = [
+  {
+    reason:
+      "Not an immigration document. Ingested because the relevance filter read " +
+      "'Customs and Border Protection' — the agency's own name — as the topical " +
+      "term 'border'. Measured 2026-08-03: 24% of Federal Register events had no " +
+      "immigration signal except that name. The filter was corrected the same day; " +
+      "this removes what it had already admitted.",
+    applies: (e) =>
+      e.sourceKey === "federal_register" &&
+      !isImmigrationRelevant({ title: e.title, abstract: e.summary }),
+  },
+];
+
+function retractionReason(e: ImmigrationEvent): string | null {
+  if (RETRACTED[e.id]) return RETRACTED[e.id];
+  for (const rule of RETRACTION_RULES) {
+    if (rule.applies(e)) return rule.reason;
+  }
+  return null;
+}
 
 interface EventStoreFile {
   generatedAt: string;
@@ -257,12 +299,21 @@ async function main() {
 
   // Apply retractions last, so a re-ingested event cannot sneak a retracted id
   // back into the store.
-  const merged = all.filter((e) => !RETRACTED[e.id]);
+  const merged = all.filter((e) => retractionReason(e) === null);
   const removed = all.length - merged.length;
   if (removed > 0) {
+    // Group by reason: 167 identical lines is not a log, it is noise.
+    const byReason = new Map<string, string[]>();
+    for (const e of all) {
+      const reason = retractionReason(e);
+      if (!reason) continue;
+      byReason.set(reason, [...(byReason.get(reason) ?? []), e.id]);
+    }
     console.log(`[build-events] retracted ${removed} event(s):`);
-    for (const e of all.filter((x) => RETRACTED[x.id])) {
-      console.log(`  - ${e.id}: ${RETRACTED[e.id]}`);
+    for (const [reason, ids] of byReason) {
+      console.log(`  - ${ids.length} event(s): ${reason}`);
+      for (const id of ids.slice(0, 5)) console.log(`      ${id}`);
+      if (ids.length > 5) console.log(`      … and ${ids.length - 5} more`);
     }
   }
 

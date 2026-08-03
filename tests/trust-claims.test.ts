@@ -9,6 +9,7 @@ import { buildInsights } from "@/lib/insights";
 import { buildMetrics } from "@/lib/data";
 import { SITE } from "@/lib/site";
 import { jsonLd } from "@/lib/seo";
+import { __testing as FR } from "@/domains/graph/adapters/federal-register";
 import { EVENTS, EVENT_STORE_META, eventCoverageNote } from "@/lib/event-store";
 
 const src = (rel: string) =>
@@ -287,5 +288,55 @@ describe("typed inputs are at least 16px on mobile", () => {
     }
     expect(checked, "no typed inputs were inspected — the matcher is broken").toBeGreaterThan(0);
     expect(offenders, "inputs below 16px make iOS zoom the viewport on focus").toEqual([]);
+  });
+});
+
+// =============================================================================
+// RELEVANCE — an agency's NAME is not evidence of a document's subject.
+//
+// "U.S. Customs and Border Protection" contains the word "border", and CBP names
+// itself in the abstract of everything it publishes. The bare term "border"
+// therefore admitted every customs document the agency has ever issued: 167 of
+// 685 Federal Register events (24%), 21 of them ranked major — cargo manifests,
+// free-trade agreements, quarterly IRS interest rates. Found by walking the site
+// as a reader, not by any test, which is why one exists now.
+//
+// Third occurrence of this bug class; "petition" caused the first two.
+// =============================================================================
+describe("federal register relevance filter", () => {
+  const relevant = (title: string, abstract: string | null = null) =>
+    FR.isImmigrationRelevant({ title, abstract });
+
+  it("does not treat the CBP agency name as an immigration signal", () => {
+    // Real titles and abstracts from the store, all previously ingested.
+    expect(
+      relevant(
+        "Extension of Import Restrictions on Archaeological and Ethnological Material of Türkiye",
+        "This document amends U.S. Customs and Border Protection (CBP) regulations to reflect an extension of import restrictions."
+      )
+    ).toBe(false);
+    expect(
+      relevant("Customs User Fees To Be Adjusted for Inflation in Fiscal Year 2027", "CBP announces the adjusted amounts.")
+    ).toBe(false);
+    expect(
+      relevant("Quarterly IRS Interest Rates Used in Calculating Interest on Overdue Accounts", "U.S. Customs and Border Protection publishes the rates.")
+    ).toBe(false);
+  });
+
+  it("still admits genuine border-policy documents", () => {
+    // The fix must not cost real coverage — this is the whole risk of tightening.
+    expect(relevant("Securing the Border", "Restricting entry between ports of entry at the southwest border.")).toBe(true);
+    expect(relevant("Expedited Removal at the Border", null)).toBe(true);
+    expect(relevant("Inadmissibility of Certain Aliens", "Grounds of inadmissibility.")).toBe(true);
+    expect(relevant("Application for Employment Authorization", null)).toBe(true);
+  });
+
+  it("keeps the committed store free of pure customs documents", () => {
+    const junk = EVENTS.filter((e) =>
+      /archaeological|ethnological|cargo manifest|free trade agreement|customs user fee|irs interest rate/i.test(
+        e.title
+      )
+    );
+    expect(junk.map((e) => `${e.id}: ${e.title}`)).toEqual([]);
   });
 });

@@ -150,8 +150,38 @@ const RELEVANCE_TERMS = [
   "uscis", "consular",
 ];
 
-function isImmigrationRelevant(doc: FrDocument): boolean {
-  const haystack = `${doc.title} ${doc.abstract ?? ""}`.toLowerCase();
+/**
+ * Remove agency PROPER NAMES before testing topical relevance.
+ *
+ * "U.S. Customs and Border Protection" contains the word "border", and CBP names
+ * itself in the abstract of everything it publishes — so the bare term "border"
+ * matched every customs document the agency has ever issued. Measured on the
+ * live store 2026-08-03: 167 of 685 Federal Register events (24%) had NO
+ * immigration signal except CBP's own name, and 21 of those were ranked major.
+ * Cargo manifests, free-trade agreements, quarterly IRS interest rates and an
+ * ultrasound-transducer country-of-origin determination were all being published
+ * as U.S. immigration policy changes.
+ *
+ * This is the third time a bare keyword has done this — "petition" caused it
+ * twice — and the lesson is the same each time: an agency's identity is not
+ * evidence of a document's subject. Attribution already comes from the API's
+ * structured `agencies` array as an explicit link, so nothing is lost by
+ * refusing to read it as topic.
+ *
+ * Note this strips only AMBIGUOUS agency names. USCIS is not stripped: that
+ * agency does immigration and nothing else, so its name genuinely is evidence.
+ */
+function withoutAgencyNames(text: string): string {
+  return text
+    .replace(/u\.?s\.?\s+customs and border protection/g, " ")
+    .replace(/customs and border protection/g, " ")
+    .replace(/\bcbp\b/g, " ");
+}
+
+// Takes only the two fields it reads, so the build script can re-apply it to a
+// STORED event when retracting what an older, looser filter admitted.
+function isImmigrationRelevant(doc: Pick<FrDocument, "title" | "abstract">): boolean {
+  const haystack = withoutAgencyNames(`${doc.title} ${doc.abstract ?? ""}`.toLowerCase());
   return RELEVANCE_TERMS.some((t) => haystack.includes(t));
 }
 
@@ -170,7 +200,10 @@ function agencyLinks(doc: FrDocument): EventEntityLink[] {
 
 /** Choose the topic this document belongs under, by explicit keyword rule. */
 function topicLink(doc: FrDocument): EventEntityLink | null {
-  const h = `${doc.title} ${doc.abstract ?? ""}`.toLowerCase();
+  // Same agency-name strip as the relevance filter, and for the same reason:
+  // "Customs and Border Protection" was filing every customs rule under the
+  // border topic, which is how topic:border came to hold 232 events.
+  const h = withoutAgencyNames(`${doc.title} ${doc.abstract ?? ""}`.toLowerCase());
   const RULES: [string, string[]][] = [
     ["h1b", ["h-1b", "specialty occupation", "cap-subject"]],
     ["international-students", ["f-1", "sevis", "student and exchange", "optional practical training"]],
