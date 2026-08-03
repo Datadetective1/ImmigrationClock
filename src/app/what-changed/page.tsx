@@ -40,6 +40,7 @@ import {
 } from "@/lib/event-store";
 import { INDEX_COVERAGE } from "@/lib/event-index";
 import { sortEvents } from "@/domains/graph/events";
+import { ReportError } from "@/components/ReportError";
 
 export const metadata = buildMetadata({
   title: "What Changed — U.S. Immigration Policy Tracker",
@@ -216,6 +217,8 @@ export default function WhatChangedPage() {
           </details>
         ) : null}
         </EventExplorer>
+
+        <ReportError context="What Changed" />
 
         <MethodologyNote>
           Every event here comes from an official U.S. government source and links to the original

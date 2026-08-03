@@ -41,6 +41,25 @@ const CATALOG = buildFollowCatalog(EVENT_INDEX, labelForEntity);
 const KNOWN_IDS: ReadonlySet<string> = new Set(CATALOG.map((c) => c.entityId));
 const GROUPED = groupCatalog(CATALOG);
 
+/**
+ * One-click starting points for a reader who has never followed anything.
+ *
+ * The busiest entities in the archive, because a suggestion that returns an
+ * empty feed teaches the reader the feature is broken. Countries and visas are
+ * preferred over agencies where counts allow — "DHS" is the biggest number and
+ * the least useful thing for a person to follow, since almost everything is a
+ * DHS document.
+ */
+const SUGGESTED = (() => {
+  const preferred = CATALOG.filter((c) => c.type === "visa" || c.type === "country")
+    .sort((a, b) => b.eventCount - a.eventCount)
+    .slice(0, 5);
+  const topics = CATALOG.filter((c) => c.type === "topic")
+    .sort((a, b) => b.eventCount - a.eventCount)
+    .slice(0, 3);
+  return [...preferred, ...topics].slice(0, 7);
+})();
+
 function MatchReason({ ids }: { ids: string[] }) {
   if (ids.length === 0) return null;
   return (
@@ -116,7 +135,7 @@ export function FollowingPanel() {
   const atCap = follows.length >= MAX_FOLLOWS;
 
   return (
-    <section aria-labelledby="following-heading" className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 sm:p-5">
+    <section id="follow" aria-labelledby="following-heading" className="rounded-2xl border border-white/5 bg-white/[0.02] p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 id="following-heading" className="text-sm font-semibold text-white">
@@ -224,6 +243,37 @@ export function FollowingPanel() {
               ))
             )}
           </div>
+        </div>
+      ) : null}
+
+      {/* EMPTY STATE. Previously this rendered nothing at all below the header,
+          so a new reader saw an explanation of following and no way to start
+          except a button labelled "Choose topics" that opened a list of ~60.
+          The fastest path from "I don't know what this does" to "oh, that's
+          useful" is one click on something they recognise, so the busiest
+          entities are offered directly, with their change counts visible. */}
+      {follows.length === 0 && !picking ? (
+        <div className="mt-4 border-t border-white/5 pt-4">
+          <p className="text-xs font-medium text-slate-300">
+            Start with one of these, or choose your own:
+          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {SUGGESTED.map((item) => (
+              <button
+                key={item.entityId}
+                type="button"
+                onClick={() => toggle(item.entityId)}
+                className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-accent/50 hover:bg-accent/10 hover:text-white"
+              >
+                + {item.label}
+                <span className="ml-1.5 tabular-nums text-slate-500">{item.eventCount}</span>
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 text-xs leading-relaxed text-slate-500">
+            The number beside each is how many recorded changes already touch it. Nothing is sent to a
+            server &mdash; your list lives in this browser only.
+          </p>
         </div>
       ) : null}
 

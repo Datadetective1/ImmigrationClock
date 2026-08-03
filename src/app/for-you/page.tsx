@@ -2,6 +2,7 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { PersonaRelevance } from "@/components/PersonaRelevance";
+import { FollowingPanel } from "@/components/FollowingPanel";
 import { personaSummaries } from "@/lib/relevance";
 import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
 
@@ -39,6 +40,13 @@ export default function ForYouPage() {
       />
 
       <div className="container-page max-w-3xl space-y-8 py-10">
+        {/* Personal tracking leads this page. "For you" previously meant four
+            fixed personas — useful, but not personal: a reader could not tell it
+            anything about themselves. Following is the only surface that adapts
+            to the individual, and the homepage CTA "Find changes affecting me"
+            lands here, so it has to be the first thing present. */}
+        <FollowingPanel />
+
         <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
 
 

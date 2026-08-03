@@ -11,6 +11,9 @@ import { RelevanceCard } from "@/components/RelevanceCard";
 import { TrendLineChart } from "@/components/charts/Charts";
 import { countryRelevance } from "@/lib/relevance";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
+import { EntityChanges } from "@/components/EntityChanges";
+import { entityId } from "@/domains/graph/entities";
+import { ReportError } from "@/components/ReportError";
 
 export function generateStaticParams() {
   return countries.map((c) => ({ countrySlug: c.slug }));
@@ -84,6 +87,15 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
       <div className="container-page space-y-8 py-10">
         <RelevanceCard summaries={countryRelevance(agg.country.slug)} />
 
+        {/* The question a reader actually arrived with, answered before the
+            charts. Statistics describe the past; a policy change is the thing
+            that might affect them next week. */}
+        <EntityChanges
+          entityId={entityId("country", agg.country.name)}
+          label={agg.country.name}
+          kind="country"
+        />
+
 
         <ChartCard
           title="Visa issuance by fiscal year"
@@ -137,6 +149,8 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
         </div>
 
         <Faq items={faqItems} heading={`${name}: common questions`} />
+
+        <ReportError context={agg.country.name} />
 
         <MethodologyNote>
           Country pages mix multiple datasets that use different definitions and reporting calendars.

@@ -30,6 +30,7 @@ import { useMemo, useState, useEffect, useId } from "react";
 import { formatDate } from "@/lib/format";
 import { trackSearch } from "@/lib/analytics";
 import { SOURCE_BY_KEY } from "@/lib/sources";
+import { labelForEntity } from "@/lib/entity-labels";
 import {
   CLASSIFICATION_LABEL,
   SEVERITY_LABEL,
@@ -153,16 +154,33 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
   const [classifications, setClassifications] = useState<string[]>([]);
   const [order, setOrder] = useState<SortOrder>("newest");
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const [entity, setEntity] = useState<string | null>(null);
   const searchId = useId();
+
+  // Deep link: /what-changed?entity=country:india
+  //
+  // Read from location rather than useSearchParams, deliberately. This page is
+  // statically generated; useSearchParams would push it into dynamic rendering
+  // or require a Suspense boundary around the whole explorer, and neither is
+  // worth it for a filter that only has to apply after hydration.
+  //
+  // Without this, every "see changes affecting X" link on a country, visa, or
+  // agency page would land on an unfiltered archive and quietly lose the reader's
+  // intent.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("entity");
+    if (id && /^[a-z_]+:[a-z0-9-]+$/i.test(id)) setEntity(id);
+  }, []);
 
   const filters: EventFilters = useMemo(
     () => ({
       q,
       severity,
       sourceKey: sources,
+      entityId: entity ?? undefined,
       classification: classifications.length ? (classifications as EventFilters["classification"]) : undefined,
     }),
-    [q, severity, sources, classifications]
+    [q, severity, sources, classifications, entity]
   );
   const active = hasActiveFilters(filters);
   const results = useMemo(
@@ -223,6 +241,9 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
     setSeverity([]);
     setSources([]);
     setClassifications([]);
+    // The entity filter arrives from the URL, so clearing must drop it too —
+    // otherwise "Clear filters" leaves a filter the reader cannot see applied.
+    setEntity(null);
   }
 
   return (
@@ -316,6 +337,26 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
             </Chip>
           ))}
         </div>
+
+        {/* An entity filter applied from a URL must be VISIBLE and removable.
+            A filtered result set that looks unfiltered is how a reader concludes
+            the archive is empty. */}
+        {entity ? (
+          <div className="flex flex-wrap items-center gap-2 border-t border-white/5 pt-3">
+            <span className="text-xs text-slate-500">Showing only changes linked to</span>
+            <button
+              type="button"
+              onClick={() => setEntity(null)}
+              className="group rounded-full border border-accent/50 bg-accent/15 px-3 py-1 text-xs text-white hover:border-status-amber/60"
+              aria-label={`Remove the ${labelForEntity(entity)} filter`}
+            >
+              {labelForEntity(entity)}
+              <span className="ml-1.5 text-slate-400 group-hover:text-status-amber" aria-hidden>
+                ×
+              </span>
+            </button>
+          </div>
+        ) : null}
 
         {active ? (
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/5 pt-3">
