@@ -177,7 +177,8 @@ export function FollowingPanel() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Filter topics — “Venezuela”, “H-1B”, “USCIS”…"
             aria-label="Filter followable topics"
-            className="w-full rounded-lg border border-white/10 bg-ink-850/80 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none"
+            // 16px — see SearchBar. Below that, iOS zooms on focus.
+            className="w-full rounded-lg border border-white/10 bg-ink-850/80 px-3 py-2 text-base text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none"
           />
           {atCap ? (
             <p className="mt-2 text-xs text-status-amber">

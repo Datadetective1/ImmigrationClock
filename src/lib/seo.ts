@@ -52,3 +52,27 @@ export function buildMetadata({
     robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
   };
 }
+
+/**
+ * Serialize structured data for injection into a <script> tag.
+ *
+ * `JSON.stringify` escapes quotes but NOT the sequence `</script>`, so any
+ * string that reaches JSON-LD carrying one would close the tag early and let
+ * whatever follows be parsed as markup. Most of our structured data is
+ * hardcoded, but breadcrumb labels on /employer/[slug] and /company/[slug] come
+ * from DOL disclosure files — third-party text, on 2,600+ generated pages.
+ *
+ * No exploit is known and none is likely; government CSVs are not a realistic
+ * attacker channel. This is one line, it removes the category entirely, and
+ * "the upstream data is probably fine" is not a security control.
+ */
+export function jsonLd(data: unknown): string {
+  return JSON.stringify(data)
+    // NOTE the DOUBLED backslashes. "\\u003c" is what must reach the
+    // OUTPUT string. Writing "\u003c" in a TypeScript literal is simply "<",
+    // so that version replaces "<" with "<" — a no-op that reads exactly like a
+    // fix. The regression test in tests/trust-claims.test.ts caught it here.
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026");
+}

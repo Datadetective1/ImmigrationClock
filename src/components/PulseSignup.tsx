@@ -136,7 +136,10 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
                 required
                 autoComplete="email"
                 placeholder="you@email.com"
-                className="w-full rounded-lg border border-white/10 bg-ink-950/60 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none"
+                // 16px — below that iOS zooms on focus and does not zoom back.
+                // On the newsletter field that lands on the one interaction the
+                // site actually asks a reader to complete.
+                className="w-full rounded-lg border border-white/10 bg-ink-950/60 px-3 py-2 text-base text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none"
               />
               <label className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-400">
                 <input

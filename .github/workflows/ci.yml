@@ -1,0 +1,73 @@
+# Continuous integration — the gate this repository did not have.
+#
+# Until this existed, nothing ran the test suite automatically. 542 tests passed
+# on a developer's machine and were never consulted again, which is how two
+# data-loss defects reached production with a green suite:
+#
+#   • the Federal Register adapters read page one of a 4,196-document result set
+#     and reported no truncation (2.4% coverage, silent),
+#   • /what-changed described its archive using the last build's lookback window
+#     rather than the events it actually holds.
+#
+# Neither was caught, because "the tests pass" was never a fact about `main` —
+# it was a fact about whoever last ran them. This workflow makes it a fact.
+#
+# It deliberately does NOT run the data pipeline. `npm run prebuild` fetches from
+# eight government sources; making that a gate would mean an unrelated agency
+# outage blocks an unrelated pull request. Data freshness is the refresh
+# workflows' job. This job answers one question: does the committed code, with
+# the committed data, still build and hold its invariants?
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  # A newer commit supersedes an in-flight run on the same ref.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Ordered cheapest-first so an obvious failure reports in seconds rather
+      # than after a four-minute static export of 2,699 pages.
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      # Includes the trust-claim, evidence-integrity, and payload-budget suites.
+      # The budget assertion in particular only protects readers if it runs here:
+      # `next build` does not execute tests, so a bloated search index would
+      # otherwise ship unnoticed.
+      - name: Test
+        run: npm test
+
+      # `--ignore-scripts` keeps the `prebuild` hook from firing, so this
+      # compiles the committed data rather than re-fetching from eight agencies.
+      - name: Production build
+        run: npm run build --ignore-scripts
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"

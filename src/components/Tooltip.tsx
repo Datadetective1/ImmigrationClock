@@ -17,7 +17,12 @@ export function Tooltip({ text, label = "What does this mean?" }: { text: string
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
         onClick={() => setOpen((o) => !o)}
-        className="flex h-4 w-4 items-center justify-center rounded-full border border-white/20 text-[10px] font-bold text-slate-400 transition-colors hover:border-accent hover:text-accent"
+        // The visible dot stays 16px; the TARGET is expanded to 24x24 with a
+        // centred transparent pseudo-element. WCAG 2.2 AA 2.5.8 measures the hit
+        // area, not the ink, so this passes without changing the layout — and
+        // this control appears 13 times on the dashboard alone, which is a lot of
+        // 16px targets for a thumb.
+        className="relative flex h-4 w-4 items-center justify-center rounded-full border border-white/20 text-[10px] font-bold text-slate-400 transition-colors hover:border-accent hover:text-accent before:absolute before:left-1/2 before:top-1/2 before:h-6 before:w-6 before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
       >
         i
       </button>

@@ -49,6 +49,16 @@ jobs:
 
       - name: Refresh feeds + build dataset (same pipeline as the deploy)
         run: npm run prebuild
+        env:
+          # Congress ingests nothing without this; absent, the adapter correctly
+          # reports itself unconfigured rather than failing. See docs/deployment.md.
+          CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
+          # The default per-adapter cap is 250. A 90-day incremental window sits
+          # well under it, but the cap is a silent-data-loss risk if a busy
+          # quarter ever exceeds it — and this job is unattended. Raising it here
+          # costs nothing and removes the failure mode; capEvents still reports
+          # if it ever engages.
+          EVENTS_LIMIT: "1000"
 
       - name: Read refresh status
         id: status
@@ -61,18 +71,33 @@ jobs:
           git show HEAD:src/lib/generated/refresh.json > /tmp/old-refresh.json 2>/dev/null || echo '{}' > /tmp/old-refresh.json
           git show HEAD:src/lib/generated/history.json > /tmp/old-history.json 2>/dev/null || echo '{}' > /tmp/old-history.json
           git show HEAD:src/lib/generated/employers.json > /tmp/old-employers.json 2>/dev/null || echo '{}' > /tmp/old-employers.json
+          git show HEAD:src/lib/generated/events.json > /tmp/old-events.json 2>/dev/null || echo '{}' > /tmp/old-events.json
           CHANGED=$(node -e "
           const f=require('fs');
           const j=p=>{try{return JSON.parse(f.readFileSync(p,'utf8'))}catch{return {}}};
-          const sig=(r,h,e)=>JSON.stringify({
+          // Events are part of the signature. They were not, and the omission
+          // meant a new Executive Order — the single most consequential thing
+          // this site reports — produced no commit and therefore no deploy,
+          // because BLS/CBP/WARN had not moved that day. The flagship feature
+          // was not on the automation at all.
+          //
+          // Identity is the set of event IDS, not the file: events.json carries
+          // a generatedAt and a per-run adapter report that change on every run,
+          // so hashing the file would deploy daily and defeat the free-tier gate.
+          const eventSig=e=>{
+            const ids=(e.events||[]).map(x=>x.id).sort();
+            return [ids.length, require('crypto').createHash('sha1').update(ids.join('\n')).digest('hex')];
+          };
+          const sig=(r,h,e,ev)=>JSON.stringify({
             bls:[r.bls&&r.bls.value, r.bls&&r.bls.period],
             cbp:[r.cbp&&r.cbp.currentFyYtd, r.cbp&&r.cbp.fyTotals],
             warn:[r.warn&&r.warn.ytdTotal, r.warn&&r.warn.ytdCount, r.warn&&r.warn.monthly],
             hist:((h.cbpNationwideYtd)||[]).map(x=>[x.period,x.cbpNationwideYtd]),
             emp:[e.fiscalYear, e.count],
+            events:eventSig(ev),
           });
-          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'), j('/tmp/old-employers.json'));
-          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'), j('./src/lib/generated/employers.json'));
+          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'), j('/tmp/old-employers.json'), j('/tmp/old-events.json'));
+          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'), j('./src/lib/generated/employers.json'), j('./src/lib/generated/events.json'));
           process.stdout.write(a===b?'false':'true');
           ")
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
@@ -83,7 +108,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json src/lib/generated/pulse-email.json src/lib/generated/employers.json public/data-manifest.json public/pulse-email.html public/pulse-email.txt
+          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json src/lib/generated/pulse-email.json src/lib/generated/employers.json src/lib/generated/events.json src/lib/generated/events-index.json public/data-manifest.json public/pulse-email.html public/pulse-email.txt
           git commit -m "chore(data): refresh snapshot + archive [skip ci]"
           git push
 
