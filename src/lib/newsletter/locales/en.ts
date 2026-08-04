@@ -39,10 +39,40 @@ export const en: LocaleStrings = {
   },
 
   sections: {
-    topChanges: "This week's changes",
+    snapshot: "This week at a glance",
+    topChanges: "What changed this week",
+    unchanged: "What did not change",
+    upcoming: "Coming up",
     quickNumbers: "By the numbers",
     explore: "Continue exploring ImmigrationClock",
   },
+
+  snapshot: {
+    readingTime: (m) => `Estimated reading time: ${m} minute${m === 1 ? "" : "s"}`,
+    none: (label) => `No ${label.toLowerCase()}`,
+  },
+
+  unchanged: {
+    intro:
+      "We monitor these closely. Nothing was recorded against them this week — which describes our " +
+      "archive, not the whole world, so keep checking the official source before acting.",
+    topics: {
+      h1b: "H-1B rules and the cap",
+      daca: "DACA",
+      tps: "Temporary Protected Status",
+      asylum: "Asylum and refugee admissions",
+      students: "F-1 student visas",
+      employmentGreenCard: "Employment-based green cards",
+    },
+    allChanged: "Every topic we watch closely moved this week — see the changes above.",
+  },
+
+  upcoming: {
+    recurring: "Recurring",
+    note: "Dates published by the agency itself. They can move; the source link is the authority.",
+  },
+
+  leadGroup: (label) => `Top ${label} changes`,
 
   item: {
     severity: { major: "Major", notable: "Notable", routine: "Routine" },

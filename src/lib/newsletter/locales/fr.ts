@@ -39,10 +39,40 @@ export const fr: LocaleStrings = {
   },
 
   sections: {
-    topChanges: "Les changements de la semaine",
+    snapshot: "La semaine en bref",
+    topChanges: "Ce qui a changé cette semaine",
+    unchanged: "Ce qui n'a pas changé",
+    upcoming: "À venir",
     quickNumbers: "En chiffres",
     explore: "Continuez à explorer ImmigrationClock",
   },
+
+  snapshot: {
+    readingTime: (m) => `Temps de lecture estimé : ${m} minute${m === 1 ? "" : "s"}`,
+    none: (label) => `Aucun${/^[aeiouéè]/i.test(label) ? "e" : ""} ${label.toLowerCase()}`,
+  },
+
+  unchanged: {
+    intro:
+      "Nous surveillons ces sujets de près. Rien n'a été enregistré les concernant cette semaine, ce " +
+      "qui décrit nos archives et non le monde entier : vérifiez toujours la source officielle avant d'agir.",
+    topics: {
+      h1b: "Règles H-1B et quota annuel",
+      daca: "DACA",
+      tps: "Statut de protection temporaire (TPS)",
+      asylum: "Asile et admission de réfugiés",
+      students: "Visas étudiants F-1",
+      employmentGreenCard: "Cartes vertes par l'emploi",
+    },
+    allChanged: "Tous les sujets que nous suivons ont évolué cette semaine — voir ci-dessus.",
+  },
+
+  upcoming: {
+    recurring: "Récurrent",
+    note: "Dates publiées par l'agence elle-même. Elles peuvent changer ; le lien fait foi.",
+  },
+
+  leadGroup: (label) => `Principaux changements : ${label}`,
 
   item: {
     severity: { major: "Majeur", notable: "Notable", routine: "Courant" },

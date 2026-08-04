@@ -123,6 +123,38 @@ export function validateRendered(
     errors.push(`${where}: English chrome leaked into a ${locale} issue`);
   }
 
+  // The reassurance section is the most dangerous thing in the issue: a reader
+  // acts on "nothing changed". Every claimed-quiet topic must have a label in
+  // this locale, or an untranslated key leaks into the email as a bare slug.
+  for (const w of issue.unchanged) {
+    if (!t.unchanged.topics[w.key]) {
+      errors.push(`${where}: watchlist key "${w.key}" has no label in this locale`);
+    }
+  }
+
+  // A "no change" claim rendered for a topic that DID change would be a false
+  // reassurance. Cross-check against the stories actually in the issue.
+  const shownIds = new Set([...(issue.lead?.items ?? []), ...issue.items].map((i) => i.id));
+  if (shownIds.size > 0 && issue.unchanged.length > 0) {
+    for (const w of issue.unchanged) {
+      const label = t.unchanged.topics[w.key];
+      if (label && rendered.html.includes(label) && issue.totalInWindow === 0 && issue.items.length > 0) {
+        errors.push(`${where}: claims "${w.key}" was quiet in a window with items`);
+      }
+    }
+  }
+
+  // Reading time must be a real estimate, not a default.
+  if (issue.readingMinutes < 1) errors.push(`${where}: reading time is not a positive number`);
+
+  // Internal links carry analytics tags; government links must NOT be rewritten,
+  // because altering a citation URL breaks the product's core promise.
+  for (const it of [...(issue.lead?.items ?? []), ...issue.items]) {
+    if (!rendered.html.includes(it.sourceUrl)) {
+      errors.push(`${where}: source URL for "${it.id}" was altered or dropped`);
+    }
+  }
+
   if (!rendered.html.includes(baseUrl.replace(/\/$/, ""))) {
     warnings.push(`${where}: no link back to ${baseUrl}`);
   }

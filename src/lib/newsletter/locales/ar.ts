@@ -46,10 +46,40 @@ export const ar: LocaleStrings = {
   },
 
   sections: {
-    topChanges: "تغييرات هذا الأسبوع",
+    snapshot: "الأسبوع في لمحة",
+    topChanges: "ما الذي تغيّر هذا الأسبوع",
+    unchanged: "ما الذي لم يتغيّر",
+    upcoming: "مواعيد قادمة",
     quickNumbers: "بالأرقام",
     explore: "تابع استكشاف ImmigrationClock",
   },
+
+  snapshot: {
+    readingTime: (m) => `وقت القراءة التقريبي: ${m} دقائق`,
+    none: (label) => `لا يوجد ${label}`,
+  },
+
+  unchanged: {
+    intro:
+      "نراقب هذه المواضيع عن كثب. لم يُسجَّل بشأنها شيء هذا الأسبوع، وهذا وصف لأرشيفنا وليس للعالم كله — " +
+      "تحقّق دائماً من المصدر الرسمي قبل اتخاذ أي إجراء.",
+    topics: {
+      h1b: "قواعد H-1B والحد الأقصى السنوي",
+      daca: "برنامج DACA",
+      tps: "وضع الحماية المؤقتة (TPS)",
+      asylum: "اللجوء وقبول اللاجئين",
+      students: "تأشيرات الطلاب F-1",
+      employmentGreenCard: "البطاقات الخضراء القائمة على العمل",
+    },
+    allChanged: "جميع المواضيع التي نتابعها شهدت تغييرات هذا الأسبوع — انظر أعلاه.",
+  },
+
+  upcoming: {
+    recurring: "متكرر",
+    note: "مواعيد نشرتها الجهة نفسها. قد تتغيّر، والرابط هو المرجع.",
+  },
+
+  leadGroup: (label) => `أهم تغييرات ${label}`,
 
   item: {
     severity: { major: "مهم", notable: "جدير بالملاحظة", routine: "روتيني" },

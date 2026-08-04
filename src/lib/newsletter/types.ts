@@ -107,6 +107,52 @@ export interface IssueStat {
   value: number;
 }
 
+/**
+ * A topic we watch closely enough to report its SILENCE.
+ *
+ * "No changes to DACA this week" is only publishable if we would actually have
+ * detected a change — so a watch entry must name an entity that exists in the
+ * resolution vocabulary. Claiming quiet on something we do not monitor is a
+ * false negative, and on this subject a false "nothing changed" is worse than
+ * saying nothing at all: people act on reassurance.
+ */
+export interface WatchTopic {
+  /** Entity ids that would carry a change to this topic. */
+  entityIds: string[];
+  /** Key into the locale's `watchlist` map. */
+  key: string;
+}
+
+/** An upcoming date, carried forward from the site's key-dates register. */
+export interface UpcomingDate {
+  title: string;
+  detail: string;
+  /** ISO date when there is a fixed one; absent for recurring cadences. */
+  date?: string;
+  /** e.g. "Monthly" — shown instead of a date. */
+  cadence?: string;
+  sourceName: string;
+  sourceUrl: string;
+}
+
+/** One of the rotating resource links. `key` indexes the locale's explore map. */
+export interface ResourceLink {
+  key: string;
+  href: string;
+}
+
+/**
+ * Stories grouped ahead of the general feed because the subscriber asked for
+ * them. Absent on a general edition.
+ */
+export interface LeadGroup {
+  /** The entity that earned the group its place, e.g. "visa:h-1b". */
+  entityId: string;
+  /** Display label, already resolved — the renderer does not look entities up. */
+  label: string;
+  items: IssueItem[];
+}
+
 /** Everything one edition needs, before it knows what language it speaks. */
 export interface Issue {
   /** Stable id: "<segment>-<isoDate>", used for archive paths and idempotency. */
@@ -117,8 +163,30 @@ export interface Issue {
   to: string;
   /** Date the edition is published. */
   issuedAt: string;
+  /** General feed. Excludes anything already shown in `lead`. */
   items: IssueItem[];
+  /**
+   * Personalized stories, rendered BEFORE `items`. Populated only when the
+   * segment names entities — which is how "Top H-1B Changes" leads an H-1B
+   * subscriber's issue without a second template or a second code path.
+   */
+  lead?: LeadGroup;
   stats: IssueStat[];
+  /**
+   * Stat keys that came back ZERO and are worth saying so about.
+   * "No Executive Orders this week" is reassurance a reader cannot get from a
+   * list that simply omits them, which is why zeros are carried explicitly
+   * rather than filtered out with the rest.
+   */
+  absentStats: string[];
+  /** Topics we monitor that recorded NOTHING this window. */
+  unchanged: WatchTopic[];
+  /** The next few official dates, so an issue looks forward as well as back. */
+  upcoming: UpcomingDate[];
+  /** Three of six, rotated by issue date so the footer is never stale. */
+  resources: ResourceLink[];
+  /** Whole minutes, from the word count of the rendered issue. */
+  readingMinutes: number;
   /** Total events in the window before the per-issue item cap. */
   totalInWindow: number;
 }

@@ -19,9 +19,20 @@ interface Edition {
   htmlPath: string;
   textPath: string;
   audienceConfigured: boolean;
+  readingMinutes: number;
+  changeCount: number;
+  agencyCount: number;
+  unchangedCount: number;
+  upcomingCount: number;
+  translatedStrings: number;
+  htmlBytes: number;
+  textBytes: number;
+  spamFlags: string[];
   errors: string[];
   warnings: string[];
 }
+
+const kb = (n: number) => `${(n / 1024).toFixed(1)} KB`;
 
 /**
  * Operator view of the newsletter pipeline.
@@ -73,12 +84,18 @@ export default function PulseEmailAdminPage() {
         ) : null}
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[560px] text-left text-sm">
+          <table className="w-full min-w-[900px] text-left text-sm">
             <thead>
               <tr className="border-b border-white/10 text-xs uppercase tracking-wider text-slate-500">
                 <th className="py-2 pr-3 font-medium">Edition</th>
                 <th className="py-2 pr-3 font-medium">Subject</th>
-                <th className="py-2 pr-3 font-medium">Items</th>
+                <th className="py-2 pr-3 font-medium">Changes</th>
+                <th className="py-2 pr-3 font-medium">Read</th>
+                <th className="py-2 pr-3 font-medium">Agencies</th>
+                <th className="py-2 pr-3 font-medium">Strings</th>
+                <th className="py-2 pr-3 font-medium">HTML</th>
+                <th className="py-2 pr-3 font-medium">Text</th>
+                <th className="py-2 pr-3 font-medium">Spam</th>
                 <th className="py-2 pr-3 font-medium">Audience</th>
                 <th className="py-2 font-medium">Preview</th>
               </tr>
@@ -89,7 +106,21 @@ export default function PulseEmailAdminPage() {
                   <td className="py-2.5 pr-3 font-mono text-xs text-slate-300">{e.segment}</td>
                   <td className="py-2.5 pr-3 text-slate-200">{e.subject}</td>
                   <td className="py-2.5 pr-3 tabular-nums text-slate-400">
-                    {e.items} <span className="text-slate-500">of {e.totalInWindow}</span>
+                    {e.changeCount} <span className="text-slate-500">of {e.totalInWindow}</span>
+                  </td>
+                  <td className="py-2.5 pr-3 tabular-nums text-slate-400">{e.readingMinutes} min</td>
+                  <td className="py-2.5 pr-3 tabular-nums text-slate-400">{e.agencyCount}</td>
+                  <td className="py-2.5 pr-3 tabular-nums text-slate-400">{e.translatedStrings}</td>
+                  <td className="py-2.5 pr-3 tabular-nums text-slate-400">{kb(e.htmlBytes)}</td>
+                  <td className="py-2.5 pr-3 tabular-nums text-slate-400">{kb(e.textBytes)}</td>
+                  <td className="py-2.5 pr-3 text-xs">
+                    {e.spamFlags.length === 0 ? (
+                      <span className="text-slate-300">clean</span>
+                    ) : (
+                      <span className="text-status-amber" title={e.spamFlags.join("; ")}>
+                        {e.spamFlags.length} flag{e.spamFlags.length === 1 ? "" : "s"}
+                      </span>
+                    )}
                   </td>
                   <td className="py-2.5 pr-3 text-xs">
                     {e.audienceConfigured ? (
@@ -112,6 +143,12 @@ export default function PulseEmailAdminPage() {
             </tbody>
           </table>
         </div>
+
+        <p className="text-xs leading-relaxed text-slate-500">
+          &ldquo;Spam&rdquo; is a local heuristic (plain-text length, subject shape, link count,
+          unsubscribe presence), not a seed-inbox test. It catches the obvious regressions; it does not
+          predict inbox placement.
+        </p>
 
         {unconfigured.length > 0 ? (
           <p className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-xs leading-relaxed text-slate-400">

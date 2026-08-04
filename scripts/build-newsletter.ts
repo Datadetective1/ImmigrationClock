@@ -22,12 +22,24 @@ import { fileURLToPath } from "node:url";
 
 import { SITE } from "../src/lib/site";
 import { LOCALES, type Cadence, type Locale, type Segment } from "../src/lib/newsletter/types";
+import { STRINGS } from "../src/lib/newsletter/locales";
 import { selectIssue } from "../src/lib/newsletter/select";
 import { renderIssue } from "../src/lib/newsletter/render";
 import { validateIssue, validateRendered, mergeResults } from "../src/lib/newsletter/validate";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const CONTACT = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
+
+/** How many leaf strings a locale actually defines — a translation-coverage number. */
+function countStrings(locale: Locale): number {
+  const walk = (v: unknown): number => {
+    if (typeof v === "string") return 1;
+    if (typeof v === "function") return 1;
+    if (v && typeof v === "object") return Object.values(v).reduce<number>((n, x) => n + walk(x), 0);
+    return 0;
+  };
+  return walk(STRINGS[locale]);
+}
 
 const cadence = (process.env.NEWSLETTER_CADENCE as Cadence) || "weekly";
 const today = process.env.NEWSLETTER_DATE || new Date().toISOString().slice(0, 10);
@@ -79,6 +91,19 @@ async function main() {
     await write(`${dir}/${segment.locale}.html`, rendered.html);
     await write(`${dir}/${segment.locale}.txt`, rendered.text);
 
+    // Simple heuristics an operator can act on. Not a substitute for a real
+    // seed test, and labelled as an estimate wherever it is shown.
+    const spamFlags: string[] = [];
+    if (rendered.text.trim().length < 500) spamFlags.push("thin plain-text part");
+    if (/!{2,}|FREE|ACT NOW|CLICK HERE/i.test(rendered.subject)) spamFlags.push("subject reads promotional");
+    if (rendered.subject.length > 60) spamFlags.push("subject may truncate");
+    if ((rendered.html.match(/href="/g) ?? []).length > 40) spamFlags.push("high link count");
+    if (!/unsubscribe/i.test(rendered.html)) spamFlags.push("no unsubscribe link");
+
+    const agencies = new Set(
+      [...(issue.lead?.items ?? []), ...issue.items].map((i) => i.agency).filter(Boolean)
+    );
+
     manifest.push({
       issueId: issue.id,
       segment: segment.id,
@@ -92,6 +117,15 @@ async function main() {
       htmlPath: `${dir}/${segment.locale}.html`,
       textPath: `${dir}/${segment.locale}.txt`,
       audienceConfigured: Boolean(segment.audienceId),
+      readingMinutes: issue.readingMinutes,
+      changeCount: issue.items.length + (issue.lead?.items.length ?? 0),
+      agencyCount: agencies.size,
+      unchangedCount: issue.unchanged.length,
+      upcomingCount: issue.upcoming.length,
+      translatedStrings: countStrings(segment.locale),
+      htmlBytes: Buffer.byteLength(rendered.html, "utf8"),
+      textBytes: Buffer.byteLength(rendered.text, "utf8"),
+      spamFlags,
       errors,
       warnings,
     });

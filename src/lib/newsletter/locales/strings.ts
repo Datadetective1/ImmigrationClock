@@ -40,10 +40,39 @@ export interface LocaleStrings {
   };
 
   sections: {
+    snapshot: string;
     topChanges: string;
+    unchanged: string;
+    upcoming: string;
     quickNumbers: string;
     explore: string;
   };
+
+  snapshot: {
+    /** "Estimated reading time: 4 minutes" — plural rules vary, so a function. */
+    readingTime: (minutes: number) => string;
+    /** "No Executive Orders" — takes an already-translated stat label. */
+    none: (label: string) => string;
+  };
+
+  /** "What did NOT change" — the section that answers a weekly worry. */
+  unchanged: {
+    intro: string;
+    /** Labels keyed by WATCHLIST key. */
+    topics: Record<string, string>;
+    /** Shown when every watched topic DID move this week. */
+    allChanged: string;
+  };
+
+  upcoming: {
+    /** Shown instead of a date for recurring items, e.g. the Visa Bulletin. */
+    recurring: string;
+    /** Reassures that these are scheduled, not predicted. */
+    note: string;
+  };
+
+  /** Heading for the personalized group, e.g. "Top H-1B changes". */
+  leadGroup: (label: string) => string;
 
   item: {
     severity: { major: string; notable: string; routine: string };

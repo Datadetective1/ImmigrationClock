@@ -32,6 +32,45 @@ const PANEL = "#f8fafc";
 /** Amber, used only for "not in force" — the one factual warning we render. */
 const WARN = "#b45309";
 
+/**
+ * Section icons.
+ *
+ * Unicode glyphs, not images. Every client blocks remote images by default, so
+ * an icon set built from <img> arrives as a row of broken boxes on first open —
+ * and an icon font is worse. These render everywhere, survive dark mode, and
+ * cost nothing. They are decorative, so the plain-text version omits them.
+ */
+const ICON = {
+  snapshot: "◷",   // ◷ clock face — the week at a glance
+  changes: "◆",    // ◆ solid diamond — the substantive section
+  unchanged: "✓",  // ✓ check — nothing moved
+  upcoming: "→",   // → forward arrow — what is next
+  numbers: "▦",    // ▦ grid — counts
+  resources: "★",  // ★ star — popular destinations
+} as const;
+
+/**
+ * Tag an INTERNAL link for analytics.
+ *
+ * Applied to immigrationclock.com URLs only. A government source URL is never
+ * touched: appending our tracking parameters to a federalregister.gov link
+ * would alter a citation, and on a platform whose promise is "this is the
+ * document" that is not a tradeoff worth making — some agency URLs are also
+ * sensitive to unexpected query strings.
+ */
+function tagged(href: string, issue: Issue, base: string): string {
+  if (!href.startsWith(base)) return href;
+  const url = new URL(href);
+  url.searchParams.set("utm_source", "newsletter");
+  url.searchParams.set("utm_medium", "email");
+  url.searchParams.set("utm_campaign", issue.id);
+  url.searchParams.set("utm_content", issue.segment.cadence);
+  url.searchParams.set("locale", issue.segment.locale);
+  url.searchParams.set("edition", issue.id);
+  url.searchParams.set("segment", issue.segment.id);
+  return url.toString();
+}
+
 export function esc(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -72,6 +111,15 @@ export function renderIssue(
   const align = rtl ? "right" : "left";
   const n = issue.items.length;
 
+  // 18px section titles, per the mobile brief: at 12px these read as captions
+  // on a phone and the eye skates past them.
+  // <h2>, not <p>: a screen-reader user navigating this email by heading was
+  // getting four story titles and no document structure. Explicit margin because
+  // clients apply their own to headings.
+  const sectionTitle = (icon: string, text: string) =>
+    `<h2 style="margin:0 0 14px;font:700 18px/1.3 Arial,sans-serif;color:${INK};">` +
+    `<span style="color:${ACCENT};" aria-hidden="true">${icon}</span>&nbsp;&nbsp;${esc(text)}</h2>`;
+
   const archiveUrl = `${base}/newsletter/${issue.id}/${locale}.html`;
   const unsub = contactEmail
     ? `mailto:${contactEmail}?subject=${encodeURIComponent("Unsubscribe from Immigration Pulse")}`
@@ -89,7 +137,10 @@ export function renderIssue(
   }).join(`<span style="color:#cbd5e1;"> &nbsp;/&nbsp; </span>`);
 
   // ---- Story cards -----------------------------------------------------------
-  const cards = issue.items
+  // One card renderer, used by both the personalized lead group and the general
+  // feed. Two card layouts would drift.
+  const renderCards = (items: Issue["items"]) =>
+    items
     .map((it) => {
       const badge = (text: string, color: string, bg: string) =>
         `<span style="display:inline-block;padding:3px 8px;border-radius:6px;background:${bg};color:${color};font:700 11px Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;">${esc(text)}</span>`;
@@ -113,7 +164,7 @@ export function renderIssue(
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid ${HAIRLINE};border-radius:12px;">
           <tr><td style="padding:20px 22px;" align="${align}">
             <div style="margin-bottom:10px;">${severityBadge}${forceBadge}</div>
-            <h2 style="margin:0 0 10px;font:700 18px/1.35 Arial,sans-serif;color:${INK};">${esc(it.title)}</h2>
+            <h3 style="margin:0 0 10px;font:700 18px/1.35 Arial,sans-serif;color:${INK};">${esc(it.title)}</h3>
             <p style="margin:0 0 12px;font:400 15px/1.6 Arial,sans-serif;color:${BODY};">${esc(it.summary)}</p>
             <p style="margin:0;font:400 13px/1.6 Arial,sans-serif;color:${MUTED};">
               <strong style="color:${BODY};">${esc(t.item.agency)}:</strong> ${esc(it.agency)}
@@ -123,7 +174,7 @@ export function renderIssue(
             ${why}
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;"><tr>
               <td bgcolor="${ACCENT}" style="background:${ACCENT};border-radius:8px;">
-                <a href="${esc(it.sourceUrl)}" style="display:block;padding:12px 20px;font:700 14px Arial,sans-serif;color:#ffffff;text-decoration:none;">${esc(t.item.readDocument)} &rarr;</a>
+                <a href="${esc(it.sourceUrl)}" style="display:block;padding:14px 22px;font:700 15px Arial,sans-serif;color:#ffffff;text-decoration:none;">${esc(t.item.readDocument)} &rarr;</a>
               </td>
             </tr></table>
           </td></tr>
@@ -143,11 +194,63 @@ export function renderIssue(
     )
     .join("");
 
+  // ---- Weekly snapshot -------------------------------------------------------
+  // Counts first, then the reassuring negatives, then how long this will take.
+  const snapshotBullets = [
+    ...issue.stats.filter((x) => t.stats[x.key]).map((x) => `${x.value} &mdash; ${esc(t.stats[x.key])}`),
+    ...issue.absentStats.filter((k) => t.stats[k]).map((k) => esc(t.snapshot.none(t.stats[k]))),
+  ]
+    .map(
+      (line) =>
+        `<tr><td style="padding:5px 0;font:400 15px/1.5 Arial,sans-serif;color:${BODY};" align="${align}">
+           <span style="color:${ACCENT};" aria-hidden="true">&bull;</span>&nbsp;&nbsp;${line}
+         </td></tr>`
+    )
+    .join("");
+
+  // ---- What did NOT change ---------------------------------------------------
+  const unchangedRows = issue.unchanged
+    .filter((w) => t.unchanged.topics[w.key])
+    .map(
+      (w) =>
+        `<tr><td style="padding:6px 0;font:400 15px/1.5 Arial,sans-serif;color:${BODY};" align="${align}">
+           <span style="color:${ACCENT};font-weight:700;" aria-hidden="true">&#10003;</span>&nbsp;&nbsp;${esc(t.unchanged.topics[w.key])}
+         </td></tr>`
+    )
+    .join("");
+
+  // ---- Coming up -------------------------------------------------------------
+  const upcomingRows = issue.upcoming
+    .map(
+      (u) => `<tr><td style="padding:10px 0;border-bottom:1px solid ${HAIRLINE};" align="${align}">
+        <p style="margin:0 0 3px;font:700 15px Arial,sans-serif;color:${INK};">${esc(u.title)}</p>
+        <p style="margin:0 0 4px;font:400 13px/1.5 Arial,sans-serif;color:${BODY};">${esc(u.detail)}</p>
+        <p style="margin:0;font:400 12px Arial,sans-serif;color:${MUTED};">
+          ${esc(u.date ?? u.cadence ?? t.upcoming.recurring)}
+          &nbsp;&middot;&nbsp;
+          <a href="${esc(u.sourceUrl)}" style="color:${MUTED};text-decoration:underline;">${esc(u.sourceName)}</a>
+        </p>
+      </td></tr>`
+    )
+    .join("");
+
+  // ---- Rotating resources ----------------------------------------------------
+  // Three of six, chosen by ISO week in the selector. Showing all six every
+  // week trains readers to skip the block entirely.
+  const resourceRows = issue.resources
+    .filter((r) => t.explore[r.key as keyof typeof t.explore])
+    .map(
+      (r) => `<tr><td style="padding:9px 0;border-bottom:1px solid ${HAIRLINE};" align="${align}">
+        <a href="${tagged(`${base}${r.href}`, issue, base)}" style="font:600 16px Arial,sans-serif;color:${ACCENT};text-decoration:none;">${esc(t.explore[r.key as keyof typeof t.explore])} &rarr;</a>
+      </td></tr>`
+    )
+    .join("");
+
   const exploreCells = exploreTargets(base)
     .map(
       (e) =>
-        `<tr><td style="padding:7px 0;border-bottom:1px solid ${HAIRLINE};" align="${align}">
-          <a href="${e.href}" style="font:600 15px Arial,sans-serif;color:${ACCENT};text-decoration:none;">${esc(t.explore[e.key])} &rarr;</a>
+        `<tr><td style="padding:9px 0;border-bottom:1px solid ${HAIRLINE};" align="${align}">
+          <a href="${tagged(e.href, issue, base)}" style="font:600 16px Arial,sans-serif;color:${ACCENT};text-decoration:none;">${esc(t.explore[e.key])} &rarr;</a>
         </td></tr>`
     )
     .join("");
@@ -180,7 +283,7 @@ export function renderIssue(
         <!-- Masthead -->
         <tr><td style="background:${INK};padding:26px 28px;" align="${align}">
           <div style="font:800 21px Arial,sans-serif;color:#ffffff;letter-spacing:-.01em;">Immigration<span style="color:${ACCENT};">Clock</span></div>
-          <div style="margin-top:8px;font:700 15px Arial,sans-serif;color:#ffffff;">${esc(t.brand.tagline)}</div>
+          <h1 style="margin:8px 0 0;font:700 15px Arial,sans-serif;color:#ffffff;">${esc(t.brand.tagline)}</h1>
           <div style="margin-top:4px;font:400 13px Arial,sans-serif;color:#94a3b8;">${esc(t.issueLabel(issue.from, issue.to))}</div>
           <div style="margin-top:10px;font:400 12px/1.5 Arial,sans-serif;color:#94a3b8;">${esc(t.brand.strapline)}</div>
         </td></tr>
@@ -192,28 +295,80 @@ export function renderIssue(
           </p>
         </td></tr>
 
+        <!-- 1. WEEKLY SNAPSHOT — the executive summary, before any story. -->
+        ${
+          snapshotBullets
+            ? `<tr><td style="padding:24px 28px 0;" align="${align}">
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${PANEL};border:1px solid ${HAIRLINE};border-radius:12px;">
+                   <tr><td style="padding:20px 22px;" align="${align}">
+                     ${sectionTitle(ICON.snapshot, t.sections.snapshot)}
+                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${snapshotBullets}</table>
+                     <p style="margin:14px 0 0;padding-top:12px;border-top:1px solid ${HAIRLINE};font:700 14px Arial,sans-serif;color:${INK};">${esc(t.snapshot.readingTime(issue.readingMinutes))}</p>
+                   </td></tr>
+                 </table>
+               </td></tr>`
+            : ""
+        }
+
+        <!-- 2a. PERSONALIZED LEAD — only when the segment asked for it. -->
+        ${
+          issue.lead && issue.lead.items.length
+            ? `<tr><td style="padding:26px 28px 0;" align="${align}">
+                 ${sectionTitle(ICON.changes, t.leadGroup(issue.lead.label))}
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${renderCards(issue.lead.items)}</table>
+               </td></tr>`
+            : ""
+        }
+
+        <!-- 2b. WHAT CHANGED THIS WEEK -->
         ${
           n > 0
-            ? `<tr><td style="padding:22px 28px 0;" align="${align}">
-                 <p style="margin:0 0 14px;font:700 12px Arial,sans-serif;color:${MUTED};text-transform:uppercase;letter-spacing:.06em;">${esc(t.sections.topChanges)}</p>
-                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${cards}</table>
+            ? `<tr><td style="padding:26px 28px 0;" align="${align}">
+                 ${sectionTitle(ICON.changes, t.sections.topChanges)}
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${renderCards(issue.items)}</table>
+               </td></tr>`
+            : ""
+        }
+
+        <!-- 3. WHAT DID NOT CHANGE — the section that answers a weekly worry. -->
+        <tr><td style="padding:20px 28px 0;" align="${align}">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${PANEL};border:1px solid ${HAIRLINE};border-radius:12px;">
+            <tr><td style="padding:20px 22px;" align="${align}">
+              ${sectionTitle(ICON.unchanged, t.sections.unchanged)}
+              ${
+                unchangedRows
+                  ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${unchangedRows}</table>
+                     <p style="margin:14px 0 0;font:400 13px/1.6 Arial,sans-serif;color:${MUTED};">${esc(t.unchanged.intro)}</p>`
+                  : `<p style="margin:0;font:400 15px/1.6 Arial,sans-serif;color:${BODY};">${esc(t.unchanged.allChanged)}</p>`
+              }
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- 4. COMING UP -->
+        ${
+          upcomingRows
+            ? `<tr><td style="padding:24px 28px 0;" align="${align}">
+                 ${sectionTitle(ICON.upcoming, t.sections.upcoming)}
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${upcomingRows}</table>
+                 <p style="margin:12px 0 0;font:400 12px/1.6 Arial,sans-serif;color:${MUTED};">${esc(t.upcoming.note)}</p>
                </td></tr>`
             : ""
         }
 
         ${
           statRows
-            ? `<tr><td style="padding:6px 28px 0;" align="${align}">
-                 <p style="margin:0 0 8px;font:700 12px Arial,sans-serif;color:${MUTED};text-transform:uppercase;letter-spacing:.06em;">${esc(t.sections.quickNumbers)}</p>
+            ? `<tr><td style="padding:24px 28px 0;" align="${align}">
+                 ${sectionTitle(ICON.numbers, t.sections.quickNumbers)}
                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${statRows}</table>
                </td></tr>`
             : ""
         }
 
-        <!-- Continue exploring -->
+        <!-- 5. POPULAR RESOURCES — three of six, rotated weekly. -->
         <tr><td style="padding:24px 28px 0;" align="${align}">
-          <p style="margin:0 0 8px;font:700 12px Arial,sans-serif;color:${MUTED};text-transform:uppercase;letter-spacing:.06em;">${esc(t.sections.explore)}</p>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${exploreCells}</table>
+          ${sectionTitle(ICON.resources, t.sections.explore)}
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${resourceRows || exploreCells}</table>
         </td></tr>
 
         <!-- Trust -->
@@ -229,15 +384,15 @@ export function renderIssue(
         <!-- Footer -->
         <tr><td style="background:${PANEL};padding:20px 28px;border-top:1px solid ${HAIRLINE};" align="${align}">
           <p style="margin:0 0 10px;font:400 13px Arial,sans-serif;color:${MUTED};">
-            <a href="${archiveUrl}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.viewOnline)}</a>
+            <a href="${tagged(archiveUrl, issue, base)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.viewOnline)}</a>
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="${base}/about" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.about)}</a>
+            <a href="${tagged(`${base}/about`, issue, base)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.about)}</a>
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="${base}/methodology" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.methodology)}</a>
+            <a href="${tagged(`${base}/methodology`, issue, base)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.methodology)}</a>
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="${base}/sources" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.sources)}</a>
+            <a href="${tagged(`${base}/sources`, issue, base)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.sources)}</a>
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="${base}/privacy" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.privacy)}</a>
+            <a href="${tagged(`${base}/privacy`, issue, base)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.privacy)}</a>
             ${contactEmail ? `<span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span><a href="mailto:${esc(contactEmail)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.contact)}</a>` : ""}
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
             <a href="${unsub}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.unsubscribe)}</a>
@@ -264,18 +419,55 @@ export function renderIssue(
     "",
   ];
 
+  // Snapshot, in the same order as the HTML.
+  const snapLines = [
+    ...issue.stats.filter((x) => t.stats[x.key]).map((x) => `  - ${x.value} ${t.stats[x.key]}`),
+    ...issue.absentStats.filter((k) => t.stats[k]).map((k) => `  - ${t.snapshot.none(t.stats[k])}`),
+  ];
+  if (snapLines.length) {
+    lines.push(t.sections.snapshot.toUpperCase(), "", ...snapLines, "", t.snapshot.readingTime(issue.readingMinutes), "");
+  }
+
+  const textCard = (it: (typeof issue.items)[number]) => {
+    lines.push(`[${t.item.severity[it.severity]}]${it.notInForce ? ` [${t.item.notInForce}]` : ""}`);
+    lines.push(it.title);
+    lines.push(it.summary);
+    if (it.whyItMatters) lines.push(`${t.item.whyItMatters}: ${it.whyItMatters}`);
+    lines.push(`${t.item.agency}: ${it.agency}`);
+    lines.push(`${it.scheduled ? t.item.scheduled : t.item.published}: ${it.publishedAt}`);
+    lines.push(`${t.item.readDocument}: ${it.sourceUrl}`);
+    lines.push("");
+  };
+
+  if (issue.lead && issue.lead.items.length) {
+    lines.push(t.leadGroup(issue.lead.label).toUpperCase(), "");
+    for (const it of issue.lead.items) textCard(it);
+  }
+
   if (n > 0) {
     lines.push(t.sections.topChanges.toUpperCase(), "");
-    for (const it of issue.items) {
-      lines.push(`[${t.item.severity[it.severity]}]${it.notInForce ? ` [${t.item.notInForce}]` : ""}`);
-      lines.push(it.title);
-      lines.push(it.summary);
-      if (it.whyItMatters) lines.push(`${t.item.whyItMatters}: ${it.whyItMatters}`);
-      lines.push(`${t.item.agency}: ${it.agency}`);
-      lines.push(`${it.scheduled ? t.item.scheduled : t.item.published}: ${it.publishedAt}`);
-      lines.push(`${t.item.readDocument}: ${it.sourceUrl}`);
-      lines.push("");
+    for (const it of issue.items) textCard(it);
+  }
+
+  // What did NOT change.
+  lines.push(t.sections.unchanged.toUpperCase(), "");
+  const unchangedNames = issue.unchanged.filter((w) => t.unchanged.topics[w.key]);
+  if (unchangedNames.length) {
+    for (const w of unchangedNames) lines.push(`  - ${t.unchanged.topics[w.key]}`);
+    lines.push("", t.unchanged.intro, "");
+  } else {
+    lines.push(t.unchanged.allChanged, "");
+  }
+
+  // Coming up.
+  if (issue.upcoming.length) {
+    lines.push(t.sections.upcoming.toUpperCase(), "");
+    for (const u of issue.upcoming) {
+      lines.push(`  ${u.title} - ${u.date ?? u.cadence ?? t.upcoming.recurring}`);
+      lines.push(`    ${u.detail}`);
+      lines.push(`    ${u.sourceName}: ${u.sourceUrl}`);
     }
+    lines.push("", t.upcoming.note, "");
   }
 
   const usableStats = issue.stats.filter((s) => t.stats[s.key]);
@@ -286,7 +478,14 @@ export function renderIssue(
   }
 
   lines.push(t.sections.explore.toUpperCase(), "");
-  for (const e of exploreTargets(base)) lines.push(`  ${t.explore[e.key]}: ${e.href}`);
+  const textResources = issue.resources.filter((r) => t.explore[r.key as keyof typeof t.explore]);
+  if (textResources.length) {
+    for (const r of textResources) {
+      lines.push(`  ${t.explore[r.key as keyof typeof t.explore]}: ${tagged(`${base}${r.href}`, issue, base)}`);
+    }
+  } else {
+    for (const e of exploreTargets(base)) lines.push(`  ${t.explore[e.key]}: ${tagged(e.href, issue, base)}`);
+  }
   lines.push("", t.trust.statement, "", t.trust.sourceLanguageNote, "");
   lines.push(`${t.footer.viewOnline}: ${archiveUrl}`);
   if (contactEmail) lines.push(`${t.footer.contact}: ${contactEmail}`);

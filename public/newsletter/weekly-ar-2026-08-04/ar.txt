@@ -4,7 +4,17 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 
 شهد هذا الأسبوع 4 من التحديثات الرسمية المتعلقة بالهجرة. كل عنصر أدناه يرتبط مباشرةً بالمنشور الحكومي الذي صدر عنه. نحن ننقل ما تغيّر، ولا نخبرك بما يعنيه ذلك لحالتك.
 
-تغييرات هذا الأسبوع
+الأسبوع في لمحة
+
+  - 4 وثائق السجل الفيدرالي
+  - 2 إعلانات وزارة الأمن الداخلي
+  - 4 إجمالي التغييرات المسجلة
+  - لا يوجد الأوامر التنفيذية والإعلانات الرئاسية
+  - لا يوجد قرارات المحاكم
+
+وقت القراءة التقريبي: 4 دقائق
+
+ما الذي تغيّر هذا الأسبوع
 
 [مهم]
 Visas: Visa Bond Program
@@ -34,6 +44,32 @@ The Department of State's (Department's) Bureau of Educational and Cultural Affa
 تاريخ النشر: 2026-07-30
 اقرأ الوثيقة الرسمية: https://www.federalregister.gov/documents/2026/07/30/2026-15450/exchange-visitor-program-termination-of-program-participation-extension-of-program-and-reinstatement
 
+ما الذي لم يتغيّر
+
+  - قواعد H-1B والحد الأقصى السنوي
+  - برنامج DACA
+  - وضع الحماية المؤقتة (TPS)
+  - البطاقات الخضراء القائمة على العمل
+
+نراقب هذه المواضيع عن كثب. لم يُسجَّل بشأنها شيء هذا الأسبوع، وهذا وصف لأرشيفنا وليس للعالم كله — تحقّق دائماً من المصدر الرسمي قبل اتخاذ أي إجراء.
+
+مواعيد قادمة
+
+  Diversity Visa (green-card) lottery - 2026-10-01
+    The DV lottery registration opens for about one month in the fall, free, for nationals of eligible countries. A rare path to a green card with no employer or family sponsor.
+    U.S. Dept. of State — DV Program: https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html
+  New fiscal year — H-1B start date - 2026-10-01
+    October 1 begins the federal fiscal year: cap-subject H-1B employment can start and a fresh set of visa numbers becomes available.
+    USCIS — H-1B specialty occupations: https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations
+  H-1B electronic registration - 2027-03-01
+    USCIS opens the H-1B cap registration window for about three weeks. Miss it and you wait a full year for the next lottery.
+    USCIS — H-1B cap season: https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations/h-1b-electronic-registration-process
+  Federal tax filing deadline - 2027-04-15
+    Individual returns are due April 15 — including nonresident (1040-NR) returns for many F-1 and J-1 visa holders. File or request an extension by this date.
+    IRS — Tax deadlines: https://www.irs.gov/filing
+
+مواعيد نشرتها الجهة نفسها. قد تتغيّر، والرابط هو المرجع.
+
 بالأرقام
 
   وثائق السجل الفيدرالي: 4
@@ -42,13 +78,9 @@ The Department of State's (Department's) Bureau of Educational and Cultural Affa
 
 تابع استكشاف IMMIGRATIONCLOCK
 
-  ابحث عن تأشيرتك: https://immigrationclock.com/search
-  أحدث تغييرات الهجرة: https://immigrationclock.com/what-changed
-  المعالجة والمواعيد المهمة: https://immigrationclock.com/key-dates
-  معلومات حسب الدولة: https://immigrationclock.com/migration-map
-  البطاقة الخضراء: https://immigrationclock.com/for-you
-  الجنسية: https://immigrationclock.com/explained
-  H-1B: https://immigrationclock.com/h1b/employers
+  ابحث عن تأشيرتك: https://immigrationclock.com/search?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-ar-2026-08-04&utm_content=weekly&locale=ar&edition=weekly-ar-2026-08-04&segment=weekly-ar
+  البطاقة الخضراء: https://immigrationclock.com/for-you?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-ar-2026-08-04&utm_content=weekly&locale=ar&edition=weekly-ar-2026-08-04&segment=weekly-ar
+  المعالجة والمواعيد المهمة: https://immigrationclock.com/key-dates?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-ar-2026-08-04&utm_content=weekly&locale=ar&edition=weekly-ar-2026-08-04&segment=weekly-ar
 
 كل تحديث أعلاه يرتبط مباشرةً بالمصدر الحكومي الأصلي. نحن نلخّص معلومات عامة. ولا نقدّم استشارات قانونية إطلاقاً.
 

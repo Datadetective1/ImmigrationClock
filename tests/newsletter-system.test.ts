@@ -11,7 +11,8 @@ import { fileURLToPath } from "node:url";
 
 import { LOCALES, DEFAULT_LOCALE, isRtl, CADENCE_WINDOW_DAYS, type Segment } from "@/lib/newsletter/types";
 import { STRINGS, stringsFor } from "@/lib/newsletter/locales";
-import { selectIssue, MAX_ITEMS } from "@/lib/newsletter/select";
+import { selectIssue, MAX_ITEMS, WATCHLIST } from "@/lib/newsletter/select";
+import { EVENTS } from "@/lib/event-store";
 import { renderIssue } from "@/lib/newsletter/render";
 import { validateIssue, validateRendered } from "@/lib/newsletter/validate";
 
@@ -252,4 +253,215 @@ describe("escaping", () => {
     expect(out.html).not.toContain("<script>alert(1)</script>");
     expect(out.html).toContain("&lt;script&gt;");
   });
+});
+
+// =============================================================================
+// EDITORIAL LAYER — snapshot, the silence section, coming up, rotation, and
+// personalization. The claims here are the ones a reader ACTS on.
+// =============================================================================
+describe("weekly snapshot", () => {
+  const issue = selectIssue({ segment: seg(), ...wide });
+  const out = renderIssue(issue, BASE, CONTACT);
+
+  it("estimates a plausible reading time", () => {
+    expect(issue.readingMinutes).toBeGreaterThanOrEqual(1);
+    expect(issue.readingMinutes).toBeLessThan(30);
+    expect(out.html).toContain(String(issue.readingMinutes));
+  });
+
+  it("reports the categories that were ZERO, not just the ones that fired", () => {
+    // "No Executive Orders this week" is reassurance a reader cannot get from a
+    // list that simply omits them.
+    for (const k of issue.absentStats) {
+      expect(issue.stats.map((s) => s.key), `${k} is both present and absent`).not.toContain(k);
+    }
+  });
+
+  it("appears in the plain-text part too", () => {
+    expect(out.text).toContain(stringsFor("en").sections.snapshot.toUpperCase());
+  });
+});
+
+describe("what did NOT change", () => {
+  it("only watches topics that exist in the resolution vocabulary", async () => {
+    // A "no change" claim for something we cannot detect is a false negative,
+    // and on this subject people act on reassurance.
+    const { ENTITY_BY_ID } = await import("@/domains/graph/entities");
+    for (const w of WATCHLIST) {
+      for (const id of w.entityIds) {
+        expect(ENTITY_BY_ID.has(id as never), `watchlist names unknown entity: ${id}`).toBe(true);
+      }
+    }
+  });
+
+  it("never claims a topic was quiet when it produced an event", () => {
+    const issue = selectIssue({ segment: seg(), ...wide });
+    const touched = new Set<string>();
+    for (const it of [...(issue.lead?.items ?? []), ...issue.items]) {
+      const ev = EVENTS.find((e) => e.id === it.id)!;
+      for (const l of ev.entities) touched.add(l.entityId);
+    }
+    for (const w of issue.unchanged) {
+      for (const id of w.entityIds) {
+        expect(touched.has(id), `claimed "${w.key}" quiet but ${id} appears in the issue`).toBe(false);
+      }
+    }
+  });
+
+  it("has a label for every watched topic, in every language", () => {
+    for (const l of LOCALES) {
+      for (const w of WATCHLIST) {
+        expect(STRINGS[l].unchanged.topics[w.key], `${l} missing label for ${w.key}`).toBeTruthy();
+      }
+    }
+  });
+});
+
+describe("coming up", () => {
+  const issue = selectIssue({ segment: seg(), ...wide });
+
+  it("lists only future dates, in order", () => {
+    const dated = issue.upcoming.filter((u) => u.date);
+    for (const u of dated) expect(u.date! >= issue.to).toBe(true);
+    for (let i = 1; i < dated.length; i++) {
+      expect(dated[i].date! >= dated[i - 1].date!).toBe(true);
+    }
+  });
+
+  it("gives every entry a government source", () => {
+    for (const u of issue.upcoming) expect(u.sourceUrl).toMatch(/^https?:\/\//);
+  });
+});
+
+describe("resource rotation", () => {
+  it("shows three, not all six", () => {
+    const issue = selectIssue({ segment: seg(), ...wide });
+    expect(issue.resources).toHaveLength(3);
+  });
+
+  it("is deterministic — the same issue rebuilds byte-identical", () => {
+    const a = selectIssue({ segment: seg(), today: "2026-08-04" });
+    const b = selectIssue({ segment: seg(), today: "2026-08-04" });
+    expect(a.resources).toEqual(b.resources);
+  });
+
+  it("actually rotates across weeks", () => {
+    const weeks = ["2026-01-05", "2026-01-12", "2026-01-19", "2026-01-26"].map(
+      (d) => selectIssue({ segment: seg(), today: d }).resources.map((r) => r.key).join(",")
+    );
+    expect(new Set(weeks).size).toBeGreaterThan(1);
+  });
+});
+
+describe("personalization", () => {
+  it("leads with the subscriber's own topic, then general news", () => {
+    const s = seg({ id: "weekly-en-h1b", entityIds: ["agency:uscis"] });
+    const issue = selectIssue({ segment: s, ...wide });
+    if (!issue.lead) return; // no matching stories in the window
+    expect(issue.lead.entityId).toBe("agency:uscis");
+    expect(issue.lead.items.length).toBeGreaterThan(0);
+    // A story must never appear in both groups.
+    const leadIds = new Set(issue.lead.items.map((i) => i.id));
+    for (const it of issue.items) expect(leadIds.has(it.id)).toBe(false);
+  });
+
+  it("renders the lead group under its own heading, above the general feed", () => {
+    const s = seg({ id: "weekly-en-uscis", entityIds: ["agency:uscis"] });
+    const issue = selectIssue({ segment: s, ...wide });
+    if (!issue.lead) return;
+    const out = renderIssue(issue, BASE, CONTACT);
+    const leadPos = out.html.indexOf(stringsFor("en").leadGroup(issue.lead.label));
+    const generalPos = out.html.indexOf(stringsFor("en").sections.topChanges);
+    expect(leadPos).toBeGreaterThan(-1);
+    if (generalPos > -1) expect(leadPos).toBeLessThan(generalPos);
+  });
+
+  it("omits the lead group entirely on a general edition", () => {
+    const issue = selectIssue({ segment: seg(), ...wide });
+    expect(issue.lead).toBeUndefined();
+  });
+});
+
+describe("analytics tagging", () => {
+  const issue = selectIssue({ segment: seg(), ...wide });
+  const out = renderIssue(issue, BASE, CONTACT);
+  const hrefs = [...out.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+
+  it("tags internal links with the full parameter set", () => {
+    const internal = hrefs.filter((h) => h.startsWith(BASE) && !h.includes("/newsletter/"));
+    expect(internal.length).toBeGreaterThan(0);
+    for (const h of internal) {
+      for (const p of ["utm_source=newsletter", "utm_medium=email", "utm_campaign=", "locale=", "edition=", "segment="]) {
+        expect(h, `${h} missing ${p}`).toContain(p);
+      }
+    }
+  });
+
+  it("NEVER rewrites a government source URL", () => {
+    // Appending our tracking to a federalregister.gov link would alter a
+    // citation — the one thing this product cannot do.
+    for (const it of issue.items) {
+      expect(out.html).toContain(it.sourceUrl);
+      expect(it.sourceUrl).not.toContain("utm_");
+    }
+    for (const h of hrefs.filter((x) => /\.gov/.test(x))) {
+      expect(h, `government URL was tagged: ${h}`).not.toContain("utm_");
+    }
+  });
+});
+
+describe("section icons", () => {
+  const issue = selectIssue({ segment: seg(), ...wide });
+  const out = renderIssue(issue, BASE, CONTACT);
+
+  it("uses unicode glyphs, never images", () => {
+    expect(out.html).not.toMatch(/<img[\s>]/i);
+    expect(out.html).toMatch(/[◷◆✓→▦★]/);
+  });
+
+  it("hides decorative icons from screen readers", () => {
+    // An icon read aloud as "black diamond" before every heading is noise.
+    // Only DECORATIVE spans are checked — the brand wordmark uses the same
+    // accent colour and is real text, so it must NOT be hidden.
+    const iconSpans = [...out.html.matchAll(/<span[^>]*>([◷◆✓→▦★•])<\/span>/g)];
+    expect(iconSpans.length).toBeGreaterThan(0);
+    for (const m of iconSpans) {
+      expect(m[0], `icon not hidden from screen readers: ${m[1]}`).toContain('aria-hidden="true"');
+    }
+  });
+
+  it("keeps icons out of the plain-text part", () => {
+    expect(out.text).not.toMatch(/[◷◆▦★]/);
+  });
+});
+
+describe("accessibility", () => {
+  for (const locale of LOCALES) {
+    const issue = selectIssue({ segment: seg({ id: `weekly-${locale}`, locale }), ...wide });
+    const out = renderIssue(issue, BASE, CONTACT);
+    const heads = [...out.html.matchAll(/<h([1-6])[^>]*>/g)].map((m) => Number(m[1]));
+
+    it(`${locale}: has exactly one h1 and no skipped levels`, () => {
+      // Before this, the issue was four h2 story titles and nothing else: a
+      // screen-reader user navigating by heading got no document structure.
+      expect(heads.filter((h) => h === 1)).toHaveLength(1);
+      for (let i = 1; i < heads.length; i++) {
+        expect(heads[i] - heads[i - 1], `skip h${heads[i - 1]} -> h${heads[i]}`).toBeLessThanOrEqual(1);
+      }
+    });
+
+    it(`${locale}: sections are headings, not styled paragraphs`, () => {
+      expect(out.html).toMatch(/<h2[^>]*>[\s\S]{0,80}?<\/h2>/);
+    });
+
+    it(`${locale}: declares lang and dir together`, () => {
+      expect(out.html).toMatch(new RegExp(`lang="${stringsFor(locale).htmlLang}"`));
+      expect(out.html).toContain(`dir="${locale === "ar" ? "rtl" : "ltr"}"`);
+    });
+
+    it(`${locale}: gives the primary action a thumb-sized target`, () => {
+      // 14px vertical padding on a 15px line clears 44px.
+      if (issue.items.length > 0) expect(out.html).toContain("padding:14px 22px");
+    });
+  }
 });
