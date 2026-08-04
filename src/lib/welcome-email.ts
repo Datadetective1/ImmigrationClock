@@ -25,7 +25,7 @@
 //   • Colours stated explicitly on every cell. Clients that auto-invert for
 //     dark mode mangle anything relying on defaults.
 //
-// The palette and 600px frame match scripts/build-pulse-email.ts deliberately.
+// The palette and 600px frame match src/lib/newsletter/render.ts deliberately.
 // The welcome note and the weekly issue should read as the same product.
 // =============================================================================
 

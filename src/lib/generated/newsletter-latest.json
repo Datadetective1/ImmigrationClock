@@ -1,0 +1,71 @@
+{
+  "generatedAt": "2026-08-04T00:17:03.538Z",
+  "cadence": "weekly",
+  "today": "2026-08-04",
+  "editions": [
+    {
+      "issueId": "weekly-en-2026-08-04",
+      "segment": "weekly-en",
+      "locale": "en",
+      "cadence": "weekly",
+      "from": "2026-07-28",
+      "to": "2026-08-04",
+      "items": 4,
+      "totalInWindow": 4,
+      "subject": "Immigration Pulse — 4 changes",
+      "htmlPath": "/public/newsletter/weekly-en-2026-08-04/en.html",
+      "textPath": "/public/newsletter/weekly-en-2026-08-04/en.txt",
+      "audienceConfigured": false,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "issueId": "weekly-es-2026-08-04",
+      "segment": "weekly-es",
+      "locale": "es",
+      "cadence": "weekly",
+      "from": "2026-07-28",
+      "to": "2026-08-04",
+      "items": 4,
+      "totalInWindow": 4,
+      "subject": "Immigration Pulse — 4 cambios",
+      "htmlPath": "/public/newsletter/weekly-es-2026-08-04/es.html",
+      "textPath": "/public/newsletter/weekly-es-2026-08-04/es.txt",
+      "audienceConfigured": false,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "issueId": "weekly-fr-2026-08-04",
+      "segment": "weekly-fr",
+      "locale": "fr",
+      "cadence": "weekly",
+      "from": "2026-07-28",
+      "to": "2026-08-04",
+      "items": 4,
+      "totalInWindow": 4,
+      "subject": "Immigration Pulse — 4 changements",
+      "htmlPath": "/public/newsletter/weekly-fr-2026-08-04/fr.html",
+      "textPath": "/public/newsletter/weekly-fr-2026-08-04/fr.txt",
+      "audienceConfigured": false,
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "issueId": "weekly-ar-2026-08-04",
+      "segment": "weekly-ar",
+      "locale": "ar",
+      "cadence": "weekly",
+      "from": "2026-07-28",
+      "to": "2026-08-04",
+      "items": 4,
+      "totalInWindow": 4,
+      "subject": "Immigration Pulse — 4 تغييرات",
+      "htmlPath": "/public/newsletter/weekly-ar-2026-08-04/ar.html",
+      "textPath": "/public/newsletter/weekly-ar-2026-08-04/ar.txt",
+      "audienceConfigured": false,
+      "errors": [],
+      "warnings": []
+    }
+  ]
+}
