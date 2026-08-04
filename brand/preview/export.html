@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImmigrationClock — PNG export</title>
+<style>
+  :root { --navy:#102A43; --blue:#2470F0; --line:#DEE5EE; --mut:#51617A; }
+  * { box-sizing: border-box; }
+  body { font-family: Inter, -apple-system, "Segoe UI", Roboto, sans-serif; margin:0; padding:40px 32px 80px; background:#F7F9FC; color:var(--navy); }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 28px; letter-spacing:-.02em; margin:0 0 6px; }
+  p.lede { color: var(--mut); margin:0 0 28px; max-width: 62ch; line-height:1.6; font-size:15px; }
+  .note { background:#fff; border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:8px; padding:16px 18px; font-size:14px; line-height:1.6; color:var(--mut); margin-bottom:28px; }
+  .note b { color: var(--navy); }
+  button { font: inherit; font-size:14px; font-weight:600; border-radius:8px; cursor:pointer; }
+  .primary { background:var(--navy); color:#fff; border:none; padding:11px 20px; }
+  .primary:hover { background:#1B3A57; }
+  .ghost { background:#fff; color:var(--navy); border:1px solid var(--line); padding:7px 14px; }
+  .ghost:hover { border-color:#9AA8BB; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th { text-align:left; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--mut); padding:12px 16px; border-bottom:1px solid var(--line); font-weight:700; }
+  td { padding:10px 16px; border-bottom:1px solid #EEF2F7; font-size:14px; vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  td.dim { color:var(--mut); font-family:ui-monospace,Menlo,monospace; font-size:12.5px; }
+  td.act { text-align:right; }
+  .grp td { background:#F7F9FC; font-weight:700; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--mut); }
+  #status { margin-left:12px; font-size:13px; color:var(--mut); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>PNG export</h1>
+  <p class="lede">The SVGs in <code>brand/assets/</code> are the masters. LinkedIn and X want PNG, so this page rasterises each one at its exact required pixel size, in your browser, with no build step.</p>
+
+  <div class="note">
+    <b>About fonts.</b> The browser rasterises SVG using <em>locally installed</em> fonts, not webfonts loaded by this page. Without Inter installed you will get your system UI font — close, but not the real wordmark. Install <a href="https://rsms.me/inter/" target="_blank" rel="noopener">Inter</a> (free) before exporting, or open the SVG in Figma, which embeds it for you.
+  </div>
+
+  <p><button class="primary" id="all">Download everything</button><span id="status"></span></p>
+
+  <table id="tbl"><thead><tr><th>Asset</th><th>Output</th><th></th></tr></thead><tbody></tbody></table>
+</div>
+
+<script>
+const ASSETS = [
+  ["Profile images", null, null],
+  ["profile/linkedin-logo-400.svg",        "linkedin-logo",            [400]],
+  ["profile/linkedin-logo-400-white.svg",  "linkedin-logo-white",      [400]],
+  ["profile/x-profile-400.svg",            "x-profile",                [400]],
+  ["profile/x-profile-400-white.svg",      "x-profile-white",          [400]],
+
+  ["Banners", null, null],
+  ["banners/linkedin-company-1128x191.svg",  "linkedin-company-banner",  [1128,191]],
+  ["banners/linkedin-personal-1584x396.svg", "linkedin-personal-banner", [1584,396]],
+  ["banners/x-header-1500x500.svg",          "x-header",                 [1500,500]],
+
+  ["Post templates", null, null],
+  ["social/template-a-number-1080x1080.svg",    "post-a-number",     [1080,1080]],
+  ["social/template-b-statement-1080x1080.svg", "post-b-statement",  [1080,1080]],
+  ["social/template-c-chart-1080x1350.svg",     "post-c-chart",      [1080,1350]],
+  ["social/template-d-card-1200x628.svg",       "post-d-card",       [1200,628]],
+  ["social/example-number-removals.svg",        "example-removals",  [1080,1080]],
+  ["social/example-card-pulse.svg",             "example-pulse",     [1200,628]],
+
+  ["Logo", null, null],
+  ["logo/logo-horizontal-navy.svg",  "logo-horizontal-navy",  [966,256]],
+  ["logo/logo-horizontal-white.svg", "logo-horizontal-white", [966,256]],
+  ["logo/logo-stacked-navy.svg",     "logo-stacked-navy",     [730,468]],
+  ["logo/mark-badge-navy.svg",       "mark-badge",            [512]],
+
+  ["Favicons & app icons", null, null],
+  ["favicon/favicon-16.svg",            "favicon-16",       [16]],
+  ["favicon/favicon.svg",               "favicon-32",       [32]],
+  ["favicon/favicon.svg",               "favicon-48",       [48]],
+  ["favicon/apple-touch-icon-180.svg",  "apple-touch-icon", [180]],
+  ["favicon/maskable-512.svg",          "icon-192",         [192]],
+  ["favicon/maskable-512.svg",          "icon-512",         [512]],
+];
+
+const tbody = document.querySelector("#tbl tbody");
+for (const [src, name, size] of ASSETS) {
+  const tr = document.createElement("tr");
+  if (!name) { tr.className = "grp"; tr.innerHTML = `<td colspan="3">${src}</td>`; tbody.append(tr); continue; }
+  const [w, h = w] = size;
+  tr.innerHTML = `<td>${src.split("/")[1]}</td><td class="dim">${name}.png · ${w}×${h}</td>
+    <td class="act"><button class="ghost">PNG</button></td>`;
+  tr.querySelector("button").onclick = () => png(src, name, w, h);
+  tbody.append(tr);
+}
+
+async function png(src, name, w, h) {
+  const text = await (await fetch("/assets/" + src)).text();
+  const blob = new Blob([text], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.decoding = "sync";
+  await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = url; });
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  // Transparent by default; only the mark glyphs rely on that.
+  ctx.drawImage(img, 0, 0, w, h);
+  URL.revokeObjectURL(url);
+  await new Promise(res => c.toBlob(b => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b);
+    a.download = name + ".png";
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); res(); }, 60);
+  }, "image/png"));
+}
+
+document.getElementById("all").onclick = async (e) => {
+  const s = document.getElementById("status");
+  e.target.disabled = true;
+  const jobs = ASSETS.filter(a => a[1]);
+  for (let i = 0; i < jobs.length; i++) {
+    const [src, name, size] = jobs[i];
+    s.textContent = `${i + 1} / ${jobs.length} — ${name}.png`;
+    await png(src, name, size[0], size[1] ?? size[0]);
+    await new Promise(r => setTimeout(r, 120)); // let the browser flush downloads
+  }
+  s.textContent = `Done — ${jobs.length} files.`;
+  e.target.disabled = false;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1128" height="191" viewBox="0 0 1128 191">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect width="1128" height="191"/></clipPath>
+  </defs>
+  <rect width="1128" height="191" fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1128" cy="0" rx="620" ry="420" fill="url(#bg-glow)"/>
+  <g transform="translate(902.0 -54.0) scale(4.6875)" opacity="0.1">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <g transform="translate(-52.0 -34.0) scale(4.0625)" opacity="0.06">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(195.9 68.5) scale(0.84375)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="267.9" y="107.2" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="33" font-weight="700" letter-spacing="-0.66" fill="#FFFFFF">ImmigrationClock</text>
+  <rect x="573.5" y="73.5" width="1" height="44" fill="rgba(255,255,255,0.22)"/>
+  <text x="604.5" y="103.0" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="21" font-weight="500" letter-spacing="0.42" fill="#BBD7FF">Facts First • Sources Included</text>
+</svg>

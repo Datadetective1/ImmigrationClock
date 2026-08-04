@@ -1,0 +1,65 @@
+{
+  "color": {
+    "navy": {
+      "500": "#4A7FA8",
+      "600": "#35648C",
+      "700": "#274D6E",
+      "800": "#1B3A57",
+      "900": "#102A43",
+      "950": "#0A1B2D"
+    },
+    "blue": {
+      "50": "#EFF5FF",
+      "100": "#D9E8FF",
+      "200": "#BBD7FF",
+      "300": "#8FBDFF",
+      "400": "#5B9DFF",
+      "500": "#2D7FF9",
+      "600": "#2470F0",
+      "700": "#1560D8",
+      "800": "#0B3D91",
+      "900": "#062B69"
+    },
+    "neutral": {
+      "0": "#FFFFFF",
+      "50": "#F7F9FC",
+      "100": "#EEF2F7",
+      "200": "#DEE5EE",
+      "300": "#C6D0DD",
+      "400": "#9AA8BB",
+      "500": "#68778D",
+      "600": "#51617A",
+      "700": "#3B4C63",
+      "900": "#102A43"
+    },
+    "status": {
+      "live": "#0E9F6E",
+      "liveInk": "#046C4E",
+      "stale": "#B45309",
+      "archive": "#6B7A91"
+    },
+    "series": [
+      "#102A43",
+      "#2D7FF9",
+      "#00A0A0",
+      "#7B61FF",
+      "#C77700",
+      "#C2255C"
+    ],
+    "seriesDark": [
+      "#C6D0DD",
+      "#5B9DFF",
+      "#34D3C4",
+      "#A78BFA",
+      "#F0A93B",
+      "#FF7CA3"
+    ]
+  },
+  "font": {
+    "sans": "Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    "mono": "'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace"
+  },
+  "tagline": "Facts First • Sources Included",
+  "name": "ImmigrationClock",
+  "domain": "immigrationclock.com"
+}

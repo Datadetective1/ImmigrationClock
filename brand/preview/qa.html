@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>QA sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { font-family: Inter, system-ui, sans-serif; margin: 0; padding: 32px; background: #F7F9FC; color: #102A43; }
+  h2 { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: #6B7A91; margin: 40px 0 14px; }
+  .row { display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap; }
+  .chip { background: #fff; border: 1px solid #DEE5EE; border-radius: 10px; padding: 14px; text-align: center; }
+  .chip span { display: block; font-size: 11px; color: #6B7A91; margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
+  img { display: block; }
+  .dark { background: #0A1B2D; }
+  .full img { width: 100%; border: 1px solid #DEE5EE; border-radius: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+</style>
+</head>
+<body>
+
+<h2>Mark — optical sizes</h2>
+<div class="row">
+  <div class="chip"><img src="/assets/favicon/favicon-16.svg" width="16" height="16"><span>16 small</span></div>
+  <div class="chip"><img src="/assets/favicon/favicon.svg" width="24" height="24"><span>24 small</span></div>
+  <div class="chip"><img src="/assets/favicon/favicon.svg" width="32" height="32"><span>32 small</span></div>
+  <div class="chip"><img src="/assets/logo/mark-badge-navy.svg" width="32" height="32"><span>32 regular</span></div>
+  <div class="chip"><img src="/assets/logo/mark-badge-navy.svg" width="64" height="64"><span>64 regular</span></div>
+  <div class="chip"><img src="/assets/logo/mark-badge-navy.svg" width="128" height="128"><span>128</span></div>
+  <div class="chip"><img src="/assets/logo/mark-glyph-light.svg" width="128" height="128"><span>glyph light</span></div>
+  <div class="chip dark"><img src="/assets/logo/mark-glyph-dark.svg" width="128" height="128"><span style="color:#8FBDFF">glyph dark</span></div>
+  <div class="chip"><img src="/assets/logo/mark-glyph-mono-navy.svg" width="128" height="128"><span>mono navy</span></div>
+</div>
+
+<h2>Lockups</h2>
+<div class="row">
+  <div class="chip"><img src="/assets/logo/logo-horizontal-navy.svg" height="72"><span>horizontal</span></div>
+  <div class="chip"><img src="/assets/logo/logo-stacked-navy.svg" height="150"><span>stacked</span></div>
+</div>
+<div class="row" style="margin-top:16px">
+  <div class="chip dark"><img src="/assets/logo/logo-horizontal-white.svg" height="72"></div>
+  <div class="chip dark"><img src="/assets/logo/logo-stacked-white.svg" height="150"></div>
+</div>
+
+<h2>Profile images</h2>
+<div class="row">
+  <div class="chip"><img src="/assets/profile/linkedin-logo-400.svg" width="120" height="120"><span>LinkedIn 400</span></div>
+  <div class="chip"><img src="/assets/profile/x-profile-400.svg" width="120" height="120" style="border-radius:50%"><span>X 400 (circle mask)</span></div>
+  <div class="chip"><img src="/assets/profile/x-profile-400.svg" width="48" height="48" style="border-radius:50%"><span>X @48</span></div>
+</div>
+
+<h2>Banners</h2>
+<div class="full">
+  <img src="/assets/banners/linkedin-company-1128x191.svg">
+  <div style="height:16px"></div>
+  <img src="/assets/banners/linkedin-personal-1584x396.svg">
+  <div style="height:16px"></div>
+  <img src="/assets/banners/x-header-1500x500.svg">
+</div>
+
+<h2>Post templates</h2>
+<div class="row" style="align-items:flex-start">
+  <img src="/assets/social/template-a-number-1080x1080.svg" width="330">
+  <img src="/assets/social/template-b-statement-1080x1080.svg" width="330">
+  <img src="/assets/social/template-c-chart-1080x1350.svg" width="330">
+</div>
+<div class="row" style="margin-top:16px">
+  <img src="/assets/social/template-d-card-1200x628.svg" width="500">
+  <img src="/assets/social/example-number-removals.svg" width="330">
+</div>
+
+<h2>Icons @24 and @16</h2>
+<div class="grid" id="icons"></div>
+
+<script>
+const names = "source document verified dataset api download clock live calendar history chart-line chart-bar chart-area gauge trend-up trend-down trend-flat globe state status border employer jobs people search filter external caveat method newsletter alert".split(" ");
+document.getElementById("icons").innerHTML = names.map(n =>
+  `<div class="chip"><div style="display:flex;gap:14px;align-items:center;justify-content:center;color:#102A43">
+     <img src="/assets/icons/${n}.svg" width="24" height="24">
+     <img src="/assets/icons/${n}.svg" width="16" height="16">
+   </div><span>${n}</span></div>`).join("");
+</script>
+</body>
+</html>

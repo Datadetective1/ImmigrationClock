@@ -1,0 +1,1311 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImmigrationClock — Brand Style Guide</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --navy-950:#0A1B2D; --navy-900:#102A43; --navy-800:#1B3A57;
+    --blue-600:#2470F0; --blue-500:#2D7FF9; --blue-400:#5B9DFF;
+    --blue-300:#8FBDFF; --blue-50:#EFF5FF;
+
+    --bg:      #FFFFFF;
+    --bg-sunk: #F7F9FC;
+    --ink:     #102A43;
+    --ink-2:   #51617A;
+    --ink-3:   #68778D;
+    --line:    #DEE5EE;
+    --line-2:  #EEF2F7;
+    --acc:     #2470F0;
+    --acc-mark:#2D7FF9;
+    --ring:    #C6D0DD;
+    --card:    #FFFFFF;
+
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Roboto Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0A1B2D; --bg-sunk:#07131F; --card:#0E2438;
+      --ink:#EAF1F8; --ink-2:#A9BACD; --ink-3:#8397AE;
+      --line:rgba(255,255,255,0.13); --line-2:rgba(255,255,255,0.07);
+      --acc:#5B9DFF; --acc-mark:#5B9DFF; --ring:rgba(255,255,255,0.30);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0A1B2D; --bg-sunk:#07131F; --card:#0E2438;
+    --ink:#EAF1F8; --ink-2:#A9BACD; --ink-3:#8397AE;
+    --line:rgba(255,255,255,0.13); --line-2:rgba(255,255,255,0.07);
+    --acc:#5B9DFF; --acc-mark:#5B9DFF; --ring:rgba(255,255,255,0.30);
+  }
+  :root[data-theme="light"] {
+    --bg:#FFFFFF; --bg-sunk:#F7F9FC; --card:#FFFFFF;
+    --ink:#102A43; --ink-2:#51617A; --ink-3:#68778D;
+    --line:#DEE5EE; --line-2:#EEF2F7;
+    --acc:#2470F0; --acc-mark:#2D7FF9; --ring:#C6D0DD;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans);
+         font-size:15px; line-height:1.62; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  /* ── masthead ─────────────────────────────────────────────── */
+  .mast { background:var(--navy-950); color:#fff; padding:64px 0 56px; }
+  .mast .wrap { display:flex; flex-direction:column; gap:28px; }
+  .mast-logo svg { height:56px; width:auto; }
+  .mast h1 { font-size:clamp(34px,5.2vw,54px); line-height:1.04; letter-spacing:-0.028em;
+             margin:0; font-weight:700; text-wrap:balance; max-width:16ch; }
+  .mast .tag { font-size:15px; letter-spacing:0.06em; color:#BBD7FF; font-weight:600; }
+  .mast .meta { display:flex; gap:28px; flex-wrap:wrap; font-family:var(--mono);
+                font-size:12px; color:rgba(255,255,255,0.55); letter-spacing:0.02em; }
+
+  /* ── datasheet rows ───────────────────────────────────────── */
+  section { border-top:1px solid var(--line); padding:56px 0; }
+  section:first-of-type { border-top:none; }
+  .row { display:grid; grid-template-columns:132px 1fr; gap:36px; align-items:start; }
+  @media (max-width:760px){ .row { grid-template-columns:1fr; gap:16px; } }
+  .lbl { font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+         color:var(--ink-3); padding-top:6px; position:sticky; top:20px; }
+  .lbl b { display:block; color:var(--acc); font-size:11px; margin-bottom:5px; font-weight:700; }
+  h2 { font-size:27px; letter-spacing:-0.02em; margin:0 0 14px; font-weight:700; text-wrap:balance; }
+  h3 { font-size:14px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-3);
+       margin:34px 0 14px; font-weight:700; }
+  h3:first-child { margin-top:0; }
+  p { margin:0 0 15px; max-width:66ch; color:var(--ink-2); }
+  p.lede { font-size:17px; color:var(--ink); max-width:60ch; }
+  strong { color:var(--ink); font-weight:650; }
+  code { font-family:var(--mono); font-size:0.88em; }
+  ul { margin:0 0 15px; padding-left:19px; max-width:66ch; color:var(--ink-2); }
+  li { margin-bottom:6px; }
+  a { color:var(--acc); }
+
+  .callout { border:1px solid var(--line); border-left:3px solid var(--acc-mark);
+             background:var(--bg-sunk); border-radius:0 8px 8px 0; padding:20px 22px; margin:22px 0; }
+  .callout p:last-child { margin-bottom:0; }
+  .callout h4 { margin:0 0 8px; font-size:15px; font-weight:700; color:var(--ink); }
+
+  /* ── specimens ────────────────────────────────────────────── */
+  /* Specimen plates do NOT follow the page theme. A light-variant logo has a
+     navy hand; on a dark card that hand all but disappears, and the reader
+     ends up judging the mark against a ground it will never be used on. So
+     the plate is always the ground the artwork was drawn for, in both themes,
+     and its text colour is pinned too so currentColor resolves correctly. */
+  .plate { background:#FFFFFF; border:1px solid #DEE5EE; border-radius:10px;
+           color:#102A43;
+           padding:26px; display:flex; align-items:center; justify-content:center; gap:32px; flex-wrap:wrap; }
+  .plate.dark { background:#102A43; border-color:#1B3A57; color:#FFFFFF; }
+  .plate svg { display:block; }
+  .grid { display:grid; gap:14px; }
+  .g2 { grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+
+  .optical { display:flex; align-items:flex-end; gap:26px; flex-wrap:wrap; }
+  .optical figure { margin:0; text-align:center; }
+  .optical figcaption { font-family:var(--mono); font-size:10.5px; color:#68778D; margin-top:10px; }
+  /* Pinned like .plate — the diagram lives on the always-white specimen ground. */
+  .constr { width:min(300px,100%); color:#9AA8BB; }
+  .constr .dim-txt { fill:#68778D; font-family:var(--mono); }
+
+  /* ── swatches ─────────────────────────────────────────────── */
+  .sws { display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr)); gap:10px; }
+  .sw { border:1px solid var(--line); border-radius:9px; overflow:hidden; background:var(--card); }
+  .sw-chip { height:60px; }
+  .sw-meta { padding:9px 11px; display:flex; flex-direction:column; gap:1px; }
+  .sw-meta b { font-size:12.5px; font-weight:650; }
+  .sw-meta code { font-size:11px; color:var(--ink-3); text-transform:uppercase; }
+  .sw-meta span { font-size:11px; color:var(--ink-3); line-height:1.4; margin-top:3px; }
+
+  table { width:100%; border-collapse:collapse; margin:16px 0; font-size:13.5px; }
+  th { text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:0.11em;
+       text-transform:uppercase; color:var(--ink-3); padding:0 12px 9px 0; border-bottom:1px solid var(--line); font-weight:700; }
+  td { padding:9px 12px 9px 0; border-bottom:1px solid var(--line-2); color:var(--ink-2); vertical-align:baseline; }
+  td.num { font-family:var(--mono); font-variant-numeric:tabular-nums; color:var(--ink); }
+  .scroll { overflow-x:auto; }
+  .pass { color:#0E9F6E; font-family:var(--mono); font-size:11px; font-weight:700; }
+  .dim { color:var(--ink-3); font-family:var(--mono); font-size:11px; }
+
+  /* ── type specimens ───────────────────────────────────────── */
+  .spec { border-bottom:1px solid var(--line-2); padding:16px 0; display:grid;
+          grid-template-columns:118px 1fr; gap:20px; align-items:baseline; }
+  .spec .k { font-family:var(--mono); font-size:10.5px; letter-spacing:0.09em;
+             text-transform:uppercase; color:var(--ink-3); }
+  .counter { font-family:var(--mono); font-variant-numeric:tabular-nums;
+             font-size:clamp(40px,8vw,74px); font-weight:600; letter-spacing:-0.03em; color:var(--ink); line-height:1; }
+
+  /* ── icons ────────────────────────────────────────────────── */
+  .icons { display:grid; grid-template-columns:repeat(auto-fill,minmax(104px,1fr)); gap:6px; }
+  .ic { margin:0; padding:16px 6px 12px; text-align:center; border:1px solid var(--line-2);
+        border-radius:8px; color:var(--ink); }
+  .ic svg { width:24px; height:24px; }
+  .ic figcaption { font-family:var(--mono); font-size:10px; color:var(--ink-3); margin-top:10px;
+                   word-break:break-word; }
+
+  /* ── social ───────────────────────────────────────────────── */
+  .banner { border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-bottom:14px; }
+  .banner svg { display:block; width:100%; height:auto; }
+  .posts { display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px; }
+  .posts > div { border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .posts svg { display:block; width:100%; height:auto; }
+
+  .avatars { display:flex; gap:26px; align-items:flex-end; flex-wrap:wrap; }
+  .avatars figure { margin:0; text-align:center; }
+  .avatars figcaption { font-family:var(--mono); font-size:10.5px; color:var(--ink-3); margin-top:10px; }
+  .circle svg { border-radius:50%; }
+
+  .dont { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; margin-top:8px; }
+  .dont div { border:1px solid var(--line); border-radius:8px; padding:13px 15px; font-size:13px; color:var(--ink-2); }
+  .dont b { display:block; color:#B45309; font-family:var(--mono); font-size:10px;
+            letter-spacing:0.11em; margin-bottom:5px; }
+
+  footer { border-top:1px solid var(--line); padding:36px 0 60px; color:var(--ink-3); font-size:13px; }
+  footer code { color:var(--ink-2); }
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-logo"><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483 128" role="img" aria-label="ImmigrationClock">
+  
+  <g transform="translate(32 32.00) scale(1.00000)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="117.12" y="78.20" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" letter-spacing="-0.80" fill="#FFFFFF">Immigration<tspan>Clock</tspan></text>
+</svg></div>
+    <h1>Brand Style Guide</h1>
+    <div class="tag">Facts First • Sources Included</div>
+    <div class="meta">
+      <span>VERSION 1.0</span><span>AUGUST 2026</span>
+      <span>62 ASSETS</span><span>31/31 CONTRAST CHECKS PASS</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section><div class="row">
+  <div class="lbl"><b>01</b>Positioning</div>
+  <div>
+    <h2>Make the reader believe the number before they decide how they feel about it</h2>
+    <p class="lede">ImmigrationClock publishes figures about a subject people already have strong feelings about. Everything in this system follows from that one job.</p>
+    <div class="grid g2">
+      <div class="callout"><h4>An instrument, not an argument</h4><p>The visual language is measurement — dials, graduations, tabular figures, provenance chips. Not persuasion.</p></div>
+      <div class="callout"><h4>Not a law firm</h4><p>No serif capitals, no gold, no gavels or scales, no centred ceremony. Those signal <em>advocacy on your behalf</em>. This signals <em>here is what the data says</em>.</p></div>
+      <div class="callout"><h4>Not partisan</h4><p>Red and green never mean good or bad about immigration figures. That is a hard rule, and it has its own section.</p></div>
+      <div class="callout"><h4>Calm at speed</h4><p>The dashboard is full of live counters. Monospaced figures and an 8px grid keep a moving page from feeling frantic.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>02</b>The mark</div>
+  <div>
+    <h2>The Dial</h2>
+    <p class="lede">A measuring instrument with three layers — which is the product's thesis in one glyph.</p>
+    <div class="plate" style="gap:48px">
+      <svg class="" style="width:132px;height:132px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <path d="M32 4.5L32 1.8" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#C6D0DD" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#2D7FF9" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#102A43" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#102A43"/>
+</svg>
+      
+<svg viewBox="-6 -6 76 76" class="constr">
+  <defs><pattern id="g" width="8" height="8" patternUnits="userSpaceOnUse">
+    <path d="M8 0H0v8" fill="none" stroke="currentColor" stroke-width="0.25" opacity="0.35"/>
+  </pattern></defs>
+  <rect x="0" y="0" width="64" height="64" fill="url(#g)"/>
+  <rect x="0" y="0" width="64" height="64" fill="none" stroke="currentColor" stroke-width="0.4" opacity="0.5"/>
+  <circle cx="32" cy="32" r="30.2" fill="none" stroke="currentColor" stroke-width="0.35" stroke-dasharray="2 2" opacity="0.6"/>
+  <circle cx="32" cy="32" r="27.5" fill="none" stroke="currentColor" stroke-width="0.35" stroke-dasharray="2 2" opacity="0.6"/>
+  <circle cx="32" cy="32" r="23" fill="none" stroke="currentColor" stroke-width="0.35" stroke-dasharray="2 2" opacity="0.6"/>
+  <path d="M32 0v64M0 32h64" stroke="currentColor" stroke-width="0.35" stroke-dasharray="2 2" opacity="0.6"/>
+  <g class="constr-mark">
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#C6D0DD" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#2D7FF9" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#102A43" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#102A43"/>
+    <path d="M32 4.5v-2.7M32 62.2v-2.7M4.5 32H1.8M62.2 32h2.7" stroke="#102A43" stroke-width="2.4" stroke-linecap="round" opacity="0"/>
+  </g>
+  <g stroke="#102A43" stroke-width="2.4" stroke-linecap="round">
+    <path d="M32 4.5V1.8"/><path d="M59.5 32h2.7"/><path d="M32 59.5v2.7"/><path d="M4.5 32H1.8"/>
+  </g>
+  <g class="dim-txt" font-size="3.2">
+    <text x="33.5" y="21.5">r 23</text>
+    <text x="33.5" y="6">r 30.2</text>
+  </g>
+</svg>
+    </div>
+    <table>
+      <tr><th>Layer</th><th>Element</th><th>Means</th></tr>
+      <tr><td>Outer</td><td>Four graduations at the cardinals</td><td>The scale you are measuring against</td></tr>
+      <tr><td>Middle</td><td>Blue quarter-sweep, 12→3</td><td>The period the data actually covers</td></tr>
+      <tr><td>Inner</td><td>Hand at 12, centre dot</td><td>Where the reading stands right now</td></tr>
+    </table>
+    <div class="callout">
+      <h4>The sweep is always a quarter</h4>
+      <p>Never a half, never a closed ring. A closed ring would claim complete coverage, and this product's data is partial and lagged by design. The mark is honest about that. Do not "complete" it.</p>
+    </div>
+
+    <h3>Optical sizes</h3>
+    <p>Three cuts, not one drawing scaled down.</p>
+    <div class="plate optical">
+      <figure><svg class="" style="width:96px;height:96px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="14.98" fill="#102A43"/>
+  <g transform="translate(9.600 9.600) scale(0.7)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>REGULAR · ≥32px</figcaption></figure>
+      <figure><svg class="" style="width:64px;height:64px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="14.08" fill="#102A43"/>
+  <g transform="translate(8.320 8.320) scale(0.74)">
+    <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="6.4"/>
+    <path d="M32 8A24 24 0 0 1 56 32" fill="none" stroke="#5B9DFF" stroke-width="6.4" stroke-linecap="round"/>
+    <path d="M32 32L32 19" stroke="#FFFFFF" stroke-width="6.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="3.4" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>SMALL · 20–32px</figcaption></figure>
+      <figure><svg class="" style="width:48px;height:48px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="12.16" fill="#102A43"/>
+  <g transform="translate(4.800 4.800) scale(0.85)">
+    <circle cx="32" cy="32" r="22" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="9"/>
+    <path d="M32 10A22 22 0 0 1 54 32" fill="none" stroke="#5B9DFF" stroke-width="9" stroke-linecap="round"/>
+  </g>
+</svg><figcaption>MICRO · ≤16px</figcaption></figure>
+      <figure><svg class="" style="width:32px;height:32px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="14.08" fill="#102A43"/>
+  <g transform="translate(8.320 8.320) scale(0.74)">
+    <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="6.4"/>
+    <path d="M32 8A24 24 0 0 1 56 32" fill="none" stroke="#5B9DFF" stroke-width="6.4" stroke-linecap="round"/>
+    <path d="M32 32L32 19" stroke="#FFFFFF" stroke-width="6.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="3.4" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>32 ACTUAL</figcaption></figure>
+      <figure><svg class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="12.16" fill="#102A43"/>
+  <g transform="translate(4.800 4.800) scale(0.85)">
+    <circle cx="32" cy="32" r="22" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="9"/>
+    <path d="M32 10A22 22 0 0 1 54 32" fill="none" stroke="#5B9DFF" stroke-width="9" stroke-linecap="round"/>
+  </g>
+</svg><figcaption>16 ACTUAL</figcaption></figure>
+    </div>
+    <div class="callout">
+      <h4>Why micro drops the hand</h4>
+      <p>At 16px the gap between the hand's round cap and the ring's inner edge computes to <strong>0.90px</strong> — antialiasing turns that into a navy smudge and the dial stops being a dial. What survives at that size is the ring and the blue quarter, so that is what micro keeps. Measured, not guessed.</p>
+    </div>
+
+    <h3>Clear space &amp; minimum size</h3>
+    <p>Clear space is <strong>½ the mark's height</strong> on all four sides, baked into the exported viewBoxes so it cannot be got wrong by accident. Minimums: mark alone <strong>16px</strong>; horizontal lockup <strong>120px</strong> wide; stacked lockup <strong>88px</strong> wide.</p>
+
+    <h3>Never</h3>
+    <div class="dont">
+      <div><b>DON'T</b>Recolour the sweep</div>
+      <div><b>DON'T</b>Rotate the mark or move the hand</div>
+      <div><b>DON'T</b>Close the ring into a full circle</div>
+      <div><b>DON'T</b>Add shadow, bevel or glow</div>
+      <div><b>DON'T</b>Stretch non-uniformly</div>
+      <div><b>DON'T</b>Place on photography without a navy plate</div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>03</b>Lockups</div>
+  <div>
+    <h2>Three lockups, one wordmark</h2>
+    <div class="plate"><svg class="" style="width:min(400px,100%);height:auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483 128" role="img" aria-label="ImmigrationClock">
+  
+  <g transform="translate(32 32.00) scale(1.00000)">
+    <path d="M32 4.5L32 1.8" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#C6D0DD" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#2D7FF9" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#102A43" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#102A43"/>
+  </g>
+  <text x="117.12" y="78.20" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" letter-spacing="-0.80" fill="#102A43">Immigration<tspan>Clock</tspan></text>
+</svg></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="plate"><svg class="" style="width:190px;height:auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 365 234" role="img" aria-label="ImmigrationClock">
+  <g transform="translate(134.50 38.400000000000006) scale(1.50000)">
+    <path d="M32 4.5L32 1.8" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#C6D0DD" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#2D7FF9" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#102A43" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#102A43"/>
+  </g>
+  <text x="182.5" y="188.24" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="34.56" font-weight="700" letter-spacing="-0.69" fill="#102A43">ImmigrationClock</text>
+</svg></div>
+      <div class="plate dark"><svg class="" style="width:190px;height:auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 365 234" role="img" aria-label="ImmigrationClock">
+  <g transform="translate(134.50 38.400000000000006) scale(1.50000)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="182.5" y="188.24" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="34.56" font-weight="700" letter-spacing="-0.69" fill="#FFFFFF">ImmigrationClock</text>
+</svg></div>
+    </div>
+    <div class="plate dark" style="margin-top:14px"><svg class="" style="width:min(400px,100%);height:auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483 128" role="img" aria-label="ImmigrationClock">
+  
+  <g transform="translate(32 32.00) scale(1.00000)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="117.12" y="78.20" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" letter-spacing="-0.80" fill="#FFFFFF">Immigration<tspan>Clock</tspan></text>
+</svg></div>
+    <div class="callout">
+      <h4>The wordmark is monotone</h4>
+      <p>Colouring "Clock" in the accent is the fastest way to make a data brand look like a logo generator. The accent lives in the mark and nowhere else in the logo. Set in the brand sans at 700 with <strong>-0.02em</strong> tracking — at that weight, the tracking is what separates <em>institutional</em> from <em>shouty</em>.</p>
+      <p><code>ImmigrationClock</code> is one word, capital I, capital C. Never "Immigration Clock", never "IC".</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>04</b>Colour</div>
+  <div>
+    <h2>Navy carries authority. Blue carries the signal.</h2>
+
+    <h3>Core — navy</h3>
+    <div class="sws">
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#102A43"></div>
+    <div class="sw-meta"><b>navy-900</b><code>#102A43</code><span>Primary — wordmark, headlines, logo container</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#0A1B2D"></div>
+    <div class="sw-meta"><b>navy-950</b><code>#0A1B2D</code><span>Deepest field, gradient anchor</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#1B3A57"></div>
+    <div class="sw-meta"><b>navy-800</b><code>#1B3A57</code><span>Secondary surfaces</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#274D6E"></div>
+    <div class="sw-meta"><b>navy-700</b><code>#274D6E</code><span>Borders on dark</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#35648C"></div>
+    <div class="sw-meta"><b>navy-600</b><code>#35648C</code></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#4A7FA8"></div>
+    <div class="sw-meta"><b>navy-500</b><code>#4A7FA8</code></div>
+  </div>
+    </div>
+
+    <h3>Accent — the signal ramp</h3>
+    <div class="sws">
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#2D7FF9"></div>
+    <div class="sw-meta"><b>blue-500</b><code>#2D7FF9</code><span>ACCENT — the sweep, active state, key data mark</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#2470F0"></div>
+    <div class="sw-meta"><b>blue-600</b><code>#2470F0</code><span>Link &amp; eyebrow text on white — 4.52:1</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#5B9DFF"></div>
+    <div class="sw-meta"><b>blue-400</b><code>#5B9DFF</code><span>The accent on dark — 5.38:1 on navy-900</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#1560D8"></div>
+    <div class="sw-meta"><b>blue-700</b><code>#1560D8</code><span>Link hover — 5.68:1</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#0B3D91"></div>
+    <div class="sw-meta"><b>blue-800</b><code>#0B3D91</code><span>Text on pale blue fills</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#8FBDFF"></div>
+    <div class="sw-meta"><b>blue-300</b><code>#8FBDFF</code><span>Secondary text on dark</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#BBD7FF"></div>
+    <div class="sw-meta"><b>blue-200</b><code>#BBD7FF</code><span>Tagline on dark</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#EFF5FF"></div>
+    <div class="sw-meta"><b>blue-50</b><code>#EFF5FF</code><span>Chips, highlight rows</span></div>
+  </div>
+    </div>
+
+    <div class="callout">
+      <h4>Where the accent is allowed</h4>
+      <p><code>#2D7FF9</code> measures <strong>3.81:1 on white</strong> — clears the 3:1 bar for graphics, falls short of 4.5:1 for body text. So the accent is <em>scoped</em>, not changed:</p>
+      <ul>
+        <li>Graphics, arcs, chart marks, 24px+ display text → <code>blue-500</code></li>
+        <li>Body text, links, anything under 24px on white → <code>blue-600</code></li>
+        <li>Anything on navy → <code>blue-400</code></li>
+      </ul>
+    </div>
+
+    <div class="callout" style="border-left-color:#B45309">
+      <h4>The colour rule — the most important line in this document</h4>
+      <p><strong>Colour encodes identity, never direction, and never judgement.</strong></p>
+      <p>Removals up is not red. Approvals up is not green. Whether either is good is the reader's call, and the moment the palette answers it for them, the product stops being a source and becomes a position.</p>
+      <ul>
+        <li><strong>Magnitude</strong> → one navy→blue sequential ramp</li>
+        <li><strong>Categories</strong> (countries, employers, states) → the categorical series, in order</li>
+        <li><strong>Change</strong> → an arrow glyph and a signed number in neutral ink. Not colour.</li>
+        <li><strong>Red / amber / green</strong> → reserved exclusively for <em>data freshness</em>, always paired with a text label, never colour alone</li>
+      </ul>
+    </div>
+
+    <h3>Neutrals — cool, navy-tinted, never pure grey</h3>
+    <div class="sws">
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#FFFFFF"></div>
+    <div class="sw-meta"><b>neutral-0</b><code>#FFFFFF</code><span>Background</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#F7F9FC"></div>
+    <div class="sw-meta"><b>neutral-50</b><code>#F7F9FC</code><span>Page tint</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#EEF2F7"></div>
+    <div class="sw-meta"><b>neutral-100</b><code>#EEF2F7</code><span>Gridlines</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#DEE5EE"></div>
+    <div class="sw-meta"><b>neutral-200</b><code>#DEE5EE</code><span>Borders</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#C6D0DD"></div>
+    <div class="sw-meta"><b>neutral-300</b><code>#C6D0DD</code><span>Dial ring, strong borders</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#9AA8BB"></div>
+    <div class="sw-meta"><b>neutral-400</b><code>#9AA8BB</code><span>Disabled</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#68778D"></div>
+    <div class="sw-meta"><b>neutral-500</b><code>#68778D</code><span>Secondary text — 4.55:1</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#51617A"></div>
+    <div class="sw-meta"><b>neutral-600</b><code>#51617A</code><span>Source lines, metadata — 6.29:1</span></div>
+  </div>
+    </div>
+    <div class="callout">
+      <h4>Why neutral-500 is #68778D and not #6B7A91</h4>
+      <p>The obvious value measured <strong>4.36:1</strong> — under AA. Source names and "data through" dates are set in this colour, and the text a reader needs in order to judge a number must never be the least legible thing on the page. Same reasoning as the <code>slate-500</code> override already in <code>tailwind.config.ts</code>.</p>
+    </div>
+
+    <h3>Data freshness — the only place colour judges anything</h3>
+    <div class="sws">
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#0E9F6E"></div>
+    <div class="sw-meta"><b>live</b><code>#0E9F6E</code><span>Updating on schedule</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#B45309"></div>
+    <div class="sw-meta"><b>stale</b><code>#B45309</code><span>Past expected refresh</span></div>
+  </div>
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#6B7A91"></div>
+    <div class="sw-meta"><b>archive</b><code>#6B7A91</code><span>Point-in-time figure</span></div>
+  </div>
+    </div>
+
+    <h3>Chart series — used strictly in order</h3>
+    <p>Past four series a legend stops working, and the answer is small multiples, not a seventh colour.</p>
+    <div class="sws">
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#102A43"></div>
+    <div class="sw-meta"><b>series-1</b><code>#102A43</code><span>on white</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#2D7FF9"></div>
+    <div class="sw-meta"><b>series-2</b><code>#2D7FF9</code><span>on white</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#00A0A0"></div>
+    <div class="sw-meta"><b>series-3</b><code>#00A0A0</code><span>on white</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#7B61FF"></div>
+    <div class="sw-meta"><b>series-4</b><code>#7B61FF</code><span>on white</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#C77700"></div>
+    <div class="sw-meta"><b>series-5</b><code>#C77700</code><span>on white</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#C2255C"></div>
+    <div class="sw-meta"><b>series-6</b><code>#C2255C</code><span>on white</span></div>
+  </div>
+    </div>
+    <div class="sws" style="margin-top:10px">
+      
+  <div class="sw">
+    <div class="sw-chip" style="background:#C6D0DD"></div>
+    <div class="sw-meta"><b>series-1</b><code>#C6D0DD</code><span>on navy</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#5B9DFF"></div>
+    <div class="sw-meta"><b>series-2</b><code>#5B9DFF</code><span>on navy</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#34D3C4"></div>
+    <div class="sw-meta"><b>series-3</b><code>#34D3C4</code><span>on navy</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#A78BFA"></div>
+    <div class="sw-meta"><b>series-4</b><code>#A78BFA</code><span>on navy</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#F0A93B"></div>
+    <div class="sw-meta"><b>series-5</b><code>#F0A93B</code><span>on navy</span></div>
+  </div>
+  <div class="sw">
+    <div class="sw-chip" style="background:#FF7CA3"></div>
+    <div class="sw-meta"><b>series-6</b><code>#FF7CA3</code><span>on navy</span></div>
+  </div>
+    </div>
+
+    <h3>Verified contrast</h3>
+    <p>Every pairing is machine-checked by <code>node brand/contrast.mjs</code>. A style guide that asserts "AA compliant" without a check is wrong within two months of someone nudging a hex value.</p>
+    <div class="scroll"><table>
+      <tr><th>Pairing</th><th>Colour</th><th>Ratio</th><th>Result</th></tr>
+      <tr><td>Body text on white</td><td><code>#102A43</code></td><td class="num">14.64:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+      <tr><td>Secondary text on white</td><td><code>#68778D</code></td><td class="num">4.55:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+      <tr><td>Source line on white</td><td><code>#51617A</code></td><td class="num">6.29:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+      <tr><td>Link text on white</td><td><code>#2470F0</code></td><td class="num">4.52:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+      <tr><td>White on navy-900</td><td><code>#FFFFFF</code></td><td class="num">14.64:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+      <tr><td>Tagline on navy-900</td><td><code>#BBD7FF</code></td><td class="num">9.95:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+      <tr><td>Accent mark on navy-900</td><td><code>#5B9DFF</code></td><td class="num">5.38:1</td><td><span class="pass">PASS</span> <span class="dim">min 3</span></td></tr>
+      <tr><td>Live status text on white</td><td><code>#046C4E</code></td><td class="num">6.44:1</td><td><span class="pass">PASS</span> <span class="dim">min 4.5</span></td></tr>
+    </table></div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>05</b>Typography</div>
+  <div>
+    <h2>Inter for language. IBM Plex Mono for evidence.</h2>
+
+    <div class="callout">
+      <h4>Inter — display, UI, body</h4>
+      <p>Neutral to the point of transparency, which is the point: the reader should notice the number, not the typeface. Variable, free under the OFL, enormous language coverage, and it ships genuine tabular figures and a slashed zero. It also reads as contemporary infrastructure rather than as a brand.</p>
+    </div>
+    <div class="callout">
+      <h4>IBM Plex Mono — all numerals, sources, timestamps</h4>
+      <p>The identity's second signature, and it does real work. Its lineage is institutional-technical rather than editorial, so figures read as <em>instrument output</em> instead of <em>headline</em>. Monospace also means a counter that ticks does not reflow the layout around it — which matters on a page full of live counters.</p>
+    </div>
+    <div class="callout" style="border-left-color:#B45309">
+      <h4>Deliberately no serif</h4>
+      <p>A serif is the single fastest way to read as a law firm. If long-form editorial ever needs one it is scoped to newsletter body copy only, and must be a <em>newspaper</em> serif — Source Serif 4 — never a lawyer's serif like Trajan, Garamond or Baskerville.</p>
+    </div>
+
+    <h3>Scale</h3>
+    <div class="spec"><div class="k">Display · 700</div><div style="font-size:clamp(30px,5vw,60px);line-height:1.05;letter-spacing:-0.025em;font-weight:700;color:var(--ink)">271,484 removals</div></div>
+    <div class="spec"><div class="k">H1 · 700</div><div style="font-size:38px;line-height:1.12;letter-spacing:-0.02em;font-weight:700;color:var(--ink)">What changed this month</div></div>
+    <div class="spec"><div class="k">H2 · 650</div><div style="font-size:29px;line-height:1.2;letter-spacing:-0.02em;font-weight:650;color:var(--ink)">Top H-1B sponsors, FY2024</div></div>
+    <div class="spec"><div class="k">H3 · 600</div><div style="font-size:22px;line-height:1.3;font-weight:600;color:var(--ink)">Approvals and denials by employer</div></div>
+    <div class="spec"><div class="k">Body · 400</div><div style="font-size:16px;line-height:1.6;color:var(--ink-2)">FY2024 is the latest complete year for most series. FY2025 figures are preliminary, and detention is a dated point-in-time count rather than an annual total.</div></div>
+    <div class="spec"><div class="k">Eyebrow · 700</div><div style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;color:var(--acc)">H-1B petitions · FY2024</div></div>
+    <div class="spec"><div class="k">Source · mono</div><div style="font-family:var(--mono);font-size:13.5px;color:var(--ink-2)">USCIS H-1B Employer Data Hub · data through Sep 30, 2024</div></div>
+    <div class="spec"><div class="k">Counter · mono</div><div class="counter">399,395</div></div>
+
+    <h3>Numeral rules</h3>
+    <p>Not stylistic preferences — correctness requirements for a product whose numbers animate.</p>
+    <ul>
+      <li><strong>Tabular, lining numerals everywhere.</strong> <code>font-variant-numeric: tabular-nums</code>. Proportional figures make a ticking counter jitter.</li>
+      <li><strong>Slashed zero</strong> on anything confusable. Inter: <code>cv01</code>.</li>
+      <li><strong>Comma grouping at 4+ digits</strong> — <code>9,265</code>, US convention.</li>
+      <li><strong>Never abbreviate the primary figure.</strong> <code>271,484</code>, not <code>271K</code>. Abbreviation is permitted only on chart axes.</li>
+      <li><strong>Every figure carries a period and a source in the same visual block.</strong> A number without "FY2024" and without an agency name is not publishable.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>06</b>Icons</div>
+  <div>
+    <h2>31 icons on a 24px grid</h2>
+    <p>1.75 stroke, round caps and joins, <code>currentColor</code> so colour is decided by context and never by the icon. Geometry snaps to 0.5; nothing is drawn smaller than 2.5 units because it will not survive 16px.</p>
+    <div class="icons">
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6c0-1.66 3.58-3 8-3s8 1.34 8 3-3.58 3-8 3-8-1.34-8-3Z"/><path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/><path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
+    <figcaption>source</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5"/><path d="M9 14.25l2 2 4-4"/></svg>
+    <figcaption>document</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.75l7.25 2.6v5.4c0 4.45-3 8.5-7.25 9.5-4.25-1-7.25-5.05-7.25-9.5v-5.4L12 2.75Z"/><path d="M8.75 11.9l2.4 2.4 4.1-4.4"/></svg>
+    <figcaption>verified</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.75l9.25 4.9L12 12.55 2.75 7.65 12 2.75Z"/><path d="M2.75 12.4L12 17.3l9.25-4.9"/><path d="M2.75 16.6L12 21.5l9.25-4.9"/></svg>
+    <figcaption>dataset</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.75 7.25L4 12l4.75 4.75"/><path d="M15.25 7.25L20 12l-4.75 4.75"/><path d="M13.4 4.5l-2.8 15"/></svg>
+    <figcaption>api</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.25v11.5"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M4 20.25h16"/></svg>
+    <figcaption>download</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6.75V12l3.5 2.1"/></svg>
+    <figcaption>clock</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.75" cy="13.25" r="7.5"/><path d="M10.75 8.5v4.75l3.25 1.95"/><circle cx="19" cy="5" r="2.5" fill="currentColor" stroke="none"/></svg>
+    <figcaption>live</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/><circle cx="8.5" cy="14.5" r="1.15" fill="currentColor" stroke="none"/></svg>
+    <figcaption>calendar</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 12a8.4 8.4 0 1 0 2.6-6.1L3 8.9"/><path d="M2.75 4.25v4.9h4.9"/><path d="M12 8.25V12.5l3.1 1.85"/></svg>
+    <figcaption>history</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3.75v16.5h16.25"/><path d="M7.5 15.75l3.75-4.25 2.9 2.6 5.35-6.1"/></svg>
+    <figcaption>chart-line</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3.75v16.5h16.25"/><path d="M8 20.25v-6.5"/><path d="M12.5 20.25v-10.5"/><path d="M17 20.25v-4"/></svg>
+    <figcaption>chart-bar</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3.75v16.5h16.25"/><path d="M7.25 16.25l3.75-4.5 3 2.75 5.5-6.25v12H7.25v-4Z"/></svg>
+    <figcaption>chart-area</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 17.25a9 9 0 1 1 16.8 0"/><path d="M12 17.25l4.1-5.35"/><circle cx="12" cy="17.25" r="1.5" fill="currentColor" stroke="none"/></svg>
+    <figcaption>gauge</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17.5L10 11l3.75 3.75L20.5 8"/><path d="M15.5 8h5v5"/></svg>
+    <figcaption>trend-up</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8L10 14.5l3.75-3.75L20.5 17.5"/><path d="M15.5 17.5h5v-5"/></svg>
+    <figcaption>trend-down</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.75h13"/><path d="M14.5 8.75l4.5 4-4.5 4"/></svg>
+    <figcaption>trend-flat</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3.2 12h17.6"/><path d="M12 3a13.5 13.5 0 0 1 0 18 13.5 13.5 0 0 1 0-18Z"/></svg>
+    <figcaption>globe</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.25s6.9-6.15 6.9-11a6.9 6.9 0 1 0-13.8 0c0 4.85 6.9 11 6.9 11Z"/><circle cx="12" cy="10.1" r="2.6"/></svg>
+    <figcaption>state</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.25" width="18" height="15.5" rx="2.5"/><circle cx="8.75" cy="11" r="2.35"/><path d="M5.25 16.9c.5-1.7 1.85-2.55 3.5-2.55s3 .85 3.5 2.55"/><path d="M14.75 10h4"/><path d="M14.75 13.5h4"/></svg>
+    <figcaption>status</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21.25 2.75L9.6 21.25l-2.1-8.75-6.75-2.1L21.25 2.75Z"/><path d="M21.25 2.75L7.5 12.5"/></svg>
+    <figcaption>border</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2.75 20.75h18.5"/><path d="M5.25 20.75V4.5a1.5 1.5 0 0 1 1.5-1.5h6a1.5 1.5 0 0 1 1.5 1.5v16.25"/><path d="M14.25 20.75V9.5h4.25a1.5 1.5 0 0 1 1.5 1.5v9.75"/><path d="M8.25 7.25h3"/><path d="M8.25 11.5h3"/><path d="M8.25 15.75h3"/></svg>
+    <figcaption>employer</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2.75" y="6.75" width="18.5" height="13.5" rx="2.5"/><path d="M8.5 6.75V5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.75"/><path d="M2.75 12.75h18.5"/></svg>
+    <figcaption>jobs</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.25" cy="8" r="3.4"/><path d="M2.75 20.25c0-3.65 2.9-5.6 6.5-5.6s6.5 1.95 6.5 5.6"/><path d="M16.4 5.1a3.4 3.4 0 0 1 0 5.8"/><path d="M17.6 14.9c2.4.6 3.65 2.4 3.65 5.35"/></svg>
+    <figcaption>people</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.75"/><path d="M15.4 15.4l5.35 5.35"/></svg>
+    <figcaption>search</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3.25 5.5h17.5"/><path d="M6.5 12h11"/><path d="M9.75 18.5h4.5"/></svg>
+    <figcaption>filter</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.75h6.25V10"/><path d="M20.25 3.75L11 13"/><path d="M18 13.75v4.5a2 2 0 0 1-2 2H5.75a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4.5"/></svg>
+    <figcaption>external</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.7 3.6a1.5 1.5 0 0 1 2.6 0l8.05 14.15a1.5 1.5 0 0 1-1.3 2.25H3.95a1.5 1.5 0 0 1-1.3-2.25L10.7 3.6Z"/><path d="M12 9.25v4.5"/><circle cx="12" cy="16.9" r="1.15" fill="currentColor" stroke="none"/></svg>
+    <figcaption>caveat</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.85" r="1.15" fill="currentColor" stroke="none"/></svg>
+    <figcaption>method</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.75" width="19" height="14.5" rx="2.5"/><path d="M3.25 7.25L12 13.4l8.75-6.15"/></svg>
+    <figcaption>newsletter</figcaption>
+  </figure>
+  <figure class="ic">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9.25a6 6 0 1 0-12 0c0 5.5-2 7.25-2 7.25h16s-2-1.75-2-7.25Z"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/></svg>
+    <figcaption>alert</figcaption>
+  </figure></div>
+    <div class="callout" style="border-left-color:#B45309">
+      <h4>Deliberately absent</h4>
+      <p>Gavels, scales of justice, courthouse columns, eagles, flags, handshakes, torches, Statue of Liberty silhouettes. That is the visual vocabulary of a law firm or an advocacy group. This product reports numbers.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>07</b>Profile</div>
+  <div>
+    <h2>Avatars are built for the mask they'll get</h2>
+    <div class="plate avatars">
+      <figure><svg class="" style="width:120px;height:120px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="14.98" fill="#102A43"/>
+  <g transform="translate(12.160 12.160) scale(0.62)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>LINKEDIN · 400×400</figcaption></figure>
+      <figure class="circle"><svg class="" style="width:120px;height:120px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="0.00" fill="#102A43"/>
+  <g transform="translate(13.440 13.440) scale(0.58)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>X · 400×400</figcaption></figure>
+      <figure class="circle"><svg class="" style="width:48px;height:48px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="0.00" fill="#102A43"/>
+  <g transform="translate(13.440 13.440) scale(0.58)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>X @ 48</figcaption></figure>
+      <figure class="circle"><svg class="" style="width:32px;height:32px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect rx="0.00" fill="#102A43"/>
+  <g transform="translate(13.440 13.440) scale(0.58)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.42)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+</svg><figcaption>X @ 32</figcaption></figure>
+    </div>
+    <p>The X image ships as a <strong>hard square with no corner radius</strong> — X masks avatars to a circle, and rounding artwork that is about to be circle-masked only wastes pixels. The LinkedIn logo keeps its squircle because LinkedIn's mask is a rounded square.</p>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>08</b>Banners</div>
+  <div>
+    <h2>Designed around the platform's own chrome</h2>
+    <p>LinkedIn overlaps the bottom-left of a company cover with the logo card; X overlaps the bottom-left of a header with the avatar. Nothing important is placed there. The X block starts at x=340 and stays within y=100–400, because mobile crops the top and bottom bands.</p>
+    <h3>LinkedIn company cover · 1128 × 191</h3>
+    <div class="banner"><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1128 191">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect/></clipPath>
+  </defs>
+  <rect fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1128" cy="0" rx="620" ry="420" fill="url(#bg-glow)"/>
+  <g transform="translate(902.0 -54.0) scale(4.6875)" opacity="0.1">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <g transform="translate(-52.0 -34.0) scale(4.0625)" opacity="0.06">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(195.9 68.5) scale(0.84375)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="267.9" y="107.2" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="33" font-weight="700" letter-spacing="-0.66" fill="#FFFFFF">ImmigrationClock</text>
+  <rect x="573.5" y="73.5" fill="rgba(255,255,255,0.22)"/>
+  <text x="604.5" y="103.0" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="21" font-weight="500" letter-spacing="0.42" fill="#BBD7FF">Facts First • Sources Included</text>
+</svg></div>
+    <h3>LinkedIn personal cover · 1584 × 396</h3>
+    <div class="banner"><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect/></clipPath>
+  </defs>
+  <rect fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1298.8799999999999" cy="0" rx="760" ry="520" fill="url(#bg-glow)"/>
+  <g transform="translate(1190.0 -32.0) scale(7.1875)" opacity="0.1">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <g transform="translate(-40.0 8.0) scale(5.9375)" opacity="0.055">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(523.9 108) scale(1.18750)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="625.9" y="164" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="52" font-weight="700" letter-spacing="-1.04" fill="#FFFFFF">ImmigrationClock</text>
+  <text x="792" y="232" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="25" font-weight="500" letter-spacing="0.75" fill="#BBD7FF">Facts First • Sources Included</text>
+  <g transform="translate(542.3 276)"><g><rect x="0.0" y="0" rx="19.5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="47.0" y="25.5" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.53" fill="#BBD7FF">USCIS</text></g>
+    <g><rect x="104.5" y="0" rx="19.5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="139.1" y="25.5" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.53" fill="#BBD7FF">ICE</text></g>
+    <g><rect x="184.3" y="0" rx="19.5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="218.9" y="25.5" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.53" fill="#BBD7FF">CBP</text></g>
+    <g><rect x="264.1" y="0" rx="19.5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="341.9" y="25.5" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.53" fill="#BBD7FF">STATE DEPT</text></g>
+    <g><rect x="430.2" y="0" rx="19.5" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="464.8" y="25.5" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.53" fill="#BBD7FF">BLS</text></g></g>
+</svg></div>
+    <h3>X header · 1500 × 500</h3>
+    <div class="banner"><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect/></clipPath>
+  </defs>
+  <rect fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1290" cy="50" rx="700" ry="520" fill="url(#bg-glow)"/>
+  <g transform="translate(1030.0 -10.0) scale(8.1250)" opacity="0.11">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(340 132) scale(1.06250)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="430" y="184" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="46" font-weight="700" letter-spacing="-0.92" fill="#FFFFFF">ImmigrationClock</text>
+  <text x="340" y="264" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="28" font-weight="500" letter-spacing="0.84" fill="#BBD7FF">Facts First • Sources Included</text>
+  <text x="340" y="306" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="rgba(255,255,255,0.55)">Live U.S. immigration, visa, enforcement and workforce data.</text>
+  <g transform="translate(340 336)"><g><rect x="0.0" y="0" rx="18.4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="44.2" y="24.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.44" fill="#BBD7FF">USCIS</text></g>
+    <g><rect x="98.3" y="0" rx="18.4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="130.9" y="24.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.44" fill="#BBD7FF">ICE</text></g>
+    <g><rect x="173.4" y="0" rx="18.4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="206.0" y="24.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.44" fill="#BBD7FF">CBP</text></g>
+    <g><rect x="248.6" y="0" rx="18.4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="321.8" y="24.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.44" fill="#BBD7FF">STATE DEPT</text></g>
+    <g><rect x="404.9" y="0" rx="18.4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)"/><text x="437.5" y="24.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="1.44" fill="#BBD7FF">BLS</text></g></g>
+</svg></div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>09</b>Posts</div>
+  <div>
+    <h2>Four templates, and every one ends in a source</h2>
+    <div class="posts">
+      <div><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <rect fill="#FFFFFF"/>
+  <rect x="0" y="0" fill="#102A43"/>
+  <rect x="0" y="0" fill="#2D7FF9"/>
+  <g transform="translate(88 82) scale(0.71875)">
+    <path d="M32 4.5L32 1.8" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#C6D0DD" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#2D7FF9" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#102A43" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#102A43"/>
+  </g>
+  <text x="149.64" y="114.8" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="27.6" font-weight="700" letter-spacing="-0.55" fill="#102A43">ImmigrationClock</text>
+  <g><rect x="790.25" y="92" rx="17.3" fill="#E6F6EF" stroke="#BFE7D6"/><circle cx="807.5" cy="109.3" r="4.35" fill="#0E9F6E"/><text x="818.0" y="114.5" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="1.35" fill="#046C4E">SOURCED FIGURE</text></g>
+
+  <text x="88" y="352" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="3" fill="#2470F0">H-1B PETITIONS · FY2024</text>
+  <text x="88" y="522" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="158" font-weight="600" letter-spacing="-4" fill="#102A43">399,395</text>
+  <text x="88" y="596" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="42" font-weight="500" fill="#3B4C63">approvals reported by USCIS</text>
+  <text x="88" y="656" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="28" font-weight="400" fill="#68778D">India accounted for 283,397 of them.</text>
+
+  <g>
+    <rect x="88" y="710" rx="30" fill="#EFF5FF" stroke="#D9E8FF"/>
+    <path d="M122 748L134 732L146 748" fill="none" stroke="#2470F0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="162" y="749" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="#0B3D91">6.2% vs FY2023</text>
+  </g>
+
+  <rect x="88" y="850" fill="#DEE5EE"/>
+  <text x="88" y="894" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4" fill="#2470F0">SOURCE</text>
+  <text x="88" y="934" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="#51617A">USCIS H-1B Employer Data Hub</text>
+  <text x="88" y="970" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="#51617A">Data through Sep 30, 2024</text>
+  <text x="992" y="970" text-anchor="end" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="#68778D">immigrationclock.com</text>
+</svg></div>
+      <div><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect/></clipPath>
+  </defs>
+  <rect fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1080" cy="0" rx="720" ry="640" fill="url(#bg-glow)"/>
+  <g transform="translate(708.0 620.0) scale(8.1250)" opacity="0.08">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(88 82) scale(0.71875)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="149.64" y="114.8" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="27.6" font-weight="700" letter-spacing="-0.55" fill="#FFFFFF">ImmigrationClock</text>
+
+  <rect x="88" y="286" fill="#5B9DFF"/>
+  <text x="88" y="336" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="3" fill="#8FBDFF">WHAT CHANGED THIS MONTH</text>
+  <text x="88" y="456" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">ICE reported 271,484</text>
+  <text x="88" y="540" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">removals in FY2024 —</text>
+  <text x="88" y="624" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">the highest figure</text>
+  <text x="88" y="708" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">in a decade.</text>
+  <text x="88" y="782" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="400" fill="rgba(255,255,255,0.62)">Detention counts are a point-in-time figure, not an annual total.</text>
+
+  <rect x="88" y="850" fill="rgba(255,255,255,0.16)"/>
+  <text x="88" y="894" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4" fill="#8FBDFF">SOURCE</text>
+  <text x="88" y="934" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="rgba(255,255,255,0.72)">ICE Annual Report FY2024, Table 1</text>
+  <text x="88" y="970" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="rgba(255,255,255,0.72)">Published Dec 2024 · retrieved Aug 2026</text>
+  <text x="992" y="970" text-anchor="end" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="rgba(255,255,255,0.5)">immigrationclock.com</text>
+</svg></div>
+      <div><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1350">
+  <rect fill="#FFFFFF"/>
+  <rect x="0" y="0" fill="#102A43"/>
+  <rect x="0" y="0" fill="#2D7FF9"/>
+  <g transform="translate(88 82) scale(0.71875)">
+    <path d="M32 4.5L32 1.8" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#C6D0DD" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#C6D0DD" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#2D7FF9" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#102A43" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#102A43"/>
+  </g>
+  <text x="149.64" y="114.8" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="27.6" font-weight="700" letter-spacing="-0.55" fill="#102A43">ImmigrationClock</text>
+  <g><rect x="801.125" y="92" rx="17.3" fill="#E6F6EF" stroke="#BFE7D6"/><circle cx="818.4" cy="109.3" r="4.35" fill="#0E9F6E"/><text x="828.9" y="114.5" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="1.35" fill="#046C4E">UPDATED DAILY</text></g>
+
+  <text x="88" y="286" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="3" fill="#2470F0">TOP H-1B SPONSORS · FY2024</text>
+  <text x="88" y="368" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="-1.6" fill="#102A43">Who sponsors the most</text>
+  <text x="88" y="418" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="28" font-weight="400" fill="#68778D">Approvals reported to USCIS, initial and continuing</text>
+
+  <rect x="88" y="940.0" fill="#C6D0DD"/>
+  <rect x="88" y="822.5" fill="#EEF2F7"/>
+  <rect x="88" y="705.0" fill="#EEF2F7"/>
+  <rect x="88" y="587.5" fill="#EEF2F7"/>
+  <rect x="88" y="470.0" fill="#EEF2F7"/>
+  <rect x="121.1" y="470.0" rx="6" fill="#2D7FF9"/>
+  <text x="163.3" y="452.0" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#102A43">9,265</text>
+  <text x="163.3" y="980.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#51617A">Amazon</text>
+  <rect x="271.8" y="619.3" rx="6" fill="#1B3A57"/>
+  <text x="314.0" y="601.3" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#102A43">6,321</text>
+  <text x="314.0" y="980.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#51617A">Cognizant</text>
+  <rect x="422.5" y="636.2" rx="6" fill="#1B3A57"/>
+  <text x="464.7" y="618.2" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#102A43">5,989</text>
+  <text x="464.7" y="980.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#51617A">Infosys</text>
+  <rect x="573.1" y="672.5" rx="6" fill="#1B3A57"/>
+  <text x="615.3" y="654.5" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#102A43">5,274</text>
+  <text x="615.3" y="980.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#51617A">TCS</text>
+  <rect x="723.8" y="700.3" rx="6" fill="#1B3A57"/>
+  <text x="766.0" y="682.3" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#102A43">4,725</text>
+  <text x="766.0" y="980.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#51617A">Microsoft</text>
+  <rect x="874.5" y="736.9" rx="6" fill="#1B3A57"/>
+  <text x="916.7" y="718.9" text-anchor="middle" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="26" font-weight="600" fill="#102A43">4,004</text>
+  <text x="916.7" y="980.0" text-anchor="middle" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#51617A">Meta</text>
+
+  <rect x="88" y="1120" fill="#DEE5EE"/>
+  <text x="88" y="1164" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4" fill="#2470F0">SOURCE</text>
+  <text x="88" y="1204" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="#51617A">USCIS H-1B Employer Data Hub</text>
+  <text x="88" y="1240" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="#51617A">Data through Sep 30, 2024</text>
+  <text x="992" y="1240" text-anchor="end" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="#68778D">immigrationclock.com</text>
+</svg></div>
+    </div>
+    <div class="posts" style="margin-top:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+      <div><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 628">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect/></clipPath>
+  </defs>
+  <rect fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1080" cy="50.24" rx="620" ry="480" fill="url(#bg-glow)"/>
+  <g transform="translate(858.0 222.0) scale(7.1875)" opacity="0.1">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(72 64) scale(0.75000)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="136.32" y="98.2" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="28.8" font-weight="700" letter-spacing="-0.58" fill="#FFFFFF">ImmigrationClock</text>
+
+  <text x="72" y="348" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2" fill="#FFFFFF">The Immigration Clock</text>
+  <text x="72" y="404" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="29" font-weight="400" fill="rgba(255,255,255,0.68)">Live public data on immigration, visas, enforcement and jobs.</text>
+
+  <rect x="72" y="486" fill="#5B9DFF"/>
+  <text x="72" y="546" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="1.2" fill="#BBD7FF">Facts First • Sources Included</text>
+  <text x="1128" y="546" text-anchor="end" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)">immigrationclock.com</text>
+</svg></div>
+      <div><svg class="" style="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 628">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect/></clipPath>
+  </defs>
+  <rect fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1080" cy="50.24" rx="620" ry="480" fill="url(#bg-glow)"/>
+  <g transform="translate(858.0 222.0) scale(7.1875)" opacity="0.1">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(72 64) scale(0.75000)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="136.32" y="98.2" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="28.8" font-weight="700" letter-spacing="-0.58" fill="#FFFFFF">ImmigrationClock</text>
+
+  <text x="72" y="348" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2" fill="#FFFFFF">Immigration Pulse</text>
+  <text x="72" y="404" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="29" font-weight="400" fill="rgba(255,255,255,0.68)">What changed in the data this month — in one email, every Tuesday.</text>
+
+  <rect x="72" y="486" fill="#5B9DFF"/>
+  <text x="72" y="546" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="1.2" fill="#BBD7FF">Facts First • Sources Included</text>
+  <text x="1128" y="546" text-anchor="end" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="600" fill="rgba(255,255,255,0.5)">immigrationclock.com</text>
+</svg></div>
+    </div>
+    <table style="margin-top:22px">
+      <tr><th>Template</th><th>Size</th><th>Use</th></tr>
+      <tr><td><strong>A · The Number</strong></td><td class="num">1080×1080</td><td>One figure, sourced. The default post.</td></tr>
+      <tr><td><strong>B · The Statement</strong></td><td class="num">1080×1080</td><td>A plain-language finding on navy, for threads and quotes.</td></tr>
+      <tr><td><strong>C · The Chart</strong></td><td class="num">1080×1350</td><td>A comparison, portrait, for feed dwell time.</td></tr>
+      <tr><td><strong>D · The Card</strong></td><td class="num">1200×628</td><td>Link previews and OG images.</td></tr>
+    </table>
+    <div class="callout">
+      <h4>A post without a visible source should not ship</h4>
+      <p>That is the entire promise of the tagline, and the templates are built so that keeping it is easier than breaking it. Every layout reserves a source block with the agency name and an "as of" date.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>10</b>Tagline</div>
+  <div>
+    <h2>Facts First • Sources Included</h2>
+    <p>Locked wording, title case, U+2022 bullet with spaces. Used on banners and the link card. Never re-punctuated, never split across lines, never translated without sign-off.</p>
+    <p>It is the short brand form of the longer product line already on the site — <em>"Facts first. Trends live. Sources included."</em> Both are correct: the short one for identity surfaces, the long one for product surfaces.</p>
+  </div>
+</div></section>
+
+<section><div class="row">
+  <div class="lbl"><b>11</b>Two surfaces</div>
+  <div>
+    <h2>The lights dim. The brand doesn't change.</h2>
+    <p>The dashboard is <strong>dark</strong>; this identity is <strong>white and navy</strong>. That is deliberate, not a contradiction.</p>
+    <table>
+      <tr><th></th><th>Product surface</th><th>Brand surface</th></tr>
+      <tr><td><strong>Ground</strong></td><td>Near-black <code>ink</code> ramp</td><td>White / navy-900</td></tr>
+      <tr><td><strong>Feels like</strong></td><td>A live instrument</td><td>A published record</td></tr>
+      <tr><td><strong>Covers</strong></td><td>The dashboard and its charts</td><td>Logo, social, email, decks, press</td></tr>
+      <tr><td><strong>Governed by</strong></td><td><code>tailwind.config.ts</code></td><td><code>brand/tokens.mjs</code></td></tr>
+    </table>
+    <p>They share the same navy, the same accent hue, the same typefaces, the same icons and the same numeral rules. A reader moving from a LinkedIn post to the dashboard should feel the lights dim, not the brand change.</p>
+  </div>
+</div></section>
+
+</main>
+
+<footer class="wrap">
+  <p>Generated from <code>brand/tokens.mjs</code> — <code>node brand/build.mjs</code> writes the assets, <code>node brand/contrast.mjs</code> verifies the palette, <code>node brand/guide.mjs</code> writes this page. Assets are committed, so nobody needs Node to use them; they are generated, so changing a colour never means editing forty files by hand.</p>
+  <p>ImmigrationClock — Brand Style Guide v1.0 · August 2026</p>
+</footer>

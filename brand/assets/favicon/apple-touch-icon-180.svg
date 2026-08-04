@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 64 64" role="img" aria-label="ImmigrationClock">
+  <rect width="64" height="64" rx="0.00" fill="#102A43"/>
+  <g transform="translate(12.800 12.800) scale(0.6)">
+    <circle cx="32" cy="32" r="24" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="6.4"/>
+    <path d="M32 8A24 24 0 0 1 56 32" fill="none" stroke="#5B9DFF" stroke-width="6.4" stroke-linecap="round"/>
+    <path d="M32 32L32 19" stroke="#FFFFFF" stroke-width="6.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="3.4" fill="#FFFFFF"/>
+  </g>
+</svg>

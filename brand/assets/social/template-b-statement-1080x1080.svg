@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A1B2D"/>
+      <stop offset="0.55" stop-color="#102A43"/>
+      <stop offset="1" stop-color="#1B3A57"/>
+    </linearGradient>
+    <radialGradient id="bg-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2D7FF9" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#2D7FF9" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="bg-clip"><rect width="1080" height="1080"/></clipPath>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#bg)"/>
+  <g clip-path="url(#bg-clip)"><ellipse cx="1080" cy="0" rx="720" ry="640" fill="url(#bg-glow)"/>
+  <g transform="translate(708.0 620.0) scale(8.1250)" opacity="0.08">
+    <path d="M32 4.5L32 1.8" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="#FFFFFF" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#8FBDFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g></g>
+  <g transform="translate(88 82) scale(0.71875)">
+    <path d="M32 4.5L32 1.8" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M59.5 32L62.2 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M32 59.5L32 62.2" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M4.5 32L1.8 32" stroke="rgba(255,255,255,0.45)" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="23" fill="none" stroke="rgba(255,255,255,0.30)" stroke-width="4.6"/>
+    <path d="M32 9A23 23 0 0 1 55 32" fill="none" stroke="#5B9DFF" stroke-width="4.6" stroke-linecap="round"/>
+    <path d="M32 32L32 16.5" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="2.8" fill="#FFFFFF"/>
+  </g>
+  <text x="149.64" y="114.8" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="27.6" font-weight="700" letter-spacing="-0.55" fill="#FFFFFF">ImmigrationClock</text>
+
+  <rect x="88" y="286" width="72" height="4" fill="#5B9DFF"/>
+  <text x="88" y="336" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="3" fill="#8FBDFF">WHAT CHANGED THIS MONTH</text>
+  <text x="88" y="456" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">ICE reported 271,484</text>
+  <text x="88" y="540" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">removals in FY2024 —</text>
+  <text x="88" y="624" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">the highest figure</text>
+  <text x="88" y="708" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="66" font-weight="650" letter-spacing="-1.4" fill="#FFFFFF">in a decade.</text>
+  <text x="88" y="782" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="26" font-weight="400" fill="rgba(255,255,255,0.62)">Detention counts are a point-in-time figure, not an annual total.</text>
+
+  <rect x="88" y="850" width="904" height="1" fill="rgba(255,255,255,0.16)"/>
+  <text x="88" y="894" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="2.4" fill="#8FBDFF">SOURCE</text>
+  <text x="88" y="934" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="rgba(255,255,255,0.72)">ICE Annual Report FY2024, Table 1</text>
+  <text x="88" y="970" font-family="'IBM Plex Mono', ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace" font-size="23" fill="rgba(255,255,255,0.72)">Published Dec 2024 · retrieved Aug 2026</text>
+  <text x="992" y="970" text-anchor="end" font-family="Inter, 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="23" font-weight="600" fill="rgba(255,255,255,0.5)">immigrationclock.com</text>
+</svg>

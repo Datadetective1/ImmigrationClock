@@ -2,7 +2,7 @@
   "name": "immigration-clock",
   "version": "1.0.0",
   "private": true,
-  "description": "The Immigration Clock \u2014 live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
+  "description": "The Immigration Clock — live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
   "scripts": {
     "dev": "next dev",
     "refresh": "node scripts/refresh-data.mjs",
@@ -14,6 +14,9 @@
     "build:events": "tsx scripts/build-events.ts",
     "refresh:warn-scraper": "node scripts/refresh-warn-scraper.mjs",
     "prebuild": "node scripts/refresh-data.mjs && tsx scripts/build-employers.ts && tsx scripts/build-warn.ts && tsx scripts/build-events.ts && tsx scripts/build-dataset.ts && tsx scripts/build-pulse-email.ts",
+    "brand": "node brand/build.mjs && node brand/guide.mjs",
+    "brand:contrast": "node brand/contrast.mjs --ci",
+    "brand:review": "node brand/serve.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
