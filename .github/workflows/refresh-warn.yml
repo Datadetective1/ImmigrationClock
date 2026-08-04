@@ -26,10 +26,12 @@ on:
         default: "wa nj va md ga mn co ma ks in wi"
 
 permissions:
-  contents: write # commit the refreshed cache + regenerated feed
+  contents: write # the only scope needed: commit + push generated data
 
+# Shared with refresh-data.yml — see the note there. Both write generated files
+# to `main`, so they must never hold the lock at the same time.
 concurrency:
-  group: refresh-warn
+  group: main-writer
   cancel-in-progress: false
 
 jobs:
@@ -40,6 +42,9 @@ jobs:
       STATES: ${{ github.event.inputs.states || 'wa nj va md ga mn co ma ks in wi' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history — `git pull --rebase` before the push needs it.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -72,10 +77,16 @@ jobs:
           done
 
       - name: Normalize CSVs → committed cache (src/lib/generated/warn-scraper.json)
-        run: WARN_SCRAPE_DIR=/tmp/warn npm run refresh:warn-scraper
+        run: |
+          echo "::group::Generation — normalize scraped CSVs into the committed cache"
+          WARN_SCRAPE_DIR=/tmp/warn npm run refresh:warn-scraper
+          echo "::endgroup::"
 
       - name: Rebuild WARN feed + public API from the fresh cache
-        run: npm run build:warn
+        run: |
+          echo "::group::Generation — rebuild WARN feed, summary and public API"
+          npm run build:warn
+          echo "::endgroup::"
 
       - name: Detect real data change (ignoring generatedAt timestamps)
         id: changed
@@ -98,14 +109,12 @@ jobs:
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
           echo "WARN data changed: $CHANGED" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Commit refreshed WARN data (only when it changed → triggers deploy)
+      # Same shared script as refresh-data.yml. Note this now also carries
+      # src/lib/generated/warn-summary.json, which build-warn.ts regenerates on
+      # every run but the old hand-written `git add` list omitted entirely.
+      - name: Commit refreshed WARN data & push to main (triggers deploy)
         if: steps.changed.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/lib/generated/warn-scraper.json src/lib/generated/warn.json public/api/warn.json public/api/warn.csv
-          git commit -m "chore(warn): refresh wide-net WARN feed [skip ci]"
-          git push
+        run: bash .github/scripts/commit-and-push.sh "chore(warn): refresh wide-net WARN feed"
 
       - name: Optional Vercel deploy hook
         if: steps.changed.outputs.changed == 'true'

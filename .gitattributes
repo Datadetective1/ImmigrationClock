@@ -1,0 +1,14 @@
+# Shell scripts must be LF, always.
+#
+# .github/scripts/commit-and-push.sh runs on ubuntu-latest. Committed with CRLF
+# it fails as `/usr/bin/env: 'bash\r': No such file or directory` — which reads
+# like a broken runner rather than a line-ending problem, on a job that only
+# executes when data actually changed. This pins the ending at the repo level so
+# it does not depend on each contributor's core.autocrlf.
+*.sh text eol=lf
+
+# Generated data is committed and diffed by the refresh workflows. Normalising
+# it keeps a contributor's editor from rewriting whole files as CRLF and turning
+# a one-line data change into a 40,000-line diff.
+*.json text eol=lf
+*.csv text eol=lf

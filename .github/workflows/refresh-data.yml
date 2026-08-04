@@ -18,6 +18,11 @@
 # DEPLOY: this repo is connected to Vercel via the Git integration, so any push
 # to `main` auto-deploys. No deploy hook is required. If you instead use a Vercel
 # Deploy Hook, add it as the secret VERCEL_DEPLOY_HOOK and it will also be pinged.
+#
+# The push goes straight to `main` — no bot branch, no pull request, no review
+# step. `main` stays protected for humans; the GitHub Actions bot is on the
+# ruleset's bypass list so GITHUB_TOKEN can land this commit. See
+# docs/deployment.md → "Automated pushes to a protected main".
 
 name: Refresh data, archive & deploy
 
@@ -27,17 +32,27 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write # needed to commit the refreshed snapshot + growing archive
+  contents: write # the only scope needed: commit + push generated data
 
+# Shared with every other workflow that writes generated files to `main`, so two
+# refreshes can never interleave their commits. `cancel-in-progress: false`
+# because a half-finished data refresh must not be killed — the queued run waits
+# its turn instead. GitHub keeps at most one run pending per group; a third
+# arrival is dropped, which is harmless here since the next cron re-runs it.
 concurrency:
-  group: refresh-data
+  group: main-writer
   cancel-in-progress: false
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: `git pull --rebase` before the push needs real history,
+          # and the default shallow clone makes rebases fail unpredictably.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -48,7 +63,10 @@ jobs:
         run: npm ci
 
       - name: Refresh feeds + build dataset (same pipeline as the deploy)
-        run: npm run prebuild
+        run: |
+          echo "::group::Generation — refresh feeds, rebuild dataset, archive, events, pulse email"
+          npm run prebuild
+          echo "::endgroup::"
         env:
           # Congress ingests nothing without this; absent, the adapter correctly
           # reports itself unconfigured rather than failing. See docs/deployment.md.
@@ -103,14 +121,13 @@ jobs:
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
           echo "Data changed: $CHANGED" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Commit refreshed data (only when it changed → triggers Vercel deploy)
+      # Staging, commit, rebase, push and retry all live in the shared script so
+      # this workflow and refresh-warn.yml cannot maintain divergent file lists
+      # again. It stages the whole generated surface, so newly added outputs are
+      # picked up without anyone remembering to edit a `git add` line.
+      - name: Commit refreshed data & push to main (triggers Vercel deploy)
         if: steps.changed.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/lib/generated/refresh.json src/lib/generated/history.json src/lib/generated/dataset.json src/lib/generated/pulse-email.json src/lib/generated/employers.json src/lib/generated/events.json src/lib/generated/events-index.json public/data-manifest.json public/pulse-email.html public/pulse-email.txt
-          git commit -m "chore(data): refresh snapshot + archive [skip ci]"
-          git push
+        run: bash .github/scripts/commit-and-push.sh "chore(data): refresh snapshot + archive"
 
       - name: Optional Vercel deploy hook
         if: steps.changed.outputs.changed == 'true'
