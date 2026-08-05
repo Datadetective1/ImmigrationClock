@@ -10,7 +10,7 @@ import { formatDate } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Immigration Insights — What the Numbers Say",
   description:
-    "Auto-generated, plain-language insights computed from official U.S. immigration data: H-1B concentration, border trends, detention, student visas, and layoffs. Every claim is sourced and labelled reported, projected, or estimated.",
+    "Plain-language insights computed from official U.S. immigration data: H-1B concentration, border trends, detention, student visas and layoffs. Every claim sourced.",
   path: "/insights",
   keywords: [
     "immigration insights",

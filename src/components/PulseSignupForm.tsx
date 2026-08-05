@@ -135,9 +135,9 @@ export function PulseSignupForm({
       <div role="status" className="rounded-xl border border-accent/30 bg-accent/[0.06] p-4">
         <p className="text-sm font-semibold text-white">Check your inbox.</p>
         <p className="mt-1 text-xs leading-relaxed text-slate-400">
-          You&rsquo;re on the list, and a confirmation is on its way to you. If it doesn&rsquo;t arrive
-          in a few minutes, look in your spam folder — and if it isn&rsquo;t there either, the signup
-          did not complete.
+          A confirmation is on its way now, and your first Pulse arrives with the next weekly issue. If
+          the confirmation doesn&rsquo;t show up within a few minutes, check spam — and if it
+          isn&rsquo;t there either, the signup did not complete.
         </p>
       </div>
     );

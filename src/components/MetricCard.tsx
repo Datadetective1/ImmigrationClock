@@ -55,7 +55,7 @@ export function MetricCard({ metric, mode = "latest" }: { metric: Metric; mode?:
 
   return (
     <div
-      className={`panel panel-pad group relative h-full overflow-hidden rounded-2xl transition-shadow ${STATUS_GLOW[metric.status]} before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-1 ${STATUS_RING[metric.status]}`}
+      className={`panel panel-pad group relative flex h-full flex-col overflow-hidden rounded-2xl transition-shadow ${STATUS_GLOW[metric.status]} before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-1 ${STATUS_RING[metric.status]}`}
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-1.5">
@@ -113,7 +113,13 @@ export function MetricCard({ metric, mode = "latest" }: { metric: Metric; mode?:
         ) : null}
       </div>
 
-      <div className="relative z-20 mt-4">
+      {/* Pinned to the bottom rather than flowing after the value.
+          The value block has an optional second line (a unit, or a raw count
+          under a formatted one), so cards in the same row ended with their
+          source badges at different heights — the row read as several cards
+          built to slightly different rules. `mt-auto` costs nothing and makes
+          the provenance line a shared baseline across the grid. */}
+      <div className="relative z-20 mt-auto pt-4">
         <SourceBadge
           sourceName={metric.sourceName}
           sourceUrl={metric.sourceUrl}

@@ -8,7 +8,7 @@ import { buildMetrics } from "@/lib/data";
 export const metadata = buildMetadata({
   title: "Enforcement & Border — ICE, Detention & CBP Data Hub",
   description:
-    "The U.S. immigration enforcement and border picture at a glance: ICE arrests, removals, and detention, CBP encounters and demographics, and a policy timeline — every figure sourced and labelled.",
+    "U.S. enforcement and border data at a glance: ICE arrests, removals and detention, CBP encounters, and a policy timeline. Every figure sourced and labelled.",
   path: "/enforcement",
   keywords: [
     "immigration enforcement data",

@@ -27,9 +27,19 @@ html {
 
 /* A visible focus ring on every interactive element, for keyboard users.
    `:focus-visible` means pointer users never see it, so there is no reason to
-   suppress it — which is what most "outline: none" resets end up doing. */
+   suppress it — which is what most "outline: none" resets end up doing.
+
+   `!important` is deliberate, and it is the only one in this file.
+   `:where()` has ZERO specificity, so any component carrying Tailwind's
+   `focus:outline-none` (which resolves to `outline: 2px solid transparent`)
+   silently won this cascade and left keyboard users with no focus indicator at
+   all. Nine components carried it. Raising the selector's specificity would not
+   help either — a utility class still beats an element selector.
+
+   So this is an accessibility FLOOR, not a default: a component may restyle
+   focus, but it may not remove it by accident. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid theme("colors.accent.DEFAULT");
+  outline: 2px solid theme("colors.accent.DEFAULT") !important;
   outline-offset: 2px;
   border-radius: 4px;
 }

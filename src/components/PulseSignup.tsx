@@ -89,10 +89,12 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
     );
   }
 
+  // Padding trimmed p-5/sm:p-6 -> p-4/sm:p-5. Same panel, same trust messaging,
+  // less vertical cost on the dashboard.
   return (
-    <section id="subscribe" className="panel relative overflow-hidden p-5 sm:p-6">
+    <section id="subscribe" className="panel relative overflow-hidden p-4 sm:p-5">
       <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-accent/60 to-transparent" />
-      <div className="grid gap-4 sm:grid-cols-[1.2fr_1fr] sm:items-center">
+      <div className="grid gap-3 sm:grid-cols-[1.2fr_1fr] sm:items-center">
         <div>
           <div className="eyebrow mb-1 text-accent">Newsletter</div>
           <h2 className="text-lg font-bold text-white sm:text-xl">Get the weekly Immigration Pulse</h2>
@@ -102,27 +104,37 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
           {/* What a subscriber is actually agreeing to. "Five things, weekly" is
               a pitch; this is the contract, and a reader deciding whether to
               hand over an address should not have to infer it. */}
+          {/* The contract, not the pitch. Someone deciding whether to hand over
+              an address wants six specifics — what arrives, how often, how long
+              it takes to read, when the first one comes, what happens to their
+              address, and how to stop. Each line answers exactly one. */}
           <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-slate-400">
             <li className="flex gap-2">
               <span className="text-accent" aria-hidden>—</span>
-              <span>One email a week. Nothing else, ever — no partner mail, no sponsor blasts.</span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>—</span>
               <span>
-                Each item links to the government document it came from, so you can check it yourself.
+                <strong className="text-slate-300">Five changes, once a week.</strong> About a two-minute
+                read.
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-accent" aria-hidden>—</span>
+              <span>Every item links to the government document it came from.</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
               <span>
-                Unsubscribe from any issue in one click. We never sell or share your address.
+                Your address is stored with our email provider and used for this only. Never sold, never
+                shared.
               </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-accent" aria-hidden>—</span>
+              <span>Unsubscribe from any issue in one click.</span>
             </li>
           </ul>
           <p className="mt-3 text-sm">
             <Link href="/pulse" className="link-accent">
-              Read this week&rsquo;s edition before subscribing →
+              Read this week&rsquo;s edition first →
             </Link>
           </p>
         </div>

@@ -1,0 +1,115 @@
+# Weekly Immigration Pulse — generate, validate, archive, send.
+#
+# SAFETY MODEL
+# ------------
+# Sending is the last step and the only irreversible one, so everything before
+# it is a gate:
+#
+#   1. refresh the event archive, so the issue reflects the real week
+#   2. build + validate every locale — any error exits non-zero and stops here
+#   3. archive the HTML and text to the repo, so every issue has a permanent web
+#      copy and a diff a human can read after the fact
+#   4. dry run, which prints the exact payload without contacting anyone
+#   5. send, only on the schedule or an explicit dispatch with send=true
+#
+# A pull request or a manual run defaults to DRY RUN. Reaching a subscriber
+# takes a deliberate act.
+
+name: Immigration Pulse
+
+on:
+  schedule:
+    # Thursdays 14:00 UTC — mid-morning US Eastern, which is when a policy
+    # newsletter is most likely to be read rather than archived.
+    - cron: "0 14 * * 4"
+  workflow_dispatch:
+    inputs:
+      send:
+        description: "Actually send (otherwise dry run)"
+        type: boolean
+        default: false
+      cadence:
+        description: "weekly | daily | monthly | breaking"
+        required: false
+        default: "weekly"
+
+permissions:
+  contents: write
+
+concurrency:
+  # Never let two runs broadcast the same issue — and never let this run
+  # interleave its commit with refresh-data.yml or refresh-warn.yml. All three
+  # write generated files to `main`, so they share one writer lock.
+  group: main-writer
+  cancel-in-progress: false
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEWSLETTER_CADENCE: ${{ github.event.inputs.cadence || 'weekly' }}
+      NEXT_PUBLIC_CONTACT_EMAIL: ${{ vars.NEXT_PUBLIC_CONTACT_EMAIL }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      RESEND_FROM_EMAIL: ${{ vars.RESEND_FROM_EMAIL }}
+      RESEND_AUDIENCE_EN: ${{ secrets.RESEND_AUDIENCE_EN }}
+      RESEND_AUDIENCE_ES: ${{ secrets.RESEND_AUDIENCE_ES }}
+      RESEND_AUDIENCE_FR: ${{ secrets.RESEND_AUDIENCE_FR }}
+      RESEND_AUDIENCE_AR: ${{ secrets.RESEND_AUDIENCE_AR }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history — `git pull --rebase` before the push needs it.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The issue must describe the week that actually happened, so refresh the
+      # archive first. A source outage here fails the job rather than sending a
+      # newsletter built on stale data.
+      - name: Refresh the event archive
+        run: npm run build:events
+        env:
+          CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
+          EVENTS_LIMIT: "1000"
+
+      - name: Build and validate every edition
+        run: npm run build:newsletter
+
+      - name: Summarise the issue
+        run: |
+          node -e "
+          const m=require('./src/lib/generated/newsletter-latest.json');
+          const L=['## Immigration Pulse — '+m.today,'','| Edition | Items | In window | Subject |','|---|---|---|---|'];
+          for(const e of m.editions) L.push('| '+e.segment+' | '+e.items+' | '+e.totalInWindow+' | '+e.subject.replace(/\|/g,'') +' |');
+          const warn=m.editions.flatMap(e=>e.warnings);
+          if(warn.length){L.push('','### Warnings');for(const w of warn)L.push('- '+w);}
+          require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');
+          "
+
+      # Archive before sending: if the send fails, the issue still exists at a
+      # permanent URL and every email's "read online" link resolves.
+      - name: Archive the issue
+        run: |
+          bash .github/scripts/commit-and-push.sh "chore(newsletter): archive issue $(date -u +%Y-%m-%d)"
+
+      - name: Dry run
+        run: npm run send:newsletter
+
+      - name: Send
+        if: github.event_name == 'schedule' || github.event.inputs.send == 'true'
+        run: npm run send:newsletter -- --send
+
+      - name: Report failure
+        if: failure()
+        run: |
+          echo "### Immigration Pulse FAILED" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "No broadcast was sent. Check the build and validate steps above." >> "$GITHUB_STEP_SUMMARY"

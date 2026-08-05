@@ -27,6 +27,8 @@
 // =============================================================================
 
 import { isPlausibleEmail } from "@/lib/newsletter";
+import { buildWelcomeEmail, unsubscribeHeader } from "@/lib/welcome-email";
+import { SITE } from "@/lib/site";
 
 // Node runtime: this calls a third-party API with a secret and does not need to
 // run at the edge.
@@ -98,39 +100,6 @@ async function resend(path: string, key: string, payload: unknown): Promise<Resp
   } finally {
     clearTimeout(timer);
   }
-}
-
-function welcomeEmail(email: string) {
-  const text = [
-    "You're subscribed to the Immigration Pulse.",
-    "",
-    "Once a week: the changes in U.S. immigration policy we can trace to an",
-    "official government source — each one linked to the original document.",
-    "We report what changed. We do not tell you what it means for your case,",
-    "and we are not a law firm.",
-    "",
-    "If you did not sign up, you can ignore this email — you will not be",
-    "emailed again if you unsubscribe using the link in any issue.",
-    "",
-    "https://immigrationclock.com/pulse",
-  ].join("\n");
-
-  const html = `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6;color:#0f172a;max-width:560px">
-  <h1 style="font-size:18px;margin:0 0 12px">You&rsquo;re subscribed to the Immigration Pulse.</h1>
-  <p style="margin:0 0 12px">Once a week: the changes in U.S. immigration policy we can trace to an official government source &mdash; each one linked to the original document.</p>
-  <p style="margin:0 0 12px">We report what changed. We do not tell you what it means for your case, and we are not a law firm.</p>
-  <p style="margin:0 0 12px;color:#475569;font-size:14px">If you did not sign up, you can ignore this email &mdash; and you can unsubscribe from any issue using the link at its foot.</p>
-  <p style="margin:16px 0 0"><a href="https://immigrationclock.com/pulse" style="color:#0284c7">Read the latest edition</a></p>
-</div>`;
-
-  return {
-    from: FROM,
-    to: [email],
-    ...(REPLY_TO ? { reply_to: REPLY_TO } : {}),
-    subject: "You're subscribed to the Immigration Pulse",
-    text,
-    html,
-  };
 }
 
 export async function POST(req: Request): Promise<Response> {
@@ -220,7 +189,20 @@ export async function POST(req: Request): Promise<Response> {
   // telling someone their signup failed when it succeeded would be a lie that
   // produces a duplicate attempt.
   try {
-    const mailRes = await resend("/emails", key, welcomeEmail(email));
+    const welcome = buildWelcomeEmail(SITE.url, REPLY_TO);
+    const unsubHeader = unsubscribeHeader(REPLY_TO);
+    const mailRes = await resend("/emails", key, {
+      from: FROM,
+      to: [email],
+      ...(REPLY_TO ? { reply_to: REPLY_TO } : {}),
+      subject: welcome.subject,
+      text: welcome.text,
+      html: welcome.html,
+      // Makes Gmail and Apple Mail render their own unsubscribe control, which
+      // is both a courtesy and a deliverability signal: readers who can find
+      // the unsubscribe use it instead of marking the message as spam.
+      ...(unsubHeader ? { headers: { "List-Unsubscribe": unsubHeader } } : {}),
+    });
     if (!mailRes.ok) {
       console.error(`[subscribe] welcome email ${mailRes.status}: ${(await mailRes.text().catch(() => "")).slice(0, 300)}`);
     }

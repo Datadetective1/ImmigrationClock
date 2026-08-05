@@ -45,7 +45,7 @@ import { ReportError } from "@/components/ReportError";
 export const metadata = buildMetadata({
   title: "What Changed — U.S. Immigration Policy Tracker",
   description:
-    "Every U.S. immigration policy change we can trace to an official government source: rules, executive actions, USCIS guidance, and court decisions — each with who is affected, what the document says, and a link to the original.",
+    "Every U.S. immigration policy change traced to its official government source — rules, executive actions, agency guidance and court decisions.",
   path: "/what-changed",
   keywords: [
     "immigration policy changes",

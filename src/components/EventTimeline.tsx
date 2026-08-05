@@ -35,7 +35,7 @@ export function EventTimeline({ limit }: { limit?: number }) {
               <time className="font-mono text-xs text-slate-400">{formatDate(e.date)}</time>
               <span className={`text-[10px] font-semibold uppercase tracking-wide ${c.text}`}>{c.label}</span>
             </div>
-            <h3 className="mt-1 text-sm font-bold leading-snug text-white sm:text-base">{e.title}</h3>
+            <h2 className="mt-1 text-sm font-bold leading-snug text-white sm:text-base">{e.title}</h2>
             <p className="mt-1 text-[13px] leading-relaxed text-slate-300">{e.summary}</p>
 
             {ctx ? (

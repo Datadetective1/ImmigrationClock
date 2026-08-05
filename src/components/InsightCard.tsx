@@ -36,7 +36,7 @@ export function InsightCard({ insight }: { insight: Insight }) {
         <span className="text-[11px] font-medium text-slate-500">{insight.periodLabel}</span>
       </div>
 
-      <h3 className="text-base font-bold leading-snug text-white">{insight.headline}</h3>
+      <h2 className="text-base font-bold leading-snug text-white">{insight.headline}</h2>
 
       <p className="text-sm leading-relaxed text-slate-300">{insight.detail}</p>
 

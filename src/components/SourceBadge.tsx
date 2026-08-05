@@ -33,7 +33,7 @@ export function SourceBadge({
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackSourceClick(sourceName, surface)}
-        className="inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-medium text-slate-300 transition-colors hover:border-accent/40 hover:text-accent-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/5 px-2 py-1 font-medium text-slate-300 transition-colors hover:border-accent/40 hover:text-accent-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         <span aria-hidden>◆</span>
         <span className="max-w-[12rem] truncate">{sourceName}</span>

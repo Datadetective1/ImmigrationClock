@@ -12,7 +12,7 @@ import { formatNumber, formatCompact, formatDate, fiscalYearLabel } from "@/lib/
 export const metadata = buildMetadata({
   title: "Immigration Pulse — What Changed This Month",
   description:
-    "A one-page, auto-generated snapshot of how U.S. immigration data moved this month: border encounters, layoffs, enforcement pace, visa lag, and the labor market. Every figure sourced and labelled.",
+    "How U.S. immigration data moved this month — border encounters, layoffs, enforcement pace and visa lag, on one page. Every figure sourced and labelled.",
   path: "/pulse",
   keywords: [
     "immigration pulse",

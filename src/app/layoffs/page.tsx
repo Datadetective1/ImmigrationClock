@@ -19,7 +19,7 @@ import { formatNumber, formatDate } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Live Layoffs — WARN Notices",
   description:
-    "Real WARN Act layoff notices pulled straight from state open-data portals — employer, location, employees affected, and effective date, each linked back to its source.",
+    "WARN Act layoff notices from state open-data portals: employer, location, employees affected and effective date, each linked to its source.",
   path: "/layoffs",
   keywords: ["WARN notices", "layoff tracker", "WARN Act layoffs", "layoffs by state", "mass layoff notices"],
 });

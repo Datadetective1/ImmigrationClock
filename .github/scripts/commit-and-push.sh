@@ -41,9 +41,8 @@ ATTEMPTS="${PUSH_ATTEMPTS:-5}"
 DEFAULT_PATHS=(
   "src/lib/generated"
   "public/api"
+  "public/newsletter"
   "public/data-manifest.json"
-  "public/pulse-email.html"
-  "public/pulse-email.txt"
 )
 
 if [ "$#" -gt 0 ]; then
