@@ -1,0 +1,292 @@
+#!/usr/bin/env tsx
+/**
+ * NEWSLETTER PREFLIGHT — decide whether this issue is safe to broadcast.
+ *
+ * Delivery is automatic, which means no human sees the issue before it reaches
+ * subscribers. The safety mechanism is therefore not review; it is this file.
+ *
+ * The failure this guards against is not "the job crashed" — a crash is loud
+ * and stops the send by itself. It is the quiet one: an agency changes its page
+ * structure, the adapter keeps returning HTTP 200, the parser extracts nothing,
+ * and a cheerful, empty, authoritative-looking newsletter goes out to every
+ * subscriber. That email cannot be recalled, and a data publication that mails
+ * confident nonsense has spent the only thing it has.
+ *
+ * So the rule is inverted from the usual one: silence is treated as failure.
+ * An adapter that reports success while producing nothing is more suspicious
+ * than one that throws.
+ *
+ * Exit code is always 0 — the workflow branches on the `safe` output rather
+ * than on the process failing, so an unsafe issue still gets archived and
+ * deployed. Only the delivery is withheld.
+ *
+ *   npm run newsletter:preflight
+ */
+import { readFile, appendFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
+
+const ROOT = fileURLToPath(new URL("..", import.meta.url));
+
+/** Warning text that means a parser met something it did not recognise. */
+const STRUCTURE_CHANGE =
+  /parse|selector|structure|schema|unexpected|malformed|could not find|no rows|shape/i;
+
+/** Warnings that are ordinary operating conditions, not defects. */
+const BENIGN = /offline: skipped|not configured|unconfigured|no api key|rate limit/i;
+
+export interface RefreshReport {
+  ok?: boolean;
+  errors?: string[];
+  bls?: { ok?: boolean; stale?: boolean };
+  cbp?: { ok?: boolean; stale?: boolean };
+  warn?: { ok?: boolean; stale?: boolean };
+}
+
+export interface EventsReport {
+  adapters?: Array<{
+    key: string;
+    name?: string;
+    status?: string;
+    ok?: boolean;
+    eventCount?: number;
+    warnings?: string[];
+  }>;
+  events?: Array<{ id: string }>;
+}
+
+export interface NewsletterManifest {
+  today?: string;
+  editions?: Array<{
+    segment: string;
+    locale: string;
+    items?: number;
+    errors?: string[];
+    warnings?: string[];
+  }>;
+}
+
+export interface Verdict {
+  safe: boolean;
+  blocking: string[];
+  warnings: string[];
+}
+
+export interface AssessOptions {
+  /** Locales the issue must contain. A missing language is a blocking defect. */
+  expectedLocales?: string[];
+}
+
+/**
+ * Pure so it can be unit-tested against synthetic failures — the real ones are
+ * rare by construction and cannot be waited for.
+ */
+export function assess(
+  refresh: RefreshReport,
+  events: EventsReport,
+  newsletter: NewsletterManifest,
+  opts: AssessOptions = {}
+): Verdict {
+  const blocking: string[] = [];
+  const warnings: string[] = [];
+  const expected = opts.expectedLocales ?? ["en", "es", "fr", "ar"];
+
+  // ── 1. Upstream data sources ──────────────────────────────────────────
+  if (refresh.ok === false) blocking.push("refresh.json reports ok=false");
+  for (const e of refresh.errors ?? []) blocking.push(`refresh error: ${e}`);
+  for (const key of ["bls", "cbp", "warn"] as const) {
+    const src = refresh[key];
+    if (!src) continue;
+    if (src.ok === false) blocking.push(`${key.toUpperCase()} feed failed`);
+    // Stale is survivable: the site labels it, and last-good data is still true
+    // data. It should not silence a whole issue.
+    else if (src.stale) warnings.push(`${key.toUpperCase()} is serving last-good (stale) data`);
+  }
+
+  // ── 2. Event adapters — where a page-structure change shows up ────────
+  const adapters = events.adapters ?? [];
+  if (adapters.length === 0) blocking.push("events.json lists no adapters at all");
+
+  for (const a of adapters) {
+    const label = a.name || a.key;
+    if (a.ok === false) {
+      blocking.push(`adapter "${label}" failed`);
+      continue;
+    }
+    for (const w of a.warnings ?? []) {
+      if (BENIGN.test(w)) {
+        warnings.push(`${label}: ${w}`);
+        continue;
+      }
+      if (STRUCTURE_CHANGE.test(w)) {
+        // The USCIS-changed-its-HTML case. Reported as a warning by the
+        // adapter, treated as blocking here: a parser that no longer
+        // understands its source is not a source.
+        blocking.push(`adapter "${label}" may have hit a source format change: ${w}`);
+      } else {
+        warnings.push(`${label}: ${w}`);
+      }
+    }
+  }
+
+  // Every adapter succeeding while the archive is empty is the exact silent
+  // failure this file exists for.
+  if ((events.events ?? []).length === 0) {
+    blocking.push("event archive is empty — nothing to write an issue about");
+  }
+
+  // ── 3. The issue itself ───────────────────────────────────────────────
+  const editions = newsletter.editions ?? [];
+  if (editions.length === 0) blocking.push("no editions were built");
+
+  const built = new Set(editions.map((e) => e.locale));
+  for (const locale of expected) {
+    if (!built.has(locale)) blocking.push(`missing ${locale.toUpperCase()} edition`);
+  }
+
+  for (const ed of editions) {
+    for (const err of ed.errors ?? []) blocking.push(`${ed.segment}: ${err}`);
+    if ((ed.items ?? 0) === 0) {
+      blocking.push(`${ed.segment} has zero items — an empty issue must not go out`);
+    }
+    for (const w of ed.warnings ?? []) warnings.push(`${ed.segment}: ${w}`);
+  }
+
+  return { safe: blocking.length === 0, blocking, warnings };
+}
+
+/* ── Delivery preflight: is Resend actually able to receive this? ─────── */
+
+const RESEND_API = process.env.RESEND_API_BASE || "https://api.resend.com";
+const KEY = process.env.RESEND_API_KEY || "";
+
+async function checkAudiences(locales: string[]): Promise<Verdict> {
+  const blocking: string[] = [];
+  const warnings: string[] = [];
+
+  if (!KEY) {
+    // Not a defect at preflight time — send-newsletter.ts fails loudly if a
+    // live send is attempted without a key. Reported so the log is honest.
+    warnings.push("RESEND_API_KEY not set — audience sizes not verified");
+    return { safe: true, blocking, warnings };
+  }
+
+  let reachable = 0;
+  for (const locale of locales) {
+    const id = process.env[`RESEND_AUDIENCE_${locale.toUpperCase()}`];
+    if (!id) {
+      warnings.push(`RESEND_AUDIENCE_${locale.toUpperCase()} unset — ${locale} will be skipped`);
+      continue;
+    }
+    try {
+      const res = await fetch(`${RESEND_API}/audiences/${id}/contacts`, {
+        headers: { Authorization: `Bearer ${KEY}` },
+        signal: AbortSignal.timeout(20_000),
+      });
+      if (!res.ok) {
+        blocking.push(`Resend audience ${locale.toUpperCase()} unreachable (HTTP ${res.status})`);
+        continue;
+      }
+      const body = (await res.json()) as { data?: Array<{ unsubscribed?: boolean }> };
+      if (!Array.isArray(body.data)) {
+        blocking.push(`Resend audience ${locale.toUpperCase()} returned an unexpected shape`);
+        continue;
+      }
+      const live = body.data.filter((c) => !c.unsubscribed).length;
+      if (live === 0) warnings.push(`${locale.toUpperCase()} audience has 0 subscribed contacts`);
+      else reachable++;
+    } catch (err) {
+      blocking.push(
+        `Resend audience ${locale.toUpperCase()} check failed: ${(err as Error)?.message ?? err}`
+      );
+    }
+  }
+
+  // Every configured audience failing means the integration is down, not that
+  // one language is quiet.
+  if (reachable === 0 && blocking.length > 0) {
+    blocking.push("no Resend audience could be verified — treating delivery as unsafe");
+  }
+
+  return { safe: blocking.length === 0, blocking, warnings };
+}
+
+async function loadJson<T>(rel: string): Promise<T> {
+  return JSON.parse(await readFile(`${ROOT}${rel}`, "utf8")) as T;
+}
+
+async function main() {
+  const refresh = await loadJson<RefreshReport>("src/lib/generated/refresh.json");
+  const events = await loadJson<EventsReport>("src/lib/generated/events.json");
+  const newsletter = await loadJson<NewsletterManifest>(
+    "src/lib/generated/newsletter-latest.json"
+  );
+
+  const content = assess(refresh, events, newsletter);
+  const locales = (newsletter.editions ?? []).map((e) => e.locale);
+  const delivery = await checkAudiences(locales);
+
+  const blocking = [...content.blocking, ...delivery.blocking];
+  const warnings = [...content.warnings, ...delivery.warnings];
+  const safe = blocking.length === 0;
+
+  console.log("::group::Newsletter preflight");
+  console.log(`issue        : ${newsletter.today ?? "unknown"}`);
+  console.log(`editions     : ${(newsletter.editions ?? []).length}`);
+  console.log(`adapters     : ${(events.adapters ?? []).length}`);
+  console.log(`archive size : ${(events.events ?? []).length} event(s)`);
+  console.log(`verdict      : ${safe ? "SAFE TO SEND" : "UNSAFE — DELIVERY WITHHELD"}`);
+  if (blocking.length) {
+    console.log("\nBlocking:");
+    for (const b of blocking) console.log(`  ✗ ${b}`);
+  }
+  if (warnings.length) {
+    console.log("\nWarnings (not blocking):");
+    for (const w of warnings) console.log(`  · ${w}`);
+  }
+  console.log("::endgroup::");
+
+  if (process.env.GITHUB_OUTPUT) {
+    await appendFile(
+      process.env.GITHUB_OUTPUT,
+      `safe=${safe}\nblocking_count=${blocking.length}\n` +
+        `reason=${blocking.slice(0, 3).join("; ").replace(/\n/g, " ").slice(0, 400)}\n`
+    );
+  }
+
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const lines = [
+      "## Newsletter preflight",
+      "",
+      safe
+        ? "**SAFE TO SEND** — no anomalies detected."
+        : "**DELIVERY WITHHELD** — the issue was built, archived and deployed, but not mailed.",
+      "",
+    ];
+    if (blocking.length) {
+      lines.push("### Blocking", ...blocking.map((b) => `- ${b}`), "");
+    }
+    if (warnings.length) {
+      lines.push("### Warnings", ...warnings.map((w) => `- ${w}`), "");
+    }
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+  }
+
+  // Always exit 0. The workflow branches on `safe`; an unsafe issue must still
+  // archive and deploy, so failing the process here would be wrong.
+}
+
+// Only run when invoked directly, so the test suite can import `assess`.
+const invokedDirectly =
+  !!process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
+
+if (invokedDirectly) {
+  main().catch((err) => {
+    console.error(`[preflight] FAILED: ${err?.stack || err?.message || err}`);
+    // A preflight that cannot run is itself an anomaly: withhold delivery.
+    if (process.env.GITHUB_OUTPUT) {
+      void appendFile(process.env.GITHUB_OUTPUT, `safe=false\nreason=preflight crashed\n`);
+    }
+    process.exit(0);
+  });
+}

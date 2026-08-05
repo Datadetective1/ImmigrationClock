@@ -1,19 +1,34 @@
-# Weekly Immigration Pulse — generate, validate, archive, send.
+# Weekly Immigration Pulse — refresh, generate, deploy, deliver. Unattended.
+#
+# Thursdays 14:00 UTC, end to end with nobody in the loop:
+#
+#   1. refresh all eight sources (3 attempts, backoff) so the issue describes
+#      the week that actually happened
+#   2. build + validate EN/ES/FR/AR — any validation error stops the run
+#   3. PREFLIGHT — decide whether the issue is safe to broadcast
+#   4. archive the HTML and text to the repo; that push deploys production
+#   5. dry run, printing the confirmation block for the record
+#   6. send to subscribers (2 attempts) — only if preflight said yes
 #
 # SAFETY MODEL
 # ------------
-# Sending is the last step and the only irreversible one, so everything before
-# it is a gate:
+# Nobody reads this issue before subscribers do, so step 3 is the review.
 #
-#   1. refresh the event archive, so the issue reflects the real week
-#   2. build + validate every locale — any error exits non-zero and stops here
-#   3. archive the HTML and text to the repo, so every issue has a permanent web
-#      copy and a diff a human can read after the fact
-#   4. dry run, which prints the exact payload without contacting anyone
-#   5. send, only on the schedule or an explicit dispatch with send=true
+# The danger is not a crash — a crash is loud and stops the send by itself. It
+# is the quiet failure: USCIS changes its page structure, the adapter still
+# returns HTTP 200, the parser extracts nothing, and a confident, empty,
+# official-looking newsletter goes to every subscriber. Email cannot be
+# recalled, and a data publication that mails nonsense has spent the only thing
+# it owns.
 #
-# A pull request or a manual run defaults to DRY RUN. Reaching a subscriber
-# takes a deliberate act.
+# So preflight treats silence as failure. If a source changes shape, an adapter
+# goes quiet, a language is missing, an edition is empty, or Resend cannot be
+# reached, delivery is withheld and an alert issue is opened. The issue is still
+# built, archived and deployed — only the email is held back, because a wrong
+# newsletter is worse than a late one.
+#
+# A manual `send = true` cannot override preflight either: if the data is wrong,
+# it is wrong for a human too.
 
 name: Immigration Pulse
 
@@ -25,7 +40,7 @@ on:
   workflow_dispatch:
     inputs:
       send:
-        description: "Actually send (otherwise dry run)"
+        description: "DELIVER to live subscribers. Leave unchecked to preview only."
         type: boolean
         default: false
       cadence:
@@ -34,7 +49,8 @@ on:
         default: "weekly"
 
 permissions:
-  contents: write
+  contents: write # commit the archived issue + refreshed data
+  issues: write # open an alert issue when delivery is withheld or a step fails
 
 concurrency:
   # Never let two runs broadcast the same issue — and never let this run
@@ -71,17 +87,39 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # The issue must describe the week that actually happened, so refresh the
-      # archive first. A source outage here fails the job rather than sending a
-      # newsletter built on stale data.
-      - name: Refresh the event archive
-        run: npm run build:events
+      # Full refresh, not just the event archive: the Thursday run is the one
+      # that puts the week into production, so it regenerates everything the
+      # deploy serves and the issue quotes. Eight government sources, so a
+      # single transient 5xx should not cost a week's newsletter — three
+      # attempts with backoff, then give up and let the alert fire.
+      - name: Refresh all data (retried)
+        id: refresh
         env:
           CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
           EVENTS_LIMIT: "1000"
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::Generation — full refresh, attempt $attempt of 3"
+            if npm run prebuild; then
+              echo "::endgroup::"
+              echo "refreshed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "::warning::refresh attempt $attempt failed"
+            sleep $((attempt * 30))
+          done
+          echo "::error::Data refresh failed three times — not building an issue on top of it."
+          exit 1
 
-      - name: Build and validate every edition
-        run: npm run build:newsletter
+      # The gate. Delivery is unattended, so nothing human reads this issue
+      # before subscribers do — this step is the review. It withholds delivery
+      # when a source changes shape, an adapter goes quiet, a language is
+      # missing, or an edition is empty. It never fails the job: an unsafe issue
+      # still gets archived and deployed, only the email is held back.
+      - name: Preflight — is this issue safe to broadcast?
+        id: preflight
+        run: npm run newsletter:preflight
 
       - name: Summarise the issue
         run: |
@@ -91,8 +129,22 @@ jobs:
           for(const e of m.editions) L.push('| '+e.segment+' | '+e.items+' | '+e.totalInWindow+' | '+e.subject.replace(/\|/g,'') +' |');
           const warn=m.editions.flatMap(e=>e.warnings);
           if(warn.length){L.push('','### Warnings');for(const w of warn)L.push('- '+w);}
+          const safe=process.env.PREFLIGHT_SAFE==='true';
+          const scheduled=process.env.GITHUB_EVENT_NAME==='schedule';
+          const asked=process.env.SEND_REQUESTED==='true';
+          const willSend=safe&&(scheduled||asked);
+          L.push('','### Delivery', willSend
+            ? '**SENDING** — this issue is going out to subscribers.'
+            : safe
+              ? '**Not sending** — preview run. Use Actions → Run workflow with `send` = true to deliver.'
+              : '**DELIVERY WITHHELD** — preflight found an anomaly. The issue is archived and deployed, but no email will go out. See the preflight step and the alert issue.');
+          L.push('','Preview each edition at `public/newsletter/<segment>-'+m.today+'/`.');
           require('fs').appendFileSync(process.env.GITHUB_STEP_SUMMARY,L.join('\n')+'\n');
           "
+        env:
+          SEND_REQUESTED: ${{ github.event.inputs.send }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          PREFLIGHT_SAFE: ${{ steps.preflight.outputs.safe }}
 
       # Archive before sending: if the send fails, the issue still exists at a
       # permanent URL and every email's "read online" link resolves.
@@ -100,16 +152,93 @@ jobs:
         run: |
           bash .github/scripts/commit-and-push.sh "chore(newsletter): archive issue $(date -u +%Y-%m-%d)"
 
-      - name: Dry run
+      # Always runs — on the Thursday schedule and on every manual run. It sends
+      # nothing; it resolves each edition, reads the audience sizes, and prints
+      # the confirmation block. This is the preview the operator approves.
+      - name: Dry run — preview every edition, send nothing
         run: npm run send:newsletter
 
-      - name: Send
-        if: github.event_name == 'schedule' || github.event.inputs.send == 'true'
-        run: npm run send:newsletter -- --send
-
-      - name: Report failure
-        if: failure()
+      # LIVE SEND — automatic on the Thursday schedule, and available on demand.
+      #
+      # Two independent conditions must hold:
+      #
+      #   1. the run is either the schedule or a dispatch with send = true, and
+      #   2. preflight said the issue is safe.
+      #
+      # (2) is what makes unattended delivery defensible. Without it the cron
+      # would happily mail an empty issue built from an adapter that had quietly
+      # stopped parsing its source. A manual `send = true` cannot override it
+      # either — if the data is wrong, it is wrong for a human too.
+      #
+      # A dispatch without send = true is a dry run: it previews and archives,
+      # and the step below does not execute.
+      - name: Send to subscribers
+        id: send
+        if: |
+          (github.event_name == 'schedule' || github.event.inputs.send == 'true')
+          && steps.preflight.outputs.safe == 'true'
         run: |
-          echo "### Immigration Pulse FAILED" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "No broadcast was sent. Check the build and validate steps above." >> "$GITHUB_STEP_SUMMARY"
+          for attempt in 1 2; do
+            echo "::group::Send attempt $attempt of 2"
+            if npm run send:newsletter -- --send; then
+              echo "::endgroup::"
+              echo "sent=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "::endgroup::"
+            # Broadcast creation is idempotent on `name` (the issue id), so a
+            # retry cannot deliver the same issue twice.
+            echo "::warning::send attempt $attempt failed"
+            sleep 30
+          done
+          echo "::error::Send failed twice."
+          exit 1
+
+      - name: Delivery withheld — anomaly detected
+        if: |
+          (github.event_name == 'schedule' || github.event.inputs.send == 'true')
+          && steps.preflight.outputs.safe != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REASON: ${{ steps.preflight.outputs.reason }}
+          COUNT: ${{ steps.preflight.outputs.blocking_count }}
+        run: |
+          echo "::warning::Delivery withheld — $COUNT blocking issue(s): $REASON"
+          gh issue create \
+            --title "Immigration Pulse: delivery withheld $(date -u +%Y-%m-%d)" \
+            --label "automated,newsletter" \
+            --body "$(printf '%s\n' \
+              "Preflight found **$COUNT blocking problem(s)**, so this week's issue was **built, archived and deployed but not emailed**." \
+              "" \
+              "**Reason(s):** $REASON" \
+              "" \
+              "This usually means a source changed shape — an adapter still returns HTTP 200 while its parser extracts nothing." \
+              "" \
+              "- Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              "- Preview the issue that was withheld: \`public/newsletter/\`" \
+              "" \
+              "Once the source is fixed, re-run this workflow with \`send = true\` to deliver.")" \
+            || echo "::warning::could not open an alert issue"
+
+      # Unattended pipelines need someone told when they break. A failed
+      # workflow email is easy to miss; an issue persists until it is closed.
+      - name: Alert on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "### Immigration Pulse FAILED"
+            echo ""
+            echo "No broadcast was sent. Check the steps above."
+          } >> "$GITHUB_STEP_SUMMARY"
+          gh issue create \
+            --title "Immigration Pulse failed $(date -u +%Y-%m-%d)" \
+            --label "automated,newsletter" \
+            --body "$(printf '%s\n' \
+              "The Immigration Pulse workflow failed. **No newsletter was sent.**" \
+              "" \
+              "- Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              "" \
+              "Data refresh retries three times and the send twice, so a single transient outage should not reach here — this is likely a real fault.")" \
+            || echo "::warning::could not open an alert issue"

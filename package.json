@@ -13,6 +13,7 @@
     "build:events": "tsx scripts/build-events.ts",
     "build:newsletter": "tsx scripts/build-newsletter.ts",
     "send:newsletter": "tsx scripts/send-newsletter.ts",
+    "newsletter:preflight": "tsx scripts/newsletter-preflight.ts",
     "refresh:warn-scraper": "node scripts/refresh-warn-scraper.mjs",
     "prebuild": "node scripts/refresh-data.mjs && tsx scripts/build-employers.ts && tsx scripts/build-warn.ts && tsx scripts/build-events.ts && tsx scripts/build-dataset.ts && tsx scripts/build-newsletter.ts",
     "brand": "node brand/build.mjs && node brand/guide.mjs",

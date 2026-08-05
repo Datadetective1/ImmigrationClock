@@ -73,6 +73,106 @@ async function post(path: string, payload: unknown): Promise<{ ok: boolean; stat
   }
 }
 
+/** Read-only. Used solely to count an audience before showing the confirmation. */
+async function get(path: string): Promise<{ ok: boolean; status: number; body: string }> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const res = await fetch(`${RESEND_API}${path}`, {
+      headers: { Authorization: `Bearer ${KEY}` },
+      signal: controller.signal,
+    });
+    return { ok: res.ok, status: res.status, body: await res.text().catch(() => "") };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * How many contacts would actually receive this.
+ *
+ * Unsubscribed contacts are excluded — the operator is confirming a number of
+ * inboxes, and a total that quietly includes people who opted out is the wrong
+ * number to confirm against. Returns null when it cannot be established, which
+ * prints as "unknown" rather than a reassuring zero.
+ */
+async function audienceCount(audienceId: string): Promise<number | null> {
+  if (!KEY) return null;
+  try {
+    const res = await get(`/audiences/${audienceId}/contacts`);
+    if (!res.ok) return null;
+    const parsed = JSON.parse(res.body || "{}") as {
+      data?: Array<{ unsubscribed?: boolean }>;
+    };
+    if (!Array.isArray(parsed.data)) return null;
+    return parsed.data.filter((c) => !c.unsubscribed).length;
+  } catch {
+    return null;
+  }
+}
+
+const LANGUAGE: Record<string, string> = {
+  en: "English",
+  es: "Spanish (Español)",
+  fr: "French (Français)",
+  ar: "Arabic (العربية)",
+};
+
+interface Planned {
+  ed: Edition;
+  audienceId: string | undefined;
+  recipients: number | null;
+  htmlBytes: number;
+  textBytes: number;
+}
+
+/**
+ * The confirmation block. Printed before anything is broadcast, in both dry-run
+ * and live mode, so what the operator approves in a dry run is the same summary
+ * they see when they authorise the send.
+ *
+ * It lives here rather than in the workflow because a workflow step can be
+ * bypassed by invoking the script directly; this cannot.
+ */
+function printConfirmation(issueDate: string, plan: Planned[], live: boolean) {
+  const rule = "─".repeat(72);
+  console.log(`\n${rule}`);
+  console.log(live ? "  LIVE SEND — CONFIRM BEFORE THIS PROCEEDS" : "  DRY RUN — nothing will be sent");
+  console.log(rule);
+  console.log(`  Edition date : ${issueDate}`);
+  console.log(`  Editions     : ${plan.length}`);
+  console.log(`  From         : ${FROM}`);
+  if (REPLY_TO) console.log(`  Reply-to     : ${REPLY_TO}`);
+  console.log(rule);
+
+  let total = 0;
+  let unknown = false;
+  for (const p of plan) {
+    const lang = LANGUAGE[p.ed.locale] ?? p.ed.locale;
+    console.log(`  ${p.ed.segment}`);
+    console.log(`    language   : ${lang} (${p.ed.locale})`);
+    console.log(`    subject    : ${p.ed.subject}`);
+    if (p.audienceId) {
+      console.log(`    audience   : ${p.audienceId}  [RESEND_AUDIENCE_${p.ed.locale.toUpperCase()}]`);
+      if (p.recipients === null) {
+        console.log(`    recipients : unknown (could not read the audience)`);
+        unknown = true;
+      } else {
+        console.log(`    recipients : ${p.recipients} subscribed contact(s)`);
+        total += p.recipients;
+      }
+    } else {
+      console.log(`    audience   : NOT CONFIGURED — RESEND_AUDIENCE_${p.ed.locale.toUpperCase()} unset`);
+      console.log(`    recipients : 0 — this edition will be skipped`);
+    }
+    console.log(`    payload    : ${p.htmlBytes}B html, ${p.textBytes}B text`);
+  }
+
+  console.log(rule);
+  console.log(`  TOTAL RECIPIENTS: ${total}${unknown ? " (+ unknown for one or more audiences)" : ""}`);
+  console.log(rule + "\n");
+}
+
 async function main() {
   const manifest = JSON.parse(await readFile(MANIFEST, "utf8")) as Manifest;
 
@@ -88,14 +188,33 @@ async function main() {
     process.exit(1);
   }
 
-  let sent = 0;
-  let skipped = 0;
-  let failed = 0;
-
+  // Resolve everything first, so the confirmation block describes the whole
+  // issue before a single broadcast is created. Deciding per-edition midway
+  // through would mean the operator approves edition one and discovers edition
+  // four's recipient count only after it has already gone out.
+  const plan: Planned[] = [];
   for (const ed of manifest.editions) {
     const html = await readFile(`${ROOT}${ed.htmlPath}`, "utf8");
     const text = await readFile(`${ROOT}${ed.textPath}`, "utf8");
     const audienceId = process.env[`RESEND_AUDIENCE_${ed.locale.toUpperCase()}`];
+    plan.push({
+      ed,
+      audienceId,
+      recipients: audienceId ? await audienceCount(audienceId) : 0,
+      htmlBytes: html.length,
+      textBytes: text.length,
+    });
+  }
+
+  printConfirmation(manifest.today, plan, LIVE);
+
+  let sent = 0;
+  let skipped = 0;
+  let failed = 0;
+
+  for (const { ed, audienceId } of plan) {
+    const html = await readFile(`${ROOT}${ed.htmlPath}`, "utf8");
+    const text = await readFile(`${ROOT}${ed.textPath}`, "utf8");
 
     // An unconfigured audience is a known gap, not a failure. Same rule the
     // Congress adapter follows: never conflate "not set up" with "broken".
