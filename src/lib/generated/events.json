@@ -1,34 +1,34 @@
 {
-  "generatedAt": "2026-08-06T01:35:26.942Z",
+  "generatedAt": "2026-08-06T12:51:11.976Z",
   "since": "2026-05-08",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:24.599Z",
+      "lastRunAt": "2026-08-06T12:51:10.418Z",
       "ok": true,
-      "eventCount": 94,
+      "eventCount": 95,
       "warnings": [
-        "676 of 770 document(s) from tracked agencies were not immigration-related"
+        "694 of 789 document(s) from tracked agencies were not immigration-related"
       ]
     },
     {
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:25.189Z",
+      "lastRunAt": "2026-08-06T12:51:10.549Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
-        "58 of 59 presidential document(s) were not immigration-related"
+        "59 of 60 presidential document(s) were not immigration-related"
       ]
     },
     {
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:25.483Z",
+      "lastRunAt": "2026-08-06T12:51:10.623Z",
       "ok": true,
       "eventCount": 11,
       "warnings": [
@@ -39,7 +39,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:25.563Z",
+      "lastRunAt": "2026-08-06T12:51:10.652Z",
       "ok": true,
       "eventCount": 6,
       "warnings": []
@@ -48,7 +48,7 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:26.617Z",
+      "lastRunAt": "2026-08-06T12:51:11.761Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -59,7 +59,7 @@
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:26.617Z",
+      "lastRunAt": "2026-08-06T12:51:11.762Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
@@ -70,7 +70,7 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-08-06T01:35:26.651Z",
+      "lastRunAt": "2026-08-06T12:51:11.798Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -81,24 +81,24 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-08-06T01:35:26.936Z",
+      "lastRunAt": "2026-08-06T12:51:11.969Z",
       "ok": true,
       "eventCount": 1,
       "warnings": []
     }
   ],
   "counts": {
-    "total": 697,
+    "total": 698,
     "bySeverity": {
-      "routine": 320,
+      "routine": 321,
       "major": 227,
       "notable": 150
     },
     "byClassification": {
+      "announcement": 385,
       "data_release": 7,
       "final_rule": 133,
       "updated_information": 63,
-      "announcement": 384,
       "proposed_rule": 60,
       "court_decision": 6,
       "deadline": 11,
@@ -107,6 +107,51 @@
     }
   },
   "events": [
+    {
+      "id": "federal_register:2026-15974",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Information Collection Request to Office of Management and Budget; OMB Control Number: 1625-0015",
+      "summary": "In compliance with the Paperwork Reduction Act of 1995, the U.S. Coast Guard intends to submit an Information Collection Request (ICR) to the Office of Management and Budget (OMB), Office of Information and Regulatory Affairs (OIRA), requesting an extension of its approval for the following collection of information: 1625-0015, Bridge Permit Application Guide; without change. Our ICR describes the information we seek to collect from the public. Before submitting this ICR to OIRA, the Coast Guard is inviting comments as described below.",
+      "publishedAt": "2026-08-06",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-06",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/06/2026-15974/information-collection-request-to-office-of-management-and-budget-omb-control-number-1625-0015",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15974?publication_date=2026-08-06",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
     {
       "id": "cbp_encounters:fy2026-jun",
       "sourceKey": "cbp_encounters",
