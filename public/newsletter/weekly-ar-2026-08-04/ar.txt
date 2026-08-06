@@ -87,7 +87,6 @@ The Department of State's (Department's) Bureau of Educational and Cultural Affa
 عناوين الوثائق وملخصاتها منقولة حرفياً كما نشرتها الحكومة الأمريكية، باللغة الإنجليزية. لا نترجم النص الرسمي، لأن الاقتباس المترجم لم يعد اقتباساً.
 
 اقرأ هذا العدد على الويب: https://immigrationclock.com/newsletter/weekly-ar-2026-08-04/ar.html
-اتصل بنا: hello@immigrationclock.com
-إلغاء الاشتراك: mailto:hello@immigrationclock.com?subject=Unsubscribe%20from%20Immigration%20Pulse
+إلغاء الاشتراك: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ينشر ImmigrationClock بيانات حكومية أمريكية عامة. وهو ليس مكتب محاماة ولا يقدّم استشارات قانونية.

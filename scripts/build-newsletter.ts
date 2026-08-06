@@ -26,6 +26,7 @@ import { STRINGS } from "../src/lib/newsletter/locales";
 import { selectIssue } from "../src/lib/newsletter/select";
 import { renderIssue } from "../src/lib/newsletter/render";
 import { validateIssue, validateRendered, mergeResults } from "../src/lib/newsletter/validate";
+import { preflight } from "../src/lib/newsletter/preflight";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const CONTACT = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
@@ -85,20 +86,18 @@ async function main() {
     allErrors.push(...errors);
     allWarnings.push(...warnings);
 
+    // Deliverability preflight. The unsubscribe findings are ALREADY in
+    // `errors` — validateRendered promotes them — so this call is here for the
+    // advisory heuristics and for the operator dashboard. `safeToSend` is
+    // recorded in the manifest so the send script can fail closed on it without
+    // re-deriving anything.
+    const pre = preflight(rendered, segment.locale);
+
     // Archive even when invalid: an operator debugging a failed build wants to
     // see what was produced, and nothing here is sent by writing a file.
     const dir = `/public/newsletter/${issue.id}`;
     await write(`${dir}/${segment.locale}.html`, rendered.html);
     await write(`${dir}/${segment.locale}.txt`, rendered.text);
-
-    // Simple heuristics an operator can act on. Not a substitute for a real
-    // seed test, and labelled as an estimate wherever it is shown.
-    const spamFlags: string[] = [];
-    if (rendered.text.trim().length < 500) spamFlags.push("thin plain-text part");
-    if (/!{2,}|FREE|ACT NOW|CLICK HERE/i.test(rendered.subject)) spamFlags.push("subject reads promotional");
-    if (rendered.subject.length > 60) spamFlags.push("subject may truncate");
-    if ((rendered.html.match(/href="/g) ?? []).length > 40) spamFlags.push("high link count");
-    if (!/unsubscribe/i.test(rendered.html)) spamFlags.push("no unsubscribe link");
 
     const agencies = new Set(
       [...(issue.lead?.items ?? []), ...issue.items].map((i) => i.agency).filter(Boolean)
@@ -125,14 +124,20 @@ async function main() {
       translatedStrings: countStrings(segment.locale),
       htmlBytes: Buffer.byteLength(rendered.html, "utf8"),
       textBytes: Buffer.byteLength(rendered.text, "utf8"),
-      spamFlags,
+      spamFlags: pre.spamFlags,
+      // Blocking findings, kept separate so the send script does not have to
+      // parse prose to decide whether it may send.
+      blockingFlags: pre.blocking.map((f) => f.code),
+      unsubscribeOk: pre.blocking.every((f) => !f.code.startsWith("unsubscribe")),
+      safeToSend: pre.safeToSend,
       errors,
       warnings,
     });
 
     console.log(
       `[newsletter] ${segment.id}: ${issue.items.length} item(s) of ${issue.totalInWindow} in window` +
-        `${errors.length ? ` — ${errors.length} ERROR(S)` : ""}${warnings.length ? ` — ${warnings.length} warning(s)` : ""}`
+        `${errors.length ? ` — ${errors.length} ERROR(S)` : ""}${warnings.length ? ` — ${warnings.length} warning(s)` : ""}` +
+        `${pre.safeToSend ? "" : ` — BLOCKED: ${pre.blocking.map((f) => f.code).join(", ")}`}`
     );
   }
 

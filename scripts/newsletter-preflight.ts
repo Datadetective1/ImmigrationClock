@@ -35,6 +35,15 @@ const STRUCTURE_CHANGE =
 /** Warnings that are ordinary operating conditions, not defects. */
 const BENIGN = /offline: skipped|not configured|unconfigured|no api key|rate limit/i;
 
+/**
+ * A spamFlag that concerns the opt-out. Matching one is disqualifying.
+ *
+ * Deliberately broad: every phrasing build-newsletter.ts can emit mentions
+ * unsubscribing in one of the four shipped languages, and a flag this misses
+ * would be a flag that silently stops blocking.
+ */
+const UNSUBSCRIBE_FLAG = /unsubscrib|opt.?out|désabonn|desabonn|cancelar suscri|إلغاء الاشتراك/i;
+
 export interface RefreshReport {
   ok?: boolean;
   errors?: string[];
@@ -63,6 +72,11 @@ export interface NewsletterManifest {
     items?: number;
     errors?: string[];
     warnings?: string[];
+    /** Deliverability findings from build-newsletter.ts. */
+    spamFlags?: string[];
+    /** Preflight codes the build already judged blocking. */
+    blockingFlags?: string[];
+    safeToSend?: boolean;
   }>;
 }
 
@@ -149,6 +163,28 @@ export function assess(
     if ((ed.items ?? 0) === 0) {
       blocking.push(`${ed.segment} has zero items — an empty issue must not go out`);
     }
+
+    // ── Unsubscribe: blocking, always ───────────────────────────────────
+    // spamFlags used to be computed and then ignored, so "no unsubscribe link"
+    // was reported to nobody and stopped nothing. Every other deliverability
+    // heuristic stays advisory — a long subject is a nuisance, a missing
+    // opt-out is mail we must not send.
+    //
+    // Read from BOTH shapes: `blockingFlags` is the structured verdict from
+    // build-newsletter.ts, and the spamFlags scan is the belt-and-braces path
+    // for a manifest written before that field existed, or by a build whose
+    // gate regressed.
+    for (const code of ed.blockingFlags ?? []) {
+      blocking.push(`${ed.segment}: blocked by preflight (${code})`);
+    }
+    for (const flag of ed.spamFlags ?? []) {
+      if (UNSUBSCRIBE_FLAG.test(flag)) blocking.push(`${ed.segment}: ${flag}`);
+      else warnings.push(`${ed.segment}: ${flag}`);
+    }
+    if (ed.safeToSend === false && !(ed.blockingFlags ?? []).length) {
+      blocking.push(`${ed.segment}: build marked this edition unsafe to send`);
+    }
+
     for (const w of ed.warnings ?? []) warnings.push(`${ed.segment}: ${w}`);
   }
 

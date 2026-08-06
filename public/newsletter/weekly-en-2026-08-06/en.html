@@ -296,8 +296,16 @@
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
             <a href="https://immigrationclock.com/privacy?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-en-2026-08-06&utm_content=weekly&locale=en&edition=weekly-en-2026-08-06&segment=weekly-en" style="color:#64748b;text-decoration:underline;">Privacy</a>
             
-            <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="https://immigrationclock.com/pulse" style="color:#64748b;text-decoration:underline;">Unsubscribe</a>
+          </p>
+          <!-- Unsubscribe, on its own line and NOT in the muted nav row above.
+               It was the last item in that row at 13px #64748b, which cleared
+               contrast but read as one more footer link. An opt-out a reader
+               has to hunt for produces a spam complaint instead, and a spam
+               complaint is charged to every future issue. Darker ink, its own
+               line, same 13px. preflight.ts enforces both the colour and the
+               position, so this cannot quietly regress. -->
+          <p style="margin:0 0 12px;font:400 13px/1.6 Arial,sans-serif;color:#334155;">
+            <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:#334155;text-decoration:underline;font-weight:600;">Unsubscribe</a>
           </p>
           <p style="margin:0;font:400 12px/1.6 Arial,sans-serif;color:#94a3b8;">ImmigrationClock reports public U.S. government data. It is not a law firm and does not give legal advice.</p>
         </td></tr>

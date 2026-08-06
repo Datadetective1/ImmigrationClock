@@ -194,4 +194,77 @@ describe("newsletter preflight", () => {
     expect(v.safe).toBe(false);
     expect(v.blocking.length).toBeGreaterThanOrEqual(4);
   });
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Unsubscribe. spamFlags were computed and then ignored, so "no
+  // unsubscribe link" was reported to nobody and stopped nothing.
+  // ─────────────────────────────────────────────────────────────────────
+  describe("the opt-out is blocking, not advisory", () => {
+    const withEdition = (over: Record<string, unknown>) => ({
+      ...healthyNewsletter,
+      editions: [{ ...healthyNewsletter.editions[0], ...over }, ...healthyNewsletter.editions.slice(1)],
+    });
+
+    it("blocks on a spamFlag that mentions unsubscribe", () => {
+      const v = assess(healthyRefresh, healthyEvents, withEdition({ spamFlags: ["no unsubscribe link"] }));
+      expect(v.safe).toBe(false);
+      expect(v.blocking.join(" ")).toMatch(/unsubscribe/i);
+    });
+
+    it("blocks on a signup-page opt-out", () => {
+      const v = assess(
+        healthyRefresh,
+        healthyEvents,
+        withEdition({ spamFlags: ['unsubscribe link points at the signup page "https://immigrationclock.com/pulse"'] })
+      );
+      expect(v.safe).toBe(false);
+    });
+
+    it("blocks in every language the product ships", () => {
+      for (const flag of [
+        "unsubscribe link is not labelled",
+        "lien Se désabonner manquant",
+        "falta el enlace Cancelar suscripción",
+        "رابط إلغاء الاشتراك مفقود",
+      ]) {
+        const v = assess(healthyRefresh, healthyEvents, withEdition({ spamFlags: [flag] }));
+        expect(v.safe, `"${flag}" was not treated as blocking`).toBe(false);
+      }
+    });
+
+    it("blocks on a structured blockingFlag from the build", () => {
+      const v = assess(
+        healthyRefresh,
+        healthyEvents,
+        withEdition({ blockingFlags: ["unsubscribe-missing"], safeToSend: false })
+      );
+      expect(v.safe).toBe(false);
+      expect(v.blocking.join(" ")).toMatch(/unsubscribe-missing/);
+    });
+
+    it("blocks when the build said unsafe but recorded no code", () => {
+      const v = assess(healthyRefresh, healthyEvents, withEdition({ safeToSend: false }));
+      expect(v.safe).toBe(false);
+      expect(v.blocking.join(" ")).toMatch(/unsafe to send/i);
+    });
+
+    it("keeps unrelated deliverability heuristics advisory", () => {
+      const v = assess(
+        healthyRefresh,
+        healthyEvents,
+        withEdition({ spamFlags: ["subject may truncate", "high link count", "thin plain-text part"] })
+      );
+      expect(v.safe).toBe(true);
+      expect(v.warnings.join(" ")).toMatch(/subject may truncate/);
+    });
+
+    it("clears an edition whose build recorded a clean verdict", () => {
+      const v = assess(
+        healthyRefresh,
+        healthyEvents,
+        withEdition({ spamFlags: [], blockingFlags: [], safeToSend: true })
+      );
+      expect(v.safe).toBe(true);
+    });
+  });
 });

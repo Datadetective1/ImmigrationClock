@@ -55,6 +55,21 @@ export const CADENCE_WINDOW_DAYS: Record<Cadence, number> = {
 };
 
 /**
+ * The literal token Resend Broadcasts substitutes with a per-contact opt-out
+ * link at send time.
+ *
+ * It lives here, in the shared vocabulary, because the renderer writes it, the
+ * validator requires it, preflight gates on it and the send script re-checks it
+ * against the bytes it POSTs — four modules that must agree on one string.
+ *
+ * Triple braces are Resend's UNESCAPED interpolation. Two braces would be
+ * HTML-escaped and arrive as visible text rather than a link, so do not "tidy"
+ * this. Confirmed against Resend's Create Broadcast API reference and their
+ * unsubscribe knowledge-base article.
+ */
+export const RESEND_UNSUBSCRIBE_TOKEN = "{{{RESEND_UNSUBSCRIBE_URL}}}";
+
+/**
  * WHO an edition is for.
  *
  * A segment is the only thing that varies between editions. `audienceId` is the

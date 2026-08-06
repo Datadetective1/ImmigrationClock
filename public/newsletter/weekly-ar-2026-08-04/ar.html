@@ -250,9 +250,17 @@
             <a href="https://immigrationclock.com/sources?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-ar-2026-08-04&utm_content=weekly&locale=ar&edition=weekly-ar-2026-08-04&segment=weekly-ar" style="color:#64748b;text-decoration:underline;">المصادر</a>
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
             <a href="https://immigrationclock.com/privacy?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-ar-2026-08-04&utm_content=weekly&locale=ar&edition=weekly-ar-2026-08-04&segment=weekly-ar" style="color:#64748b;text-decoration:underline;">الخصوصية</a>
-            <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span><a href="mailto:hello@immigrationclock.com" style="color:#64748b;text-decoration:underline;">اتصل بنا</a>
-            <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="mailto:hello@immigrationclock.com?subject=Unsubscribe%20from%20Immigration%20Pulse" style="color:#64748b;text-decoration:underline;">إلغاء الاشتراك</a>
+            
+          </p>
+          <!-- Unsubscribe, on its own line and NOT in the muted nav row above.
+               It was the last item in that row at 13px #64748b, which cleared
+               contrast but read as one more footer link. An opt-out a reader
+               has to hunt for produces a spam complaint instead, and a spam
+               complaint is charged to every future issue. Darker ink, its own
+               line, same 13px. preflight.ts enforces both the colour and the
+               position, so this cannot quietly regress. -->
+          <p style="margin:0 0 12px;font:400 13px/1.6 Arial,sans-serif;color:#334155;">
+            <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:#334155;text-decoration:underline;font-weight:600;">إلغاء الاشتراك</a>
           </p>
           <p style="margin:0;font:400 12px/1.6 Arial,sans-serif;color:#94a3b8;">ينشر ImmigrationClock بيانات حكومية أمريكية عامة. وهو ليس مكتب محاماة ولا يقدّم استشارات قانونية.</p>
         </td></tr>

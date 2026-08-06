@@ -28,6 +28,10 @@ interface Edition {
   htmlBytes: number;
   textBytes: number;
   spamFlags: string[];
+  /** Blocking preflight codes. Non-empty means this edition cannot be sent. */
+  blockingFlags: string[];
+  unsubscribeOk: boolean;
+  safeToSend: boolean;
   errors: string[];
   warnings: string[];
 }
@@ -114,7 +118,14 @@ export default function PulseEmailAdminPage() {
                   <td className="py-2.5 pr-3 tabular-nums text-slate-400">{kb(e.htmlBytes)}</td>
                   <td className="py-2.5 pr-3 tabular-nums text-slate-400">{kb(e.textBytes)}</td>
                   <td className="py-2.5 pr-3 text-xs">
-                    {e.spamFlags.length === 0 ? (
+                    {/* A blocking flag is not a shade of amber. An edition that
+                        cannot be unsubscribed from will not send at all, and the
+                        dashboard should say so in the same words the job does. */}
+                    {e.blockingFlags?.length ? (
+                      <span className="text-status-red" title={e.spamFlags.join("; ")}>
+                        BLOCKED — {e.blockingFlags.join(", ")}
+                      </span>
+                    ) : e.spamFlags.length === 0 ? (
                       <span className="text-slate-300">clean</span>
                     ) : (
                       <span className="text-status-amber" title={e.spamFlags.join("; ")}>

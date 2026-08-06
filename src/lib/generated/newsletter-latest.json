@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T01:35:27.811Z",
+  "generatedAt": "2026-08-06T03:30:03.024Z",
   "cadence": "weekly",
   "today": "2026-08-06",
   "editions": [
@@ -22,9 +22,12 @@
       "unchangedCount": 5,
       "upcomingCount": 4,
       "translatedStrings": 62,
-      "htmlBytes": 31438,
-      "textBytes": 8277,
+      "htmlBytes": 32012,
+      "textBytes": 8271,
       "spamFlags": [],
+      "blockingFlags": [],
+      "unsubscribeOk": true,
+      "safeToSend": true,
       "errors": [],
       "warnings": []
     },
@@ -47,11 +50,12 @@
       "unchangedCount": 5,
       "upcomingCount": 4,
       "translatedStrings": 62,
-      "htmlBytes": 31709,
-      "textBytes": 8514,
-      "spamFlags": [
-        "no unsubscribe link"
-      ],
+      "htmlBytes": 32283,
+      "textBytes": 8508,
+      "spamFlags": [],
+      "blockingFlags": [],
+      "unsubscribeOk": true,
+      "safeToSend": true,
       "errors": [],
       "warnings": []
     },
@@ -74,11 +78,12 @@
       "unchangedCount": 5,
       "upcomingCount": 4,
       "translatedStrings": 62,
-      "htmlBytes": 31775,
-      "textBytes": 8594,
-      "spamFlags": [
-        "no unsubscribe link"
-      ],
+      "htmlBytes": 32349,
+      "textBytes": 8588,
+      "spamFlags": [],
+      "blockingFlags": [],
+      "unsubscribeOk": true,
+      "safeToSend": true,
       "errors": [],
       "warnings": []
     },
@@ -101,11 +106,12 @@
       "unchangedCount": 5,
       "upcomingCount": 4,
       "translatedStrings": 62,
-      "htmlBytes": 32793,
-      "textBytes": 9506,
-      "spamFlags": [
-        "no unsubscribe link"
-      ],
+      "htmlBytes": 33367,
+      "textBytes": 9500,
+      "spamFlags": [],
+      "blockingFlags": [],
+      "unsubscribeOk": true,
+      "safeToSend": true,
       "errors": [],
       "warnings": []
     }

@@ -104,6 +104,6 @@ This notice of proposed rulemaking ("NPRM") would implement a provision of the I
 عناوين الوثائق وملخصاتها منقولة حرفياً كما نشرتها الحكومة الأمريكية، باللغة الإنجليزية. لا نترجم النص الرسمي، لأن الاقتباس المترجم لم يعد اقتباساً.
 
 اقرأ هذا العدد على الويب: https://immigrationclock.com/newsletter/weekly-ar-2026-08-06/ar.html
-إلغاء الاشتراك: https://immigrationclock.com/pulse
+إلغاء الاشتراك: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ينشر ImmigrationClock بيانات حكومية أمريكية عامة. وهو ليس مكتب محاماة ولا يقدّم استشارات قانونية.

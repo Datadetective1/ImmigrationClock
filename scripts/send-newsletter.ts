@@ -26,12 +26,51 @@
  * dry run prints the exact payload. Run the dry run against your account first
  * and confirm the shape before enabling the scheduled send. See
  * `docs/newsletter.md`.
+ *
+ * ---------------------------------------------------------------------------
+ * UNSUBSCRIBE, AND WHY THERE IS NO List-Unsubscribe HEADER HERE
+ * ---------------------------------------------------------------------------
+ * `POST /broadcasts` accepts: segment_id (formerly audience_id), from, subject,
+ * reply_to, html, text, react, name, topic_id, send, scheduled_at. There is no
+ * `headers` field — unlike `POST /emails`, which has one. So this script CANNOT
+ * set List-Unsubscribe or List-Unsubscribe-Post on a broadcast, and inventing a
+ * URL to put in one would be worse than omitting it: a header pointing at a
+ * page that cannot unsubscribe the recipient is a false opt-out, and under
+ * RFC 8058 it must accept a POST and take effect within 48 hours.
+ *
+ * The supported mechanism is the `{{{RESEND_UNSUBSCRIBE_URL}}}` token in the
+ * body. Resend substitutes a per-contact link, records the unsubscribe against
+ * the contact, and manages the List-Unsubscribe headers on the outgoing message
+ * itself. Confirm the headers on the first real send by viewing the raw source
+ * of a received copy — that is the only place they are observable.
+ *
+ * The gate below re-runs the opt-out check on the exact bytes about to be
+ * POSTed, not on what the manifest claims. `--send` does not skip it.
  */
 import { readFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { unsubscribeFlags, RESEND_UNSUBSCRIBE_TOKEN } from "../src/lib/newsletter/preflight";
+import type { Locale } from "../src/lib/newsletter/types";
+
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
-const MANIFEST = `${ROOT}/src/lib/generated/newsletter-latest.json`;
+
+// Test seams, in the same spirit as RESEND_API_BASE: they let the suite drive
+// this script end-to-end against a stub, which is the only way to prove that
+// `--send` cannot bypass the gate. Both must stay unset in production.
+const MANIFEST_OVERRIDE = process.env.NEWSLETTER_MANIFEST;
+const MANIFEST = MANIFEST_OVERRIDE || `${ROOT}/src/lib/generated/newsletter-latest.json`;
+
+/**
+ * Where an edition's archived HTML and text actually live.
+ *
+ * The real manifest records paths from the repo root ("/public/newsletter/…").
+ * A fixture manifest describes files sitting next to itself. NOT decided with
+ * isAbsolute(): on Windows `isAbsolute("/public/…")` is true, which silently
+ * resolved every real path to C:\public\… .
+ */
+const resolve = (p: string) => (MANIFEST_OVERRIDE ? join(dirname(MANIFEST_OVERRIDE), p) : `${ROOT}${p}`);
 
 const RESEND_API = process.env.RESEND_API_BASE || "https://api.resend.com";
 const KEY = process.env.RESEND_API_KEY || "";
@@ -49,6 +88,9 @@ interface Edition {
   audienceConfigured: boolean;
   errors: string[];
   warnings: string[];
+  /** Written by build-newsletter.ts. Absent on a manifest built before the gate existed. */
+  safeToSend?: boolean;
+  blockingFlags?: string[];
 }
 
 interface Manifest {
@@ -122,6 +164,9 @@ interface Planned {
   ed: Edition;
   audienceId: string | undefined;
   recipients: number | null;
+  /** The exact bytes the opt-out gate inspected, carried through to the POST. */
+  html: string;
+  text: string;
   htmlBytes: number;
   textBytes: number;
 }
@@ -188,21 +233,66 @@ async function main() {
     process.exit(1);
   }
 
+  // ---- THE OPT-OUT GATE ----------------------------------------------------
+  // Re-checked here, against the bytes this script is about to POST, even
+  // though build-newsletter.ts and newsletter-preflight.ts both checked the
+  // same thing. The manifest and the archived HTML are separate files that a
+  // rerun, a partial commit or a hand edit can put out of step, and the file is
+  // what reaches the inbox.
+  //
+  // It runs before the audience lookup and before anything is printed, so a dry
+  // run reports the same verdict a real send would get. `--send` is not
+  // consulted: there is no operator override, because the failure it would
+  // override is one that cannot be undone once the mail is out.
+  const loaded: Array<Edition & { html: string; text: string }> = [];
+  for (const ed of manifest.editions) {
+    loaded.push({
+      ...ed,
+      html: await readFile(resolve(ed.htmlPath), "utf8"),
+      text: await readFile(resolve(ed.textPath), "utf8"),
+    });
+  }
+
+  const ungated = loaded.flatMap((ed) => {
+    const blocking = unsubscribeFlags({ subject: ed.subject, html: ed.html, text: ed.text }, ed.locale as Locale)
+      .filter((f) => f.blocking)
+      .map((f) => `${ed.segment}: ${f.message}`);
+    // A manifest that already knows it is unsafe is not overridden by a file
+    // that happens to look fine.
+    if (ed.safeToSend === false && blocking.length === 0) {
+      blocking.push(
+        `${ed.segment}: manifest marks this edition unsafe (${(ed.blockingFlags ?? []).join(", ") || "no reason recorded"})`
+      );
+    }
+    return blocking;
+  });
+
+  if (ungated.length) {
+    console.error(`[send] UNSUBSCRIBE GATE FAILED — nothing will be sent, and --send does not override this.`);
+    for (const m of ungated) console.error(`  - ${m}`);
+    console.error(
+      `\n  Every edition must carry ${RESEND_UNSUBSCRIBE_TOKEN} as a visible, localized link\n` +
+        `  in both the HTML and the plain-text part. Rebuild with \`npm run build:newsletter\`.`
+    );
+    process.exit(1);
+  }
+  console.log(`[send] unsubscribe gate: ${loaded.length} edition(s) carry a working opt-out.`);
+
   // Resolve everything first, so the confirmation block describes the whole
   // issue before a single broadcast is created. Deciding per-edition midway
   // through would mean the operator approves edition one and discovers edition
   // four's recipient count only after it has already gone out.
   const plan: Planned[] = [];
-  for (const ed of manifest.editions) {
-    const html = await readFile(`${ROOT}${ed.htmlPath}`, "utf8");
-    const text = await readFile(`${ROOT}${ed.textPath}`, "utf8");
+  for (const ed of loaded) {
     const audienceId = process.env[`RESEND_AUDIENCE_${ed.locale.toUpperCase()}`];
     plan.push({
       ed,
       audienceId,
       recipients: audienceId ? await audienceCount(audienceId) : 0,
-      htmlBytes: html.length,
-      textBytes: text.length,
+      html: ed.html,
+      text: ed.text,
+      htmlBytes: ed.html.length,
+      textBytes: ed.text.length,
     });
   }
 
@@ -212,10 +302,10 @@ async function main() {
   let skipped = 0;
   let failed = 0;
 
-  for (const { ed, audienceId } of plan) {
-    const html = await readFile(`${ROOT}${ed.htmlPath}`, "utf8");
-    const text = await readFile(`${ROOT}${ed.textPath}`, "utf8");
-
+  // html/text come from the plan, which is the same buffer the gate inspected.
+  // Re-reading here would open a window in which the file could change between
+  // being checked and being sent.
+  for (const { ed, audienceId, html, text } of plan) {
     // An unconfigured audience is a known gap, not a failure. Same rule the
     // Congress adapter follows: never conflate "not set up" with "broken".
     if (!audienceId) {
@@ -224,6 +314,12 @@ async function main() {
       continue;
     }
 
+    // NOTE ON `audience_id`: Resend has renamed Audiences to Segments, and the
+    // current Create Broadcast reference documents `segment_id`. Existing
+    // audience ids continue to resolve, so this stays as it is until a dry run
+    // against the live account proves otherwise — sending both keys risks a 422
+    // on an unknown field, which is a worse failure than the one it guards.
+    // See docs/newsletter.md.
     const payload: Record<string, unknown> = {
       audience_id: audienceId,
       from: FROM,
@@ -237,10 +333,24 @@ async function main() {
     };
 
     if (!LIVE) {
+      // Print the payload as it will actually be serialised, with the two large
+      // fields elided. An operator confirming the shape against their account
+      // needs to see the real keys, not a summary of them.
+      const shape = {
+        ...payload,
+        html: `<${html.length} bytes, unsubscribe token present: ${html.includes(RESEND_UNSUBSCRIBE_TOKEN)}>`,
+        text: `<${text.length} bytes, unsubscribe token present: ${text.includes(RESEND_UNSUBSCRIBE_TOKEN)}>`,
+      };
+      console.log(`[send] DRY RUN ${ed.segment}: would POST /broadcasts`);
       console.log(
-        `[send] DRY RUN ${ed.segment}: would POST /broadcasts ` +
-          `{ audience_id: "${audienceId}", name: "${ed.issueId}", subject: "${ed.subject}", ` +
-          `html: ${html.length}B, text: ${text.length}B }`
+        JSON.stringify(shape, null, 2)
+          .split("\n")
+          .map((l) => `         ${l}`)
+          .join("\n")
+      );
+      console.log(
+        `         headers: none — POST /broadcasts has no \`headers\` field; Resend owns\n` +
+          `                  List-Unsubscribe for broadcasts, driven by the token above.`
       );
       continue;
     }

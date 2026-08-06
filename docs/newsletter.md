@@ -123,9 +123,57 @@ CI rather than shipping a language nobody can receive.
 | `RESEND_API_KEY` | secret | Sending. Needs **Full Access**, not sending-only. |
 | `RESEND_AUDIENCE_EN` / `_ES` / `_FR` / `_AR` | secret | The audience each edition broadcasts to. **Absent means build-and-archive but do not send** — a known gap, not a failure. |
 | `RESEND_FROM_EMAIL` | var | Defaults to `Immigration Clock <noreply@immigrationclock.com>`. |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | var | Reply-To and the unsubscribe mailbox. |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | var | Reply-To. **Not** the unsubscribe route — see §5.1. |
+| `PULSE_SEND_ENABLED` | var | **Master switch. Unset = never broadcast.** Set to `true` only after a dry run against the live account. |
 | `NEWSLETTER_DATE` | local | Build a specific issue date. |
 | `NEWSLETTER_CADENCE` | local | `weekly` (default), `daily`, `monthly`, `breaking`. |
+| `NEWSLETTER_MANIFEST` | test seam | Point the send script at a fixture manifest. Must stay unset in production. |
+
+### 5.1 Unsubscribe
+
+Every edition carries the literal string `{{{RESEND_UNSUBSCRIBE_URL}}}` as its
+unsubscribe link target, in the HTML and in the plain-text part. Resend
+substitutes a per-contact opt-out link at send time and records the unsubscribe
+against the contact. Triple braces are Resend's *unescaped* interpolation —
+two braces would be HTML-escaped and arrive as visible text.
+
+The link text is localized (`Unsubscribe` / `Cancelar suscripción` /
+`Se désabonner` / `إلغاء الاشتراك`) and sits on its own footer line in `#334155`,
+which is 9.9:1 against the `#f8fafc` footer.
+
+**Two earlier targets were removed, and `preflight.ts` now blocks both:**
+
+- `/pulse` — the **signup** page. An opt-out that opens a sign-up form is a dark
+  pattern, and it left the reader subscribed.
+- `mailto:` the contact address — reaches a human inbox, not the contact record.
+  It satisfies neither one-click nor the 48-hour rule Gmail and Yahoo enforce.
+
+**There is no `List-Unsubscribe` header on the broadcast, and this is correct.**
+`POST /broadcasts` accepts `segment_id`, `from`, `subject`, `reply_to`, `html`,
+`text`, `react`, `name`, `topic_id`, `send`, `scheduled_at` — and no `headers`
+field, unlike `POST /emails`. Resend owns the List-Unsubscribe headers for
+broadcasts, driven by the token above. Fabricating a header pointing at a URL
+that cannot unsubscribe anyone would be worse than omitting it: RFC 8058
+requires that URL to accept a POST and take effect within 48 hours.
+
+Confirm the headers on the first real send by viewing the raw source of a
+received copy. That is the only place they are observable.
+
+#### The gate
+
+`src/lib/newsletter/preflight.ts` decides whether an edition may send. Every
+unsubscribe finding is **blocking** — missing, not-a-link, unlocalized, hidden,
+below 4.5:1 contrast, absent from the text part, or pointing at a signup page.
+Deliverability heuristics (thin text, long subject, link count) stay advisory.
+
+It runs three times, and `--send` overrides none of them:
+
+1. `build:newsletter` — blocking findings become validation errors, so the
+   build exits non-zero and the manifest records `safeToSend: false`.
+2. the workflow's *Verify every edition can be unsubscribed from* step.
+3. `send:newsletter`, against the **exact bytes it is about to POST** — not
+   what the manifest claims, because the manifest and the archived HTML are
+   separate files that a partial commit can put out of step.
 
 ### ⚠️ Verify the broadcast API shape before enabling the schedule
 
@@ -142,8 +190,21 @@ npm run send:newsletter
 
 Confirm the printed `POST /broadcasts` body matches what your Resend account
 expects. If the shape differs, `scripts/send-newsletter.ts` has one `payload`
-object to adjust. **Do not enable the schedule until a dry run has been checked
-against the real account.**
+object to adjust.
+
+Two things to check specifically:
+
+- **`audience_id` vs `segment_id`.** Resend has renamed Audiences to Segments
+  and the current Create Broadcast reference documents `segment_id`. Existing
+  audience ids still resolve, so the payload keeps `audience_id`; if your
+  account rejects it, change that one key. Sending both risks a 422 on an
+  unknown field.
+- **The unsubscribe token survives.** The dry run prints
+  `unsubscribe token present: true` for the HTML and the text part.
+
+**The schedule cannot fire until `PULSE_SEND_ENABLED` is set to `true`**, which
+is deliberate: a Thursday 14:00 UTC cron is the worst possible place to discover
+a payload mismatch.
 
 ---
 
@@ -152,13 +213,17 @@ against the real account.**
 ```bash
 npm run build:newsletter     # generate + validate all locales
 npm run send:newsletter      # dry run — prints payloads, contacts nobody
-npm test                     # 56 newsletter tests
+npm test                     # newsletter + unsubscribe-gate suites
 open public/newsletter/weekly-en-<date>/en.html
 ```
 
 Check by eye: the Arabic issue reads right-to-left, the language selector shows
 all four, every card's button reaches a `.gov` URL, and no card renders a
 proposal without its "not in force" badge.
+
+To confirm the gate still bites, delete the unsubscribe line from one archived
+edition and run the dry run — it must exit 1 with `UNSUBSCRIBE GATE FAILED`,
+then restore it with `npm run build:newsletter`.
 
 ---
 
@@ -186,9 +251,14 @@ Already implemented:
 
 - **A real `text/plain` part.** Missing or trivial text is a strong spam signal;
   validation rejects a text part under 200 characters.
-- **`List-Unsubscribe` header** on the welcome email so Gmail and Apple Mail show
-  their native control. Readers who can find unsubscribe use it instead of
-  hitting "report spam", which is the single most damaging signal there is.
+- **A working, localized, blocking unsubscribe** on every edition — see §5.1.
+  Readers who can find the unsubscribe use it instead of hitting "report spam",
+  which is the single most damaging signal there is.
+- **`List-Unsubscribe` header** on the *welcome* email, which goes through
+  `POST /emails` and therefore supports `headers`. It is a `mailto:` value, so
+  it is **not** RFC 8058 one-click; `List-Unsubscribe-Post` is deliberately
+  absent rather than claiming a capability a mailbox cannot honour. The welcome
+  email is transactional and exempt from the bulk rules either way.
 - **One sending domain**, already verified in Resend.
 - **`noreply@` sends, `hello@` receives replies** via Reply-To, so a reply
   reaches a human.

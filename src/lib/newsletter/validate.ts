@@ -11,9 +11,10 @@
 // =============================================================================
 
 import type { Issue, Locale } from "./types";
-import { LOCALES } from "./types";
+import { LOCALES, RESEND_UNSUBSCRIBE_TOKEN } from "./types";
 import { stringsFor } from "./locales";
 import type { RenderedEmail } from "./render";
+import { unsubscribeFlags } from "./preflight";
 
 export interface ValidationResult {
   errors: string[];
@@ -81,11 +82,25 @@ export function validateRendered(
   if (/<[a-z/][^>]*>/i.test(rendered.text)) errors.push(`${where}: markup leaked into the plain-text part`);
 
   // Email clients resolve relative URLs against themselves, not the site.
+  //
+  // The Resend unsubscribe token is the one exception: it is not a URL at all
+  // until Resend substitutes a per-contact link at send time. Exempting it here
+  // is safe only because preflight requires it to be present and correct — the
+  // two rules are a pair, and neither is sound alone.
   const hrefs = [...rendered.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
   for (const h of hrefs) {
+    if (h === RESEND_UNSUBSCRIBE_TOKEN) continue;
     if (!/^(https?:\/\/|mailto:)/.test(h)) errors.push(`${where}: relative link "${h}"`);
   }
   if (hrefs.length === 0) errors.push(`${where}: no links at all`);
+
+  // THE OPT-OUT GATE. Blocking, and reported as an error rather than a warning
+  // so that every consumer of this result — the build script, CI, the send
+  // script — refuses the edition without needing to know the rule.
+  for (const f of unsubscribeFlags(rendered, locale)) {
+    if (f.blocking) errors.push(`${where}: ${f.message}`);
+    else warnings.push(`${where}: ${f.message}`);
+  }
 
   // Client-compatibility invariants the renderer is supposed to guarantee.
   if (/<style[\s>]/i.test(rendered.html)) errors.push(`${where}: <style> block will be stripped by Gmail`);

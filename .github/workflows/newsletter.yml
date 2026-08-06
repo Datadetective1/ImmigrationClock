@@ -29,6 +29,15 @@
 #
 # A manual `send = true` cannot override preflight either: if the data is wrong,
 # it is wrong for a human too.
+#
+# THE OPT-OUT GATE
+# ----------------
+# The same inversion applies to unsubscribe: an edition without a working
+# opt-out is not a newsletter that needs a warning label, it is mail we must not
+# send. The rule lives in src/lib/newsletter/preflight.ts, and it fires in four
+# places — at build (validation error), in scripts/newsletter-preflight.ts
+# (blocking verdict), in the step below, and finally inside send-newsletter.ts
+# against the exact bytes it POSTs. `send = true` overrides none of them.
 
 name: Immigration Pulse
 
@@ -121,6 +130,23 @@ jobs:
         id: preflight
         run: npm run newsletter:preflight
 
+      # Redundant with the gate inside the build and the send script. Kept
+      # because a job that stops here says WHY in one line, and because a
+      # regression in either of the other two layers should not be silent.
+      - name: Verify every edition can be unsubscribed from
+        run: |
+          node -e "
+          const m=require('./src/lib/generated/newsletter-latest.json');
+          const bad=m.editions.filter(e=>e.safeToSend===false||e.unsubscribeOk===false);
+          for(const e of m.editions){
+            console.log((e.safeToSend?'  ok   ':'  BLOCK')+'  '+e.segment+'  '+(e.blockingFlags||[]).join(', '));
+          }
+          if(bad.length){
+            console.error('\n'+bad.length+' edition(s) have no working unsubscribe. Nothing will be sent.');
+            process.exit(1);
+          }
+          "
+
       - name: Summarise the issue
         run: |
           node -e "
@@ -160,22 +186,31 @@ jobs:
 
       # LIVE SEND — automatic on the Thursday schedule, and available on demand.
       #
-      # Two independent conditions must hold:
+      # Three independent conditions must hold:
       #
-      #   1. the run is either the schedule or a dispatch with send = true, and
-      #   2. preflight said the issue is safe.
+      #   1. PULSE_SEND_ENABLED is set, and
+      #   2. the run is either the schedule or a dispatch with send = true, and
+      #   3. preflight said the issue is safe.
       #
-      # (2) is what makes unattended delivery defensible. Without it the cron
+      # (3) is what makes unattended delivery defensible. Without it the cron
       # would happily mail an empty issue built from an adapter that had quietly
       # stopped parsing its source. A manual `send = true` cannot override it
       # either — if the data is wrong, it is wrong for a human too.
+      #
+      # (1) is new, and deliberately UNSET. The Broadcast payload has never been
+      # accepted by a live Resend account, and Resend has since renamed Audiences
+      # to Segments — `audience_id` may need to become `segment_id`. 14:00 UTC on
+      # a Thursday is the worst possible place to discover that. Set the
+      # repository variable PULSE_SEND_ENABLED to "true" once a dry run against
+      # the real account has confirmed the shape. See docs/newsletter.md.
       #
       # A dispatch without send = true is a dry run: it previews and archives,
       # and the step below does not execute.
       - name: Send to subscribers
         id: send
         if: |
-          (github.event_name == 'schedule' || github.event.inputs.send == 'true')
+          vars.PULSE_SEND_ENABLED == 'true'
+          && (github.event_name == 'schedule' || github.event.inputs.send == 'true')
           && steps.preflight.outputs.safe == 'true'
         run: |
           for attempt in 1 2; do
@@ -194,9 +229,30 @@ jobs:
           echo "::error::Send failed twice."
           exit 1
 
+      # A silent no-op is the worst outcome here: an operator who dispatched with
+      # send = true and sees a green run would reasonably assume it went out.
+      - name: Delivery held — sending is not enabled yet
+        if: |
+          vars.PULSE_SEND_ENABLED != 'true'
+          && (github.event_name == 'schedule' || github.event.inputs.send == 'true')
+        run: |
+          {
+            echo "### Delivery held — sending is not enabled"
+            echo ""
+            echo "The issue was refreshed, built, validated, archived and deployed."
+            echo "**Nothing was emailed**, because the repository variable"
+            echo '`PULSE_SEND_ENABLED` is not set to `true`.'
+            echo ""
+            echo "The Resend Broadcast payload has not yet been confirmed against the live"
+            echo "account. Run the dry run, check \`audience_id\` vs \`segment_id\`, then set"
+            echo "the variable. See docs/newsletter.md §5.1."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::warning::PULSE_SEND_ENABLED is not set — newsletter built and archived but not delivered."
+
       - name: Delivery withheld — anomaly detected
         if: |
-          (github.event_name == 'schedule' || github.event.inputs.send == 'true')
+          vars.PULSE_SEND_ENABLED == 'true'
+          && (github.event_name == 'schedule' || github.event.inputs.send == 'true')
           && steps.preflight.outputs.safe != 'true'
         env:
           GH_TOKEN: ${{ github.token }}

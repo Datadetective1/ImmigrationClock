@@ -20,7 +20,7 @@
 
 import { isRtl, type Issue, type Locale } from "./types";
 import { stringsFor } from "./locales";
-import { LOCALES } from "./types";
+import { LOCALES, RESEND_UNSUBSCRIBE_TOKEN } from "./types";
 
 const ACCENT = "#0ea5e9";
 const INK = "#0f172a";
@@ -121,9 +121,25 @@ export function renderIssue(
     `<span style="color:${ACCENT};" aria-hidden="true">${icon}</span>&nbsp;&nbsp;${esc(text)}</h2>`;
 
   const archiveUrl = `${base}/newsletter/${issue.id}/${locale}.html`;
-  const unsub = contactEmail
-    ? `mailto:${contactEmail}?subject=${encodeURIComponent("Unsubscribe from Immigration Pulse")}`
-    : `${base}/pulse`;
+
+  // THE OPT-OUT.
+  //
+  // A literal Resend Broadcasts token, not a URL — Resend swaps it for a
+  // per-contact link at send time and records the unsubscribe against the
+  // contact. It is the only value here that can actually unsubscribe anyone.
+  //
+  // What it replaced, and why neither worked:
+  //   • `${base}/pulse` — the SIGNUP page. An opt-out that opens a sign-up form
+  //     is a dark pattern, and it left the reader still subscribed.
+  //   • `mailto:` the contact address — reaches a human inbox, not the contact
+  //     record, and satisfies neither one-click nor the 48-hour rule Gmail and
+  //     Yahoo enforce on bulk senders.
+  //
+  // The archived web copy of the issue is the same bytes the broadcast is built
+  // from, so this token appears there too and is inert on the web. That is the
+  // correct trade: the archive is a record of what was mailed, and validate.ts
+  // and preflight.ts both refuse to ship an edition where it is missing.
+  const unsub = RESEND_UNSUBSCRIBE_TOKEN;
 
   // ---- Language selector -----------------------------------------------------
   // Points at the archived copy of THIS issue in each language, so switching
@@ -394,8 +410,16 @@ export function renderIssue(
             <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
             <a href="${tagged(`${base}/privacy`, issue, base)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.privacy)}</a>
             ${contactEmail ? `<span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span><a href="mailto:${esc(contactEmail)}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.contact)}</a>` : ""}
-            <span style="color:#cbd5e1;"> &nbsp;&middot;&nbsp; </span>
-            <a href="${unsub}" style="color:${MUTED};text-decoration:underline;">${esc(t.footer.unsubscribe)}</a>
+          </p>
+          <!-- Unsubscribe, on its own line and NOT in the muted nav row above.
+               It was the last item in that row at 13px #64748b, which cleared
+               contrast but read as one more footer link. An opt-out a reader
+               has to hunt for produces a spam complaint instead, and a spam
+               complaint is charged to every future issue. Darker ink, its own
+               line, same 13px. preflight.ts enforces both the colour and the
+               position, so this cannot quietly regress. -->
+          <p style="margin:0 0 12px;font:400 13px/1.6 Arial,sans-serif;color:${BODY};">
+            <a href="${unsub}" style="color:${BODY};text-decoration:underline;font-weight:600;">${esc(t.footer.unsubscribe)}</a>
           </p>
           <p style="margin:0;font:400 12px/1.6 Arial,sans-serif;color:#94a3b8;">${esc(t.footer.disclaimer)}</p>
         </td></tr>
@@ -489,6 +513,9 @@ export function renderIssue(
   lines.push("", t.trust.statement, "", t.trust.sourceLanguageNote, "");
   lines.push(`${t.footer.viewOnline}: ${archiveUrl}`);
   if (contactEmail) lines.push(`${t.footer.contact}: ${contactEmail}`);
+  // The opt-out belongs in the text part too: several clients and most screen
+  // readers render this instead of the HTML, and Resend substitutes the token
+  // in both parts of the broadcast.
   lines.push(`${t.footer.unsubscribe}: ${unsub}`, "", t.footer.disclaimer);
 
   return { subject: t.subject(n), html, text: lines.join("\n") };

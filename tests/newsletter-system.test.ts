@@ -9,7 +9,14 @@ import { describe, it, expect } from "vitest";
 import { readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { LOCALES, DEFAULT_LOCALE, isRtl, CADENCE_WINDOW_DAYS, type Segment } from "@/lib/newsletter/types";
+import {
+  LOCALES,
+  DEFAULT_LOCALE,
+  isRtl,
+  CADENCE_WINDOW_DAYS,
+  RESEND_UNSUBSCRIBE_TOKEN,
+  type Segment,
+} from "@/lib/newsletter/types";
 import { STRINGS, stringsFor } from "@/lib/newsletter/locales";
 import { selectIssue, MAX_ITEMS, WATCHLIST } from "@/lib/newsletter/select";
 import { EVENTS } from "@/lib/event-store";
@@ -153,7 +160,12 @@ describe("rendering, in every language", () => {
       });
 
       it("makes every link absolute", () => {
-        const hrefs = [...out.html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]);
+        // The Resend unsubscribe token is the one exemption: it is not a URL
+        // until Resend substitutes a per-contact link at send time. It is not
+        // unchecked — tests/newsletter-unsubscribe.test.ts owns it.
+        const hrefs = [...out.html.matchAll(/href="([^"]+)"/g)]
+          .map((m) => m[1])
+          .filter((h) => h !== RESEND_UNSUBSCRIBE_TOKEN);
         expect(hrefs.length).toBeGreaterThan(5);
         for (const h of hrefs) expect(h, `relative: ${h}`).toMatch(/^(https?:\/\/|mailto:)/);
       });

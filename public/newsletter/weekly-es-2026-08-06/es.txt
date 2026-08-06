@@ -104,6 +104,6 @@ Cada actualización enlaza directamente con la fuente gubernamental original. Re
 Los títulos y resúmenes se citan exactamente como los publicó el gobierno de EE. UU., en inglés. No traducimos el texto oficial, porque una cita traducida deja de ser una cita.
 
 Leer este número en línea: https://immigrationclock.com/newsletter/weekly-es-2026-08-06/es.html
-Cancelar suscripción: https://immigrationclock.com/pulse
+Cancelar suscripción: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ImmigrationClock informa sobre datos públicos del gobierno de EE. UU. No es un bufete de abogados y no ofrece asesoramiento legal.
