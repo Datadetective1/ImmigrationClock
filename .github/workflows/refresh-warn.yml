@@ -114,7 +114,8 @@ jobs:
       # every run but the old hand-written `git add` list omitted entirely.
       - name: Commit refreshed WARN data & push to main (triggers deploy)
         if: steps.changed.outputs.changed == 'true'
-        run: bash .github/scripts/commit-and-push.sh "chore(warn): refresh wide-net WARN feed"
+        run: |
+          bash .github/scripts/commit-and-push.sh "chore(warn): refresh wide-net WARN feed"
 
       - name: Optional Vercel deploy hook
         if: steps.changed.outputs.changed == 'true'
