@@ -25,7 +25,7 @@
     "ice_stats": "2026-06-09",
     "ice_annual": "2025-12-18",
     "dhs_stats": "2026-06-09",
-    "cbp_encounters": "2026-07-08",
+    "cbp_encounters": "2026-08-06",
     "dos_visa": "2026-05-31",
     "bls_wages": "2025-04-03",
     "warn_layoffs": "2026-06-12",
@@ -2710,7 +2710,7 @@
       "unaccompaniedMinors": 115200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2021,
@@ -2721,7 +2721,7 @@
       "unaccompaniedMinors": 6300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2021,
@@ -2732,7 +2732,7 @@
       "unaccompaniedMinors": 168200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2022,
@@ -2743,7 +2743,7 @@
       "unaccompaniedMinors": 185000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2022,
@@ -2754,7 +2754,7 @@
       "unaccompaniedMinors": 8400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2022,
@@ -2765,7 +2765,7 @@
       "unaccompaniedMinors": 241200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2023,
@@ -2776,7 +2776,7 @@
       "unaccompaniedMinors": 143100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2023,
@@ -2787,7 +2787,7 @@
       "unaccompaniedMinors": 9700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2023,
@@ -2798,7 +2798,7 @@
       "unaccompaniedMinors": 214700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2024,
@@ -2809,7 +2809,7 @@
       "unaccompaniedMinors": 118900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2024,
@@ -2820,7 +2820,7 @@
       "unaccompaniedMinors": 9500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2024,
@@ -2831,7 +2831,7 @@
       "unaccompaniedMinors": 273500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2842,7 +2842,7 @@
       "unaccompaniedMinors": 21000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2853,7 +2853,7 @@
       "unaccompaniedMinors": 1800,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2864,7 +2864,7 @@
       "unaccompaniedMinors": 57500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -2875,29 +2875,29 @@
       "unaccompaniedMinors": 9700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
       "border": "northern",
-      "totalEncounters": 10000,
-      "singleAdults": 6200,
-      "familyUnits": 2900,
-      "unaccompaniedMinors": 900,
+      "totalEncounters": 11200,
+      "singleAdults": 6900,
+      "familyUnits": 3300,
+      "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
       "border": "nationwide",
-      "totalEncounters": 249060,
-      "singleAdults": 157800,
-      "familyUnits": 72700,
-      "unaccompaniedMinors": 18600,
+      "totalEncounters": 280656,
+      "singleAdults": 177800,
+      "familyUnits": 81900,
+      "unaccompaniedMinors": 21000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     }
   ],
   "cbpMonthly": [
@@ -2911,7 +2911,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2923,7 +2923,7 @@
       "unaccompaniedMinors": 1700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2935,7 +2935,7 @@
       "unaccompaniedMinors": 1900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2947,7 +2947,7 @@
       "unaccompaniedMinors": 1900,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2959,7 +2959,7 @@
       "unaccompaniedMinors": 1300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2971,7 +2971,7 @@
       "unaccompaniedMinors": 1200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2983,7 +2983,7 @@
       "unaccompaniedMinors": 2000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -2995,7 +2995,7 @@
       "unaccompaniedMinors": 2000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3007,7 +3007,7 @@
       "unaccompaniedMinors": 1500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3019,7 +3019,7 @@
       "unaccompaniedMinors": 1600,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3031,7 +3031,7 @@
       "unaccompaniedMinors": 1300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3043,7 +3043,7 @@
       "unaccompaniedMinors": 1700,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3055,7 +3055,7 @@
       "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3067,7 +3067,7 @@
       "unaccompaniedMinors": 1400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3079,7 +3079,7 @@
       "unaccompaniedMinors": 1400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3091,7 +3091,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3103,7 +3103,7 @@
       "unaccompaniedMinors": 1600,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3115,7 +3115,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3127,7 +3127,7 @@
       "unaccompaniedMinors": 1100,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2026,
@@ -3139,7 +3139,7 @@
       "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     }
   ],
   "cbpByCountry": [
@@ -3153,7 +3153,7 @@
       "unaccompaniedMinors": 2400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3165,7 +3165,7 @@
       "unaccompaniedMinors": 1800,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3177,7 +3177,7 @@
       "unaccompaniedMinors": 500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3189,7 +3189,7 @@
       "unaccompaniedMinors": 1000,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3201,7 +3201,7 @@
       "unaccompaniedMinors": 1300,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3213,7 +3213,7 @@
       "unaccompaniedMinors": 15200,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3225,7 +3225,7 @@
       "unaccompaniedMinors": 4500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3237,7 +3237,7 @@
       "unaccompaniedMinors": 500,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3249,7 +3249,7 @@
       "unaccompaniedMinors": 400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     },
     {
       "fiscalYear": 2025,
@@ -3261,16 +3261,16 @@
       "unaccompaniedMinors": 9400,
       "sourceName": "CBP Nationwide Encounters",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "sourceUpdatedAt": "2026-07-08"
+      "sourceUpdatedAt": "2026-08-06"
     }
   ],
   "CBP_LIVE": {
     "ok": true,
-    "reportingMonthLabel": "May 2026",
+    "reportingMonthLabel": "June 2026",
     "currentFy": 2026,
-    "currentFyYtd": 249060,
-    "sourceUpdatedAt": "2026-07-08",
-    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-06/nationwide-encounters-fy23-fy26-may-aor.csv"
+    "currentFyYtd": 280656,
+    "sourceUpdatedAt": "2026-08-06",
+    "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-07/nationwide-encounters-fy23-fy26-jun-aor.csv"
   },
   "visaRows": [
     {
