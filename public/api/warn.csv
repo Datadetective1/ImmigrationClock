@@ -1,6 +1,7 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
 UBS,UBS,Weehawken,,NJ,,2026-11-04,58,,https://www.nj.gov/labor/employer-services/warn/
 BASF Corporation,BASF,Florham Park,,NJ,,2026-11-01,62,,https://www.nj.gov/labor/employer-services/warn/
+"Citibank, N.A.",CITIBANK N A,Hudson County,,NJ,,2026-10-31,59,,https://www.nj.gov/labor/employer-services/warn/
 "Mars WrigleyConfectionary US, LLC",MARS WRIGLEYCONFECTIONARY,Newark,,NJ,,2026-10-16,307,,https://www.nj.gov/labor/employer-services/warn/
 Verizon Corp Resources Group LLC,VERIZON RESOURCES GROUP,Basking Ridge,,NJ,,2026-10-16,282,,https://www.nj.gov/labor/employer-services/warn/
 The Cannabist Company,THE CANNABIST,Vineland,,NJ,,2026-10-11,86,,https://www.nj.gov/labor/employer-services/warn/
@@ -30,10 +31,13 @@ Barclays,BARCLAYS,Whippany,,NJ,,2026-08-10,64,,https://www.nj.gov/labor/employer
 Verizon,VERIZON,Basking Ridge,,NJ,,2026-08-07,121,,https://www.nj.gov/labor/employer-services/warn/
 Amicus Therapeutics,AMICUS THERAPEUTICS,Princeton,,NJ,,2026-08-07,58,,https://www.nj.gov/labor/employer-services/warn/
 Verizon Corp Resources Group LLC,VERIZON RESOURCES GROUP,Basking Ridge,,NJ,,2026-08-07,156,,https://www.nj.gov/labor/employer-services/warn/
+Google,GOOGLE,Various locations in Washington,,WA,2026-08-05,2026-09-06,52,Permanent,https://esd.wa.gov/about-employees/WARN
 Danone North America,DANONE NORTH AMERICA,Bridgeton,,NJ,,2026-08-04,114,,https://www.nj.gov/labor/employer-services/warn/
+Zillow Group,ZILLOW GROUP,Seattle,,WA,2026-08-04,2026-10-05,91,Permanent,https://esd.wa.gov/about-employees/WARN
 Federal Express Corporation,FEDERAL EXPRESS,Union,,NJ,,2026-08-03,50,,https://www.nj.gov/labor/employer-services/warn/
 Accupac,ACCUPAC,Lakewood,,NJ,,2026-08-03,260,,https://www.nj.gov/labor/employer-services/warn/
 JP Morgan Chase,JP MORGAN CHASE,Jersey City,,NJ,,2026-08-03,51,,https://www.nj.gov/labor/employer-services/warn/
+"80 Acres Urban Agriculture, Inc.",80 ACRES URBAN AGRICULTURE,Marysville,,WA,2026-08-03,2026-08-03,55,Permanent,https://esd.wa.gov/about-employees/WARN
 DoubleTree by Hilton,DOUBLETREE BY HILTON,Somerset,,NJ,,2026-08-01,90,,https://www.nj.gov/labor/employer-services/warn/
 "WeDriveU, Inc.",WEDRIVEU,Bakersfield,Kern,CA,2026-07-31,2026-10-01,34,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "WeDriveU, Inc.",WEDRIVEU,Mojave,Kern,CA,2026-07-31,2026-10-01,12,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -45,6 +49,8 @@ Yamaha Motor Finance Corporation U.S.A.,YAMAHA MOTOR FINANCE U S A,Cypress,Orang
 "TPE Acquisition, LLC - 5026",TPE ACQUISITION - 5026,Chino,San Bernardino,CA,2026-07-31,2026-09-30,12,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Chime Financial, Inc.",CHIME FINANCIAL,San Francisco,San Francisco,CA,2026-07-31,2026-09-30,135,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Fulton Bank,FULTON BANK,Parsippany,,NJ,,2026-07-31,95,,https://www.nj.gov/labor/employer-services/warn/
+Visa,VISA,Bellevue,,WA,2026-07-31,2026-10-01,70,Permanent,https://esd.wa.gov/about-employees/WARN
+"I.Q. Data International, Inc.",I Q DATA INTERNATIONAL,Bothell,,WA,2026-07-31,2026-10-01,101,Permanent,https://esd.wa.gov/about-employees/WARN
 "Veritone, Inc.",VERITONE,Irvine,Orange,CA,2026-07-30,2026-09-28,10,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Tencent America LLC,TENCENT AMERICA,Irvine,Orange,CA,2026-07-29,2026-09-28,68,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Federal Express Corporation,FEDERAL EXPRESS,Palm Springs,Riverside,CA,2026-07-29,2026-09-29,62,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T01:34:45.872Z",
+  "generatedAt": "2026-08-06T01:44:28.640Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2296,
-      "employeesTotal": 370465,
+      "noticeCount": 2297,
+      "employeesTotal": 370524,
       "latestNotice": "2026-11-04",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2285
+      "withEffectiveOnly": 2286
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1478,
-      "employeesTotal": 234374,
-      "latestNotice": "2026-07-28",
-      "withNoticeDate": 1478,
+      "noticeCount": 1483,
+      "employeesTotal": 234743,
+      "latestNotice": "2026-08-05",
+      "withNoticeDate": 1483,
       "withEffectiveOnly": 0
     },
     {
@@ -76,11 +76,11 @@
     }
   ],
   "stateCount": 6,
-  "noticeCount": 7725,
-  "employeesTotal": 993690,
-  "employerCount": 6008,
+  "noticeCount": 7731,
+  "employeesTotal": 994118,
+  "employerCount": 6011,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-07-31",
+  "maxNoticeDate": "2026-08-05",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -4846,6 +4846,18 @@
       "latestNotice": "2012-03-12"
     },
     {
+      "normalized": "VISA",
+      "name": "Visa",
+      "slug": "visa",
+      "notices": 2,
+      "employees": 390,
+      "states": [
+        "CA",
+        "WA"
+      ],
+      "latestNotice": "2026-07-31"
+    },
+    {
       "normalized": "DURHAM SCHOOL",
       "name": "Durham School Services",
       "slug": "durham-school-services",
@@ -6290,17 +6302,6 @@
         "TX"
       ],
       "latestNotice": "2020-12-14"
-    },
-    {
-      "normalized": "VISA",
-      "name": "Visa",
-      "slug": "visa",
-      "notices": 1,
-      "employees": 320,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-31"
     },
     {
       "normalized": "WELLS FARGO",
@@ -8400,6 +8401,18 @@
         "NJ"
       ],
       "latestNotice": "2007-11-06"
+    },
+    {
+      "normalized": "ZILLOW GROUP",
+      "name": "Zillow Group",
+      "slug": "zillow-group",
+      "notices": 4,
+      "employees": 251,
+      "states": [
+        "TX",
+        "WA"
+      ],
+      "latestNotice": "2026-08-04"
     },
     {
       "normalized": "EL PASO INDEPENDENT SCHOOL DISTRICT",
@@ -15494,18 +15507,6 @@
       "latestNotice": "2024-01-22"
     },
     {
-      "normalized": "ZILLOW GROUP",
-      "name": "Zillow Group",
-      "slug": "zillow-group",
-      "notices": 3,
-      "employees": 160,
-      "states": [
-        "TX",
-        "WA"
-      ],
-      "latestNotice": "2022-06-17"
-    },
-    {
       "normalized": "LUMINANT MINING -MARTIN LAKE LIBERTY MINE",
       "name": "Luminant Mining Co.-Martin Lake Liberty Mine",
       "slug": "luminant-mining-co-martin-lake-liberty-mine",
@@ -20438,6 +20439,17 @@
         "NJ"
       ],
       "latestNotice": "2006-07-22"
+    },
+    {
+      "normalized": "CITIBANK N A",
+      "name": "Citibank, N.A.",
+      "slug": "citibank-n-a",
+      "notices": 2,
+      "employees": 127,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-10-31"
     },
     {
       "normalized": "SENTARA HEALTH",
@@ -26267,6 +26279,17 @@
         "NJ"
       ],
       "latestNotice": "2005-02-14"
+    },
+    {
+      "normalized": "I Q DATA INTERNATIONAL",
+      "name": "I.Q. Data International, Inc.",
+      "slug": "i-q-data-international-inc",
+      "notices": 1,
+      "employees": 101,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-07-31"
     },
     {
       "normalized": "FOOD SERVICE SLICING DBA CRUNCH PAK",
@@ -38147,17 +38170,6 @@
       "latestNotice": "2026-07-29"
     },
     {
-      "normalized": "CITIBANK N A",
-      "name": "Citibank, N.A.",
-      "slug": "citibank-n-a",
-      "notices": 1,
-      "employees": 68,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2026-06-28"
-    },
-    {
       "normalized": "BATTELLE MEMORIAL INSTITUTE / PACIFIC NORTHWEST NATIONAL LABORATORY",
       "name": "Battelle Memorial Institute / Pacific Northwest National Laboratory",
       "slug": "battelle-memorial-institute-pacific-northwest-national-laboratory",
@@ -44330,6 +44342,17 @@
       "latestNotice": "2005-03-31"
     },
     {
+      "normalized": "80 ACRES URBAN AGRICULTURE",
+      "name": "80 Acres Urban Agriculture, Inc.",
+      "slug": "80-acres-urban-agriculture-inc",
+      "notices": 1,
+      "employees": 55,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-03"
+    },
+    {
       "normalized": "SILGAN CONTAINERS",
       "name": "Silgan Containers",
       "slug": "silgan-containers",
@@ -45561,6 +45584,17 @@
         "WA"
       ],
       "latestNotice": "2005-05-02"
+    },
+    {
+      "normalized": "GOOGLE",
+      "name": "Google",
+      "slug": "google",
+      "notices": 1,
+      "employees": 52,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-05"
     },
     {
       "normalized": "OBSIDIAN",
@@ -66478,6 +66512,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Citibank, N.A.",
+      "normalized": "CITIBANK N A",
+      "city": "Hudson County",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-10-31",
+      "employees": 59,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Mars WrigleyConfectionary US, LLC",
       "normalized": "MARS WRIGLEYCONFECTIONARY",
       "city": "Newark",
@@ -66826,6 +66872,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Google",
+      "normalized": "GOOGLE",
+      "city": "Various locations in Washington",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-05",
+      "effectiveDate": "2026-09-06",
+      "employees": 52,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
       "employer": "Danone North America",
       "normalized": "DANONE NORTH AMERICA",
       "city": "Bridgeton",
@@ -66836,6 +66894,18 @@
       "employees": 114,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Zillow Group",
+      "normalized": "ZILLOW GROUP",
+      "city": "Seattle",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-04",
+      "effectiveDate": "2026-10-05",
+      "employees": 91,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "Federal Express Corporation",
@@ -66872,6 +66942,18 @@
       "employees": 51,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "80 Acres Urban Agriculture, Inc.",
+      "normalized": "80 ACRES URBAN AGRICULTURE",
+      "city": "Marysville",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-03",
+      "effectiveDate": "2026-08-03",
+      "employees": 55,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "DoubleTree by Hilton",
@@ -67004,6 +67086,30 @@
       "employees": 95,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Visa",
+      "normalized": "VISA",
+      "city": "Bellevue",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-07-31",
+      "effectiveDate": "2026-10-01",
+      "employees": 70,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "I.Q. Data International, Inc.",
+      "normalized": "I Q DATA INTERNATIONAL",
+      "city": "Bothell",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-07-31",
+      "effectiveDate": "2026-10-01",
+      "employees": 101,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "Veritone, Inc.",
