@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-06T12:51:11.976Z",
+  "generatedAt": "2026-08-06T16:05:03.331Z",
   "since": "2026-05-08",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:10.418Z",
+      "lastRunAt": "2026-08-06T16:04:29.473Z",
       "ok": true,
       "eventCount": 95,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:10.549Z",
+      "lastRunAt": "2026-08-06T16:04:32.434Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:10.623Z",
+      "lastRunAt": "2026-08-06T16:04:32.510Z",
       "ok": true,
       "eventCount": 11,
       "warnings": [
@@ -39,7 +39,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:10.652Z",
+      "lastRunAt": "2026-08-06T16:04:32.590Z",
       "ok": true,
       "eventCount": 6,
       "warnings": []
@@ -48,18 +48,18 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:11.761Z",
-      "ok": true,
-      "eventCount": 1,
+      "lastRunAt": "2026-08-06T16:05:02.594Z",
+      "ok": false,
+      "eventCount": 0,
       "warnings": [
-        "19 decision(s) naming private individuals excluded by editorial policy (see adapter header)"
+        "fetch failed: This operation was aborted"
       ]
     },
     {
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:11.762Z",
+      "lastRunAt": "2026-08-06T16:05:02.594Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
@@ -70,7 +70,7 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-08-06T12:51:11.798Z",
+      "lastRunAt": "2026-08-06T16:05:02.630Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -81,7 +81,7 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-08-06T12:51:11.969Z",
+      "lastRunAt": "2026-08-06T16:05:03.325Z",
       "ok": true,
       "eventCount": 1,
       "warnings": []
