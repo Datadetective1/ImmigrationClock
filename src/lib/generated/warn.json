@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T16:03:56.616Z",
+  "generatedAt": "2026-08-07T09:57:02.826Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2297,
-      "employeesTotal": 370524,
+      "noticeCount": 2298,
+      "employeesTotal": 370663,
       "latestNotice": "2026-11-04",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2286
+      "withEffectiveOnly": 2287
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1483,
-      "employeesTotal": 234743,
+      "noticeCount": 1484,
+      "employeesTotal": 234802,
       "latestNotice": "2026-08-05",
-      "withNoticeDate": 1483,
+      "withNoticeDate": 1484,
       "withEffectiveOnly": 0
     },
     {
@@ -68,17 +68,17 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 85,
-      "employeesTotal": 4718,
-      "latestNotice": "2026-07-31",
-      "withNoticeDate": 85,
+      "noticeCount": 89,
+      "employeesTotal": 4957,
+      "latestNotice": "2026-08-05",
+      "withNoticeDate": 89,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 7731,
-  "employeesTotal": 994118,
-  "employerCount": 6011,
+  "noticeCount": 7737,
+  "employeesTotal": 994555,
+  "employerCount": 6015,
   "minNoticeDate": "2004-01-12",
   "maxNoticeDate": "2026-08-05",
   "byEmployer": [
@@ -9604,6 +9604,18 @@
       "latestNotice": "2010-11-30"
     },
     {
+      "normalized": "SALESFORCE",
+      "name": "Salesforce, Inc.",
+      "slug": "salesforce-inc",
+      "notices": 3,
+      "employees": 226,
+      "states": [
+        "CA",
+        "WA"
+      ],
+      "latestNotice": "2026-08-05"
+    },
+    {
       "normalized": "CUMBERLAND RIVER COAL",
       "name": "Cumberland River Coal Company",
       "slug": "cumberland-river-coal-company",
@@ -18397,6 +18409,17 @@
         "NJ"
       ],
       "latestNotice": "2004-07-21"
+    },
+    {
+      "normalized": "GERRESHEIMER",
+      "name": "Gerresheimer",
+      "slug": "gerresheimer",
+      "notices": 1,
+      "employees": 139,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-09-01"
     },
     {
       "normalized": "EMERSON",
@@ -28647,17 +28670,6 @@
       "latestNotice": "2025-11-08"
     },
     {
-      "normalized": "SALESFORCE",
-      "name": "Salesforce, Inc.",
-      "slug": "salesforce-inc",
-      "notices": 1,
-      "employees": 93,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-09-02"
-    },
-    {
       "normalized": "SOUTHWEST KEY PROGRAMS (CASA SUENO)",
       "name": "Southwest Key Programs, Inc. (Casa Sueno)",
       "slug": "southwest-key-programs-inc-casa-sueno",
@@ -32157,6 +32169,17 @@
         "NJ"
       ],
       "latestNotice": "2006-05-15"
+    },
+    {
+      "normalized": "SAN FRANCISICO PRETRIAL DIVERSION PROJECT",
+      "name": "San Francisico Pretrial Diversion Project, Inc.",
+      "slug": "san-francisico-pretrial-diversion-project-inc",
+      "notices": 1,
+      "employees": 82,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-30"
     },
     {
       "normalized": "MAVERICK WASHINGTON CRAZY MOOSE MOUNTLAKE CASINO",
@@ -39346,6 +39369,17 @@
         "NJ"
       ],
       "latestNotice": "2005-08-31"
+    },
+    {
+      "normalized": "NUTANIX",
+      "name": "Nutanix, Inc.",
+      "slug": "nutanix-inc",
+      "notices": 1,
+      "employees": 65,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-04"
     },
     {
       "normalized": "REMINGTON LODGING AND HOSPITALITY (HILTON HOUSTON NASA CLEAR LAKE)",
@@ -54952,6 +54986,17 @@
       "latestNotice": "2008-04-25"
     },
     {
+      "normalized": "ECLIPSE ADVANTAGE",
+      "name": "Eclipse Advantage, LLC",
+      "slug": "eclipse-advantage-llc",
+      "notices": 1,
+      "employees": 18,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-05"
+    },
+    {
       "normalized": "MEAD JOHNSON",
       "name": "Mead Johnson",
       "slug": "mead-johnson",
@@ -64517,9 +64562,9 @@
       "latestNotice": "2026-07-27"
     },
     {
-      "normalized": "YERBA MADRE - SANTA CRUZ",
-      "name": "Yerba Madre Co., LLC - Santa Cruz",
-      "slug": "yerba-madre-co-llc-santa-cruz",
+      "normalized": "YERBA MATE - SANTA CRUZ",
+      "name": "Yerba Mate Co., LLC - Santa Cruz",
+      "slug": "yerba-mate-co-llc-santa-cruz",
       "notices": 1,
       "employees": 1,
       "states": [
@@ -66716,6 +66761,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Gerresheimer",
+      "normalized": "GERRESHEIMER",
+      "city": "Vineland",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-09-01",
+      "employees": 139,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Optum Select Management Inc.",
       "normalized": "OPTUM SELECT MANAGEMENT",
       "city": "Somerset",
@@ -66872,6 +66929,30 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Eclipse Advantage, LLC",
+      "normalized": "ECLIPSE ADVANTAGE",
+      "city": "Ontario",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-08-05",
+      "effectiveDate": "2026-10-05",
+      "employees": 18,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Salesforce, Inc.",
+      "normalized": "SALESFORCE",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-08-05",
+      "effectiveDate": "2026-10-05",
+      "employees": 74,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Google",
       "normalized": "GOOGLE",
       "city": "Various locations in Washington",
@@ -66882,6 +66963,30 @@
       "employees": 52,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Salesforce, Inc.",
+      "normalized": "SALESFORCE",
+      "city": "Seattle, Bellevue",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-05",
+      "effectiveDate": "2026-10-05",
+      "employees": 59,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Nutanix, Inc.",
+      "normalized": "NUTANIX",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-04",
+      "effectiveDate": "2026-10-05",
+      "employees": 65,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Danone North America",
@@ -67121,6 +67226,18 @@
       "effectiveDate": "2026-09-28",
       "employees": 10,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "San Francisico Pretrial Diversion Project, Inc.",
+      "normalized": "SAN FRANCISICO PRETRIAL DIVERSION PROJECT",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-07-30",
+      "effectiveDate": "2026-11-13",
+      "employees": 82,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -67388,8 +67505,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Yerba Madre Co., LLC - Santa Cruz",
-      "normalized": "YERBA MADRE - SANTA CRUZ",
+      "employer": "Yerba Mate Co., LLC - Santa Cruz",
+      "normalized": "YERBA MATE - SANTA CRUZ",
       "city": "Santa Cruz",
       "county": "Santa Cruz",
       "state": "CA",

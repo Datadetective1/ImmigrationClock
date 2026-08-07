@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T16:03:56.616Z",
+  "generatedAt": "2026-08-07T09:57:02.826Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "sourceName": "State WARN Act notices (state open-data portals)",
   "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
@@ -10,11 +10,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2297,
-      "employeesTotal": 370524,
+      "noticeCount": 2298,
+      "employeesTotal": 370663,
       "latestNotice": "2026-11-04",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2286
+      "withEffectiveOnly": 2287
     },
     {
       "code": "WA",
@@ -22,10 +22,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1483,
-      "employeesTotal": 234743,
+      "noticeCount": 1484,
+      "employeesTotal": 234802,
       "latestNotice": "2026-08-05",
-      "withNoticeDate": 1483,
+      "withNoticeDate": 1484,
       "withEffectiveOnly": 0
     },
     {
@@ -70,10 +70,10 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 85,
-      "employeesTotal": 4718,
-      "latestNotice": "2026-07-31",
-      "withNoticeDate": 85,
+      "noticeCount": 89,
+      "employeesTotal": 4957,
+      "latestNotice": "2026-08-05",
+      "withNoticeDate": 89,
       "withEffectiveOnly": 0
     }
   ],
@@ -86,14 +86,14 @@
     "VA",
     "WA"
   ],
-  "noticeCount": 7731,
-  "employeesTotal": 994118,
-  "employerCount": 6011,
+  "noticeCount": 7737,
+  "employeesTotal": 994555,
+  "employerCount": 6015,
   "minNoticeDate": "2004-01-12",
   "maxNoticeDate": "2026-08-05",
   "yearBasisNote": "Yearly totals date each notice by the state-published notice/received date where available, and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). Notices with neither date are excluded from yearly totals but included in the overall counts.",
-  "datedByNoticeDate": 5434,
-  "datedByEffectiveDate": 2286,
+  "datedByNoticeDate": 5439,
+  "datedByEffectiveDate": 2287,
   "noticesWithoutDate": 11,
   "byYear": [
     {
@@ -208,8 +208,8 @@
     },
     {
       "year": 2026,
-      "employees": 49998,
-      "notices": 421
+      "employees": 50435,
+      "notices": 427
     }
   ],
   "byMonth": [
@@ -370,18 +370,18 @@
     },
     {
       "month": "2026-07",
-      "employees": 7600,
-      "notices": 103
+      "employees": 7682,
+      "notices": 104
     },
     {
       "month": "2026-08",
-      "employees": 1690,
-      "notices": 21
+      "employees": 1906,
+      "notices": 25
     },
     {
       "month": "2026-09",
-      "employees": 1360,
-      "notices": 8
+      "employees": 1499,
+      "notices": 9
     },
     {
       "month": "2026-10",
@@ -508,8 +508,15 @@
       },
       {
         "year": 2026,
-        "employees": 14884,
-        "notices": 117
+        "employees": 15023,
+        "notices": 118
+      }
+    ],
+    "CA": [
+      {
+        "year": 2026,
+        "employees": 4957,
+        "notices": 89
       }
     ],
     "WA": [
@@ -625,15 +632,8 @@
       },
       {
         "year": 2026,
-        "employees": 11352,
-        "notices": 72
-      }
-    ],
-    "CA": [
-      {
-        "year": 2026,
-        "employees": 4718,
-        "notices": 85
+        "employees": 11411,
+        "notices": 73
       }
     ],
     "VA": [

@@ -18,6 +18,7 @@ Prudential Insurance Company of America,PRUDENTIAL INSURANCE OF AMERICA,Newark,,
 Digital Room LLC,DIGITAL ROOM,Saddle Brook,,NJ,,2026-09-16,69,,https://www.nj.gov/labor/employer-services/warn/
 AT&T,AT T,Cumberland County,,NJ,,2026-09-15,138,,https://www.nj.gov/labor/employer-services/warn/
 Merck & Co,MERCK,Rahway,,NJ,,2026-09-04,88,,https://www.nj.gov/labor/employer-services/warn/
+Gerresheimer,GERRESHEIMER,Vineland,,NJ,,2026-09-01,139,,https://www.nj.gov/labor/employer-services/warn/
 Optum Select Management Inc.,OPTUM SELECT MANAGEMENT,Somerset,,NJ,,2026-08-26,17,,https://www.nj.gov/labor/employer-services/warn/
 Optum Care Inc.,OPTUM CARE,Rutherford,,NJ,,2026-08-26,5,,https://www.nj.gov/labor/employer-services/warn/
 Optum Services Inc.,OPTUM,Basking Ridge,,NJ,,2026-08-26,36,,https://www.nj.gov/labor/employer-services/warn/
@@ -31,7 +32,11 @@ Barclays,BARCLAYS,Whippany,,NJ,,2026-08-10,64,,https://www.nj.gov/labor/employer
 Verizon,VERIZON,Basking Ridge,,NJ,,2026-08-07,121,,https://www.nj.gov/labor/employer-services/warn/
 Amicus Therapeutics,AMICUS THERAPEUTICS,Princeton,,NJ,,2026-08-07,58,,https://www.nj.gov/labor/employer-services/warn/
 Verizon Corp Resources Group LLC,VERIZON RESOURCES GROUP,Basking Ridge,,NJ,,2026-08-07,156,,https://www.nj.gov/labor/employer-services/warn/
+"Eclipse Advantage, LLC",ECLIPSE ADVANTAGE,Ontario,San Bernardino,CA,2026-08-05,2026-10-05,18,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Salesforce, Inc.",SALESFORCE,San Francisco,San Francisco,CA,2026-08-05,2026-10-05,74,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Google,GOOGLE,Various locations in Washington,,WA,2026-08-05,2026-09-06,52,Permanent,https://esd.wa.gov/about-employees/WARN
+"Salesforce, Inc.",SALESFORCE,"Seattle, Bellevue",,WA,2026-08-05,2026-10-05,59,Permanent,https://esd.wa.gov/about-employees/WARN
+"Nutanix, Inc.",NUTANIX,San Jose,Santa Clara,CA,2026-08-04,2026-10-05,65,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Danone North America,DANONE NORTH AMERICA,Bridgeton,,NJ,,2026-08-04,114,,https://www.nj.gov/labor/employer-services/warn/
 Zillow Group,ZILLOW GROUP,Seattle,,WA,2026-08-04,2026-10-05,91,Permanent,https://esd.wa.gov/about-employees/WARN
 Federal Express Corporation,FEDERAL EXPRESS,Union,,NJ,,2026-08-03,50,,https://www.nj.gov/labor/employer-services/warn/
@@ -52,6 +57,7 @@ Fulton Bank,FULTON BANK,Parsippany,,NJ,,2026-07-31,95,,https://www.nj.gov/labor/
 Visa,VISA,Bellevue,,WA,2026-07-31,2026-10-01,70,Permanent,https://esd.wa.gov/about-employees/WARN
 "I.Q. Data International, Inc.",I Q DATA INTERNATIONAL,Bothell,,WA,2026-07-31,2026-10-01,101,Permanent,https://esd.wa.gov/about-employees/WARN
 "Veritone, Inc.",VERITONE,Irvine,Orange,CA,2026-07-30,2026-09-28,10,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"San Francisico Pretrial Diversion Project, Inc.",SAN FRANCISICO PRETRIAL DIVERSION PROJECT,San Francisco,San Francisco,CA,2026-07-30,2026-11-13,82,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Tencent America LLC,TENCENT AMERICA,Irvine,Orange,CA,2026-07-29,2026-09-28,68,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Federal Express Corporation,FEDERAL EXPRESS,Palm Springs,Riverside,CA,2026-07-29,2026-09-29,62,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "ServiceNow, Inc.",SERVICENOW,Santa Clara,Santa Clara,CA,2026-07-28,2026-09-28,154,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -74,7 +80,7 @@ O'Briens Market Inc.,O'BRIENS MARKET,Modesto,Stanislaus,CA,2026-07-27,2026-09-27
 "Yerba Mate Co., LLC - South San Francisco",YERBA MATE - SOUTH SAN FRANCISCO,South San Francisco,San Mateo,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Yerba Mate Co., LLC - Santa Barbara",YERBA MATE - SANTA BARBARA,Santa Maria,Santa Barbara,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Yerba Mate Co., LLC - Santa Maria",YERBA MATE - SANTA MARIA,Santa Maria,Santa Barbara,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
-"Yerba Madre Co., LLC - Santa Cruz",YERBA MADRE - SANTA CRUZ,Santa Cruz,Santa Cruz,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Yerba Mate Co., LLC - Santa Cruz",YERBA MATE - SANTA CRUZ,Santa Cruz,Santa Cruz,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Yerba Mate Co., LLC - Petaluma",YERBA MATE - PETALUMA,Petaluma,Sonoma,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Yerba Mate Co., LLC - Santa Rosa",YERBA MATE - SANTA ROSA,Santa Rosa,Sonoma,CA,2026-07-27,2026-09-01,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "FreshRealm, Inc.",FRESHREALM,Linden,,NJ,,2026-07-27,628,,https://www.nj.gov/labor/employer-services/warn/
