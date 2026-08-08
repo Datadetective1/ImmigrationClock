@@ -129,6 +129,45 @@ CI rather than shipping a language nobody can receive.
 | `NEWSLETTER_DATE` | local | Build a specific issue date. |
 | `NEWSLETTER_CADENCE` | local | `weekly` (default), `daily`, `monthly`, `breaking`. |
 | `NEWSLETTER_MANIFEST` | test seam | Point the send script at a fixture manifest. Must stay unset in production. |
+| `NEWSLETTER_SEND_LEDGER` | test seam | Point the duplicate-send guard at a fixture ledger. Must stay unset in production. |
+
+### 5.3 Duplicate-send prevention
+
+**The invariant: one edition + one language = at most one send to a given
+destination.**
+
+`send-newsletter.ts` used to set `name: <issueId>` on each broadcast and claim
+that made creation idempotent. It did not. Resend documents `name` as *"only
+used for internal reference"*, and its real `Idempotency-Key` feature covers
+`POST /emails` and `/emails/batch` — **not** `/broadcasts`. The workflow retries
+the send step twice, so a run where English delivered and Spanish failed mailed
+English's subscribers a second copy.
+
+The guarantee now comes from a committed ledger,
+`src/lib/generated/newsletter-sent.json`, written **the instant each broadcast
+fires** — not at the end of the run, because a crash mid-loop is exactly the
+case it exists for.
+
+- Within one job, the runner's disk carries it between send attempts.
+- Across runs, the *Persist the send ledger* workflow step commits it. That step
+  is `if: always()`, deliberately: a partial send must still persist the record
+  of what did go out.
+
+The key is **issue + locale + destination**. Including the destination is what
+lets a one-recipient smoke test target a throwaway segment without marking the
+edition sent and silently eating the real newsletter.
+
+A ledger that will not parse is **not** treated as empty — that would unlock
+every edition it protects. The send refuses.
+
+**To deliberately re-send:**
+
+```bash
+npm run send:newsletter -- --only en --resend --send
+```
+
+`--resend` requires `--only`, so re-sending is always one named edition rather
+than a blanket override that could re-mail four languages.
 
 ### 5.1 Unsubscribe
 

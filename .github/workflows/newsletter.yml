@@ -231,6 +231,24 @@ jobs:
 
       # A silent no-op is the worst outcome here: an operator who dispatched with
       # send = true and sees a green run would reasonably assume it went out.
+      # THE DUPLICATE-SEND GUARD'S DURABILITY.
+      #
+      # send-newsletter.ts writes src/lib/generated/newsletter-sent.json the
+      # instant each broadcast fires. That file is what stops a retry — or next
+      # week's run, or a manual re-dispatch — from mailing an edition twice.
+      #
+      # Within one job the runner's disk carries it between the two send
+      # attempts. Across runs it only survives if it is committed, so this step
+      # runs even when the send step failed: a partial send (English out,
+      # Spanish failed) MUST persist English's record, or the retry re-mails it.
+      # `if: always()` is load-bearing, not defensive.
+      - name: Persist the send ledger
+        if: always() && vars.PULSE_SEND_ENABLED == 'true'
+        run: |
+          bash .github/scripts/commit-and-push.sh \
+            "chore(newsletter): record sends for $(date -u +%Y-%m-%d)" \
+            src/lib/generated/newsletter-sent.json
+
       - name: Delivery held — sending is not enabled yet
         if: |
           vars.PULSE_SEND_ENABLED != 'true'

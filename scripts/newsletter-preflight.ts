@@ -257,6 +257,22 @@ async function checkAudiences(locales: string[]): Promise<Verdict> {
   const blocking: string[] = [];
   const warnings: string[] = [];
 
+  // ── Reply-To, fail-safe ─────────────────────────────────────────────
+  // Blocking, not a warning. Unset, this variable silently costs the broadcast
+  // its Reply-To header AND strips the "Contact" link out of the archived
+  // edition at build time — a quietly different newsletter that nobody can
+  // reply to. It was found by diffing the deployed edition against a local
+  // rebuild, which is not a check that runs every week.
+  //
+  // The site publishes a contact address; a newsletter that discards replies to
+  // it is worse than one that fails to send.
+  if (!process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()) {
+    blocking.push(
+      "NEXT_PUBLIC_CONTACT_EMAIL is not set — the broadcast would carry no Reply-To and the " +
+        "archived edition would drop its Contact link"
+    );
+  }
+
   if (!KEY) {
     // Not a defect at preflight time — send-newsletter.ts fails loudly if a
     // live send is attempted without a key. Reported so the log is honest.

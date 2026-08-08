@@ -385,10 +385,16 @@ describe("scripts/send-newsletter.ts fails closed", () => {
 
     return exec(args, {
       NEWSLETTER_MANIFEST: manifestPath,
+      // ISOLATE THE LEDGER. Without this the suite writes real send records
+      // into src/lib/generated/newsletter-sent.json — it did, once — which
+      // would either block a genuine send or, committed, assert that an
+      // edition went out when it never did.
+      NEWSLETTER_SEND_LEDGER: join(dir, "ledger.json"),
+      // A live send refuses without this, by design.
+      NEXT_PUBLIC_CONTACT_EMAIL: CONTACT,
       RESEND_API_BASE: apiBase,
       RESEND_API_KEY: "re_test_key",
       RESEND_AUDIENCE_EN: "aud_test_en",
-      NEXT_PUBLIC_CONTACT_EMAIL: CONTACT,
       ...env,
     });
   }
@@ -464,6 +470,13 @@ describe("scripts/send-newsletter.ts fails closed", () => {
     );
     const r = await exec(["--send"], {
       NEWSLETTER_MANIFEST: manifestPath,
+      // ISOLATE THE LEDGER. Without this the suite writes real send records
+      // into src/lib/generated/newsletter-sent.json — it did, once — which
+      // would either block a genuine send or, committed, assert that an
+      // edition went out when it never did.
+      NEWSLETTER_SEND_LEDGER: join(dir, "ledger.json"),
+      // A live send refuses without this, by design.
+      NEXT_PUBLIC_CONTACT_EMAIL: CONTACT,
       RESEND_API_BASE: apiBase,
       RESEND_API_KEY: "re_test_key",
       RESEND_AUDIENCE_EN: "aud_test_en",

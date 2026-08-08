@@ -47,20 +47,28 @@
  * The gate below re-runs the opt-out check on the exact bytes about to be
  * POSTed, not on what the manifest claims. `--send` does not skip it.
  */
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { unsubscribeFlags, RESEND_UNSUBSCRIBE_TOKEN } from "../src/lib/newsletter/preflight";
 import type { Locale } from "../src/lib/newsletter/types";
+import {
+  alreadySent,
+  parseLedger,
+  recordSend,
+  serializeLedger,
+  type SendLedger,
+} from "../src/lib/newsletter/send-ledger";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
 // Test seams, in the same spirit as RESEND_API_BASE: they let the suite drive
 // this script end-to-end against a stub, which is the only way to prove that
-// `--send` cannot bypass the gate. Both must stay unset in production.
+// `--send` cannot bypass the gate. All must stay unset in production.
 const MANIFEST_OVERRIDE = process.env.NEWSLETTER_MANIFEST;
 const MANIFEST = MANIFEST_OVERRIDE || `${ROOT}/src/lib/generated/newsletter-latest.json`;
+const LEDGER = process.env.NEWSLETTER_SEND_LEDGER || `${ROOT}/src/lib/generated/newsletter-sent.json`;
 
 /**
  * Where an edition's archived HTML and text actually live.
@@ -94,6 +102,17 @@ const ONLY = (() => {
   const i = process.argv.indexOf("--only");
   return i !== -1 ? process.argv[i + 1]?.trim().toLowerCase() : undefined;
 })();
+
+/**
+ * `--resend` deliberately re-sends an edition the ledger already records.
+ *
+ * The escape hatch, and the ONLY way past the duplicate-send guard. It requires
+ * `--only <locale>`, so re-sending is always one stated edition rather than a
+ * blanket instruction that could re-mail four languages because a ledger was
+ * restored from an old commit. The friction is the point: this is the flag that
+ * mails people a second copy.
+ */
+const RESEND_OVERRIDE = process.argv.includes("--resend");
 
 interface Edition {
   issueId: string;
@@ -157,17 +176,30 @@ async function get(path: string): Promise<{ ok: boolean; status: number; body: s
  */
 async function audienceCount(audienceId: string): Promise<number | null> {
   if (!KEY) return null;
-  try {
-    const res = await get(`/audiences/${audienceId}/contacts`);
-    if (!res.ok) return null;
-    const parsed = JSON.parse(res.body || "{}") as {
-      data?: Array<{ unsubscribed?: boolean }>;
-    };
-    if (!Array.isArray(parsed.data)) return null;
-    return parsed.data.filter((c) => !c.unsubscribed).length;
-  } catch {
-    return null;
+
+  // SEGMENTS FIRST, audiences second.
+  //
+  // Resend renamed Audiences to Segments, and the API reference no longer
+  // documents any /audiences/* endpoint — only /segments/* and /contacts/*.
+  // Probing the old path against a segment id returns 404, which this function
+  // reports as `null` and the confirmation block prints as "unknown".
+  //
+  // That is the wrong failure for the one number an operator is confirming
+  // before an irreversible send. "Unknown" next to a live send prompt is how
+  // somebody approves a blast radius they never actually saw. Both paths are
+  // read-only GETs, so trying the new one and falling back costs nothing.
+  for (const path of [`/segments/${audienceId}/contacts`, `/audiences/${audienceId}/contacts`]) {
+    try {
+      const res = await get(path);
+      if (!res.ok) continue;
+      const parsed = JSON.parse(res.body || "{}") as { data?: Array<{ unsubscribed?: boolean }> };
+      if (!Array.isArray(parsed.data)) continue;
+      return parsed.data.filter((c) => !c.unsubscribed).length;
+    } catch {
+      // Try the next path; a network fault on one is not evidence about the other.
+    }
   }
+  return null;
 }
 
 const LANGUAGE: Record<string, string> = {
@@ -235,6 +267,23 @@ function printConfirmation(issueDate: string, plan: Planned[], live: boolean) {
   console.log(rule + "\n");
 }
 
+/**
+ * Fail without calling process.exit().
+ *
+ * `process.exit()` tears the process down while libuv handles are still
+ * closing, and on Windows that aborts with
+ * `Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)` and exit code
+ * 3221226505 instead of 1. It surfaced the moment a send failed mid-run — a
+ * failed fetch leaves handles in flight — which is exactly the path a caller
+ * most needs a truthful exit code from.
+ *
+ * Setting exitCode and returning lets the event loop drain, so the code is
+ * whatever we said it was.
+ */
+function fail(): void {
+  process.exitCode = 1;
+}
+
 async function main() {
   const manifest = JSON.parse(await readFile(MANIFEST, "utf8")) as Manifest;
 
@@ -243,20 +292,53 @@ async function main() {
       `[send] --only "${ONLY}" matches no edition. Available: ` +
         manifest.editions.map((e) => e.locale).join(", ")
     );
-    process.exit(1);
+    return fail();
   }
   if (ONLY) console.log(`[send] --only ${ONLY}: every other edition will be skipped.`);
+
+  // --resend is the only route past the duplicate guard, so it may not be a
+  // blanket instruction. Requiring --only means an operator names the single
+  // edition they intend to mail twice.
+  if (RESEND_OVERRIDE && !ONLY) {
+    console.error(
+      "[send] --resend requires --only <locale>. Re-sending is a deliberate act on one\n" +
+        "       named edition, not a blanket override across every language."
+    );
+    return fail();
+  }
+  if (RESEND_OVERRIDE) {
+    console.warn(`[send] --resend: the duplicate-send guard is OVERRIDDEN for ${ONLY}. Recipients may receive a second copy.`);
+  }
+
+  // ---- REPLY-TO, FAIL-SAFE -------------------------------------------------
+  // Omitting reply_to used to be silent. The archived HTML also drops its
+  // "Contact" footer link when this is unset at BUILD time, so a run without it
+  // produced a quietly different newsletter AND a broadcast nobody could reply
+  // to — discovered only by diffing the deployed edition against a local one.
+  //
+  // A live send now refuses. A dry run warns loudly rather than failing, so the
+  // preview still works on a laptop, which is where it is most often run.
+  if (!REPLY_TO) {
+    const message =
+      "NEXT_PUBLIC_CONTACT_EMAIL is not set — the broadcast would carry no Reply-To and " +
+      "the archived edition drops its Contact link.";
+    if (LIVE) {
+      console.error(`[send] ${message}\n       Refusing to send. Set it and rebuild with \`npm run build:newsletter\`.`);
+      return fail();
+    }
+    console.warn(`[send] WARNING: ${message} A live send would refuse.`);
+  }
 
   const broken = manifest.editions.filter((e) => e.errors.length > 0);
   if (broken.length) {
     console.error(`[send] ${broken.length} edition(s) failed validation. Nothing will be sent.`);
     for (const e of broken) for (const msg of e.errors) console.error(`  - ${e.segment}: ${msg}`);
-    process.exit(1);
+    return fail();
   }
 
   if (LIVE && !KEY) {
     console.error("[send] --send was passed but RESEND_API_KEY is not set.");
-    process.exit(1);
+    return fail();
   }
 
   // ---- THE OPT-OUT GATE ----------------------------------------------------
@@ -304,7 +386,7 @@ async function main() {
       `\n  Every edition must carry ${RESEND_UNSUBSCRIBE_TOKEN} as a visible, localized link\n` +
         `  in both the HTML and the plain-text part. Rebuild with \`npm run build:newsletter\`.`
     );
-    process.exit(1);
+    return fail();
   }
   console.log(`[send] unsubscribe gate: ${loaded.length} edition(s) carry a working opt-out.`);
 
@@ -326,11 +408,42 @@ async function main() {
     });
   }
 
+  // ---- THE DUPLICATE-SEND GUARD --------------------------------------------
+  // Read before the confirmation block, so an operator approving a live send
+  // sees which editions are already spoken for.
+  //
+  // A ledger that will not parse is NOT treated as empty. Doing so would
+  // silently unlock every edition it exists to protect, which is precisely the
+  // failure mode of the `name`-based idempotency it replaces.
+  const rawLedger = await readFile(LEDGER, "utf8").catch(() => null);
+  const ledgerAtStart = parseLedger(rawLedger);
+  if (ledgerAtStart === null) {
+    console.error(
+      `[send] the send ledger at ${LEDGER} is unreadable or malformed.\n` +
+        "       Refusing to send: an unparseable ledger cannot prove an edition has not\n" +
+        "       already gone out. Repair or delete it deliberately, then re-run."
+    );
+    return fail();
+  }
+  let ledger: SendLedger = ledgerAtStart;
+
+  const duplicates = plan
+    .filter((p) => p.audienceId && alreadySent(ledger, p.ed.issueId, p.ed.locale, p.audienceId))
+    .map((p) => ({ p, record: alreadySent(ledger, p.ed.issueId, p.ed.locale, p.audienceId!)! }));
+
+  for (const { p, record } of duplicates) {
+    console.log(
+      `[send] ${p.ed.segment}: ALREADY SENT to ${p.audienceId} at ${record.sentAt} ` +
+        `(broadcast ${record.broadcastId})${RESEND_OVERRIDE ? " — overridden by --resend" : " — will be skipped"}`
+    );
+  }
+
   printConfirmation(manifest.today, plan, LIVE);
 
   let sent = 0;
   let skipped = 0;
   let failed = 0;
+  let duplicatesSkipped = 0;
 
   // html/text come from the plan, which is the same buffer the gate inspected.
   // Re-reading here would open a window in which the file could change between
@@ -341,6 +454,21 @@ async function main() {
     if (!audienceId) {
       console.log(`[send] ${ed.segment}: no RESEND_AUDIENCE_${ed.locale.toUpperCase()} — skipped`);
       skipped++;
+      continue;
+    }
+
+    // THE GUARD. One edition, one language, one destination, at most once.
+    //
+    // Checked inside the loop against the ledger as it stands NOW, not against
+    // the snapshot taken before the confirmation block — so a send earlier in
+    // this same loop is already visible here.
+    const prior = alreadySent(ledger, ed.issueId, ed.locale, audienceId);
+    if (prior && !RESEND_OVERRIDE) {
+      console.log(
+        `[send] ${ed.segment}: already sent ${prior.sentAt} (broadcast ${prior.broadcastId}) — skipped.\n` +
+          `       Use --only ${ed.locale} --resend to deliberately send it again.`
+      );
+      duplicatesSkipped++;
       continue;
     }
 
@@ -357,8 +485,13 @@ async function main() {
       html,
       text,
       ...(REPLY_TO ? { reply_to: REPLY_TO } : {}),
-      // Idempotency: the issue id is stable per segment per day, so a re-run of
-      // a failed workflow cannot produce a second broadcast of the same issue.
+      // A LABEL, NOT AN IDEMPOTENCY KEY. Resend documents `name` as "only used
+      // for internal reference", and its real idempotency feature — the
+      // Idempotency-Key header — is supported on POST /emails and
+      // /emails/batch, NOT on /broadcasts. This script used to claim otherwise
+      // and a workflow retry could double-send. The guarantee now comes from
+      // the ledger above; this stays only so a human can find the broadcast in
+      // the Resend dashboard.
       name: ed.issueId,
     };
 
@@ -403,15 +536,45 @@ async function main() {
       failed++;
       continue;
     }
-    console.log(`[send] ${ed.segment}: broadcast ${id} sent`);
+    // RECORD IMMEDIATELY, before the next locale is attempted.
+    //
+    // The whole point is surviving a partial failure: English delivered,
+    // Spanish threw, the workflow retried. If the ledger were written once at
+    // the end, that crash would lose English's record and the retry would mail
+    // it twice — the exact bug this replaces. Written here, the file on disk is
+    // correct the instant the broadcast fires.
+    //
+    // A write failure is fatal. Continuing would mean sending further editions
+    // with no durable record of the ones already out.
+    ledger = recordSend(ledger, {
+      issueId: ed.issueId,
+      locale: ed.locale,
+      audienceId,
+      broadcastId: id,
+      sentAt: new Date().toISOString(),
+      ...(prior ? { override: true } : {}),
+    });
+    try {
+      await writeFile(LEDGER, serializeLedger(ledger), "utf8");
+    } catch (err) {
+      console.error(
+        `[send] ${ed.segment}: broadcast ${id} WAS SENT but the ledger could not be written ` +
+          `(${(err as Error)?.message}).\n` +
+          `       Stopping: continuing would risk re-sending this edition on the next run.`
+      );
+      return fail();
+    }
+
+    console.log(`[send] ${ed.segment}: broadcast ${id} sent — recorded in the ledger`);
     sent++;
   }
 
   console.log(
     `\n[send] ${LIVE ? "LIVE" : "DRY RUN"} — issue ${manifest.today}: ` +
-      `${sent} sent, ${skipped} skipped (unconfigured), ${failed} failed`
+      `${sent} sent, ${skipped} skipped (unconfigured), ` +
+      `${duplicatesSkipped} skipped (already sent), ${failed} failed`
   );
-  if (failed > 0) process.exit(1);
+  if (failed > 0) return fail();
 
   // A LIVE run that mails nobody is a failure, even though every individual
   // step "succeeded".
@@ -422,13 +585,24 @@ async function main() {
   // issue: a green check, a cheerful summary, and an empty inbox. That is the
   // same shape of silent failure the preflight layer exists to prevent, one step
   // further down the pipeline.
-  if (LIVE && sent === 0) {
+  //
+  // Editions skipped as ALREADY SENT are the exception, and the difference
+  // matters: that is a workflow retry finding the work already done, which is
+  // success. Failing it would turn every successful retry into a red run and
+  // train an operator to ignore the alert.
+  if (LIVE && sent === 0 && duplicatesSkipped === 0) {
     console.error(
       `\n[send] LIVE SEND REACHED NOBODY — ${skipped} edition(s) had no audience configured.\n` +
         `  Set RESEND_AUDIENCE_EN / _ES / _FR / _AR, or this run mails no one while reporting success.\n` +
         `  See docs/newsletter.md §5.`
     );
-    process.exit(1);
+    return fail();
+  }
+  if (LIVE && sent === 0 && duplicatesSkipped > 0) {
+    console.log(
+      `[send] nothing new to send: all ${duplicatesSkipped} edition(s) were already delivered. ` +
+        `This is a retry finding its work complete.`
+    );
   }
 }
 
