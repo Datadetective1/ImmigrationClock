@@ -378,9 +378,20 @@ describe("federal register rules", () => {
     expect(FR.severity(paperwork, FR.classify(paperwork))).toBe("routine");
   });
 
-  it("ranks rules in force and executive actions as major", () => {
-    expect(FR.severity(doc(), "final_rule")).toBe("major");
-    expect(FR.severity(doc({ type: "Presidential Document" }), "executive_action")).toBe("major");
+  it("ranks rules in force and executive actions as major WHEN THEY CHANGE SOMETHING", () => {
+    // Severity used to be read from document type alone, so every final rule
+    // was major. A Coast Guard safety zone for a fireworks display and the
+    // termination of TPS for Yemen are both final rules, and both were Major.
+    const consequential = { title: "Suspension of Entry for Certain Nonimmigrants", abstract: "Restricting eligibility." };
+    expect(FR.severity(doc(consequential), "final_rule")).toBe("major");
+    expect(FR.severity(doc({ ...consequential, type: "Presidential Document" }), "executive_action")).toBe("major");
+  });
+
+  it("demotes an in-force rule that changes nothing anyone must do", () => {
+    // Still in force, still archived, but it must not carry the same badge as a
+    // rule that alters eligibility.
+    const inert = { title: "Visa Processing Post Designations", abstract: "Updates a list of posts." };
+    expect(FR.severity(doc(inert), "final_rule")).toBe("notable");
   });
 
   it("filters out non-immigration documents from tracked agencies", () => {

@@ -167,11 +167,16 @@ const RETRACTED: Record<string, string> = {
 const RETRACTION_RULES: { reason: string; applies: (e: ImmigrationEvent) => boolean }[] = [
   {
     reason:
-      "Not an immigration document. Ingested because the relevance filter read " +
-      "'Customs and Border Protection' — the agency's own name — as the topical " +
-      "term 'border'. Measured 2026-08-03: 24% of Federal Register events had no " +
-      "immigration signal except that name. The filter was corrected the same day; " +
-      "this removes what it had already admitted.",
+      "Not an immigration document. Two generations of relevance filter admitted " +
+      "these. The first read 'Customs and Border Protection' — the agency's own " +
+      "name — as the topical term 'border' (measured 2026-08-03: 24% of Federal " +
+      "Register events had no immigration signal except that name). The second " +
+      "still matched bare substrings, so 'perm' matched 'permanent', 'permission' " +
+      "and 'permit' and admitted 152 documents on its own — Coast Guard safety " +
+      "zones, pension-plan exemptions, mine safety lamps — 64 of them ranked major. " +
+      "Corrected 2026-08-08 by replacing substring matching with word-anchored " +
+      "subject patterns plus a veto on document families that are never " +
+      "immigration policy. This removes what the older filters had admitted.",
     applies: (e) =>
       e.sourceKey === "federal_register" &&
       !isImmigrationRelevant({ title: e.title, abstract: e.summary }),

@@ -143,9 +143,21 @@ describe("classification and severity", () => {
     expect(PM.classify(u)).toBe("updated_information");
   });
 
-  it("ranks severity from the publisher's label, not from the prose", () => {
-    expect(PM.severity(alert())).toBe("major");
+  it("takes substantive-vs-not from the publisher, but Major from the impact", () => {
+    // The publisher's label still decides whether this is substantive at all:
+    // a technical update is routine, full stop, because USCIS says so.
     expect(PM.severity(technical())).toBe("routine");
+
+    // But "policy alert" is a publishing category, not a measure of
+    // consequence. Treating it as one meant every alert USCIS issued carried
+    // the same badge as the termination of Temporary Protected Status, and a
+    // six-story issue in which every story is Major tells a reader nothing.
+    const consequential = { ...alert(), body: "USCIS is revising eligibility requirements for this benefit." };
+    expect(PM.severity(consequential)).toBe("major");
+
+    // Substantive but narrow: notable, not major, and never routine.
+    const narrow = { ...alert(), body: "Removes references to a list no longer published by the Department of State." };
+    expect(PM.severity(narrow)).toBe("notable");
   });
 
   it("keeps a technical update out of the 'what changed' feed", () => {

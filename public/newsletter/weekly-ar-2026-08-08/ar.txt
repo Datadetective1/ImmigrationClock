@@ -7,36 +7,14 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 الأسبوع في لمحة
 
   - 4 تحديثات سياسة USCIS
-  - 4 وثائق السجل الفيدرالي
+  - 1 وثائق السجل الفيدرالي
   - 1 قرارات المحاكم
-  - 3 إعلانات وزارة الأمن الداخلي
-  - 9 إجمالي التغييرات المسجلة
+  - 6 إجمالي التغييرات المسجلة
   - لا يوجد الأوامر التنفيذية والإعلانات الرئاسية
 
-وقت القراءة التقريبي: 4 دقائق
+وقت القراءة التقريبي: 3 دقائق
 
 ما الذي تغيّر هذا الأسبوع
-
-[مهم]
-Safety Zones; Annual Events in the Captain of the Port Detroit Zone
-The Coast Guard will enforce the safety zone for the Roostertail Fireworks in Detroit, MI, from 9:30 p.m. to 11 p.m. on August 8, 2026, to protect the safety of life and property on the navigable waters of the Detroit River immediately prior to, during, and immediately after this event. During the enforcement period, no person or vessel may enter the safety zone without permission from the Captain of the Port (COTP) Detroit or a designated representative.
-الجهة: Department of Homeland Security
-تاريخ النشر: 2026-08-07
-اقرأ الوثيقة الرسمية: https://www.federalregister.gov/documents/2026/08/07/2026-16155/safety-zones-annual-events-in-the-captain-of-the-port-detroit-zone
-
-[مهم]
-Policy alert: Lists of Foreign Diplomatic Officers Accredited to the United States
-U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual that removes references to the Diplomatic List (also known as the “Blue List”), which is no longer published by the U.S. Department of State (DOS).
-الجهة: U.S. Citizenship and Immigration Services
-تاريخ النشر: 2026-08-06
-اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf
-
-[مهم]
-Safety Zones; Recurring Safety Zones in Captain of the Port Northern Great Lakes
-The Coast Guard will enforce various safety zones for maritime events in the Captain of the Port Northern Great Lakes zone. Enforcement of these safety zones is necessary to protect the safety of life and property on the navigable waters immediately prior to, during, and immediately after the events. During the periods in question, the Coast Guard will enforce restrictions upon, and control movement of, vessels in a specified area immediately prior to, during, and immediately after events. During each enforcement period, vessels must stay out of the established safety zone and may only enter with permission from the designated representative of the Captain of the Port Northern Great Lakes.
-الجهة: Department of Homeland Security
-تاريخ النشر: 2026-08-05
-اقرأ الوثيقة الرسمية: https://www.federalregister.gov/documents/2026/08/05/2026-15855/safety-zones-recurring-safety-zones-in-captain-of-the-port-northern-great-lakes
 
 [مهم]
 Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence
@@ -46,18 +24,39 @@ U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in 
 اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf
 
 [مهم]
-Policy alert: Evidence, Requests for Evidence, and Notices of Intent to Deny
-U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in the USCIS Policy Manual regarding evidentiary standards, Requests for Evidence (RFEs), and Notices of Intent to Deny (NOIDs).
-الجهة: U.S. Citizenship and Immigration Services
-تاريخ النشر: 2026-08-05
-اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf
-
-[مهم]
 Visas: Visa Bond Program
 This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond ("visa bond") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.
 الجهة: U.S. Department of State
 تاريخ النشر: 2026-08-03
 اقرأ الوثيقة الرسمية: https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program
+
+[جدير بالملاحظة]
+Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment
+District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.
+الجهة: U.S. federal judiciary
+تاريخ النشر: 2026-08-07
+اقرأ الوثيقة الرسمية: https://www.courtlistener.com/opinion/10942439/louise-trauma-center-llc-v-united-states-immigration-and-customs/
+
+[جدير بالملاحظة]
+Policy alert: Lists of Foreign Diplomatic Officers Accredited to the United States
+U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual that removes references to the Diplomatic List (also known as the “Blue List”), which is no longer published by the U.S. Department of State (DOS).
+الجهة: U.S. Citizenship and Immigration Services
+تاريخ النشر: 2026-08-06
+اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf
+
+[جدير بالملاحظة]
+USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards
+U.S. Citizenship and Immigration Services (USCIS) is clarifying that benefit requestors should establish eligibility for an immigration benefit at the time they file a benefit request.
+الجهة: U.S. Citizenship and Immigration Services
+تاريخ النشر: 2026-08-05
+اقرأ الوثيقة الرسمية: https://www.uscis.gov/newsroom/alerts/uscis-to-reduce-frivolous-immigration-benefits-requests-by-reinforcing-evidence-standards
+
+[جدير بالملاحظة]
+Policy alert: Evidence, Requests for Evidence, and Notices of Intent to Deny
+U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in the USCIS Policy Manual regarding evidentiary standards, Requests for Evidence (RFEs), and Notices of Intent to Deny (NOIDs).
+الجهة: U.S. Citizenship and Immigration Services
+تاريخ النشر: 2026-08-05
+اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf
 
 ما الذي لم يتغيّر
 
@@ -90,10 +89,9 @@ This rule finalizes the temporary final rule that went into effect on August 20,
 بالأرقام
 
   تحديثات سياسة USCIS: 4
-  وثائق السجل الفيدرالي: 4
+  وثائق السجل الفيدرالي: 1
   قرارات المحاكم: 1
-  إعلانات وزارة الأمن الداخلي: 3
-  إجمالي التغييرات المسجلة: 9
+  إجمالي التغييرات المسجلة: 6
 
 تابع استكشاف IMMIGRATIONCLOCK
 

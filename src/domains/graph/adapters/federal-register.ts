@@ -35,6 +35,12 @@ import {
   fetchAllDocuments,
   mapWithConcurrency,
 } from "./federal-register-api";
+import {
+  isImmigrationRelevant as sharedIsImmigrationRelevant,
+  isNonSubstantive,
+  materiality,
+  withoutAgencyNames,
+} from "../immigration-filter";
 
 /**
  * Agencies we track, mapped from the Federal Register's own slugs to our entity
@@ -98,26 +104,32 @@ function classify(doc: FrDocument): EventClassification {
 /**
  * Severity by explicit rule, never by editorial judgement or engagement.
  *
- *   major   — in force or executive: it changes what people can and must do.
- *   notable — proposed: it would change things if finalised.
- *   routine — everything else, including the very large volume of Paperwork
- *             Reduction Act information-collection notices, which are real
- *             documents but are not policy change and must not lead a feed.
+ * TYPE AND IMPACT, not type alone. Until 2026-08-08 this read the document type
+ * and nothing else: every final rule was `major`. That is defensible in the
+ * abstract and produced nonsense in practice — a Coast Guard safety zone for a
+ * fireworks display and the termination of Temporary Protected Status for Yemen
+ * are both final rules, and both were badged Major. A six-story issue in which
+ * every story is Major has a badge that distinguishes nothing.
+ *
+ * So a document must be BOTH the kind of thing that changes obligations AND
+ * carry a signal that it actually changes some:
+ *
+ *   major   — in force or executive, AND materially changes what people can or
+ *             must do (eligibility, fees, status, enforcement, a ban, a
+ *             termination, a designation).
+ *   notable — proposed, or in force but incremental.
+ *   routine — non-substantive by its own description: information collections,
+ *             technical amendments, delegations, meeting notices. Real
+ *             documents, archived, but they must never lead a feed.
  */
 function severity(doc: FrDocument, classification: EventClassification): EventSeverity {
-  const title = doc.title.toLowerCase();
-  const ROUTINE_MARKERS = [
-    "agency information collection",
-    "paperwork reduction act",
-    "information collection activities",
-    "meeting notice",
-    "privacy act of 1974",
-    "records schedule",
-  ];
-  if (ROUTINE_MARKERS.some((m) => title.includes(m))) return "routine";
-  if (classification === "final_rule" || classification === "executive_action") return "major";
-  if (classification === "proposed_rule") return "notable";
-  if (classification === "correction") return "notable";
+  if (isNonSubstantive(doc.title)) return "routine";
+
+  const impact = materiality(doc.title, doc.abstract ?? "");
+  const inForce = classification === "final_rule" || classification === "executive_action";
+
+  if (inForce) return impact === "high" ? "major" : "notable";
+  if (classification === "proposed_rule") return impact === "high" ? "notable" : "routine";
   return "routine";
 }
 
@@ -125,64 +137,17 @@ function severity(doc: FrDocument, classification: EventClassification): EventSe
  * Immigration relevance filter.
  *
  * Tracked agencies publish plenty that has nothing to do with immigration (CBP
- * issues customs rulings; Labor covers all of labour policy). Requiring an
- * immigration term keeps the feed honest — a reader arriving from a headline
- * about visa policy should not find tariff classifications.
+ * issues customs rulings; Labor covers all of labour policy; the Coast Guard is
+ * a DHS component and regulates boat races). The rules now live in
+ * ../immigration-filter.ts, which replaced substring matching over bare words
+ * with word-anchored subject patterns plus a veto on document families that are
+ * never immigration policy.
+ *
+ * Takes only the two fields it reads, so build-events.ts can re-apply it to a
+ * STORED event and retract what an older, looser filter admitted.
  */
-const RELEVANCE_TERMS = [
-  "immigra", "visa", "nonimmigrant", "alien", "naturaliz", "citizenship",
-  "asylum", "refugee", "removal", "deportat", "detention", "border",
-  "h-1b", "h-2a", "h-2b", "f-1", "j-1", "l-1", "o-1", "eb-", "green card",
-  "permanent resident", "adjustment of status", "parole", "tps",
-  "temporary protected status", "daca", "employment authorization",
-  "labor certification", "perm", "sevis", "student and exchange",
-  // "petition" ALONE IS NOT HERE, deliberately. It matched "Procedures for
-  // Submission and Consideration of Petitions for Rulemaking" — an
-  // Administrative Procedure Act notice about petitioning DOJ to change a
-  // regulation, with no immigration content whatsoever. It was ranked "major"
-  // and led /what-changed.
-  //
-  // The same word caused the same bug in topicLink() below, where it was fixed;
-  // this filter kept it. Immigration petition documents always carry another
-  // term from this list (immigrant, nonimmigrant, visa, alien, USCIS), so the
-  // specific phrases below lose nothing.
-  "immigrant petition", "nonimmigrant petition", "visa petition", "petition for alien",
-  "uscis", "consular",
-];
-
-/**
- * Remove agency PROPER NAMES before testing topical relevance.
- *
- * "U.S. Customs and Border Protection" contains the word "border", and CBP names
- * itself in the abstract of everything it publishes — so the bare term "border"
- * matched every customs document the agency has ever issued. Measured on the
- * live store 2026-08-03: 167 of 685 Federal Register events (24%) had NO
- * immigration signal except CBP's own name, and 21 of those were ranked major.
- * Cargo manifests, free-trade agreements, quarterly IRS interest rates and an
- * ultrasound-transducer country-of-origin determination were all being published
- * as U.S. immigration policy changes.
- *
- * This is the third time a bare keyword has done this — "petition" caused it
- * twice — and the lesson is the same each time: an agency's identity is not
- * evidence of a document's subject. Attribution already comes from the API's
- * structured `agencies` array as an explicit link, so nothing is lost by
- * refusing to read it as topic.
- *
- * Note this strips only AMBIGUOUS agency names. USCIS is not stripped: that
- * agency does immigration and nothing else, so its name genuinely is evidence.
- */
-function withoutAgencyNames(text: string): string {
-  return text
-    .replace(/u\.?s\.?\s+customs and border protection/g, " ")
-    .replace(/customs and border protection/g, " ")
-    .replace(/\bcbp\b/g, " ");
-}
-
-// Takes only the two fields it reads, so the build script can re-apply it to a
-// STORED event when retracting what an older, looser filter admitted.
 function isImmigrationRelevant(doc: Pick<FrDocument, "title" | "abstract">): boolean {
-  const haystack = withoutAgencyNames(`${doc.title} ${doc.abstract ?? ""}`.toLowerCase());
-  return RELEVANCE_TERMS.some((t) => haystack.includes(t));
+  return sharedIsImmigrationRelevant(doc.title, doc.abstract ?? "");
 }
 
 /** Explicit `issued_by` edges from the API's structured agency array. */

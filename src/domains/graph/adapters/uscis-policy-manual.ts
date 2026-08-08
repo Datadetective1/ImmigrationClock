@@ -66,6 +66,7 @@ import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
 import { plainText, richText } from "../text";
+import { materiality } from "../immigration-filter";
 
 const UPDATES_URL = "https://www.uscis.gov/policy-manual/updates";
 const UA = "ImmigrationClock/1.0 (+https://immigrationclock.com)";
@@ -249,7 +250,20 @@ export function classify(u: PolicyManualUpdate): EventClassification {
  * the archive and on entity pages, but it must never lead a "what changed" feed.
  */
 export function severity(u: PolicyManualUpdate): EventSeverity {
-  return u.kind === "policy_alert" ? "major" : "routine";
+  // A technical update is declared non-substantive by USCIS itself.
+  if (u.kind !== "policy_alert") return "routine";
+
+  // Substantive, per the publisher — so at least `notable`. But "policy alert"
+  // is a publishing category, not a measure of consequence, and treating it as
+  // one meant every alert USCIS issued carried the same badge as the
+  // termination of Temporary Protected Status. In a six-story issue that made
+  // every story Major, which tells a reader nothing.
+  //
+  // So `major` additionally requires a signal that the guidance changes what
+  // people can or must do. A clarification of which children of foreign
+  // diplomats acquire status is substantive and narrow; a change to evidentiary
+  // standards for every Request for Evidence is substantive and broad.
+  return materiality(u.title, u.body ?? "") === "high" ? "major" : "notable";
 }
 
 /**
