@@ -2,7 +2,7 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 أسبوع 1 أغسطس 2026 – 8 أغسطس 2026
 تغييرات الهجرة الأمريكية الرسمية، من المصادر الحكومية.
 
-شهد هذا الأسبوع 6 من التحديثات الرسمية المتعلقة بالهجرة. كل عنصر أدناه يرتبط مباشرةً بالمنشور الحكومي الذي صدر عنه. نحن ننقل ما تغيّر، ولا نخبرك بما يعنيه ذلك لحالتك.
+شهد هذا الأسبوع 5 من التحديثات الرسمية المتعلقة بالهجرة. كل عنصر أدناه يرتبط مباشرةً بالمنشور الحكومي الذي صدر عنه. نحن ننقل ما تغيّر، ولا نخبرك بما يعنيه ذلك لحالتك.
 
 الأسبوع في لمحة
 
@@ -15,34 +15,6 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 وقت القراءة التقريبي: 3 دقائق
 
 ما الذي تغيّر هذا الأسبوع
-
-[مهم]
-Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence
-U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to require officers to suggest Deoxyribonucleic Acid (DNA) testing as an optional form of evidence to establish a claimed genetic relationship in cases where primary evidence is unavailable, unreliable, or insufficient to establish a claimed genetic relationship, in situations where an officer determines additional evidence is necessary.
-الجهة: U.S. Citizenship and Immigration Services
-تاريخ النشر: 2026-08-05
-اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf
-
-[مهم]
-Visas: Visa Bond Program
-This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond ("visa bond") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.
-الجهة: U.S. Department of State
-تاريخ النشر: 2026-08-03
-اقرأ الوثيقة الرسمية: https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program
-
-[جدير بالملاحظة]
-Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment
-District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.
-الجهة: U.S. federal judiciary
-تاريخ النشر: 2026-08-07
-اقرأ الوثيقة الرسمية: https://www.courtlistener.com/opinion/10942439/louise-trauma-center-llc-v-united-states-immigration-and-customs/
-
-[جدير بالملاحظة]
-Policy alert: Lists of Foreign Diplomatic Officers Accredited to the United States
-U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual that removes references to the Diplomatic List (also known as the “Blue List”), which is no longer published by the U.S. Department of State (DOS).
-الجهة: U.S. Citizenship and Immigration Services
-تاريخ النشر: 2026-08-06
-اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf
 
 [جدير بالملاحظة]
 USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards
@@ -57,6 +29,27 @@ U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in
 الجهة: U.S. Citizenship and Immigration Services
 تاريخ النشر: 2026-08-05
 اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf
+
+[مهم]
+Visas: Visa Bond Program
+This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond ("visa bond") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.
+الجهة: U.S. Department of State
+تاريخ النشر: 2026-08-03
+اقرأ الوثيقة الرسمية: https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program
+
+[مهم]
+Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence
+U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to require officers to suggest Deoxyribonucleic Acid (DNA) testing as an optional form of evidence to establish a claimed genetic relationship in cases where primary evidence is unavailable, unreliable, or insufficient to establish a claimed genetic relationship, in situations where an officer determines additional evidence is necessary.
+الجهة: U.S. Citizenship and Immigration Services
+تاريخ النشر: 2026-08-05
+اقرأ الوثيقة الرسمية: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf
+
+[جدير بالملاحظة]
+Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment
+District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.
+الجهة: U.S. federal judiciary
+تاريخ النشر: 2026-08-07
+اقرأ الوثيقة الرسمية: https://www.courtlistener.com/opinion/10942439/louise-trauma-center-llc-v-united-states-immigration-and-customs/
 
 ما الذي لم يتغيّر
 

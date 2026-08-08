@@ -2,7 +2,7 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 Semaine du 1 août 2026 au 8 août 2026
 Changements officiels de l'immigration américaine, depuis les sources gouvernementales.
 
-Cette semaine a apporté 6 mises à jour officielles en matière d'immigration. Chaque élément renvoie directement à la publication gouvernementale dont il provient. Nous rapportons ce qui a changé ; nous ne vous disons pas ce que cela signifie pour votre dossier.
+Cette semaine a apporté 5 mises à jour officielles en matière d'immigration. Chaque élément renvoie directement à la publication gouvernementale dont il provient. Nous rapportons ce qui a changé ; nous ne vous disons pas ce que cela signifie pour votre dossier.
 
 LA SEMAINE EN BREF
 
@@ -15,34 +15,6 @@ LA SEMAINE EN BREF
 Temps de lecture estimé : 3 minutes
 
 CE QUI A CHANGÉ CETTE SEMAINE
-
-[Majeur]
-Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence
-U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to require officers to suggest Deoxyribonucleic Acid (DNA) testing as an optional form of evidence to establish a claimed genetic relationship in cases where primary evidence is unavailable, unreliable, or insufficient to establish a claimed genetic relationship, in situations where an officer determines additional evidence is necessary.
-Agence: U.S. Citizenship and Immigration Services
-Publié le: 2026-08-05
-Lire le document officiel: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf
-
-[Majeur]
-Visas: Visa Bond Program
-This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond ("visa bond") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.
-Agence: U.S. Department of State
-Publié le: 2026-08-03
-Lire le document officiel: https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program
-
-[Notable]
-Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment
-District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.
-Agence: U.S. federal judiciary
-Publié le: 2026-08-07
-Lire le document officiel: https://www.courtlistener.com/opinion/10942439/louise-trauma-center-llc-v-united-states-immigration-and-customs/
-
-[Notable]
-Policy alert: Lists of Foreign Diplomatic Officers Accredited to the United States
-U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual that removes references to the Diplomatic List (also known as the “Blue List”), which is no longer published by the U.S. Department of State (DOS).
-Agence: U.S. Citizenship and Immigration Services
-Publié le: 2026-08-06
-Lire le document officiel: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf
 
 [Notable]
 USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards
@@ -57,6 +29,27 @@ U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in
 Agence: U.S. Citizenship and Immigration Services
 Publié le: 2026-08-05
 Lire le document officiel: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf
+
+[Majeur]
+Visas: Visa Bond Program
+This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond ("visa bond") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.
+Agence: U.S. Department of State
+Publié le: 2026-08-03
+Lire le document officiel: https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program
+
+[Majeur]
+Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence
+U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to require officers to suggest Deoxyribonucleic Acid (DNA) testing as an optional form of evidence to establish a claimed genetic relationship in cases where primary evidence is unavailable, unreliable, or insufficient to establish a claimed genetic relationship, in situations where an officer determines additional evidence is necessary.
+Agence: U.S. Citizenship and Immigration Services
+Publié le: 2026-08-05
+Lire le document officiel: https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf
+
+[Notable]
+Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment
+District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.
+Agence: U.S. federal judiciary
+Publié le: 2026-08-07
+Lire le document officiel: https://www.courtlistener.com/opinion/10942439/louise-trauma-center-llc-v-united-states-immigration-and-customs/
 
 CE QUI N'A PAS CHANGÉ
 

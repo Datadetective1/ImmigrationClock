@@ -19,6 +19,7 @@ import {
 } from "@/lib/newsletter/types";
 import { STRINGS, stringsFor } from "@/lib/newsletter/locales";
 import { selectIssue, MAX_ITEMS, WATCHLIST } from "@/lib/newsletter/select";
+import { rankingFactors } from "@/lib/newsletter/ranking";
 import { EVENTS } from "@/lib/event-store";
 import { renderIssue } from "@/lib/newsletter/render";
 import { validateIssue, validateRendered } from "@/lib/newsletter/validate";
@@ -99,11 +100,28 @@ describe("selection", () => {
     expect(issue.totalInWindow).toBeGreaterThanOrEqual(issue.items.length);
   });
 
-  it("leads with the most important story", () => {
+  it("carries exactly five stories, because that is the promise the site makes", () => {
+    // PulseSignup.tsx says "Five things that changed in U.S. immigration, every
+    // week". This was 6 for a while, which is a small lie told weekly to
+    // everyone who subscribed on the strength of it.
+    expect(MAX_ITEMS).toBe(5);
     const issue = selectIssue({ segment: seg(), ...wide });
-    const rank = { major: 0, notable: 1, routine: 2 } as const;
-    for (let i = 1; i < issue.items.length; i++) {
-      expect(rank[issue.items[i].severity]).toBeGreaterThanOrEqual(rank[issue.items[i - 1].severity]);
+    expect(issue.items.length).toBe(5);
+  });
+
+  it("leads with the most consequential story, by impact rather than by badge", () => {
+    // This used to assert that severity never increased down the issue. It no
+    // longer holds BY DESIGN: severity is a property of the document, and the
+    // order is now a property of the change. A Notable that reaches every
+    // applicant legitimately leads a Major scoped to one country. What must
+    // hold is that the ranking score never increases.
+    const issue = selectIssue({ segment: seg(), ...wide });
+    const scored = issue.items.map((it) => {
+      const ev = EVENTS.find((e) => e.id === it.id)!;
+      return rankingFactors(ev, issue.from, issue.to).score;
+    });
+    for (let i = 1; i < scored.length; i++) {
+      expect(scored[i], `item ${i + 1} outranks item ${i}`).toBeLessThanOrEqual(scored[i - 1]);
     }
   });
 

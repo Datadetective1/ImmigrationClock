@@ -20,6 +20,7 @@ import { isNotInForce } from "@/lib/event-labels";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { labelForEntity } from "@/lib/entity-labels";
 import { KEY_DATES, nextOccurrence } from "@/lib/key-dates";
+import { rankEvents } from "./ranking";
 import {
   CADENCE_WINDOW_DAYS,
   type Issue,
@@ -34,11 +35,16 @@ import {
 /**
  * How many stories one edition carries.
  *
- * A newsletter is an edit, not a dump. Past roughly six items readers stop
- * reading rather than scroll, and the archive is one click away for anyone who
- * wants everything — the issue says how many it left out.
+ * FIVE, because that is the promise the signup page makes: "Five things that
+ * changed in U.S. immigration, every week." This was 6 while the page said
+ * five, which is a small lie told weekly to everyone who subscribed on the
+ * strength of it. The number belongs to the product, not to the renderer, so
+ * the constant follows the promise rather than the other way round.
+ *
+ * A newsletter is an edit, not a dump. The archive is one click away for anyone
+ * who wants everything, and the issue says how many it left out.
  */
-export const MAX_ITEMS = 6;
+export const MAX_ITEMS = 5;
 
 /** How many stories the personalized lead group carries before the general feed. */
 export const MAX_LEAD_ITEMS = 3;
@@ -246,13 +252,15 @@ export function selectIssue(opts: SelectOptions): Issue {
     return true;
   });
 
-  // Most important first, then newest. A reader who opens on a phone and reads
-  // one card should have read the one that matters most.
-  const ordered = [...inWindow].sort((a, b) => {
-    const bySeverity = SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity];
-    if (bySeverity !== 0) return bySeverity;
-    return b.publishedAt.localeCompare(a.publishedAt);
-  });
+  // Most consequential first. A reader who opens on a phone and reads one card
+  // should have read the one that matters most.
+  //
+  // This used to sort by severity, then recency — both properties of the
+  // DOCUMENT rather than of the CHANGE. See ranking.ts: the order now comes
+  // from breadth of population affected, then whether an obligation actually
+  // changed, then practical magnitude, then how binding the action is, with
+  // recency as a tie-break only.
+  const ordered = rankEvents(inWindow, from, today);
 
   // PERSONALIZATION. When the segment names entities, the stories matching the
   // FIRST of them lead the issue under their own heading, and the general feed

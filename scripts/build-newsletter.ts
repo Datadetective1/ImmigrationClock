@@ -27,6 +27,8 @@ import { selectIssue } from "../src/lib/newsletter/select";
 import { renderIssue } from "../src/lib/newsletter/render";
 import { validateIssue, validateRendered, mergeResults } from "../src/lib/newsletter/validate";
 import { preflight } from "../src/lib/newsletter/preflight";
+import { explain } from "../src/lib/newsletter/ranking";
+import { EVENTS } from "../src/lib/event-store";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const CONTACT = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
@@ -133,6 +135,16 @@ async function main() {
       errors,
       warnings,
     });
+
+    // The ranking is a judgement about editorial priority, so it prints its
+    // own reasoning. An operator who disagrees with the order can see which
+    // factor produced it without reading the code.
+    if (segment.locale === "en") {
+      for (const [i, it] of issue.items.entries()) {
+        const ev = EVENTS.find((e) => e.id === it.id);
+        if (ev) console.log(`  ${i + 1}. ${explain(ev, issue.from, issue.to)}  ${it.title.slice(0, 52)}`);
+      }
+    }
 
     console.log(
       `[newsletter] ${segment.id}: ${issue.items.length} item(s) of ${issue.totalInWindow} in window` +
