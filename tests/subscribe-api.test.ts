@@ -36,7 +36,7 @@ function post(body: unknown, ip = nextIp()): Request {
 const VALID = { email: "reader@example.com", consent: true };
 
 /** Mock Resend: records calls, returns whatever each call is scripted to. */
-function mockResend(responses: { contact?: Response; email?: Response } = {}) {
+function mockResend(responses: { contact?: Response; email?: Response; segment?: Response } = {}) {
   const calls: { url: string; body: unknown; auth: string | null }[] = [];
   const fetchMock = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
     const u = String(url);
@@ -45,6 +45,11 @@ function mockResend(responses: { contact?: Response; email?: Response } = {}) {
       body: init?.body ? JSON.parse(String(init.body)) : null,
       auth: new Headers(init?.headers).get("Authorization"),
     });
+    // Checked BEFORE /contacts: segment assignment is POSTed to
+    // /contacts/<email>/segments/<id>, which also matches "/contacts".
+    if (u.includes("/segments/")) {
+      return responses.segment ?? new Response("", { status: 201 });
+    }
     if (u.includes("/contacts")) {
       return responses.contact ?? new Response(JSON.stringify({ id: "c_1" }), { status: 201 });
     }
@@ -53,6 +58,11 @@ function mockResend(responses: { contact?: Response; email?: Response } = {}) {
   vi.stubGlobal("fetch", fetchMock);
   return calls;
 }
+
+const SEGMENT = "84934be1-58ef-41f1-8680-3cd665df4d32";
+
+type Call = { url: string; body: unknown; auth: string | null };
+const segmentCalls = (calls: Call[]) => calls.filter((c) => c.url.includes("/segments/"));
 
 beforeEach(() => {
   vi.stubEnv("RESEND_API_KEY", KEY);
@@ -214,5 +224,145 @@ describe("response hygiene", () => {
     mockResend();
     const res = await POST(post(VALID));
     expect(res.headers.get("Cache-Control")).toMatch(/no-store/);
+  });
+});
+
+// =============================================================================
+// SEGMENT MEMBERSHIP
+//
+// The contact is account-level; the segment is what the weekly broadcast
+// targets. A subscriber stored outside it is stored and unreachable — the
+// signup works, the dashboard fills up, and nobody ever receives an issue.
+// =============================================================================
+describe("adding the subscriber to the Immigration Pulse segment", () => {
+  beforeEach(() => {
+    vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", SEGMENT);
+  });
+
+  it("adds a new contact to the configured segment", async () => {
+    const calls = mockResend();
+    const res = await POST(post(VALID));
+    expect(res.status).toBe(200);
+
+    const seg = segmentCalls(calls);
+    expect(seg, "the contact was never added to a segment").toHaveLength(1);
+    expect(seg[0].url).toBe(
+      `https://api.resend.com/contacts/${encodeURIComponent("reader@example.com")}/segments/${SEGMENT}`
+    );
+    expect(seg[0].auth).toBe(`Bearer ${KEY}`);
+  });
+
+  it("takes the segment id from the environment, never from source", async () => {
+    vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", "different-segment-id");
+    const calls = mockResend();
+    await POST(post(VALID));
+    expect(segmentCalls(calls)[0].url).toContain("/segments/different-segment-id");
+  });
+
+  it("assigns the NORMALISED address, matching the contact it created", async () => {
+    const calls = mockResend();
+    await POST(post({ email: "  Reader@Example.COM  ", consent: true }));
+    expect(segmentCalls(calls)[0].url).toContain(encodeURIComponent("reader@example.com"));
+  });
+
+  it("still assigns when the address already exists — a retry repairs membership", async () => {
+    // This is the backfill path: someone who subscribed before the segment
+    // existed re-submits, no contact is created, and membership is fixed.
+    const calls = mockResend({
+      contact: new Response(JSON.stringify({ message: "Contact already exists" }), { status: 409 }),
+    });
+    const res = await POST(post(VALID));
+    expect(res.status).toBe(200);
+    expect(segmentCalls(calls), "a duplicate signup skipped segment assignment").toHaveLength(1);
+    // And still no second welcome email.
+    expect(calls.some((c) => c.url.endsWith("/emails"))).toBe(false);
+  });
+
+  it("is idempotent — re-adding an existing member is a success, not an error", async () => {
+    for (const already of [
+      new Response("", { status: 409 }),
+      new Response(JSON.stringify({ message: "Contact already in segment" }), { status: 422 }),
+    ]) {
+      const calls = mockResend({ segment: already });
+      const res = await POST(post(VALID));
+      expect(res.status, "an existing member broke the signup").toBe(200);
+      await expect(res.json()).resolves.toMatchObject({ ok: true });
+      expect(segmentCalls(calls)).toHaveLength(1);
+    }
+  });
+
+  it("repeated signups produce one contact and one membership each time", async () => {
+    // Nothing accumulates: the same two calls, whatever the address's history.
+    const first = mockResend();
+    await POST(post(VALID));
+    expect(first.filter((c) => c.url === "https://api.resend.com/contacts")).toHaveLength(1);
+    expect(segmentCalls(first)).toHaveLength(1);
+
+    const second = mockResend({
+      contact: new Response("", { status: 409 }),
+      segment: new Response("", { status: 409 }),
+    });
+    await POST(post(VALID));
+    expect(second.filter((c) => c.url === "https://api.resend.com/contacts")).toHaveLength(1);
+    expect(segmentCalls(second)).toHaveLength(1);
+  });
+
+  it("does not fail the signup when segment assignment fails", async () => {
+    // The address is stored by then. Reporting failure would produce a
+    // duplicate attempt for a problem only an operator can fix.
+    const calls = mockResend({ segment: new Response("no such segment", { status: 404 }) });
+    const res = await POST(post(VALID));
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({ ok: true });
+    // The welcome email must still go out.
+    expect(calls.some((c) => c.url.endsWith("/emails"))).toBe(true);
+  });
+
+  it("survives the segment endpoint being unreachable", async () => {
+    const fetchMock = vi.fn(async (url: string | URL) => {
+      const u = String(url);
+      if (u.includes("/segments/")) throw new Error("ECONNRESET");
+      if (u.includes("/contacts")) return new Response(JSON.stringify({ id: "c_1" }), { status: 201 });
+      return new Response(JSON.stringify({ id: "e_1" }), { status: 200 });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const res = await POST(post(VALID));
+    expect(res.status).toBe(200);
+  });
+
+  it("never leaks the segment id or key to the client when it fails", async () => {
+    mockResend({ segment: new Response(`bad segment ${SEGMENT} key ${KEY}`, { status: 403 }) });
+    const res = await POST(post(VALID));
+    const text = JSON.stringify(await res.json());
+    expect(text).not.toContain(SEGMENT);
+    expect(text).not.toContain(KEY);
+  });
+
+  it("stores the contact anyway when no segment is configured, and says so loudly", async () => {
+    vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", "");
+    const err = vi.spyOn(console, "error").mockImplementation(() => {});
+    const calls = mockResend();
+    const res = await POST(post(VALID));
+
+    expect(res.status).toBe(200);
+    expect(segmentCalls(calls)).toHaveLength(0);
+    expect(calls.some((c) => c.url === "https://api.resend.com/contacts")).toBe(true);
+    expect(err.mock.calls.flat().join(" ")).toMatch(/RESEND_NEWSLETTER_SEGMENT_ID is not set/);
+  });
+
+  it("assigns only after the contact exists, never before", async () => {
+    const calls = mockResend();
+    await POST(post(VALID));
+    const createIdx = calls.findIndex((c) => c.url === "https://api.resend.com/contacts");
+    const segIdx = calls.findIndex((c) => c.url.includes("/segments/"));
+    expect(createIdx).toBeGreaterThanOrEqual(0);
+    expect(segIdx).toBeGreaterThan(createIdx);
+  });
+
+  it("does not assign when the contact could not be created at all", async () => {
+    const calls = mockResend({ contact: new Response("upstream exploded", { status: 500 }) });
+    const res = await POST(post(VALID));
+    expect(res.status).toBe(502);
+    expect(segmentCalls(calls)).toHaveLength(0);
   });
 });

@@ -121,6 +121,7 @@ CI rather than shipping a language nobody can receive.
 | Variable | Where | Purpose |
 |---|---|---|
 | `RESEND_API_KEY` | secret | Sending. Needs **Full Access**, not sending-only. |
+| `RESEND_NEWSLETTER_SEGMENT_ID` | var | The segment every new subscriber joins — see §5.2. Unset means contacts are stored but **unreachable by any broadcast**. |
 | `RESEND_AUDIENCE_EN` / `_ES` / `_FR` / `_AR` | secret | The audience each edition broadcasts to. **Absent means build-and-archive but do not send** — a known gap, not a failure. |
 | `RESEND_FROM_EMAIL` | var | Defaults to `Immigration Clock <noreply@immigrationclock.com>`. |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | var | Reply-To. **Not** the unsubscribe route — see §5.1. |
@@ -174,6 +175,61 @@ It runs three times, and `--send` overrides none of them:
 3. `send:newsletter`, against the **exact bytes it is about to POST** — not
    what the manifest claims, because the manifest and the archived HTML are
    separate files that a partial commit can put out of step.
+
+### 5.2 Signup → segment
+
+A Resend contact is **account-level** and belongs to no list by itself. A
+Broadcast targets a *segment*. So a contact created without one is stored and
+unreachable: signup works, the dashboard fills up, nobody receives an issue.
+
+`POST /api/subscribe` therefore does two things, in order:
+
+1. `POST /contacts` — `{ email, unsubscribed: false }`
+2. `POST /contacts/<email>/segments/<RESEND_NEWSLETTER_SEGMENT_ID>`
+
+Step 2 is a **separate call**, not `segments: [{ id }]` on the create, for two
+reasons that both concern failure:
+
+- A bad or revoked segment id would make the *create* fail, losing the
+  subscriber. Assignment is the less important half and must not be able to
+  take the important half down with it.
+- It has to run for contacts that **already exist**. Someone who subscribed
+  before the segment existed hits the duplicate branch, where nothing is
+  created and a `segments` field on the create would never be sent.
+
+Running the same step on both paths is what makes a retry *repair* something.
+Re-submitting a known address is safe and idempotent: Resend treats re-adding
+an existing member as a no-op, and `409`/"already" is read as success either
+way. Nothing accumulates and no duplicate contact is possible — the address is
+lowercased before both calls, and Resend keys contacts by email.
+
+Segment assignment **never fails the signup**. The address is stored by that
+point, and telling the visitor otherwise would produce a duplicate attempt for
+a problem only an operator can fix. Failures go to the server log.
+
+The id is **configuration, never source**. It is an identifier rather than a
+credential, so it is safe in a deployment's environment settings — but keeping
+it out of the code is what lets staging and production point at different
+segments.
+
+### ⚠️ Targeting the segment from a broadcast
+
+**One segment holds every subscriber, in every language. The send pipeline is
+per-locale.** Those two facts do not compose, and the failure mode is bad:
+pointing all four of `RESEND_AUDIENCE_EN/_ES/_FR/_AR` at this segment mails
+**every subscriber four times**, once per language.
+
+Until subscribers are split by language, the only safe configuration is a
+single locale pointed at the segment:
+
+```
+RESEND_AUDIENCE_EN = <the Immigration Pulse segment id>
+RESEND_AUDIENCE_ES / _FR / _AR       # leave UNSET — those editions skip
+```
+
+Proper multi-language delivery needs one segment per language, or Resend
+**Topics** (a contact-facing preference, which is also the mechanism Resend now
+recommends for unsubscribes). Recorded here rather than guessed at.
 
 ### ⚠️ Verify the broadcast API shape before enabling the schedule
 

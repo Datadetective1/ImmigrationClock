@@ -87,18 +87,80 @@ function json(body: Record<string, unknown>, status: number): Response {
   });
 }
 
-async function resend(path: string, key: string, payload: unknown): Promise<Response> {
+async function resend(path: string, key: string, payload?: unknown): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS);
   try {
     return await fetch(`${RESEND_API}${path}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      // Segment assignment is a bodyless POST — the ids are in the path.
+      ...(payload === undefined ? {} : { body: JSON.stringify(payload) }),
       signal: controller.signal,
     });
   } finally {
     clearTimeout(timer);
+  }
+}
+
+/**
+ * Put the contact in the segment the weekly broadcast targets.
+ *
+ * WHY THIS IS A SEPARATE CALL, not `segments: [{ id }]` on contact creation.
+ * Two reasons, both about failure:
+ *
+ *   • A bad or revoked segment id would make the CREATE fail, losing the
+ *     subscriber entirely. Assignment is the less important half of this
+ *     operation and must not be able to take the important half down with it.
+ *   • It has to run for contacts that already exist. Someone who signed up
+ *     before this segment existed hits the duplicate branch, where no contact
+ *     is created and `segments` on the create call would never be sent. Running
+ *     the same step on both paths is what makes a retry actually repair
+ *     something rather than no-op.
+ *
+ * Idempotent by construction: Resend treats re-adding an existing member as a
+ * no-op, and the "already" case is read as success either way. Calling this
+ * twice for the same address cannot produce a duplicate.
+ *
+ * NEVER throws and never fails the signup. The address is stored by this point;
+ * telling the visitor their signup failed would produce a duplicate attempt for
+ * a problem only an operator can fix. A loud server log is the right channel.
+ */
+async function addToSegment(email: string, key: string): Promise<void> {
+  const segmentId = process.env.RESEND_NEWSLETTER_SEGMENT_ID?.trim();
+
+  // Not configured is a known gap, not a failure — the same rule the Congress
+  // adapter and the send script follow. It is logged at error level anyway,
+  // because the consequence is subscribers who never receive an issue.
+  if (!segmentId) {
+    console.error(
+      "[subscribe] RESEND_NEWSLETTER_SEGMENT_ID is not set — the contact was stored but NOT " +
+        "added to the Immigration Pulse segment, so this subscriber will not receive the " +
+        "weekly broadcast. See docs/newsletter.md §5."
+    );
+    return;
+  }
+
+  // Encoded because both values land in the URL path. The address is already
+  // validated, but building a path out of user input without encoding it is the
+  // kind of thing that is only ever one validation bug away from a real problem.
+  const path = `/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(segmentId)}`;
+
+  try {
+    const res = await resend(path, key);
+    if (res.ok) return;
+
+    const detail = await res.text().catch(() => "");
+    // Already a member. The point of the call is the end state, not the change.
+    if (res.status === 409 || /already|exists|duplicate/i.test(detail)) return;
+
+    console.error(
+      `[subscribe] could not add contact to segment (${res.status}): ${detail.slice(0, 300)} — ` +
+        "the contact exists but will not receive the weekly broadcast. Check that " +
+        "RESEND_NEWSLETTER_SEGMENT_ID names a segment in this Resend account."
+    );
+  } catch (err) {
+    console.error(`[subscribe] segment assignment failed: ${(err as Error)?.message}`);
   }
 }
 
@@ -181,8 +243,19 @@ export async function POST(req: Request): Promise<Response> {
       return json({ ok: false, error: "We could not complete the signup. Try again shortly." }, 502);
     }
     // Already subscribed: report the same success, and do not re-send a welcome.
+    //
+    // Segment assignment still runs. This is what makes the endpoint safe to
+    // retry AND what backfills anyone who subscribed before the segment
+    // existed: re-submitting a known address repairs its membership instead of
+    // quietly doing nothing.
+    await addToSegment(email, key);
     return json({ ok: true }, 200);
   }
+
+  // ---- Segment membership ----------------------------------------------------
+  // The contact is account-level; the segment is what the weekly broadcast
+  // actually targets. A contact outside it is stored and unreachable.
+  await addToSegment(email, key);
 
   // ---- Welcome email ---------------------------------------------------------
   // A failure here does NOT fail the request: the address is already stored, and
