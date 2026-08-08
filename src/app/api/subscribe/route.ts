@@ -29,6 +29,13 @@
 import { isPlausibleEmail } from "@/lib/newsletter";
 import { buildWelcomeEmail, unsubscribeHeader } from "@/lib/welcome-email";
 import { SITE } from "@/lib/site";
+import type { Locale } from "@/lib/newsletter/types";
+import {
+  LANGUAGE_PROPERTY,
+  parseLocale,
+  planSegments,
+  segmentEnvVar,
+} from "@/lib/newsletter/subscriber-language";
 
 // Node runtime: this calls a third-party API with a secret and does not need to
 // run at the edge.
@@ -87,12 +94,17 @@ function json(body: Record<string, unknown>, status: number): Response {
   });
 }
 
-async function resend(path: string, key: string, payload?: unknown): Promise<Response> {
+async function resend(
+  path: string,
+  key: string,
+  payload?: unknown,
+  method: "POST" | "PATCH" | "DELETE" = "POST"
+): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT_MS);
   try {
     return await fetch(`${RESEND_API}${path}`, {
-      method: "POST",
+      method,
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       // Segment assignment is a bodyless POST — the ids are in the path.
       ...(payload === undefined ? {} : { body: JSON.stringify(payload) }),
@@ -126,41 +138,72 @@ async function resend(path: string, key: string, payload?: unknown): Promise<Res
  * telling the visitor their signup failed would produce a duplicate attempt for
  * a problem only an operator can fix. A loud server log is the right channel.
  */
-async function addToSegment(email: string, key: string): Promise<void> {
-  const segmentId = process.env.RESEND_NEWSLETTER_SEGMENT_ID?.trim();
+async function reconcileSegments(email: string, key: string, locale: Locale): Promise<void> {
+  const { join, leave } = planSegments(locale);
+  const path = (segmentId: string) =>
+    `/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(segmentId)}`;
 
-  // Not configured is a known gap, not a failure — the same rule the Congress
-  // adapter and the send script follow. It is logged at error level anyway,
-  // because the consequence is subscribers who never receive an issue.
-  if (!segmentId) {
-    console.error(
-      "[subscribe] RESEND_NEWSLETTER_SEGMENT_ID is not set — the contact was stored but NOT " +
-        "added to the Immigration Pulse segment, so this subscriber will not receive the " +
-        "weekly broadcast. See docs/newsletter.md §5."
+  // LEAVE FIRST. A subscriber changing language must MOVE, not accumulate: two
+  // memberships means two copies of the newsletter in two languages. Leaving
+  // before joining also means a failure part-way through errs towards receiving
+  // nothing rather than receiving both.
+  for (const segmentId of leave) {
+    try {
+      const res = await resend(path(segmentId), key, undefined, "DELETE");
+      // 404 is the normal case — they were never in that segment.
+      if (!res.ok && res.status !== 404) {
+        console.error(`[subscribe] could not remove contact from segment ${segmentId} (${res.status})`);
+      }
+    } catch (err) {
+      console.error(`[subscribe] segment removal failed: ${(err as Error)?.message}`);
+    }
+  }
+
+  // No segment for this language yet. Arabic today: the preference is already
+  // recorded on the contact, so this is a delivery gap rather than lost data,
+  // and setting RESEND_SEGMENT_AR later is all it takes to close it.
+  if (!join) {
+    console.warn(
+      `[subscribe] no ${segmentEnvVar(locale)} configured — the "${locale}" preference is stored ` +
+        "on the contact but there is no segment to deliver it to yet."
     );
     return;
   }
 
-  // Encoded because both values land in the URL path. The address is already
-  // validated, but building a path out of user input without encoding it is the
-  // kind of thing that is only ever one validation bug away from a real problem.
-  const path = `/contacts/${encodeURIComponent(email)}/segments/${encodeURIComponent(segmentId)}`;
-
   try {
-    const res = await resend(path, key);
+    const res = await resend(path(join), key);
     if (res.ok) return;
-
     const detail = await res.text().catch(() => "");
     // Already a member. The point of the call is the end state, not the change.
     if (res.status === 409 || /already|exists|duplicate/i.test(detail)) return;
-
     console.error(
-      `[subscribe] could not add contact to segment (${res.status}): ${detail.slice(0, 300)} — ` +
-        "the contact exists but will not receive the weekly broadcast. Check that " +
-        "RESEND_NEWSLETTER_SEGMENT_ID names a segment in this Resend account."
+      `[subscribe] could not add contact to the ${locale} segment (${res.status}): ${detail.slice(0, 300)} — ` +
+        `the contact exists but will not receive the weekly broadcast. Check ${segmentEnvVar(locale)}.`
     );
   } catch (err) {
     console.error(`[subscribe] segment assignment failed: ${(err as Error)?.message}`);
+  }
+}
+
+/**
+ * Make the stored preference authoritative on a contact that already exists.
+ *
+ * A re-subscribe is how someone changes their mind about language, so the
+ * property is rewritten rather than left at whatever it was first set to.
+ */
+async function updateLanguageProperty(email: string, key: string, locale: Locale): Promise<void> {
+  try {
+    const res = await resend(
+      `/contacts/${encodeURIComponent(email)}`,
+      key,
+      { properties: { [LANGUAGE_PROPERTY]: locale } },
+      "PATCH"
+    );
+    if (!res.ok) {
+      console.error(`[subscribe] could not update language property (${res.status})`);
+    }
+  } catch (err) {
+    console.error(`[subscribe] language property update failed: ${(err as Error)?.message}`);
   }
 }
 
@@ -178,7 +221,7 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 
-  let body: { email?: unknown; consent?: unknown; website?: unknown };
+  let body: { email?: unknown; consent?: unknown; website?: unknown; language?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -201,6 +244,17 @@ export async function POST(req: Request): Promise<Response> {
     return json({ ok: false, error: "Please confirm you want the weekly email." }, 400);
   }
 
+  // ---- Language: REQUIRED, and never inferred --------------------------------
+  // No default and no fallback. A subscriber who is silently filed as English
+  // receives a newsletter they may not read, from a list they did not knowingly
+  // join, and we would have no way to tell that from a real preference. The
+  // browser's Accept-Language is used in the UI to highlight a likely option
+  // and is deliberately not read here.
+  const language = parseLocale(body.language);
+  if (!language) {
+    return json({ ok: false, error: "Choose the language you would like the newsletter in." }, 400);
+  }
+
   if (rateLimited(clientIp(req))) {
     return json({ ok: false, error: "Too many attempts. Try again in a minute." }, 429);
   }
@@ -213,7 +267,34 @@ export async function POST(req: Request): Promise<Response> {
   // route stays a single file with no runtime package to track.
   let contactRes: Response;
   try {
-    contactRes = await resend("/contacts", key, { email, unsubscribed: false });
+    contactRes = await resend("/contacts", key, {
+      email,
+      unsubscribed: false,
+      // The canonical record of what they chose. Written for EVERY language,
+      // including ones with no segment yet, so the preference survives until
+      // delivery catches up with it.
+      properties: { [LANGUAGE_PROPERTY]: language },
+    });
+
+    // CONTACT PROPERTIES MAY NOT BE AVAILABLE ON EVERY PLAN.
+    //
+    // If Resend rejects the field, retry WITHOUT it rather than failing the
+    // signup. Losing the canonical record is bad; losing the subscriber is
+    // worse, and segment membership — which is what actually delivers — does
+    // not depend on the property. Logged at error level because the preference
+    // is then unrecorded and someone has to know that.
+    if (contactRes.status === 422 || contactRes.status === 400) {
+      const detail = await contactRes.clone().text().catch(() => "");
+      if (/propert/i.test(detail) || /unknown|unrecognized|not allowed/i.test(detail)) {
+        console.error(
+          `[subscribe] Resend rejected the "${LANGUAGE_PROPERTY}" contact property (${contactRes.status}): ` +
+            `${detail.slice(0, 200)} — retrying without it. The subscriber will be routed by segment, ` +
+            "but their language preference is NOT being recorded. Check whether contact properties are " +
+            "available on this Resend plan."
+        );
+        contactRes = await resend("/contacts", key, { email, unsubscribed: false });
+      }
+    }
   } catch (err) {
     console.error(`[subscribe] contact request failed: ${(err as Error)?.message}`);
     return json({ ok: false, error: "We could not reach the email service. Try again shortly." }, 502);
@@ -244,18 +325,20 @@ export async function POST(req: Request): Promise<Response> {
     }
     // Already subscribed: report the same success, and do not re-send a welcome.
     //
-    // Segment assignment still runs. This is what makes the endpoint safe to
-    // retry AND what backfills anyone who subscribed before the segment
-    // existed: re-submitting a known address repairs its membership instead of
-    // quietly doing nothing.
-    await addToSegment(email, key);
+    // The creation call carried the property but was rejected, so the choice
+    // has to be written explicitly — this is the path where someone changes
+    // their language. The property is authoritative and membership reconciles
+    // to it, which is also what backfills anyone who subscribed before
+    // languages existed.
+    await updateLanguageProperty(email, key, language);
+    await reconcileSegments(email, key, language);
     return json({ ok: true }, 200);
   }
 
   // ---- Segment membership ----------------------------------------------------
   // The contact is account-level; the segment is what the weekly broadcast
   // actually targets. A contact outside it is stored and unreachable.
-  await addToSegment(email, key);
+  await reconcileSegments(email, key, language);
 
   // ---- Welcome email ---------------------------------------------------------
   // A failure here does NOT fail the request: the address is already stored, and

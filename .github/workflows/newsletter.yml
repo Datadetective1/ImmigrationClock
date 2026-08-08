@@ -77,10 +77,23 @@ jobs:
       NEXT_PUBLIC_CONTACT_EMAIL: ${{ vars.NEXT_PUBLIC_CONTACT_EMAIL }}
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
       RESEND_FROM_EMAIL: ${{ vars.RESEND_FROM_EMAIL }}
+      # CANONICAL. One family, shared with signup — see
+      # src/lib/newsletter/subscriber-language.ts. Absent for a language means
+      # that edition builds and archives but is not delivered; it must never
+      # borrow another language's segment.
+      RESEND_SEGMENT_EN: ${{ secrets.RESEND_SEGMENT_EN }}
+      RESEND_SEGMENT_ES: ${{ secrets.RESEND_SEGMENT_ES }}
+      RESEND_SEGMENT_FR: ${{ secrets.RESEND_SEGMENT_FR }}
+      RESEND_SEGMENT_AR: ${{ secrets.RESEND_SEGMENT_AR }}
+      # DEPRECATED ALIASES, read only when the canonical name above is unset.
+      # Kept so the currently-deployed configuration — which is what the first
+      # production send actually used — keeps working through the cutover.
+      # Remove once every RESEND_SEGMENT_* secret is populated.
       RESEND_AUDIENCE_EN: ${{ secrets.RESEND_AUDIENCE_EN }}
       RESEND_AUDIENCE_ES: ${{ secrets.RESEND_AUDIENCE_ES }}
       RESEND_AUDIENCE_FR: ${{ secrets.RESEND_AUDIENCE_FR }}
       RESEND_AUDIENCE_AR: ${{ secrets.RESEND_AUDIENCE_AR }}
+      RESEND_NEWSLETTER_SEGMENT_ID: ${{ secrets.RESEND_NEWSLETTER_SEGMENT_ID }}
 
     steps:
       - uses: actions/checkout@v4

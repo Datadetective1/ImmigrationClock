@@ -33,17 +33,20 @@ function post(body: unknown, ip = nextIp()): Request {
   });
 }
 
-const VALID = { email: "reader@example.com", consent: true };
+const VALID = { email: "reader@example.com", consent: true, language: "en" };
 
 /** Mock Resend: records calls, returns whatever each call is scripted to. */
 function mockResend(responses: { contact?: Response; email?: Response; segment?: Response } = {}) {
-  const calls: { url: string; body: unknown; auth: string | null }[] = [];
+  const calls: { url: string; body: unknown; auth: string | null; method: string }[] = [];
   const fetchMock = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
     const u = String(url);
     calls.push({
       url: u,
       body: init?.body ? JSON.parse(String(init.body)) : null,
       auth: new Headers(init?.headers).get("Authorization"),
+      // Language routing distinguishes joining a segment (POST) from leaving
+      // one (DELETE), and a property update (PATCH) from a create (POST).
+      method: (init?.method ?? "GET").toUpperCase(),
     });
     // Checked BEFORE /contacts: segment assignment is POSTed to
     // /contacts/<email>/segments/<id>, which also matches "/contacts".
@@ -61,8 +64,13 @@ function mockResend(responses: { contact?: Response; email?: Response; segment?:
 
 const SEGMENT = "84934be1-58ef-41f1-8680-3cd665df4d32";
 
-type Call = { url: string; body: unknown; auth: string | null };
+type Call = { url: string; body: unknown; auth: string | null; method: string };
 const segmentCalls = (calls: Call[]) => calls.filter((c) => c.url.includes("/segments/"));
+/** Segment ids the contact was ADDED to, and ones it was REMOVED from. */
+const joined = (calls: Call[]) =>
+  calls.filter((c) => c.url.includes("/segments/") && c.method === "POST").map((c) => c.url.split("/segments/")[1]);
+const left = (calls: Call[]) =>
+  calls.filter((c) => c.url.includes("/segments/") && c.method === "DELETE").map((c) => c.url.split("/segments/")[1]);
 
 beforeEach(() => {
   vi.stubEnv("RESEND_API_KEY", KEY);
@@ -102,7 +110,7 @@ describe("input validation", () => {
   it("rejects an implausible address before calling the provider", async () => {
     const calls = mockResend();
     for (const email of ["", "nope", "a@b", "two words@example.com", "x@example..com"]) {
-      const res = await POST(post({ email, consent: true }));
+      const res = await POST(post({ email, consent: true, language: "en" }));
       expect(res.status, `accepted "${email}"`).toBe(400);
     }
     expect(calls).toHaveLength(0);
@@ -119,7 +127,7 @@ describe("input validation", () => {
 
   it("normalises the address before storing it", async () => {
     const calls = mockResend();
-    await POST(post({ email: "  Reader@Example.COM  ", consent: true }));
+    await POST(post({ email: "  Reader@Example.COM  ", consent: true, language: "en" }));
     expect((calls[0].body as { email: string }).email).toBe("reader@example.com");
   });
 });
@@ -233,136 +241,224 @@ describe("response hygiene", () => {
 // The contact is account-level; the segment is what the weekly broadcast
 // targets. A subscriber stored outside it is stored and unreachable — the
 // signup works, the dashboard fills up, and nobody ever receives an issue.
+// =============================================================================// =============================================================================
+// LANGUAGE PREFERENCE AND SEGMENT ROUTING
+//
+// The choice is stored as a contact property — the canonical record, written
+// for every language. The segment is only WHERE that language is delivered, and
+// segments are a billing-limited resource: three on the current plan, spent on
+// EN, ES and FR.
+//
+// Keeping the two apart is what lets an Arabic subscriber be recorded
+// truthfully today and delivered to the day a segment exists, with no
+// migration and no code change.
 // =============================================================================
-describe("adding the subscriber to the Immigration Pulse segment", () => {
-  beforeEach(() => {
-    vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", SEGMENT);
-  });
+describe("newsletter language", () => {
+  const EN = "seg_en";
+  const ES = "seg_es";
+  const FR = "seg_fr";
 
-  it("adds a new contact to the configured segment", async () => {
-    const calls = mockResend();
-    const res = await POST(post(VALID));
-    expect(res.status).toBe(200);
+  function threeSegments() {
+    vi.stubEnv("RESEND_SEGMENT_EN", EN);
+    vi.stubEnv("RESEND_SEGMENT_ES", ES);
+    vi.stubEnv("RESEND_SEGMENT_FR", FR);
+  }
 
-    const seg = segmentCalls(calls);
-    expect(seg, "the contact was never added to a segment").toHaveLength(1);
-    expect(seg[0].url).toBe(
-      `https://api.resend.com/contacts/${encodeURIComponent("reader@example.com")}/segments/${SEGMENT}`
-    );
-    expect(seg[0].auth).toBe(`Bearer ${KEY}`);
-  });
-
-  it("takes the segment id from the environment, never from source", async () => {
-    vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", "different-segment-id");
-    const calls = mockResend();
-    await POST(post(VALID));
-    expect(segmentCalls(calls)[0].url).toContain("/segments/different-segment-id");
-  });
-
-  it("assigns the NORMALISED address, matching the contact it created", async () => {
-    const calls = mockResend();
-    await POST(post({ email: "  Reader@Example.COM  ", consent: true }));
-    expect(segmentCalls(calls)[0].url).toContain(encodeURIComponent("reader@example.com"));
-  });
-
-  it("still assigns when the address already exists — a retry repairs membership", async () => {
-    // This is the backfill path: someone who subscribed before the segment
-    // existed re-submits, no contact is created, and membership is fixed.
-    const calls = mockResend({
-      contact: new Response(JSON.stringify({ message: "Contact already exists" }), { status: 409 }),
+  describe("required, and never inferred", () => {
+    it("REJECTS a signup with no language", async () => {
+      const calls = mockResend();
+      const res = await POST(post({ email: "reader@example.com", consent: true }));
+      expect(res.status).toBe(400);
+      await expect(res.json()).resolves.toMatchObject({ ok: false });
+      expect(calls, "an address was stored without a language").toHaveLength(0);
     });
-    const res = await POST(post(VALID));
-    expect(res.status).toBe(200);
-    expect(segmentCalls(calls), "a duplicate signup skipped segment assignment").toHaveLength(1);
-    // And still no second welcome email.
-    expect(calls.some((c) => c.url.endsWith("/emails"))).toBe(false);
+
+    it("REJECTS an unsupported or malformed language", async () => {
+      const calls = mockResend();
+      for (const language of ["", "de", "en-US", "english", "zz", null, 1, true, ["en"]]) {
+        const res = await POST(post({ email: "reader@example.com", consent: true, language }));
+        expect(res.status, `accepted ${JSON.stringify(language)}`).toBe(400);
+      }
+      expect(calls).toHaveLength(0);
+    });
+
+    it("accepts each of the four supported languages", async () => {
+      threeSegments();
+      for (const language of ["en", "es", "fr", "ar"]) {
+        const calls = mockResend();
+        const res = await POST(post({ email: `r-${language}@example.com`, consent: true, language }));
+        expect(res.status, language).toBe(200);
+        const create = calls.find((c) => c.url === "https://api.resend.com/contacts")!;
+        expect((create.body as { properties: Record<string, string> }).properties.language).toBe(language);
+      }
+    });
   });
 
-  it("is idempotent — re-adding an existing member is a success, not an error", async () => {
-    for (const already of [
-      new Response("", { status: 409 }),
-      new Response(JSON.stringify({ message: "Contact already in segment" }), { status: 422 }),
-    ]) {
-      const calls = mockResend({ segment: already });
+  describe("the property is the canonical record", () => {
+    it("stores the choice on the contact", async () => {
+      threeSegments();
+      const calls = mockResend();
+      await POST(post({ ...VALID, language: "fr" }));
+      const create = calls.find((c) => c.url === "https://api.resend.com/contacts")!;
+      expect(create.body).toMatchObject({
+        email: "reader@example.com",
+        unsubscribed: false,
+        properties: { language: "fr" },
+      });
+    });
+
+    it("rewrites the property when an existing subscriber changes language", async () => {
+      threeSegments();
+      const calls = mockResend({
+        contact: new Response(JSON.stringify({ message: "already exists" }), { status: 409 }),
+      });
+      await POST(post({ ...VALID, language: "es" }));
+      const patch = calls.find((c) => c.method === "PATCH");
+      expect(patch, "no property update on re-subscribe").toBeTruthy();
+      expect(patch!.body).toMatchObject({ properties: { language: "es" } });
+    });
+  });
+
+  describe("when the plan does not support contact properties", () => {
+    it("still subscribes them, without the property, and says so loudly", async () => {
+      // Losing the canonical record is bad; losing the subscriber is worse, and
+      // delivery depends on segment membership rather than the property.
+      const err = vi.spyOn(console, "error").mockImplementation(() => {});
+      threeSegments();
+      let seen = 0;
+      vi.stubGlobal(
+        "fetch",
+        vi.fn(async (url: string | URL, init?: RequestInit) => {
+          const u = String(url);
+          if (u === "https://api.resend.com/contacts" && (init?.method ?? "GET").toUpperCase() === "POST") {
+            seen++;
+            if (seen === 1) return new Response(JSON.stringify({ message: "unknown field: properties" }), { status: 422 });
+            return new Response(JSON.stringify({ id: "c_1" }), { status: 201 });
+          }
+          return new Response("", { status: 201 });
+        })
+      );
+
+      const res = await POST(post({ ...VALID, language: "fr" }));
+      expect(res.status, "a plan limitation cost us the subscriber").toBe(200);
+      expect(seen, "no retry without the property").toBe(2);
+      expect(err.mock.calls.flat().join(" ")).toMatch(/contact propert/i);
+    });
+
+    it("does not retry on an unrelated 422", async () => {
+      threeSegments();
+      const calls = mockResend({ contact: new Response("invalid email domain", { status: 422 }) });
       const res = await POST(post(VALID));
-      expect(res.status, "an existing member broke the signup").toBe(200);
-      await expect(res.json()).resolves.toMatchObject({ ok: true });
-      expect(segmentCalls(calls)).toHaveLength(1);
-    }
-  });
-
-  it("repeated signups produce one contact and one membership each time", async () => {
-    // Nothing accumulates: the same two calls, whatever the address's history.
-    const first = mockResend();
-    await POST(post(VALID));
-    expect(first.filter((c) => c.url === "https://api.resend.com/contacts")).toHaveLength(1);
-    expect(segmentCalls(first)).toHaveLength(1);
-
-    const second = mockResend({
-      contact: new Response("", { status: 409 }),
-      segment: new Response("", { status: 409 }),
+      expect(res.status).toBe(502);
+      expect(calls.filter((c) => c.url === "https://api.resend.com/contacts")).toHaveLength(1);
     });
-    await POST(post(VALID));
-    expect(second.filter((c) => c.url === "https://api.resend.com/contacts")).toHaveLength(1);
-    expect(segmentCalls(second)).toHaveLength(1);
   });
 
-  it("does not fail the signup when segment assignment fails", async () => {
-    // The address is stored by then. Reporting failure would produce a
-    // duplicate attempt for a problem only an operator can fix.
-    const calls = mockResend({ segment: new Response("no such segment", { status: 404 }) });
-    const res = await POST(post(VALID));
-    expect(res.status).toBe(200);
-    await expect(res.json()).resolves.toMatchObject({ ok: true });
-    // The welcome email must still go out.
-    expect(calls.some((c) => c.url.endsWith("/emails"))).toBe(true);
-  });
-
-  it("survives the segment endpoint being unreachable", async () => {
-    const fetchMock = vi.fn(async (url: string | URL) => {
-      const u = String(url);
-      if (u.includes("/segments/")) throw new Error("ECONNRESET");
-      if (u.includes("/contacts")) return new Response(JSON.stringify({ id: "c_1" }), { status: 201 });
-      return new Response(JSON.stringify({ id: "e_1" }), { status: 200 });
+  describe("routing", () => {
+    it("EN routes to the English segment only", async () => {
+      threeSegments();
+      const calls = mockResend();
+      await POST(post({ ...VALID, language: "en" }));
+      expect(joined(calls)).toEqual([EN]);
+      expect(left(calls).sort()).toEqual([ES, FR]);
     });
-    vi.stubGlobal("fetch", fetchMock);
-    const res = await POST(post(VALID));
-    expect(res.status).toBe(200);
+
+    it("ES routes to the Spanish segment only", async () => {
+      threeSegments();
+      const calls = mockResend();
+      await POST(post({ ...VALID, language: "es" }));
+      expect(joined(calls)).toEqual([ES]);
+      expect(left(calls).sort()).toEqual([EN, FR]);
+    });
+
+    it("FR routes to the French segment only", async () => {
+      threeSegments();
+      const calls = mockResend();
+      await POST(post({ ...VALID, language: "fr" }));
+      expect(joined(calls)).toEqual([FR]);
+      expect(left(calls).sort()).toEqual([EN, ES]);
+    });
+
+    it("AR stores the preference and joins NOTHING", async () => {
+      // No Arabic segment on the current plan. The preference must survive
+      // anyway, and must never fall back to English — a subscriber who chose
+      // Arabic receiving English mail is worse than receiving none.
+      threeSegments();
+      const calls = mockResend();
+      const res = await POST(post({ ...VALID, language: "ar" }));
+
+      expect(res.status).toBe(200);
+      const create = calls.find((c) => c.url === "https://api.resend.com/contacts")!;
+      expect(create.body).toMatchObject({ properties: { language: "ar" } });
+      expect(joined(calls), "an Arabic subscriber was placed in a segment").toEqual([]);
+    });
+
+    it("delivers Arabic the moment a segment is configured — no code change", async () => {
+      threeSegments();
+      vi.stubEnv("RESEND_SEGMENT_AR", "seg_ar");
+      const calls = mockResend();
+      await POST(post({ ...VALID, language: "ar" }));
+      expect(joined(calls)).toEqual(["seg_ar"]);
+    });
+
+    it("NEVER puts one subscriber in two language segments", async () => {
+      threeSegments();
+      for (const language of ["en", "es", "fr"]) {
+        const calls = mockResend();
+        await POST(post({ ...VALID, language }));
+        expect(joined(calls).length, `${language} joined more than one segment`).toBeLessThanOrEqual(1);
+        expect(left(calls)).not.toContain(joined(calls)[0]);
+      }
+    });
+
+    it("moves rather than accumulates when someone switches", async () => {
+      threeSegments();
+      const calls = mockResend({ contact: new Response("already exists", { status: 409 }) });
+      await POST(post({ ...VALID, language: "fr" }));
+      expect(joined(calls)).toEqual([FR]);
+      expect(left(calls), "the old English membership was left in place").toContain(EN);
+    });
   });
 
-  it("never leaks the segment id or key to the client when it fails", async () => {
-    mockResend({ segment: new Response(`bad segment ${SEGMENT} key ${KEY}`, { status: 403 }) });
-    const res = await POST(post(VALID));
-    const text = JSON.stringify(await res.json());
-    expect(text).not.toContain(SEGMENT);
-    expect(text).not.toContain(KEY);
+  describe("existing subscribers", () => {
+    it("keeps the legacy single segment working for English", async () => {
+      // The three existing subscribers live in RESEND_NEWSLETTER_SEGMENT_ID and
+      // chose nothing. An English signup must still land exactly there, and
+      // nothing must remove them from it.
+      vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", "seg_legacy");
+      const calls = mockResend();
+      await POST(post({ ...VALID, language: "en" }));
+      expect(joined(calls)).toEqual(["seg_legacy"]);
+      expect(left(calls), "a legacy English subscriber would be removed from their own list").toEqual([]);
+    });
   });
 
-  it("stores the contact anyway when no segment is configured, and says so loudly", async () => {
-    vi.stubEnv("RESEND_NEWSLETTER_SEGMENT_ID", "");
-    const err = vi.spyOn(console, "error").mockImplementation(() => {});
-    const calls = mockResend();
-    const res = await POST(post(VALID));
+  describe("failure handling", () => {
+    it("does not fail the signup when segment assignment fails", async () => {
+      threeSegments();
+      const calls = mockResend({ segment: new Response("no such segment", { status: 404 }) });
+      const res = await POST(post(VALID));
+      expect(res.status).toBe(200);
+      expect(calls.some((c) => c.url.endsWith("/emails"))).toBe(true);
+    });
 
-    expect(res.status).toBe(200);
-    expect(segmentCalls(calls)).toHaveLength(0);
-    expect(calls.some((c) => c.url === "https://api.resend.com/contacts")).toBe(true);
-    expect(err.mock.calls.flat().join(" ")).toMatch(/RESEND_NEWSLETTER_SEGMENT_ID is not set/);
-  });
+    it("never leaks the key or a segment id to the client", async () => {
+      threeSegments();
+      mockResend({ segment: new Response(`bad ${EN} key ${KEY}`, { status: 403 }) });
+      const res = await POST(post(VALID));
+      const text = JSON.stringify(await res.json());
+      expect(text).not.toContain(EN);
+      expect(text).not.toContain(KEY);
+    });
 
-  it("assigns only after the contact exists, never before", async () => {
-    const calls = mockResend();
-    await POST(post(VALID));
-    const createIdx = calls.findIndex((c) => c.url === "https://api.resend.com/contacts");
-    const segIdx = calls.findIndex((c) => c.url.includes("/segments/"));
-    expect(createIdx).toBeGreaterThanOrEqual(0);
-    expect(segIdx).toBeGreaterThan(createIdx);
-  });
-
-  it("does not assign when the contact could not be created at all", async () => {
-    const calls = mockResend({ contact: new Response("upstream exploded", { status: 500 }) });
-    const res = await POST(post(VALID));
-    expect(res.status).toBe(502);
-    expect(segmentCalls(calls)).toHaveLength(0);
+    it("stores the contact even when no segment exists at all, and says so", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const calls = mockResend();
+      const res = await POST(post(VALID));
+      expect(res.status).toBe(200);
+      expect(joined(calls)).toEqual([]);
+      expect(calls.some((c) => c.url === "https://api.resend.com/contacts")).toBe(true);
+      expect(warn.mock.calls.flat().join(" ")).toMatch(/RESEND_SEGMENT_EN/);
+    });
   });
 });

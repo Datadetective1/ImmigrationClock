@@ -24,11 +24,45 @@
 // actually observe it.
 // =============================================================================
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { isPlausibleEmail } from "@/lib/newsletter";
+import { LOCALES, type Locale } from "@/lib/newsletter/types";
 
 const CONSENT_TEXT = "Email me the weekly Immigration Pulse. I can unsubscribe from any email.";
+
+/**
+ * Languages, in their own script.
+ *
+ * Endonyms, because "Arabic" written in English is not the word an Arabic
+ * reader is scanning for. This is the same list the newsletter renders in its
+ * "Read in" row — those links switch which archived edition you are READING;
+ * this choice decides which one is MAILED to you. Two different things, and the
+ * copy below says so.
+ */
+const LANGUAGE_LABELS: Record<Locale, string> = {
+  en: "English",
+  es: "Español",
+  fr: "Français",
+  ar: "العربية",
+};
+
+/**
+ * A likely language, for HIGHLIGHTING only.
+ *
+ * Never pre-selects. An assumed language is indistinguishable from a chosen one
+ * once it is stored, and the subscriber is the only one who knows which they
+ * meant. This narrows a four-way choice to an obvious first glance and leaves
+ * the decision where it belongs.
+ */
+function suggestedLocale(): Locale | null {
+  if (typeof navigator === "undefined") return null;
+  for (const tag of navigator.languages ?? [navigator.language]) {
+    const base = tag?.toLowerCase().split("-")[0];
+    if (base && (LOCALES as readonly string[]).includes(base)) return base as Locale;
+  }
+  return null;
+}
 
 type Status =
   | { kind: "idle" }
@@ -46,6 +80,18 @@ export function PulseSignupForm({
   const [consented, setConsented] = useState(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
+  // null until chosen. There is no default, on purpose.
+  const [language, setLanguage] = useState<Locale | null>(null);
+  const [suggested, setSuggested] = useState<Locale | null>(null);
+
+  // Read after mount: navigator is unavailable during SSR, and reading it in
+  // the first render would make the server and client markup disagree.
+  useEffect(() => setSuggested(suggestedLocale()), []);
+
+  const ordered = useMemo(
+    () => (suggested ? [suggested, ...LOCALES.filter((l) => l !== suggested)] : [...LOCALES]),
+    [suggested]
+  );
 
   // ---- External provider: native POST, no interception ----------------------
   if (provider === "external") {
@@ -104,6 +150,13 @@ export function PulseSignupForm({
       return;
     }
 
+    // Same rule the server enforces. Checked here too so the reader is told
+    // what is missing without a round trip.
+    if (!language) {
+      setStatus({ kind: "error", message: "Choose the language you would like the newsletter in." });
+      return;
+    }
+
     setStatus({ kind: "submitting" });
     const form = e.currentTarget;
     const honeypot = (form.elements.namedItem("website") as HTMLInputElement | null)?.value ?? "";
@@ -112,7 +165,7 @@ export function PulseSignupForm({
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), consent: consented, website: honeypot }),
+        body: JSON.stringify({ email: email.trim(), consent: consented, website: honeypot, language }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
@@ -176,6 +229,44 @@ export function PulseSignupForm({
         className="absolute left-[-9999px] h-0 w-0 opacity-0"
       />
 
+      {/* Language. A radiogroup rather than a <select>: four options is few
+          enough to show at once, and a dropdown hides three of them behind a
+          tap on the device most of this audience uses. Each label is in its own
+          script so a reader scans for the word they actually recognise. */}
+      <fieldset className="mt-1">
+        <legend className="text-[11px] font-semibold text-slate-300">Which language should we send?</legend>
+        <div role="radiogroup" aria-required="true" className="mt-1.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+          {ordered.map((l) => {
+            const active = language === l;
+            return (
+              <button
+                key={l}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                lang={l}
+                dir={l === "ar" ? "rtl" : undefined}
+                onClick={() => {
+                  setLanguage(l);
+                  if (status.kind === "error") setStatus({ kind: "idle" });
+                }}
+                className={
+                  "rounded-lg border px-2.5 py-2 text-sm transition-colors " +
+                  (active
+                    ? "border-accent bg-accent/15 font-semibold text-white"
+                    : "border-white/10 bg-ink-950/60 text-slate-300 hover:border-white/25 hover:text-white")
+                }
+              >
+                {LANGUAGE_LABELS[l]}
+              </button>
+            );
+          })}
+        </div>
+        <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500">
+          Every issue links to all four translations — this is the one that arrives in your inbox.
+        </p>
+      </fieldset>
+
       <label className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-400">
         <input
           type="checkbox"
@@ -190,7 +281,7 @@ export function PulseSignupForm({
 
       <button
         type="submit"
-        disabled={!consented || status.kind === "submitting"}
+        disabled={!consented || !language || status.kind === "submitting"}
         className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-40"
       >
         {status.kind === "submitting" ? "Subscribing…" : "Subscribe"}

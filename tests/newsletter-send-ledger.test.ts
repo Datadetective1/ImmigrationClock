@@ -403,6 +403,39 @@ describe("send-newsletter.ts under retry and partial failure", () => {
     expect(r.output).not.toMatch(/could not read the audience/);
   });
 
+  it("resolves the destination from RESEND_SEGMENT_*, the same family signup writes", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en"]);
+    const r = await run(ws, ["--only", "en", "--send"], {
+      RESEND_AUDIENCE_EN: "",
+      RESEND_SEGMENT_EN: "seg_canonical",
+    });
+    expect(r.status, r.output).toBe(0);
+    expect(posts.find((p) => p.path === "/broadcasts")!.body.audience_id).toBe("seg_canonical");
+    expect(r.output).toMatch(/\[RESEND_SEGMENT_EN\]/);
+  });
+
+  it("still honours the deprecated RESEND_AUDIENCE_* alias", async () => {
+    // What the first production send used. If this stopped resolving, Thursday
+    // would mail nobody and report success.
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en"]);
+    const r = await run(ws, ["--only", "en", "--send"], { RESEND_SEGMENT_EN: "" });
+    expect(r.status, r.output).toBe(0);
+    expect(posts.find((p) => p.path === "/broadcasts")!.body.audience_id).toBe("aud_en");
+    expect(r.output).toMatch(/\[RESEND_AUDIENCE_EN\]/);
+  });
+
+  it("prefers the canonical name when both are set", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en"]);
+    await run(ws, ["--only", "en", "--send"], { RESEND_SEGMENT_EN: "seg_wins" });
+    expect(posts.find((p) => p.path === "/broadcasts")!.body.audience_id).toBe("seg_wins");
+  });
+
   it("REFUSES to send when the recipient count is UNKNOWN", async () => {
     // Broadcasting to an audience of unknown size is the one thing an operator
     // cannot undo or even assess afterwards.
@@ -428,14 +461,16 @@ describe("send-newsletter.ts under retry and partial failure", () => {
     failLocales = new Set();
     const ws = workspace(["en", "es"]);
     // Spanish audience unset. It must be SKIPPED, never folded into English.
-    const r = await run(ws, ["--send"], { RESEND_AUDIENCE_ES: "" });
+    // Both names unset — the alias would otherwise still resolve it.
+    const r = await run(ws, ["--send"], { RESEND_AUDIENCE_ES: "", RESEND_SEGMENT_ES: "" });
     expect(r.status, r.output).toBe(0);
 
     const created = posts.filter((p) => p.path === "/broadcasts");
     expect(created).toHaveLength(1);
     expect(String(created[0].body.subject)).toMatch(/changes/); // English
     expect(created[0].body.audience_id).toBe("aud_en");
-    expect(r.output).toMatch(/no RESEND_AUDIENCE_ES — skipped/);
+    // Named by the CANONICAL variable, which is what an operator should set.
+    expect(r.output).toMatch(/no RESEND_SEGMENT_ES — skipped/);
     // And the report says so rather than silently omitting Spanish.
     expect(r.output).toMatch(/Spanish:[\s\S]*Status: skipped/);
   });

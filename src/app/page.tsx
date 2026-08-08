@@ -107,7 +107,7 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5">
                 {[
                   { href: "/for-you", label: "Find changes affecting me" },
-                  { href: "/what-changed#follow", label: "Follow a country or visa" },
+                  { href: "/following", label: "Follow a country or visa" },
                   { href: "/pulse#subscribe", label: "Get the weekly email" },
                 ].map((c) => (
                   <Link

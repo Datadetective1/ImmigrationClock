@@ -21,11 +21,17 @@
  * historically targeted an audience. Those two facts are in tension, and this
  * script cannot resolve it without a live key.
  *
- * So the audience id is CONFIGURATION (RESEND_AUDIENCE_EN and friends) rather
+ * So the segment id is CONFIGURATION (RESEND_SEGMENT_EN and friends) rather
  * than a hardcoded assumption, the request body is built in one place, and a
  * dry run prints the exact payload. Run the dry run against your account first
  * and confirm the shape before enabling the scheduled send. See
  * `docs/newsletter.md`.
+ *
+ * ONE VARIABLE FAMILY. Signup and sending resolve the destination through the
+ * SAME function, src/lib/newsletter/subscriber-language.ts. They were separate
+ * — signup wrote RESEND_SEGMENT_<LOCALE>, this read RESEND_AUDIENCE_<LOCALE> —
+ * and nothing checked that they agreed. RESEND_AUDIENCE_* is still read as a
+ * deprecated alias so the deployed configuration survives the cutover.
  *
  * ---------------------------------------------------------------------------
  * UNSUBSCRIBE, AND WHY THERE IS NO List-Unsubscribe HEADER HERE
@@ -60,6 +66,7 @@ import {
   serializeLedger,
   type SendLedger,
 } from "../src/lib/newsletter/send-ledger";
+import { segmentEnvVar, segmentIdFor, segmentSourceName } from "../src/lib/newsletter/subscriber-language";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
@@ -92,7 +99,7 @@ const LIVE = process.argv.includes("--send");
  * This exists for the controlled test send: point one audience id at a segment
  * containing only your own address and mail yourself the real thing. Without it
  * the safety of that test rests on remembering to unset three environment
- * variables, and a stale RESEND_AUDIENCE_FR in a shell is all it would take to
+ * variables, and a stale RESEND_SEGMENT_FR in a shell is all it would take to
  * broadcast to everyone in French.
  *
  * Narrowing only. It cannot cause an edition to send that would not otherwise
@@ -247,7 +254,12 @@ function printConfirmation(issueDate: string, plan: Planned[], live: boolean) {
     console.log(`    language   : ${lang} (${p.ed.locale})`);
     console.log(`    subject    : ${p.ed.subject}`);
     if (p.audienceId) {
-      console.log(`    audience   : ${p.audienceId}  [RESEND_AUDIENCE_${p.ed.locale.toUpperCase()}]`);
+      // Name the variable that ACTUALLY supplied this, not the canonical one —
+      // an operator debugging a wrong destination needs to know whether it came
+      // from RESEND_SEGMENT_EN or a lingering RESEND_AUDIENCE_EN.
+      console.log(
+        `    audience   : ${p.audienceId}  [${segmentSourceName(p.ed.locale as Locale) ?? segmentEnvVar(p.ed.locale as Locale)}]`
+      );
       if (p.recipients === null) {
         console.log(`    recipients : unknown (could not read the audience)`);
         unknown = true;
@@ -256,7 +268,7 @@ function printConfirmation(issueDate: string, plan: Planned[], live: boolean) {
         total += p.recipients;
       }
     } else {
-      console.log(`    audience   : NOT CONFIGURED — RESEND_AUDIENCE_${p.ed.locale.toUpperCase()} unset`);
+      console.log(`    audience   : NOT CONFIGURED — ${segmentEnvVar(p.ed.locale as Locale)} unset`);
       console.log(`    recipients : 0 — this edition will be skipped`);
     }
     console.log(`    payload    : ${p.htmlBytes}B html, ${p.textBytes}B text`);
@@ -454,7 +466,14 @@ async function main() {
   // four's recipient count only after it has already gone out.
   const plan: Planned[] = [];
   for (const ed of loaded) {
-    const audienceId = process.env[`RESEND_AUDIENCE_${ed.locale.toUpperCase()}`];
+    // ONE CANONICAL FAMILY. Signup writes RESEND_SEGMENT_<LOCALE>; this reads
+    // the same name, through the same resolver, so the two can no longer drift.
+    // They were separate before — signup wrote one variable and the sender read
+    // another, and nothing enforced that they matched. A subscriber added to
+    // one segment while the broadcast targeted another produces no error
+    // anywhere: the signup works, the send reports success, and the inbox stays
+    // empty. RESEND_AUDIENCE_* is still honoured as a read-only alias.
+    const audienceId = segmentIdFor(ed.locale as Locale) ?? undefined;
     plan.push({
       ed,
       audienceId,
@@ -511,7 +530,7 @@ async function main() {
     // An unconfigured audience is a known gap, not a failure. Same rule the
     // Congress adapter follows: never conflate "not set up" with "broken".
     if (!audienceId) {
-      console.log(`[send] ${ed.segment}: no RESEND_AUDIENCE_${ed.locale.toUpperCase()} — skipped`);
+      console.log(`[send] ${ed.segment}: no ${segmentEnvVar(ed.locale as Locale)} — skipped`);
       outcomes.push({ locale: ed.locale, status: "skipped", recipients: 0, reason: "no audience configured" });
       skipped++;
       continue;
@@ -695,7 +714,7 @@ async function main() {
   if (LIVE && sent === 0 && duplicatesSkipped === 0) {
     console.error(
       `\n[send] LIVE SEND REACHED NOBODY — ${skipped} edition(s) had no audience configured.\n` +
-        `  Set RESEND_AUDIENCE_EN / _ES / _FR / _AR, or this run mails no one while reporting success.\n` +
+        `  Set RESEND_SEGMENT_EN / _ES / _FR / _AR, or this run mails no one while reporting success.\n` +
         `  See docs/newsletter.md §5.`
     );
     return fail();
