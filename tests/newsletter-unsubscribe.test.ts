@@ -472,6 +472,14 @@ describe("scripts/send-newsletter.ts fails closed", () => {
     expect(r.output).toMatch(/manifest marks this edition unsafe/);
   });
 
+  it("fails loudly when a live send reaches nobody", async () => {
+    // Every step "succeeds", no audience is configured, and zero emails go out.
+    // Exiting 0 here would report a delivered newsletter that nobody received.
+    const r = await run(good, ["--send"], { RESEND_AUDIENCE_EN: "" });
+    expect(r.status).toBe(1);
+    expect(r.output).toContain("LIVE SEND REACHED NOBODY");
+  });
+
   it("posts a broadcast whose body carries the unsubscribe token in both parts", async () => {
     received.length = 0;
     const r = await run(good, ["--send"]);

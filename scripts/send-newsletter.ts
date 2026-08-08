@@ -382,6 +382,24 @@ async function main() {
       `${sent} sent, ${skipped} skipped (unconfigured), ${failed} failed`
   );
   if (failed > 0) process.exit(1);
+
+  // A LIVE run that mails nobody is a failure, even though every individual
+  // step "succeeded".
+  //
+  // An unconfigured audience is a known gap when we are only building. Once
+  // --send has been passed, it is the difference between a newsletter and no
+  // newsletter, and exiting 0 here makes that indistinguishable from a delivered
+  // issue: a green check, a cheerful summary, and an empty inbox. That is the
+  // same shape of silent failure the preflight layer exists to prevent, one step
+  // further down the pipeline.
+  if (LIVE && sent === 0) {
+    console.error(
+      `\n[send] LIVE SEND REACHED NOBODY — ${skipped} edition(s) had no audience configured.\n` +
+        `  Set RESEND_AUDIENCE_EN / _ES / _FR / _AR, or this run mails no one while reporting success.\n` +
+        `  See docs/newsletter.md §5.`
+    );
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {

@@ -32,6 +32,37 @@ const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const STRUCTURE_CHANGE =
   /parse|selector|structure|schema|unexpected|malformed|could not find|no rows|shape/i;
 
+/**
+ * An adapter failure that is the network, not the source.
+ *
+ * This distinction is the whole point. Preflight was written to catch the
+ * SILENT failure — a source quietly changes shape, the parser yields nothing,
+ * and we mail confident nonsense. A timeout is the opposite kind of failure:
+ * loud, self-announcing, and gone by the next run.
+ *
+ * On 2026-08-06 the two were treated identically. One CourtListener request
+ * aborted, `ok:false` was recorded, and a perfectly good issue — six stories in
+ * each of four languages, drawn from an archive of 697 events and seven other
+ * healthy adapters — was withheld from every subscriber. Nothing retried it and
+ * nothing was wrong with it.
+ *
+ * A transient failure means we may have missed some stories. A structural
+ * failure means we may PRINT something false. Only the second is worth
+ * withholding an issue over.
+ */
+const TRANSIENT_FAILURE =
+  /fetch failed|abort|timed? ?out|ETIMEDOUT|ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|socket hang up|network|connection reset|HTTP (429|5\d\d)/i;
+
+/**
+ * How much of the pipeline may be transiently down before it stops being a
+ * blip and starts being an outage.
+ *
+ * At two thirds healthy, the issue still rests on most of its sources. Below
+ * that, "we probably missed a few stories" is no longer an honest description
+ * of what happened, and delivery should wait.
+ */
+const MIN_HEALTHY_ADAPTER_RATIO = 2 / 3;
+
 /** Warnings that are ordinary operating conditions, not defects. */
 const BENIGN = /offline: skipped|not configured|unconfigured|no api key|rate limit/i;
 
@@ -121,12 +152,38 @@ export function assess(
   const adapters = events.adapters ?? [];
   if (adapters.length === 0) blocking.push("events.json lists no adapters at all");
 
+  // Failures are triaged before any of them is called blocking, because the
+  // verdict on a transient one depends on how many others also failed.
+  const failed = adapters.filter((a) => a.ok === false);
+  const transientFailures = failed.filter((a) =>
+    (a.warnings ?? []).some((w) => TRANSIENT_FAILURE.test(w) && !STRUCTURE_CHANGE.test(w))
+  );
+  const structuralFailures = failed.filter((a) => !transientFailures.includes(a));
+  const healthyRatio = adapters.length ? (adapters.length - failed.length) / adapters.length : 0;
+  const mostlyHealthy = healthyRatio >= MIN_HEALTHY_ADAPTER_RATIO;
+
+  for (const a of structuralFailures) {
+    blocking.push(`adapter "${a.name || a.key}" failed`);
+  }
+
+  for (const a of transientFailures) {
+    const label = a.name || a.key;
+    const why = (a.warnings ?? []).find((w) => TRANSIENT_FAILURE.test(w)) ?? "network failure";
+    if (mostlyHealthy) {
+      // Survivable. The archive is cumulative, so anything this source
+      // published will be picked up by the next run and is not lost.
+      warnings.push(`${label}: transient network failure, tolerated (${why})`);
+    } else {
+      blocking.push(
+        `adapter "${label}" failed (${why}) — and only ${Math.round(healthyRatio * 100)}% of sources are healthy, ` +
+          `which is an outage rather than a blip`
+      );
+    }
+  }
+
   for (const a of adapters) {
     const label = a.name || a.key;
-    if (a.ok === false) {
-      blocking.push(`adapter "${label}" failed`);
-      continue;
-    }
+    if (a.ok === false) continue; // already triaged above
     for (const w of a.warnings ?? []) {
       if (BENIGN.test(w)) {
         warnings.push(`${label}: ${w}`);

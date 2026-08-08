@@ -62,6 +62,7 @@ import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
 import { plainText, containsAnyTerm } from "../text";
+import { fetchWithRetry } from "./http";
 
 const API = "https://www.courtlistener.com/api/rest/v4/search/";
 const UA = "ImmigrationClock/1.0 (+https://immigrationclock.com)";
@@ -354,22 +355,31 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   });
 
   let payload: { results?: CourtOpinion[]; count?: number };
+  const retryNotes: string[] = [];
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 30_000);
-    const res = await fetch(`${API}?${params}`, {
+    // Retried, because this exact request timing out once on 2026-08-06 cost a
+    // week's newsletter: the abort set failed=true, preflight read that as a
+    // blocking anomaly, and delivery was withheld on an issue that was fine.
+    // See src/domains/graph/adapters/http.ts.
+    const res = await fetchWithRetry(`${API}?${params}`, {
       headers: { "User-Agent": UA },
-      signal: controller.signal,
-    }).finally(() => clearTimeout(timer));
+      timeoutMs: 30_000,
+      onRetry: (attempt, reason) => retryNotes.push(`attempt ${attempt} failed (${reason}) — retrying`),
+    });
     if (!res.ok) {
-      return { adapterKey: key, events: [], warnings: [`HTTP ${res.status} from CourtListener`], failed: true };
+      return {
+        adapterKey: key,
+        events: [],
+        warnings: [...retryNotes, `HTTP ${res.status} from CourtListener`],
+        failed: true,
+      };
     }
     payload = await res.json();
   } catch (err) {
     return {
       adapterKey: key,
       events: [],
-      warnings: [`fetch failed: ${(err as Error)?.message ?? String(err)}`],
+      warnings: [...retryNotes, `fetch failed: ${(err as Error)?.message ?? String(err)}`],
       failed: true,
     };
   }

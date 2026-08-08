@@ -196,6 +196,133 @@ describe("newsletter preflight", () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────
+  // Transient vs structural adapter failure.
+  //
+  // 2026-08-06: one CourtListener request aborted. That single timeout set
+  // ok=false, preflight called it an anomaly, and a good issue — six stories
+  // in four languages off seven healthy adapters — was withheld from every
+  // subscriber. Nothing retried it and nothing was wrong with it.
+  // ─────────────────────────────────────────────────────────────────────
+  describe("a bad thirty seconds is not a bad newsletter", () => {
+    type Adapter = NonNullable<Parameters<typeof assess>[1]["adapters"]>[number];
+    const withAdapters = (extra: Adapter[]) => ({
+      ...healthyEvents,
+      adapters: [
+        ...Array.from({ length: 7 }, (_, i) => ({
+          key: `src-${i}`,
+          name: `Source ${i}`,
+          ok: true,
+          eventCount: 3,
+          warnings: [],
+        })),
+        ...extra,
+      ],
+    });
+
+    it("REGRESSION 2026-08-06: tolerates one aborted request and ships the issue", () => {
+      const v = assess(
+        healthyRefresh,
+        withAdapters([
+          {
+            key: "federal-courts",
+            name: "Federal court decisions",
+            ok: false,
+            eventCount: 0,
+            warnings: ["fetch failed: This operation was aborted"],
+          },
+        ]),
+        healthyNewsletter
+      );
+      expect(v.safe, `blocked by: ${v.blocking.join("; ")}`).toBe(true);
+      expect(v.warnings.join(" ")).toMatch(/transient network failure, tolerated/);
+    });
+
+    it("tolerates the usual network errors by name", () => {
+      for (const w of [
+        "fetch failed: ETIMEDOUT",
+        "ECONNRESET",
+        "socket hang up",
+        "HTTP 503 from CourtListener",
+        "HTTP 429 from CourtListener",
+      ]) {
+        const v = assess(
+          healthyRefresh,
+          withAdapters([{ key: "x", name: "X", ok: false, eventCount: 0, warnings: [w] }]),
+          healthyNewsletter
+        );
+        expect(v.safe, `"${w}" should be tolerated`).toBe(true);
+      }
+    });
+
+    it("still BLOCKS a structural failure — the silent one it was built for", () => {
+      const v = assess(
+        healthyRefresh,
+        withAdapters([
+          { key: "uscis", name: "USCIS", ok: false, eventCount: 0, warnings: ["could not find the results table"] },
+        ]),
+        healthyNewsletter
+      );
+      expect(v.safe).toBe(false);
+      expect(v.blocking.join(" ")).toMatch(/USCIS/);
+    });
+
+    it("blocks a 404, which means the source moved rather than blinked", () => {
+      const v = assess(
+        healthyRefresh,
+        withAdapters([{ key: "x", name: "X", ok: false, eventCount: 0, warnings: ["HTTP 404 from X"] }]),
+        healthyNewsletter
+      );
+      expect(v.safe).toBe(false);
+    });
+
+    it("blocks a failure it cannot classify, rather than assuming the kind one", () => {
+      const v = assess(
+        healthyRefresh,
+        withAdapters([{ key: "x", name: "X", ok: false, eventCount: 0, warnings: [] }]),
+        healthyNewsletter
+      );
+      expect(v.safe).toBe(false);
+    });
+
+    it("blocks when transient failures stop being a blip and become an outage", () => {
+      // Four of eight down is not "we missed a few stories".
+      const down = Array.from({ length: 4 }, (_, i) => ({
+        key: `down-${i}`,
+        name: `Down ${i}`,
+        ok: false,
+        eventCount: 0,
+        warnings: ["fetch failed: This operation was aborted"],
+      }));
+      const v = assess(
+        healthyRefresh,
+        {
+          ...healthyEvents,
+          adapters: [
+            ...Array.from({ length: 4 }, (_, i) => ({ key: `up-${i}`, name: `Up ${i}`, ok: true, eventCount: 3, warnings: [] })),
+            ...down,
+          ],
+        },
+        healthyNewsletter
+      );
+      expect(v.safe).toBe(false);
+      expect(v.blocking.join(" ")).toMatch(/outage rather than a blip/);
+    });
+
+    it("a tolerated failure never silences the empty-archive check", () => {
+      const v = assess(
+        healthyRefresh,
+        {
+          ...withAdapters([{ key: "x", name: "X", ok: false, eventCount: 0, warnings: ["fetch failed"] }]),
+          events: [],
+        },
+        healthyNewsletter
+      );
+      expect(v.safe).toBe(false);
+      expect(v.blocking.join(" ")).toMatch(/archive is empty/);
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────────────────
   // Unsubscribe. spamFlags were computed and then ignored, so "no
   // unsubscribe link" was reported to nobody and stopped nothing.
   // ─────────────────────────────────────────────────────────────────────
