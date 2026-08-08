@@ -122,6 +122,9 @@ export interface IssueStat {
   value: number;
 }
 
+import type { IssueCounts } from "./counts";
+export type { IssueCounts };
+
 /**
  * A topic we watch closely enough to report its SILENCE.
  *
@@ -187,6 +190,20 @@ export interface Issue {
    */
   lead?: LeadGroup;
   stats: IssueStat[];
+  /**
+   * EVERY user-facing number, derived from one canonical dataset.
+   *
+   * Added after the first production issue shipped a subject and opening saying
+   * "5 changes" beside a "By the numbers" block totalling 6. Both were true:
+   * statistics were computed from the full in-window set and the story count
+   * from the capped slice. They were answering different questions and the
+   * template presented them as the same one.
+   *
+   * `stats` and `absentStats` above are now projections of this. Read counts
+   * from here; the other two remain because the renderer and several tests
+   * address them by name.
+   */
+  counts: IssueCounts;
   /**
    * Stat keys that came back ZERO and are worth saying so about.
    * "No Executive Orders this week" is reassurance a reader cannot get from a

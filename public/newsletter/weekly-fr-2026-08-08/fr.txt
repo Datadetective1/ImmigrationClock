@@ -2,14 +2,13 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 Semaine du 1 août 2026 au 8 août 2026
 Changements officiels de l'immigration américaine, depuis les sources gouvernementales.
 
-Cette semaine a apporté 5 mises à jour officielles en matière d'immigration. Chaque élément renvoie directement à la publication gouvernementale dont il provient. Nous rapportons ce qui a changé ; nous ne vous disons pas ce que cela signifie pour votre dossier.
+Cette semaine a apporté 6 mises à jour officielles en matière d'immigration. Les 5 plus importantes figurent ci-dessous ; les autres sont dans les archives. Chaque élément renvoie directement à la publication gouvernementale dont il provient. Nous rapportons ce qui a changé ; nous ne vous disons pas ce que cela signifie pour votre dossier.
 
 LA SEMAINE EN BREF
 
   - 4 Mises à jour de politique USCIS
-  - 1 Documents du Federal Register
   - 1 Décisions de justice
-  - 6 Changements enregistrés au total
+  - 1 Documents du Federal Register
   - Aucun décrets et proclamations
 
 Temps de lecture estimé : 3 minutes
@@ -82,8 +81,8 @@ Dates publiées par l'agence elle-même. Elles peuvent changer ; le lien fait fo
 EN CHIFFRES
 
   Mises à jour de politique USCIS: 4
-  Documents du Federal Register: 1
   Décisions de justice: 1
+  Documents du Federal Register: 1
   Changements enregistrés au total: 6
 
 CONTINUEZ À EXPLORER IMMIGRATIONCLOCK
@@ -97,7 +96,6 @@ Chaque mise à jour renvoie directement à la source gouvernementale d'origine. 
 Les titres et résumés sont cités exactement tels que publiés par le gouvernement américain, en anglais. Nous ne traduisons pas les textes officiels : une citation traduite n'est plus une citation.
 
 Lire ce numéro en ligne: https://immigrationclock.com/newsletter/weekly-fr-2026-08-08/fr.html
-Contact: hello@immigrationclock.com
 Se désabonner: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ImmigrationClock publie des données publiques du gouvernement américain. Ce n'est pas un cabinet d'avocats et ne fournit aucun conseil juridique.

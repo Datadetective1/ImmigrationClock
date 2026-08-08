@@ -28,8 +28,11 @@ export const es: LocaleStrings = {
   issueLabel: (from, to) => `Semana del ${fmt(from)} al ${fmt(to)}`,
 
   opening: {
-    withChanges: (n) =>
-      `Esta semana hubo ${n} actualización${n === 1 ? "" : "es"} oficial${n === 1 ? "" : "es"} de inmigración. ` +
+    withChanges: (shown, recorded) =>
+      (recorded > shown
+        ? `Esta semana hubo ${recorded} actualizaciones oficiales de inmigración. A continuación ` +
+          `${shown === 1 ? "figura la más importante" : `figuran las ${shown} más importantes`}; el resto están en el archivo. `
+        : `Esta semana hubo ${shown} actualización${shown === 1 ? "" : "es"} oficial${shown === 1 ? "" : "es"} de inmigración. `) +
       `Cada elemento enlaza directamente con la publicación gubernamental de la que procede. ` +
       `Informamos de lo que cambió; no le decimos lo que significa para su caso.`,
     noChanges:
@@ -91,6 +94,7 @@ export const es: LocaleStrings = {
     court_decisions: "Decisiones judiciales",
     dhs_announcements: "Anuncios del DHS",
     total_recorded: "Cambios registrados en total",
+    other_changes: "Otros cambios registrados",
   },
 
   explore: {

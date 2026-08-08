@@ -403,6 +403,77 @@ describe("send-newsletter.ts under retry and partial failure", () => {
     expect(r.output).not.toMatch(/could not read the audience/);
   });
 
+  it("REFUSES to send when the recipient count is UNKNOWN", async () => {
+    // Broadcasting to an audience of unknown size is the one thing an operator
+    // cannot undo or even assess afterwards.
+    const probe = createServer((_req, res) => {
+      res.writeHead(403, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "forbidden" }));
+    });
+    await new Promise<void>((r) => probe.listen(0, "127.0.0.1", () => r()));
+    const a = probe.address();
+    const base = `http://127.0.0.1:${typeof a === "object" && a ? a.port : 0}`;
+
+    const ws = workspace(["en"]);
+    const r = await run(ws, ["--only", "en", "--send"], { RESEND_API_BASE: base });
+    probe.close();
+
+    expect(r.status).toBe(1);
+    expect(r.output).toMatch(/recipient count is UNKNOWN/);
+    expect(existsSync(ws.ledgerPath), "a ledger record was written for a send that never happened").toBe(false);
+  });
+
+  it("skips a language whose audience is missing rather than redirecting it", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en", "es"]);
+    // Spanish audience unset. It must be SKIPPED, never folded into English.
+    const r = await run(ws, ["--send"], { RESEND_AUDIENCE_ES: "" });
+    expect(r.status, r.output).toBe(0);
+
+    const created = posts.filter((p) => p.path === "/broadcasts");
+    expect(created).toHaveLength(1);
+    expect(String(created[0].body.subject)).toMatch(/changes/); // English
+    expect(created[0].body.audience_id).toBe("aud_en");
+    expect(r.output).toMatch(/no RESEND_AUDIENCE_ES — skipped/);
+    // And the report says so rather than silently omitting Spanish.
+    expect(r.output).toMatch(/Spanish:[\s\S]*Status: skipped/);
+  });
+
+  it("never substitutes one language's audience for another", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en", "es"]);
+    await run(ws, ["--send"]);
+    const created = posts.filter((p) => p.path === "/broadcasts");
+    const byAudience = new Map(created.map((c) => [c.body.audience_id, String(c.body.subject)]));
+    expect(byAudience.get("aud_en")).toMatch(/changes/);
+    expect(byAudience.get("aud_es")).toMatch(/cambios/);
+    expect(new Set(created.map((c) => c.body.audience_id)).size).toBe(created.length);
+  });
+
+  it("prints a post-send report naming every language and the totals", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en"]);
+    const r = await run(ws, ["--only", "en", "--send"]);
+    expect(r.output).toMatch(/IMMIGRATIONCLOCK NEWSLETTER/);
+    expect(r.output).toMatch(/Edition: 2026-08-08/);
+    expect(r.output).toMatch(/Status: SENT/);
+    expect(r.output).toMatch(/English:/);
+    expect(r.output).toMatch(/Broadcast ID: bc_en/);
+    expect(r.output).toMatch(/Total recipients: 1/);
+    expect(r.output).toMatch(/Failed: 0/);
+  });
+
+  it("never prints the API key in the report", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en"]);
+    const r = await run(ws, ["--only", "en", "--send"]);
+    expect(r.output).not.toContain("re_test");
+  });
+
   it("excludes unsubscribed contacts from the count it shows", async () => {
     const probe = createServer((_req, res) => {
       res.writeHead(200, { "Content-Type": "application/json" });

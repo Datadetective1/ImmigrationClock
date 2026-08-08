@@ -21,6 +21,7 @@ import { SOURCE_BY_KEY } from "@/lib/sources";
 import { labelForEntity } from "@/lib/entity-labels";
 import { KEY_DATES, nextOccurrence } from "@/lib/key-dates";
 import { rankEvents } from "./ranking";
+import { canonicalCounts } from "./counts";
 import {
   CADENCE_WINDOW_DAYS,
   type Issue,
@@ -284,6 +285,10 @@ export function selectIssue(opts: SelectOptions): Issue {
 
   const items = rest.slice(0, MAX_ITEMS).map((e) => toItem(e, today));
 
+  // Everything the issue renders — the lead group counts as shown.
+  const shownIds = new Set([...(lead?.items ?? []), ...items].map((i) => i.id));
+  const counts = canonicalCounts(inWindow, shownIds);
+
   return {
     id: `${segment.id}-${today}`,
     segment,
@@ -292,8 +297,16 @@ export function selectIssue(opts: SelectOptions): Issue {
     issuedAt: today,
     items,
     lead,
-    stats: statsFor(inWindow),
-    absentStats: absentStatKeys(inWindow),
+    // ONE CANONICAL DATASET. `inWindow` is the set after the date window,
+    // severity floor, segment filter and exclusions; `counts` derives every
+    // user-facing number from it and from what actually rendered.
+    //
+    // Before this, statistics came from `inWindow` and the story count from the
+    // capped slice, which shipped an issue saying "5 changes" beside a total of
+    // 6. Both were true and neither said which question it answered.
+    counts,
+    stats: counts.categories,
+    absentStats: counts.absent,
     unchanged: unchangedTopics(inWindow),
     upcoming: upcomingDates(today),
     resources: rotateResources(today),

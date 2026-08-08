@@ -313,6 +313,14 @@ describe("scripts/send-newsletter.ts fails closed", () => {
         const raw = Buffer.concat(chunks).toString("utf8");
         try {
           received.push({ method: req.method ?? "", path: req.url ?? "", body: raw ? JSON.parse(raw) : {} });
+          // A GET is the recipient-count probe against /segments/<id>/contacts.
+          // It must return a contact list: the send now refuses when the count
+          // cannot be read, so a stub that answers everything with {id} would
+          // make every live-send test fail for the wrong reason.
+          if (req.method === "GET") {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            return res.end(JSON.stringify({ data: [{ email: "one@example.com", unsubscribed: false }] }));
+          }
           res.writeHead(200, { "Content-Type": "application/json" });
           res.end(JSON.stringify({ id: "bc_test" }));
         } catch (err) {

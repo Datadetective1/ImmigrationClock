@@ -13,8 +13,9 @@
 import type { Issue, Locale } from "./types";
 import { LOCALES, RESEND_UNSUBSCRIBE_TOKEN } from "./types";
 import { stringsFor } from "./locales";
-import type { RenderedEmail } from "./render";
+import { esc, type RenderedEmail } from "./render";
 import { unsubscribeFlags } from "./preflight";
+import { countInconsistencies } from "./counts";
 
 export interface ValidationResult {
   errors: string[];
@@ -56,6 +57,25 @@ export function validateIssue(issue: Issue): ValidationResult {
   if (issue.items.length === 0) {
     warnings.push(`${issue.id}: no items — will send the "quiet week" edition`);
   }
+
+  // ---- COUNTS MUST AGREE WITH THEMSELVES ------------------------------------
+  // The first production issue said "5 changes" in its subject and opening and
+  // totalled 6 in "By the numbers". Every gate in the pipeline passed it,
+  // because no gate had ever compared two user-facing numbers to each other.
+  for (const problem of countInconsistencies(issue.counts)) {
+    errors.push(`${issue.id}: ${problem}`);
+  }
+  if (issue.counts.shown !== issue.items.length + (issue.lead?.items.length ?? 0)) {
+    errors.push(
+      `${issue.id}: counts say ${issue.counts.shown} stories are shown but the issue renders ` +
+        `${issue.items.length + (issue.lead?.items.length ?? 0)}`
+    );
+  }
+  const total = issue.stats.find((s) => s.key === "total_recorded");
+  if (total && total.value !== issue.counts.recorded) {
+    errors.push(`${issue.id}: "total recorded" says ${total.value}, canonical count says ${issue.counts.recorded}`);
+  }
+
   return { errors, warnings };
 }
 
@@ -156,6 +176,48 @@ export function validateRendered(
       if (label && rendered.html.includes(label) && issue.totalInWindow === 0 && issue.items.length > 0) {
         errors.push(`${where}: claims "${w.key}" was quiet in a window with items`);
       }
+    }
+  }
+
+  // ---- THE NUMBERS A READER ACTUALLY SEES -----------------------------------
+  // Checked against the rendered bytes, not the model, because the defect that
+  // shipped was in how the template used the model rather than in the model.
+  //
+  // The subject is the strongest claim the issue makes — it is what a reader
+  // sees before opening anything — so it must state the story count, never the
+  // archive total.
+  const subjectNumbers = [...rendered.subject.matchAll(/\d+/g)].map((m) => Number(m[0]));
+  if (issue.counts.shown > 0 && subjectNumbers.length > 0 && !subjectNumbers.includes(issue.counts.shown)) {
+    errors.push(
+      `${where}: subject says ${subjectNumbers.join("/")} but the issue shows ${issue.counts.shown} stories`
+    );
+  }
+  if (issue.counts.recorded > issue.counts.shown && subjectNumbers.includes(issue.counts.recorded)) {
+    errors.push(
+      `${where}: subject claims ${issue.counts.recorded} — that is the archive total, not the ` +
+        `${issue.counts.shown} stories this issue carries`
+    );
+  }
+
+  // When more was recorded than shown, the opening MUST say so. Printing two
+  // different numbers without reconciling them is the exact defect.
+  if (issue.counts.recorded > issue.counts.shown) {
+    const opening = t.opening.withChanges(issue.counts.shown, issue.counts.recorded);
+    if (!rendered.html.includes(esc(opening))) {
+      errors.push(`${where}: opening does not reconcile ${issue.counts.shown} shown with ${issue.counts.recorded} recorded`);
+    }
+    if (!opening.includes(String(issue.counts.recorded))) {
+      errors.push(`${where}: opening never states the recorded total of ${issue.counts.recorded}`);
+    }
+  }
+
+  // A category with no label in this locale is DROPPED by the renderer's
+  // `.filter(s => t.stats[s.key])`. Silently, and the printed rows then no
+  // longer sum to the printed total — the same class of defect, arriving by a
+  // different route the day someone adds a bucket.
+  for (const c of issue.counts.categories) {
+    if (!t.stats[c.key]) {
+      errors.push(`${where}: category "${c.key}" (${c.value}) has no label in this locale and would vanish from the totals`);
     }
   }
 

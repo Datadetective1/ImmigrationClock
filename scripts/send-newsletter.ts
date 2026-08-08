@@ -284,6 +284,64 @@ function fail(): void {
   process.exitCode = 1;
 }
 
+/** What actually happened to one edition. Recorded as the loop runs. */
+interface Outcome {
+  locale: string;
+  status: "sent" | "skipped" | "already-sent" | "failed" | "preview";
+  recipients: number | null;
+  broadcastId?: string;
+  reason?: string;
+}
+
+/**
+ * The operator-facing summary.
+ *
+ * An unattended pipeline is only as good as what it says afterwards. This is
+ * the block someone reads in the Actions log — or in an alert — to answer "did
+ * it go, to how many, and which languages were skipped".
+ *
+ * Prints broadcast ids, which are safe. Never prints the API key, and never
+ * prints an audience id, because a summary is the kind of thing that gets
+ * pasted into a ticket.
+ */
+function printReport(issueDate: string, plan: Planned[], outcomes: Outcome[], live: boolean) {
+  const LANG = { en: "English", es: "Spanish", fr: "French", ar: "Arabic" } as const;
+  const byLocale = new Map(outcomes.map((o) => [o.locale, o]));
+
+  const rule = "═".repeat(58);
+  console.log(`\n${rule}`);
+  console.log("  IMMIGRATIONCLOCK NEWSLETTER");
+  console.log(`  Edition: ${issueDate}`);
+  const anySent = outcomes.some((o) => o.status === "sent");
+  const anyFailed = outcomes.some((o) => o.status === "failed");
+  console.log(
+    `  Status: ${!live ? "DRY RUN — NOTHING SENT" : anyFailed ? "PARTIAL — SEE FAILURES" : anySent ? "SENT" : "NOTHING SENT"}`
+  );
+  console.log(rule);
+
+  let total = 0;
+  let failedCount = 0;
+  for (const p of plan) {
+    const o = byLocale.get(p.ed.locale);
+    const name = LANG[p.ed.locale as keyof typeof LANG] ?? p.ed.locale;
+    console.log(`\n${name}:`);
+    if (!o) {
+      console.log("  Status: not attempted");
+      continue;
+    }
+    console.log(`  Recipients: ${o.recipients === null ? "unknown" : o.recipients}`);
+    if (o.broadcastId) console.log(`  Broadcast ID: ${o.broadcastId}`);
+    console.log(`  Status: ${o.status}${o.reason ? ` (${o.reason})` : ""}`);
+    if (o.status === "sent" && typeof o.recipients === "number") total += o.recipients;
+    if (o.status === "failed") failedCount++;
+  }
+
+  console.log(`\n${rule}`);
+  console.log(`  Total recipients: ${total}`);
+  console.log(`  Failed: ${failedCount}`);
+  console.log(`${rule}\n`);
+}
+
 async function main() {
   const manifest = JSON.parse(await readFile(MANIFEST, "utf8")) as Manifest;
 
@@ -444,6 +502,7 @@ async function main() {
   let skipped = 0;
   let failed = 0;
   let duplicatesSkipped = 0;
+  const outcomes: Outcome[] = [];
 
   // html/text come from the plan, which is the same buffer the gate inspected.
   // Re-reading here would open a window in which the file could change between
@@ -453,6 +512,31 @@ async function main() {
     // Congress adapter follows: never conflate "not set up" with "broken".
     if (!audienceId) {
       console.log(`[send] ${ed.segment}: no RESEND_AUDIENCE_${ed.locale.toUpperCase()} — skipped`);
+      outcomes.push({ locale: ed.locale, status: "skipped", recipients: 0, reason: "no audience configured" });
+      skipped++;
+      continue;
+    }
+
+    // NEVER SEND INTO THE DARK.
+    //
+    // `recipients` is null when the count could not be read — a 404, a
+    // permission error, an unexpected shape. Sending anyway means broadcasting
+    // to an audience of unknown size and unknown composition, which is the one
+    // thing an operator cannot undo or even assess afterwards. A skipped
+    // language is recoverable; an unbounded send is not.
+    const planned = plan.find((p) => p.ed.locale === ed.locale)!;
+    if (LIVE && planned.recipients === null) {
+      console.error(
+        `[send] ${ed.segment}: recipient count is UNKNOWN for audience ${audienceId} — refusing to send.\n` +
+          `       The key may lack contact-read permission, or the audience may not exist.`
+      );
+      outcomes.push({ locale: ed.locale, status: "failed", recipients: null, reason: "recipient count unknown" });
+      failed++;
+      continue;
+    }
+    if (LIVE && planned.recipients === 0) {
+      console.log(`[send] ${ed.segment}: audience has 0 subscribed contacts — skipped`);
+      outcomes.push({ locale: ed.locale, status: "skipped", recipients: 0, reason: "no subscribed contacts" });
       skipped++;
       continue;
     }
@@ -468,6 +552,13 @@ async function main() {
         `[send] ${ed.segment}: already sent ${prior.sentAt} (broadcast ${prior.broadcastId}) — skipped.\n` +
           `       Use --only ${ed.locale} --resend to deliberately send it again.`
       );
+      outcomes.push({
+        locale: ed.locale,
+        status: "already-sent",
+        recipients: planned.recipients,
+        broadcastId: prior.broadcastId,
+        reason: `sent ${prior.sentAt}`,
+      });
       duplicatesSkipped++;
       continue;
     }
@@ -515,24 +606,28 @@ async function main() {
         `         headers: none — POST /broadcasts has no \`headers\` field; Resend owns\n` +
           `                  List-Unsubscribe for broadcasts, driven by the token above.`
       );
+      outcomes.push({ locale: ed.locale, status: "preview", recipients: planned.recipients });
       continue;
     }
 
     const created = await post("/broadcasts", payload);
     if (!created.ok) {
       console.error(`[send] ${ed.segment}: create failed HTTP ${created.status} ${created.body.slice(0, 300)}`);
+      outcomes.push({ locale: ed.locale, status: "failed", recipients: planned.recipients, reason: `create HTTP ${created.status}` });
       failed++;
       continue;
     }
     const id = (JSON.parse(created.body || "{}") as { id?: string }).id;
     if (!id) {
       console.error(`[send] ${ed.segment}: broadcast created but no id returned`);
+      outcomes.push({ locale: ed.locale, status: "failed", recipients: planned.recipients, reason: "no broadcast id returned" });
       failed++;
       continue;
     }
     const fired = await post(`/broadcasts/${id}/send`, {});
     if (!fired.ok) {
       console.error(`[send] ${ed.segment}: send failed HTTP ${fired.status} ${fired.body.slice(0, 300)}`);
+      outcomes.push({ locale: ed.locale, status: "failed", recipients: planned.recipients, broadcastId: id, reason: `send HTTP ${fired.status}` });
       failed++;
       continue;
     }
@@ -565,9 +660,16 @@ async function main() {
       return fail();
     }
 
+    outcomes.push({ locale: ed.locale, status: "sent", recipients: planned.recipients, broadcastId: id });
     console.log(`[send] ${ed.segment}: broadcast ${id} sent — recorded in the ledger`);
     sent++;
   }
+
+  // ---- POST-SEND REPORT ----------------------------------------------------
+  // Written from the outcomes recorded during this run, not from intent, so it
+  // cannot claim a delivery that did not happen. Broadcast ids are safe to
+  // print; the API key and audience ids of other languages never appear.
+  printReport(manifest.today, plan, outcomes, LIVE);
 
   console.log(
     `\n[send] ${LIVE ? "LIVE" : "DRY RUN"} — issue ${manifest.today}: ` +

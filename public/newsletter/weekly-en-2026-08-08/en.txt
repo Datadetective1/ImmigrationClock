@@ -2,14 +2,13 @@ IMMIGRATIONCLOCK — IMMIGRATION PULSE
 Week of 1 August 2026 – 8 August 2026
 Official U.S. immigration changes from government sources.
 
-This week brought 5 official immigration updates. Every item below links directly to the government publication it came from. We report what changed — we do not tell you what it means for your case.
+This week brought 6 official immigration updates. The 5 most consequential are below; the rest are in the archive. Every item below links directly to the government publication it came from. We report what changed — we do not tell you what it means for your case.
 
 THIS WEEK AT A GLANCE
 
   - 4 USCIS policy updates
-  - 1 Federal Register documents
   - 1 Court decisions
-  - 6 Total changes recorded
+  - 1 Federal Register documents
   - No executive orders & proclamations
 
 Estimated reading time: 3 minutes
@@ -82,8 +81,8 @@ Dates published by the agency itself. They can move; the source link is the auth
 BY THE NUMBERS
 
   USCIS policy updates: 4
-  Federal Register documents: 1
   Court decisions: 1
+  Federal Register documents: 1
   Total changes recorded: 6
 
 CONTINUE EXPLORING IMMIGRATIONCLOCK
@@ -97,7 +96,6 @@ Every update above links directly to the original government source. We summariz
 Document titles and summaries are quoted exactly as the U.S. government published them, in English. We do not translate official text, because a translated quote is no longer a quote.
 
 Read this issue online: https://immigrationclock.com/newsletter/weekly-en-2026-08-08/en.html
-Contact: hello@immigrationclock.com
 Unsubscribe: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ImmigrationClock reports public U.S. government data. It is not a law firm and does not give legal advice.

@@ -36,8 +36,10 @@ export const ar: LocaleStrings = {
   issueLabel: (from, to) => `أسبوع ${fmt(from)} – ${fmt(to)}`,
 
   opening: {
-    withChanges: (n) =>
-      `شهد هذا الأسبوع ${n} من التحديثات الرسمية المتعلقة بالهجرة. ` +
+    withChanges: (shown, recorded) =>
+      (recorded > shown
+        ? `شهد هذا الأسبوع ${recorded} من التحديثات الرسمية المتعلقة بالهجرة. وفيما يلي ${shown} من أهمها؛ وبقيتها في الأرشيف. `
+        : `شهد هذا الأسبوع ${shown} من التحديثات الرسمية المتعلقة بالهجرة. `) +
       `كل عنصر أدناه يرتبط مباشرةً بالمنشور الحكومي الذي صدر عنه. ` +
       `نحن ننقل ما تغيّر، ولا نخبرك بما يعنيه ذلك لحالتك.`,
     noChanges:
@@ -98,6 +100,7 @@ export const ar: LocaleStrings = {
     court_decisions: "قرارات المحاكم",
     dhs_announcements: "إعلانات وزارة الأمن الداخلي",
     total_recorded: "إجمالي التغييرات المسجلة",
+    other_changes: "تغييرات أخرى مسجّلة",
   },
 
   explore: {

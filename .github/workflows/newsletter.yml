@@ -231,6 +231,40 @@ jobs:
 
       # A silent no-op is the worst outcome here: an operator who dispatched with
       # send = true and sees a green run would reasonably assume it went out.
+      # The operator-facing summary. `always()` so a partial send still reports
+      # which languages went out — that is exactly when someone needs to know.
+      - name: Post-send report
+        if: always() && vars.PULSE_SEND_ENABLED == 'true' && (github.event_name == 'schedule' || github.event.inputs.send == 'true')
+        run: |
+          {
+            echo "## Immigration Pulse — send report"
+            echo ""
+            echo '```'
+            # The send step already printed this block; re-derive it from the
+            # ledger so the summary reflects what was RECORDED, not what was
+            # attempted. No secrets: broadcast ids only.
+            node -e "
+            const fs=require('fs');
+            const p='src/lib/generated/newsletter-sent.json';
+            if(!fs.existsSync(p)){console.log('No sends recorded.');process.exit(0);}
+            const l=JSON.parse(fs.readFileSync(p,'utf8'));
+            const today=require('./src/lib/generated/newsletter-latest.json').today;
+            const mine=l.sends.filter(s=>s.issueId.endsWith(today));
+            const NAME={en:'English',es:'Spanish',fr:'French',ar:'Arabic'};
+            console.log('Edition: '+today);
+            console.log('Status: '+(mine.length?'SENT':'NOTHING SENT'));
+            for(const s of mine){
+              console.log('');
+              console.log((NAME[s.locale]||s.locale)+':');
+              console.log('  Broadcast ID: '+s.broadcastId);
+              console.log('  Sent at: '+s.sentAt);
+            }
+            console.log('');
+            console.log('Editions delivered: '+mine.length);
+            "
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       # THE DUPLICATE-SEND GUARD'S DURABILITY.
       #
       # send-newsletter.ts writes src/lib/generated/newsletter-sent.json the

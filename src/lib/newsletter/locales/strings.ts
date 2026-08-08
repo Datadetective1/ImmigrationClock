@@ -34,7 +34,14 @@ export interface LocaleStrings {
 
   opening: {
     /** Lead paragraph when the window produced items. */
-    withChanges: (itemCount: number) => string;
+    /**
+     * `shown` is how many stories the issue renders; `recorded` is how many
+     * eligible changes the window held. They differ whenever the archive found
+     * more than the issue carries, and the copy must SAY so — the first
+     * production issue printed "5 changes" beside a total of 6 and left a
+     * reader to reconcile them.
+     */
+    withChanges: (shown: number, recorded: number) => string;
     /** Lead paragraph when it produced none. Must not imply nothing happened. */
     noChanges: string;
   };

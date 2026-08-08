@@ -109,7 +109,14 @@ export function renderIssue(
   const rtl = isRtl(locale);
   const dir = rtl ? "rtl" : "ltr";
   const align = rtl ? "right" : "left";
-  const n = issue.items.length;
+  // CANONICAL COUNTS. `shown` drives the subject, preheader and story sections
+  // — the product promises five things and must not promise six. `recorded` is
+  // what "By the numbers" totals. They are allowed to differ; the opening
+  // sentence names both whenever they do, which is the part that was missing
+  // when the first issue shipped "5 changes" beside a total of 6.
+  const shown = issue.counts.shown;
+  const recorded = issue.counts.recorded;
+  const n = shown;
 
   // 18px section titles, per the mobile brief: at 12px these read as captions
   // on a phone and the eye skates past them.
@@ -200,15 +207,21 @@ export function renderIssue(
     .join("");
 
   // ---- Quick numbers ---------------------------------------------------------
-  const statRows = issue.stats
-    .filter((s) => t.stats[s.key])
-    .map(
-      (s) => `<tr>
-        <td style="padding:8px 0;border-bottom:1px solid ${HAIRLINE};font:400 14px Arial,sans-serif;color:${BODY};" align="${align}">${esc(t.stats[s.key])}</td>
-        <td style="padding:8px 0;border-bottom:1px solid ${HAIRLINE};font:700 14px Arial,sans-serif;color:${INK};" align="${rtl ? "left" : "right"}">${s.value}</td>
-      </tr>`
-    )
-    .join("");
+  // "By the numbers": the category partition, then the total it sums to.
+  //
+  // The total is rendered from `counts.recorded` rather than carried as another
+  // stat row, so it can never drift from the number the categories add up to —
+  // a reader who adds the printed list gets exactly this.
+  const statRow = (label: string, value: number | string, bold = false) => `<tr>
+        <td style="padding:8px 0;border-bottom:1px solid ${HAIRLINE};font:${bold ? 700 : 400} 14px Arial,sans-serif;color:${bold ? INK : BODY};" align="${align}">${esc(label)}</td>
+        <td style="padding:8px 0;border-bottom:1px solid ${HAIRLINE};font:700 14px Arial,sans-serif;color:${INK};" align="${rtl ? "left" : "right"}">${value}</td>
+      </tr>`;
+
+  const statRows =
+    issue.stats
+      .filter((s) => t.stats[s.key])
+      .map((s) => statRow(t.stats[s.key], s.value))
+      .join("") + (issue.counts.recorded > 0 ? statRow(t.stats.total_recorded, recorded, true) : "");
 
   // ---- Weekly snapshot -------------------------------------------------------
   // Counts first, then the reassuring negatives, then how long this will take.
@@ -307,7 +320,7 @@ export function renderIssue(
         <!-- Opening summary -->
         <tr><td style="padding:26px 28px 6px;" align="${align}">
           <p style="margin:0;font:400 16px/1.65 Arial,sans-serif;color:${BODY};">
-            ${esc(n > 0 ? t.opening.withChanges(n) : t.opening.noChanges)}
+            ${esc(n > 0 ? t.opening.withChanges(shown, recorded) : t.opening.noChanges)}
           </p>
         </td></tr>
 
@@ -439,7 +452,7 @@ export function renderIssue(
     t.issueLabel(issue.from, issue.to),
     t.brand.strapline,
     "",
-    n > 0 ? t.opening.withChanges(n) : t.opening.noChanges,
+    n > 0 ? t.opening.withChanges(shown, recorded) : t.opening.noChanges,
     "",
   ];
 
@@ -498,6 +511,8 @@ export function renderIssue(
   if (usableStats.length) {
     lines.push(t.sections.quickNumbers.toUpperCase(), "");
     for (const s of usableStats) lines.push(`  ${t.stats[s.key]}: ${s.value}`);
+    // Same total as the HTML, from the same canonical count.
+    if (recorded > 0) lines.push(`  ${t.stats.total_recorded}: ${recorded}`);
     lines.push("");
   }
 
