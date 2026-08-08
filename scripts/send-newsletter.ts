@@ -78,6 +78,23 @@ const FROM = process.env.RESEND_FROM_EMAIL || "Immigration Clock <noreply@immigr
 const REPLY_TO = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
 const LIVE = process.argv.includes("--send");
 
+/**
+ * `--only <locale>` restricts the run to one edition.
+ *
+ * This exists for the controlled test send: point one audience id at a segment
+ * containing only your own address and mail yourself the real thing. Without it
+ * the safety of that test rests on remembering to unset three environment
+ * variables, and a stale RESEND_AUDIENCE_FR in a shell is all it would take to
+ * broadcast to everyone in French.
+ *
+ * Narrowing only. It cannot cause an edition to send that would not otherwise
+ * have sent, so there is no way to widen the blast radius with it.
+ */
+const ONLY = (() => {
+  const i = process.argv.indexOf("--only");
+  return i !== -1 ? process.argv[i + 1]?.trim().toLowerCase() : undefined;
+})();
+
 interface Edition {
   issueId: string;
   segment: string;
@@ -221,6 +238,15 @@ function printConfirmation(issueDate: string, plan: Planned[], live: boolean) {
 async function main() {
   const manifest = JSON.parse(await readFile(MANIFEST, "utf8")) as Manifest;
 
+  if (ONLY && !manifest.editions.some((e) => e.locale === ONLY)) {
+    console.error(
+      `[send] --only "${ONLY}" matches no edition. Available: ` +
+        manifest.editions.map((e) => e.locale).join(", ")
+    );
+    process.exit(1);
+  }
+  if (ONLY) console.log(`[send] --only ${ONLY}: every other edition will be skipped.`);
+
   const broken = manifest.editions.filter((e) => e.errors.length > 0);
   if (broken.length) {
     console.error(`[send] ${broken.length} edition(s) failed validation. Nothing will be sent.`);
@@ -244,8 +270,12 @@ async function main() {
   // run reports the same verdict a real send would get. `--send` is not
   // consulted: there is no operator override, because the failure it would
   // override is one that cannot be undone once the mail is out.
+  //
+  // --only narrows BEFORE the gate, so the gate inspects exactly the set that
+  // will be POSTed — no more, no less. A full run still checks all four.
   const loaded: Array<Edition & { html: string; text: string }> = [];
   for (const ed of manifest.editions) {
+    if (ONLY && ed.locale !== ONLY) continue;
     loaded.push({
       ...ed,
       html: await readFile(resolve(ed.htmlPath), "utf8"),

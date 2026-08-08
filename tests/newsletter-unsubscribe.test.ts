@@ -472,6 +472,21 @@ describe("scripts/send-newsletter.ts fails closed", () => {
     expect(r.output).toMatch(/manifest marks this edition unsafe/);
   });
 
+  it("--only narrows to one edition, for a controlled test send", async () => {
+    // The safety of a single-recipient test otherwise rests on remembering to
+    // unset three environment variables.
+    const r = await run(good, ["--only", "en"]);
+    expect(r.status, r.output).toBe(0);
+    expect(r.output).toContain("--only en");
+    expect(r.output).toContain("unsubscribe gate: 1 edition(s)");
+  });
+
+  it("--only refuses a locale that is not in the issue rather than sending everything", async () => {
+    const r = await run(good, ["--only", "de"]);
+    expect(r.status).toBe(1);
+    expect(r.output).toMatch(/matches no edition/);
+  });
+
   it("fails loudly when a live send reaches nobody", async () => {
     // Every step "succeeds", no audience is configured, and zero emails go out.
     // Exiting 0 here would report a delivered newsletter that nobody received.
