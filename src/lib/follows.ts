@@ -155,12 +155,101 @@ export function buildFollowCatalog(
     .sort((a, b) => b.eventCount - a.eventCount || a.label.localeCompare(b.label));
 }
 
+export interface FollowGroup {
+  type: FollowableType;
+  items: Followable[];
+}
+
 /** Group a catalogue by type, for a sectioned picker. */
-export function groupCatalog(items: Followable[]): { type: FollowableType; items: Followable[] }[] {
+export function groupCatalog(items: Followable[]): FollowGroup[] {
   return FOLLOWABLE_TYPES.map((type) => ({
     type,
     items: items.filter((i) => i.type === type),
   })).filter((g) => g.items.length > 0);
+}
+
+// -----------------------------------------------------------------------------
+// What the picker offers, and in what order
+//
+// Pure, and here rather than inside the component, for the same reason the
+// matching rules are: what a reader can find is a product decision, and a
+// product decision that only exists inside JSX cannot be tested.
+// -----------------------------------------------------------------------------
+
+/**
+ * The four categories the picker leads with, in the order it shows them.
+ *
+ * A visitor arriving from "Follow a country or visa" is looking for a country
+ * or a visa. Policy Manual parts and employers remain followable — a stored
+ * follow of either keeps working — but they are long tails of specialist ids,
+ * and putting 53 Policy Manual parts above the 25 countries would bury the
+ * thing the reader came for.
+ */
+export const PRIMARY_FOLLOW_TYPES = ["country", "visa", "agency", "topic"] as const;
+
+export type PrimaryFollowType = (typeof PRIMARY_FOLLOW_TYPES)[number];
+
+export function isPrimaryFollowType(type: string): type is PrimaryFollowType {
+  return (PRIMARY_FOLLOW_TYPES as readonly string[]).includes(type);
+}
+
+/** Order groups so the four headline categories come first, tail types after. */
+export function orderGroupsForPicker(groups: readonly FollowGroup[]): FollowGroup[] {
+  const rank = (type: FollowableType) =>
+    isPrimaryFollowType(type)
+      ? PRIMARY_FOLLOW_TYPES.indexOf(type)
+      : PRIMARY_FOLLOW_TYPES.length + FOLLOWABLE_TYPES.indexOf(type);
+  return [...groups].sort((a, b) => rank(a.type) - rank(b.type));
+}
+
+/**
+ * Words that should surface a whole category.
+ *
+ * The search field asks the reader to "search countries, visas, agencies, or
+ * topics", so typing one of those words has to return that category. Matching
+ * labels alone would answer "visas" with nothing, because no visa is labelled
+ * "visa" — a search box that fails on the words it advertises teaches the
+ * reader the picker is empty.
+ */
+const TYPE_KEYWORDS: Record<FollowableType, readonly string[]> = {
+  country: ["country", "countries", "nationality"],
+  visa: ["visa", "visas", "status", "program", "programs"],
+  agency: ["agency", "agencies", "department"],
+  topic: ["topic", "topics", "subject"],
+  policy: ["policy", "policies", "manual"],
+  employer: ["employer", "employers", "company", "companies"],
+};
+
+/** Below this, a category word is too ambiguous to widen a search with. */
+const MIN_CATEGORY_QUERY = 3;
+
+export function matchesFollowQuery(item: Followable, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  if (item.label.toLowerCase().includes(q)) return true;
+  // The SLUG, not the whole id: "country:mexico" contains "count", and matching
+  // the type prefix would quietly turn any such query into "every country" —
+  // the widening the category rule below is deliberately careful about.
+  if (item.entityId.slice(item.entityId.indexOf(":") + 1).toLowerCase().includes(q)) return true;
+  // "c" must not mean "every country". Only a word long enough to be deliberate
+  // widens the match to a whole category.
+  if (q.length < MIN_CATEGORY_QUERY) return false;
+  return TYPE_KEYWORDS[item.type].some((keyword) => keyword.startsWith(q));
+}
+
+/**
+ * The groups a reader should currently see: one text query, one optional
+ * category, and empty groups dropped so no heading stands over nothing.
+ */
+export function filterGroups(
+  groups: readonly FollowGroup[],
+  options: { query?: string; type?: FollowableType | null } = {}
+): FollowGroup[] {
+  const { query = "", type = null } = options;
+  return groups
+    .filter((g) => type === null || g.type === type)
+    .map((g) => ({ type: g.type, items: g.items.filter((i) => matchesFollowQuery(i, query)) }))
+    .filter((g) => g.items.length > 0);
 }
 
 /**
@@ -174,6 +263,79 @@ export interface FollowDigest {
   total: number;
   significant: IndexedEvent[];
   routine: IndexedEvent[];
+}
+
+/**
+ * A date low enough to mean "everything we have".
+ *
+ * Dates in the index are ISO `YYYY-MM-DD` strings compared lexically, so this
+ * sorts below every real one without pretending to be a real one.
+ */
+export const ARCHIVE_START = "0000-01-01";
+
+export interface DigestWindow {
+  /** Lower bound to pass to buildDigest. */
+  since: string;
+  /** How the window may be described to the reader, and no other way. */
+  label: string;
+  knewLastVisit: boolean;
+}
+
+/**
+ * A stored visit stamp, or null if there is not a usable one.
+ *
+ * Accepts a bare `YYYY-MM-DD` as well as a full ISO timestamp: the first
+ * version of this feature stored dates, those values are in readers' browsers
+ * already, and treating them as absent would tell a returning reader they had
+ * never been here.
+ */
+export function parseLastSeen(raw: string | null | undefined): string | null {
+  if (typeof raw !== "string") return null;
+  const value = raw.trim();
+  if (!/^\d{4}-\d{2}-\d{2}(T[\d:.]+Z?)?$/.test(value)) return null;
+  return Number.isNaN(Date.parse(value)) ? null : value;
+}
+
+/** How long a recorded visit stays the reference point. */
+export const LAST_SEEN_MIN_INTERVAL_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Whether this page view should become the new "last visit".
+ *
+ * Stamping on every load destroys the thing the stamp is for. A reader who
+ * opens /following twice in an afternoon would have their morning's reference
+ * point overwritten by the morning itself, and the second view would report
+ * "since your last visit: nothing" — technically true of a window three hours
+ * wide, and useless. So a visit only becomes the new reference once it is a
+ * day clear of the old one; until then, "since your last visit" keeps meaning
+ * the last visit that was worth measuring from.
+ */
+export function shouldAdvanceLastSeen(
+  stored: string | null | undefined,
+  now: number = Date.now()
+): boolean {
+  const previous = parseLastSeen(stored);
+  if (!previous) return true;
+  return now - Date.parse(previous) >= LAST_SEEN_MIN_INTERVAL_MS;
+}
+
+/**
+ * Decide what period a digest actually covers — and what it is allowed to claim.
+ *
+ * On a first visit there IS no last visit, so "since your last visit" would be
+ * a small lie told to make a number look bigger. The honest alternative is not
+ * a narrower window with vaguer words: it is the whole archive, described as
+ * the whole archive. A reader who has just followed their first country should
+ * see everything we hold on it, not the last thirty days of it.
+ */
+export function digestWindow(previousVisit: string | null | undefined): DigestWindow {
+  const valid = parseLastSeen(previousVisit);
+  return valid
+    ? // The DATE part only: events carry `YYYY-MM-DD`, and comparing them
+      // against a full timestamp would drop everything published on the day of
+      // the visit itself.
+      { since: valid.slice(0, 10), label: "Since your last visit", knewLastVisit: true }
+    : { since: ARCHIVE_START, label: "Relevant changes from the archive", knewLastVisit: false };
 }
 
 export function buildDigest(

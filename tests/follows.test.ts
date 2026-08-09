@@ -22,9 +22,18 @@ import {
   matchedFollows,
   buildFollowCatalog,
   groupCatalog,
+  orderGroupsForPicker,
+  filterGroups,
+  matchesFollowQuery,
+  digestWindow,
+  parseLastSeen,
+  shouldAdvanceLastSeen,
+  LAST_SEEN_MIN_INTERVAL_MS,
   buildDigest,
+  ARCHIVE_START,
   MAX_FOLLOWS,
   FOLLOWABLE_TYPES,
+  type Followable,
 } from "@/lib/follows";
 import { labelForEntity } from "@/lib/entity-labels";
 import { EVENT_INDEX, type IndexedEvent } from "@/lib/event-index";
@@ -249,5 +258,204 @@ describe("digest", () => {
 
   it("is empty when nothing is followed", () => {
     expect(buildDigest(events, [], "2020-01-01").total).toBe(0);
+  });
+});
+
+// =============================================================================
+// WHAT THE READER CAN FIND
+//
+// The picker's ordering and search are product decisions — they decide whether
+// someone arriving from "Follow a country or visa" can reach a country. Tested
+// here, as pure functions, rather than left to live only inside JSX.
+// =============================================================================
+
+describe("picker ordering", () => {
+  const groups = groupCatalog(buildFollowCatalog(EVENT_INDEX, labelForEntity));
+
+  it("leads with countries, visas, agencies and topics, in that order", () => {
+    const ordered = orderGroupsForPicker(groups).map((g) => g.type);
+    expect(ordered.slice(0, 4)).toEqual(["country", "visa", "agency", "topic"]);
+  });
+
+  it("keeps the specialist long tail, just not at the top", () => {
+    // Policy Manual parts outnumber countries two to one. Ordering by size would
+    // bury the thing the reader came for — but dropping them would silently
+    // break follows already stored against them.
+    const ordered = orderGroupsForPicker(groups).map((g) => g.type);
+    expect(ordered).toContain("policy");
+    expect(ordered.indexOf("policy")).toBeGreaterThan(ordered.indexOf("country"));
+  });
+
+  it("loses nothing it was given", () => {
+    expect(orderGroupsForPicker(groups)).toHaveLength(groups.length);
+    expect(orderGroupsForPicker(groups).flatMap((g) => g.items)).toHaveLength(
+      groups.flatMap((g) => g.items).length
+    );
+  });
+
+  it("does not mutate the caller's array", () => {
+    const before = groups.map((g) => g.type);
+    orderGroupsForPicker(groups);
+    expect(groups.map((g) => g.type)).toEqual(before);
+  });
+});
+
+describe("picker search", () => {
+  const item = (over: Partial<Followable> = {}): Followable => ({
+    entityId: "country:venezuela",
+    type: "country",
+    label: "Venezuela",
+    eventCount: 8,
+    ...over,
+  });
+
+  it("matches a label case-insensitively, anywhere in it", () => {
+    expect(matchesFollowQuery(item(), "venez")).toBe(true);
+    expect(matchesFollowQuery(item(), "EZUEL")).toBe(true);
+    expect(matchesFollowQuery(item({ label: "H-1B specialty occupation" }), "specialty")).toBe(true);
+  });
+
+  it("matches the id's slug, for a reader who knows it", () => {
+    // "b-1-b-2" appears in the id but not in "B-1/B-2 visitor".
+    expect(matchesFollowQuery(item({ entityId: "visa:b-1-b-2", type: "visa", label: "B-1/B-2 visitor" }), "b-1-b-2")).toBe(true);
+  });
+
+  it("searches the slug, not the raw id, so the prefix is not free text", () => {
+    // Whether "visa" widens to the visa category is the category rule's job
+    // below, deliberately and with a length guard. The id must not be a second,
+    // unguarded route to the same widening.
+    const tps = item({ entityId: "visa:tps", type: "visa", label: "Temporary Protected Status" });
+    expect(matchesFollowQuery(tps, "visa:")).toBe(false);
+    expect(matchesFollowQuery(tps, "tps")).toBe(true);
+  });
+
+  it("answers the words the search field advertises", () => {
+    // The field says "search countries, visas, agencies, or topics". Returning
+    // nothing for "countries" would teach the reader the picker is empty.
+    expect(matchesFollowQuery(item(), "countries")).toBe(true);
+    expect(matchesFollowQuery(item({ type: "visa", label: "H-1B" }), "visas")).toBe(true);
+    expect(matchesFollowQuery(item({ type: "agency", label: "USCIS" }), "agencies")).toBe(true);
+    expect(matchesFollowQuery(item({ type: "topic", label: "Border encounters" }), "topics")).toBe(true);
+  });
+
+  it("does not let a stray letter select a whole category", () => {
+    // "c" is a keystroke, not a request for all 25 countries.
+    const haiti = item({ entityId: "country:haiti", label: "Haiti" });
+    expect(matchesFollowQuery(haiti, "c")).toBe(false);
+    expect(matchesFollowQuery(haiti, "co")).toBe(false);
+    // Three characters in, it is a word the search field invited.
+    expect(matchesFollowQuery(haiti, "cou")).toBe(true);
+  });
+
+  it("returns everything for an empty query", () => {
+    expect(matchesFollowQuery(item(), "")).toBe(true);
+    expect(matchesFollowQuery(item(), "   ")).toBe(true);
+  });
+
+  it("filters groups and drops the ones left empty", () => {
+    const groups = orderGroupsForPicker(groupCatalog(buildFollowCatalog(EVENT_INDEX, labelForEntity)));
+    const result = filterGroups(groups, { query: "venezuela" });
+    expect(result.every((g) => g.items.length > 0)).toBe(true);
+    expect(result.flatMap((g) => g.items).some((i) => i.entityId === "country:venezuela")).toBe(true);
+    expect(result.flatMap((g) => g.items).some((i) => i.type === "agency")).toBe(false);
+  });
+
+  it("narrows to one category on request, without a query", () => {
+    const groups = orderGroupsForPicker(groupCatalog(buildFollowCatalog(EVENT_INDEX, labelForEntity)));
+    const result = filterGroups(groups, { type: "country" });
+    expect(result.map((g) => g.type)).toEqual(["country"]);
+    expect(result[0].items.length).toBeGreaterThan(0);
+  });
+
+  it("returns no group at all when nothing matches, rather than empty headings", () => {
+    const groups = orderGroupsForPicker(groupCatalog(buildFollowCatalog(EVENT_INDEX, labelForEntity)));
+    expect(filterGroups(groups, { query: "zzzznotathing" })).toEqual([]);
+  });
+});
+
+describe("the period a digest is allowed to claim", () => {
+  it("says 'since your last visit' only when there was one", () => {
+    const w = digestWindow("2026-06-01");
+    expect(w.knewLastVisit).toBe(true);
+    expect(w.since).toBe("2026-06-01");
+    expect(w.label).toBe("Since your last visit");
+  });
+
+  it("reads a full timestamp, and bounds the digest by its DATE", () => {
+    // Events carry `YYYY-MM-DD`. Comparing them against a timestamp would drop
+    // everything published on the day of the visit itself.
+    const w = digestWindow("2026-06-01T18:30:00.000Z");
+    expect(w.since).toBe("2026-06-01");
+    const d = buildDigest(
+      [ev({ id: "same-day", publishedAt: "2026-06-01", entityIds: ["visa:h-1b"] })],
+      ["visa:h-1b"],
+      w.since
+    );
+    expect(d.total).toBe(1);
+  });
+
+  it("still understands the date-only stamps already in readers' browsers", () => {
+    // The first version of this feature wrote dates. Treating those as absent
+    // would tell a returning reader they had never been here.
+    expect(digestWindow("2026-06-01").knewLastVisit).toBe(true);
+  });
+
+  it("NEVER claims a last visit on a first visit", () => {
+    for (const absent of [null, undefined, "", "not-a-date", "2026-13-99x"]) {
+      const w = digestWindow(absent);
+      expect(w.knewLastVisit, `treated ${JSON.stringify(absent)} as a visit`).toBe(false);
+      expect(w.label).toBe("Relevant changes from the archive");
+      expect(w.label.toLowerCase()).not.toContain("last visit");
+    }
+  });
+
+  it("shows the whole archive when there is no visit to measure from", () => {
+    // A narrower window under vaguer words would hide the payoff from exactly
+    // the reader who has not seen one yet.
+    const w = digestWindow(null);
+    expect(w.since).toBe(ARCHIVE_START);
+    const d = buildDigest(
+      [ev({ id: "ancient", publishedAt: "2019-02-02", entityIds: ["visa:h-1b"] })],
+      ["visa:h-1b"],
+      w.since
+    );
+    expect(d.total).toBe(1);
+  });
+});
+
+describe("when a visit becomes the new reference point", () => {
+  const DAY = 24 * 60 * 60 * 1000;
+  const at = (iso: string) => Date.parse(iso);
+
+  it("records the first visit there is", () => {
+    expect(shouldAdvanceLastSeen(null, at("2026-08-08T10:00:00Z"))).toBe(true);
+    expect(shouldAdvanceLastSeen(undefined, at("2026-08-08T10:00:00Z"))).toBe(true);
+  });
+
+  it("does NOT re-stamp on a second look the same day", () => {
+    // The failure this prevents: opening the page in the morning, opening it
+    // again after lunch, and being told nothing has changed since lunch.
+    const morning = "2026-08-08T09:00:00.000Z";
+    expect(shouldAdvanceLastSeen(morning, at("2026-08-08T09:00:30Z"))).toBe(false);
+    expect(shouldAdvanceLastSeen(morning, at("2026-08-08T14:00:00Z"))).toBe(false);
+    expect(shouldAdvanceLastSeen(morning, at("2026-08-09T08:59:00Z"))).toBe(false);
+  });
+
+  it("advances once a full day has passed", () => {
+    const morning = "2026-08-08T09:00:00.000Z";
+    expect(shouldAdvanceLastSeen(morning, at("2026-08-08T09:00:00Z") + DAY)).toBe(true);
+    expect(shouldAdvanceLastSeen(morning, at("2026-08-11T09:00:00Z"))).toBe(true);
+  });
+
+  it("treats an unreadable stamp as no stamp rather than as a fresh one", () => {
+    // A corrupt value must not freeze the reference point forever.
+    for (const junk of ["", "yesterday", "2026-13-45", "{}"]) {
+      expect(shouldAdvanceLastSeen(junk, at("2026-08-08T10:00:00Z")), junk).toBe(true);
+      expect(parseLastSeen(junk), junk).toBeNull();
+    }
+  });
+
+  it("uses the interval it documents", () => {
+    expect(LAST_SEEN_MIN_INTERVAL_MS).toBe(DAY);
   });
 });

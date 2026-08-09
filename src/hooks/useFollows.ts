@@ -3,9 +3,18 @@
 // =============================================================================
 // useFollows — the browser binding for the follow set
 //
-// All the rules live in @/lib/follows as pure functions. This hook does three
-// things and nothing else: read once on mount, write on change, and keep other
-// tabs in sync.
+// All the rules live in @/lib/follows as pure functions. This hook does four
+// things and nothing else: read once on mount, write on change, keep other tabs
+// in sync, and keep the components on THIS page in sync with each other.
+//
+// WHY THE IN-PAGE BROADCAST EXISTS
+// /following renders the picker and the digest as two components, so there are
+// two instances of this hook holding two copies of the same list. The browser
+// fires `storage` only in OTHER tabs, so without a same-page signal, following
+// a country would update the chips and leave the digest below them showing the
+// previous answer until a reload — the one moment the feature has to feel
+// immediate. The event carries the list to the other instances in this page and
+// nowhere else; it is a DOM event, not a network call.
 //
 // WHY IT READS AFTER MOUNT RATHER THAN DURING RENDER
 // The site is statically exported, so the HTML is built without any reader's
@@ -16,7 +25,7 @@
 // arrives.
 // =============================================================================
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   readStoredFollows,
   writeStoredFollows,
@@ -25,12 +34,28 @@ import {
   STORAGE_KEY,
 } from "@/lib/follows";
 
+/** Same-page signal. Never crosses the page boundary — see the header note. */
+const SYNC_EVENT = "immigrationclock:follows-changed";
+
 export function useFollows(knownIds?: ReadonlySet<string>) {
   const [follows, setFollows] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  /**
+   * The list as of the last write, readable synchronously.
+   *
+   * Two clicks in the same frame must not both compute from the same stale
+   * render, and the alternative — doing the write inside a state updater —
+   * puts a side effect somewhere React is allowed to call twice.
+   */
+  const latest = useRef<string[]>([]);
+
+  const adopt = useCallback((next: string[]) => {
+    latest.current = next;
+    setFollows(next);
+  }, []);
 
   useEffect(() => {
-    setFollows(readStoredFollows(knownIds));
+    adopt(readStoredFollows(knownIds));
     setHydrated(true);
     // knownIds is a stable set built once from the index; re-running on identity
     // change would clobber the reader's state for no benefit.
@@ -42,7 +67,7 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
     function onStorage(e: StorageEvent) {
       if (e.key !== STORAGE_KEY) return;
       try {
-        setFollows(sanitizeFollows(e.newValue ? JSON.parse(e.newValue) : [], knownIds));
+        adopt(sanitizeFollows(e.newValue ? JSON.parse(e.newValue) : [], knownIds));
       } catch {
         /* another tab wrote something unreadable; keep what we have */
       }
@@ -52,18 +77,36 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggle = useCallback((entityId: string) => {
-    setFollows((current) => {
-      const next = toggleFollowPure(current, entityId);
-      writeStoredFollows(next);
-      return next;
-    });
+  // …and neither must two components on the same page.
+  useEffect(() => {
+    function onSync(e: Event) {
+      adopt(sanitizeFollows((e as CustomEvent<unknown>).detail, knownIds));
+    }
+    window.addEventListener(SYNC_EVENT, onSync);
+    return () => window.removeEventListener(SYNC_EVENT, onSync);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const clear = useCallback(() => {
-    setFollows([]);
-    writeStoredFollows([]);
-  }, []);
+  const commit = useCallback(
+    (next: string[]) => {
+      adopt(next);
+      writeStoredFollows(next);
+      try {
+        window.dispatchEvent(new CustomEvent(SYNC_EVENT, { detail: next }));
+      } catch {
+        // Nothing to do: this instance is already correct, and the others will
+        // catch up on the next render or reload.
+      }
+    },
+    [adopt]
+  );
+
+  const toggle = useCallback(
+    (entityId: string) => commit(toggleFollowPure(latest.current, entityId)),
+    [commit]
+  );
+
+  const clear = useCallback(() => commit([]), [commit]);
 
   return { follows, toggle, clear, hydrated };
 }

@@ -15,110 +15,143 @@
 // subpoenaing. This component is what personalization looks like when you
 // refuse to hold it.
 //
-// "SINCE YOUR LAST VISIT"
+// WHAT PERIOD THIS COVERS
 // -----------------------
 // A single timestamp in localStorage beside the follow set. It never leaves the
-// browser and identifies nobody. When it is absent — a first visit, cleared
-// storage, a different device — the copy says "recent" instead, because
-// claiming "since your last visit" without knowing when that was would be a
-// small lie told to make a number look better.
+// browser and identifies nobody. When it exists, the digest is honestly headed
+// "Since your last visit" — and the stamp is only advanced once a day, because
+// re-stamping on every page load would quietly redefine "your last visit" as
+// "ten minutes ago" and make the section report nothing forever. See
+// shouldAdvanceLastSeen().
+//
+// When it does NOT — a first visit, cleared storage, a different device — the
+// answer is not the same list under vaguer words. There is no last visit to
+// measure from, so the digest widens to the whole archive and says so:
+// "Relevant changes from the archive". Someone who has just followed their
+// first country should see everything we hold on it, and should never be told
+// it arrived "since your last visit". That decision is in digestWindow(), where
+// it can be tested.
 // =============================================================================
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useFollows } from "@/hooks/useFollows";
-import { buildDigest } from "@/lib/follows";
+import { buildDigest, digestWindow, shouldAdvanceLastSeen } from "@/lib/follows";
 import { EVENT_INDEX } from "@/lib/event-index";
+import {
+  FollowedEvent,
+  NO_MATCHES_COPY,
+  ARCHIVE_CAVEAT,
+  NOTHING_FOLLOWED_COPY,
+} from "@/components/FollowingPanel";
 
 /** Separate key from the follow set: clearing follows should not erase this. */
 const LAST_SEEN_KEY = "immigrationclock.lastSeen.v1";
 
-/** How far back "recent" reaches when there is no previous visit to compare to. */
-const RECENT_DAYS = 30;
-
-const iso = (d: Date) => d.toISOString().slice(0, 10);
+/** How many matched changes are listed before the reader is sent to the archive. */
+const MAX_LISTED = 8;
 
 export function ChangesForYou() {
   const { follows, hydrated } = useFollows();
-  const [since, setSince] = useState<string | null>(null);
-  const [knewLastVisit, setKnewLastVisit] = useState(false);
+  const [previousVisit, setPreviousVisit] = useState<string | null>(null);
+  const [visitRead, setVisitRead] = useState(false);
 
   useEffect(() => {
-    let previous: string | null = null;
+    let stored: string | null = null;
     try {
-      previous = window.localStorage.getItem(LAST_SEEN_KEY);
+      stored = window.localStorage.getItem(LAST_SEEN_KEY);
     } catch {
-      // Private mode, or storage disabled. Fall through to "recent".
+      // Private mode, or storage disabled. Fall through to the archive-wide view.
     }
-
-    const valid = previous && /^\d{4}-\d{2}-\d{2}$/.test(previous) ? previous : null;
-    setKnewLastVisit(Boolean(valid));
-    setSince(valid ?? iso(new Date(Date.now() - RECENT_DAYS * 86_400_000)));
+    setPreviousVisit(stored);
+    setVisitRead(true);
 
     // Stamp AFTER reading, so this visit does not erase the window it is about
-    // to describe.
+    // to describe — and only when a day has passed, so a second look this
+    // afternoon does not erase this morning either.
+    if (!shouldAdvanceLastSeen(stored, Date.now())) return;
     try {
-      window.localStorage.setItem(LAST_SEEN_KEY, iso(new Date()));
+      window.localStorage.setItem(LAST_SEEN_KEY, new Date().toISOString());
     } catch {
-      // Nothing to do — the digest still works, it just says "recent" next time.
+      // Nothing to do — the digest still works, it just covers the archive next
+      // time instead of the gap since now.
     }
   }, []);
 
-  const digest = useMemo(
-    () => (since ? buildDigest(EVENT_INDEX, follows, since) : null),
-    [follows, since]
-  );
+  const period = useMemo(() => digestWindow(previousVisit), [previousVisit]);
+  const since = period.since;
+
+  const digest = useMemo(() => buildDigest(EVENT_INDEX, follows, since), [follows, since]);
 
   // Before hydration the follow set is unknown; before the effect runs the
-  // window is. Rendering either as "0 changes" would be wrong, not empty.
-  if (!hydrated || !digest) return null;
-  if (follows.length === 0) return null;
+  // period is. Rendering either as "0 changes" would be wrong, not empty.
+  if (!hydrated || !visitRead) return null;
 
-  const { total, significant } = digest;
-  const period = knewLastVisit ? "since your last visit" : `in the last ${RECENT_DAYS} days`;
+  const { total, significant, routine } = digest;
+  // All-routine weeks are real. Showing a count with nothing under it would
+  // look like a rendering failure.
+  const listed = (significant.length > 0 ? significant : routine).slice(0, MAX_LISTED);
 
   return (
     <section
       aria-labelledby="changes-for-you"
       className="rounded-2xl border border-accent/25 bg-accent/[0.05] p-4 sm:p-5"
     >
-      <h2 id="changes-for-you" className="text-sm font-semibold text-white">
+      <h2 id="changes-for-you" className="text-base font-semibold text-white">
         Changes for you
       </h2>
 
-      {total === 0 ? (
-        <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
-          Nothing you follow has changed {period}. That describes our archive, not the whole world —
-          keep checking the official source before acting.
-        </p>
+      {follows.length === 0 ? (
+        <p className="mt-1.5 text-sm leading-relaxed text-slate-300">{NOTHING_FOLLOWED_COPY}</p>
       ) : (
         <>
-          <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
-            <span className="font-semibold text-white">
-              {total} {total === 1 ? "change" : "changes"}
-            </span>{" "}
-            {total === 1 ? "matches" : "match"} what you follow {period}
-            {significant.length > 0 && significant.length !== total ? (
-              <>
-                {" "}
-                — {significant.length} of {total === 1 ? "them" : "them"} beyond routine paperwork
-              </>
-            ) : null}
-            .
+          {/* The period is stated before the number, because the number means
+              nothing without it — and it is never described as a last visit we
+              do not have a record of. */}
+          <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-accent-soft/80">
+            {period.label}
           </p>
-          <ul className="mt-3 space-y-2">
-            {significant.slice(0, 3).map((e) => (
-              <li key={e.id} className="text-sm leading-snug text-slate-200">
-                <span className="text-slate-500">{e.publishedAt}</span> — {e.title}
-              </li>
-            ))}
-          </ul>
+
+          {total === 0 ? (
+            <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
+              {NO_MATCHES_COPY} {ARCHIVE_CAVEAT}
+            </p>
+          ) : (
+            <>
+              <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
+                <span className="font-semibold text-white">
+                  {total} {total === 1 ? "change" : "changes"}
+                </span>{" "}
+                {total === 1 ? "matches" : "match"} what you follow
+                {significant.length > 0 && significant.length !== total
+                  ? ` — ${significant.length} beyond routine paperwork`
+                  : ""}
+                .
+              </p>
+              <ul className="mt-2">
+                {listed.map((e) => (
+                  <FollowedEvent key={e.id} event={e} follows={follows} />
+                ))}
+              </ul>
+              {significant.length > listed.length ? (
+                <p className="mt-2 text-xs text-slate-500">
+                  Showing the {listed.length} most recent of {significant.length}.
+                </p>
+              ) : null}
+              {significant.length > 0 && routine.length > 0 ? (
+                <p className="mt-2 text-xs text-slate-500">
+                  Plus {routine.length} routine {routine.length === 1 ? "update" : "updates"} —
+                  form edition dates, notices and similar.
+                </p>
+              ) : null}
+            </>
+          )}
         </>
       )}
 
       <Link
         href="/what-changed"
-        className="mt-3 inline-block text-xs font-semibold text-accent hover:text-accent-soft"
+        className="mt-3 inline-block text-sm font-semibold text-accent hover:text-accent-soft"
       >
         See every change &rarr;
       </Link>

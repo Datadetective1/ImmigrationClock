@@ -65,6 +65,22 @@ export function labelForEntity(entityId: string): string {
   return humanize(slug);
 }
 
+/**
+ * One-word category names, for a picker where the categories ARE the navigation.
+ *
+ * "Visa categories and programs" describes the group accurately and reads as
+ * prose; a reader scanning for where to click needs "Visas". The longer
+ * TYPE_LABEL below stays for places that are explaining rather than navigating.
+ */
+export const SHORT_TYPE_LABEL: Record<string, string> = {
+  country: "Countries",
+  visa: "Visas",
+  agency: "Agencies",
+  topic: "Topics",
+  policy: "Policy Manual sections",
+  employer: "Employers",
+};
+
 /** Plain-English name for a followable type, for section headings. */
 export const TYPE_LABEL: Record<string, string> = {
   visa: "Visa categories and programs",
