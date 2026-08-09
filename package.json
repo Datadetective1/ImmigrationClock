@@ -16,6 +16,7 @@
     "newsletter:preflight": "tsx scripts/newsletter-preflight.ts",
     "refresh:warn-scraper": "node scripts/refresh-warn-scraper.mjs",
     "prebuild": "node scripts/refresh-data.mjs && tsx scripts/build-employers.ts && tsx scripts/build-warn.ts && tsx scripts/build-events.ts && tsx scripts/build-dataset.ts && tsx scripts/build-newsletter.ts",
+    "brand:assets": "node scripts/build-brand-assets.mjs",
     "brand": "node brand/build.mjs && node brand/guide.mjs",
     "brand:contrast": "node brand/contrast.mjs --ci",
     "brand:review": "node brand/serve.mjs",
@@ -24,9 +25,17 @@
     "typecheck": "tsc --noEmit",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "social:post": "tsx scripts/social-post.ts",
+    "social:propose": "tsx scripts/social-approve.ts propose",
+    "social:show": "tsx scripts/social-approve.ts show",
+    "social:approve": "tsx scripts/social-approve.ts approve",
+    "social:preflight": "tsx scripts/social-preflight.ts",
+    "social:simulate": "tsx scripts/social-simulate.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^11.11.17",
     "next": "^14.2.35",
     "react": "^18.3.1",

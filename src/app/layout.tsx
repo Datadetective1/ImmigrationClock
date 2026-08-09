@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { StructuredData } from "@/components/StructuredData";
+import { Analytics } from "@vercel/analytics/next";
 import { SITE } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -56,6 +57,13 @@ export default function RootLayout({
         </main>
         <Footer />
         <ConsentBanner />
+        {/* Vercel Web Analytics. Loaded unconditionally, on the same reasoning as
+            Plausible above: it is cookieless, sets no identifier, and follows
+            nobody between sites, so it does not require the consent gate that GA4
+            does. It also needs no CSP change — the script and its beacon are both
+            same-origin (/_vercel/insights/…), already covered by `script-src
+            'self'` and `connect-src 'self'` in vercel.json. */}
+        <Analytics />
       </body>
     </html>
   );
