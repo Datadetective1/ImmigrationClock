@@ -515,6 +515,36 @@ async function main() {
     );
   }
 
+  // ---- NO TWO LANGUAGES MAY SHARE A DESTINATION ----------------------------
+  // If RESEND_SEGMENT_ES were ever set to the English segment's id — an easy
+  // mistake, and one the docs used to recommend when there was only one segment
+  // — this run would mail the SAME people an English edition and a Spanish one,
+  // every week. Nothing else in the pipeline would notice: both sends succeed,
+  // both are recorded, and the ledger keys on destination so neither blocks the
+  // other.
+  //
+  // The operator cannot see this from the environment; the ids are secrets and
+  // they are compared nowhere else. So it is checked here, against the resolved
+  // values, and it fails closed.
+  const byAudience = new Map<string, string[]>();
+  for (const p of plan) {
+    if (!p.audienceId) continue;
+    byAudience.set(p.audienceId, [...(byAudience.get(p.audienceId) ?? []), p.ed.locale]);
+  }
+  const collisions = [...byAudience.entries()].filter(([, locales]) => locales.length > 1);
+  if (collisions.length) {
+    console.error("[send] SEGMENT COLLISION — two or more languages resolve to the same destination.");
+    for (const [, locales] of collisions) {
+      console.error(
+        `  - ${locales.join(", ")} share one segment. Those subscribers would receive ` +
+          `${locales.length} editions of the same issue, in ${locales.length} languages.`
+      );
+      for (const l of locales) console.error(`      ${segmentEnvVar(l as Locale)}`);
+    }
+    console.error("\n  Point each language at its own segment, or unset the ones that duplicate.");
+    return fail();
+  }
+
   printConfirmation(manifest.today, plan, LIVE);
 
   let sent = 0;

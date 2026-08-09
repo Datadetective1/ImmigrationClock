@@ -436,6 +436,42 @@ describe("send-newsletter.ts under retry and partial failure", () => {
     expect(posts.find((p) => p.path === "/broadcasts")!.body.audience_id).toBe("seg_wins");
   });
 
+  it("REFUSES when two languages resolve to the same segment", async () => {
+    // The misconfiguration that mails one person the same issue twice, in two
+    // languages, every week. Both sends would succeed and the ledger keys on
+    // destination, so nothing downstream would catch it.
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en", "es"]);
+    const r = await run(ws, ["--send"], { RESEND_SEGMENT_EN: "same_seg", RESEND_SEGMENT_ES: "same_seg" });
+
+    expect(r.status).toBe(1);
+    expect(r.output).toMatch(/SEGMENT COLLISION/);
+    expect(r.output).toMatch(/RESEND_SEGMENT_EN/);
+    expect(r.output).toMatch(/RESEND_SEGMENT_ES/);
+    expect(posts.filter((p) => p.path === "/broadcasts"), "a broadcast went out despite the collision").toHaveLength(0);
+  });
+
+  it("allows distinct segments per language", async () => {
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en", "es"]);
+    const r = await run(ws, ["--send"], { RESEND_SEGMENT_EN: "seg_a", RESEND_SEGMENT_ES: "seg_b" });
+    expect(r.status, r.output).toBe(0);
+    expect(posts.filter((p) => p.path === "/broadcasts")).toHaveLength(2);
+  });
+
+  it("does not treat an unconfigured language as a collision", async () => {
+    // Two languages with NO segment both resolve to nothing. That is a skip,
+    // not a shared destination.
+    posts = [];
+    failLocales = new Set();
+    const ws = workspace(["en", "es"]);
+    const r = await run(ws, ["--send"], { RESEND_SEGMENT_ES: "", RESEND_AUDIENCE_ES: "" });
+    expect(r.status, r.output).toBe(0);
+    expect(r.output).not.toMatch(/SEGMENT COLLISION/);
+  });
+
   it("REFUSES to send when the recipient count is UNKNOWN", async () => {
     // Broadcasting to an audience of unknown size is the one thing an operator
     // cannot undo or even assess afterwards.
