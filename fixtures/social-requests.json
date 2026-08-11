@@ -1,0 +1,577 @@
+{
+  "generatedAt": "2026-08-09T04:47:08.142Z",
+  "requests": [
+    {
+      "key": "event:federal_register:2026-15726::breaking_change",
+      "slot": "morning",
+      "angle": "breaking_change",
+      "facts": {
+        "subjectId": "event:federal_register:2026-15726",
+        "title": "Visas: Visa Bond Program",
+        "summary": "This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien apply…",
+        "sourceName": "Federal Register",
+        "sourceKey": "federal_register",
+        "publishedAt": "2026-08-03",
+        "effectiveAt": "2026-08-03",
+        "classification": "final_rule",
+        "severity": "major",
+        "entities": [
+          "U.S. Department of State",
+          "Policy and rulemaking",
+          "B-1/B-2 visitor"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program",
+          "https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program",
+        "figures": [
+          "12",
+          "20",
+          "2025"
+        ],
+        "notes": [
+          "Publication is not the same as effect: a proposed rule may never be finalised, and a final rule usually takes effect later than its publication date. Many documents are routine paperwork notices rather than policy change. We classify and rank by explicit rules, never by an editorial judgement of political significance."
+        ]
+      }
+    },
+    {
+      "key": "event:federal_register:2026-09007::who_is_affected",
+      "slot": "afternoon",
+      "angle": "who_is_affected",
+      "facts": {
+        "subjectId": "event:federal_register:2026-09007",
+        "title": "Fee Adjustment for U.S. Immigration and Customs Enforcement Form I-246, Application for a Stay of Deportation or Removal",
+        "summary": "DHS proposes to increase the fee for adjudicating Form I-246, Application for a Stay of Deportation or Removal, from $155 to $755. The rule proposes to adjust the Form I-246 fee to recover costs, which has not been adjus…",
+        "sourceName": "Federal Register",
+        "sourceKey": "federal_register",
+        "publishedAt": "2026-05-07",
+        "effectiveAt": null,
+        "classification": "proposed_rule",
+        "severity": "notable",
+        "entities": [
+          "Department of Homeland Security",
+          "Enforcement, detention and removals",
+          "U.S. Immigration and Customs Enforcement"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/immigration/enforcement-trends",
+          "https://www.federalregister.gov/documents/2026/05/07/2026-09007/fee-adjustment-for-us-immigration-and-customs-enforcement-form-i-246-application-for-a-stay-of"
+        ],
+        "deepLink": "https://immigrationclock.com/immigration/enforcement-trends",
+        "figures": [
+          "$155",
+          "$755",
+          "246"
+        ],
+        "notes": [
+          "Publication is not the same as effect: a proposed rule may never be finalised, and a final rule usually takes effect later than its publication date. Many documents are routine paperwork notices rather than policy change. We classify and rank by explicit rules, never by an editorial judgement of political significance.",
+          "This is a PROPOSED rule. It is not in force, may never be finalized, and imposes no obligation on anyone today.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "keydate:dv-lottery::deadline_approaching",
+      "slot": "evening",
+      "angle": "deadline_approaching",
+      "facts": {
+        "subjectId": "keydate:dv-lottery",
+        "title": "Diversity Visa (green-card) lottery",
+        "summary": "The DV lottery registration opens for about one month in the fall, free, for nationals of eligible countries. A rare path to a green card with no employer or family sponsor.",
+        "sourceName": "U.S. Dept. of State — DV Program",
+        "sourceKey": "keydate:green-card",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": "deadline",
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/key-dates",
+          "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html"
+        ],
+        "deepLink": "https://immigrationclock.com/key-dates",
+        "figures": [
+          "58"
+        ],
+        "notes": [
+          "This is a recurring reference date, not a news event. Do not describe it as new or as a change.",
+          "Nothing here is legal or tax advice.",
+          "The exact window is set by the agency each year and this date is APPROXIMATE. Say so; do not state a precise date as if confirmed."
+        ]
+      }
+    },
+    {
+      "key": "event:uscis_newsroom:e3839a29-7faa-47dd-a7f3-e090d1ad8392::breaking_change",
+      "slot": "morning",
+      "angle": "breaking_change",
+      "facts": {
+        "subjectId": "event:uscis_newsroom:e3839a29-7faa-47dd-a7f3-e090d1ad8392",
+        "title": "USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards",
+        "summary": "U.S. Citizenship and Immigration Services (USCIS) is clarifying that benefit requestors should establish eligibility for an immigration benefit at the time they file a benefit request.",
+        "sourceName": "USCIS newsroom",
+        "sourceKey": "uscis_newsroom",
+        "publishedAt": "2026-08-05",
+        "effectiveAt": null,
+        "classification": "announcement",
+        "severity": "notable",
+        "entities": [
+          "U.S. Citizenship and Immigration Services",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards",
+          "https://www.uscis.gov/newsroom/alerts/uscis-to-reduce-frivolous-immigration-benefits-requests-by-reinforcing-evidence-standards"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards",
+        "figures": [],
+        "notes": [
+          "An agency announcement is not the legal instrument. Effect and detail arrive separately in the Federal Register or the USCIS Policy Manual. Individual criminal-prosecution press releases carried on the same feed are excluded by editorial policy — see docs/editorial-policy.md.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "event:uscis_policy_manual:20260710-signaturerequirements::what_changed_from_previous",
+      "slot": "afternoon",
+      "angle": "what_changed_from_previous",
+      "facts": {
+        "subjectId": "event:uscis_policy_manual:20260710-signaturerequirements",
+        "title": "Policy alert: Signature Requirements for the Submission of Benefit Requests",
+        "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to clarify the signature requirements that apply when submitting immigration benefit requests.",
+        "sourceName": "USCIS Policy Manual",
+        "sourceKey": "uscis_policy_manual",
+        "publishedAt": "2026-07-10",
+        "effectiveAt": null,
+        "classification": "updated_information",
+        "severity": "major",
+        "entities": [
+          "U.S. Citizenship and Immigration Services",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests",
+          "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260710-SignatureRequirements.pdf"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests",
+        "figures": [],
+        "notes": [
+          "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "asset:h1b-top-sponsors::data_insight",
+      "slot": "evening",
+      "angle": "data_insight",
+      "facts": {
+        "subjectId": "asset:h1b-top-sponsors",
+        "title": "H-1B top sponsors",
+        "summary": "A ranked view of the employers filing the most H-1B petitions, built from the Department of Labor's disclosure data. Shows filing volume by employer.",
+        "sourceName": "ImmigrationClock",
+        "sourceKey": "asset:h1b-top-sponsors",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": null,
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/h1b/top-sponsors"
+        ],
+        "deepLink": "https://immigrationclock.com/h1b/top-sponsors",
+        "figures": [
+          "1"
+        ],
+        "notes": [
+          "This is a description of an ImmigrationClock page, not a news event. Describe what the page contains and why it is useful. Do not state any statistic, total, ranking or trend — no figures from this dataset have been provided to you, and stating one would be fabrication."
+        ]
+      }
+    },
+    {
+      "key": "event:uscis_policy_manual:20260805-evidentiarystandards::breaking_change",
+      "slot": "morning",
+      "angle": "breaking_change",
+      "facts": {
+        "subjectId": "event:uscis_policy_manual:20260805-evidentiarystandards",
+        "title": "Policy alert: Evidence, Requests for Evidence, and Notices of Intent to Deny",
+        "summary": "U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in the USCIS Policy Manual regarding evidentiary standards, Requests for Evidence (RFEs), and Notices of Intent to Deny (NOIDs).",
+        "sourceName": "USCIS Policy Manual",
+        "sourceKey": "uscis_policy_manual",
+        "publishedAt": "2026-08-05",
+        "effectiveAt": null,
+        "classification": "updated_information",
+        "severity": "notable",
+        "entities": [
+          "U.S. Citizenship and Immigration Services",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent",
+          "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent",
+        "figures": [],
+        "notes": [
+          "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "event:federal_register:2026-14539::effective_date_reminder",
+      "slot": "afternoon",
+      "angle": "effective_date_reminder",
+      "facts": {
+        "subjectId": "event:federal_register:2026-14539",
+        "title": "Public Charge Ground of Inadmissibility",
+        "summary": "DHS is rescinding the 2022 public charge ground of inadmissibility regulations (\"2022 Final Rule\"). The 2022 Final Rule was not the best implementation of the statute. It was inconsistent with congressional intent, undul…",
+        "sourceName": "Federal Register",
+        "sourceKey": "federal_register",
+        "publishedAt": "2026-07-20",
+        "effectiveAt": "2026-09-18",
+        "classification": "final_rule",
+        "severity": "major",
+        "entities": [
+          "Department of Homeland Security",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility",
+          "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility",
+        "figures": [
+          "2022"
+        ],
+        "notes": [
+          "Publication is not the same as effect: a proposed rule may never be finalised, and a final rule usually takes effect later than its publication date. Many documents are routine paperwork notices rather than policy change. We classify and rank by explicit rules, never by an editorial judgement of political significance.",
+          "This takes effect on 2026-09-18, which is in the future."
+        ]
+      }
+    },
+    {
+      "key": "asset:h1b-employers::data_insight",
+      "slot": "evening",
+      "angle": "data_insight",
+      "facts": {
+        "subjectId": "asset:h1b-employers",
+        "title": "H-1B employer search",
+        "summary": "A searchable directory of H-1B sponsoring employers built from Department of Labor disclosure data, covering who sponsors, in what volume, and where.",
+        "sourceName": "ImmigrationClock",
+        "sourceKey": "asset:h1b-employers",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": null,
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/h1b/employers"
+        ],
+        "deepLink": "https://immigrationclock.com/h1b/employers",
+        "figures": [
+          "1"
+        ],
+        "notes": [
+          "This is a description of an ImmigrationClock page, not a news event. Describe what the page contains and why it is useful. Do not state any statistic, total, ranking or trend — no figures from this dataset have been provided to you, and stating one would be fabrication."
+        ]
+      }
+    },
+    {
+      "key": "event:uscis_policy_manual:20260805-dnaevidence::breaking_change",
+      "slot": "morning",
+      "angle": "breaking_change",
+      "facts": {
+        "subjectId": "event:uscis_policy_manual:20260805-dnaevidence",
+        "title": "Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence",
+        "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to require officers to suggest Deoxyribonucleic Acid (DNA) testing as an optional form of evidence to establish a cl…",
+        "sourceName": "USCIS Policy Manual",
+        "sourceKey": "uscis_policy_manual",
+        "publishedAt": "2026-08-05",
+        "effectiveAt": null,
+        "classification": "updated_information",
+        "severity": "major",
+        "entities": [
+          "U.S. Citizenship and Immigration Services",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence",
+          "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence",
+        "figures": [],
+        "notes": [
+          "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "event:uscis_policy_manual:20260626-religiousworkersperiodofstay::what_changed_from_previous",
+      "slot": "afternoon",
+      "angle": "what_changed_from_previous",
+      "facts": {
+        "subjectId": "event:uscis_policy_manual:20260626-religiousworkersperiodofstay",
+        "title": "Policy alert: Improving Continuity for Religious Organizations and Their Employees",
+        "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to implement the regulatory change to the requirement on how long a nonimmigrant religious worker (R-1) must remain…",
+        "sourceName": "USCIS Policy Manual",
+        "sourceKey": "uscis_policy_manual",
+        "publishedAt": "2026-06-26",
+        "effectiveAt": null,
+        "classification": "updated_information",
+        "severity": "major",
+        "entities": [
+          "U.S. Citizenship and Immigration Services",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations",
+          "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260626-ReligiousWorkersPeriodOfStay.pdf"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations",
+        "figures": [
+          "1"
+        ],
+        "notes": [
+          "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "asset:layoffs::data_insight",
+      "slot": "evening",
+      "angle": "data_insight",
+      "facts": {
+        "subjectId": "asset:layoffs",
+        "title": "WARN layoff notices",
+        "summary": "State-filed WARN Act layoff notices, aggregated. WARN requires covered employers to give advance notice of mass layoffs and plant closings, and each notice names the employer, location and number of affected workers.",
+        "sourceName": "ImmigrationClock",
+        "sourceKey": "asset:layoffs",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": null,
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/layoffs"
+        ],
+        "deepLink": "https://immigrationclock.com/layoffs",
+        "figures": [],
+        "notes": [
+          "This is a description of an ImmigrationClock page, not a news event. Describe what the page contains and why it is useful. Do not state any statistic, total, ranking or trend — no figures from this dataset have been provided to you, and stating one would be fabrication."
+        ]
+      }
+    },
+    {
+      "key": "event:federal_register:2026-15450::who_is_affected",
+      "slot": "afternoon",
+      "angle": "who_is_affected",
+      "facts": {
+        "subjectId": "event:federal_register:2026-15450",
+        "title": "Exchange Visitor Program-Termination of Program Participation, Extension of Program and Reinstatement to Valid Program Status",
+        "summary": "The Department of State's (Department's) Bureau of Educational and Cultural Affairs administers the Exchange Visitor Program, as set forth at 22 CFR part 62, wherein exchange visitors on educational and cultural exchange…",
+        "sourceName": "Federal Register",
+        "sourceKey": "federal_register",
+        "publishedAt": "2026-07-30",
+        "effectiveAt": null,
+        "classification": "proposed_rule",
+        "severity": "notable",
+        "entities": [
+          "U.S. Department of State",
+          "International students",
+          "Department of Homeland Security",
+          "J-1 exchange visitor"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/visa/f1-student-visas",
+          "https://www.federalregister.gov/documents/2026/07/30/2026-15450/exchange-visitor-program-termination-of-program-participation-extension-of-program-and-reinstatement"
+        ],
+        "deepLink": "https://immigrationclock.com/visa/f1-student-visas",
+        "figures": [
+          "22",
+          "62"
+        ],
+        "notes": [
+          "Publication is not the same as effect: a proposed rule may never be finalised, and a final rule usually takes effect later than its publication date. Many documents are routine paperwork notices rather than policy change. We classify and rank by explicit rules, never by an editorial judgement of political significance.",
+          "This is a PROPOSED rule. It is not in force, may never be finalized, and imposes no obligation on anyone today.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "asset:layoffs-vs-h1b::data_insight",
+      "slot": "evening",
+      "angle": "data_insight",
+      "facts": {
+        "subjectId": "asset:layoffs-vs-h1b",
+        "title": "Layoffs vs H-1B sponsorship",
+        "summary": "An overlay of state-filed WARN layoff notices against H-1B sponsorship data, showing where employers filing layoff notices also appear as visa sponsors.",
+        "sourceName": "ImmigrationClock",
+        "sourceKey": "asset:layoffs-vs-h1b",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": null,
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/layoffs-vs-h1b"
+        ],
+        "deepLink": "https://immigrationclock.com/layoffs-vs-h1b",
+        "figures": [
+          "1"
+        ],
+        "notes": [
+          "This is a description of an ImmigrationClock page, not a news event. Describe what the page contains and why it is useful. Do not state any statistic, total, ranking or trend — no figures from this dataset have been provided to you, and stating one would be fabrication."
+        ]
+      }
+    },
+    {
+      "key": "event:federal_register:2026-14439::effective_date_reminder",
+      "slot": "afternoon",
+      "angle": "effective_date_reminder",
+      "facts": {
+        "subjectId": "event:federal_register:2026-14439",
+        "title": "Establishing a Fixed Time Period of Admission and an Extension of Stay Procedure for Nonimmigrant Academic Students, Exchange Visitors, and Representatives of Foreign Information Media",
+        "summary": "The Department of Homeland Security (DHS) is amending its regulations to change the admission period in the F, J, and I classifications from duration of status to an admission for a fixed time period, and additional chan…",
+        "sourceName": "Federal Register",
+        "sourceKey": "federal_register",
+        "publishedAt": "2026-07-17",
+        "effectiveAt": "2026-09-15",
+        "classification": "final_rule",
+        "severity": "major",
+        "entities": [
+          "Department of Homeland Security",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives",
+          "https://www.federalregister.gov/documents/2026/07/17/2026-14439/establishing-a-fixed-time-period-of-admission-and-an-extension-of-stay-procedure-for-nonimmigrant"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives",
+        "figures": [],
+        "notes": [
+          "Publication is not the same as effect: a proposed rule may never be finalised, and a final rule usually takes effect later than its publication date. Many documents are routine paperwork notices rather than policy change. We classify and rank by explicit rules, never by an editorial judgement of political significance.",
+          "This takes effect on 2026-09-15, which is in the future."
+        ]
+      }
+    },
+    {
+      "key": "asset:border-encounters::data_insight",
+      "slot": "evening",
+      "angle": "data_insight",
+      "facts": {
+        "subjectId": "asset:border-encounters",
+        "title": "Border encounters",
+        "summary": "U.S. Customs and Border Protection nationwide encounter counts, broken out by sector, month and demographic, from CBP's published data.",
+        "sourceName": "ImmigrationClock",
+        "sourceKey": "asset:border-encounters",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": null,
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/border/encounters"
+        ],
+        "deepLink": "https://immigrationclock.com/border/encounters",
+        "figures": [],
+        "notes": [
+          "This is a description of an ImmigrationClock page, not a news event. Describe what the page contains and why it is useful. Do not state any statistic, total, ranking or trend — no figures from this dataset have been provided to you, and stating one would be fabrication."
+        ]
+      }
+    },
+    {
+      "key": "event:federal_register:2026-16231::breaking_change",
+      "slot": "morning",
+      "angle": "breaking_change",
+      "facts": {
+        "subjectId": "event:federal_register:2026-16231",
+        "title": "9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas",
+        "summary": "The Department of Homeland Security (DHS) is amending the regulations concerning the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 Visas (9-11 Biometric Fee). The regulatory changes correct DHS's in…",
+        "sourceName": "Federal Register",
+        "sourceKey": "federal_register",
+        "publishedAt": "2026-08-10",
+        "effectiveAt": "2026-09-09",
+        "classification": "final_rule",
+        "severity": "major",
+        "entities": [
+          "Department of Homeland Security",
+          "H-1B and employment visas",
+          "H-1B specialty occupation",
+          "L-1 intracompany transferee"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/h1b/top-sponsors",
+          "https://www.federalregister.gov/documents/2026/08/10/2026-16231/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas"
+        ],
+        "deepLink": "https://immigrationclock.com/h1b/top-sponsors",
+        "figures": [
+          "1",
+          "11",
+          "9"
+        ],
+        "notes": [
+          "Publication is not the same as effect: a proposed rule may never be finalised, and a final rule usually takes effect later than its publication date. Many documents are routine paperwork notices rather than policy change. We classify and rank by explicit rules, never by an editorial judgement of political significance.",
+          "This takes effect on 2026-09-09, which is in the future."
+        ]
+      }
+    },
+    {
+      "key": "event:uscis_policy_manual:20260508-deferredaction::what_changed_from_previous",
+      "slot": "afternoon",
+      "angle": "what_changed_from_previous",
+      "facts": {
+        "subjectId": "event:uscis_policy_manual:20260508-deferredaction",
+        "title": "Policy alert: Deferred Action as an Extraordinary Use of Prosecutorial Discretion",
+        "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to reaffirm deferred action as an extraordinary use of prosecutorial discretion.",
+        "sourceName": "USCIS Policy Manual",
+        "sourceKey": "uscis_policy_manual",
+        "publishedAt": "2026-05-08",
+        "effectiveAt": null,
+        "classification": "updated_information",
+        "severity": "major",
+        "entities": [
+          "U.S. Citizenship and Immigration Services",
+          "Policy and rulemaking"
+        ],
+        "allowedUrls": [
+          "https://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion",
+          "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260508-DeferredAction.pdf"
+        ],
+        "deepLink": "https://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion",
+        "figures": [],
+        "notes": [
+          "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+          "The archive records no effective date for this item. Do not state or imply one."
+        ]
+      }
+    },
+    {
+      "key": "asset:timeline::data_insight",
+      "slot": "evening",
+      "angle": "data_insight",
+      "facts": {
+        "subjectId": "asset:timeline",
+        "title": "Policy timeline",
+        "summary": "A chronological record of U.S. immigration policy changes, each entry linking to the government document that made it.",
+        "sourceName": "ImmigrationClock",
+        "sourceKey": "asset:timeline",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "classification": null,
+        "severity": null,
+        "entities": [],
+        "allowedUrls": [
+          "https://immigrationclock.com/timeline"
+        ],
+        "deepLink": "https://immigrationclock.com/timeline",
+        "figures": [],
+        "notes": [
+          "This is a description of an ImmigrationClock page, not a news event. Describe what the page contains and why it is useful. Do not state any statistic, total, ranking or trend — no figures from this dataset have been provided to you, and stating one would be fabrication."
+        ]
+      }
+    }
+  ]
+}

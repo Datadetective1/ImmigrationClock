@@ -31,6 +31,7 @@
     "social:show": "tsx scripts/social-approve.ts show",
     "social:approve": "tsx scripts/social-approve.ts approve",
     "social:preflight": "tsx scripts/social-preflight.ts",
+    "social:verify-x": "tsx scripts/social-verify-x.ts",
     "social:simulate": "tsx scripts/social-simulate.ts"
   },
   "dependencies": {

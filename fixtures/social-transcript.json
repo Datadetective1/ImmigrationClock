@@ -1,0 +1,116 @@
+{
+  "_readme": [
+    "Copy for the seven-day dry-run simulation, keyed by <subjectId>::<angle>.",
+    "",
+    "Authored under the same system prompt, fact sets and platform briefs the",
+    "production engine uses (src/lib/social/prompt.ts), then checked by the real",
+    "validator. It exists so the pipeline can be inspected end to end on a machine",
+    "with no ANTHROPIC_API_KEY.",
+    "",
+    "This is a FIXTURE. It is never read by scripts/social-post.ts unless the",
+    "transcript engine is selected explicitly, and every ledger row it produces is",
+    "stamped transcript:<file> so it cannot be mistaken for a production run."
+  ],
+  "entries": {
+    "event:federal_register:2026-15726::breaking_change": {
+      "x": "The Department of State has made its visa bond program permanent, finalizing the 12-month pilot that started in 2025. Covered applicants can be required to post a bond as a condition of the visa. https://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program",
+      "linkedin": "The Department of State has finalized a permanent visa bond program, replacing the 12-month pilot that took effect in 2025.\n\nUnder the rule, an applicant in a covered category can be required to post a bond as a condition of receiving a visa. The pilot version was temporary. This one is not.\n\nOur record files it against the Department of State and the B-1/B-2 visitor category, which is where the pilot operated.\n\nThe full Federal Register document is linked from the entry.\n\nhttps://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program",
+      "deepLink": "https://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program"
+    },
+    "event:federal_register:2026-09007::who_is_affected": {
+      "x": "DHS has proposed raising the fee for Form I-246, the application for a stay of deportation or removal, from $155 to $755. It is a proposal, not a rule in force. https://immigrationclock.com/immigration/enforcement-trends",
+      "linkedin": "DHS has proposed raising the fee for Form I-246, the application for a stay of deportation or removal, from $155 to $755.\n\nWho this reaches: people asking U.S. Immigration and Customs Enforcement to hold a removal while a case or a circumstance is resolved. Form I-246 is the mechanism for that request, so the fee is the price of making it.\n\nThis is a proposed rule. It is not in force, it imposes no obligation on anyone today, and it may never be finalized in this form.\n\nWe record proposals separately from rules, because the difference is the whole question.\n\nhttps://immigrationclock.com/immigration/enforcement-trends",
+      "deepLink": "https://immigrationclock.com/immigration/enforcement-trends"
+    },
+    "keydate:dv-lottery::deadline_approaching": {
+      "x": "The Diversity Visa lottery is one of the few routes to a green card that needs no employer and no family sponsor. Registration is free and opens for about a month in the fall; the exact window is announced each year. https://immigrationclock.com/key-dates",
+      "linkedin": "The Diversity Visa lottery is one of the few routes to a U.S. green card that requires no employer sponsor and no family petition.\n\nRegistration is free and opens for roughly one month in the fall. The exact window is set each year and has not been confirmed for this cycle, so the date on our page is approximate until it is announced.\n\nEligibility is limited to nationals of qualifying countries, and that list is not the same from one cycle to the next.\n\nWe keep a countdown to this and the other recurring immigration dates in one place.\n\nhttps://immigrationclock.com/key-dates",
+      "deepLink": "https://immigrationclock.com/key-dates"
+    },
+    "event:uscis_newsroom:e3839a29-7faa-47dd-a7f3-e090d1ad8392::breaking_change": {
+      "x": "USCIS has clarified that a benefit requestor establishes eligibility at the time the request is filed, not later in the process. This is an announcement, not the legal instrument. https://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards",
+      "linkedin": "USCIS has clarified that a person filing for an immigration benefit establishes eligibility at the time the request is filed, rather than later in the process.\n\nWhat this is: an announcement from the USCIS newsroom. It is not the legal instrument. The binding version of a change like this arrives separately, in the Federal Register or the USCIS Policy Manual, and the agency has published no effective date alongside it.\n\nWe record announcements and the rules that follow them as separate events, each with its own source document, so the distance between a statement and a rule stays visible.\n\nhttps://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards",
+      "deepLink": "https://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards"
+    },
+    "event:uscis_policy_manual:20260710-signaturerequirements::what_changed_from_previous": {
+      "x": "USCIS has updated its Policy Manual guidance on the signature requirements for submitting a benefit request. Guidance directs adjudication; it is not regulation. https://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests",
+      "linkedin": "USCIS has issued updated Policy Manual guidance clarifying the signature requirements that apply when an immigration benefit request is submitted.\n\nWhat changed is the guidance. What did not change is the regulation. The Policy Manual is instruction to USCIS officers on how to adjudicate, and it can be revised or withdrawn without rulemaking, which is why we record it as a different kind of change from a final rule.\n\nThe updates page publishes no effective date, so our record does not assert one. Where the guidance itself states a date, it is in the linked document.\n\nhttps://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests",
+      "deepLink": "https://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests"
+    },
+    "asset:h1b-top-sponsors::data_insight": {
+      "x": "This ranking orders a curated set of large H-1B sponsors by approvals. It is not a national total and not the full sponsor directory, and the site labels its figures modeled rather than reported. https://immigrationclock.com/h1b/top-sponsors",
+      "linkedin": "A sponsorship ranking is only as good as the set it ranks, and this one ranks a curated selection of large H-1B sponsors rather than every employer that files.\n\nAn employer can therefore be absent from it however many petitions it filed. The page says so, and labels its totals modeled rather than reported — the weakest of our four integrity labels, used wherever a figure rests on assumptions the agency never published.\n\nThe reported per-employer record is a separate page, built from the agency's own export. Sponsorship volume on its own indicates nothing about displacement of U.S. workers, in either direction.\n\nThe label is published because a ranking without one invites exactly the reading it cannot support.\n\nhttps://immigrationclock.com/h1b/top-sponsors",
+      "deepLink": "https://immigrationclock.com/h1b/top-sponsors"
+    },
+    "event:uscis_policy_manual:20260805-evidentiarystandards::breaking_change": {
+      "x": "USCIS has updated its Policy Manual guidance on evidentiary standards, Requests for Evidence and Notices of Intent to Deny: how officers ask for more, and how they notify before denying. https://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent",
+      "linkedin": "USCIS has updated the Policy Manual guidance governing evidentiary standards, Requests for Evidence, and Notices of Intent to Deny.\n\nThis is the machinery of adjudication rather than a single benefit category. A Request for Evidence is how an officer asks for more; a Notice of Intent to Deny is what an officer issues before denying. Guidance on both reaches benefit requests generally.\n\nThe Policy Manual is instruction to USCIS officers, not regulation. It can be revised or withdrawn without rulemaking, and the updates page publishes no effective date, so our record does not assert one.\n\nhttps://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent",
+      "deepLink": "https://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent"
+    },
+    "event:federal_register:2026-14539::effective_date_reminder": {
+      "x": "DHS is rescinding the 2022 public charge regulations. The rescission takes effect on 18 September 2026; until then, the 2022 rule is the one in force. https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility",
+      "linkedin": "DHS is rescinding the 2022 public charge ground of inadmissibility regulations. The rescission takes effect on 18 September 2026.\n\nTwo dates matter here and they are not the same one. The rule published on 20 July 2026. It does not operate until 18 September 2026. Until that date, the 2022 regulations remain in force.\n\nThe agency's stated reasoning, recorded in the rule itself, is that the 2022 rule was not the best implementation of the statute and was inconsistent with congressional intent.\n\nhttps://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility",
+      "deepLink": "https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility"
+    },
+    "asset:h1b-employers::data_insight": {
+      "x": "USCIS approved 176,949 H-1B petitions and denied 6,350 in the fiscal year 2023 Employer Data Hub export — an approval rate of 96.5% across 28,061 employers. https://immigrationclock.com/h1b/employers",
+      "linkedin": "USCIS approved 176,949 H-1B petitions and denied 6,350 in the fiscal year 2023 Employer Data Hub export — an approval rate of 96.5%.\n\nThat export names 28,061 employers. Our directory lists the 2,614 of them with at least 10 approved petitions, searchable by company name.\n\nTwo things the numbers do not say. The Data Hub counts petitions rather than people or visas issued, and one worker can generate several petitions over time. And it lags: fiscal year 2023 is the most recent export the agency has published.\n\nIt is for anyone checking whether a specific employer actually sponsors, and at what volume, instead of taking a reputation on trust.\n\nhttps://immigrationclock.com/h1b/employers",
+      "deepLink": "https://immigrationclock.com/h1b/employers"
+    },
+    "event:uscis_policy_manual:20260805-dnaevidence::breaking_change": {
+      "x": "USCIS now requires officers to suggest DNA testing as an optional form of evidence when issuing a Request for Additional Evidence. Guidance to officers, not regulation. https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence",
+      "linkedin": "USCIS has issued Policy Manual guidance that requires officers to suggest DNA testing as an optional form of evidence when they issue a Request for Additional Evidence.\n\nTwo words carry the weight. Officers are required to suggest it; for the person filing, it is optional. The guidance directs what an officer does, not what an applicant has to produce.\n\nThe Policy Manual is instruction to USCIS officers rather than regulation. It can be revised or withdrawn without rulemaking, and the updates page publishes no effective date, so our record does not assert one.\n\nhttps://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence",
+      "deepLink": "https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence"
+    },
+    "event:uscis_policy_manual:20260626-religiousworkersperiodofstay::what_changed_from_previous": {
+      "x": "USCIS has updated its Policy Manual to implement a regulatory change to how long a nonimmigrant religious worker in R-1 status must remain. https://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations",
+      "linkedin": "USCIS has updated its Policy Manual to implement a regulatory change to how long a nonimmigrant religious worker in R-1 status must remain, guidance the agency describes as improving continuity for religious organizations and their employees.\n\nWhat changed here is the implementing guidance. The regulatory change came first; this is USCIS telling its own officers how to apply it.\n\nThat distinction matters for anyone reading a Policy Manual update as though it were the rule. The Policy Manual governs how USCIS adjudicates, can be revised or withdrawn without rulemaking, and carries no effective date on the updates page.\n\nhttps://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations",
+      "deepLink": "https://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations"
+    },
+    "asset:layoffs::data_insight": {
+      "x": "Six states publish WARN layoff notices as machine-readable data. Those six account for 7,737 notices covering 994,555 employees at 6,015 employers, going back to 2004. Most states publish PDFs. https://immigrationclock.com/layoffs",
+      "linkedin": "Six states publish WARN layoff notices as machine-readable data. ImmigrationClock holds 7,737 of them, covering 994,555 affected employees at 6,015 employers.\n\nCoverage is CA, NJ, OR, TX, VA and WA, with notices running from Jan 12, 2004 to Aug 5, 2026. It is not a national total: most states publish WARN notices only as HTML, Excel or PDF, and none of those reach the feed.\n\nIn July 2026, the most recent complete month, those states recorded 104 notices covering 7,682 employees. In June 2026 it was 36 notices covering 3,680.\n\nWhat a WARN notice never records is the immigration status of the workers affected. What it never confirms is that a planned layoff happened.\n\nhttps://immigrationclock.com/layoffs",
+      "deepLink": "https://immigrationclock.com/layoffs"
+    },
+    "event:federal_register:2026-15450::who_is_affected": {
+      "x": "The Department of State has proposed changes to the Exchange Visitor Program covering termination of participation, program extension, and reinstatement to valid status. A proposal, not a rule in force. https://immigrationclock.com/visa/f1-student-visas",
+      "linkedin": "The Department of State has proposed changes to the Exchange Visitor Program covering three things: termination of program participation, extension of a program, and reinstatement to valid program status.\n\nWho this reaches: exchange visitors in J-1 status, and the sponsors that administer their programs. The Bureau of Educational and Cultural Affairs administers the program under 22 CFR part 62.\n\nThis is a proposed rule. It is not in force, it changes nothing today, and it may never be finalized in this form. We keep proposals and rules as separate kinds of record for that reason.\n\nhttps://immigrationclock.com/visa/f1-student-visas",
+      "deepLink": "https://immigrationclock.com/visa/f1-student-visas"
+    },
+    "asset:layoffs-vs-h1b::data_insight": {
+      "x": "160 employers appear in both the state WARN layoff feed and the USCIS H-1B Employer Data Hub: WARN notices covering 66,450 employees, and 31,597 H-1B approvals. The overlap is a fact, not a finding. https://immigrationclock.com/layoffs-vs-h1b",
+      "linkedin": "160 employers appear in both the state WARN layoff feed and the USCIS H-1B Employer Data Hub. That overlap is the entire page.\n\nBetween them, those employers filed WARN notices covering 66,450 employees and hold 31,597 H-1B approvals in the fiscal year 2023 Data Hub export.\n\nWhat the overlap is not is evidence that one produced the other. The two filings go to different agencies for different regulatory purposes, cover different periods, and describe different populations. A WARN notice never identifies the immigration status of the workers affected.\n\nIt reaches anyone weighing a job offer against an employer's record, and it stops at the join. We publish the overlap because no single-source tracker can assemble it, and we publish nothing on top of it.\n\nhttps://immigrationclock.com/layoffs-vs-h1b",
+      "deepLink": "https://immigrationclock.com/layoffs-vs-h1b"
+    },
+    "event:federal_register:2026-14439::effective_date_reminder": {
+      "x": "DHS is replacing duration of status with a fixed period of admission for the F, J and I classifications. It takes effect on 15 September 2026. https://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives",
+      "linkedin": "DHS is replacing duration of status with a fixed period of admission for the F, J and I classifications. The rule takes effect on 15 September 2026.\n\nDuration of status meant an admission lasted as long as the person maintained their status, with no fixed end date recorded. A fixed time period replaces that with a date, and the rule adds an extension of stay procedure alongside it.\n\nWho this reaches: academic students in F classifications, exchange visitors in J classifications, and representatives of foreign information media in I classifications.\n\nThe rule published on 17 July 2026 and does not operate until 15 September 2026.\n\nhttps://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives",
+      "deepLink": "https://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives"
+    },
+    "asset:border-encounters::data_insight": {
+      "x": "CBP nationwide encounters by fiscal year: 3,201,144 in 2023, 2,901,142 in 2024, 691,906 in 2025, and 280,656 so far in 2026 through June. An encounter is an event, not a person. https://immigrationclock.com/border/encounters",
+      "linkedin": "CBP recorded 691,906 nationwide encounters in fiscal year 2025. The two complete years before it were 2,901,142 in 2024 and 3,201,144 in 2023.\n\nFiscal year 2026 stands at 280,656 through June 2026. That is a part-year figure and cannot be set against a full one, because the year still has months left in it.\n\nTwo things an encounter is not. It is not a person — the same individual can be encountered more than once, so the count is of events. And it is not a deportation.\n\nThe nationwide totals above are summed from CBP's own published file. The sector and demographic breakdowns on the page are derived from those totals and labelled as estimates, which is a different claim and is marked as one.\n\nhttps://immigrationclock.com/border/encounters",
+      "deepLink": "https://immigrationclock.com/border/encounters"
+    },
+    "event:federal_register:2026-16231::breaking_change": {
+      "x": "DHS is amending the regulations on the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 visas. The change takes effect on 9 September 2026. https://immigrationclock.com/h1b/top-sponsors",
+      "linkedin": "DHS is amending the regulations covering the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 visas. The amendment takes effect on 9 September 2026.\n\nThe agency describes the changes as corrections to its regulations.\n\nWho this reaches: employers and workers in the H-1B specialty occupation category and the L-1 intracompany transferee category.\n\nPublished 10 August 2026, effective 9 September 2026. The Federal Register document is linked from our record.\n\nhttps://immigrationclock.com/h1b/top-sponsors",
+      "deepLink": "https://immigrationclock.com/h1b/top-sponsors"
+    },
+    "event:uscis_policy_manual:20260508-deferredaction::what_changed_from_previous": {
+      "x": "USCIS has issued Policy Manual guidance reaffirming deferred action as an extraordinary use of prosecutorial discretion. Guidance to officers, not regulation. https://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion",
+      "linkedin": "USCIS has issued Policy Manual guidance reaffirming deferred action as an extraordinary use of prosecutorial discretion.\n\nThe word doing the work is extraordinary. The guidance restates how exceptional the agency considers this exercise of discretion to be, which is a statement about how often officers are meant to reach for it.\n\nThe Policy Manual is instruction to USCIS officers rather than regulation. It can be revised or withdrawn without rulemaking, and the updates page publishes no effective date, so our record does not assert one.\n\nhttps://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion",
+      "deepLink": "https://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion"
+    },
+    "asset:timeline::data_insight": {
+      "x": "Every entry on our policy timeline sits beside the reported figure for its fiscal year — the event and the number, with no claim that one caused the other. Curated and non-exhaustive. https://immigrationclock.com/timeline",
+      "linkedin": "A timeline without sources is a claim about history. Every entry on ours resolves to the government document that produced it.\n\nEach entry also carries the reported data figure for its fiscal year, set beside the event rather than offered as its explanation. We do not assert that a policy change moved the data, and we do not order the entries so that it looks that way.\n\nIt is a curated selection of major events, not a complete record of everything that happened. Worth stating plainly, because a timeline reads as exhaustive whether or not it is.\n\nFor anyone trying to place a single change in sequence rather than read it on its own.\n\nhttps://immigrationclock.com/timeline",
+      "deepLink": "https://immigrationclock.com/timeline"
+    },
+    "event:uscis_policy_manual:20260805-dnaevidence::what_changed_from_previous": {
+      "x": "What changed for USCIS officers: issuing a Request for Additional Evidence now carries an obligation to suggest DNA testing as an optional form of evidence. https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence",
+      "linkedin": "What changed for USCIS officers: issuing a Request for Additional Evidence now carries an obligation to suggest DNA testing as an optional form of evidence.\n\nThe document is written as a requirement on the officer. That is the part that moved. For the person filing, the testing stays voluntary, and nothing in the update turns a suggestion into something they have to accept.\n\nWorth keeping in view: this sits in the Policy Manual, which USCIS can revise or withdraw without any rulemaking, and the updates page attaches no effective date to it.\n\nhttps://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence",
+      "deepLink": "https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence"
+    }
+  }
+}

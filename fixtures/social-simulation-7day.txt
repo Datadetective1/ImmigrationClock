@@ -1,0 +1,608 @@
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-04  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 1 considered
+Selected       : Visas: Visa Bond Program
+Subject id     : event:federal_register:2026-15726
+Angle          : breaking_change
+Score          : 2252.5   [score=2252.5 breadth=2 obligation=2 magnitude=2 authority=3 recency=0.50]
+Destination    : /what-changed?q=visas%20visa%20bond%20program
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    The Department of State has made its visa bond program permanent, finalizing the 12-month pilot that started in 2025. Covered applicants can be required to post a bond as a condition of the visa. https://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program
+    [269 chars]
+
+  LINKEDIN → DRY_RUN
+
+    The Department of State has finalized a permanent visa bond program, replacing the 12-month pilot that took effect in 2025.
+    
+    Under the rule, an applicant in a covered category can be required to post a bond as a condition of receiving a visa. The pilot version was temporary. This one is not.
+    
+    Our record files it against the Department of State and the B-1/B-2 visitor category, which is where the pilot operated.
+    
+    The full Federal Register document is linked from the entry.
+    
+    https://immigrationclock.com/what-changed?q=visas%20visa%20bond%20program
+    [551 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-04  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 15 considered
+Selected       : Fee Adjustment for U.S. Immigration and Customs Enforcement Form I-246, Application for a Stay of Deportation or Removal
+Subject id     : event:federal_register:2026-09007
+Angle          : who_is_affected
+Score          : 3244.5055555555555   [score=3244.5 breadth=3 obligation=2 magnitude=2 authority=1 recency=0.51]
+Destination    : /immigration/enforcement-trends
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    DHS has proposed raising the fee for Form I-246, the application for a stay of deportation or removal, from $155 to $755. It is a proposal, not a rule in force. https://immigrationclock.com/immigration/enforcement-trends
+    [220 chars]
+
+  LINKEDIN → DRY_RUN
+
+    DHS has proposed raising the fee for Form I-246, the application for a stay of deportation or removal, from $155 to $755.
+    
+    Who this reaches: people asking U.S. Immigration and Customs Enforcement to hold a removal while a case or a circumstance is resolved. Form I-246 is the mechanism for that request, so the fee is the price of making it.
+    
+    This is a proposed rule. It is not in force, it imposes no obligation on anyone today, and it may never be finalized in this form.
+    
+    We record proposals separately from rules, because the difference is the whole question.
+    
+    https://immigrationclock.com/immigration/enforcement-trends
+    [624 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-04  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : Diversity Visa (green-card) lottery (58 days away)
+Subject id     : keydate:dv-lottery
+Angle          : deadline_approaching
+Score          : 1562   [keydate days=58 urgent=false]
+Destination    : /key-dates
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    The Diversity Visa lottery is one of the few routes to a green card that needs no employer and no family sponsor. Registration is free and opens for about a month in the fall; the exact window is announced each year. https://immigrationclock.com/key-dates
+    [255 chars]
+
+  LINKEDIN → DRY_RUN
+
+    The Diversity Visa lottery is one of the few routes to a U.S. green card that requires no employer sponsor and no family petition.
+    
+    Registration is free and opens for roughly one month in the fall. The exact window is set each year and has not been confirmed for this cycle, so the date on our page is approximate until it is announced.
+    
+    Eligibility is limited to nationals of qualifying countries, and that list is not the same from one cycle to the next.
+    
+    We keep a countdown to this and the other recurring immigration dates in one place.
+    
+    https://immigrationclock.com/key-dates
+    [581 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-05  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 4 considered
+Selected       : USCIS to Reduce Frivolous Immigration Benefits Requests by Reinforcing Evidence Standards
+Subject id     : event:uscis_newsroom:e3839a29-7faa-47dd-a7f3-e090d1ad8392
+Angle          : breaking_change
+Score          : 3201   [score=3201.0 breadth=3 obligation=2 magnitude=0 authority=0 recency=1.00]
+Destination    : /what-changed?q=frivolous%20immigration%20reinforcing%20standards
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    USCIS has clarified that a benefit requestor establishes eligibility at the time the request is filed, not later in the process. This is an announcement, not the legal instrument. https://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards
+    [273 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS has clarified that a person filing for an immigration benefit establishes eligibility at the time the request is filed, rather than later in the process.
+    
+    What this is: an announcement from the USCIS newsroom. It is not the legal instrument. The binding version of a change like this arrives separately, in the Federal Register or the USCIS Policy Manual, and the agency has published no effective date alongside it.
+    
+    We record announcements and the rules that follow them as separate events, each with its own source document, so the distance between a statement and a rule stays visible.
+    
+    https://immigrationclock.com/what-changed?q=frivolous%20immigration%20reinforcing%20standards
+    [690 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-05  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 15 considered
+Selected       : Policy alert: Signature Requirements for the Submission of Benefit Requests
+Subject id     : event:uscis_policy_manual:20260710-signaturerequirements
+Angle          : what_changed_from_previous
+Score          : 3228.8555555555554   [score=3228.9 breadth=3 obligation=2 magnitude=1 authority=2 recency=0.86]
+Destination    : /what-changed?q=signature%20requirements%20submission%20requests
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    USCIS has updated its Policy Manual guidance on the signature requirements for submitting a benefit request. Guidance directs adjudication; it is not regulation. https://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests
+    [254 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS has issued updated Policy Manual guidance clarifying the signature requirements that apply when an immigration benefit request is submitted.
+    
+    What changed is the guidance. What did not change is the regulation. The Policy Manual is instruction to USCIS officers on how to adjudicate, and it can be revised or withdrawn without rulemaking, which is why we record it as a different kind of change from a final rule.
+    
+    The updates page publishes no effective date, so our record does not assert one. Where the guidance itself states a date, it is in the linked document.
+    
+    https://immigrationclock.com/what-changed?q=signature%20requirements%20submission%20requests
+    [666 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-05  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : H-1B top sponsors
+Subject id     : asset:h1b-top-sponsors
+Angle          : data_insight
+Score          : 1014   [asset rotation position=1]
+Destination    : /h1b/top-sponsors
+Validator      : PASS
+Dedupe         : distinct (max sim 0.02)
+
+  X → DRY_RUN
+
+    This ranking orders a curated set of large H-1B sponsors by approvals. It is not a national total and not the full sponsor directory, and the site labels its figures modeled rather than reported. https://immigrationclock.com/h1b/top-sponsors
+    [241 chars]
+
+  LINKEDIN → DRY_RUN
+
+    A sponsorship ranking is only as good as the set it ranks, and this one ranks a curated selection of large H-1B sponsors rather than every employer that files.
+    
+    An employer can therefore be absent from it however many petitions it filed. The page says so, and labels its totals modeled rather than reported — the weakest of our four integrity labels, used wherever a figure rests on assumptions the agency never published.
+    
+    The reported per-employer record is a separate page, built from the agency's own export. Sponsorship volume on its own indicates nothing about displacement of U.S. workers, in either direction.
+    
+    The label is published because a ranking without one invites exactly the reading it cannot support.
+    
+    https://immigrationclock.com/h1b/top-sponsors
+    [765 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-06  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 3 considered
+Selected       : Policy alert: Evidence, Requests for Evidence, and Notices of Intent to Deny
+Subject id     : event:uscis_policy_manual:20260805-evidentiarystandards
+Angle          : breaking_change
+Score          : 3108.5   [score=3108.5 breadth=3 obligation=1 magnitude=0 authority=2 recency=0.50]
+Destination    : /what-changed?q=evidence%20requests%20notices%20intent
+Validator      : PASS
+Dedupe         : distinct (max sim 0.14)
+
+  X → DRY_RUN
+
+    USCIS has updated its Policy Manual guidance on evidentiary standards, Requests for Evidence and Notices of Intent to Deny: how officers ask for more, and how they notify before denying. https://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent
+    [269 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS has updated the Policy Manual guidance governing evidentiary standards, Requests for Evidence, and Notices of Intent to Deny.
+    
+    This is the machinery of adjudication rather than a single benefit category. A Request for Evidence is how an officer asks for more; a Notice of Intent to Deny is what an officer issues before denying. Guidance on both reaches benefit requests generally.
+    
+    The Policy Manual is instruction to USCIS officers, not regulation. It can be revised or withdrawn without rulemaking, and the updates page publishes no effective date, so our record does not assert one.
+    
+    https://immigrationclock.com/what-changed?q=evidence%20requests%20notices%20intent
+    [676 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-06  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 16 considered
+Selected       : Public Charge Ground of Inadmissibility
+Subject id     : event:federal_register:2026-14539
+Angle          : effective_date_reminder
+Score          : 2332.9055555555556   [score=2332.9 breadth=2 obligation=3 magnitude=1 authority=3 recency=0.91]
+Destination    : /what-changed?q=public%20charge%20ground%20inadmissibility
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    DHS is rescinding the 2022 public charge regulations. The rescission takes effect on 18 September 2026; until then, the 2022 rule is the one in force. https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility
+    [237 chars]
+
+  LINKEDIN → DRY_RUN
+
+    DHS is rescinding the 2022 public charge ground of inadmissibility regulations. The rescission takes effect on 18 September 2026.
+    
+    Two dates matter here and they are not the same one. The rule published on 20 July 2026. It does not operate until 18 September 2026. Until that date, the 2022 regulations remain in force.
+    
+    The agency's stated reasoning, recorded in the rule itself, is that the 2022 rule was not the best implementation of the statute and was inconsistent with congressional intent.
+    
+    https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility
+    [585 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-06  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : H-1B employer search
+Subject id     : asset:h1b-employers
+Angle          : data_insight
+Score          : 1014   [asset rotation position=1]
+Destination    : /h1b/employers
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    USCIS approved 176,949 H-1B petitions and denied 6,350 in the fiscal year 2023 Employer Data Hub export — an approval rate of 96.5% across 28,061 employers. https://immigrationclock.com/h1b/employers
+    [199 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS approved 176,949 H-1B petitions and denied 6,350 in the fiscal year 2023 Employer Data Hub export — an approval rate of 96.5%.
+    
+    That export names 28,061 employers. Our directory lists the 2,614 of them with at least 10 approved petitions, searchable by company name.
+    
+    Two things the numbers do not say. The Data Hub counts petitions rather than people or visas issued, and one worker can generate several petitions over time. And it lags: fiscal year 2023 is the most recent export the agency has published.
+    
+    It is for anyone checking whether a specific employer actually sponsors, and at what volume, instead of taking a reputation on trust.
+    
+    https://immigrationclock.com/h1b/employers
+    [692 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-07  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 3 considered
+Selected       : Policy alert: Suggesting DNA Testing When Issuing a Request for Additional Evidence
+Subject id     : event:uscis_policy_manual:20260805-dnaevidence
+Angle          : breaking_change
+Score          : 2248   [score=2248.0 breadth=2 obligation=2 magnitude=2 authority=2 recency=0.00]
+Destination    : /what-changed?q=suggesting%20testing%20additional%20evidence
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    USCIS now requires officers to suggest DNA testing as an optional form of evidence when issuing a Request for Additional Evidence. Guidance to officers, not regulation. https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence
+    [257 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS has issued Policy Manual guidance that requires officers to suggest DNA testing as an optional form of evidence when they issue a Request for Additional Evidence.
+    
+    Two words carry the weight. Officers are required to suggest it; for the person filing, it is optional. The guidance directs what an officer does, not what an applicant has to produce.
+    
+    The Policy Manual is instruction to USCIS officers rather than regulation. It can be revised or withdrawn without rulemaking, and the updates page publishes no effective date, so our record does not assert one.
+    
+    https://immigrationclock.com/what-changed?q=suggesting%20testing%20additional%20evidence
+    [656 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-07  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 16 considered
+Selected       : Policy alert: Improving Continuity for Religious Organizations and Their Employees
+Subject id     : event:uscis_policy_manual:20260626-religiousworkersperiodofstay
+Angle          : what_changed_from_previous
+Score          : 2248.766666666667   [score=2248.8 breadth=2 obligation=2 magnitude=2 authority=2 recency=0.77]
+Destination    : /what-changed?q=improving%20continuity%20religious%20organizations
+Validator      : PASS
+Dedupe         : distinct (max sim 0.11)
+
+  X → DRY_RUN
+
+    USCIS has updated its Policy Manual to implement a regulatory change to how long a nonimmigrant religious worker in R-1 status must remain. https://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations
+    [234 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS has updated its Policy Manual to implement a regulatory change to how long a nonimmigrant religious worker in R-1 status must remain, guidance the agency describes as improving continuity for religious organizations and their employees.
+    
+    What changed here is the implementing guidance. The regulatory change came first; this is USCIS telling its own officers how to apply it.
+    
+    That distinction matters for anyone reading a Policy Manual update as though it were the rule. The Policy Manual governs how USCIS adjudicates, can be revised or withdrawn without rulemaking, and carries no effective date on the updates page.
+    
+    https://immigrationclock.com/what-changed?q=improving%20continuity%20religious%20organizations
+    [721 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-07  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : WARN layoff notices
+Subject id     : asset:layoffs
+Angle          : data_insight
+Score          : 1014   [asset rotation position=1]
+Destination    : /layoffs
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    Six states publish WARN layoff notices as machine-readable data. Those six account for 7,737 notices covering 994,555 employees at 6,015 employers, going back to 2004. Most states publish PDFs. https://immigrationclock.com/layoffs
+    [230 chars]
+
+  LINKEDIN → DRY_RUN
+
+    Six states publish WARN layoff notices as machine-readable data. ImmigrationClock holds 7,737 of them, covering 994,555 affected employees at 6,015 employers.
+    
+    Coverage is CA, NJ, OR, TX, VA and WA, with notices running from Jan 12, 2004 to Aug 5, 2026. It is not a national total: most states publish WARN notices only as HTML, Excel or PDF, and none of those reach the feed.
+    
+    In July 2026, the most recent complete month, those states recorded 104 notices covering 7,682 employees. In June 2026 it was 36 notices covering 3,680.
+    
+    What a WARN notice never records is the immigration status of the workers affected. What it never confirms is that a planned layoff happened.
+    
+    https://immigrationclock.com/layoffs
+    [711 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-08  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 0 considered
+Selected       : —
+Decision       : SKIPPED_NO_QUALIFYING_CONTENT
+Reason         : No candidate in the news pool cleared the quality bar for 2026-08-08
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-08  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 18 considered
+Selected       : Exchange Visitor Program-Termination of Program Participation, Extension of Program and Reinstatement to Valid Program Status
+Subject id     : event:federal_register:2026-15450
+Angle          : who_is_affected
+Score          : 2244.95   [score=2244.9 breadth=2 obligation=2 magnitude=2 authority=1 recency=0.95]
+Destination    : /visa/f1-student-visas
+Validator      : PASS
+Dedupe         : distinct (max sim 0.10)
+
+  X → DRY_RUN
+
+    The Department of State has proposed changes to the Exchange Visitor Program covering termination of participation, program extension, and reinstatement to valid status. A proposal, not a rule in force. https://immigrationclock.com/visa/f1-student-visas
+    [253 chars]
+
+  LINKEDIN → DRY_RUN
+
+    The Department of State has proposed changes to the Exchange Visitor Program covering three things: termination of program participation, extension of a program, and reinstatement to valid program status.
+    
+    Who this reaches: exchange visitors in J-1 status, and the sponsors that administer their programs. The Bureau of Educational and Cultural Affairs administers the program under 22 CFR part 62.
+    
+    This is a proposed rule. It is not in force, it changes nothing today, and it may never be finalized in this form. We keep proposals and rules as separate kinds of record for that reason.
+    
+    https://immigrationclock.com/visa/f1-student-visas
+    [639 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-08  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : Layoffs vs H-1B sponsorship
+Subject id     : asset:layoffs-vs-h1b
+Angle          : data_insight
+Score          : 1014   [asset rotation position=1]
+Destination    : /layoffs-vs-h1b
+Validator      : PASS
+Dedupe         : distinct (max sim 0.02)
+
+  X → DRY_RUN
+
+    160 employers appear in both the state WARN layoff feed and the USCIS H-1B Employer Data Hub: WARN notices covering 66,450 employees, and 31,597 H-1B approvals. The overlap is a fact, not a finding. https://immigrationclock.com/layoffs-vs-h1b
+    [242 chars]
+
+  LINKEDIN → DRY_RUN
+
+    160 employers appear in both the state WARN layoff feed and the USCIS H-1B Employer Data Hub. That overlap is the entire page.
+    
+    Between them, those employers filed WARN notices covering 66,450 employees and hold 31,597 H-1B approvals in the fiscal year 2023 Data Hub export.
+    
+    What the overlap is not is evidence that one produced the other. The two filings go to different agencies for different regulatory purposes, cover different periods, and describe different populations. A WARN notice never identifies the immigration status of the workers affected.
+    
+    It reaches anyone weighing a job offer against an employer's record, and it stops at the join. We publish the overlap because no single-source tracker can assemble it, and we publish nothing on top of it.
+    
+    https://immigrationclock.com/layoffs-vs-h1b
+    [807 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-09  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 0 considered
+Selected       : —
+Decision       : SKIPPED_NO_QUALIFYING_CONTENT
+Reason         : No candidate in the news pool cleared the quality bar for 2026-08-09
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-09  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 18 considered
+Selected       : Establishing a Fixed Time Period of Admission and an Extension of Stay Procedure for Nonimmigrant Academic Students, Exchange Visitors, and Representatives of Foreign Information Media
+Subject id     : event:federal_register:2026-14439
+Angle          : effective_date_reminder
+Score          : 2132.8722222222223   [score=2132.9 breadth=2 obligation=1 magnitude=1 authority=3 recency=0.87]
+Destination    : /what-changed?q=establishing%20admission%20nonimmigrant%20representatives
+Validator      : PASS
+Dedupe         : distinct (max sim 0.05)
+
+  X → DRY_RUN
+
+    DHS is replacing duration of status with a fixed period of admission for the F, J and I classifications. It takes effect on 15 September 2026. https://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives
+    [244 chars]
+
+  LINKEDIN → DRY_RUN
+
+    DHS is replacing duration of status with a fixed period of admission for the F, J and I classifications. The rule takes effect on 15 September 2026.
+    
+    Duration of status meant an admission lasted as long as the person maintained their status, with no fixed end date recorded. A fixed time period replaces that with a date, and the rule adds an extension of stay procedure alongside it.
+    
+    Who this reaches: academic students in F classifications, exchange visitors in J classifications, and representatives of foreign information media in I classifications.
+    
+    The rule published on 17 July 2026 and does not operate until 15 September 2026.
+    
+    https://immigrationclock.com/what-changed?q=establishing%20admission%20nonimmigrant%20representatives
+    [739 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-09  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : Border encounters
+Subject id     : asset:border-encounters
+Angle          : data_insight
+Score          : 1014   [asset rotation position=1]
+Destination    : /border/encounters
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    CBP nationwide encounters by fiscal year: 3,201,144 in 2023, 2,901,142 in 2024, 691,906 in 2025, and 280,656 so far in 2026 through June. An encounter is an event, not a person. https://immigrationclock.com/border/encounters
+    [224 chars]
+
+  LINKEDIN → DRY_RUN
+
+    CBP recorded 691,906 nationwide encounters in fiscal year 2025. The two complete years before it were 2,901,142 in 2024 and 3,201,144 in 2023.
+    
+    Fiscal year 2026 stands at 280,656 through June 2026. That is a part-year figure and cannot be set against a full one, because the year still has months left in it.
+    
+    Two things an encounter is not. It is not a person — the same individual can be encountered more than once, so the count is of events. And it is not a deportation.
+    
+    The nationwide totals above are summed from CBP's own published file. The sector and demographic breakdowns on the page are derived from those totals and labelled as estimates, which is a different claim and is marked as one.
+    
+    https://immigrationclock.com/border/encounters
+    [748 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-10  09:05 CT   MORNING   pool=news
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 1 considered
+Selected       : 9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas
+Subject id     : event:federal_register:2026-16231
+Angle          : breaking_change
+Score          : 2273   [score=2273.0 breadth=2 obligation=2 magnitude=3 authority=3 recency=1.00]
+Destination    : /h1b/top-sponsors
+Validator      : PASS
+Dedupe         : distinct (max sim 0.05)
+
+  X → DRY_RUN
+
+    DHS is amending the regulations on the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 visas. The change takes effect on 9 September 2026. https://immigrationclock.com/h1b/top-sponsors
+    [204 chars]
+
+  LINKEDIN → DRY_RUN
+
+    DHS is amending the regulations covering the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 visas. The amendment takes effect on 9 September 2026.
+    
+    The agency describes the changes as corrections to its regulations.
+    
+    Who this reaches: employers and workers in the H-1B specialty occupation category and the L-1 intracompany transferee category.
+    
+    Published 10 August 2026, effective 9 September 2026. The Federal Register document is linked from our record.
+    
+    https://immigrationclock.com/h1b/top-sponsors
+    [524 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-10  15:05 CT   AFTERNOON pool=knowledge
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 18 considered
+Selected       : Policy alert: Deferred Action as an Extraordinary Use of Prosecutorial Discretion
+Subject id     : event:uscis_policy_manual:20260508-deferredaction
+Angle          : what_changed_from_previous
+Score          : 2128.4777777777776   [score=2128.5 breadth=2 obligation=1 magnitude=1 authority=2 recency=0.48]
+Destination    : /what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion
+Validator      : PASS
+Dedupe         : distinct (max sim 0.07)
+
+  X → DRY_RUN
+
+    USCIS has issued Policy Manual guidance reaffirming deferred action as an extraordinary use of prosecutorial discretion. Guidance to officers, not regulation. https://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion
+    [256 chars]
+
+  LINKEDIN → DRY_RUN
+
+    USCIS has issued Policy Manual guidance reaffirming deferred action as an extraordinary use of prosecutorial discretion.
+    
+    The word doing the work is extraordinary. The guidance restates how exceptional the agency considers this exercise of discretion to be, which is a statement about how often officers are meant to reach for it.
+    
+    The Policy Manual is instruction to USCIS officers rather than regulation. It can be revised or withdrawn without rulemaking, and the updates page publishes no effective date, so our record does not assert one.
+    
+    https://immigrationclock.com/what-changed?q=deferred%20extraordinary%20prosecutorial%20discretion
+    [641 chars]
+
+══════════════════════════════════════════════════════════════════════════════
+2026-08-10  18:05 CT   EVENING   pool=standing
+══════════════════════════════════════════════════════════════════════════════
+Candidate pool : 17 considered
+Selected       : Policy timeline
+Subject id     : asset:timeline
+Angle          : data_insight
+Score          : 1013   [asset rotation position=2]
+Destination    : /timeline
+Validator      : PASS
+Dedupe         : distinct (max sim 0.00)
+
+  X → DRY_RUN
+
+    Every entry on our policy timeline sits beside the reported figure for its fiscal year — the event and the number, with no claim that one caused the other. Curated and non-exhaustive. https://immigrationclock.com/timeline
+    [221 chars]
+
+  LINKEDIN → DRY_RUN
+
+    A timeline without sources is a claim about history. Every entry on ours resolves to the government document that produced it.
+    
+    Each entry also carries the reported data figure for its fiscal year, set beside the event rather than offered as its explanation. We do not assert that a policy change moved the data, and we do not order the entries so that it looks that way.
+    
+    It is a curated selection of major events, not a complete record of everything that happened. Worth stating plainly, because a timeline reads as exhaustive whether or not it is.
+    
+    For anyone trying to place a single change in sequence rather than read it on its own.
+    
+    https://immigrationclock.com/timeline
+    [677 chars]
+
+
+══════════════════════════════════════════════════════════════════════════════
+SUMMARY
+══════════════════════════════════════════════════════════════════════════════
+Slots evaluated            : 21
+Slots that would publish   : 19
+Slots skipped              : 2
+
+By pool:
+  news       5
+  knowledge  7
+  standing   7
+
+Skip reasons:
+  SKIPPED_NO_QUALIFYING_CONTENT    2
+
+Distinct subjects          : 19 of 19
+Subjects appearing twice+  : 0
+Distinct destinations      : 18 of 19
+Destinations reused        : 1
+  /h1b/top-sponsors × 2
+
+Validation failures        : 0
+
+X wording: 19 posts · mean pairwise similarity 0.005 · max 0.140
+
+LINKEDIN wording: 19 posts · mean pairwise similarity 0.011 · max 0.261
+
+Engine calls               : 19
+Tokens (est.)              : 24341 in / 11925 out
+Cost at Opus 5 rates       : $0.4198 for this week
+Projected monthly          : $1.80
+Ledger rows written        : 42
+
+(Cost above is computed from ESTIMATED token counts — this run used the
+ transcript engine and made no API calls.)
+Wrote simulation detail → fixtures/social-simulation.json

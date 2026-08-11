@@ -1,0 +1,269 @@
+// =============================================================================
+// THE PROMPT — versioned, and narrower than it looks
+//
+// The copy engine's job is WORDING. Selection, scoring, angle, destination and
+// dedupe are all decided before this prompt is built; validation happens after
+// it returns. What the model contributes is the sentence, and nothing else.
+//
+// The version string is recorded in the ledger beside every post, so a change in
+// the feed's voice can be traced to a change in this file rather than guessed at.
+// Bump it whenever the text below changes.
+//
+// A NOTE ON WHAT IS *NOT* IN HERE
+// -------------------------------
+// There is no "double-check your work before answering", no "think carefully",
+// no worked examples, and no restatement of rules the validator enforces
+// mechanically. Verification scaffolding makes current models verbose without
+// making them more accurate, and every rule stated here that is ALSO checked in
+// validate.ts is stated once, briefly, because the check is what makes it true.
+// The prompt's job is to make good output likely; the validator's job is to make
+// bad output unpublishable.
+// =============================================================================
+
+import { ANGLE_LABEL, type Angle, type CopyRequest, type FactSet } from "./types";
+import { LIMITS, permittedAgencies } from "./validate";
+
+/**
+ * v2 renders `dataPoints` and makes the data-insight brief conditional on
+ * whether any exist. Before it, the evening slot was told it had no figures
+ * whether or not that was true, which is why its posts described pages.
+ *
+ * v3 answers the first real Anthropic proposal, which failed on both of the two
+ * things this file can influence and the validator cannot fix:
+ *
+ *   • X came back at 286 characters against a 275 limit. "At most 275" is a
+ *     cliff, and a model writing to a cliff lands on the wrong side of it often
+ *     enough to matter. v3 asks for a 240–260 band instead, so the limit has
+ *     margin rather than being the target.
+ *   • Both variants wrote "State Department" for a subject whose fact set says
+ *     "U.S. Dept. of State — DV Program". That attribution is real-world true
+ *     and unsupported by the closed world, which is exactly the failure the
+ *     validator exists to catch — but the model had no way to know which
+ *     attributions were available. v3 computes and states them.
+ */
+export const PROMPT_VERSION = "social-prompt/3";
+
+/**
+ * The band X copy should land in.
+ *
+ * Below the 275 limit by design. A model asked for "at most 275" writes to 275
+ * and overshoots; the first real proposal came back at 286. Asking for 240–260
+ * turns the limit into margin, and the cost of that margin is ~15 characters on
+ * a platform where terse is better anyway.
+ */
+export const X_TARGET_MIN = 240;
+export const X_TARGET_MAX = 260;
+
+/** Typical absolute URL length, so the model can budget the sentence. */
+const LINK_BUDGET = 45;
+
+/**
+ * Stable across every request. Kept first and byte-identical so it is the
+ * cacheable prefix if call volume ever rises enough for caching to pay.
+ */
+export const SYSTEM_PROMPT = `You write short posts for ImmigrationClock, a U.S. immigration data publication.
+
+The account is a reference source. People follow it to find out what actually changed, from an outfit that does not overstate. Its credibility is the only thing it has.
+
+You will be given a closed set of facts about one subject and one editorial angle. Everything you may say must come from those facts. You have no other information about this subject and no way to look anything up — if a detail is not in the fact set, it is not available to you, and writing it would be fabrication rather than recall.
+
+Hard rules:
+- No prediction, forecasting, or speculation about consequences. Report what a document does, not what it might lead to.
+- No legal, tax, or immigration advice. Never tell a reader what they should do, whether they qualify, or when to file.
+- No invented statistics. You may only use numbers that appear in the fact set.
+- No quotations unless the quoted words appear verbatim in the fact set.
+- No superlatives you cannot support from the fact set: nothing is unprecedented, historic, sweeping, massive, or a crackdown.
+- Name an agency or organization ONLY if it is listed under PERMITTED ATTRIBUTION. Knowing which agency runs a program is not permission to say so: if the fact set does not carry that attribution, it is not available to you, however certain you are. Write around it instead — "the official instructions", "the program rules", "the agency that sets the window" — or use the wording the fact set itself uses.
+- A proposed rule is not law. An announcement is not the legal instrument. Say which one you are describing.
+- No emoji, no engagement bait, no threads.
+
+Voice: plain declarative sentences. Specific nouns. No throat-clearing, no build-up, no rhetorical questions. Assume the reader is an informed adult who wants the fact, not a reaction to the fact. Where the subject affects people's status or obligations, the appropriate register is careful, not dramatic — the facts carry the weight without help.
+
+Return both platform variants in one response. They cover the same subject from the same angle but are written for different readers, not truncated from one another.`;
+
+/**
+ * The JSON schema the response is constrained to.
+ *
+ * Structured output rather than free-form prose is a trust control, not a
+ * convenience: there is no surrounding commentary to strip, no preamble that
+ * might leak into a post, and no parsing step that could mis-slice a response.
+ */
+export const RESPONSE_SCHEMA = {
+  type: "object",
+  properties: {
+    x: {
+      type: "string",
+      description: `The X post, ${X_TARGET_MIN}–${X_TARGET_MAX} characters including the link. Anything over ${LIMITS.x.maxChars} is discarded.`,
+    },
+    linkedin: {
+      type: "string",
+      description: `The LinkedIn post. Between ${LIMITS.linkedin.minChars} and ${LIMITS.linkedin.maxChars} characters including the link.`,
+    },
+    deepLink: {
+      type: "string",
+      description: "The destination URL. Must be exactly the deepLink given in the fact set.",
+    },
+  },
+  required: ["x", "linkedin", "deepLink"],
+  additionalProperties: false,
+} as const;
+
+/** Per-platform instructions. Differences are editorial, not cosmetic. */
+function platformBrief(): string {
+  return `X (aim for ${X_TARGET_MIN}–${X_TARGET_MAX} characters including the link; ${LIMITS.x.maxChars} is a hard limit that fails the post):
+- Count the link at its full literal length, not as a short token. It is roughly ${LINK_BUDGET} characters, so the sentence before it has about ${X_TARGET_MAX - LINK_BUDGET} to work with.
+- The band is the target and the limit is a cliff. Copy that lands at ${LIMITS.x.maxChars + 1} is discarded, so write to the band and leave the margin unused.
+- One statement. Lead with what changed or what the resource is.
+- Do not restate the page title verbatim — the link preview already shows it. Say the thing the title does not.
+- The link goes at the end, on its own.
+- At most one hashtag, and only if it is genuinely the term people search. None is usually better.
+
+LinkedIn (${LIMITS.linkedin.minChars}–${LIMITS.linkedin.maxChars} characters):
+- The first 140 characters are all that shows before "see more". The substance goes there. Not a preamble, not a label — the finding itself.
+- Two to four short paragraphs, separated by a blank line.
+- Include one sentence naming who this actually reaches, drawn from the fact set. If the facts do not identify a population, say what the document covers instead — do not guess at who it touches.
+- The link goes on its own line at the end.
+- Zero to three hashtags, at the very end, and only ones a reader would actually follow. Do not add hashtags to reach three; most posts need none or one. This account should read like an authoritative information source, not a marketing feed.`;
+}
+
+function renderFacts(facts: FactSet): string {
+  const lines: string[] = [];
+  lines.push(`TITLE: ${facts.title}`);
+  lines.push(`SOURCE: ${facts.sourceName}`);
+  if (facts.publishedAt) lines.push(`PUBLISHED: ${facts.publishedAt}`);
+  if (facts.effectiveAt) lines.push(`EFFECTIVE: ${facts.effectiveAt}`);
+  if (facts.classification) lines.push(`TYPE: ${facts.classification}`);
+  if (facts.severity) lines.push(`SEVERITY (our classification): ${facts.severity}`);
+  lines.push("");
+  lines.push(`SUMMARY AS PUBLISHED:\n${facts.summary}`);
+
+  // Rendered as finished sentences, not as a table of values. The arithmetic and
+  // the attribution were both done in asset-facts.ts; what is wanted from the
+  // model here is a choice about which of these is the lede, not a calculation.
+  if (facts.dataPoints?.length) {
+    lines.push("");
+    lines.push(
+      `ESTABLISHED FACTS FROM OUR OWN DATA — verified, and already stated in their final form. Use them as written; do not recalculate, combine or extend them:\n- ${facts.dataPoints.join(
+        "\n- "
+      )}`
+    );
+  }
+
+  if (facts.entities.length) {
+    lines.push("");
+    lines.push(`ENTITIES THIS IS LINKED TO: ${facts.entities.join(", ")}`);
+  }
+
+  lines.push("");
+  lines.push(`DESTINATION URL (use exactly this): ${facts.deepLink}`);
+  lines.push(`URLS YOU MAY USE (no others): ${facts.allowedUrls.join(" | ")}`);
+
+  lines.push("");
+  lines.push(
+    facts.figures.length
+      ? `NUMBERS YOU MAY USE (no others): ${facts.figures.join(", ")}`
+      : "NUMBERS YOU MAY USE: none. Do not put any figure in these posts."
+  );
+
+  lines.push("");
+  lines.push(renderAttribution(facts));
+
+  if (facts.notes.length) {
+    lines.push("");
+    lines.push(`CONSTRAINTS AND CAVEATS:\n- ${facts.notes.join("\n- ")}`);
+  }
+
+  return lines.join("\n");
+}
+
+/**
+ * Exactly which attributions this subject supports, computed from the same code
+ * the validator checks against.
+ *
+ * The failure this replaces: the Diversity Visa fact set names its source
+ * "U.S. Dept. of State — DV Program", and the model wrote "State Department" —
+ * true of the world, absent from the closed world, correctly rejected. Nothing
+ * in the prompt had told it which attributions were on the table, so it fell
+ * back on knowledge, which is the one source it is not allowed to use.
+ *
+ * Naming the empty case explicitly matters more than naming the full one. "None
+ * available" plus a concrete neutral alternative is a usable instruction; silence
+ * is an invitation.
+ */
+function renderAttribution(facts: FactSet): string {
+  const agencies = permittedAgencies(facts);
+  const head = `PERMITTED ATTRIBUTION — the ONLY names you may attribute this to:`;
+  const sourceLine = `- The source, written exactly as it appears above: "${facts.sourceName}"`;
+
+  if (agencies.length === 0) {
+    return [
+      head,
+      sourceLine,
+      `No agency short name is available for this subject. Do not write "State Department", "DHS", "USCIS", "the Justice Department" or any other agency name, even if you are certain which agency is responsible — that certainty comes from your own knowledge, not from this fact set, and it will be rejected.`,
+      `Where you would have named an agency, use neutral wording instead: "the official instructions", "the program rules", "the agency that sets the window", or the fact set's own phrasing.`,
+    ].join("\n");
+  }
+
+  return [
+    head,
+    sourceLine,
+    `- These agency names, which the fact set does support: ${agencies.join(", ")}`,
+    `Nothing else. Any other agency or organization name comes from your own knowledge rather than from this fact set, and will be rejected. Where you would have named one, use neutral wording: "the official instructions", "the program rules", or the fact set's own phrasing.`,
+  ].join("\n");
+}
+
+function angleBrief(angle: Angle, facts: FactSet): string {
+  const briefs: Record<Angle, string> = {
+    breaking_change:
+      "This just published and it changes something. Say what it does, in force or not, and who issued it.",
+    who_is_affected:
+      "Focus on the population this reaches. Use only the categories, countries or visa types named in the fact set.",
+    what_changed_from_previous:
+      "Focus on the difference between the prior state and the current one, as far as the fact set describes it. If the fact set does not describe the prior state, say what the document revises rather than inventing the before.",
+    effective_date_reminder:
+      "The effective date is the news. State what changes on that date and what is true until then.",
+    deadline_approaching:
+      "A recurring deadline is coming. State what it is, when, and what the window is for. Do not tell anyone to act.",
+    historical_context:
+      "Place this among the related activity named in the fact set. Do not characterise a trend the fact set does not state.",
+    // Both variants of this brief are here rather than one hedged version,
+    // because the difference is what the slot is for. With figures, the post is
+    // the figure. Without them, the useful thing is almost always the
+    // methodological point a reader gets wrong — and saying so is not the same
+    // as padding out a description of the page.
+    // Branches on `figures`, not on `dataPoints`: an asset can have plenty to
+    // say and no measurement to say it with, and those are two different posts.
+    data_insight: facts.figures.length
+      ? "Lead with the most striking of the established facts above — the number itself, not the page it sits on. One figure carries a post; three read as a specification. Do not open by naming the page or saying what it contains."
+      : "This resource has no figures you may quote. The post is the point the page makes: what the data does and does not show, or the distinction a reader most often gets wrong. Do not fill the space with a description of what the page contains.",
+  };
+  return `${ANGLE_LABEL[angle]} — ${briefs[angle]}`;
+}
+
+/** The user turn. Everything volatile lives here, after the stable system prompt. */
+export function buildUserPrompt(req: CopyRequest): string {
+  const sections: string[] = [];
+
+  sections.push(`SLOT: ${req.slot.id.toUpperCase()}\n${req.slot.purpose}`);
+  sections.push(`ANGLE: ${angleBrief(req.angle, req.facts)}`);
+  sections.push(`FACT SET:\n${renderFacts(req.facts)}`);
+  sections.push(`PLATFORM BRIEFS:\n${platformBrief()}`);
+
+  if (req.avoidOpenings.length) {
+    sections.push(
+      `RECENT OPENINGS ON THIS ACCOUNT — do not echo their structure or phrasing:\n- ${req.avoidOpenings.join(
+        "\n- "
+      )}`
+    );
+  }
+
+  if (req.validatorFeedback?.length) {
+    sections.push(
+      `YOUR PREVIOUS ATTEMPT WAS REJECTED. Fix exactly these and change nothing else:\n- ${req.validatorFeedback.join(
+        "\n- "
+      )}`
+    );
+  }
+
+  return sections.join("\n\n---\n\n");
+}
