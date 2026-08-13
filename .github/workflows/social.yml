@@ -92,6 +92,10 @@ on:
         description: "PUBLISH to the live account. Requires SOCIAL_POST_ENABLED=true as well."
         type: boolean
         default: false
+      dry_run_day:
+        description: "Preview a whole day (09:00 + 15:00 + 18:00) with the real model. Publishes NOTHING, ignores `live`."
+        type: boolean
+        default: false
 
 permissions:
   contents: write # commit the post ledger
@@ -196,6 +200,21 @@ jobs:
         continue-on-error: true
         run: npm run social:verify-x
 
+      # A WHOLE DAY, PREVIEWED, WITH THE REAL MODEL AND NO PUBLISHER.
+      #
+      # Runs all three slots against the real Anthropic engine and carries the
+      # ledger between them, so the same-day variety gate actually engages and
+      # the three posts are the three a reader would have seen.
+      #
+      # It cannot publish. scripts/social-simulate.ts calls runSlot() with
+      # `publishers: {}` and `live: false` — there is no platform client to
+      # publish through, whatever SOCIAL_POST_ENABLED says. That is why this is a
+      # separate step from the one below rather than a flag on it.
+      - name: Preview a whole day (dry run, real model)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run_day == 'true'
+        run: |
+          npm run social:simulate -- --days=1 --engine=anthropic | tee /tmp/social-run.log
+
       # THE RUN.
       #
       # `--live` is passed on every scheduled firing and on a dispatch only when
@@ -204,7 +223,9 @@ jobs:
       # because an unattended process posting to a public account before anyone
       # has read its output is not recoverable by editing a file afterwards.
       - name: Publish this slot
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true'
+        if: |
+          github.event.inputs.dry_run_day != 'true'
+          && (github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true')
         run: |
           ARGS=""
           if [ -n "${{ github.event.inputs.slot }}" ]; then
@@ -233,8 +254,13 @@ jobs:
       # even on failure: a slot where the post went out and a later step then
       # failed MUST still persist that record, or the next run has no idea it
       # happened and can repeat it.
+      # Skipped on a whole-day preview: the simulator holds its ledger in memory
+      # and writes nothing, so there would be nothing to commit.
       - name: Persist the post ledger
-        if: always() && (github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true')
+        if: |
+          always()
+          && github.event.inputs.dry_run_day != 'true'
+          && (github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true')
         run: |
           bash .github/scripts/commit-and-push.sh \
             "chore(social): record slot $(date -u +%Y-%m-%dT%H:%M)" \

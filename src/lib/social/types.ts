@@ -19,6 +19,7 @@
 // =============================================================================
 
 import type { IndexedEvent } from "@/lib/event-index";
+import type { VisualSpec } from "./visuals";
 
 // -----------------------------------------------------------------------------
 // SLOTS
@@ -87,6 +88,17 @@ export type SubjectId = string; // "event:<id>" | "keydate:<id>" | "asset:<id>"
 export type Angle =
   /** It just happened and it changes something. */
   | "breaking_change"
+  /**
+   * What the document actually obliges someone to do, pay or file.
+   *
+   * The most useful thing this account can say, and the easiest to get wrong.
+   * It states the REQUIREMENT as a property of the rule — "the rule requires a
+   * $500 fee at filing" — never as an instruction to the reader. "You should
+   * file" is legal advice and the validator rejects it; "the rule requires" is
+   * a fact about a federal document. Earned only when the ranking model scores
+   * a real obligation change, so the angle cannot be chosen and then padded.
+   */
+  | "what_it_requires"
   /** Who this reaches, concretely. */
   | "who_is_affected"
   /** What the rule was before, and what it is now. */
@@ -95,6 +107,13 @@ export type Angle =
   | "effective_date_reminder"
   /** A filing window or deadline is closing. */
   | "deadline_approaching"
+  /**
+   * A window is coming, but not yet. What it is, when it opens, what the
+   * official source says about it — stated as a fact about the calendar, not as
+   * a prompt to act. Distinct from `deadline_approaching`, which is for a
+   * window closing soon enough that the countdown itself is the news.
+   */
+  | "preparation_window"
   /** Where this sits in a sequence we have been tracking. */
   | "historical_context"
   /** A figure from our own datasets that says something. */
@@ -102,10 +121,12 @@ export type Angle =
 
 export const ALL_ANGLES: Angle[] = [
   "breaking_change",
+  "what_it_requires",
   "who_is_affected",
   "what_changed_from_previous",
   "effective_date_reminder",
   "deadline_approaching",
+  "preparation_window",
   "historical_context",
   "data_insight",
 ];
@@ -113,10 +134,12 @@ export const ALL_ANGLES: Angle[] = [
 /** Human wording for logs and the ledger. */
 export const ANGLE_LABEL: Record<Angle, string> = {
   breaking_change: "Breaking change",
+  what_it_requires: "What it requires",
   who_is_affected: "Who is affected",
   what_changed_from_previous: "What changed from the previous rule",
   effective_date_reminder: "Effective-date reminder",
   deadline_approaching: "Deadline approaching",
+  preparation_window: "Window ahead",
   historical_context: "Historical context",
   data_insight: "Data insight",
 };
@@ -142,6 +165,15 @@ export interface Candidate {
   scoreExplain: string;
   /** The angles this candidate genuinely supports, given its own data. */
   supportedAngles: Angle[];
+  /**
+   * What this post is broadly ABOUT, coarser than the subject.
+   *
+   * Two different subjects can be the same story to a reader: an H-1B fee rule
+   * in the morning and the H-1B sponsor directory in the evening are one topic
+   * seen twice, however distinct their subject ids are. Same-day variety is
+   * enforced on this key, not on the subject — see checkSameDayVariety().
+   */
+  topicKey: string;
   /** The ImmigrationClock page this post sends people to. */
   deepLink: string;
   /** The government document behind it, when there is one. */
@@ -150,6 +182,14 @@ export interface Candidate {
   event: IndexedEvent | null;
   /** Everything the copy engine is allowed to know. Built by facts.ts. */
   facts: FactSet;
+  /**
+   * The branded card this post would carry, or null when prose is enough.
+   *
+   * Built in select.ts from the same records the fact set comes from, so it is
+   * verified data rather than anything a model produced. Most candidates carry
+   * null — see visuals.ts for why that is the design and not a gap.
+   */
+  visual: VisualSpec | null;
 }
 
 /**
@@ -307,6 +347,8 @@ export interface SlotOutcome {
   angle: Angle | null;
   score: number | null;
   scoreExplain: string | null;
+  /** Coarse topic, recorded so same-day variety can be enforced tomorrow. */
+  topicKey: string | null;
   deepLink: string | null;
   /** Candidates considered before one was chosen. For auditing selection. */
   poolSize: number;

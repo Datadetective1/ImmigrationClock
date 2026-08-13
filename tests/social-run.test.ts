@@ -229,6 +229,7 @@ describe("gates run before the engine, so a silent slot is free", () => {
       factsHash: null,
       approvalId: null,
       approvedBy: null,
+      topicKey: null,
       inputTokens: null,
       outputTokens: null,
       costUsd: null,

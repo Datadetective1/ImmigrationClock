@@ -208,7 +208,9 @@ describe("the workflow publishes to X only, for now", () => {
   it("commits the ledger even when an earlier step failed", () => {
     // A post that went out and then lost its ledger row would be re-posted.
     expect(workflow).toContain("src/lib/generated/social-posted.json");
-    expect(workflow).toMatch(/Persist the post ledger[\s\S]{0,120}if: always\(\)/);
+    // Tolerates a block scalar `if: |` — the condition grew a dry-run-day
+    // exclusion. What must hold is that always() still guards the step.
+    expect(workflow).toMatch(/Persist the post ledger[\s\S]{0,200}always\(\)/);
   });
 
   it("never hard-codes a credential value", () => {

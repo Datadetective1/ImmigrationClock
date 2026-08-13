@@ -39,6 +39,7 @@ import {
   hasTreatment,
   lastPostForSubject,
   lastPostForUrl,
+  postsOnLocalDate,
   publishedPosts,
   recentTexts,
   recentValidationFailure,
@@ -213,6 +214,57 @@ export function checkSubject(
   }
 
   return { ok: true, reason: "eligible", availableAngles: available };
+}
+
+// -----------------------------------------------------------------------------
+// GATE 1b — SAME-DAY VARIETY
+//
+// The cooldowns above are about a subject over WEEKS. This is about a reader
+// opening the feed once and seeing three posts that are, to them, the same post.
+//
+// Subject ids do not catch it. An H-1B fee rule (event:), the H-1B employer
+// directory (asset:), and the H-1B registration window (keydate:) are three
+// distinct subjects with three distinct destinations and three distinct angles
+// — every existing gate passes them — and together they are a day of nothing but
+// H-1B. The destination cooldown does not catch it either, because news is
+// deliberately exempt from cooldowns other pools caused.
+//
+// So variety is enforced on a coarser key: the topic. One topic per day, per
+// platform. The morning slot runs first and therefore wins ties, which is the
+// right priority — genuinely new official developments are the rarest thing this
+// account publishes and must never be deferred to a standing asset.
+// -----------------------------------------------------------------------------
+
+/**
+ * Has this topic already been covered today?
+ *
+ * Only POSTED rows count, so a dry run does not consume the day's variety
+ * budget and a validator failure does not burn a topic.
+ *
+ * An empty or unknown topic never blocks. Rows written before this gate existed
+ * carry no topic, and a candidate whose topic could not be derived is not
+ * evidence of repetition — failing open here costs a little sameness, while
+ * failing closed on missing data would silence slots for no reason.
+ */
+export function checkSameDayVariety(
+  ledger: PostLedger,
+  topicKey: string,
+  localDate: string,
+  platform: Platform
+): { ok: boolean; reason: string } {
+  if (!topicKey) return { ok: true, reason: "no topic key — variety not enforced" };
+
+  const clash = postsOnLocalDate(ledger, localDate, platform).find(
+    (p) => p.topicKey === topicKey
+  );
+
+  if (clash) {
+    return {
+      ok: false,
+      reason: `Same-day variety: "${topicKey}" was already covered today by the ${clash.slot} slot ("${clash.subjectLabel}")`,
+    };
+  }
+  return { ok: true, reason: "distinct topic for today" };
 }
 
 // -----------------------------------------------------------------------------

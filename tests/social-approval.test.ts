@@ -164,6 +164,7 @@ function ledgerWith(over: Partial<PostRecord>): PostLedger {
     factsHash: null,
     approvalId: null,
     approvedBy: null,
+    topicKey: null,
     inputTokens: null,
     outputTokens: null,
     costUsd: null,

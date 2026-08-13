@@ -23,7 +23,7 @@ import {
   NEWS_LOOKBACK_DAYS,
   KNOWLEDGE_MIN_AGE_DAYS,
 } from "@/lib/social/select";
-import { scoreEvent, isPostableSeverity, isSubstantive, NEWS_SCORE_FLOOR } from "@/lib/social/score";
+import { scoreEvent, obligationLevel, isPostableSeverity, isSubstantive, NEWS_SCORE_FLOOR } from "@/lib/social/score";
 import { resolveDeepLink, queryFor, STANDING_ASSETS, isPublishableDestination } from "@/lib/social/links";
 import { SLOTS, SLOT_BY_ID } from "@/lib/social/slots";
 import { EVENT_INDEX } from "@/lib/event-index";
@@ -88,8 +88,22 @@ describe("news pool", () => {
     expect(newsPool([narrow], today)).toHaveLength(0);
   });
 
-  it("only ever offers the breaking angle", () => {
-    expect(newsPool([event()], today)[0].supportedAngles).toEqual(["breaking_change"]);
+  it("always offers the breaking angle, and only ever morning angles", () => {
+    const morning = SLOT_BY_ID.get("morning")!;
+    for (const c of newsPool([event()], today)) {
+      expect(c.supportedAngles).toContain("breaking_change");
+      for (const a of c.supportedAngles) expect(morning.angles).toContain(a);
+    }
+  });
+
+  it("earns 'what it requires' from the obligation factor, not from wording", () => {
+    // The ranking model scores this document as changing an obligation, so the
+    // requirement angle is available. A document that changes nothing anyone
+    // must do does not get it, however emphatic its title.
+    const obliging = event();
+    const angles = newsPool([obliging], today)[0].supportedAngles;
+    expect(obligationLevel(obliging)).toBeGreaterThanOrEqual(2);
+    expect(angles).toContain("what_it_requires");
   });
 
   it("orders by score, highest first", () => {

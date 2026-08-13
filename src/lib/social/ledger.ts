@@ -69,6 +69,11 @@ export interface PostRecord {
   approvalId: string | null;
   /** Who approved it, on the exact-copy path. Null otherwise. */
   approvedBy: string | null;
+  /**
+   * The coarse topic this post covered. Null on rows written before same-day
+   * variety existed, which read as "unknown topic" and therefore block nothing.
+   */
+  topicKey: string | null;
 
   inputTokens: number | null;
   outputTokens: number | null;
@@ -221,6 +226,17 @@ export function recentValidationFailure(
         p.platform === platform &&
         Math.abs(Date.parse(nowIso) - Date.parse(p.runAtUtc)) / 86_400_000 < withinDays
     ) ?? null
+  );
+}
+
+/** Everything published on one Chicago day, on one platform. */
+export function postsOnLocalDate(
+  ledger: PostLedger,
+  localDate: string,
+  platform: Platform
+): PostRecord[] {
+  return publishedPosts(ledger).filter(
+    (p) => p.localDate === localDate && p.platform === platform
   );
 }
 

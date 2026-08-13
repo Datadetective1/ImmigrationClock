@@ -35,19 +35,26 @@ export const SLOTS: SlotDef[] = [
     hour: 9,
     pool: "news",
     purpose:
-      "WHAT CHANGED. A genuinely new, qualifying official development — a rule, " +
-      "policy update, court decision or executive action published in the last " +
-      "two days. If nothing clears the bar, this slot stays silent.",
-    angles: ["breaking_change"],
+      "WHAT CHANGED, AND WHAT IT NOW REQUIRES. A genuinely new, qualifying " +
+      "official development published in the last two days — a rule, policy " +
+      "update, court decision or executive action. Lead with the change and, " +
+      "where the document imposes one, the obligation it creates: a fee, a " +
+      "filing requirement, an eligibility test. State requirements as facts " +
+      "about the document, never as instructions to the reader. If nothing " +
+      "clears the bar, this slot stays silent.",
+    angles: ["breaking_change", "what_it_requires"],
   },
   {
     id: "afternoon",
     hour: 15,
     pool: "knowledge",
     purpose:
-      "WHAT IT MEANS / WHO IT AFFECTS. Draw on the archive to explain an active " +
-      "rule, an upcoming effective date, an obligation it creates, or how it " +
-      "differs from what came before. Explanatory, not breaking.",
+      "EXPLAIN SOMETHING. The teaching slot. Draw on the archive to make one " +
+      "confusing thing clear: who an active rule actually reaches, what a " +
+      "document changed from the version before it, what happens on an " +
+      "effective date that is coming, or where a change sits in a sequence " +
+      "we have been tracking. Written for someone with a real application in " +
+      "progress, not for a policy analyst. Explanatory, never breaking.",
     angles: [
       "who_is_affected",
       "what_changed_from_previous",
@@ -60,15 +67,17 @@ export const SLOTS: SlotDef[] = [
     hour: 18,
     pool: "standing",
     purpose:
-      "STANDING INTELLIGENCE. Point to a durable ImmigrationClock resource that " +
-      "is useful on any day — key dates, H-1B sponsorship and salary data, WARN " +
-      "layoff intelligence, the timeline, the migration map, or a country, visa, " +
-      "agency or topic hub.",
+      "LOOK AHEAD, OR HAND SOMEONE A TOOL. Either a date on the horizon — a " +
+      "window opening, a deadline closing, what the official source says about " +
+      "its timing — or a durable ImmigrationClock resource worth knowing about: " +
+      "key dates, H-1B sponsorship data, WARN layoff intelligence, the " +
+      "timeline, the map, a country or visa hub. Useful on any evening, and " +
+      "never manufactured urgency.",
     // No historical_context here. Placing an item among related activity is a
     // treatment of an EVENT, and this slot's pool is durable pages and recurring
     // dates. Leaving it in let one angle span two slots for no benefit; the
     // afternoon slot owns it.
-    angles: ["deadline_approaching", "data_insight"],
+    angles: ["deadline_approaching", "preparation_window", "data_insight"],
   },
 ];
 

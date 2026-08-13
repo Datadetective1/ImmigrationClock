@@ -26,12 +26,16 @@ import { STANDING_ASSETS } from "./links";
 import { resolveDeepLink } from "./links";
 import {
   scoreEvents,
+  obligationLevel,
   isPostableSeverity,
   isSubstantive,
   NEWS_SCORE_FLOOR,
   KNOWLEDGE_SCORE_FLOOR,
 } from "./score";
 import { buildEventFacts, buildKeyDateFacts, buildAssetFacts } from "./facts";
+import { buildAssetVisual, buildEventVisual, buildKeyDateVisual } from "./visuals";
+import { assetInsights } from "./asset-facts";
+import { SOURCE_BY_KEY } from "@/lib/sources";
 import type { Angle, Candidate, SlotDef } from "./types";
 
 /** How far back the morning slot will call something "new". */
@@ -45,6 +49,41 @@ export const KNOWLEDGE_LOOKBACK_DAYS = 180;
 
 /** A key date closer than this leads the evening slot ahead of any dataset. */
 export const DEADLINE_URGENT_DAYS = 45;
+
+/**
+ * The coarse subject a reader would name, used for same-day variety.
+ *
+ * Deliberately blunt. "H-1B" is one topic whether it arrives as a fee rule, the
+ * employer directory, or the registration window — and a day carrying all three
+ * reads as a single-issue feed however distinct their subject ids are.
+ *
+ * Returns "" when nothing better than the subject itself can be derived, and
+ * checkSameDayVariety() treats an empty key as "do not enforce" rather than
+ * blocking on an unknown.
+ */
+export function topicKeyFor(input: {
+  subjectId: string;
+  event?: IndexedEvent | null;
+  keyDateCategory?: string;
+  assetTags?: string[];
+}): string {
+  if (input.subjectId.startsWith("keydate:")) {
+    return input.keyDateCategory ? `topic:${input.keyDateCategory}` : "";
+  }
+  if (input.subjectId.startsWith("asset:")) {
+    return input.assetTags?.length ? `topic:${input.assetTags[0]}` : "";
+  }
+  const ids = input.event?.entityIds ?? [];
+  // Visa category first: it is the dimension readers actually sort themselves
+  // by. Then country, then a non-catch-all topic.
+  for (const prefix of ["visa:", "country:"]) {
+    const hit = ids.find((id) => id.startsWith(prefix));
+    if (hit) return hit;
+  }
+  const topic = ids.find((id) => id.startsWith("topic:") && id !== "topic:policy-changes");
+  if (topic) return topic;
+  return input.event ? `source:${input.event.sourceKey}` : "";
+}
 
 function isoShift(date: string, days: number): string {
   const t = Date.parse(`${date}T00:00:00Z`);
@@ -82,7 +121,15 @@ export function newsPool(events: IndexedEvent[], today: string): Candidate[] {
 
   return scoreEvents(eligible, from, today)
     .filter((s) => s.score >= NEWS_SCORE_FLOOR)
-    .map((s) => toEventCandidate(s.event, s.score, s.explain, "news", ["breaking_change"], today))
+    .map((s) => {
+      // "What it requires" is earned from the ranking model's obligation
+      // factor, never from the wording of the title. Level 2 means the document
+      // changes an obligation, eligibility test or adjudication standard —
+      // enough that there is a concrete requirement to state.
+      const angles: Angle[] = ["breaking_change"];
+      if (obligationLevel(s.event) >= 2) angles.push("what_it_requires");
+      return toEventCandidate(s.event, s.score, s.explain, "news", angles, today);
+    })
     .filter((c): c is Candidate => c !== null);
 }
 
@@ -191,17 +238,26 @@ export function standingPool(today: string): Candidate[] {
     const urgency = info.days <= DEADLINE_URGENT_DAYS ? 3000 : 1500;
     const score = urgency + Math.max(0, 120 - info.days);
 
+    // Two different posts, not one post with two intensities. Inside the urgent
+    // window the countdown itself is the news; outside it, the honest thing is
+    // that a window is coming — which is useful without pretending it is
+    // urgent, and is exactly the line "do not manufacture urgency" draws.
+    const angle: Angle =
+      info.days <= DEADLINE_URGENT_DAYS ? "deadline_approaching" : "preparation_window";
+
     out.push({
       subjectId: `keydate:${kd.id}`,
       pool: "standing",
       label: `${kd.title} (${info.days} days away)`,
       score,
       scoreExplain: `keydate days=${info.days} urgent=${info.days <= DEADLINE_URGENT_DAYS}`,
-      supportedAngles: ["deadline_approaching"],
+      supportedAngles: [angle],
+      topicKey: topicKeyFor({ subjectId: `keydate:${kd.id}`, keyDateCategory: kd.category }),
       deepLink: "/key-dates",
       sourceUrl: kd.sourceUrl,
       event: null,
       facts: buildKeyDateFacts(kd, info.days, info.dateLabel),
+      visual: buildKeyDateVisual(kd, info.days, angle),
     });
   }
 
@@ -226,10 +282,15 @@ export function standingPool(today: string): Candidate[] {
       score: 1000 + (usable.length - normalized),
       scoreExplain: `asset rotation position=${normalized}`,
       supportedAngles: ["data_insight"],
+      topicKey: topicKeyFor({ subjectId: `asset:${asset.id}`, assetTags: asset.tags }),
       deepLink: asset.path,
       sourceUrl: null,
       event: null,
       facts,
+      // A card only when the asset carries a reported figure AND that figure is
+      // the point. `heroFigure` returns null for the eight assets that qualify
+      // on a non-numeric insight, so those post as text.
+      visual: buildAssetVisual(asset, "data_insight", facts, heroFigure(asset.id, today)),
     });
   });
 
@@ -286,9 +347,30 @@ function toEventCandidate(
     score,
     scoreExplain: explain,
     supportedAngles: angles,
+    topicKey: topicKeyFor({ subjectId: `event:${event.id}`, event }),
     deepLink,
     sourceUrl: event.sourceUrl,
     event,
     facts: buildEventFacts(event, deepLink, today),
+    // The strongest angle the candidate supports decides the card, because that
+    // is the angle chooseCandidate() prefers.
+    visual: buildEventVisual(event, angles[0], SOURCE_BY_KEY[event.sourceKey]?.name ?? event.sourceKey),
   };
+}
+
+/**
+ * The one figure a data card would lead with, or null.
+ *
+ * Deliberately conservative: the FIRST computed point of a numeric asset, whose
+ * leading figure is the one the sentence itself leads with. Picking "the most
+ * impressive number" would be an editorial judgement made by a heuristic, which
+ * is how a card ends up overstating a dataset.
+ */
+function heroFigure(assetId: string, today: string): { value: string; label: string } | null {
+  const insight = assetInsights(assetId, today);
+  if (!insight?.numeric) return null;
+  const first = insight.points[0];
+  const match = /([0-9][0-9,]*)/.exec(first);
+  if (!match) return null;
+  return { value: match[1], label: first.slice(0, 96) };
 }

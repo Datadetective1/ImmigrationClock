@@ -49,6 +49,7 @@ function record(over: Partial<PostRecord> = {}): PostRecord {
     factsHash: "h",
     approvalId: null,
     approvedBy: null,
+    topicKey: null,
     inputTokens: 10,
     outputTokens: 20,
     costUsd: 0.01,

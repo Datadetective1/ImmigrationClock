@@ -31,9 +31,9 @@ the first is news.
 
 | Slot | Local time | Pool | What it is for |
 |---|---|---|---|
-| Morning | 09:00 CT | `news` | **What changed.** A genuinely new qualifying development from the last two days. Skips often, by design. |
-| Afternoon | 15:00 CT | `knowledge` | **What it means / who it affects.** The archive: active rules, upcoming effective dates, obligations, what changed from the previous rule. |
-| Evening | 18:00 CT | `standing` | **Standing intelligence.** Durable assets: key dates, H-1B data, WARN, the timeline, the map, hubs. |
+| Morning | 09:00 CT | `news` | **What changed, and what it now requires.** A genuinely new qualifying development from the last two days, and the obligation it creates where there is one. Skips often, by design. |
+| Afternoon | 15:00 CT | `knowledge` | **Explain something.** The teaching slot: who an active rule reaches, what a document changed, what happens on a coming effective date. Written for someone with an application in progress. |
+| Evening | 18:00 CT | `standing` | **Look ahead, or hand someone a tool.** A window on the horizon, or a durable resource worth knowing about. Never manufactured urgency. |
 
 The pools do not overlap. The afternoon slot deliberately excludes the last two
 days, so it can never "explain" a rule the morning slot broke six hours earlier
@@ -57,9 +57,13 @@ GitHub Actions cron is always UTC and has no `timezone` key. The workflow
 therefore schedules **both** US offsets:
 
 ```yaml
-- cron: "0 14,20,23 * * *"   # CST (UTC-6)
-- cron: "0 13,19,22 * * *"   # CDT (UTC-5)
+- cron: "0 14,20,23 * * *"   # CDT (UTC-5)
+- cron: "0 0,15,21 * * *"    # CST (UTC-6)
 ```
+
+Those hours come from `utcHoursFor()`, and `tests/social-slots.test.ts` parses
+the workflow file and asserts every slot has both offsets covered — commented
+out or not.
 
 Six firings a day; three are an hour wrong on any date. `currentSlot()` reads
 the real America/Chicago wall clock via `Intl.DateTimeFormat` and returns `null`
@@ -104,6 +108,52 @@ An angle must be **earned by the data**, not chosen because the slot needs one:
 | `historical_context` | ≥ 2 other events sharing a distinctive entity |
 | `deadline_approaching` | a key date within 120 days |
 | `data_insight` | a standing asset **with a grounded insight** (see 5a) |
+| `what_it_requires` | the ranking model scores `obligation` ≥ 2 |
+| `preparation_window` | a key date 46–120 days out |
+
+**`what_it_requires` is the "what should I do" angle, reframed.** It states the
+requirement as a property of the rule — "the rule requires a fee at filing" —
+never as an instruction to the reader. `you should`, `make sure to` and `apply
+now` are all rejected by the validator's legal-advice checks, which are
+unchanged. The angle is written to live inside that constraint.
+
+**`preparation_window` exists so urgency is never manufactured.** Key dates split
+at 45 days: inside it the countdown is the news (`deadline_approaching`);
+outside it the honest framing is that a window is coming.
+
+### Same-day variety
+
+Cooldowns work over weeks and key on subject ids. They do not catch three posts
+that are one story to a reader: an H-1B fee rule (`event:`), the sponsor
+directory (`asset:`) and the registration window (`keydate:`) are three
+subjects, three destinations and three angles — every other gate passes them,
+and together they are a day of nothing but H-1B.
+
+So every candidate carries a **`topicKey`** (visa → country → non-catch-all
+topic → source), recorded in the ledger, and **one topic may be covered once per
+day per platform**. It runs first in `chooseCandidate()` because it is the
+cheapest check. It counts only `POSTED` rows, so a dry run does not consume the
+day's variety, and it **fails open** on an unknown topic rather than silencing a
+slot.
+
+### Visuals — `visuals.ts`
+
+Five card kinds, built in TypeScript from the same records the fact set comes
+from. No image model is asked to render immigration information and no card text
+is generated.
+
+**Most posts get no card.** Four angles are on an explicit deny-list because
+their value is prose (`who_is_affected`, `what_changed_from_previous`,
+`historical_context`, `effective_date_reminder`); events need `major` severity;
+assets need a reported figure. A test asserts fewer than half of all candidates
+carry one.
+
+`assertVisualGrounded()` runs every numeral on a card back through the
+validator's own `allowedDigitRuns()`, and an approximate date prints its caveat
+**on the card** — a card gets screenshotted without the post underneath it.
+
+**Rendering and upload are not built.** A `VisualSpec` is a description. See
+"Visuals: what upload would require" below.
 
 An angle the data cannot support is an invitation for the model to invent the
 supporting detail.
@@ -433,6 +483,10 @@ npm run social:verify-x
 ```
 
 ```bash
+npm run social:simulate -- --days=1 --engine=anthropic
+```
+
+```bash
 npm run social:post
 ```
 
@@ -486,6 +540,25 @@ selecting and validating; it just publishes nothing.
   flag. Nothing here reads or writes `PULSE_SEND_ENABLED`.
 
 ---
+
+## Visuals: what upload would require
+
+Not built, deliberately. Before any of it is written, three things need
+confirming — and the third is the one that decides whether it is possible at all.
+
+1. **A different endpoint.** `/2/tweets` takes JSON. Media upload is a separate
+   endpoint that takes `multipart/form-data` and returns a `media_id` you attach
+   to a second call. The current X adapter only speaks JSON.
+2. **A rasteriser.** A `VisualSpec` is a description, not pixels.
+   `scripts/build-brand-assets.mjs` already renders HTML to PNG with headless
+   Chrome, which is preinstalled on `ubuntu-latest`, so this needs no new npm
+   dependency — just wiring.
+3. **An access tier that includes media upload.** This has historically not been
+   part of X's free tier. Check the developer portal for the app, and confirm
+   the current endpoint and tier requirements against X's live documentation.
+
+The branded OG preview (below) covers much of the same ground for zero API
+surface, and is worth evaluating first.
 
 ## Known limitations
 

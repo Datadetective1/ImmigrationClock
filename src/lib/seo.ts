@@ -20,7 +20,17 @@ export function buildMetadata({
   const url = `${SITE.url}${path}`;
   const fullTitle =
     title === SITE.title ? title : `${title} — ${SITE.name}`;
-  const ogImage = `${SITE.url}/og.svg`;
+  // PNG, NOT the SVG this used to point at.
+  //
+  // X and most other card renderers do not accept image/svg+xml — they fetch it,
+  // fail to decode it, and fall back to a text-only card. That is why a shared
+  // ImmigrationClock link showed a generic preview with no image while the tag
+  // itself looked perfectly correct in the HTML.
+  //
+  // public/brand/og-image.png is 1200x630 and is generated FROM production by
+  // scripts/build-brand-assets.mjs (headless Chrome against the real tokens), so
+  // it cannot drift from the site's own look the way a hand-drawn asset would.
+  const ogImage = `${SITE.url}/brand/og-image.png`;
   return {
     title: fullTitle,
     description,
@@ -41,7 +51,7 @@ export function buildMetadata({
       siteName: SITE.name,
       title: fullTitle,
       description,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title, type: "image/png" }],
     },
     twitter: {
       card: "summary_large_image",

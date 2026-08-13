@@ -90,6 +90,18 @@ export function scoreEvent(e: IndexedEvent, from: string, to: string): ScoredEve
   return { event: e, score: f.score, explain: explainRanking(rankable, from, to) };
 }
 
+/**
+ * How much of an obligation this document changes, 0-3, straight from the
+ * newsletter's ranking model.
+ *
+ * Exposed so the `what_it_requires` angle can be EARNED rather than guessed.
+ * The alternative — scanning the title for "fee" or "must" — is the keyword
+ * strength the ranking model was built to stop deciding editorial questions.
+ */
+export function obligationLevel(e: IndexedEvent): number {
+  return rankingFactors(asRankable(e), e.publishedAt, e.publishedAt).obligation;
+}
+
 export function scoreEvents(events: IndexedEvent[], from: string, to: string): ScoredEvent[] {
   return events
     .map((e) => scoreEvent(e, from, to))

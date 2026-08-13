@@ -25,7 +25,7 @@
 import { createHash } from "node:crypto";
 import type { IndexedEvent } from "@/lib/event-index";
 import { candidatesFor } from "./select";
-import { checkSubject, checkWording } from "./dedupe";
+import { checkSameDayVariety, checkSubject, checkWording } from "./dedupe";
 import { validatePost } from "./validate";
 import { VALIDATOR_VERSION } from "./validate";
 import { PROMPT_VERSION } from "./prompt";
@@ -119,7 +119,7 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
   }
 
   // ---- gate 2: subject eligibility, per platform ---------------------------
-  const chosen = chooseCandidate(candidates, ledger, now);
+  const chosen = chooseCandidate(candidates, ledger, now, today);
   if (!chosen) {
     const why = firstRejection(candidates, ledger, now);
     return finish(
@@ -306,6 +306,7 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     angle,
     score: candidate.score,
     scoreExplain: candidate.scoreExplain,
+    topicKey: candidate.topicKey,
     deepLink: candidate.deepLink,
     validator: mergeValidation(validation, eligible),
     dedupe: dedupeResult,
@@ -333,11 +334,21 @@ interface Chosen {
  * Walking the list rather than testing only the top candidate is what stops one
  * permanently-blocked subject from silencing a slot indefinitely.
  */
-function chooseCandidate(candidates: Candidate[], ledger: PostLedger, now: Date): Chosen | null {
+function chooseCandidate(
+  candidates: Candidate[],
+  ledger: PostLedger,
+  now: Date,
+  localDate: string
+): Chosen | null {
   for (const candidate of candidates) {
     const perPlatform = new Map<Platform, Angle[]>();
 
     for (const platform of PLATFORMS) {
+      // Same-day variety first: it is the cheapest check and the one most
+      // likely to reject, because the three slots run against a ledger that
+      // already holds today's earlier posts.
+      if (!checkSameDayVariety(ledger, candidate.topicKey, localDate, platform).ok) continue;
+
       const check = checkSubject(
         ledger,
         candidate.subjectId,
@@ -391,6 +402,7 @@ function emptyOutcome(
     angle: null,
     score: null,
     scoreExplain: null,
+    topicKey: null,
     deepLink: null,
     poolSize,
     validator: null,
@@ -480,6 +492,7 @@ function toRecord(
     subjectLabel: outcome.subjectLabel,
     angle: outcome.angle,
     score: outcome.score,
+    topicKey: outcome.topicKey,
     text: platform.text,
     deepLink: outcome.deepLink,
     externalId: platform.externalId,
@@ -551,6 +564,7 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
     angle: envelope.angle,
     score: envelope.score,
     scoreExplain: envelope.scoreExplain,
+    topicKey: null,
     deepLink: envelope.deepLink,
     poolSize: 0,
     validator: null,

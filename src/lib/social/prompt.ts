@@ -216,6 +216,8 @@ function angleBrief(angle: Angle, facts: FactSet): string {
   const briefs: Record<Angle, string> = {
     breaking_change:
       "This just published and it changes something. Say what it does, in force or not, and who issued it.",
+    what_it_requires:
+      "The document imposes a requirement — a fee, a filing step, an eligibility test, an evidentiary standard. State it as a property of the rule: 'the rule requires', 'the fee applies to', 'filings on or after X must include'. NEVER as an instruction: no 'you should', no 'make sure to', no 'apply now'. The reader decides what to do; your job is to tell them precisely what the document says, so they can.",
     who_is_affected:
       "Focus on the population this reaches. Use only the categories, countries or visa types named in the fact set.",
     what_changed_from_previous:
@@ -224,6 +226,8 @@ function angleBrief(angle: Angle, facts: FactSet): string {
       "The effective date is the news. State what changes on that date and what is true until then.",
     deadline_approaching:
       "A recurring deadline is coming. State what it is, when, and what the window is for. Do not tell anyone to act.",
+    preparation_window:
+      "A window opens some time ahead — far enough away that urgency would be false. Say what the window is, roughly when it falls, and what the official source actually determines about it. The value is knowing it is coming, not being hurried. Do not use countdown language, do not imply anything is closing, and if the date is approximate say so plainly.",
     historical_context:
       "Place this among the related activity named in the fact set. Do not characterise a trend the fact set does not state.",
     // Both variants of this brief are here rather than one hedged version,
