@@ -40,8 +40,16 @@ import { LIMITS, permittedAgencies } from "./validate";
  *     and unsupported by the closed world, which is exactly the failure the
  *     validator exists to catch — but the model had no way to know which
  *     attributions were available. v3 computes and states them.
+ *
+ * v4 gives the account its subject. The copy was accurate and could have come
+ * from any immigration news feed, because nothing told the model what
+ * ImmigrationClock is FOR: the time dimension — when a change bites, which
+ * window is open, what is still ahead. v4 states that, gives it a shape
+ * (what changed -> when it matters -> who should pay attention -> what happens
+ * next), and renders an explicit TIMING block so an ABSENT date is as visible
+ * as a present one.
  */
-export const PROMPT_VERSION = "social-prompt/3";
+export const PROMPT_VERSION = "social-prompt/4";
 
 /**
  * The band X copy should land in.
@@ -65,6 +73,28 @@ export const SYSTEM_PROMPT = `You write short posts for ImmigrationClock, a U.S.
 
 The account is a reference source. People follow it to find out what actually changed, from an outfit that does not overstate. Its credibility is the only thing it has.
 
+WHAT MAKES THIS ACCOUNT DIFFERENT FROM AN IMMIGRATION NEWS FEED
+
+ImmigrationClock's subject is the TIME DIMENSION of U.S. immigration: when something changes, when it starts to bite, which window is open, what is still ahead. Anyone can restate a Federal Register summary. The reader came here to know where a change sits on a calendar and whether it is on their radar yet.
+
+So structure every post around as much of this as the facts support, in this order:
+
+  WHAT CHANGED  ->  WHEN IT MATTERS  ->  WHO SHOULD PAY ATTENTION  ->  WHAT HAPPENS NEXT
+
+Not as four labelled sections — as the shape of the thought. On X you will often fit only the first two, and that is the right two to keep. Drop a beat the fact set cannot support rather than padding it.
+
+TIMING IS THE POINT, AND TIMING IS NEVER INVENTED
+
+- If the fact set records an effective date, it belongs in the post. That is the single most useful thing you can tell someone.
+- If it records none, say so plainly — "no implementation date has been set", "the timing has not been announced" — and never imply one exists. An absent date is information, not a gap to smooth over.
+- A proposed rule is not on anyone's calendar yet. Say what would have to happen for it to become operative: it would have to be finalised. Never give a proposed rule an effective date, and never describe it as coming into force.
+- For a recurring window, the useful thing is the preparation time ahead of it, not a description of the program.
+- Never state a consequence, a deadline, or a next step the fact set does not contain.
+
+WHAT THIS ACCOUNT DOES NOT DO
+
+It does not track anyone's individual case, and it cannot say what will happen to a specific application. Never write anything that implies otherwise — no "your case", no "check your status here", no suggestion that following this account tells someone about their own filing. The subject is always the rule and the calendar, never the reader's file.
+
 You will be given a closed set of facts about one subject and one editorial angle. Everything you may say must come from those facts. You have no other information about this subject and no way to look anything up — if a detail is not in the fact set, it is not available to you, and writing it would be fabrication rather than recall.
 
 Hard rules:
@@ -77,7 +107,7 @@ Hard rules:
 - A proposed rule is not law. An announcement is not the legal instrument. Say which one you are describing.
 - No emoji, no engagement bait, no threads.
 
-Voice: plain declarative sentences. Specific nouns. No throat-clearing, no build-up, no rhetorical questions. Assume the reader is an informed adult who wants the fact, not a reaction to the fact. Where the subject affects people's status or obligations, the appropriate register is careful, not dramatic — the facts carry the weight without help.
+Voice: plain declarative sentences. Not a government notice and not a rewrite of the source document — a person who has read the document telling you the part that matters and when. Specific nouns. No throat-clearing, no build-up, no rhetorical questions. Assume the reader is an informed adult who wants the fact, not a reaction to the fact. Where the subject affects people's status or obligations, the appropriate register is careful, not dramatic — the facts carry the weight without help.
 
 Return both platform variants in one response. They cover the same subject from the same angle but are written for different readers, not truncated from one another.`;
 
@@ -135,6 +165,12 @@ function renderFacts(facts: FactSet): string {
   if (facts.classification) lines.push(`TYPE: ${facts.classification}`);
   if (facts.severity) lines.push(`SEVERITY (our classification): ${facts.severity}`);
   lines.push("");
+  // Timing first, before the source's own prose. The order is the instruction:
+  // this account leads with where a change sits on a calendar, and the summary
+  // is context for that rather than the other way round.
+  lines.push(renderTiming(facts));
+
+  lines.push("");
   lines.push(`SUMMARY AS PUBLISHED:\n${facts.summary}`);
 
   // Rendered as finished sentences, not as a table of values. The arithmetic and
@@ -190,6 +226,41 @@ function renderFacts(facts: FactSet): string {
  * available" plus a concrete neutral alternative is a usable instruction; silence
  * is an invitation.
  */
+/**
+ * The calendar position of this subject, stated positively in both directions.
+ *
+ * An absent effective date used to be visible only as a prohibition buried in
+ * the caveats ("do not state one"), which reads as a gap to write around. Here
+ * it is a fact with its own line, because "no date has been set" is genuinely
+ * useful to a reader deciding whether something is on their radar yet — and it
+ * is the honest answer far more often than a date is.
+ */
+function renderTiming(facts: FactSet): string {
+  const lines = ["TIMING — the part this account exists for:"];
+
+  if (facts.classification === "proposed_rule") {
+    lines.push(
+      "- This is a PROPOSAL. It is not on anyone's calendar. It would have to be finalised before any date attaches to it, and it may never be."
+    );
+  }
+
+  if (facts.effectiveAt) {
+    lines.push(`- Takes effect: ${facts.effectiveAt}. Say so — it is the most useful fact you have.`);
+  } else if (facts.classification !== "proposed_rule") {
+    lines.push(
+      "- NO effective or implementation date is recorded. State that plainly rather than omitting it: the absence is the timing information."
+    );
+  }
+
+  if (facts.publishedAt) lines.push(`- Published: ${facts.publishedAt}.`);
+
+  lines.push(
+    "- Anything else about timing — a deadline, a phase-in, a next step, a consequence that starts later — is not available unless it appears in the facts below."
+  );
+
+  return lines.join("\n");
+}
+
 function renderAttribution(facts: FactSet): string {
   const agencies = permittedAgencies(facts);
   const head = `PERMITTED ATTRIBUTION — the ONLY names you may attribute this to:`;
@@ -215,17 +286,17 @@ function renderAttribution(facts: FactSet): string {
 function angleBrief(angle: Angle, facts: FactSet): string {
   const briefs: Record<Angle, string> = {
     breaking_change:
-      "This just published and it changes something. Say what it does, in force or not, and who issued it.",
+      "This just published and it changes something. Say what it does, whether it is in force yet, and — the part a news feed would leave out — when it starts to matter. If no date is recorded, say that no implementation date has been set.",
     what_it_requires:
-      "The document imposes a requirement — a fee, a filing step, an eligibility test, an evidentiary standard. State it as a property of the rule: 'the rule requires', 'the fee applies to', 'filings on or after X must include'. NEVER as an instruction: no 'you should', no 'make sure to', no 'apply now'. The reader decides what to do; your job is to tell them precisely what the document says, so they can.",
+      "The document imposes a requirement, and the reader's real question is FROM WHEN. Pair the requirement with its timing: what it requires, and the date it applies from — or that no date has been set.  — a fee, a filing step, an eligibility test, an evidentiary standard. State it as a property of the rule: 'the rule requires', 'the fee applies to', 'filings on or after X must include'. NEVER as an instruction: no 'you should', no 'make sure to', no 'apply now'. The reader decides what to do; your job is to tell them precisely what the document says, so they can.",
     who_is_affected:
-      "Focus on the population this reaches. Use only the categories, countries or visa types named in the fact set.",
+      "Focus on the population this reaches, using only the categories, countries or visa types named in the fact set. Where the facts carry timing, say when it reaches them — 'who, and from when' is more useful than 'who'. Never suggest this tells anyone about their own case.",
     what_changed_from_previous:
       "Focus on the difference between the prior state and the current one, as far as the fact set describes it. If the fact set does not describe the prior state, say what the document revises rather than inventing the before.",
     effective_date_reminder:
-      "The effective date is the news. State what changes on that date and what is true until then.",
+      "The effective date is the news. State what changes on that date, and what remains true until then — the gap between now and then is the useful part, because it is the part someone can still plan around.",
     deadline_approaching:
-      "A recurring deadline is coming. State what it is, when, and what the window is for. Do not tell anyone to act.",
+      "A recurring deadline is coming. State what it is, roughly when, and what the window is for. The value is the time left, not the description of the program. Do not tell anyone to act.",
     preparation_window:
       "A window opens some time ahead — far enough away that urgency would be false. Say what the window is, roughly when it falls, and what the official source actually determines about it. The value is knowing it is coming, not being hurried. Do not use countdown language, do not imply anything is closing, and if the date is approximate say so plainly.",
     historical_context:

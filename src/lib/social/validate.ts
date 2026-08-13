@@ -45,8 +45,12 @@ import type { FactSet, Platform, ValidationResult } from "./types";
  * v2 admits `facts.dataPoints` to the grounding corpora. No check was relaxed:
  * the field carries figures deterministic code computed, and a numeral that is
  * not in the fact set is still unpublishable.
+ *
+ * v3 adds the INDIVIDUAL_CASE group. Nothing was relaxed here either — it is a
+ * new refusal, for copy that implies this account knows something about the
+ * reader's own filing.
  */
-export const VALIDATOR_VERSION = "social-validator/2";
+export const VALIDATOR_VERSION = "social-validator/3";
 
 // -----------------------------------------------------------------------------
 // PLATFORM SHAPE
@@ -108,6 +112,27 @@ const LEGAL_ADVICE: [RegExp, string][] = [
   [/\bif you'?re affected,? (you|do|make)\b/i, "advice framing"],
 ];
 
+/**
+ * Claims that this account knows something about the reader's own file.
+ *
+ * ImmigrationClock tracks rules and calendars. It has never held a case record
+ * and cannot say what will happen to a specific application, so copy implying
+ * otherwise is not a tone problem — it is a false claim about what the product
+ * is, made to people who are anxious and looking for exactly that.
+ *
+ * Narrow by construction. "Track" alone is fine and common ("we track WARN
+ * notices"); what is banned is track-plus-a-personal-object. The legal-advice
+ * group already catches "your case will…"; this catches the offer of a service
+ * that does not exist.
+ */
+const INDIVIDUAL_CASE: [RegExp, string][] = [
+  [/\btrack(ing|s)? your\b/i, "implies we track the reader's own case"],
+  [/\b(check|monitor|follow) your (case|status|application|petition|filing)\b/i, "implies individual case tracking"],
+  [/\byour (case|application|petition|filing) (status|outcome|result)\b/i, "implies individual case tracking"],
+  [/\bwhat (this|it) means for your\b/i, "implies individual case analysis"],
+  [/\bcase (status|outcome) (tracker|tracking|updates?)\b/i, "implies a case-tracking product"],
+];
+
 const UNSUPPORTED_SUPERLATIVE: [RegExp, string][] = [
   [/\bunprecedented\b/i, "unsupported superlative"],
   [/\bfirst time ever\b/i, "unsupported superlative"],
@@ -148,6 +173,7 @@ const EMOJI =
 const ALL_BANNED = [
   ...SPECULATION,
   ...LEGAL_ADVICE,
+  ...INDIVIDUAL_CASE,
   ...UNSUPPORTED_SUPERLATIVE,
   ...ENGAGEMENT_BAIT,
 ];
