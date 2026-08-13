@@ -34,6 +34,7 @@ import {
 } from "./score";
 import { buildEventFacts, buildKeyDateFacts, buildAssetFacts } from "./facts";
 import { buildAssetVisual, buildEventVisual, buildKeyDateVisual } from "./visuals";
+import { keyDateMilestone, topicFamilyFor } from "./rotation";
 import { assetInsights } from "./asset-facts";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import type { Angle, Candidate, SlotDef } from "./types";
@@ -233,6 +234,13 @@ export function standingPool(today: string): Candidate[] {
     // A deadline is worth a post when it is approaching, not year-round.
     if (info.days > 120) continue;
 
+    // AND only at a milestone. A countdown decrements every day, which used to
+    // make every day look like new content — the DV window won the evening slot
+    // for weeks because 53 days scores the same as 54. Crossing a threshold is
+    // news; a decrement is not.
+    const milestone = keyDateMilestone(info.days);
+    if (!milestone) continue;
+
     // Nearer deadlines score higher; everything here outranks a dataset when
     // inside the urgent window.
     const urgency = info.days <= DEADLINE_URGENT_DAYS ? 3000 : 1500;
@@ -248,11 +256,19 @@ export function standingPool(today: string): Candidate[] {
     out.push({
       subjectId: `keydate:${kd.id}`,
       pool: "standing",
-      label: `${kd.title} (${info.days} days away)`,
+      label: `${kd.title} (${milestone})`,
       score,
       scoreExplain: `keydate days=${info.days} urgent=${info.days <= DEADLINE_URGENT_DAYS}`,
       supportedAngles: [angle],
       topicKey: topicKeyFor({ subjectId: `keydate:${kd.id}`, keyDateCategory: kd.category }),
+      topicFamily: topicFamilyFor({
+        subjectId: `keydate:${kd.id}`,
+        topicKey: topicKeyFor({ subjectId: `keydate:${kd.id}`, keyDateCategory: kd.category }),
+        keyDateCategory: kd.category,
+      }),
+      // Reaching selection at all means a milestone was crossed, which IS the
+      // new information.
+      hasNewInformation: true,
       deepLink: "/key-dates",
       sourceUrl: kd.sourceUrl,
       event: null,
@@ -283,6 +299,14 @@ export function standingPool(today: string): Candidate[] {
       scoreExplain: `asset rotation position=${normalized}`,
       supportedAngles: ["data_insight"],
       topicKey: topicKeyFor({ subjectId: `asset:${asset.id}`, assetTags: asset.tags }),
+      topicFamily: topicFamilyFor({
+        subjectId: `asset:${asset.id}`,
+        topicKey: topicKeyFor({ subjectId: `asset:${asset.id}`, assetTags: asset.tags }),
+        assetTags: asset.tags,
+      }),
+      // A standing page has nothing new by definition. It comes back on the
+      // far side of the subject window, not because anything changed.
+      hasNewInformation: false,
       deepLink: asset.path,
       sourceUrl: null,
       event: null,
@@ -348,6 +372,21 @@ function toEventCandidate(
     scoreExplain: explain,
     supportedAngles: angles,
     topicKey: topicKeyFor({ subjectId: `event:${event.id}`, event }),
+    topicFamily: topicFamilyFor({
+      subjectId: `event:${event.id}`,
+      topicKey: topicKeyFor({ subjectId: `event:${event.id}`, event }),
+      event,
+    }),
+    // News is new by definition. An archive item counts as new only when its
+    // timing has moved into view — an effective date now inside 90 days is a
+    // genuine reason to say it again.
+    hasNewInformation:
+      pool === "news" ||
+      Boolean(
+        event.effectiveAt &&
+          event.effectiveAt > today &&
+          daysBetweenIso(today, event.effectiveAt) <= 90
+      ),
     deepLink,
     sourceUrl: event.sourceUrl,
     event,

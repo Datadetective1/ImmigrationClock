@@ -32,7 +32,8 @@
     "social:approve": "tsx scripts/social-approve.ts approve",
     "social:preflight": "tsx scripts/social-preflight.ts",
     "social:verify-x": "tsx scripts/social-verify-x.ts",
-    "social:simulate": "tsx scripts/social-simulate.ts"
+    "social:simulate": "tsx scripts/social-simulate.ts",
+    "social:rotation": "tsx scripts/social-rotation-report.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",

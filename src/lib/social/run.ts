@@ -26,6 +26,7 @@ import { createHash } from "node:crypto";
 import type { IndexedEvent } from "@/lib/event-index";
 import { candidatesFor } from "./select";
 import { checkSameDayVariety, checkSubject, checkWording } from "./dedupe";
+import { applyRotation, buildMemory, type RotationResult } from "./rotation";
 import { validatePost } from "./validate";
 import { VALIDATOR_VERSION } from "./validate";
 import { PROMPT_VERSION } from "./prompt";
@@ -307,6 +308,9 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     score: candidate.score,
     scoreExplain: candidate.scoreExplain,
     topicKey: candidate.topicKey,
+    topicFamily: candidate.topicFamily,
+    adjustedScore: chosen.rotation.adjustedScore,
+    rotationExplain: chosen.rotation.explain,
     deepLink: candidate.deepLink,
     validator: mergeValidation(validation, eligible),
     dedupe: dedupeResult,
@@ -325,22 +329,81 @@ interface Chosen {
   angle: Angle;
   /** Platforms this subject+angle may run on today. */
   eligible: Platform[];
+  /** Why this one won: base score, penalties applied, adjusted total. */
+  rotation: RotationResult;
+}
+
+/** A candidate rejected before it could compete, and the reason. */
+export interface RotationRejection {
+  subjectId: string;
+  label: string;
+  topicFamily: string;
+  baseScore: number;
+  reason: string;
 }
 
 /**
- * The highest-scoring candidate that is still available somewhere, with the
- * best angle still open for it.
+ * The best candidate that PRESERVES FEED DIVERSITY, with the best angle open.
  *
- * Walking the list rather than testing only the top candidate is what stops one
- * permanently-blocked subject from silencing a slot indefinitely.
+ * The rule used to be "highest score, walking down the list until one is
+ * available". That is a machine for repetition: an evergreen scores the same
+ * every day, so it wins every day, and dedupe only stopped the same
+ * subject×angle pair — not the same subject with a fresh angle, and not the same
+ * topic wearing a different subject id.
+ *
+ * Now every candidate is re-ranked on `base score − repetition penalties` (see
+ * rotation.ts) before the availability gates run. Penalties rather than filters,
+ * so a genuinely major development can still outrank freshness — which is
+ * correct, and is the "unless there is genuinely important new information"
+ * escape hatch expressed as arithmetic rather than a special case.
  */
 function chooseCandidate(
   candidates: Candidate[],
   ledger: PostLedger,
   now: Date,
-  localDate: string
+  localDate: string,
+  rejections?: RotationRejection[]
 ): Chosen | null {
-  for (const candidate of candidates) {
+  // One memory per platform, built once rather than per candidate.
+  const memories = new Map(
+    PLATFORMS.map((p) => [p, buildMemory(ledger, p, now, localDate)] as const)
+  );
+
+  // Rank on X's memory: it is the platform that publishes today, and ranking
+  // per-platform would let the two feeds diverge into different stories.
+  const ranked = candidates
+    .map((candidate) => ({
+      candidate,
+      rotation: applyRotation(
+        {
+          subjectId: candidate.subjectId,
+          topicFamily: candidate.topicFamily,
+          deepLink: candidate.deepLink,
+          angle: candidate.supportedAngles[0],
+          baseScore: candidate.score,
+          hasNewInformation: candidate.hasNewInformation,
+        },
+        memories.get("x")!
+      ),
+    }))
+    .filter((r) => {
+      if (r.rotation.eligible) return true;
+      rejections?.push({
+        subjectId: r.candidate.subjectId,
+        label: r.candidate.label,
+        topicFamily: r.candidate.topicFamily,
+        baseScore: r.candidate.score,
+        reason: r.rotation.blockedBy ?? "rotation",
+      });
+      return false;
+    })
+    .sort(
+      (a, b) =>
+        b.rotation.adjustedScore - a.rotation.adjustedScore ||
+        a.candidate.subjectId.localeCompare(b.candidate.subjectId)
+    );
+
+  for (const { candidate, rotation } of ranked) {
     const perPlatform = new Map<Platform, Angle[]>();
 
     for (const platform of PLATFORMS) {
@@ -361,17 +424,41 @@ function chooseCandidate(
       if (check.ok) perPlatform.set(platform, check.availableAngles);
     }
 
-    if (perPlatform.size === 0) continue;
+    if (perPlatform.size === 0) {
+      rejections?.push({
+        subjectId: candidate.subjectId,
+        label: candidate.label,
+        topicFamily: candidate.topicFamily,
+        baseScore: candidate.score,
+        reason: "same-day variety or subject/URL cooldown",
+      });
+      continue;
+    }
 
     // Prefer an angle open on the most platforms; ties break on the candidate's
     // own preference order, which select.ts already sorted by how well the data
     // supports each treatment.
     for (const angle of candidate.supportedAngles) {
       const eligible = PLATFORMS.filter((p) => perPlatform.get(p)?.includes(angle));
-      if (eligible.length > 0) return { candidate, angle, eligible };
+      if (eligible.length > 0) return { candidate, angle, eligible, rotation };
     }
   }
   return null;
+}
+
+/**
+ * Rank without running the pipeline. Used by the simulator to report what the
+ * rotation layer did and, crucially, what it turned away.
+ */
+export function explainRotation(
+  candidates: Candidate[],
+  ledger: PostLedger,
+  now: Date,
+  localDate: string
+): { chosen: Chosen | null; rejections: RotationRejection[] } {
+  const rejections: RotationRejection[] = [];
+  const chosen = chooseCandidate(candidates, ledger, now, localDate, rejections);
+  return { chosen, rejections };
 }
 
 function firstRejection(candidates: Candidate[], ledger: PostLedger, now: Date): string {
@@ -403,6 +490,9 @@ function emptyOutcome(
     score: null,
     scoreExplain: null,
     topicKey: null,
+    topicFamily: null,
+    adjustedScore: null,
+    rotationExplain: null,
     deepLink: null,
     poolSize,
     validator: null,
@@ -493,6 +583,9 @@ function toRecord(
     angle: outcome.angle,
     score: outcome.score,
     topicKey: outcome.topicKey,
+    topicFamily: outcome.topicFamily,
+    adjustedScore: outcome.adjustedScore,
+    rotationExplain: outcome.rotationExplain,
     text: platform.text,
     deepLink: outcome.deepLink,
     externalId: platform.externalId,
@@ -565,6 +658,9 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
     score: envelope.score,
     scoreExplain: envelope.scoreExplain,
     topicKey: null,
+    topicFamily: null,
+    adjustedScore: null,
+    rotationExplain: null,
     deepLink: envelope.deepLink,
     poolSize: 0,
     validator: null,

@@ -202,10 +202,19 @@ describe("standing pool", () => {
     expect(assetsOn("2026-08-10")).not.toBe(assetsOn("2026-08-11"));
   });
 
-  it("puts an urgent deadline ahead of every dataset", () => {
-    // 2026-09-10 is within 45 days of the 1 October fiscal-year start.
-    const top = standingPool("2026-09-10")[0];
+  it("puts a deadline ahead of every dataset — on a milestone day", () => {
+    // 2026-09-17 is exactly 14 days before the 1 October fiscal-year start, so
+    // the key date qualifies AND outranks the assets.
+    const top = standingPool("2026-09-17")[0];
     expect(top.subjectId.startsWith("keydate:")).toBe(true);
+  });
+
+  it("offers no key date at all on a non-milestone day", () => {
+    // 2026-09-10 is 21 days out — close, but not a threshold anyone crosses.
+    // Before rotation this still qualified, and a countdown that decrements by
+    // one was treated as new content every single day.
+    const keydates = standingPool("2026-09-10").filter((c) => c.subjectId.startsWith("keydate:"));
+    expect(keydates).toHaveLength(0);
   });
 
   it("offers assets only the data-insight angle", () => {

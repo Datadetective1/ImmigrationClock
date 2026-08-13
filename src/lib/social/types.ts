@@ -20,6 +20,7 @@
 
 import type { IndexedEvent } from "@/lib/event-index";
 import type { VisualSpec } from "./visuals";
+import type { TopicFamily } from "./rotation";
 
 // -----------------------------------------------------------------------------
 // SLOTS
@@ -174,6 +175,16 @@ export interface Candidate {
    * enforced on this key, not on the subject — see checkSameDayVariety().
    */
   topicKey: string;
+  /** The coarse section of immigration this belongs to. See rotation.ts. */
+  topicFamily: TopicFamily;
+  /**
+   * Does this candidate have something genuinely new to say?
+   *
+   * A fresh publication, a timing change, or an approaching milestone. After a
+   * subject's 14-day heavy-penalty band this is what separates "worth saying
+   * again" from "still in the index".
+   */
+  hasNewInformation: boolean;
   /** The ImmigrationClock page this post sends people to. */
   deepLink: string;
   /** The government document behind it, when there is one. */
@@ -349,6 +360,12 @@ export interface SlotOutcome {
   scoreExplain: string | null;
   /** Coarse topic, recorded so same-day variety can be enforced tomorrow. */
   topicKey: string | null;
+  /** Topic family, recorded so tomorrow's rotation can read this week's feed. */
+  topicFamily: string | null;
+  /** Base score minus the repetition penalties. What actually won the slot. */
+  adjustedScore: number | null;
+  /** Which penalties applied, so a selection can be explained later. */
+  rotationExplain: string | null;
   deepLink: string | null;
   /** Candidates considered before one was chosen. For auditing selection. */
   poolSize: number;

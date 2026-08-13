@@ -74,6 +74,15 @@ export interface PostRecord {
    * variety existed, which read as "unknown topic" and therefore block nothing.
    */
   topicKey: string | null;
+  /**
+   * The coarse family this post belonged to. Null on rows written before
+   * rotation existed, which read as "unknown family" and so apply no fatigue.
+   */
+  topicFamily: string | null;
+  /** Base score minus repetition penalties — the number that won the slot. */
+  adjustedScore: number | null;
+  /** Which penalties applied. Free text, for auditing a selection later. */
+  rotationExplain: string | null;
 
   inputTokens: number | null;
   outputTokens: number | null;
