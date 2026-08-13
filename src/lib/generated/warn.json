@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T11:37:39.457Z",
+  "generatedAt": "2026-08-13T11:39:17.279Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 89,
-      "employeesTotal": 4957,
-      "latestNotice": "2026-08-05",
-      "withNoticeDate": 89,
+      "noticeCount": 98,
+      "employeesTotal": 5633,
+      "latestNotice": "2026-08-07",
+      "withNoticeDate": 98,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 7737,
-  "employeesTotal": 994555,
-  "employerCount": 6015,
+  "noticeCount": 7746,
+  "employeesTotal": 995231,
+  "employerCount": 6021,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-05",
+  "maxNoticeDate": "2026-08-07",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -7506,6 +7506,18 @@
       "latestNotice": "2008-04-09"
     },
     {
+      "normalized": "ESSENDANT",
+      "name": "Essendant Co.",
+      "slug": "essendant-co",
+      "notices": 3,
+      "employees": 274,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-08-03"
+    },
+    {
       "normalized": "PRIME EFS",
       "name": "Prime EFS LLC",
       "slug": "prime-efs-llc",
@@ -14029,17 +14041,6 @@
       "latestNotice": "2009-06-30"
     },
     {
-      "normalized": "ESSENDANT",
-      "name": "Essendant",
-      "slug": "essendant",
-      "notices": 1,
-      "employees": 171,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2025-12-01"
-    },
-    {
       "normalized": "FURNISHARE",
       "name": "Furnishare Inc",
       "slug": "furnishare-inc",
@@ -18420,6 +18421,17 @@
         "NJ"
       ],
       "latestNotice": "2026-09-01"
+    },
+    {
+      "normalized": "LAZ PARKING CALIFORNIA (9610 SKY WAY)",
+      "name": "LAZ Parking California (9610 Sky Way)",
+      "slug": "laz-parking-california-9610-sky-way",
+      "notices": 1,
+      "employees": 139,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-06"
     },
     {
       "normalized": "EMERSON",
@@ -22960,6 +22972,17 @@
       "latestNotice": "2007-12-26"
     },
     {
+      "normalized": "SILGAN CONTAINERS",
+      "name": "Silgan Containers",
+      "slug": "silgan-containers",
+      "notices": 2,
+      "employees": 115,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-21"
+    },
+    {
       "normalized": "PROVIDENCE MEDICAL GROUP",
       "name": "Providence Medical Group",
       "slug": "providence-medical-group",
@@ -24307,6 +24330,17 @@
         "NJ"
       ],
       "latestNotice": "2006-03-24"
+    },
+    {
+      "normalized": "STAPLES FULFILLMENT CENTER",
+      "name": "Staples Fulfillment Center",
+      "slug": "staples-fulfillment-center",
+      "notices": 1,
+      "employees": 109,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-05"
     },
     {
       "normalized": "PCA (PACKAGING OF AMERICA)",
@@ -29273,6 +29307,17 @@
         "WA"
       ],
       "latestNotice": "2004-03-08"
+    },
+    {
+      "normalized": "RENTERIA VINEYARD MANAGEMENT",
+      "name": "Renteria Vineyard Management",
+      "slug": "renteria-vineyard-management",
+      "notices": 1,
+      "employees": 91,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-07"
     },
     {
       "normalized": "HARRIS TEETER",
@@ -39008,6 +39053,17 @@
       "latestNotice": "2004-11-07"
     },
     {
+      "normalized": "G3 ENTERPRISES",
+      "name": "G3 Enterprises",
+      "slug": "g3-enterprises",
+      "notices": 1,
+      "employees": 66,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-07"
+    },
+    {
       "normalized": "PRINEVILLE OR FACILITY",
       "name": "Prineville, OR Facility",
       "slug": "prineville-or-facility",
@@ -42792,6 +42848,17 @@
       "latestNotice": "2026-08-07"
     },
     {
+      "normalized": "LAZ PARKING CALIFORNIA (5455 WEST 111TH STREET)",
+      "name": "LAZ Parking California (5455 West 111th Street)",
+      "slug": "laz-parking-california-5455-west-111th-street",
+      "notices": 1,
+      "employees": 58,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-06"
+    },
+    {
       "normalized": "REFRESCO BEVERAGES",
       "name": "Refresco Beverages US Inc",
       "slug": "refresco-beverages-us-inc",
@@ -44385,17 +44452,6 @@
         "WA"
       ],
       "latestNotice": "2026-08-03"
-    },
-    {
-      "normalized": "SILGAN CONTAINERS",
-      "name": "Silgan Containers",
-      "slug": "silgan-containers",
-      "notices": 1,
-      "employees": 55,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-21"
     },
     {
       "normalized": "NBCUNIVERSAL MEDIA - 1460",
@@ -46443,6 +46499,17 @@
         "NJ"
       ],
       "latestNotice": "2005-07-15"
+    },
+    {
+      "normalized": "LAZ PARKING CALIFORNIA (5251 WEST 98TH STREET)",
+      "name": "LAZ Parking California (5251 West 98th Street)",
+      "slug": "laz-parking-california-5251-west-98th-street",
+      "notices": 1,
+      "employees": 50,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-06"
     },
     {
       "normalized": "O'BRIEN'S MARKET",
@@ -66893,6 +66960,30 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Renteria Vineyard Management",
+      "normalized": "RENTERIA VINEYARD MANAGEMENT",
+      "city": "Napa",
+      "county": "Napa",
+      "state": "CA",
+      "noticeDate": "2026-08-07",
+      "effectiveDate": "2026-10-15",
+      "employees": 91,
+      "layoffType": "Layoff Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "G3 Enterprises",
+      "normalized": "G3 ENTERPRISES",
+      "city": "Modesto",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-08-07",
+      "effectiveDate": "2026-10-06",
+      "employees": 66,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Verizon",
       "normalized": "VERIZON",
       "city": "Basking Ridge",
@@ -66929,6 +67020,42 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "LAZ Parking California (9610 Sky Way)",
+      "normalized": "LAZ PARKING CALIFORNIA (9610 SKY WAY)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-06",
+      "effectiveDate": "2026-10-06",
+      "employees": 139,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "LAZ Parking California (5455 West 111th Street)",
+      "normalized": "LAZ PARKING CALIFORNIA (5455 WEST 111TH STREET)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-06",
+      "effectiveDate": "2026-10-06",
+      "employees": 58,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "LAZ Parking California (5251 West 98th Street)",
+      "normalized": "LAZ PARKING CALIFORNIA (5251 WEST 98TH STREET)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-06",
+      "effectiveDate": "2026-10-06",
+      "employees": 50,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Eclipse Advantage, LLC",
       "normalized": "ECLIPSE ADVANTAGE",
       "city": "Ontario",
@@ -66950,6 +67077,18 @@
       "effectiveDate": "2026-10-05",
       "employees": 74,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Staples Fulfillment Center",
+      "normalized": "STAPLES FULFILLMENT CENTER",
+      "city": "La Mirada",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-05",
+      "effectiveDate": "2026-10-09",
+      "employees": 109,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -67011,6 +67150,30 @@
       "employees": 91,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Essendant Co.",
+      "normalized": "ESSENDANT",
+      "city": "Perris",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-08-03",
+      "effectiveDate": "2026-10-03",
+      "employees": 4,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Essendant Co.",
+      "normalized": "ESSENDANT",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-08-03",
+      "effectiveDate": "2026-10-03",
+      "employees": 99,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Federal Express Corporation",
@@ -67741,6 +67904,18 @@
       "noticeDate": "2026-07-21",
       "effectiveDate": "2026-09-21",
       "employees": 55,
+      "layoffType": "Layoff Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Silgan Containers",
+      "normalized": "SILGAN CONTAINERS",
+      "city": "Modesto",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-07-21",
+      "effectiveDate": "2026-07-21",
+      "employees": 60,
       "layoffType": "Layoff Temporary",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },

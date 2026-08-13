@@ -29,16 +29,24 @@ Meta,META,Statewide,,NJ,,2026-08-20,74,,https://www.nj.gov/labor/employer-servic
 Acme Markets Inc.,ACME MARKETS,Edgewater,,NJ,,2026-08-15,115,,https://www.nj.gov/labor/employer-services/warn/
 Embassy Suites by Hilton,EMBASSY SUITES BY HILTON,Parsippany,,NJ,,2026-08-14,54,,https://www.nj.gov/labor/employer-services/warn/
 Barclays,BARCLAYS,Whippany,,NJ,,2026-08-10,64,,https://www.nj.gov/labor/employer-services/warn/
+Renteria Vineyard Management,RENTERIA VINEYARD MANAGEMENT,Napa,Napa,CA,2026-08-07,2026-10-15,91,Layoff Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+G3 Enterprises,G3 ENTERPRISES,Modesto,Stanislaus,CA,2026-08-07,2026-10-06,66,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Verizon,VERIZON,Basking Ridge,,NJ,,2026-08-07,121,,https://www.nj.gov/labor/employer-services/warn/
 Amicus Therapeutics,AMICUS THERAPEUTICS,Princeton,,NJ,,2026-08-07,58,,https://www.nj.gov/labor/employer-services/warn/
 Verizon Corp Resources Group LLC,VERIZON RESOURCES GROUP,Basking Ridge,,NJ,,2026-08-07,156,,https://www.nj.gov/labor/employer-services/warn/
+LAZ Parking California (9610 Sky Way),LAZ PARKING CALIFORNIA (9610 SKY WAY),Los Angeles,Los Angeles,CA,2026-08-06,2026-10-06,139,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+LAZ Parking California (5455 West 111th Street),LAZ PARKING CALIFORNIA (5455 WEST 111TH STREET),Los Angeles,Los Angeles,CA,2026-08-06,2026-10-06,58,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+LAZ Parking California (5251 West 98th Street),LAZ PARKING CALIFORNIA (5251 WEST 98TH STREET),Los Angeles,Los Angeles,CA,2026-08-06,2026-10-06,50,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Eclipse Advantage, LLC",ECLIPSE ADVANTAGE,Ontario,San Bernardino,CA,2026-08-05,2026-10-05,18,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Salesforce, Inc.",SALESFORCE,San Francisco,San Francisco,CA,2026-08-05,2026-10-05,74,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Staples Fulfillment Center,STAPLES FULFILLMENT CENTER,La Mirada,Los Angeles,CA,2026-08-05,2026-10-09,109,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Google,GOOGLE,Various locations in Washington,,WA,2026-08-05,2026-09-06,52,Permanent,https://esd.wa.gov/about-employees/WARN
 "Salesforce, Inc.",SALESFORCE,"Seattle, Bellevue",,WA,2026-08-05,2026-10-05,59,Permanent,https://esd.wa.gov/about-employees/WARN
 "Nutanix, Inc.",NUTANIX,San Jose,Santa Clara,CA,2026-08-04,2026-10-05,65,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Danone North America,DANONE NORTH AMERICA,Bridgeton,,NJ,,2026-08-04,114,,https://www.nj.gov/labor/employer-services/warn/
 Zillow Group,ZILLOW GROUP,Seattle,,WA,2026-08-04,2026-10-05,91,Permanent,https://esd.wa.gov/about-employees/WARN
+Essendant Co.,ESSENDANT,Perris,Riverside,CA,2026-08-03,2026-10-03,4,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Essendant Co.,ESSENDANT,Sacramento,Sacramento,CA,2026-08-03,2026-10-03,99,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Federal Express Corporation,FEDERAL EXPRESS,Union,,NJ,,2026-08-03,50,,https://www.nj.gov/labor/employer-services/warn/
 Accupac,ACCUPAC,Lakewood,,NJ,,2026-08-03,260,,https://www.nj.gov/labor/employer-services/warn/
 JP Morgan Chase,JP MORGAN CHASE,Jersey City,,NJ,,2026-08-03,51,,https://www.nj.gov/labor/employer-services/warn/
@@ -100,6 +108,7 @@ Fortrex,FORTREX,Brawley,Imperial,CA,2026-07-23,2026-08-21,91,Layoff Permanent,ht
 "New Leaf Community Markets, Inc.",NEW LEAF COMMUNITY MARKETS,San Jose,Santa Clara,CA,2026-07-21,2026-09-20,61,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Pixar,PIXAR,Emeryville,Alameda,CA,2026-07-21,2026-09-26,108,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Silgan Containers,SILGAN CONTAINERS,Modesto,Stanislaus,CA,2026-07-21,2026-09-21,55,Layoff Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Silgan Containers,SILGAN CONTAINERS,Modesto,Stanislaus,CA,2026-07-21,2026-07-21,60,Layoff Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "DesigneRX Pharmaceuticals, Inc.",DESIGNERX PHARMACEUTICALS,Vacaville,Solano,CA,2026-07-20,2026-09-21,25,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "NBCUniversal Media, LLC - 1320",NBCUNIVERSAL MEDIA - 1320,Universal City,Los Angeles,CA,2026-07-17,2026-08-28,3,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "NBCUniversal Media, LLC - 1360",NBCUNIVERSAL MEDIA - 1360,Universal City,Los Angeles,CA,2026-07-17,2026-08-28,5,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
