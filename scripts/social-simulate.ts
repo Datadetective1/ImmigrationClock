@@ -21,7 +21,12 @@ import { EVENT_INDEX } from "../src/lib/event-index";
 import { runSlot } from "../src/lib/social/run";
 import { SLOTS } from "../src/lib/social/slots";
 import { createCopyEngine } from "../src/lib/social/copy-engine";
-import { EMPTY_POST_LEDGER, publishedPosts, type PostLedger } from "../src/lib/social/ledger";
+import {
+  EMPTY_POST_LEDGER,
+  parsePostLedger,
+  publishedPosts,
+  type PostLedger,
+} from "../src/lib/social/ledger";
 import { similarity } from "../src/lib/social/dedupe";
 import type { CopyEngine, CopyRequest, EngineResult, SlotOutcome } from "../src/lib/social/types";
 
@@ -124,7 +129,29 @@ async function main() {
         });
   const engine = new RecordingEngine(inner);
 
+  // START FROM REAL HISTORY WHEN ASKED.
+  //
+  // An empty ledger makes a one-day preview lie in the most flattering
+  // direction: every rotation penalty reads zero, because there is nothing to
+  // have repeated. Production reads the committed ledger and therefore knows
+  // that three subjects went out this week. `--ledger=` closes that gap, and the
+  // simulator still WRITES nothing — it carries its copy forward in memory.
   let ledger: PostLedger = EMPTY_POST_LEDGER;
+  const ledgerPath = arg("ledger");
+  if (ledgerPath) {
+    const raw = readFileSync(resolve(ledgerPath), "utf8");
+    const parsed = parsePostLedger(raw);
+    if (!parsed) {
+      throw new Error(`Ledger at ${ledgerPath} is unreadable — refusing to simulate against unknown history.`);
+    }
+    ledger = parsed;
+    console.log(
+      `Starting from ${ledgerPath}: ${parsed.posts.length} row(s), ` +
+        `${publishedPosts(parsed).length} published. Rotation will see this history.
+`
+    );
+  }
+
   const outcomes: SlotOutcome[] = [];
 
   for (let d = 0; d < days; d++) {

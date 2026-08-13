@@ -213,7 +213,10 @@ jobs:
       - name: Preview a whole day (dry run, real model)
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run_day == 'true'
         run: |
-          npm run social:simulate -- --days=1 --engine=anthropic | tee /tmp/social-run.log
+          # --ledger points at the committed history, so the rotation layer sees
+          # what actually published this week rather than an empty slate. The
+          # simulator reads it and never writes it.
+          npm run social:simulate --             --days=1             --engine=anthropic             --ledger=src/lib/generated/social-posted.json             | tee /tmp/social-run.log
 
       # THE RUN.
       #
