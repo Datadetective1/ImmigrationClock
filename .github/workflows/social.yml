@@ -111,9 +111,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      # The copy engine. Absent, a live run skips every slot rather than
-      # publishing something a model did not write.
+      # THE COPY ENGINE.
+      #
+      # OpenAI is the production provider while the Anthropic organization is
+      # unavailable. Absent a key, a live run skips every slot rather than
+      # publishing something a model did not write — there is no template
+      # fallback and never has been.
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      # Kept wired, not deleted. Losing access to an organization is a different
+      # thing from the integration being wrong, and SOCIAL_ENGINE=anthropic
+      # restores the previous provider in one variable if access returns.
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      SOCIAL_ENGINE: ${{ vars.SOCIAL_ENGINE }}
       SOCIAL_MODEL: ${{ vars.SOCIAL_MODEL }}
 
       # X — OAuth 1.0a user context. These tokens do not expire, which is what
@@ -216,7 +226,7 @@ jobs:
           # --ledger points at the committed history, so the rotation layer sees
           # what actually published this week rather than an empty slate. The
           # simulator reads it and never writes it.
-          npm run social:simulate --             --days=1             --engine=anthropic             --ledger=src/lib/generated/social-posted.json             | tee /tmp/social-run.log
+          npm run social:simulate --             --days=1             --engine=openai             --ledger=src/lib/generated/social-posted.json             | tee /tmp/social-run.log
 
       # THE RUN.
       #

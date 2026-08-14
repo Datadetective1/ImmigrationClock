@@ -379,7 +379,8 @@ makes an account read like marketing rather than a reference source.
 
 | Engine | Use |
 |---|---|
-| `anthropic` | production. `SOCIAL_MODEL`, default `claude-opus-5` |
+| `openai` | **production.** Responses API with strict structured output. `SOCIAL_MODEL`, default `gpt-5` |
+| `anthropic` | previous provider, kept wired. `SOCIAL_ENGINE=anthropic` restores it |
 | `transcript` | replays copy from a file, for offline dry runs and simulations |
 
 **The transcript engine is not a fallback.** If the real engine is unavailable
@@ -450,7 +451,9 @@ All credentials live in **GitHub Secrets**. None is ever printed.
 
 | Name | Kind | Notes |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | secret | copy engine |
+| `OPENAI_API_KEY` | secret | copy engine (production) |
+| `ANTHROPIC_API_KEY` | secret | copy engine, only when `SOCIAL_ENGINE=anthropic` |
+| `SOCIAL_ENGINE` | variable | optional; `openai` (default), `anthropic`, `transcript` |
 | `X_API_KEY` / `X_API_SECRET` | secret | X app |
 | `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET` | secret | OAuth 1.0a user tokens — **do not expire** |
 | `LINKEDIN_ACCESS_TOKEN` | secret | **expires ~60 days** |

@@ -22,6 +22,7 @@ import { EVENT_INDEX, INDEX_COVERAGE } from "../src/lib/event-index";
 import { SLOTS, chicagoParts, currentSlot } from "../src/lib/social/slots";
 import { candidatesFor } from "../src/lib/social/select";
 import { isPublishingEnabled } from "../src/lib/social/run";
+import { DEFAULT_PROVIDER, DEFAULT_MODEL_BY_PROVIDER } from "../src/lib/social/copy-engine";
 import { parsePostLedger, publishedPosts } from "../src/lib/social/ledger";
 import { checkSubject } from "../src/lib/social/dedupe";
 import { isPublishableDestination, STANDING_ASSETS } from "../src/lib/social/links";
@@ -73,8 +74,17 @@ function main() {
   // not make. `npm run social:verify-x` is the check that answers it.
   console.log(`  X        : ${x ? "configured (presence only — run social:verify-x to prove it authenticates)" : "NOT configured — X will skip"}`);
   console.log(`  LinkedIn : ${linkedin ? "configured" : "NOT configured — LinkedIn will skip"}`);
+  // Report the key the CONFIGURED provider actually needs, not a hardcoded one.
+  // A preflight that says "key present" about a provider the run will not use is
+  // worse than saying nothing.
+  const provider = process.env.SOCIAL_ENGINE || DEFAULT_PROVIDER;
+  const engineKey = provider === "anthropic" ? "ANTHROPIC_API_KEY" : "OPENAI_API_KEY";
+  const engineModel =
+    process.env.SOCIAL_MODEL || DEFAULT_MODEL_BY_PROVIDER[provider] || "(provider default)";
   console.log(
-    `  Engine   : ${process.env.ANTHROPIC_API_KEY ? "ANTHROPIC_API_KEY present" : "ANTHROPIC_API_KEY MISSING — live runs cannot generate copy"}`
+    `  Engine   : ${provider} / ${engineModel} — ${
+      process.env[engineKey] ? `${engineKey} present` : `${engineKey} MISSING — live runs cannot generate copy`
+    }`
   );
   if (!x && !linkedin) {
     notes.push("Neither platform is configured. Nothing could publish even with SOCIAL_POST_ENABLED=true.");

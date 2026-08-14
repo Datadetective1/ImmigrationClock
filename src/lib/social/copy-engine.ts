@@ -8,7 +8,11 @@
 //
 // Two implementations ship:
 //
-//   anthropic   the real engine — Claude, model from SOCIAL_MODEL
+//   openai      the real engine — model from SOCIAL_MODEL, default gpt-5
+//   anthropic   the previous engine — Claude. Kept, not deleted: the Anthropic
+//               organization is unavailable, which is a different thing from
+//               the integration being wrong, and SOCIAL_ENGINE=anthropic
+//               restores it in one variable when access returns.
 //   transcript  replays copy from a file, for dry runs and simulations on a
 //               machine with no credentials
 //
@@ -21,19 +25,37 @@
 
 import type { CopyEngine } from "./types";
 import { AnthropicCopyEngine } from "./providers/anthropic";
+import { OpenAICopyEngine } from "./providers/openai";
 import { TranscriptCopyEngine } from "./providers/transcript";
 
-export const DEFAULT_MODEL = "claude-opus-5";
+/**
+ * The production provider.
+ *
+ * OpenAI while the Anthropic organization is unavailable. The seam is what made
+ * this a configuration change rather than an architecture one: `CopyEngine` has
+ * one method, every gate around it is untouched, and the prompt and response
+ * schema transferred verbatim.
+ */
+export const DEFAULT_PROVIDER = "openai";
+
+/** Default model per provider. Overridden by SOCIAL_MODEL. */
+export const DEFAULT_MODEL_BY_PROVIDER: Record<string, string> = {
+  openai: "gpt-5",
+  anthropic: "claude-opus-5",
+};
+
+/** Back-compat alias. The Anthropic default, kept so nothing importing it breaks. */
+export const DEFAULT_MODEL = DEFAULT_MODEL_BY_PROVIDER.anthropic;
 
 export interface EngineOptions {
-  /** "anthropic" (default) or "transcript". */
+  /** "openai" (default), "anthropic", or "transcript". */
   provider?: string;
   /** Path to the transcript file, when the transcript provider is selected. */
   transcriptPath?: string;
 }
 
 export function createCopyEngine(opts: EngineOptions = {}): CopyEngine {
-  const provider = opts.provider ?? process.env.SOCIAL_ENGINE ?? "anthropic";
+  const provider = opts.provider ?? process.env.SOCIAL_ENGINE ?? DEFAULT_PROVIDER;
 
   switch (provider) {
     case "transcript":
@@ -41,6 +63,19 @@ export function createCopyEngine(opts: EngineOptions = {}): CopyEngine {
         throw new Error("transcript engine requires a transcript file path");
       }
       return new TranscriptCopyEngine(opts.transcriptPath);
+
+    case "openai": {
+      const key = process.env.OPENAI_API_KEY;
+      if (!key) {
+        throw new Error(
+          "OPENAI_API_KEY is not set. Live publishing requires it; use --engine=transcript for an offline dry run."
+        );
+      }
+      return new OpenAICopyEngine({
+        apiKey: key,
+        model: process.env.SOCIAL_MODEL || DEFAULT_MODEL_BY_PROVIDER.openai,
+      });
+    }
 
     case "anthropic": {
       const key = process.env.ANTHROPIC_API_KEY;
@@ -51,7 +86,7 @@ export function createCopyEngine(opts: EngineOptions = {}): CopyEngine {
       }
       return new AnthropicCopyEngine({
         apiKey: key,
-        model: process.env.SOCIAL_MODEL || DEFAULT_MODEL,
+        model: process.env.SOCIAL_MODEL || DEFAULT_MODEL_BY_PROVIDER.anthropic,
       });
     }
 
@@ -60,4 +95,4 @@ export function createCopyEngine(opts: EngineOptions = {}): CopyEngine {
   }
 }
 
-export { AnthropicCopyEngine, TranscriptCopyEngine };
+export { AnthropicCopyEngine, OpenAICopyEngine, TranscriptCopyEngine };
