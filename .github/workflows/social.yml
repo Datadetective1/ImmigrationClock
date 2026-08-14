@@ -63,25 +63,28 @@ name: Social publishing
 
 on:
   # ┌──────────────────────────────────────────────────────────────────────────┐
-  # │ THE AUTOMATIC SCHEDULE IS DISARMED.                                      │
+  # │ THE AUTOMATIC SCHEDULE IS ARMED. This account publishes unattended.      │
   # │                                                                          │
-  # │ SOCIAL_POST_ENABLED is already "true", so arming these two lines starts  │
-  # │ real, unattended publishing at the very next slot. They stay commented   │
-  # │ until the workflow has been exercised end to end from the Actions tab.   │
+  # │ Scheduled firings pass --live, and SOCIAL_POST_ENABLED is "true", so a   │
+  # │ run that clears every gate posts to X for real with nobody watching.     │
   # │                                                                          │
-  # │ TO GO LIVE: uncomment the two `- cron:` lines below. Nothing else        │
-  # │ changes — the hours are already correct for both US offsets and are      │
-  # │ pinned by tests/social-slots.test.ts, which parses this block whether it │
-  # │ is commented or not.                                                     │
+  # │ TO STOP EVERYTHING, fastest first:                                       │
+  # │   1. Set the repository variable SOCIAL_POST_ENABLED to anything other   │
+  # │      than "true". Runs continue, select, generate and validate; they     │
+  # │      publish nothing. No code change, effective immediately.             │
+  # │   2. Comment out the two `- cron:` lines below. Stops the runs too.      │
+  # │                                                                          │
+  # │ LinkedIn is NOT enabled. Its secrets are wired but unset, so it records  │
+  # │ SKIPPED_CREDENTIAL_EXPIRED every slot and X is unaffected. That is the   │
+  # │ intended state, not a fault.                                             │
   # └──────────────────────────────────────────────────────────────────────────┘
-  #
-  # schedule:
-  #   # CDT (UTC-5), roughly mid-March to early November.
-  #   - cron: "0 14,20,23 * * *" # 09:00, 15:00, 18:00 America/Chicago
-  #   # CST (UTC-6), roughly early November to mid-March. 00:00 UTC is the
-  #   # PREVIOUS Chicago day at 18:00 — chicagoParts() resolves the local date,
-  #   # so the ledger records the day a reader would say it posted.
-  #   - cron: "0 0,15,21 * * *" # 18:00 (prev day), 09:00, 15:00 America/Chicago
+  schedule:
+    # CDT (UTC-5), roughly mid-March to early November.
+    - cron: "0 14,20,23 * * *" # 09:00, 15:00, 18:00 America/Chicago
+    # CST (UTC-6), roughly early November to mid-March. 00:00 UTC is the
+    # PREVIOUS Chicago day at 18:00 — chicagoParts() resolves the local date,
+    # so the ledger records the day a reader would say it posted.
+    - cron: "0 0,15,21 * * *" # 18:00 (prev day), 09:00, 15:00 America/Chicago
   workflow_dispatch:
     inputs:
       slot:

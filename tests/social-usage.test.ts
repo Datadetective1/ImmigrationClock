@@ -22,6 +22,7 @@ import { SLOT_BY_ID } from "@/lib/social/slots";
 import { EMPTY_POST_LEDGER } from "@/lib/social/ledger";
 import type { CopyEngine, CopyRequest, EngineResult, EngineUsage } from "@/lib/social/types";
 import type { PostRecord } from "@/lib/social/ledger";
+import type { Publisher } from "@/lib/social/platforms/types";
 import type { IndexedEvent } from "@/lib/event-index";
 
 const NOW = new Date("2026-08-14T14:05:00.000Z"); // 09:05 America/Chicago
@@ -383,5 +384,103 @@ describe("a re-run does not re-post", () => {
 
     // And no wasted API call to discover that.
     expect(engine.calls).toBe(0);
+  });
+});
+
+// =============================================================================
+// THE ACTIVATION GUARANTEE
+//
+// Asserted end to end, with a real publisher and live: true, because this is the
+// property the whole activation rests on:
+//
+//     A scheduled run publishes AT MOST ONE X post per date + slot,
+//     including after a re-run.
+//
+// Not "the guard function returns the right thing" — the pipeline, from
+// selection through publication, run twice against a carried ledger.
+// =============================================================================
+
+describe("at most one X post per date and slot, even when re-run", () => {
+  class CountingPublisher implements Publisher {
+    readonly platform = "x" as const;
+    published: string[] = [];
+    async publish(text: string) {
+      this.published.push(text);
+      return {
+        ok: true,
+        credentialProblem: false,
+        error: null,
+        externalId: `id-${this.published.length}`,
+        externalUrl: `https://x.com/i/web/status/id-${this.published.length}`,
+      };
+    }
+  }
+
+  it("publishes once, then never again for that slot", async () => {
+    const publisher = new CountingPublisher();
+    const engine = new ScriptedEngine([good, good, good], [usage(), usage(), usage()]);
+
+    // First run — the real thing, live.
+    const first = await runSlot({
+      slot: SLOT_BY_ID.get("morning")!,
+      events: EVENTS,
+      ledger: EMPTY_POST_LEDGER,
+      engine,
+      publishers: { x: publisher },
+      now: NOW,
+      live: true,
+    });
+
+    expect(first.outcome.platforms.find((p) => p.platform === "x")!.decision).toBe("POSTED");
+    expect(publisher.published).toHaveLength(1);
+    expect(engine.calls).toBe(1);
+
+    // Re-run: same slot, same day, ledger carried forward exactly as the
+    // workflow commits it.
+    const second = await runSlot({
+      slot: SLOT_BY_ID.get("morning")!,
+      events: EVENTS,
+      ledger: first.ledger,
+      engine,
+      publishers: { x: publisher },
+      now: new Date(NOW.getTime() + 11 * 60_000), // 11 minutes later, same slot hour
+      live: true,
+    });
+
+    // Nothing published, nothing generated, nothing billed.
+    expect(publisher.published).toHaveLength(1);
+    expect(engine.calls).toBe(1);
+    expect(second.outcome.platforms.find((p) => p.platform === "x")!.decision).not.toBe("POSTED");
+
+    // And exactly one POSTED row for x on that date+slot, forever.
+    const postedX = second.ledger.posts.filter(
+      (p) => p.decision === "POSTED" && p.platform === "x" && p.slot === "morning"
+    );
+    expect(postedX).toHaveLength(1);
+    expect(postedX[0].externalId).toBe("id-1");
+  });
+
+  it("a missing LinkedIn credential skips cleanly and never fails the run", async () => {
+    const publisher = new CountingPublisher();
+    const r = await runSlot({
+      slot: SLOT_BY_ID.get("morning")!,
+      events: EVENTS,
+      ledger: EMPTY_POST_LEDGER,
+      engine: new ScriptedEngine([good], [usage()]),
+      // No LinkedIn publisher — exactly what an unset secret produces.
+      publishers: { x: publisher },
+      now: NOW,
+      live: true,
+    });
+
+    const li = r.outcome.platforms.find((p) => p.platform === "linkedin")!;
+    expect(li.decision).toBe("SKIPPED_CREDENTIAL_EXPIRED");
+
+    // SKIPPED_PUBLISH_FAILED is the only decision social-post.ts exits non-zero
+    // on. A missing credential must not be that, or an X-only deployment would
+    // fail its workflow three times a day.
+    expect(li.decision).not.toBe("SKIPPED_PUBLISH_FAILED");
+    expect(r.outcome.platforms.find((p) => p.platform === "x")!.decision).toBe("POSTED");
+    expect(publisher.published).toHaveLength(1);
   });
 });

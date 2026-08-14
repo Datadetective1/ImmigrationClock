@@ -175,10 +175,20 @@ describe("the workflow crons cover every slot in both offsets", () => {
     expect(total).toBe(6);
   });
 
-  it("carries the instruction for arming it, since it ships disarmed", () => {
-    // The schedule is commented out until the workflow has been exercised from
-    // the Actions tab. Whoever arms it should not have to reconstruct how.
-    expect(workflow).toMatch(/TO GO LIVE: uncomment/);
+  it("is ARMED — the crons are live, not commented out", () => {
+    // Flipped on activation. If this ever fails, someone disarmed the schedule
+    // and the account has gone silent; that should be a deliberate act with a
+    // test change attached, not a quiet edit.
+    const active = workflow.match(/^\s{4}- cron:/gm) ?? [];
+    expect(active).toHaveLength(2);
+    expect(workflow).toMatch(/^  schedule:$/m);
+  });
+
+  it("tells an operator how to stop it, fastest route first", () => {
+    // An armed unattended publisher needs its off switch documented where the
+    // schedule is, not in a doc someone has to find at the wrong moment.
+    expect(workflow).toMatch(/TO STOP EVERYTHING/);
+    expect(workflow).toMatch(/SOCIAL_POST_ENABLED to anything other/);
   });
 });
 
