@@ -247,6 +247,19 @@ jobs:
           github.event.inputs.dry_run_day != 'true'
           && (github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true')
         run: |
+          # WITHOUT THIS, A FAILED PUBLISH IS A GREEN CHECKMARK.
+          #
+          # A bash pipeline reports the exit status of its LAST command, and the
+          # last command here is `tee`, which succeeds whenever it can write the
+          # file. So social-post.ts could exit non-zero — an unreadable ledger, a
+          # platform that rejected the post — and the Actions run would still
+          # show green. On an unattended publisher that is the worst kind of
+          # failure: silent, and indistinguishable from a quiet day.
+          #
+          # Safe to surface, because the ledger is committed by a later step
+          # guarded with `always()`. A post that went out and then failed the job
+          # still records its row, so the next run cannot repost it.
+          set -o pipefail
           ARGS=""
           if [ -n "${{ github.event.inputs.slot }}" ]; then
             ARGS="$ARGS --slot=${{ github.event.inputs.slot }}"

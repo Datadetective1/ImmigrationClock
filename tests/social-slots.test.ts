@@ -184,6 +184,21 @@ describe("the workflow crons cover every slot in both offsets", () => {
     expect(workflow).toMatch(/^  schedule:$/m);
   });
 
+  it("does not let a failed publish report success", () => {
+    // The publish step pipes through `tee`, and a bash pipeline exits with its
+    // LAST command's status. Without pipefail a rejected post shows green.
+    const step = workflow.slice(workflow.indexOf("name: Publish this slot"));
+    const body = step.slice(0, step.indexOf("- name:", 10));
+    expect(body).toContain("set -o pipefail");
+    expect(body.indexOf("set -o pipefail")).toBeLessThan(body.indexOf("npm run social:post"));
+  });
+
+  it("still commits the ledger when the publish step fails", () => {
+    // The reason surfacing the failure is safe. A post that went out and then
+    // failed the job MUST still record its row, or the next run reposts it.
+    expect(workflow).toMatch(/Persist the post ledger[\s\S]{0,200}always\(\)/);
+  });
+
   it("tells an operator how to stop it, fastest route first", () => {
     // An armed unattended publisher needs its off switch documented where the
     // schedule is, not in a doc someone has to find at the wrong moment.
