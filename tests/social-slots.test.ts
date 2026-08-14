@@ -145,8 +145,8 @@ describe("the workflow crons cover every slot in both offsets", () => {
    * to re-derive. A wrong hour hidden behind a comment is still a wrong hour.
    */
   const scheduledHours = new Set(
-    [...workflow.matchAll(/^\s*#?\s*- cron:\s*"0\s+([0-9,]+)\s+\*\s+\*\s+\*"/gm)]
-      .flatMap((m) => m[1].split(",").map(Number))
+    [...workflow.matchAll(/^\s*#?\s*- cron:\s*"(\d+)\s+([0-9,]+)\s+\*\s+\*\s+\*"/gm)]
+      .flatMap((m) => m[2].split(",").map(Number))
   );
 
   it("declares a schedule at all", () => {
@@ -170,9 +170,28 @@ describe("the workflow crons cover every slot in both offsets", () => {
 
   it("would fire exactly six times a day — three per offset", () => {
     const total = [
-      ...workflow.matchAll(/^\s*#?\s*- cron:\s*"0\s+([0-9,]+)\s+\*\s+\*\s+\*"/gm),
-    ].reduce((n, m) => n + m[1].split(",").length, 0);
+      ...workflow.matchAll(/^\s*#?\s*- cron:\s*"(\d+)\s+([0-9,]+)\s+\*\s+\*\s+\*"/gm),
+    ].reduce((n, m) => n + m[2].split(",").length, 0);
     expect(total).toBe(6);
+  });
+
+  it("fires OFF the top of the hour, where Actions is less contended", () => {
+    // The first armed 09:00 slot produced no run at all. :00 is the most
+    // contended minute on the platform; runs there are routinely delayed and
+    // sometimes dropped. Safe because currentSlot() gates on the local HOUR.
+    const minutes = [...workflow.matchAll(/^\s*#?\s*- cron:\s*"(\d+)\s/gm)].map((m) => Number(m[1]));
+    expect(minutes.length).toBeGreaterThan(0);
+    for (const m of minutes) expect(m, "cron minute must not be 0").toBeGreaterThan(0);
+    // One minute for every line, so the three slots stay in step with each other.
+    expect(new Set(minutes).size).toBe(1);
+  });
+
+  it("still opens the gate for a firing that is minutes past the hour", () => {
+    // The property that makes :07 safe. Asserted here rather than assumed.
+    expect(currentSlot(new Date("2026-07-15T14:07:00Z"))?.id).toBe("morning");
+    expect(currentSlot(new Date("2026-01-15T15:07:00Z"))?.id).toBe("morning");
+    expect(currentSlot(new Date("2026-07-15T23:07:00Z"))?.id).toBe("evening");
+    expect(currentSlot(new Date("2026-01-16T00:07:00Z"))?.id).toBe("evening");
   });
 
   it("is ARMED — the crons are live, not commented out", () => {

@@ -25,7 +25,7 @@
 # requires someone at a keyboard. This workflow runs the unattended path
 # (`social:post`), which applies exactly the same validator, the same fact-set
 # grounding and the same dedupe rules — it simply has no approval envelope,
-# because there is nobody to sign one at 09:00 on a Tuesday.
+# because there is nobody to sign one at 09:07 on a Tuesday.
 #
 # THE DST PROBLEM, AND WHY THE CRON LOOKS ODD
 # -------------------------------------------
@@ -39,9 +39,12 @@
 # suite pins.
 #
 #     slot        Chicago    CDT (UTC-5)    CST (UTC-6)
-#     morning     09:00      14:00 UTC      15:00 UTC
-#     afternoon   15:00      20:00 UTC      21:00 UTC
-#     evening     18:00      23:00 UTC      00:00 UTC (next UTC day)
+#     morning     09:07      14:07 UTC      15:07 UTC
+#     afternoon   15:07      20:07 UTC      21:07 UTC
+#     evening     18:07      23:07 UTC      00:07 UTC (next UTC day)
+#
+# The :07 is deliberate — see the schedule block below. The HOURS are what
+# utcHoursFor() pins; the minute only has to be inside the slot's local hour.
 #
 # Six firings a day. On any given date three of them are for the other offset,
 # and `currentSlot()` reads the real America/Chicago wall clock and returns null
@@ -78,13 +81,26 @@ on:
   # │ SKIPPED_CREDENTIAL_EXPIRED every slot and X is unaffected. That is the   │
   # │ intended state, not a fault.                                             │
   # └──────────────────────────────────────────────────────────────────────────┘
+  # WHY :07 AND NOT :00
+  #
+  # GitHub Actions cron is best-effort, and the top of the hour is the most
+  # contended minute on the platform: everybody schedules there. Runs at :00 are
+  # routinely delayed by tens of minutes and are sometimes dropped entirely,
+  # which is what happened to the first armed 09:00 slot — no run appeared at
+  # all. Seven minutes past is unremarkable to a reader and materially more
+  # likely to actually fire.
+  #
+  # Safe because currentSlot() matches on the local HOUR, not the minute: a
+  # firing anywhere inside the 09:00 hour is the morning slot. That tolerance
+  # already existed for exactly this reason — Actions starting late is normal,
+  # and a minute-exact gate would drop real runs.
   schedule:
     # CDT (UTC-5), roughly mid-March to early November.
-    - cron: "0 14,20,23 * * *" # 09:00, 15:00, 18:00 America/Chicago
-    # CST (UTC-6), roughly early November to mid-March. 00:00 UTC is the
-    # PREVIOUS Chicago day at 18:00 — chicagoParts() resolves the local date,
+    - cron: "7 14,20,23 * * *" # 09:07, 15:07, 18:07 America/Chicago
+    # CST (UTC-6), roughly early November to mid-March. 00:07 UTC is the
+    # PREVIOUS Chicago day at 18:07 — chicagoParts() resolves the local date,
     # so the ledger records the day a reader would say it posted.
-    - cron: "0 0,15,21 * * *" # 18:00 (prev day), 09:00, 15:00 America/Chicago
+    - cron: "7 0,15,21 * * *" # 18:07 (prev day), 09:07, 15:07 America/Chicago
   workflow_dispatch:
     inputs:
       slot:
