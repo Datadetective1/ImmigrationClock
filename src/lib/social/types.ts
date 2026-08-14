@@ -276,8 +276,55 @@ export interface EngineUsage {
   model: string;
   inputTokens: number;
   outputTokens: number;
+  /**
+   * Input tokens served from the provider's prompt cache, billed at a discount.
+   * A subset of `inputTokens`, not an addition. 0 when the provider does not
+   * report it.
+   */
+  cachedInputTokens: number;
+  /**
+   * Reasoning tokens. A SUBSET of `outputTokens`, not an addition — the
+   * Responses API counts them inside the output total, and they are billed at
+   * the full output rate. 0 when the provider does not report them.
+   */
+  reasoningTokens: number;
+  /** Provider-reported total, when it gives one. Null rather than derived. */
+  totalTokens: number | null;
   /** USD, computed from the model's published rates. */
   costUsd: number;
+}
+
+/**
+ * One API request, recorded whether it succeeded or not.
+ *
+ * The runner used to overwrite `usage` on every attempt, so a slot that
+ * regenerated billed twice and reported once. Every attempt is kept here
+ * instead: a discarded first attempt is real spend, and spend you cannot see is
+ * spend you cannot control.
+ */
+export interface EngineAttempt {
+  slot: SlotId;
+  /** 1-based. Anything above 1 is a regeneration after a validator rejection. */
+  attempt: number;
+  model: string;
+  ok: boolean;
+  /** Why it failed, when it did. Never a credential. */
+  error: string | null;
+  /** Wall-clock duration of the request, milliseconds. */
+  durationMs: number;
+
+  inputTokens: number;
+  cachedInputTokens: number;
+  outputTokens: number;
+  reasoningTokens: number;
+  totalTokens: number | null;
+  costUsd: number;
+
+  /**
+   * What the validator said about THIS attempt: "pass", a failure summary, or
+   * null when the call threw and there was nothing to validate.
+   */
+  validation: string | null;
 }
 
 export interface EngineResult {
@@ -380,6 +427,8 @@ export interface SlotOutcome {
   validator: ValidationResult | null;
   dedupe: DedupeResult | null;
   usage: EngineUsage | null;
+  /** Every API request this slot made, in order. Empty when none was needed. */
+  attempts: EngineAttempt[];
   platforms: PlatformOutcome[];
 }
 

@@ -86,7 +86,7 @@ function envelopeFor(candidate = firstCandidate(), now = NOW): ApprovalEnvelope 
     copy,
     facts: candidate.facts,
     factsHash: hashFacts(candidate.facts),
-    usage: { model: "test-model", inputTokens: 100, outputTokens: 50, costUsd: 0.001 },
+    usage: { model: "test-model", inputTokens: 100, outputTokens: 50, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0.001 },
     validation: {
       x: { ok: true, failures: [], checked: ["length"] },
       linkedin: { ok: true, failures: [], checked: ["length"] },
@@ -171,6 +171,7 @@ function ledgerWith(over: Partial<PostRecord>): PostLedger {
     inputTokens: null,
     outputTokens: null,
     costUsd: null,
+    attempts: null,
   };
   return appendRecords(EMPTY_POST_LEDGER, [{ ...base, ...over }]);
 }
@@ -421,7 +422,7 @@ describe("the publish-time gate — the full pipeline runs again", () => {
           summary: `${candidate.facts.summary} There are 4815 entries.`,
         },
         factsHash: hashFacts(candidate.facts),
-        usage: { model: "test-model", inputTokens: 1, outputTokens: 1, costUsd: 0 },
+        usage: { model: "test-model", inputTokens: 1, outputTokens: 1, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0 },
         validation: {
           x: { ok: true, failures: [], checked: [] },
           linkedin: { ok: true, failures: [], checked: [] },

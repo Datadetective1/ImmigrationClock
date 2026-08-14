@@ -49,7 +49,7 @@ class StubEngine implements CopyEngine {
     const copy = this.makeCopy(req);
     return {
       copy: { ...copy, deepLink: req.facts.deepLink },
-      usage: { model: "stub", inputTokens: 100, outputTokens: 50, costUsd: 0.001 },
+      usage: { model: "stub", inputTokens: 100, outputTokens: 50, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0.001 },
     };
   }
 }
@@ -236,6 +236,7 @@ describe("gates run before the engine, so a silent slot is free", () => {
       inputTokens: null,
       outputTokens: null,
       costUsd: null,
+      attempts: null,
     };
     const ledger: PostLedger = appendRecords(EMPTY_POST_LEDGER, [
       prior,

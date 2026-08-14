@@ -22,7 +22,15 @@
 // identifiers recorded are public post ids.
 // =============================================================================
 
-import type { Angle, PlatformOutcome, PostDecision, Platform, PoolId, SlotId } from "./types";
+import type {
+  Angle,
+  EngineAttempt,
+  PlatformOutcome,
+  PostDecision,
+  Platform,
+  PoolId,
+  SlotId,
+} from "./types";
 
 /** The schema version. Bump only for a breaking shape change. */
 export const LEDGER_VERSION = 1 as const;
@@ -87,6 +95,67 @@ export interface PostRecord {
   inputTokens: number | null;
   outputTokens: number | null;
   costUsd: number | null;
+
+  /**
+   * Every API request this slot made, including retries that were billed and
+   * discarded.
+   *
+   * The columns above describe the WINNING attempt, which is what was
+   * published. This is what it actually cost to get there. Both rows of a slot
+   * carry the same array — aggregate by localDate+slot, never by summing rows,
+   * or a two-platform slot doubles.
+   */
+  attempts: EngineAttempt[] | null;
+}
+
+/** Per-slot totals, computed from `attempts`. Never summed across rows. */
+export interface SlotSpend {
+  slot: SlotId;
+  localDate: string;
+  apiCalls: number;
+  retries: number;
+  inputTokens: number;
+  cachedInputTokens: number;
+  outputTokens: number;
+  reasoningTokens: number;
+  costUsd: number;
+  durationMs: number;
+}
+
+/**
+ * Spend per slot, deduplicated across platform rows.
+ *
+ * A slot writes one row per platform and both carry the same `attempts`, so the
+ * obvious `posts.reduce(...)` double-counts. Keying on localDate+slot is the
+ * only safe aggregation, and it is why this lives here rather than being
+ * open-coded in the reporter.
+ */
+export function spendBySlot(ledger: PostLedger): SlotSpend[] {
+  const seen = new Map<string, SlotSpend>();
+
+  for (const p of ledger.posts) {
+    const key = `${p.localDate}::${p.slot}`;
+    if (seen.has(key) || !p.attempts?.length) continue;
+
+    const a = p.attempts;
+    seen.set(key, {
+      slot: p.slot,
+      localDate: p.localDate,
+      apiCalls: a.length,
+      // Anything past the first call is a regeneration after a rejection.
+      retries: Math.max(0, a.length - 1),
+      inputTokens: a.reduce((n, x) => n + x.inputTokens, 0),
+      cachedInputTokens: a.reduce((n, x) => n + x.cachedInputTokens, 0),
+      outputTokens: a.reduce((n, x) => n + x.outputTokens, 0),
+      reasoningTokens: a.reduce((n, x) => n + x.reasoningTokens, 0),
+      costUsd: a.reduce((n, x) => n + x.costUsd, 0),
+      durationMs: a.reduce((n, x) => n + x.durationMs, 0),
+    });
+  }
+
+  return [...seen.values()].sort(
+    (x, y) => x.localDate.localeCompare(y.localDate) || x.slot.localeCompare(y.slot)
+  );
 }
 
 export interface PostLedger {

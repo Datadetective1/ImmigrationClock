@@ -56,6 +56,7 @@ function record(over: Partial<PostRecord> = {}): PostRecord {
     inputTokens: 10,
     outputTokens: 20,
     costUsd: 0.01,
+    attempts: null,
     ...over,
   };
 }

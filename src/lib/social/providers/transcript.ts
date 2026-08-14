@@ -48,6 +48,11 @@ export class TranscriptCopyEngine implements CopyEngine {
       copy,
       usage: {
         model: this.id,
+        // Neither of these providers reports a cache or reasoning split, so
+        // they report zero rather than a guess.
+        cachedInputTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: null,
         // Token counts are estimated so the simulation's cost column is
         // meaningful, and labelled as an estimate wherever it is printed.
         inputTokens: estimateTokens(req),

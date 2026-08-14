@@ -39,6 +39,7 @@ import type {
   Angle,
   Candidate,
   CopyEngine,
+  EngineAttempt,
   EngineUsage,
   FactSet,
   GeneratedCopy,
@@ -140,8 +141,14 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
   let validation: Record<Platform, ValidationResult> | null = null;
   let feedback: string[] = [];
 
+  // EVERY attempt, kept. A regeneration bills a second time, and the previous
+  // code overwrote `usage` — so a slot that retried spent twice and reported
+  // once. Spend you cannot see is spend you cannot control.
+  const attempts: EngineAttempt[] = [];
+
   for (let attempt = 1; attempt <= MAX_GENERATION_ATTEMPTS; attempt++) {
     let generated;
+    const startedAt = Date.now();
     try {
       generated = await engine.generate({
         facts: candidate.facts,
@@ -151,6 +158,25 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
         validatorFeedback: attempt > 1 ? feedback : undefined,
       });
     } catch (err) {
+      // A failed call is still a call, and an exhausted token budget is still
+      // billed — EngineConfigurationError carries the usage so the real spend
+      // survives the exception.
+      const billed = err instanceof EngineConfigurationError ? err.usage : null;
+      attempts.push({
+        slot: slot.id,
+        attempt,
+        model: billed?.model ?? engine.id,
+        ok: false,
+        error: (err as Error).message.slice(0, 400),
+        durationMs: Date.now() - startedAt,
+        inputTokens: billed?.inputTokens ?? 0,
+        cachedInputTokens: billed?.cachedInputTokens ?? 0,
+        outputTokens: billed?.outputTokens ?? 0,
+        reasoningTokens: billed?.reasoningTokens ?? 0,
+        totalTokens: billed?.totalTokens ?? null,
+        costUsd: billed?.costUsd ?? 0,
+        validation: null,
+      });
       return finish(
         opts,
         {
@@ -161,6 +187,7 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
           score: candidate.score,
           scoreExplain: candidate.scoreExplain,
           deepLink: candidate.deepLink,
+          attempts,
         },
         // A misconfiguration is not an outage. Recording both as
         // ENGINE_UNAVAILABLE is how a token cap that burns a billed reasoning
@@ -189,6 +216,26 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     // to avoid.
     const relevant = eligible.filter((p) => publishers[p] || !live);
     const failing = relevant.filter((p) => !validation![p].ok);
+
+    attempts.push({
+      slot: slot.id,
+      attempt,
+      model: generated.usage.model,
+      ok: failing.length === 0,
+      error: null,
+      durationMs: Date.now() - startedAt,
+      inputTokens: generated.usage.inputTokens,
+      cachedInputTokens: generated.usage.cachedInputTokens,
+      outputTokens: generated.usage.outputTokens,
+      reasoningTokens: generated.usage.reasoningTokens,
+      totalTokens: generated.usage.totalTokens,
+      costUsd: generated.usage.costUsd,
+      validation:
+        failing.length === 0
+          ? "pass"
+          : failing.flatMap((p) => validation![p].failures.map((f) => `[${p}] ${f}`)).join("; ").slice(0, 400),
+    });
+
     if (failing.length === 0) break;
 
     feedback = failing.flatMap((p) => validation![p].failures.map((f) => `[${p}] ${f}`));
@@ -206,6 +253,7 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
           deepLink: candidate.deepLink,
           validator: mergeValidation(validation, relevant),
           usage,
+          attempts,
         },
         "SKIPPED_VALIDATION_FAILED",
         feedback.join("; ")
@@ -322,7 +370,10 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     deepLink: candidate.deepLink,
     validator: mergeValidation(validation, eligible),
     dedupe: dedupeResult,
+    // `usage` stays the winning attempt, for backward compatibility with the
+    // ledger's per-post columns. `attempts` is the truth about spend.
     usage,
+    attempts,
     platforms: outcomes,
   };
 
@@ -506,6 +557,7 @@ function emptyOutcome(
     validator: null,
     dedupe: null,
     usage: null,
+    attempts: [],
     platforms: [],
   };
 }
@@ -607,6 +659,7 @@ function toRecord(
     inputTokens: outcome.usage?.inputTokens ?? null,
     outputTokens: outcome.usage?.outputTokens ?? null,
     costUsd: outcome.usage?.costUsd ?? null,
+    attempts: outcome.attempts.length ? outcome.attempts : null,
   };
 }
 
@@ -674,6 +727,7 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
     validator: null,
     dedupe: null,
     usage: null,
+    attempts: [],
     platforms: [],
   };
 
@@ -792,6 +846,9 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
     validator,
     dedupe: checkWording(ledger, envelope.copy.x, "x"),
     usage: envelope.usage,
+    // The approved path makes no API call — the copy was generated when the
+    // envelope was proposed, and billed then.
+    attempts: [],
     platforms: outcomes,
   };
 

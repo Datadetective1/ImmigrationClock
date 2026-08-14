@@ -34,7 +34,7 @@
 // =============================================================================
 
 import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "../prompt";
-import type { CopyEngine, CopyRequest, EngineResult, GeneratedCopy } from "../types";
+import type { CopyEngine, CopyRequest, EngineResult, EngineUsage, GeneratedCopy } from "../types";
 import { EngineRefusal } from "./anthropic";
 
 /**
@@ -46,9 +46,19 @@ import { EngineRefusal } from "./anthropic";
  * how that goes unnoticed for a week.
  */
 export class EngineConfigurationError extends Error {
-  constructor(message: string) {
+  /**
+   * What the failed call cost.
+   *
+   * A max_output_tokens exhaustion is BILLED — the reasoning pass happened. The
+   * usage rides along so the runner can record it rather than losing real spend
+   * to an exception.
+   */
+  readonly usage: EngineUsage | null;
+
+  constructor(message: string, usage: EngineUsage | null = null) {
     super(message);
     this.name = "EngineConfigurationError";
+    this.usage = usage;
   }
 }
 
@@ -120,8 +130,10 @@ interface ResponsesPayload {
   }[];
   usage?: {
     input_tokens?: number;
+    input_tokens_details?: { cached_tokens?: number };
     output_tokens?: number;
     output_tokens_details?: { reasoning_tokens?: number };
+    total_tokens?: number;
   };
 }
 
@@ -136,6 +148,31 @@ export class OpenAICopyEngine implements CopyEngine {
     this.id = `openai:${opts.model}`;
     this.apiKey = opts.apiKey;
     this.fetchImpl = opts.fetchImpl ?? fetch;
+  }
+
+  /**
+   * Everything the API reported about what this call cost.
+   *
+   * `cached_tokens` is a subset of `input_tokens` and `reasoning_tokens` a
+   * subset of `output_tokens` — neither is added on top, and both are billed
+   * (cached input at a discount, reasoning at the full output rate). Cost is
+   * computed on the totals, which is what the invoice does.
+   */
+  private usageFrom(payload: ResponsesPayload): EngineUsage {
+    const rate = rateFor(this.model);
+    const inputTokens = payload.usage?.input_tokens ?? 0;
+    const outputTokens = payload.usage?.output_tokens ?? 0;
+    return {
+      // The model that actually answered, which a snapshot alias makes
+      // different from the one we asked for.
+      model: payload.model ?? this.model,
+      inputTokens,
+      cachedInputTokens: payload.usage?.input_tokens_details?.cached_tokens ?? 0,
+      outputTokens,
+      reasoningTokens: payload.usage?.output_tokens_details?.reasoning_tokens ?? 0,
+      totalTokens: payload.usage?.total_tokens ?? null,
+      costUsd: (inputTokens / 1_000_000) * rate.input + (outputTokens / 1_000_000) * rate.output,
+    };
   }
 
   async generate(req: CopyRequest): Promise<EngineResult> {
@@ -211,7 +248,8 @@ export class OpenAICopyEngine implements CopyEngine {
         throw new EngineConfigurationError(
           `${diagnostic} — the token budget was exhausted before the model emitted its JSON. ` +
             `This call was billed and discarded. Raise MAX_OUTPUT_TOKENS in providers/openai.ts, ` +
-            `or set SOCIAL_MODEL to a model that reasons less on this prompt.`
+            `or set SOCIAL_MODEL to a model that reasons less on this prompt.`,
+          this.usageFrom(payload)
         );
       }
       throw new Error(diagnostic);
@@ -241,20 +279,6 @@ export class OpenAICopyEngine implements CopyEngine {
       throw new Error("Response is missing a platform variant");
     }
 
-    const rate = RATES[this.model] ?? FALLBACK_RATE;
-    const inputTokens = payload.usage?.input_tokens ?? 0;
-    const outputTokens = payload.usage?.output_tokens ?? 0;
-
-    return {
-      copy,
-      usage: {
-        // The model that actually answered, which a snapshot alias makes
-        // different from the one we asked for.
-        model: payload.model ?? this.model,
-        inputTokens,
-        outputTokens,
-        costUsd: (inputTokens / 1_000_000) * rate.input + (outputTokens / 1_000_000) * rate.output,
-      },
-    };
+    return { copy, usage: this.usageFrom(payload) };
   }
 }

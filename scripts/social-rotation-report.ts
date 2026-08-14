@@ -135,6 +135,7 @@ for (let d = 0; d < DAYS; d++) {
       inputTokens: null,
       outputTokens: null,
       costUsd: null,
+      attempts: null,
     };
     ledger = appendRecords(ledger, [row]);
   }

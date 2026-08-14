@@ -25,11 +25,11 @@ import {
   EMPTY_POST_LEDGER,
   parsePostLedger,
   publishedPosts,
+  spendBySlot,
   type PostLedger,
 } from "../src/lib/social/ledger";
 import { similarity } from "../src/lib/social/dedupe";
-import { rateFor } from "../src/lib/social/providers/openai";
-import { DEFAULT_MODEL_BY_PROVIDER } from "../src/lib/social/copy-engine";
+
 import type { CopyEngine, CopyRequest, EngineResult, SlotOutcome } from "../src/lib/social/types";
 
 function arg(name: string, fallback?: string): string | undefined {
@@ -89,7 +89,7 @@ class PlanCopyEngine implements CopyEngine {
 
     return {
       copy: { x: x.slice(0, 275), linkedin: padded, deepLink: f.deepLink },
-      usage: { model: this.id, inputTokens: 0, outputTokens: 0, costUsd: 0 },
+      usage: { model: this.id, inputTokens: 0, outputTokens: 0, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0 },
     };
   }
 }
@@ -352,33 +352,77 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
     );
   }
 
-  const cost = ledger.posts.reduce((acc, p) => acc + (p.costUsd ?? 0), 0);
-  const inTok = ledger.posts.reduce((acc, p) => acc + (p.inputTokens ?? 0), 0) / 2;
-  const outTok = ledger.posts.reduce((acc, p) => acc + (p.outputTokens ?? 0), 0) / 2;
-  const calls = new Set(
-    publishedPosts(ledger).concat(ledger.posts.filter((p) => p.decision === "DRY_RUN"))
-      .map((p) => `${p.localDate}::${p.slot}`)
-  ).size;
+  // ---------------------------------------------------------------------------
+  // API USAGE — measured, not estimated
+  //
+  // Every number below comes from the provider's own usage metadata, aggregated
+  // per slot from `attempts`. The previous version divided a row sum by two and
+  // called the result "engine calls", which counted SLOTS and was blind to
+  // retries — so a slot that regenerated billed twice and reported once.
+  // ---------------------------------------------------------------------------
+  const spend = spendBySlot(ledger);
 
-  console.log(`\nEngine calls               : ${calls}`);
-  console.log(`Tokens (est.)              : ${Math.round(inTok)} in / ${Math.round(outTok)} out`);
-  // Price at the model that ACTUALLY answered, not at a hardcoded rate. The
-  // line said "Opus 5 rates" for several runs after the provider moved to
-  // OpenAI, which is the kind of stale label that gets read as a fact.
-  const answered = ledger.posts.find((p) => p.model && !p.model.startsWith("transcript:"))?.model;
-  const priced = answered ?? process.env.SOCIAL_MODEL ?? DEFAULT_MODEL_BY_PROVIDER.openai;
-  const rate = rateFor(priced);
-  const week = (inTok / 1_000_000) * rate.input + (outTok / 1_000_000) * rate.output;
+  if (spend.length === 0) {
+    console.log(`\n${rule}`);
+    console.log("API USAGE");
+    console.log(rule);
+    console.log("No API attempts recorded — this run used the transcript engine.");
+  } else {
+    const sum = (f: (s: (typeof spend)[number]) => number) => spend.reduce((n, x) => n + f(x), 0);
 
-  console.log(
-    `Cost at ${priced} rates`.padEnd(27) +
-      `: $${week.toFixed(4)} for this week ($${rate.input}/$${rate.output} per M in/out)`
-  );
-  console.log(`Projected monthly          : $${(week * (30 / 7)).toFixed(2)}`);
-  console.log(`Ledger rows written        : ${ledger.posts.length}`);
-  if (cost === 0) {
+    const apiCalls = sum((s) => s.apiCalls);
+    const retries = sum((s) => s.retries);
+    const inTok = sum((s) => s.inputTokens);
+    const cachedIn = sum((s) => s.cachedInputTokens);
+    const outTok = sum((s) => s.outputTokens);
+    const reasoning = sum((s) => s.reasoningTokens);
+    const total = sum((s) => s.costUsd);
+    const days = new Set(spend.map((s) => s.localDate)).size || 1;
+
+    const pct = (part: number, whole: number) => (whole ? ((part / whole) * 100).toFixed(1) : "0.0");
+
+    console.log(`\n${rule}`);
+    console.log("API USAGE — from the provider's own metadata");
+    console.log(rule);
+
+    console.log("\n1. API calls by slot");
+    for (const s of spend) {
+      console.log(`   ${s.localDate} ${s.slot.padEnd(10)} ${s.apiCalls} call(s)   ${(s.durationMs / 1000).toFixed(1)}s`);
+    }
+    console.log(`   ${"TOTAL".padEnd(21)} ${apiCalls} call(s)`);
+
+    console.log("\n2. Retries by slot");
+    for (const s of spend) {
+      console.log(
+        `   ${s.localDate} ${s.slot.padEnd(10)} ${s.retries}` +
+          (s.retries ? "   ← a rejected attempt was billed and discarded" : "")
+      );
+    }
+    console.log(`   ${"TOTAL".padEnd(21)} ${retries}`);
+
+    console.log(`\n3.  Input tokens              : ${inTok.toLocaleString()}`);
+    console.log(`4.  Cached input tokens       : ${cachedIn.toLocaleString()}`);
+    console.log(`5.  Uncached input tokens     : ${(inTok - cachedIn).toLocaleString()}`);
+    console.log(`6.  Reasoning tokens          : ${reasoning.toLocaleString()}`);
+    console.log(`7.  Non-reasoning output      : ${(outTok - reasoning).toLocaleString()}   (the visible posts)`);
+    console.log(`8.  Total billed tokens       : ${(inTok + outTok).toLocaleString()}`);
+
+    console.log("\n9.  Estimated cost per slot");
+    for (const s of spend) {
+      console.log(`    ${s.localDate} ${s.slot.padEnd(10)} $${s.costUsd.toFixed(4)}`);
+    }
+
+    console.log(`\n10. Total for this run        : $${total.toFixed(4)} over ${days} day(s)`);
+    console.log(`11. Projected 30-day cost     : $${((total / days) * 30).toFixed(2)}`);
+    console.log(`12. Output that is reasoning  : ${pct(reasoning, outTok)}%`);
+    console.log(`13. Input served from cache   : ${pct(cachedIn, inTok)}%`);
+
     console.log(
-      `\n(Cost above is computed from ESTIMATED token counts — this run used the\n transcript engine and made no API calls.)`
+      `\nReasoning is a SUBSET of output tokens, not an addition, and is billed at
+` +
+        `the full output rate. Cached input is a subset of input tokens and is billed
+` +
+        `at a discount the figures above do NOT apply — treat the cost as an upper bound.`
     );
   }
 }

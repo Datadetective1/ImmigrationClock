@@ -160,6 +160,11 @@ export class AnthropicCopyEngine implements CopyEngine {
         // The model that actually answered, which is not necessarily the one we
         // asked for once fallbacks are in play.
         model: response.model ?? this.model,
+        // Neither of these providers reports a cache or reasoning split, so
+        // they report zero rather than a guess.
+        cachedInputTokens: 0,
+        reasoningTokens: 0,
+        totalTokens: null,
         inputTokens,
         outputTokens,
         costUsd: (inputTokens / 1_000_000) * rate.input + (outputTokens / 1_000_000) * rate.output,
