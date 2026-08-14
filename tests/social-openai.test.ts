@@ -22,7 +22,12 @@
 // =============================================================================
 
 import { describe, it, expect, vi } from "vitest";
-import { OpenAICopyEngine } from "@/lib/social/providers/openai";
+import {
+  OpenAICopyEngine,
+  EngineConfigurationError,
+  MAX_OUTPUT_TOKENS,
+  rateFor,
+} from "@/lib/social/providers/openai";
 import { EngineRefusal } from "@/lib/social/providers/anthropic";
 import { createCopyEngine, DEFAULT_PROVIDER, DEFAULT_MODEL_BY_PROVIDER } from "@/lib/social/copy-engine";
 import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "@/lib/social/prompt";
@@ -170,10 +175,10 @@ describe("every failure ends the slot", () => {
   it("throws when the reply was truncated rather than publishing half a post", async () => {
     const { impl } = stub({
       status: "incomplete",
-      incomplete_details: { reason: "max_output_tokens" },
+      incomplete_details: { reason: "content_filter" },
       output: [],
     });
-    await expect(engine(impl).generate(REQUEST)).rejects.toThrow(/incomplete \(max_output_tokens\)/);
+    await expect(engine(impl).generate(REQUEST)).rejects.toThrow(/incomplete \(content_filter\)/);
   });
 
   it("throws on an empty output", async () => {
@@ -197,6 +202,105 @@ describe("every failure ends the slot", () => {
   it("never falls back to a template — there is no second voice", async () => {
     const { impl } = stub({ error: "boom" }, { ok: false, status: 500 });
     await expect(engine(impl).generate(REQUEST)).rejects.toThrow();
+  });
+});
+
+// -----------------------------------------------------------------------------
+// THE REGRESSION THAT COST REAL MONEY
+//
+// The first authenticated run failed all three slots with
+// "OpenAI response was incomplete (max_output_tokens)". GPT-5 spends reasoning
+// tokens against the SAME budget as visible output, and the cap was 4,000 — so
+// every slot paid for a full reasoning pass and then discarded it, while the
+// ledger recorded the generic SKIPPED_ENGINE_UNAVAILABLE and made it look like
+// an outage.
+//
+// Two properties have to hold forever after: the cap has to be big enough, and
+// exhausting it has to be LOUD and specifically diagnosable.
+// -----------------------------------------------------------------------------
+
+describe("running out of output budget", () => {
+  const exhausted = () =>
+    stub({
+      model: "gpt-5-2026-01-01",
+      status: "incomplete",
+      incomplete_details: { reason: "max_output_tokens" },
+      output: [],
+      usage: {
+        input_tokens: 2400,
+        output_tokens: 12000,
+        output_tokens_details: { reasoning_tokens: 12000 },
+      },
+    });
+
+  it("is a CONFIGURATION error, not a generic engine failure", async () => {
+    const { impl } = exhausted();
+    await expect(engine(impl).generate(REQUEST)).rejects.toBeInstanceOf(EngineConfigurationError);
+  });
+
+  it("reports every number needed to size the cap correctly", async () => {
+    const { impl } = exhausted();
+    const err = (await engine(impl).generate(REQUEST).catch((e: unknown) => e)) as Error;
+    const msg = err.message;
+    expect(msg).toContain("max_output_tokens");
+    expect(msg).toContain("input_tokens=2400");
+    expect(msg).toContain("output_tokens=12000");
+    expect(msg).toContain("reasoning_tokens=12000");
+    expect(msg).toContain(`max_output_tokens=${MAX_OUTPUT_TOKENS}`);
+    expect(msg).toContain("gpt-5-2026-01-01");
+  });
+
+  it("says the call was billed, and what to change", async () => {
+    const { impl } = exhausted();
+    const err = (await engine(impl).generate(REQUEST).catch((e: unknown) => e)) as Error;
+    expect(err.message).toMatch(/billed and discarded/);
+    expect(err.message).toMatch(/Raise MAX_OUTPUT_TOKENS|SOCIAL_MODEL/);
+  });
+
+  it("says so plainly when the API does not report reasoning tokens", async () => {
+    const { impl } = stub({
+      status: "incomplete",
+      incomplete_details: { reason: "max_output_tokens" },
+      output: [],
+      usage: { input_tokens: 2400, output_tokens: 4000 },
+    });
+    const err = (await engine(impl).generate(REQUEST).catch((e: unknown) => e)) as Error;
+    expect(err.message).toContain("reasoning_tokens=not reported");
+  });
+
+  it("sends a cap large enough for reasoning plus the whole schema", async () => {
+    // Visible output is ~1,735 characters at the schema's limits — roughly 550
+    // tokens. Anything near that leaves no room to think, which is exactly how
+    // the 4,000 cap failed.
+    const { impl, calls } = stub(ok());
+    await engine(impl).generate(REQUEST);
+    expect(calls[0].body.max_output_tokens).toBe(MAX_OUTPUT_TOKENS);
+    expect(MAX_OUTPUT_TOKENS).toBeGreaterThanOrEqual(8000);
+    // Still a real ceiling rather than "make it enormous".
+    expect(MAX_OUTPUT_TOKENS).toBeLessThanOrEqual(32000);
+  });
+
+  it("distinguishes a misconfiguration from an outage at the type level", async () => {
+    const { impl } = stub({ error: "gateway" }, { ok: false, status: 502 });
+    const outage = await engine(impl).generate(REQUEST).catch((e: unknown) => e);
+    expect(outage).not.toBeInstanceOf(EngineConfigurationError);
+  });
+});
+
+describe("cost reporting prices the model that answered", () => {
+  it("knows the configured models' rates", () => {
+    expect(rateFor("gpt-5")).toEqual({ input: 1.25, output: 10 });
+    expect(rateFor("gpt-5-mini")).toEqual({ input: 0.25, output: 2 });
+  });
+
+  it("falls back rather than throwing on an unknown model", () => {
+    // A wrong cost estimate must never be the reason a slot fails.
+    expect(() => rateFor("gpt-6-unreleased")).not.toThrow();
+    expect(rateFor("gpt-6-unreleased").input).toBeGreaterThan(0);
+  });
+
+  it("does not price OpenAI usage at Anthropic rates", () => {
+    expect(rateFor("gpt-5").output).not.toBe(25);
   });
 });
 

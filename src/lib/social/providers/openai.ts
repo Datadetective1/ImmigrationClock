@@ -37,6 +37,21 @@ import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "../prompt";
 import type { CopyEngine, CopyRequest, EngineResult, GeneratedCopy } from "../types";
 import { EngineRefusal } from "./anthropic";
 
+/**
+ * The engine is misconfigured, as distinct from unreachable.
+ *
+ * Kept separate so the runner can record a decision a human can act on. An
+ * outage is waited out; a cap that is too small is a code change, and burning a
+ * billed reasoning pass every slot while the logs say "engine unavailable" is
+ * how that goes unnoticed for a week.
+ */
+export class EngineConfigurationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "EngineConfigurationError";
+  }
+}
+
 const ENDPOINT = "https://api.openai.com/v1/responses";
 
 /**
@@ -44,23 +59,48 @@ const ENDPOINT = "https://api.openai.com/v1/responses";
  * column, and a missing entry falls back rather than throwing — a wrong cost
  * estimate must never be the reason a slot fails.
  */
-const RATES: Record<string, { input: number; output: number }> = {
+export const RATES: Record<string, { input: number; output: number }> = {
   "gpt-5": { input: 1.25, output: 10 },
   "gpt-5-mini": { input: 0.25, output: 2 },
   "gpt-4.1": { input: 2, output: 8 },
   "gpt-4.1-mini": { input: 0.4, output: 1.6 },
 };
 
-const FALLBACK_RATE = { input: 1.25, output: 10 };
+export const FALLBACK_RATE = { input: 1.25, output: 10 };
+
+/** Published rate for a model, or the fallback. Never throws. */
+export function rateFor(model: string): { input: number; output: number } {
+  return RATES[model] ?? FALLBACK_RATE;
+}
 
 /**
- * Generous relative to the ~1,500 characters of copy requested.
+ * The cap on reasoning PLUS visible output.
  *
- * On a reasoning model this cap covers reasoning tokens as well as the visible
- * answer, so a tight value does not save money — reasoning is billed either way
- * — it just truncates the reply and produces an empty `output_text`.
+ * 4,000 was wrong, and wrong in the most expensive way available: GPT-5 spends
+ * reasoning tokens against this same budget, exhausted it before emitting any
+ * JSON, and returned `status: "incomplete"`. Every slot was billed for a full
+ * reasoning pass and then discarded the result.
+ *
+ * Sized from the schema rather than guessed:
+ *
+ *   x         ≤   275 chars
+ *   linkedin  ≤ 1,300 chars
+ *   deepLink  ~    60 chars
+ *   JSON envelope + escaping        ~   100 chars
+ *   ────────────────────────────────────────────
+ *   ~1,735 chars ≈ 550 tokens of VISIBLE output. Round to 800 for headroom.
+ *
+ * The rest is reasoning. This prompt is a long instruction stack with a dozen
+ * hard negative constraints and a character band to hit, which is exactly the
+ * shape that makes a reasoning model think for a while — a few thousand tokens
+ * is normal and occasionally more.
+ *
+ * 12,000 leaves roughly 11,000 for reasoning: about an order of magnitude over
+ * what this task should need, and still a real ceiling. It is a CAP, not a
+ * spend — a typical call bills far less — and its only job is to stop a
+ * runaway from being unbounded while never truncating an honest one.
  */
-const MAX_OUTPUT_TOKENS = 4000;
+export const MAX_OUTPUT_TOKENS = 12_000;
 
 export interface OpenAIEngineOptions {
   apiKey: string;
@@ -78,7 +118,11 @@ interface ResponsesPayload {
     type: string;
     content?: { type: string; text?: string; refusal?: string }[];
   }[];
-  usage?: { input_tokens?: number; output_tokens?: number };
+  usage?: {
+    input_tokens?: number;
+    output_tokens?: number;
+    output_tokens_details?: { reasoning_tokens?: number };
+  };
 }
 
 export class OpenAICopyEngine implements CopyEngine {
@@ -145,9 +189,32 @@ export class OpenAICopyEngine implements CopyEngine {
       throw new EngineRefusal(`Model declined to generate copy: ${refusal.slice(0, 200)}`);
     }
 
+    // AN INCOMPLETE RESPONSE IS A CONFIGURATION FAULT, NOT AN OUTAGE.
+    //
+    // Both end the slot, but they need different responses from a human: an
+    // outage resolves itself and a cap that is too small never will. It also
+    // BILLS — the reasoning pass happened — so it must be loud rather than
+    // folded into the same bucket as a network error.
     if (payload.status === "incomplete") {
       const reason = payload.incomplete_details?.reason ?? "unspecified";
-      throw new Error(`OpenAI response was incomplete (${reason})`);
+      const inTok = payload.usage?.input_tokens ?? 0;
+      const outTok = payload.usage?.output_tokens ?? 0;
+      const reasoningTok = payload.usage?.output_tokens_details?.reasoning_tokens;
+
+      const diagnostic =
+        `OpenAI response was incomplete (${reason}). ` +
+        `input_tokens=${inTok} output_tokens=${outTok} ` +
+        `reasoning_tokens=${reasoningTok ?? "not reported"} ` +
+        `max_output_tokens=${MAX_OUTPUT_TOKENS} model=${payload.model ?? this.model}`;
+
+      if (reason === "max_output_tokens") {
+        throw new EngineConfigurationError(
+          `${diagnostic} — the token budget was exhausted before the model emitted its JSON. ` +
+            `This call was billed and discarded. Raise MAX_OUTPUT_TOKENS in providers/openai.ts, ` +
+            `or set SOCIAL_MODEL to a model that reasons less on this prompt.`
+        );
+      }
+      throw new Error(diagnostic);
     }
 
     const text = (payload.output ?? [])

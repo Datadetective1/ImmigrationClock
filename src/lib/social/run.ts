@@ -32,6 +32,7 @@ import { VALIDATOR_VERSION } from "./validate";
 import { PROMPT_VERSION } from "./prompt";
 import { chicagoParts, SLOT_BY_ID } from "./slots";
 import { checkApproval, type ApprovalEnvelope } from "./approval";
+import { EngineConfigurationError } from "./providers/openai";
 import { appendRecords, recentOpenings, type PostLedger, type PostRecord } from "./ledger";
 import type { Publisher } from "./platforms/types";
 import type {
@@ -161,8 +162,15 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
           scoreExplain: candidate.scoreExplain,
           deepLink: candidate.deepLink,
         },
-        "SKIPPED_ENGINE_UNAVAILABLE",
-        `Copy engine failed: ${(err as Error).message}`
+        // A misconfiguration is not an outage. Recording both as
+        // ENGINE_UNAVAILABLE is how a token cap that burns a billed reasoning
+        // pass every slot hides inside what looks like transient flakiness.
+        err instanceof EngineConfigurationError
+          ? "SKIPPED_ENGINE_MISCONFIGURED"
+          : "SKIPPED_ENGINE_UNAVAILABLE",
+        err instanceof EngineConfigurationError
+          ? `Copy engine misconfigured: ${err.message}`
+          : `Copy engine failed: ${(err as Error).message}`
       );
     }
 

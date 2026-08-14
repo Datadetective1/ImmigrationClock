@@ -28,6 +28,8 @@ import {
   type PostLedger,
 } from "../src/lib/social/ledger";
 import { similarity } from "../src/lib/social/dedupe";
+import { rateFor } from "../src/lib/social/providers/openai";
+import { DEFAULT_MODEL_BY_PROVIDER } from "../src/lib/social/copy-engine";
 import type { CopyEngine, CopyRequest, EngineResult, SlotOutcome } from "../src/lib/social/types";
 
 function arg(name: string, fallback?: string): string | undefined {
@@ -360,11 +362,19 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
 
   console.log(`\nEngine calls               : ${calls}`);
   console.log(`Tokens (est.)              : ${Math.round(inTok)} in / ${Math.round(outTok)} out`);
-  const projected = ((inTok / 1_000_000) * 5 + (outTok / 1_000_000) * 25) * (30 / 7);
+  // Price at the model that ACTUALLY answered, not at a hardcoded rate. The
+  // line said "Opus 5 rates" for several runs after the provider moved to
+  // OpenAI, which is the kind of stale label that gets read as a fact.
+  const answered = ledger.posts.find((p) => p.model && !p.model.startsWith("transcript:"))?.model;
+  const priced = answered ?? process.env.SOCIAL_MODEL ?? DEFAULT_MODEL_BY_PROVIDER.openai;
+  const rate = rateFor(priced);
+  const week = (inTok / 1_000_000) * rate.input + (outTok / 1_000_000) * rate.output;
+
   console.log(
-    `Cost at Opus 5 rates       : $${(((inTok / 1_000_000) * 5 + (outTok / 1_000_000) * 25)).toFixed(4)} for this week`
+    `Cost at ${priced} rates`.padEnd(27) +
+      `: $${week.toFixed(4)} for this week ($${rate.input}/$${rate.output} per M in/out)`
   );
-  console.log(`Projected monthly          : $${projected.toFixed(2)}`);
+  console.log(`Projected monthly          : $${(week * (30 / 7)).toFixed(2)}`);
   console.log(`Ledger rows written        : ${ledger.posts.length}`);
   if (cost === 0) {
     console.log(

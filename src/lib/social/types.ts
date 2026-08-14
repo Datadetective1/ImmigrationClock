@@ -327,6 +327,14 @@ export type SkipReason =
   | "SKIPPED_COOLDOWN"
   | "SKIPPED_VALIDATION_FAILED"
   | "SKIPPED_ENGINE_UNAVAILABLE"
+  /**
+   * The engine is reachable but misconfigured — a token cap too small for the
+   * model to finish, say. Separate from UNAVAILABLE because the two need
+   * different responses: an outage is waited out, a bad cap never fixes itself,
+   * and a misconfigured call is still BILLED. One of these in the ledger is a
+   * bug report; a run of UNAVAILABLE is a weather report.
+   */
+  | "SKIPPED_ENGINE_MISCONFIGURED"
   | "SKIPPED_CREDENTIAL_EXPIRED"
   | "SKIPPED_PUBLISH_FAILED"
   | "SKIPPED_NOT_ENABLED";
