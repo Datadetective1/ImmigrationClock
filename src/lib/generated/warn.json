@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T14:50:16.468Z",
+  "generatedAt": "2026-08-14T09:59:29.397Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1484,
-      "employeesTotal": 234802,
-      "latestNotice": "2026-08-05",
-      "withNoticeDate": 1484,
+      "noticeCount": 1485,
+      "employeesTotal": 234826,
+      "latestNotice": "2026-08-12",
+      "withNoticeDate": 1485,
       "withEffectiveOnly": 0
     },
     {
@@ -44,10 +44,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1113,
-      "employeesTotal": 130021,
-      "latestNotice": "2026-07-09",
-      "withNoticeDate": 1113,
+      "noticeCount": 1115,
+      "employeesTotal": 130094,
+      "latestNotice": "2026-08-10",
+      "withNoticeDate": 1115,
       "withEffectiveOnly": 0
     },
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 98,
-      "employeesTotal": 5633,
-      "latestNotice": "2026-08-07",
-      "withNoticeDate": 98,
+      "noticeCount": 125,
+      "employeesTotal": 6165,
+      "latestNotice": "2026-08-11",
+      "withNoticeDate": 125,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 7746,
-  "employeesTotal": 995231,
-  "employerCount": 6021,
+  "noticeCount": 7776,
+  "employeesTotal": 995860,
+  "employerCount": 6049,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-07",
+  "maxNoticeDate": "2026-08-12",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -11632,6 +11632,17 @@
       "latestNotice": "2009-07-31"
     },
     {
+      "normalized": "BUMBLE BEE FOODS",
+      "name": "Bumble Bee Foods, LLC",
+      "slug": "bumble-bee-foods-llc",
+      "notices": 1,
+      "employees": 197,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
       "normalized": "DOUBLE M ORCHARDS",
       "name": "Double M Orchards",
       "slug": "double-m-orchards",
@@ -19295,6 +19306,17 @@
         "WA"
       ],
       "latestNotice": "2005-05-20"
+    },
+    {
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MESA VISTA",
+      "name": "Sharp Metropolitan Medical Campus - Sharp Mesa Vista",
+      "slug": "sharp-metropolitan-medical-campus-sharp-mesa-vista",
+      "notices": 1,
+      "employees": 134,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
     },
     {
       "normalized": "WELLMORE ENERGY (PAW PAW 2 SOUTH)",
@@ -32216,9 +32238,9 @@
       "latestNotice": "2006-05-15"
     },
     {
-      "normalized": "SAN FRANCISICO PRETRIAL DIVERSION PROJECT",
-      "name": "San Francisico Pretrial Diversion Project, Inc.",
-      "slug": "san-francisico-pretrial-diversion-project-inc",
+      "normalized": "SAN FRANCISCO PRETRIAL DIVERSION PROJECT",
+      "name": "San Francisco Pretrial Diversion Project, Inc.",
+      "slug": "san-francisco-pretrial-diversion-project-inc",
       "notices": 1,
       "employees": 82,
       "states": [
@@ -34076,6 +34098,17 @@
       "latestNotice": "2008-01-11"
     },
     {
+      "normalized": "ZOLL MEDICAL",
+      "name": "ZOLL Medical Corporation",
+      "slug": "zoll-medical-corporation",
+      "notices": 1,
+      "employees": 78,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
       "normalized": "GMRI DBA YARD HOUSE",
       "name": "GMRI, Inc. dba Yard House",
       "slug": "gmri-inc-dba-yard-house",
@@ -34360,6 +34393,17 @@
         "NJ"
       ],
       "latestNotice": "2008-04-07"
+    },
+    {
+      "normalized": "JACK IN THE BOX",
+      "name": "Jack in the Box",
+      "slug": "jack-in-the-box",
+      "notices": 5,
+      "employees": 77,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-12"
     },
     {
       "normalized": "CHICK-FIL-A FIG",
@@ -38225,6 +38269,17 @@
         "WA"
       ],
       "latestNotice": "2026-10-08"
+    },
+    {
+      "normalized": "EUROFINS PROFESSIONAL SCIENTIFIC",
+      "name": "Eurofins Professional Scientific Services LLC",
+      "slug": "eurofins-professional-scientific-services-llc",
+      "notices": 1,
+      "employees": 68,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-08-10"
     },
     {
       "normalized": "TENCENT AMERICA",
@@ -45256,17 +45311,6 @@
         "TX"
       ],
       "latestNotice": "2026-06-04"
-    },
-    {
-      "normalized": "JACK IN THE BOX",
-      "name": "Jack in the Box",
-      "slug": "jack-in-the-box",
-      "notices": 4,
-      "employees": 53,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-04-27"
     },
     {
       "normalized": "DIRECT MARKETING",
@@ -53281,6 +53325,18 @@
       "latestNotice": "2018-07-02"
     },
     {
+      "normalized": "SMBC MANUBANK",
+      "name": "SMBC Manubank",
+      "slug": "smbc-manubank",
+      "notices": 5,
+      "employees": 25,
+      "states": [
+        "VA",
+        "WA"
+      ],
+      "latestNotice": "2026-08-10"
+    },
+    {
       "normalized": "DESIGNERX PHARMACEUTICALS",
       "name": "DesigneRX Pharmaceuticals, Inc.",
       "slug": "designerx-pharmaceuticals-inc",
@@ -54403,16 +54459,26 @@
       "latestNotice": "2009-12-31"
     },
     {
-      "normalized": "SMBC MANUBANK",
-      "name": "SMBC Manubank",
-      "slug": "smbc-manubank",
-      "notices": 4,
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MEMORIAL HOSPITAL",
+      "name": "Sharp Metropolitan Medical Campus  - Sharp Memorial Hospital",
+      "slug": "sharp-metropolitan-medical-campus-sharp-memorial-hospital",
+      "notices": 1,
       "employees": 20,
       "states": [
-        "VA",
-        "WA"
+        "CA"
       ],
-      "latestNotice": "2026-06-04"
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (1825 SAN PABLO AVE SUITE 200)",
+      "name": "EBALDC (1825 San Pablo Ave., Suite 200)",
+      "slug": "ebaldc-1825-san-pablo-ave-suite-200",
+      "notices": 1,
+      "employees": 20,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
     },
     {
       "normalized": "THE SKILLET GROUP / SKILLET STREET FOOD DBA SKILLET DINER HARBOR STEPS",
@@ -58393,6 +58459,28 @@
       "latestNotice": "2007-06-01"
     },
     {
+      "normalized": "EBALDC (1955 SAN PABLO AVE)",
+      "name": "EBALDC (1955 San Pablo Ave)",
+      "slug": "ebaldc-1955-san-pablo-ave",
+      "notices": 1,
+      "employees": 9,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (3501 SAN PABLO AVE)",
+      "name": "EBALDC (3501 San Pablo Ave)",
+      "slug": "ebaldc-3501-san-pablo-ave",
+      "notices": 1,
+      "employees": 9,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
       "normalized": "THE SKILLET GROUP / SKILLET SA",
       "name": "The Skillet Group / Skillet SA, LLC",
       "slug": "the-skillet-group-skillet-sa-llc",
@@ -59613,6 +59701,28 @@
         "WA"
       ],
       "latestNotice": "2005-11-29"
+    },
+    {
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MARY BIRCH HOSPITAL",
+      "name": "Sharp Metropolitan Medical Campus - Sharp Mary Birch Hospital",
+      "slug": "sharp-metropolitan-medical-campus-sharp-mary-birch-hospital",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "ADVENTIST HEALTH GLENDALE",
+      "name": "Adventist Health Glendale",
+      "slug": "adventist-health-glendale",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
     },
     {
       "normalized": "CRAFTFORCE (2753 GIFFEN AVENUE)",
@@ -61068,6 +61178,39 @@
       "latestNotice": "2010-12-31"
     },
     {
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP OUTPATIENT PAVILION",
+      "name": "Sharp Metropolitan Medical Campus - Sharp Outpatient Pavilion",
+      "slug": "sharp-metropolitan-medical-campus-sharp-outpatient-pavilion",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (2201 BRUSH ST )",
+      "name": "EBALDC (2201 Brush St.)",
+      "slug": "ebaldc-2201-brush-st",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (2555 INTERNATIONAL BLVD)",
+      "name": "EBALDC (2555 International BLVD)",
+      "slug": "ebaldc-2555-international-blvd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
       "normalized": "NBCUNIVERSAL MEDIA - 1360",
       "name": "NBCUniversal Media, LLC - 1360",
       "slug": "nbcuniversal-media-llc-1360",
@@ -61939,6 +62082,50 @@
         "WA"
       ],
       "latestNotice": "2004-09-27"
+    },
+    {
+      "normalized": "EBALDC (100 9TH STREET)",
+      "name": "EBALDC (100 9th Street)",
+      "slug": "ebaldc-100-9th-street",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (188 11TH STREET)",
+      "name": "EBALDC (188 11th Street)",
+      "slug": "ebaldc-188-11th-street",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (283 13TH STREET)",
+      "name": "EBALDC (283 13th Street)",
+      "slug": "ebaldc-283-13th-street",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (801 PINE STREET)",
+      "name": "EBALDC (801 Pine Street)",
+      "slug": "ebaldc-801-pine-street",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
     },
     {
       "normalized": "YERBA MATE - SAN LEANDRO",
@@ -63901,6 +64088,105 @@
       "latestNotice": "2010-09-21"
     },
     {
+      "normalized": "SHARP METROPOLITAN MEDICAL GROUP - SHARP MCDONALD CENTER",
+      "name": "Sharp Metropolitan Medical Group - Sharp McDonald Center",
+      "slug": "sharp-metropolitan-medical-group-sharp-mcdonald-center",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (121 E 12TH STREET)",
+      "name": "EBALDC (121 E 12th Street)",
+      "slug": "ebaldc-121-e-12th-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (1448 10TH STREET)",
+      "name": "EBALDC (1448 10th Street)",
+      "slug": "ebaldc-1448-10th-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (1935 SEMINARY AVE)",
+      "name": "EBALDC (1935 Seminary Ave)",
+      "slug": "ebaldc-1935-seminary-ave",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (2946 INTERNATIONAL BLVD)",
+      "name": "EBALDC (2946 International BLVD)",
+      "slug": "ebaldc-2946-international-blvd",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (700 WILLOW STREET)",
+      "name": "EBALDC (700 Willow Street)",
+      "slug": "ebaldc-700-willow-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (918 CLAY STREET)",
+      "name": "EBALDC (918 Clay Street)",
+      "slug": "ebaldc-918-clay-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (989 BRUSH STREET)",
+      "name": "EBALDC (989 Brush Street)",
+      "slug": "ebaldc-989-brush-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (907 LAKE STREET)",
+      "name": "EBALDC (907 Lake Street)",
+      "slug": "ebaldc-907-lake-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
       "normalized": "YERBA MATE - SAN FERNANDO VALLEY",
       "name": "Yerba Mate Co., LLC - San Fernando Valley",
       "slug": "yerba-mate-co-llc-san-fernando-valley",
@@ -64572,6 +64858,28 @@
         "NJ"
       ],
       "latestNotice": "2009-06-30"
+    },
+    {
+      "normalized": "EBALDC (3850 SAN PABLO AVE)",
+      "name": "EBALDC (3850 San Pablo Ave)",
+      "slug": "ebaldc-3850-san-pablo-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "EBALDC (120 MACDONALD AVE)",
+      "name": "EBALDC (120 Macdonald Ave)",
+      "slug": "ebaldc-120-macdonald-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-11"
     },
     {
       "normalized": "YERBA MATE - BAKERSFIELD/FRESNO",
@@ -66948,6 +67256,342 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Jack in the Box",
+      "normalized": "JACK IN THE BOX",
+      "city": "Everett",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-12",
+      "effectiveDate": "2026-10-10",
+      "employees": 24,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Bumble Bee Foods, LLC",
+      "normalized": "BUMBLE BEE FOODS",
+      "city": "Santa Fe Springs",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-11-19",
+      "employees": 197,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "ZOLL Medical Corporation",
+      "normalized": "ZOLL MEDICAL",
+      "city": "Palm Springs",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2027-02-01",
+      "employees": 78,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sharp Metropolitan Medical Campus  - Sharp Memorial Hospital",
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MEMORIAL HOSPITAL",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 20,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sharp Metropolitan Medical Campus - Sharp Mesa Vista",
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MESA VISTA",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 134,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sharp Metropolitan Medical Group - Sharp McDonald Center",
+      "normalized": "SHARP METROPOLITAN MEDICAL GROUP - SHARP MCDONALD CENTER",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sharp Metropolitan Medical Campus - Sharp Mary Birch Hospital",
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MARY BIRCH HOSPITAL",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 7,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sharp Metropolitan Medical Campus - Sharp Outpatient Pavilion",
+      "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP OUTPATIENT PAVILION",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Adventist Health Glendale",
+      "normalized": "ADVENTIST HEALTH GLENDALE",
+      "city": "Glendale",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-09-01",
+      "employees": 7,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (100 9th Street)",
+      "normalized": "EBALDC (100 9TH STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (121 E 12th Street)",
+      "normalized": "EBALDC (121 E 12TH STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (1448 10th Street)",
+      "normalized": "EBALDC (1448 10TH STREET)",
+      "city": "1448 10th Street 829 East 19th Street Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (1825 San Pablo Ave., Suite 200)",
+      "normalized": "EBALDC (1825 SAN PABLO AVE SUITE 200)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 20,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (188 11th Street)",
+      "normalized": "EBALDC (188 11TH STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (1935 Seminary Ave)",
+      "normalized": "EBALDC (1935 SEMINARY AVE)",
+      "city": "1935 Seminary Ave 2530 International BLVD Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (1955 San Pablo Ave)",
+      "normalized": "EBALDC (1955 SAN PABLO AVE)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 9,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (2201 Brush St.)",
+      "normalized": "EBALDC (2201 BRUSH ST )",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (2555 International BLVD)",
+      "normalized": "EBALDC (2555 INTERNATIONAL BLVD)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (283 13th Street)",
+      "normalized": "EBALDC (283 13TH STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (2946 International BLVD)",
+      "normalized": "EBALDC (2946 INTERNATIONAL BLVD)",
+      "city": "2946 International BLVD 2618 East 16th Street Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (3501 San Pablo Ave)",
+      "normalized": "EBALDC (3501 SAN PABLO AVE)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 9,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (3850 San Pablo Ave)",
+      "normalized": "EBALDC (3850 SAN PABLO AVE)",
+      "city": "Emeryville",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (700 Willow Street)",
+      "normalized": "EBALDC (700 WILLOW STREET)",
+      "city": "700 Willow Street 721 Wood Street Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (801 Pine Street)",
+      "normalized": "EBALDC (801 PINE STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (918 Clay Street)",
+      "normalized": "EBALDC (918 CLAY STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (989 Brush Street)",
+      "normalized": "EBALDC (989 BRUSH STREET)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (120 Macdonald Ave)",
+      "normalized": "EBALDC (120 MACDONALD AVE)",
+      "city": "120 Macdonald Ave 907 Lake Street Richmond",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "EBALDC (907 Lake Street)",
+      "normalized": "EBALDC (907 LAKE STREET)",
+      "city": "San Pablo",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-11",
+      "effectiveDate": "2026-10-10",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Barclays",
       "normalized": "BARCLAYS",
       "city": "Whippany",
@@ -66958,6 +67602,30 @@
       "employees": 64,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "SMBC Manubank",
+      "normalized": "SMBC MANUBANK",
+      "city": "Aldie, Arlington, Reston, Maidens &amp; Henrico  VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-08-10",
+      "effectiveDate": null,
+      "employees": 5,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Eurofins Professional Scientific Services LLC",
+      "normalized": "EUROFINS PROFESSIONAL SCIENTIFIC",
+      "city": "Richmond VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-08-10",
+      "effectiveDate": null,
+      "employees": 68,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },
     {
       "employer": "Renteria Vineyard Management",
@@ -67392,8 +68060,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "San Francisico Pretrial Diversion Project, Inc.",
-      "normalized": "SAN FRANCISICO PRETRIAL DIVERSION PROJECT",
+      "employer": "San Francisco Pretrial Diversion Project, Inc.",
+      "normalized": "SAN FRANCISCO PRETRIAL DIVERSION PROJECT",
       "city": "San Francisco",
       "county": "San Francisco",
       "state": "CA",
