@@ -318,6 +318,32 @@ export function postsOnLocalDate(
   );
 }
 
+/**
+ * Has this exact slot already published on this platform today?
+ *
+ * THE RERUN GUARD. Every other duplicate protection is about editorial
+ * repetition over days — subject cooldowns, topic fatigue, wording similarity.
+ * None of them stops the narrower and more embarrassing case: someone clicks
+ * "Re-run jobs" on a workflow that already posted, or a run is retried after a
+ * transient failure that happened AFTER the platform accepted the post.
+ *
+ * Keyed on the Chicago local date and the slot, because that is the unit a
+ * reader experiences — "the 9am post" — and it is stable across a re-run that
+ * starts at a different minute.
+ */
+export function hasPostedInSlot(
+  ledger: PostLedger,
+  localDate: string,
+  slot: SlotId,
+  platform: Platform
+): PostRecord | null {
+  return (
+    publishedPosts(ledger).find(
+      (p) => p.localDate === localDate && p.slot === slot && p.platform === platform
+    ) ?? null
+  );
+}
+
 /** Recent published wording on a platform, newest first. */
 export function recentTexts(ledger: PostLedger, platform: Platform, limit: number): string[] {
   return publishedPosts(ledger)

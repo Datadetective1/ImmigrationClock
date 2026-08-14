@@ -211,7 +211,10 @@ function report(outcome: ReturnType<typeof Object>, live: boolean, engineId: str
       console.log(p.text.split("\n").map((l) => `   │ ${l}`).join("\n"));
       console.log(`   └ ${p.text.length} characters`);
     }
-    if (p.externalUrl) console.log(`   ${p.externalUrl}`);
+    // The platform's own id is the only proof a post exists. Printed for every
+    // success, so a run's log can be reconciled against the accounts later.
+    if (p.externalId) console.log(`   post id : ${p.externalId}`);
+    if (p.externalUrl) console.log(`   url     : ${p.externalUrl}`);
   }
 
   if (o.usage) {

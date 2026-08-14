@@ -16,11 +16,12 @@
 
 import { describe, it, expect } from "vitest";
 import { runSlot } from "@/lib/social/run";
-import { spendBySlot } from "@/lib/social/ledger";
+import { spendBySlot, hasPostedInSlot, appendRecords } from "@/lib/social/ledger";
 import { EngineConfigurationError } from "@/lib/social/providers/openai";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { EMPTY_POST_LEDGER } from "@/lib/social/ledger";
 import type { CopyEngine, CopyRequest, EngineResult, EngineUsage } from "@/lib/social/types";
+import type { PostRecord } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
 
 const NOW = new Date("2026-08-14T14:05:00.000Z"); // 09:05 America/Chicago
@@ -259,5 +260,128 @@ describe("aggregation does not double-count", () => {
     expect(spend.cachedInputTokens).toBeLessThanOrEqual(spend.inputTokens);
     expect(spend.outputTokens - spend.reasoningTokens).toBe(300);
     expect(spend.inputTokens - spend.cachedInputTokens).toBe(1200);
+  });
+});
+
+// =============================================================================
+// THE RERUN GUARD
+//
+// Every other duplicate protection is about editorial repetition over days.
+// None of them stops the narrower, more embarrassing case: someone clicks
+// "Re-run jobs" on a workflow that already posted, or a run is retried after a
+// transient failure that happened AFTER the platform accepted the post.
+//
+// This gate runs FIRST, before selection, so a re-run of a successful workflow
+// costs nothing and can publish nothing.
+// =============================================================================
+
+function posted(over: Partial<PostRecord>): PostRecord {
+  return {
+    localDate: "2026-08-14",
+    localTime: "09:05",
+    runAtUtc: NOW.toISOString(),
+    slot: "morning",
+    pool: "news",
+    platform: "x",
+    decision: "POSTED",
+    reason: "Published",
+    subjectId: "event:federal_register:x1",
+    subjectLabel: "Public Charge Ground of Inadmissibility",
+    angle: "breaking_change",
+    score: 2200,
+    text: "already out",
+    deepLink: LINK,
+    externalId: "1234567890",
+    externalUrl: "https://x.com/i/web/status/1234567890",
+    model: "gpt-5",
+    promptVersion: null,
+    validatorVersion: null,
+    factsHash: null,
+    approvalId: null,
+    approvedBy: null,
+    topicKey: null,
+    topicFamily: null,
+    adjustedScore: null,
+    rotationExplain: null,
+    inputTokens: null,
+    outputTokens: null,
+    costUsd: null,
+    attempts: null,
+    ...over,
+  };
+}
+
+describe("a re-run does not re-post", () => {
+  it("finds a prior publication for the same date, slot and platform", () => {
+    const ledger = appendRecords(EMPTY_POST_LEDGER, [posted({})]);
+    expect(hasPostedInSlot(ledger, "2026-08-14", "morning", "x")).not.toBeNull();
+    // and is specific about all three dimensions
+    expect(hasPostedInSlot(ledger, "2026-08-15", "morning", "x")).toBeNull();
+    expect(hasPostedInSlot(ledger, "2026-08-14", "evening", "x")).toBeNull();
+    expect(hasPostedInSlot(ledger, "2026-08-14", "morning", "linkedin")).toBeNull();
+  });
+
+  it("counts only what actually published", () => {
+    for (const decision of ["DRY_RUN", "SKIPPED_PUBLISH_FAILED"] as const) {
+      const ledger = appendRecords(EMPTY_POST_LEDGER, [posted({ decision })]);
+      expect(hasPostedInSlot(ledger, "2026-08-14", "morning", "x"), decision).toBeNull();
+    }
+  });
+
+  it("skips the whole slot without calling the API when both platforms are done", async () => {
+    const ledger = appendRecords(EMPTY_POST_LEDGER, [
+      posted({ platform: "x" }),
+      posted({ platform: "linkedin" }),
+    ]);
+    const engine = new ScriptedEngine([good], [usage()]);
+
+    const r = await runSlot({
+      slot: SLOT_BY_ID.get("morning")!,
+      events: EVENTS,
+      ledger,
+      engine,
+      publishers: {},
+      now: NOW,
+      live: false,
+    });
+
+    // The cheapest possible outcome: no generation, no spend.
+    expect(engine.calls).toBe(0);
+    expect(r.outcome.attempts).toEqual([]);
+    expect(r.outcome.platforms.every((p) => p.decision === "SKIPPED_DUPLICATE")).toBe(true);
+    expect(r.outcome.platforms[0].reason).toMatch(/already published/);
+    expect(r.outcome.platforms[0].reason).toMatch(/re-run/);
+  });
+
+  it("never re-posts to a platform that already published, even partially", async () => {
+    // X went out; LinkedIn did not. The essential guarantee is that a re-run
+    // cannot put a second post on X.
+    //
+    // What actually happens is stricter than the eligible-filter alone: the
+    // rotation layer ranks on X's memory, sees the subject published today, and
+    // blocks it outright — so the slot skips rather than reselecting. That is
+    // conservative in the right direction (LinkedIn misses one post rather than
+    // X getting two), and it is asserted here rather than changed, because
+    // rotation is not this change's business.
+    const ledger = appendRecords(EMPTY_POST_LEDGER, [posted({ platform: "x" })]);
+    const engine = new ScriptedEngine([good], [usage()]);
+
+    const r = await runSlot({
+      slot: SLOT_BY_ID.get("morning")!,
+      events: EVENTS,
+      ledger,
+      engine,
+      publishers: {},
+      now: NOW,
+      live: false,
+    });
+
+    // No second X post, under any decision code.
+    const x = r.outcome.platforms.find((p) => p.platform === "x")!;
+    expect(x.decision).not.toBe("POSTED");
+    expect(x.decision).not.toBe("DRY_RUN");
+
+    // And no wasted API call to discover that.
+    expect(engine.calls).toBe(0);
   });
 });

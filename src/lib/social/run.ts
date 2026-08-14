@@ -33,7 +33,13 @@ import { PROMPT_VERSION } from "./prompt";
 import { chicagoParts, SLOT_BY_ID } from "./slots";
 import { checkApproval, type ApprovalEnvelope } from "./approval";
 import { EngineConfigurationError } from "./providers/openai";
-import { appendRecords, recentOpenings, type PostLedger, type PostRecord } from "./ledger";
+import {
+  appendRecords,
+  hasPostedInSlot,
+  recentOpenings,
+  type PostLedger,
+  type PostRecord,
+} from "./ledger";
 import type { Publisher } from "./platforms/types";
 import type {
   Angle,
@@ -109,6 +115,24 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     pool: slot.pool,
   };
 
+  // ---- gate 0: has this slot already published today? ----------------------
+  //
+  // First, and before selection, so a re-run of an already-successful workflow
+  // costs nothing and can publish nothing. This is the only gate that protects
+  // against operator action rather than editorial repetition: clicking "Re-run
+  // jobs" on a run that already posted, or an automatic retry after a failure
+  // that happened after the platform accepted the post.
+  const alreadyPosted = PLATFORMS.filter((p) => hasPostedInSlot(ledger, today, slot.id, p));
+  if (alreadyPosted.length === PLATFORMS.length) {
+    return finish(
+      opts,
+      emptyOutcome(base, slot, 0),
+      "SKIPPED_DUPLICATE",
+      `The ${slot.id} slot already published on ${alreadyPosted.join(" and ")} for ${today}. ` +
+        `This is a re-run; nothing further will be posted.`
+    );
+  }
+
   const candidates = candidatesFor(slot, events, today);
 
   // ---- gate 1: is there anything at all? -----------------------------------
@@ -133,7 +157,12 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     );
   }
 
-  const { candidate, angle, eligible } = chosen;
+  const { candidate, angle } = chosen;
+
+  // A platform that already published in this slot is removed here rather than
+  // in chooseCandidate, so a partial re-run (X succeeded, LinkedIn failed)
+  // retries only the platform that still needs it.
+  const eligible = chosen.eligible.filter((p) => !alreadyPosted.includes(p));
 
   // ---- gate 3: generate ----------------------------------------------------
   let copy: GeneratedCopy | null = null;
@@ -282,7 +311,9 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
       outcomes.push({
         platform,
         decision: "SKIPPED_DUPLICATE",
-        reason: `This subject and angle are not available on ${platform}`,
+        reason: alreadyPosted.includes(platform)
+          ? `${platform} already published in the ${slot.id} slot today — re-run, not re-posted`
+          : `This subject and angle are not available on ${platform}`,
         text: null,
         externalId: null,
         externalUrl: null,

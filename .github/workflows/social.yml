@@ -133,15 +133,19 @@ jobs:
       X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
       X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
 
-      # LINKEDIN_ACCESS_TOKEN and LINKEDIN_AUTHOR_URN are DELIBERATELY ABSENT.
+      # LinkedIn — the access token EXPIRES on a fixed cycle and programmatic
+      # refresh is gated behind an approved-partner product, so this platform
+      # has a manual touchpoint roughly every two months and no architecture
+      # removes it.
       #
-      # X only, for now. This is enforced structurally rather than by a flag:
-      # readLinkedInCredentials() returns null without both values, so
-      # social-post.ts never constructs a LinkedIn publisher and the platform
-      # records SKIPPED_CREDENTIAL_EXPIRED. Copy is still generated and
-      # validated for LinkedIn — that costs nothing extra, the engine returns
-      # both variants in one call — it simply has nowhere to go. To enable
-      # LinkedIn later, add the two variables here; no code changes.
+      # Wiring these is safe whether or not the secrets exist:
+      # readLinkedInCredentials() requires BOTH values, so an unset secret
+      # resolves to the empty string, no LinkedIn publisher is constructed, and
+      # the platform records SKIPPED_CREDENTIAL_EXPIRED while X is entirely
+      # unaffected. Copy is still generated and validated for LinkedIn at no
+      # extra cost — one engine call returns both variants.
+      LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+      LINKEDIN_AUTHOR_URN: ${{ vars.LINKEDIN_AUTHOR_URN }}
 
       # THE PUBLISHING SWITCH.
       #

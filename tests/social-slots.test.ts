@@ -182,7 +182,7 @@ describe("the workflow crons cover every slot in both offsets", () => {
   });
 });
 
-describe("the workflow publishes to X only, for now", () => {
+describe("the workflow's platform wiring", () => {
   const workflow = readFileSync(resolve(".github/workflows/social.yml"), "utf8");
 
   it("passes all four X credentials into the job", () => {
@@ -191,11 +191,21 @@ describe("the workflow publishes to X only, for now", () => {
     }
   });
 
-  it("passes NO LinkedIn credential, so LinkedIn cannot publish", () => {
-    // Structural, not a flag: without both values readLinkedInCredentials()
-    // returns null and no LinkedIn publisher is ever constructed.
-    expect(workflow).not.toMatch(/^\s+LINKEDIN_ACCESS_TOKEN:/m);
-    expect(workflow).not.toMatch(/^\s+LINKEDIN_AUTHOR_URN:/m);
+  it("wires LinkedIn from secrets, never from a literal", () => {
+    // Safe whether or not the secrets exist: readLinkedInCredentials() requires
+    // BOTH values, so an unset secret resolves to the empty string, no LinkedIn
+    // publisher is constructed, and the platform records
+    // SKIPPED_CREDENTIAL_EXPIRED while X is entirely unaffected.
+    expect(workflow).toMatch(/^\s+LINKEDIN_ACCESS_TOKEN: \$\{\{ secrets\.LINKEDIN_ACCESS_TOKEN \}\}$/m);
+    expect(workflow).toMatch(/^\s+LINKEDIN_AUTHOR_URN: \$\{\{ vars\.LINKEDIN_AUTHOR_URN \}\}$/m);
+  });
+
+  it("hard-codes no credential value anywhere", () => {
+    for (const name of ["LINKEDIN_ACCESS_TOKEN", "OPENAI_API_KEY"]) {
+      for (const m of workflow.matchAll(new RegExp(`${name}:\s*(.+)`, "g"))) {
+        expect(m[1].trim().startsWith("${{ secrets."), `${name} = ${m[1]}`).toBe(true);
+      }
+    }
   });
 
   it("maps the kill switch from the repository variable, never a literal", () => {
