@@ -1,0 +1,100 @@
+IMMIGRATIONCLOCK — IMMIGRATION PULSE
+Week of 8 August 2026 – 15 August 2026
+Official U.S. immigration changes from government sources.
+
+This week brought 11 official immigration updates. The 5 most consequential are below; the rest are in the archive. Every item below links directly to the government publication it came from. We report what changed — we do not tell you what it means for your case.
+
+THIS WEEK AT A GLANCE
+
+  - 4 Federal Register documents
+  - 4 USCIS policy updates
+  - 3 Court decisions
+  - No executive orders & proclamations
+
+Estimated reading time: 3 minutes
+
+WHAT CHANGED THIS WEEK
+
+[Major]
+Adjudication of Civil Penalties Against International Marriage Brokers
+This interim final rule ("IFR") amends Department of Justice ("Department") regulations to specify the procedures for adjudicating alleged violations of the International Marriage Broker Regulation Act of 2005 ("IMBRA") by international marriage brokers ("IMBs") doing business in the United States that fail to provide required information to persons recruited for matchmaking services or that improperly disclose prohibited information. This IFR is necessary to deter fraudulent marriages and the exploitation of immigrants recruited by IMBs.
+Agency: U.S. Department of Justice
+Published: 2026-08-11
+Read the official document: https://www.federalregister.gov/documents/2026/08/11/2026-16290/adjudication-of-civil-penalties-against-international-marriage-brokers
+
+[Major]
+Mandatory Electronic Filing (e-Filing)
+This interim final rule (IFR) amends U.S. Department of Homeland Security (DHS) regulations to provide: USCIS may require mandatory electronic filing (e-filing) of certain benefit requests; the process USCIS will follow to require a benefit request to be e-filed; and how a waiver of the e-filing requirement for those individuals unable to file electronically may be requested. This rule is intended to increase digital intake and processing to move USCIS and requestors from a mostly paper process to an electronic process and further enhance the integrity of the immigration system and the security of the United States.
+Agency: Department of Homeland Security
+Published: 2026-08-11
+Read the official document: https://www.federalregister.gov/documents/2026/08/11/2026-16313/mandatory-electronic-filing-e-filing
+
+[Major]
+9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas
+The Department of Homeland Security (DHS) is amending the regulations concerning the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 Visas (9-11 Biometric Fee). The regulatory changes correct DHS's interpretation of statutory language to require that covered employers submit the 9-11 Biometric Fee for all extension of status petitions, regardless of whether the related fraud prevention and detection fee applies, which includes extension of status petitions that do not involve a change of employer. The 9-11 Biometric Fee continues to apply unchanged to petitions seeking an initial grant of status. The changes also help DHS comply with its congressional mandate to implement a biometric entry-exit system.
+Agency: Department of Homeland Security
+Published: 2026-08-10
+Read the official document: https://www.federalregister.gov/documents/2026/08/10/2026-16231/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas
+
+[Major]
+Regulatory Changes Required by the Energy Security and Lightering Independence Act of 2022
+The Energy Security and Lightering Independence Act of 2022 amended the nonimmigrant classifications for aliens in transit (C) and for aliens serving as crewmen (D) to include individuals who perform ship-to-ship liquid cargo transfer operations to or from another vessel engaged in foreign trade (lightering). The statute authorizes qualifying aliens to seek admission to the United States or request temporary landing permits for a period not to exceed 180 days. This rule amends Department of Homeland Security (DHS) regulations to conform to these statutory changes and make related technical amendments.
+Agency: Department of Homeland Security
+Published: 2026-08-11
+Read the official document: https://www.federalregister.gov/documents/2026/08/11/2026-16319/regulatory-changes-required-by-the-energy-security-and-lightering-independence-act-of-2022
+
+[Notable]
+USCIS To Require Electronic Filing of Forms: Strengthening National Security
+The Department of Homeland Security (DHS) is introducing an interim final rule (IFR) that allows U.S. Citizenship and Immigration Services (USCIS) to mandate electronic filing, or e-filing, for certain immigration forms.
+Agency: U.S. Citizenship and Immigration Services
+Published: 2026-08-10
+Read the official document: https://www.uscis.gov/newsroom/alerts/uscis-to-require-electronic-filing-of-forms-strengthening-national-security
+
+WHAT DID NOT CHANGE
+
+  - DACA
+  - Temporary Protected Status
+  - Asylum and refugee admissions
+  - F-1 student visas
+  - Employment-based green cards
+
+We monitor these closely. Nothing was recorded against them this week — which describes our archive, not the whole world, so keep checking the official source before acting.
+
+COMING UP
+
+  Diversity Visa (green-card) lottery - 2026-10-01
+    The DV lottery registration opens for about one month in the fall, free, for nationals of eligible countries. A rare path to a green card with no employer or family sponsor.
+    U.S. Dept. of State — DV Program: https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html
+  New fiscal year — H-1B start date - 2026-10-01
+    October 1 begins the federal fiscal year: cap-subject H-1B employment can start and a fresh set of visa numbers becomes available.
+    USCIS — H-1B specialty occupations: https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations
+  H-1B electronic registration - 2027-03-01
+    USCIS opens the H-1B cap registration window for about three weeks. Miss it and you wait a full year for the next lottery.
+    USCIS — H-1B cap season: https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations/h-1b-electronic-registration-process
+  Federal tax filing deadline - 2027-04-15
+    Individual returns are due April 15 — including nonresident (1040-NR) returns for many F-1 and J-1 visa holders. File or request an extension by this date.
+    IRS — Tax deadlines: https://www.irs.gov/filing
+
+Dates published by the agency itself. They can move; the source link is the authority.
+
+BY THE NUMBERS
+
+  Federal Register documents: 4
+  USCIS policy updates: 4
+  Court decisions: 3
+  Total changes recorded: 11
+
+CONTINUE EXPLORING IMMIGRATIONCLOCK
+
+  Processing & key dates: https://immigrationclock.com/key-dates?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-en-2026-08-15&utm_content=weekly&locale=en&edition=weekly-en-2026-08-15&segment=weekly-en
+  Citizenship: https://immigrationclock.com/explained?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-en-2026-08-15&utm_content=weekly&locale=en&edition=weekly-en-2026-08-15&segment=weekly-en
+  H-1B: https://immigrationclock.com/h1b/employers?utm_source=newsletter&utm_medium=email&utm_campaign=weekly-en-2026-08-15&utm_content=weekly&locale=en&edition=weekly-en-2026-08-15&segment=weekly-en
+
+Every update above links directly to the original government source. We summarize public information. We never provide legal advice.
+
+Document titles and summaries are quoted exactly as the U.S. government published them, in English. We do not translate official text, because a translated quote is no longer a quote.
+
+Read this issue online: https://immigrationclock.com/newsletter/weekly-en-2026-08-15/en.html
+Unsubscribe: {{{RESEND_UNSUBSCRIBE_URL}}}
+
+ImmigrationClock reports public U.S. government data. It is not a law firm and does not give legal advice.
