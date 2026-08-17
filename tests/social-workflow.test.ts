@@ -63,6 +63,68 @@ describe("the workflow maps the switch into the job environment", () => {
   });
 });
 
+// =============================================================================
+// THE COPY ENGINE MUST REACH THE STEP THAT PUBLISHES
+//
+// The failure this pins: SOCIAL_ENGINE was mapped from a repository variable
+// that was never set, so it arrived as the empty string and the publish step
+// died with `Unknown copy engine provider:`. Two independent things had to be
+// true for that to happen, and both are asserted here — the value must be
+// deterministic without depending on a variable existing, and it must be
+// declared at JOB level so every step inherits it rather than only the ones
+// somebody remembered to wire.
+// =============================================================================
+describe("the workflow resolves the copy engine deterministically", () => {
+  it("maps SOCIAL_ENGINE with an explicit openai default", () => {
+    expect(WORKFLOW).toMatch(
+      /^\s+SOCIAL_ENGINE:\s+\$\{\{\s*vars\.SOCIAL_ENGINE\s*\|\|\s*'openai'\s*\}\}\s*$/m
+    );
+  });
+
+  it("never leaves SOCIAL_ENGINE as a bare vars reference", () => {
+    // A bare reference is the bug: unset renders as "", not as absent.
+    const assignments = [...WORKFLOW.matchAll(/SOCIAL_ENGINE:\s*(.+)$/gm)].map((m) => m[1].trim());
+    expect(assignments.length).toBeGreaterThan(0);
+    for (const value of assignments) {
+      expect(value).not.toBe("${{ vars.SOCIAL_ENGINE }}");
+      expect(value).toContain("'openai'");
+    }
+  });
+
+  it("declares it at job level, so 'Publish this slot' inherits it", () => {
+    // The publish step has no `env:` of its own; it inherits the job's. If
+    // SOCIAL_ENGINE ever moves under a single step — preflight, say — the
+    // scheduled publish silently loses it again, which is exactly what happened.
+    const jobEnvBlock = WORKFLOW.slice(
+      WORKFLOW.indexOf("    env:"),
+      WORKFLOW.indexOf("    steps:")
+    );
+    expect(jobEnvBlock).toContain("SOCIAL_ENGINE:");
+    expect(jobEnvBlock).toContain("OPENAI_API_KEY:");
+
+    // And it is not scoped to any step below.
+    const stepsBlock = WORKFLOW.slice(WORKFLOW.indexOf("    steps:"));
+    expect(stepsBlock).not.toContain("SOCIAL_ENGINE:");
+  });
+
+  it("keeps the OpenAI key coming from secrets and hardcodes no key", () => {
+    expect(WORKFLOW).toMatch(/OPENAI_API_KEY:\s*\$\{\{\s*secrets\.OPENAI_API_KEY\s*\}\}/);
+    // No literal key material, of any provider, anywhere in the file.
+    expect(WORKFLOW).not.toMatch(/sk-[A-Za-z0-9_-]{16,}/);
+  });
+
+  it("keeps the publish step's pipefail, so a failed publish cannot read green", () => {
+    expect(WORKFLOW).toContain("set -o pipefail");
+  });
+
+  it("keeps X live and LinkedIn unconfigured", () => {
+    // LinkedIn stays wired-but-unset: readLinkedInCredentials() needs both
+    // values, so it records SKIPPED_CREDENTIAL_EXPIRED and X is unaffected.
+    expect(WORKFLOW).toMatch(/LINKEDIN_ACCESS_TOKEN:\s*\$\{\{\s*secrets\.LINKEDIN_ACCESS_TOKEN\s*\}\}/);
+    expect(WORKFLOW).toMatch(/X_ACCESS_TOKEN:\s*\$\{\{\s*secrets\.X_ACCESS_TOKEN\s*\}\}/);
+  });
+});
+
 describe("the script reads the switch through the tested predicate", () => {
   it("does not compare the environment variable inline any more", () => {
     // The rule lives in one place so it can be tested. An inline comparison

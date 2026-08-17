@@ -47,6 +47,53 @@ export const DEFAULT_MODEL_BY_PROVIDER: Record<string, string> = {
 /** Back-compat alias. The Anthropic default, kept so nothing importing it breaks. */
 export const DEFAULT_MODEL = DEFAULT_MODEL_BY_PROVIDER.anthropic;
 
+/** Every provider name this seam accepts. The one place the spellings live. */
+export const KNOWN_PROVIDERS = ["openai", "anthropic", "transcript"] as const;
+export type ProviderName = (typeof KNOWN_PROVIDERS)[number];
+
+export function isKnownProvider(provider: string): provider is ProviderName {
+  return (KNOWN_PROVIDERS as readonly string[]).includes(provider);
+}
+
+/**
+ * WHICH PROVIDER A RUN USES — the one resolution rule, blank-safe.
+ *
+ * This used to be `opts.provider ?? process.env.SOCIAL_ENGINE ?? DEFAULT_PROVIDER`,
+ * and `??` was the bug. It falls back on null and undefined only, and an UNSET
+ * GitHub repository variable does not arrive as either: `SOCIAL_ENGINE: ${{
+ * vars.SOCIAL_ENGINE }}` renders as the EMPTY STRING, so the variable is present
+ * in the environment with no value. The empty string is not nullish, so it won a
+ * `??` chain outright and reached the switch below as "", which matched no case
+ * and threw `Unknown copy engine provider: ` with nothing after the colon.
+ *
+ * It failed only in production, which is what made it confusing: a dry run
+ * passes `--engine=openai` explicitly, and preflight already used `||` here, so
+ * the two paths a human actually watches both resolved correctly while the
+ * scheduled live run — the only one reading a bare, empty SOCIAL_ENGINE — did
+ * not. The same empty-string trap is documented for SOCIAL_POST_ENABLED in
+ * tests/social-workflow.test.ts; this is the second instance of it.
+ *
+ * Blank now means "not configured" and resolves to DEFAULT_PROVIDER, which is
+ * openai. It never resolves to anthropic implicitly: that requires someone to
+ * write SOCIAL_ENGINE=anthropic.
+ */
+export function resolveProvider(
+  explicit?: string,
+  // Deliberately a plain record rather than NodeJS.ProcessEnv: this project's
+  // ProcessEnv requires NODE_ENV, which would force every caller wanting to test
+  // one variable to construct a whole environment.
+  env: Record<string, string | undefined> = process.env
+): string {
+  const chosen = (explicit ?? "").trim() || (env.SOCIAL_ENGINE ?? "").trim();
+  return chosen || DEFAULT_PROVIDER;
+}
+
+/** The API key each provider needs, for messages that name the missing one. */
+export const KEY_BY_PROVIDER: Record<string, string> = {
+  openai: "OPENAI_API_KEY",
+  anthropic: "ANTHROPIC_API_KEY",
+};
+
 export interface EngineOptions {
   /** "openai" (default), "anthropic", or "transcript". */
   provider?: string;
@@ -55,7 +102,7 @@ export interface EngineOptions {
 }
 
 export function createCopyEngine(opts: EngineOptions = {}): CopyEngine {
-  const provider = opts.provider ?? process.env.SOCIAL_ENGINE ?? DEFAULT_PROVIDER;
+  const provider = resolveProvider(opts.provider);
 
   switch (provider) {
     case "transcript":
@@ -91,7 +138,15 @@ export function createCopyEngine(opts: EngineOptions = {}): CopyEngine {
     }
 
     default:
-      throw new Error(`Unknown copy engine provider: ${provider}`);
+      // Quoted, and with the source named. The unquoted form of this message is
+      // what shipped, and a blank value made it read as a truncated sentence
+      // rather than as "the value is empty" — the diagnosis cost more than the
+      // fix did.
+      throw new Error(
+        `Unknown copy engine provider: "${provider}" ` +
+          `(SOCIAL_ENGINE=${JSON.stringify(process.env.SOCIAL_ENGINE ?? null)}). ` +
+          `Known providers: ${KNOWN_PROVIDERS.join(", ")}.`
+      );
   }
 }
 

@@ -8,12 +8,20 @@
 //
 //   • is the ledger readable? (an unreadable one halts publishing entirely)
 //   • which credentials are configured, per platform, independently?
+//   • does the copy engine resolve to a real provider, with its key present?
 //   • what would each of today's three slots do right now?
 //   • is the standing pool deep enough to keep the evening slot from repeating?
 //
 // It exits non-zero only for conditions that would make a live run unsafe — an
-// unreadable ledger, or a broken deep link. An empty news pool is not a fault;
-// it is the normal state most days, and the whole design is built around it.
+// unreadable ledger, a broken deep link, or a copy engine that cannot run. An
+// empty news pool is not a fault; it is the normal state most days, and the
+// whole design is built around it.
+//
+// THE ENGINE CHECK IS BLOCKING, AND IT IS BLOCKING BECAUSE OF A REAL OUTAGE.
+// A provider that does not resolve, or one whose key is absent, used to be a
+// printed line that nothing acted on. The scheduled run then failed several
+// steps later at the point of the API call. Preflight exists to find that
+// first, so it now fails on it.
 // =============================================================================
 
 import { readFileSync } from "node:fs";
@@ -22,7 +30,14 @@ import { EVENT_INDEX, INDEX_COVERAGE } from "../src/lib/event-index";
 import { SLOTS, chicagoParts, currentSlot } from "../src/lib/social/slots";
 import { candidatesFor } from "../src/lib/social/select";
 import { isPublishingEnabled } from "../src/lib/social/run";
-import { DEFAULT_PROVIDER, DEFAULT_MODEL_BY_PROVIDER } from "../src/lib/social/copy-engine";
+import {
+  DEFAULT_PROVIDER,
+  DEFAULT_MODEL_BY_PROVIDER,
+  KEY_BY_PROVIDER,
+  KNOWN_PROVIDERS,
+  isKnownProvider,
+  resolveProvider,
+} from "../src/lib/social/copy-engine";
 import { parsePostLedger, publishedPosts } from "../src/lib/social/ledger";
 import { checkSubject } from "../src/lib/social/dedupe";
 import { isPublishableDestination, STANDING_ASSETS } from "../src/lib/social/links";
@@ -74,18 +89,61 @@ function main() {
   // not make. `npm run social:verify-x` is the check that answers it.
   console.log(`  X        : ${x ? "configured (presence only — run social:verify-x to prove it authenticates)" : "NOT configured — X will skip"}`);
   console.log(`  LinkedIn : ${linkedin ? "configured" : "NOT configured — LinkedIn will skip"}`);
+  // THE ENGINE, RESOLVED THE SAME WAY THE RUN WILL RESOLVE IT.
+  //
+  // Through resolveProvider(), not a local `||` expression. A private copy of
+  // the rule is exactly what hid the production failure: preflight's `||`
+  // treated an empty SOCIAL_ENGINE as unset and printed "openai", while
+  // createCopyEngine()'s `??` kept the empty string and threw. Preflight passed,
+  // the publish step died, and the two disagreed about a value they were both
+  // reading from the same variable. One function now answers for both.
+  //
   // Report the key the CONFIGURED provider actually needs, not a hardcoded one.
   // A preflight that says "key present" about a provider the run will not use is
   // worse than saying nothing.
-  const provider = process.env.SOCIAL_ENGINE || DEFAULT_PROVIDER;
-  const engineKey = provider === "anthropic" ? "ANTHROPIC_API_KEY" : "OPENAI_API_KEY";
+  const rawEngine = process.env.SOCIAL_ENGINE;
+  const provider = resolveProvider();
   const engineModel =
     process.env.SOCIAL_MODEL || DEFAULT_MODEL_BY_PROVIDER[provider] || "(provider default)";
-  console.log(
-    `  Engine   : ${provider} / ${engineModel} — ${
-      process.env[engineKey] ? `${engineKey} present` : `${engineKey} MISSING — live runs cannot generate copy`
-    }`
-  );
+
+  if (!isKnownProvider(provider)) {
+    // Named before any API call, which is the whole point of this step: a typo
+    // in a repository variable should cost a preflight, not a billed request.
+    problems.push(
+      `SOCIAL_ENGINE is "${rawEngine}", which is not a known copy engine provider ` +
+        `(${KNOWN_PROVIDERS.join(", ")}). Set it to "openai" for production.`
+    );
+    console.log(`  Engine   : UNKNOWN PROVIDER "${rawEngine}"`);
+  } else {
+    const engineKey = KEY_BY_PROVIDER[provider];
+    const source = rawEngine?.trim()
+      ? "SOCIAL_ENGINE"
+      : `default (SOCIAL_ENGINE ${rawEngine === undefined ? "unset" : "empty"})`;
+    console.log(
+      `  Engine   : ${provider} / ${engineModel}  [from ${source}]${
+        engineKey
+          ? ` — ${process.env[engineKey] ? `${engineKey} present` : `${engineKey} MISSING`}`
+          : ""
+      }`
+    );
+    // A MISSING KEY IS BLOCKING, NOT A NOTE.
+    //
+    // It was a note, and a note is the wrong shape for it: the run continues,
+    // reaches the engine, and fails at the point where it would otherwise have
+    // called the API. Failing here instead means the operator learns from the
+    // step whose job is to tell them, before anything is billed or attempted.
+    if (engineKey && !process.env[engineKey]) {
+      problems.push(
+        `${engineKey} is not set, and the ${provider} engine cannot generate copy without it. ` +
+          `In CI it comes from GitHub Secrets; locally, put it in .env.`
+      );
+    }
+    if (provider !== DEFAULT_PROVIDER) {
+      notes.push(
+        `The copy engine is ${provider}, not the ${DEFAULT_PROVIDER} default. That is a deliberate SOCIAL_ENGINE override — unset it to return to ${DEFAULT_PROVIDER}.`
+      );
+    }
+  }
   if (!x && !linkedin) {
     notes.push("Neither platform is configured. Nothing could publish even with SOCIAL_POST_ENABLED=true.");
   }

@@ -29,7 +29,15 @@ import {
   rateFor,
 } from "@/lib/social/providers/openai";
 import { EngineRefusal } from "@/lib/social/providers/anthropic";
-import { createCopyEngine, DEFAULT_PROVIDER, DEFAULT_MODEL_BY_PROVIDER } from "@/lib/social/copy-engine";
+import {
+  createCopyEngine,
+  DEFAULT_PROVIDER,
+  DEFAULT_MODEL_BY_PROVIDER,
+  KEY_BY_PROVIDER,
+  KNOWN_PROVIDERS,
+  isKnownProvider,
+  resolveProvider,
+} from "@/lib/social/copy-engine";
 import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "@/lib/social/prompt";
 import { buildEventFacts } from "@/lib/social/facts";
 import { SLOT_BY_ID } from "@/lib/social/slots";
@@ -333,5 +341,119 @@ describe("the provider seam", () => {
 
   it("still refuses an unknown provider rather than guessing", () => {
     expect(() => createCopyEngine({ provider: "llama" })).toThrow(/Unknown copy engine provider/);
+  });
+
+  it("names the value and the variable when a provider is unknown", () => {
+    // The shipped message was `Unknown copy engine provider: ` with nothing
+    // after the colon, which reads like truncated output rather than like an
+    // empty value. Quoting it is what makes the next occurrence self-diagnosing.
+    expect(() => createCopyEngine({ provider: "llama" })).toThrow(/"llama"/);
+    expect(() => createCopyEngine({ provider: "llama" })).toThrow(/SOCIAL_ENGINE=/);
+  });
+});
+
+// =============================================================================
+// THE PRODUCTION FAILURE: AN EMPTY SOCIAL_ENGINE
+//
+// `SOCIAL_ENGINE: ${{ vars.SOCIAL_ENGINE }}` with the repository variable unset
+// puts the EMPTY STRING into the environment — the key is present, the value is
+// "". The old `??` chain accepted it, because "" is not nullish, and the switch
+// then matched no case. Every scheduled live run died on it while dry runs
+// (--engine=openai) and preflight (which used `||`) both looked healthy.
+//
+// tests/social-workflow.test.ts documents the identical trap for
+// SOCIAL_POST_ENABLED. This is that same fact, for the provider.
+// =============================================================================
+describe("provider resolution is blank-safe", () => {
+  it("treats an empty SOCIAL_ENGINE as unset and resolves to openai", () => {
+    expect(resolveProvider(undefined, { SOCIAL_ENGINE: "" })).toBe("openai");
+  });
+
+  it("treats an absent SOCIAL_ENGINE as openai", () => {
+    expect(resolveProvider(undefined, {})).toBe("openai");
+    expect(resolveProvider(undefined, { SOCIAL_ENGINE: undefined })).toBe("openai");
+  });
+
+  it("treats a whitespace-only value as unset", () => {
+    expect(resolveProvider(undefined, { SOCIAL_ENGINE: "   " })).toBe("openai");
+  });
+
+  it("trims a value that a copy-paste left padded", () => {
+    expect(resolveProvider(undefined, { SOCIAL_ENGINE: " openai " })).toBe("openai");
+  });
+
+  it("honours an explicitly configured provider", () => {
+    expect(resolveProvider(undefined, { SOCIAL_ENGINE: "anthropic" })).toBe("anthropic");
+    expect(resolveProvider(undefined, { SOCIAL_ENGINE: "openai" })).toBe("openai");
+  });
+
+  it("lets an explicit flag beat the environment, and an empty flag not beat it", () => {
+    // `--engine=` with nothing after it is not a choice of provider.
+    expect(resolveProvider("anthropic", { SOCIAL_ENGINE: "openai" })).toBe("anthropic");
+    expect(resolveProvider("", { SOCIAL_ENGINE: "anthropic" })).toBe("anthropic");
+    expect(resolveProvider("", { SOCIAL_ENGINE: "" })).toBe("openai");
+  });
+
+  it("NEVER falls back to anthropic implicitly", () => {
+    // The whole point of the default being openai: reaching anthropic requires
+    // someone to have written it down. A blank, a typo or an absent variable
+    // must never route billed traffic to the provider we migrated off.
+    for (const value of ["", "   ", undefined]) {
+      expect(resolveProvider(undefined, { SOCIAL_ENGINE: value })).not.toBe("anthropic");
+    }
+  });
+
+  it("resolves to a provider the engine factory actually implements", () => {
+    // Resolution and construction must agree on the spelling. A name that
+    // resolves but does not construct is exactly the shipped bug.
+    const resolved = resolveProvider(undefined, { SOCIAL_ENGINE: "" });
+    expect(isKnownProvider(resolved)).toBe(true);
+    expect(KNOWN_PROVIDERS).toContain(resolved);
+  });
+
+  it("agrees with the OpenAI engine's own id and key name", () => {
+    // social-post.ts prints engine.id; copy-engine.ts switches on the provider
+    // name; the provider stamps it into that id. One spelling, three places.
+    const saved = process.env.OPENAI_API_KEY;
+    process.env.OPENAI_API_KEY = "test-key-not-real";
+    try {
+      const engine = createCopyEngine({ provider: resolveProvider(undefined, { SOCIAL_ENGINE: "" }) });
+      expect(engine.id).toBe(`openai:${DEFAULT_MODEL_BY_PROVIDER.openai}`);
+      expect(engine.id.split(":")[0]).toBe(DEFAULT_PROVIDER);
+      expect(KEY_BY_PROVIDER[DEFAULT_PROVIDER]).toBe("OPENAI_API_KEY");
+    } finally {
+      if (saved === undefined) delete process.env.OPENAI_API_KEY;
+      else process.env.OPENAI_API_KEY = saved;
+    }
+  });
+
+  it("builds the OpenAI engine from a blank SOCIAL_ENGINE, as production now does", () => {
+    // End to end through the real factory with the real environment shape: the
+    // exact call scripts/social-post.ts makes on a scheduled run, with the exact
+    // environment GitHub Actions produced when it failed.
+    const savedEngine = process.env.SOCIAL_ENGINE;
+    const savedKey = process.env.OPENAI_API_KEY;
+    process.env.SOCIAL_ENGINE = ""; // what an unset repository variable renders as
+    process.env.OPENAI_API_KEY = "test-key-not-real";
+    try {
+      const engine = createCopyEngine({ provider: undefined });
+      expect(engine.id).toMatch(/^openai:/);
+    } finally {
+      if (savedEngine === undefined) delete process.env.SOCIAL_ENGINE;
+      else process.env.SOCIAL_ENGINE = savedEngine;
+      if (savedKey === undefined) delete process.env.OPENAI_API_KEY;
+      else process.env.OPENAI_API_KEY = savedKey;
+    }
+  });
+
+  it("still fails loudly, not silently, when a real typo is configured", () => {
+    const saved = process.env.SOCIAL_ENGINE;
+    process.env.SOCIAL_ENGINE = "openai ai";
+    try {
+      expect(() => createCopyEngine({})).toThrow(/Unknown copy engine provider/);
+    } finally {
+      if (saved === undefined) delete process.env.SOCIAL_ENGINE;
+      else process.env.SOCIAL_ENGINE = saved;
+    }
   });
 });

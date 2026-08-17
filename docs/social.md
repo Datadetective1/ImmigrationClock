@@ -388,6 +388,30 @@ during a live run, the slot skips — a second, rarely-exercised voice that ship
 only when nobody is watching is worse than silence. It is selected explicitly,
 by flag, and stamps its own id into every ledger row.
 
+### How the provider name resolves
+
+One function decides, `resolveProvider()` in `src/lib/social/copy-engine.ts`, and
+both the runner and the preflight call it:
+
+    --engine=<name>   →   SOCIAL_ENGINE   →   openai
+
+A **blank** SOCIAL_ENGINE counts as unset and resolves to `openai`. It never
+resolves to `anthropic` implicitly — that requires writing the value down.
+
+This mattered in production. The workflow mapped `SOCIAL_ENGINE: ${{
+vars.SOCIAL_ENGINE }}` from a repository variable that was never set, and an
+unset GitHub variable renders as the **empty string** rather than being absent.
+The old resolution used `??`, which falls back only on null/undefined, so `""`
+reached the provider switch and every scheduled live run died with
+`Unknown copy engine provider:` and nothing after the colon. Dry runs passed
+`--engine=openai` explicitly and the preflight used `||`, so both looked healthy
+while the one unattended path failed. The workflow now writes
+`${{ vars.SOCIAL_ENGINE || 'openai' }}`, at **job** level so the publish step
+inherits it, and the code is blank-safe independently of that.
+
+The preflight **blocks** — exit 1, before any API call — when SOCIAL_ENGINE names
+an unknown provider, or when the resolved provider's key is absent.
+
 Model choice: Opus at ~3 calls/day costs a few dollars a month more than a
 cheaper tier. The failure this system guards against is a plausible-sounding
 sentence that over-claims what a federal agency did, published unattended, on an
@@ -453,7 +477,7 @@ All credentials live in **GitHub Secrets**. None is ever printed.
 |---|---|---|
 | `OPENAI_API_KEY` | secret | copy engine (production) |
 | `ANTHROPIC_API_KEY` | secret | copy engine, only when `SOCIAL_ENGINE=anthropic` |
-| `SOCIAL_ENGINE` | variable | optional; `openai` (default), `anthropic`, `transcript` |
+| `SOCIAL_ENGINE` | variable | optional; the workflow defaults it to `openai`, so leaving it unset is the production configuration. Set it only to override: `anthropic`, `transcript` |
 | `X_API_KEY` / `X_API_SECRET` | secret | X app |
 | `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET` | secret | OAuth 1.0a user tokens — **do not expire** |
 | `LINKEDIN_ACCESS_TOKEN` | secret | **expires ~60 days** |

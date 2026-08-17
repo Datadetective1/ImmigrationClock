@@ -142,7 +142,30 @@ jobs:
       # thing from the integration being wrong, and SOCIAL_ENGINE=anthropic
       # restores the previous provider in one variable if access returns.
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      SOCIAL_ENGINE: ${{ vars.SOCIAL_ENGINE }}
+
+      # THE PROVIDER NAME, AND WHY IT IS NOT A BARE `vars` REFERENCE.
+      #
+      # This was `${{ vars.SOCIAL_ENGINE }}` alone, and the repository variable
+      # was never set. An unset variable does not leave the key absent — it
+      # renders as the EMPTY STRING, so every scheduled live run reached
+      # createCopyEngine() with SOCIAL_ENGINE="" and died on
+      # `Unknown copy engine provider:` with nothing after the colon.
+      #
+      # Nothing caught it earlier because the empty string only loses to a `||`,
+      # not to a `??`: preflight used `||` and reported "openai" happily, and dry
+      # runs pass --engine=openai explicitly. The one path with no explicit
+      # provider was the one nobody watches.
+      #
+      # `|| 'openai'` makes the fallback happen HERE, in the file, where it is
+      # visible — production resolves to openai whether or not the variable
+      # exists, and setting the variable still overrides it. Both halves matter:
+      # the code is blank-safe too (resolveProvider), and this line means the
+      # workflow no longer depends on that rescue.
+      #
+      # Job-level `env:` — so it reaches EVERY step below, including "Publish
+      # this slot", which is the step that was failing. Not a step-level env on
+      # preflight, which is how the two paths disagreed in the first place.
+      SOCIAL_ENGINE: ${{ vars.SOCIAL_ENGINE || 'openai' }}
       SOCIAL_MODEL: ${{ vars.SOCIAL_MODEL }}
 
       # X — OAuth 1.0a user context. These tokens do not expire, which is what
