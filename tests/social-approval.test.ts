@@ -147,6 +147,7 @@ function ledgerWith(over: Partial<PostRecord>): PostLedger {
     runAtUtc: "2026-08-09T14:05:00.000Z",
     slot: "morning",
     pool: "standing",
+    category: null,
     platform: "x",
     decision: "POSTED",
     reason: "Published",

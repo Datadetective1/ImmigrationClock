@@ -111,6 +111,7 @@ for (let d = 0; d < DAYS; d++) {
       runAtUtc: at.toISOString(),
       slot: slot.id,
       pool: slot.pool,
+      category: candidate.category,
       platform: "x",
       decision: "POSTED",
       reason: "simulated selection",

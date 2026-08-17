@@ -21,6 +21,7 @@
 import type { IndexedEvent } from "@/lib/event-index";
 import type { VisualSpec } from "./visuals";
 import type { TopicFamily } from "./rotation";
+import type { ContentCategory } from "./categories";
 
 // -----------------------------------------------------------------------------
 // SLOTS
@@ -45,8 +46,26 @@ export interface SlotDef {
   hour: number;
   /** What this slot is FOR. Shown to the copy engine verbatim. */
   purpose: string;
-  /** Which pool supplies its candidates. */
+  /** Which pool supplies its candidates. Recorded in the ledger as the slot's identity. */
   pool: PoolId;
+  /**
+   * Pools this slot may ALSO draw on when they carry something material.
+   *
+   * The original design gave each slot one pool and no overlap, on the reasoning
+   * that three slots competing for one thin news pool would either skip
+   * everything or repeat itself. That reasoning is still right about the MORNING
+   * slot's job, and it had one consequence nobody intended: a qualifying
+   * immigration development could never win the afternoon or evening slot, at
+   * any score, because it was not in the pool at all. A methodology page beat
+   * fourteen other pages on a rotation index while real developments sat in an
+   * archive the slot could not see.
+   *
+   * So the later slots keep their own pool as their PRIMARY job and may reach
+   * for news when news exists. The dedupe layer is what makes this safe rather
+   * than repetitive: a subject that published this morning is inside its 7-day
+   * block by the evening, and same-day topic variety blocks the rest.
+   */
+  fallbackPools: PoolId[];
   /** Editorial angles this slot may use. Enforced, not merely suggested. */
   angles: Angle[];
 }
@@ -160,7 +179,19 @@ export interface Candidate {
   pool: PoolId;
   /** One-line identity for logs. Never sent to a platform as-is. */
   label: string;
-  /** Ordering score. See score.ts — positional weights, not a learned model. */
+  /**
+   * What KIND of thing this is. Decides the band; `score` decides the place
+   * within it. See categories.ts for why this had to stop being implicit.
+   */
+  category: ContentCategory;
+  /**
+   * Ordering score: the category's tier plus the candidate's own merits.
+   *
+   * The tier dominates by construction — see TIER_STEP. Before categories
+   * existed this field carried a rotation index for standing candidates, which
+   * meant a page about our own methodology and a page of enforcement data
+   * differed by one point and the calendar broke the tie.
+   */
   score: number;
   /** Every factor, so a selection can be explained in the ledger. */
   scoreExplain: string;
@@ -212,8 +243,39 @@ export interface Candidate {
  * checks the output back against exactly these fields, so producing it untruthfully
  * fails closed.
  */
+/**
+ * What SORT of subject this fact set describes.
+ *
+ * Load-bearing, and its absence is half of why the methodology post read the way
+ * it did. The TIMING block told the model, unconditionally, that "NO effective
+ * or implementation date is recorded — state that plainly", which is exactly
+ * right for a federal document that has not been given a start date and is
+ * meaningless for a page explaining how we classify data. A methodology page
+ * cannot have an implementation date, so reporting that it lacks one is not a
+ * fact about the world; it is a fact about the prompt.
+ *
+ * The published post opened on it: "No implementation date has been set; ..."
+ */
+export type SubjectKind =
+  /** A government document: a rule, decision, notice, executive action. */
+  | "document"
+  /** A recurring calendar event: a filing window, a lottery, a deadline. */
+  | "recurring_date"
+  /** A durable ImmigrationClock page: a dataset, a hub, a reference. */
+  | "resource";
+
 export interface FactSet {
   subjectId: SubjectId;
+  /** What sort of thing this is. Timing language depends on it. */
+  subjectKind: SubjectKind;
+  /**
+   * The Chicago-local date this fact set was built for.
+   *
+   * Carried so the validator can tell a future effective date from a past one
+   * without being handed a second clock. Two clocks in one pipeline is how a
+   * simulation and a production run start disagreeing.
+   */
+  today: string;
   /** Neutral title as published. Never rewritten by us. */
   title: string;
   /** The source's own summary, or our data description. */
@@ -417,6 +479,8 @@ export interface SlotOutcome {
   topicKey: string | null;
   /** Topic family, recorded so tomorrow's rotation can read this week's feed. */
   topicFamily: string | null;
+  /** Content category, recorded so the mix can be measured over a fortnight. */
+  category: ContentCategory | null;
   /** Base score minus the repetition penalties. What actually won the slot. */
   adjustedScore: number | null;
   /** Which penalties applied, so a selection can be explained later. */

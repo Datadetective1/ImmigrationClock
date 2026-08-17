@@ -34,6 +34,7 @@ import {
   type TopicFamily,
 } from "@/lib/social/rotation";
 import { standingPool } from "@/lib/social/select";
+import type { ContentCategory } from "@/lib/social/categories";
 import { EMPTY_POST_LEDGER, appendRecords, type PostLedger, type PostRecord } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
 
@@ -91,6 +92,7 @@ function record(over: Partial<PostRecord>): PostRecord {
     approvedBy: null,
     topicKey: null,
     topicFamily: null,
+    category: null,
     adjustedScore: null,
     rotationExplain: null,
     inputTokens: null,
@@ -111,6 +113,7 @@ function rank(
   input: {
     subjectId: string;
     topicFamily: TopicFamily;
+    category?: ContentCategory;
     deepLink?: string;
     baseScore: number;
     hasNewInformation?: boolean;
@@ -122,6 +125,7 @@ function rank(
     {
       subjectId: input.subjectId,
       topicFamily: input.topicFamily,
+      category: input.category ?? "development",
       deepLink: input.deepLink ?? "https://immigrationclock.com/z",
       angle: "breaking_change",
       baseScore: input.baseScore,

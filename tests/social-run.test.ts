@@ -207,6 +207,7 @@ describe("gates run before the engine, so a silent slot is free", () => {
 
   it("makes no engine call when every candidate is on cooldown", async () => {
     const prior: PostRecord = {
+      category: null,
       localDate: "2026-08-10",
       localTime: "09:05",
       runAtUtc: "2026-08-10T13:00:00.000Z",

@@ -95,6 +95,68 @@ items on public inspection days before publication; posting one forces
 "scheduled for publication on…" phrasing that is weaker and easier to get subtly
 wrong than simply waiting.
 
+### 2a. Content category — the tier that decides what beats what (`categories.ts`)
+
+The ranking model above says how consequential a document is. It does **not**
+say what KIND of thing a candidate is, and for a long time nothing did. The
+consequence reached production: the evening slot published a post about
+ImmigrationClock's own methodology page, having scored it 1015 against fourteen
+other candidates. That number was not a judgement. Every standing candidate
+scored `1000 + (poolSize − rotationPosition)` — a rotation index — so all
+fifteen sat within fourteen points of each other and the calendar broke the tie.
+
+Every candidate now carries a category, and the category sets the band:
+
+| Tier | Category | What it is |
+|---|---|---|
+| 70,000 | `development` | a new qualifying official development |
+| 60,000 | `deadline` | a filing window or an effective date that is coming |
+| 50,000 | `actionable` | an active rule that obliges someone to do or pay something |
+| 40,000 | `proposed` | a proposed rule — real news, nothing on any calendar yet |
+| 30,000 | `data_insight` | a figure from ImmigrationClock's own datasets |
+| 20,000 | `explainer` | durable explanation |
+| 10,000 | `methodology` | ImmigrationClock itself — methodology, sources, product |
+
+The step (10,000) is wider than the ranking model's entire range (~4,450 at
+absolute maximum), so a tier cannot be crossed by accumulating score. The
+model's output survives intact as the ordering **within** a band.
+
+### 2b. Slots may draw on more than one pool
+
+Each slot keeps its own pool as its primary job and may reach for another when
+that pool holds something material:
+
+| Slot | Primary | Fallback |
+|---|---|---|
+| morning | news | none — its silence is its standard |
+| afternoon | knowledge | news |
+| evening | standing | news |
+
+**A fallback changes what a slot posts, never whether it posts.** If a slot's
+own pool is empty it stays silent exactly as before, so the cadence is
+unchanged. The evening slot deliberately does *not* fall back to the knowledge
+archive: a 14-day selection simulation showed the archive's live effective-date
+items swamping the datasets, leaving no evening on which the account hands
+somebody a tool.
+
+### 2c. The content mix
+
+Targets over a 14-day window, measured from the ledger's `category` column:
+
+| Bucket | Categories | Target |
+|---|---|---|
+| news | development, proposed | 50% |
+| alerts | deadline, actionable | 20% |
+| data | data_insight | 15% |
+| evergreen | explainer | 10% |
+| product | methodology | 5% |
+
+**Targets, not quotas, and structurally so:** the only instrument is a penalty
+on a bucket that has already had its turn — one tier step if it posted today,
+another if it is over its share for the window. Nothing can be promoted, and no
+quality gate can be lowered to reach a percentage. A bucket with nothing to
+offer simply yields its share to whatever else qualifies.
+
 ### 3. Angles
 
 An angle must be **earned by the data**, not chosen because the slot needs one:

@@ -50,7 +50,31 @@ import type { FactSet, Platform, ValidationResult } from "./types";
  * new refusal, for copy that implies this account knows something about the
  * reader's own filing.
  */
-export const VALIDATOR_VERSION = "social-validator/3";
+/**
+ * v4 adds the COLD READER group, and it is the first group here that asks
+ * whether a post is COMPREHENSIBLE rather than whether it could be false.
+ *
+ * That is a deliberate widening of this file's remit, forced by a post that
+ * passed every check in v3 and should not have been published:
+ *
+ *     "No implementation date has been set; ImmigrationClock labels each
+ *      figure's derivation and period completeness, publishes source limits,
+ *      and does not collect profiles, tracking, or identifying personal data."
+ *
+ * Nothing in it is false. Every URL, figure and attribution was grounded. It is
+ * still unpublishable, because a reader meeting this account for the first time
+ * cannot tell what it is about — it opens on the absence of a date for a subject
+ * it never names.
+ *
+ * "Could it be false" turned out not to be the whole of the trust question. A
+ * feed of true sentences that a stranger cannot parse is not a reference source
+ * either, so three mechanical checks now run on the opening: no orphan
+ * construction, a subject named early, and — for anything with a real start date
+ * — that date actually present.
+ *
+ * They stay mechanical. None of them asks whether the copy is good.
+ */
+export const VALIDATOR_VERSION = "social-validator/4";
 
 // -----------------------------------------------------------------------------
 // PLATFORM SHAPE
@@ -177,6 +201,148 @@ const ALL_BANNED = [
   ...UNSUPPORTED_SUPERLATIVE,
   ...ENGAGEMENT_BAIT,
 ];
+
+// -----------------------------------------------------------------------------
+// THE COLD READER
+//
+// One question, asked mechanically: seeing ONLY this post, with no previous post
+// and no click, can a stranger tell what it is about?
+// -----------------------------------------------------------------------------
+
+/**
+ * How much of the post counts as "the opening".
+ *
+ * Generous on purpose. The requirement is that the subject arrives early, not
+ * that it is the literal first word — "Under a rule published Tuesday, USCIS
+ * will…" is a perfectly good opening that takes a clause to get there.
+ */
+export const OPENING_CHARS = 140;
+
+/**
+ * Constructions that cannot open a standalone post, because each of them refers
+ * to something the reader has not been given.
+ *
+ * Patterns, not a blocklist of words. "This" is fine mid-sentence and fine as
+ * "This rule, published Tuesday…" once a subject exists; what is banned is a
+ * demonstrative or a bare negative arriving BEFORE any subject has been named.
+ */
+const ORPHAN_OPENINGS: [RegExp, string][] = [
+  // The exact shape that published: a negative about an unnamed thing.
+  [
+    /^\s*(no|none|neither|nothing)\b(?![^.]*\b(rule|notice|petition|application|form|programme|program|window|filing|fee|visa|court|agency|department|uscis|dhs|cbp|ice|eoir|dol|irs)\b)/i,
+    "opens on a bare negative before naming what it is about",
+  ],
+  // A demonstrative or pronoun followed by a VERB: "This affects…", "It now
+  // requires…". The verb is what makes it an orphan — "This rule, published
+  // Tuesday…" names a subject in the same breath and is fine. The trailing
+  // `\w+(s|ed)` arm catches verbs not worth listing; it also catches "These
+  // employers must…", which is an orphan for the same reason (which employers?).
+  [
+    /^\s*(it|they|these|those|this|that)\s+(is|are|was|were|will|would|now|also|has|have|had|does|do|can|may|must|affects?|applies|requires?|covers?|means?|changes?|adds?|expands?|introduces?|replaces?|removes?|raises?|sets?|starts?|begins?|takes?|brings?|\w+(?:s|ed))\b/i,
+    "opens on a pronoun with nothing to refer back to",
+  ],
+  [/^\s*(also|meanwhile|additionally|in addition|furthermore|moreover|however|but|and|so)\b[,\s]/i, "opens as a continuation of a post the reader cannot see"],
+  [/^\s*(here'?s|here is)\s+(what|how|why)\b/i, "opens on a tease rather than the subject"],
+  [/^\s*(the page|this page|our page|the site|this resource|our data|the data)\b/i, "opens by describing a page rather than saying what it shows"],
+];
+
+/**
+ * Words from the fact set that identify the subject.
+ *
+ * Drawn from the closed world and nowhere else, exactly like permittedAgencies()
+ * — so the prompt can be told which anchors exist and the check can require one,
+ * with no possibility of the two disagreeing about what counts.
+ *
+ * Short and generic words are dropped: "data", "notice" or "update" appearing in
+ * an opening is not evidence that a subject was named.
+ */
+const ANCHOR_STOPWORDS = new Set([
+  "the", "and", "for", "with", "from", "that", "this", "into", "under", "upon",
+  "certain", "other", "their", "when", "will", "would", "have", "has", "been",
+  "data", "notice", "notices", "update", "updates", "information", "page",
+  "report", "reports", "list", "new", "our", "its", "about", "more", "than",
+  "each", "some", "any", "all", "not", "are", "was", "were", "does",
+]);
+
+export function subjectAnchors(facts: FactSet): string[] {
+  const out = new Set<string>();
+
+  for (const word of facts.title.split(/[^A-Za-z0-9\-]+/)) {
+    const w = word.trim();
+    if (w.length < 4) continue;
+    if (ANCHOR_STOPWORDS.has(w.toLowerCase())) continue;
+    out.add(w.toLowerCase());
+  }
+
+  // Entities and the source are subjects in their own right: a post that opens
+  // "CBP encounters fell..." has named its subject even if the page is titled
+  // "Border encounters".
+  for (const entity of facts.entities) {
+    for (const word of entity.split(/[^A-Za-z0-9\-]+/)) {
+      if (word.length >= 4 && !ANCHOR_STOPWORDS.has(word.toLowerCase())) {
+        out.add(word.toLowerCase());
+      }
+    }
+  }
+  for (const agency of permittedAgencies(facts)) out.add(agency.toLowerCase());
+
+  // Visa and form designations are the strongest anchors this domain has, and
+  // they are short enough to be dropped by the length rule above.
+  const designations = `${facts.title} ${facts.summary} ${facts.entities.join(" ")}`.match(
+    /\b([A-Z]{1,2}-?\d[A-Z]?|I-\d{2,3}|DS-\d{3,4}|EB-?\d|H-?1B|L-?1[AB]?|O-?1|F-?1|J-?1|K-?1|TN|OPT|DACA|TPS|DV)\b/g
+  );
+  for (const d of designations ?? []) out.add(d.toLowerCase());
+
+  // ImmigrationClock is a legitimate subject for the small number of posts that
+  // are genuinely about the publication itself.
+  out.add("immigrationclock");
+
+  return [...out];
+}
+
+/** Does the opening actually name something from the fact set? */
+export function opensWithSubject(text: string, facts: FactSet): boolean {
+  const opening = stripUrls(text).slice(0, OPENING_CHARS).toLowerCase();
+  return subjectAnchors(facts).some((anchor) => opening.includes(anchor));
+}
+
+/**
+ * Every way a post might legitimately write one date.
+ *
+ * Deliberately permissive about FORM and strict about PRESENCE: the check is
+ * "did the reader get told when", not "did the model format it our way".
+ */
+export function mentionsDate(text: string, iso: string): boolean {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (!y || !m || !d) return false;
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December",
+  ];
+  const month = months[m - 1];
+  const abbrev = month.slice(0, 3);
+  // "Sept" is what people write, and it is the one month whose common short
+  // form is four letters rather than three.
+  const longAbbrev = month === "September" ? "sept" : abbrev.toLowerCase();
+  const lower = text.toLowerCase();
+
+  const forms = [
+    iso,
+    `${month} ${d}`.toLowerCase(),
+    `${abbrev} ${d}`.toLowerCase(),
+    `${abbrev}. ${d}`.toLowerCase(),
+    `${longAbbrev} ${d}`,
+    `${longAbbrev}. ${d}`,
+    `${d} ${month}`.toLowerCase(),
+    `${d} ${abbrev}`.toLowerCase(),
+    `${m}/${d}/${y}`,
+    `${m}/${d}`,
+    `${String(m).padStart(2, "0")}/${String(d).padStart(2, "0")}`,
+  ];
+
+  return forms.some((f) => lower.includes(f));
+}
 
 // -----------------------------------------------------------------------------
 // EXTRACTION HELPERS
@@ -368,6 +534,31 @@ export function validatePost(
   const emoji = trimmed.match(EMOJI);
   if (emoji) failures.push(`Contains an emoji (${emoji[0]}) — this account does not use them`);
 
+  // --- the cold reader test --------------------------------------------------
+  //
+  // Runs on both platforms. LinkedIn's fold makes its opening if anything more
+  // load-bearing than X's, and the failure being guarded against — a post whose
+  // subject is never named — is identical on either.
+  checked.push("cold-reader-opening");
+  const withoutUrls = stripUrls(trimmed).trim();
+  for (const [re, label] of ORPHAN_OPENINGS) {
+    if (re.test(withoutUrls)) {
+      failures.push(
+        `Cold reader test: ${label}. Someone seeing only this post cannot tell what it is about — name the subject first.`
+      );
+      break; // One diagnosis is enough; listing five ways to say "orphan" is noise.
+    }
+  }
+
+  checked.push("cold-reader-subject");
+  if (!opensWithSubject(trimmed, facts)) {
+    failures.push(
+      `Cold reader test: the first ${OPENING_CHARS} characters name nothing from the fact set ` +
+        `(expected one of: ${subjectAnchors(facts).slice(0, 8).join(", ")}). ` +
+        `A post that never names its subject is unreadable on its own.`
+    );
+  }
+
   // --- proposed rules must not sound like law --------------------------------
   if (facts.classification === "proposed_rule") {
     checked.push("proposed-rule-framing");
@@ -379,13 +570,46 @@ export function validatePost(
     if (/\b(takes|took|comes into|is now in) effect\b/i.test(trimmed)) {
       failures.push("Describes a proposed rule as being in effect");
     }
+    // A PROPOSAL STATED IN THE PRESENT TENSE IS A FALSE STATEMENT OF LAW.
+    //
+    // The word "proposed" appearing somewhere in the post is not enough: "USCIS
+    // proposed a rule. Filings now require a $500 fee" contains it and still
+    // tells a reader to pay a fee that does not exist. These catch the clauses
+    // that assert the proposal's contents as current or scheduled fact.
+    const ASSERTED_AS_FACT: [RegExp, string][] = [
+      [/\b(now|will) (require|requires|cost|costs|apply|applies|need|needs)\b/i, "states a proposal as settled"],
+      [/\bstarting\s+(on\s+)?(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal a start date"],
+      [/\bbeginning\s+(on\s+)?(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal a start date"],
+      [/\beffective\s+(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal an effective date"],
+      [/\bas of\s+(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal a start date"],
+      [/\b(applicants|petitioners|employers|filers) (must|now)\b/i, "states a proposal as a current obligation"],
+      [/\bis (a )?(new )?(requirement|rule|law)\b/i, "describes a proposal as an existing rule"],
+    ];
+    for (const [re, label] of ASSERTED_AS_FACT) {
+      const m = trimmed.match(re);
+      if (m) failures.push(`Proposed rule ${label}: "${m[0]}" — nothing has changed yet`);
+    }
   }
 
-  // --- effective dates must be real ------------------------------------------
+  // --- effective dates must be real, and must survive ------------------------
   if (!facts.effectiveAt) {
     checked.push("no-invented-effective-date");
-    if (/\b(takes|taking) effect (on|from)\b/i.test(trimmed)) {
+    // "take" as well as "takes": "filings take effect on…" asserts a date just
+    // as firmly as "the rule takes effect on…", and only the second was caught.
+    if (/\b(takes?|taking) effect (on|from)\b/i.test(trimmed)) {
       failures.push("States an effective date, but the archive records none for this item");
+    }
+  } else if (facts.effectiveAt > facts.today && facts.classification !== "proposed_rule") {
+    // THE DATE IS THE POINT. A post about a change that starts on a known future
+    // date, which does not tell the reader that date, has dropped the single
+    // most useful fact it was given — the one thing this account exists to
+    // carry. Only enforced for FUTURE dates: a rule that took effect last year
+    // is history, and repeating its date is not what makes that post useful.
+    checked.push("effective-date-preserved");
+    if (!mentionsDate(trimmed, facts.effectiveAt)) {
+      failures.push(
+        `Drops the effective date (${facts.effectiveAt}), which is in the future and is the most useful fact in the set`
+      );
     }
   }
 

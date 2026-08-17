@@ -147,6 +147,8 @@ export function buildEventFacts(
 
   return {
     subjectId: `event:${event.id}`,
+    subjectKind: "document",
+    today,
     title: event.title,
     summary: event.summary,
     sourceName,
@@ -166,7 +168,12 @@ export function buildEventFacts(
   };
 }
 
-export function buildKeyDateFacts(kd: KeyDate, daysAway: number, dateLabel: string): FactSet {
+export function buildKeyDateFacts(
+  kd: KeyDate,
+  daysAway: number,
+  dateLabel: string,
+  today: string
+): FactSet {
   const notes = [
     "This is a recurring reference date, not a news event. Do not describe it as new or as a change.",
     "Nothing here is legal or tax advice.",
@@ -181,6 +188,8 @@ export function buildKeyDateFacts(kd: KeyDate, daysAway: number, dateLabel: stri
 
   return {
     subjectId: `keydate:${kd.id}`,
+    subjectKind: "recurring_date",
+    today,
     title: kd.title,
     summary: kd.detail,
     sourceName: kd.sourceName,
@@ -241,6 +250,8 @@ export function buildAssetFacts(asset: StandingAsset, today: string): FactSet | 
 
   return {
     subjectId: `asset:${asset.id}`,
+    subjectKind: "resource",
+    today,
     title: asset.label,
     summary: asset.description,
     // Attribution follows the figures. When the numbers came from USCIS or CBP,

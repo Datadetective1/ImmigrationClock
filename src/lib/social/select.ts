@@ -36,8 +36,14 @@ import { buildEventFacts, buildKeyDateFacts, buildAssetFacts } from "./facts";
 import { buildAssetVisual, buildEventVisual, buildKeyDateVisual } from "./visuals";
 import { keyDateMilestone, topicFamilyFor } from "./rotation";
 import { assetInsights } from "./asset-facts";
+import {
+  CATEGORY_LABEL,
+  CATEGORY_TIER,
+  categoryForAsset,
+  categoryForEvent,
+} from "./categories";
 import { SOURCE_BY_KEY } from "@/lib/sources";
-import type { Angle, Candidate, SlotDef } from "./types";
+import type { Angle, Candidate, PoolId, SlotDef } from "./types";
 
 /** How far back the morning slot will call something "new". */
 export const NEWS_LOOKBACK_DAYS = 2;
@@ -129,7 +135,7 @@ export function newsPool(events: IndexedEvent[], today: string): Candidate[] {
       // enough that there is a concrete requirement to state.
       const angles: Angle[] = ["breaking_change"];
       if (obligationLevel(s.event) >= 2) angles.push("what_it_requires");
-      return toEventCandidate(s.event, s.score, s.explain, "news", angles, today);
+      return toEventCandidate(s.event, s.score, s.explain, "news", angles, today, true);
     })
     .filter((c): c is Candidate => c !== null);
 }
@@ -157,7 +163,7 @@ export function knowledgePool(events: IndexedEvent[], today: string, slot: SlotD
         slot.angles.includes(a)
       );
       if (angles.length === 0) return null;
-      return toEventCandidate(s.event, s.score, s.explain, "knowledge", angles, today);
+      return toEventCandidate(s.event, s.score, s.explain, "knowledge", angles, today, false);
     })
     .filter((c): c is Candidate => c !== null);
 }
@@ -241,10 +247,12 @@ export function standingPool(today: string): Candidate[] {
     const milestone = keyDateMilestone(info.days);
     if (!milestone) continue;
 
-    // Nearer deadlines score higher; everything here outranks a dataset when
-    // inside the urgent window.
+    // Nearer deadlines score higher. The urgency figure is now an INTRA-TIER
+    // ordering among deadlines rather than a bid against the datasets: a
+    // deadline outranks a dataset because of what it is, not because 3000
+    // happened to be larger than 1015.
     const urgency = info.days <= DEADLINE_URGENT_DAYS ? 3000 : 1500;
-    const score = urgency + Math.max(0, 120 - info.days);
+    const merit = urgency + Math.max(0, 120 - info.days);
 
     // Two different posts, not one post with two intensities. Inside the urgent
     // window the countdown itself is the news; outside it, the honest thing is
@@ -257,8 +265,9 @@ export function standingPool(today: string): Candidate[] {
       subjectId: `keydate:${kd.id}`,
       pool: "standing",
       label: `${kd.title} (${milestone})`,
-      score,
-      scoreExplain: `keydate days=${info.days} urgent=${info.days <= DEADLINE_URGENT_DAYS}`,
+      category: "deadline",
+      score: CATEGORY_TIER.deadline + merit,
+      scoreExplain: `${CATEGORY_LABEL.deadline} (tier ${CATEGORY_TIER.deadline}) + ${merit}: days=${info.days} urgent=${info.days <= DEADLINE_URGENT_DAYS}`,
       supportedAngles: [angle],
       topicKey: topicKeyFor({ subjectId: `keydate:${kd.id}`, keyDateCategory: kd.category }),
       topicFamily: topicFamilyFor({
@@ -272,7 +281,7 @@ export function standingPool(today: string): Candidate[] {
       deepLink: "/key-dates",
       sourceUrl: kd.sourceUrl,
       event: null,
-      facts: buildKeyDateFacts(kd, info.days, info.dateLabel),
+      facts: buildKeyDateFacts(kd, info.days, info.dateLabel, today),
       visual: buildKeyDateVisual(kd, info.days, angle),
     });
   }
@@ -291,12 +300,28 @@ export function standingPool(today: string): Candidate[] {
   usable.forEach(({ asset, facts }, i) => {
     const position = (i - dayNumber) % usable.length;
     const normalized = (position + usable.length) % usable.length;
+
+    // THE LINE THAT PUBLISHED THE METHODOLOGY POST.
+    //
+    // It read `score: 1000 + (usable.length - normalized)`, which gave fifteen
+    // pages fifteen adjacent scores — 1001 to 1015 — with no signal in them
+    // except today's rotation offset. The methodology page won its slot on 1015
+    // because the calendar dealt it position zero, and the log recorded that as
+    // a score, which is why it looked like a decision.
+    //
+    // The rotation index survives, doing the job it was always fit for: ordering
+    // PEERS. What it can no longer do is answer "is this worth publishing at
+    // all", because that question is now settled one tier up, where a page about
+    // our own methodology sits six bands below a rule that changed something.
+    const category = categoryForAsset(asset);
+    const rotationMerit = usable.length - normalized;
     out.push({
       subjectId: `asset:${asset.id}`,
       pool: "standing",
       label: asset.label,
-      score: 1000 + (usable.length - normalized),
-      scoreExplain: `asset rotation position=${normalized}`,
+      category,
+      score: CATEGORY_TIER[category] + rotationMerit,
+      scoreExplain: `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${rotationMerit}: rotation position=${normalized}`,
       supportedAngles: ["data_insight"],
       topicKey: topicKeyFor({ subjectId: `asset:${asset.id}`, assetTags: asset.tags }),
       topicFamily: topicFamilyFor({
@@ -332,22 +357,83 @@ export function keyDateTiming(kd: KeyDate, from: Date): { days: number; dateLabe
 // ENTRY POINT
 // -----------------------------------------------------------------------------
 
-/** The ordered candidate list for one slot on one day. */
+/**
+ * The ordered candidate list for one slot on one day.
+ *
+ * Draws the slot's own pool first, then any fallback pool it declares. The
+ * fallback is what stops the shape of failure this file shipped with: the
+ * evening slot could only ever see fifteen standing pages, so "which of these
+ * pages" was the only question it could ask, and the answer was decided by a
+ * rotation offset. A slot that can see a real development can decline to post a
+ * page about our methodology.
+ *
+ * Deduplicated by subject, keeping the higher-scoring entry, because the news
+ * and knowledge pools can legitimately surface the same event on the boundary
+ * day between them.
+ */
 export function candidatesFor(
   slot: SlotDef,
   events: IndexedEvent[],
   today: string
 ): Candidate[] {
-  switch (slot.pool) {
+  const seen = new Map<string, Candidate>();
+
+  const primary = withSlotAngles(poolCandidates(slot.pool, events, today, slot), slot);
+
+  // THE CADENCE IS NOT ALLOWED TO MOVE.
+  //
+  // A fallback pool may change WHAT a slot posts and must never change WHETHER
+  // it posts. If this slot's own pool is empty it stays silent, exactly as it
+  // did before fallbacks existed — a newsless morning is still silent, and an
+  // afternoon with nothing in the archive worth explaining is still silent.
+  // Fallbacks join a competition that was already going to happen; they never
+  // start one.
+  if (primary.length === 0) return [];
+
+  for (const candidate of primary) seen.set(candidate.subjectId, candidate);
+
+  for (const pool of slot.fallbackPools) {
+    for (const candidate of poolCandidates(pool, events, today, slot)) {
+      // Angles are still the slot's decision. A candidate whose treatments are
+      // all outside this slot's remit does not enter it, however it scores.
+      const angles = candidate.supportedAngles.filter((a) => slot.angles.includes(a));
+      if (angles.length === 0) continue;
+
+      const existing = seen.get(candidate.subjectId);
+      if (existing && existing.score >= candidate.score) continue;
+      seen.set(candidate.subjectId, { ...candidate, supportedAngles: angles });
+    }
+  }
+
+  return [...seen.values()].sort(
+    (a, b) => b.score - a.score || a.subjectId.localeCompare(b.subjectId)
+  );
+}
+
+/** Keep only the treatments this slot is allowed to use, dropping what is left bare. */
+function withSlotAngles(candidates: Candidate[], slot: SlotDef): Candidate[] {
+  const out: Candidate[] = [];
+  for (const candidate of candidates) {
+    const angles = candidate.supportedAngles.filter((a) => slot.angles.includes(a));
+    if (angles.length === 0) continue;
+    out.push({ ...candidate, supportedAngles: angles });
+  }
+  return out;
+}
+
+function poolCandidates(
+  pool: PoolId,
+  events: IndexedEvent[],
+  today: string,
+  slot: SlotDef
+): Candidate[] {
+  switch (pool) {
     case "news":
       return newsPool(events, today);
     case "knowledge":
       return knowledgePool(events, today, slot);
     case "standing":
-      return standingPool(today).map((c) => ({
-        ...c,
-        supportedAngles: c.supportedAngles.filter((a) => slot.angles.includes(a)),
-      })).filter((c) => c.supportedAngles.length > 0);
+      return standingPool(today);
   }
 }
 
@@ -357,19 +443,37 @@ function toEventCandidate(
   explain: string,
   pool: "news" | "knowledge",
   angles: Angle[],
-  today: string
+  today: string,
+  fresh: boolean
 ): Candidate | null {
   const deepLink = resolveDeepLink(event);
   // No destination, no post. Falling back to the homepage would waste the click
   // and is forbidden by links.ts.
   if (!deepLink) return null;
 
+  const hasUpcomingEffectiveDate = Boolean(
+    event.effectiveAt &&
+      event.effectiveAt > today &&
+      daysBetweenIso(today, event.effectiveAt) <= 90
+  );
+
+  const category = categoryForEvent({
+    classification: event.classification,
+    fresh,
+    obligationLevel: obligationLevel(event),
+    hasUpcomingEffectiveDate,
+  });
+
   return {
     subjectId: `event:${event.id}`,
     pool,
     label: event.title,
-    score,
-    scoreExplain: explain,
+    category,
+    // Tier first, merits second. The ranking model's output is preserved intact
+    // as the within-tier ordering, so an improvement to it still improves social
+    // selection — it simply can no longer decide a question of kind.
+    score: CATEGORY_TIER[category] + score,
+    scoreExplain: `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${score}: ${explain}`,
     supportedAngles: angles,
     topicKey: topicKeyFor({ subjectId: `event:${event.id}`, event }),
     topicFamily: topicFamilyFor({
@@ -380,13 +484,7 @@ function toEventCandidate(
     // News is new by definition. An archive item counts as new only when its
     // timing has moved into view — an effective date now inside 90 days is a
     // genuine reason to say it again.
-    hasNewInformation:
-      pool === "news" ||
-      Boolean(
-        event.effectiveAt &&
-          event.effectiveAt > today &&
-          daysBetweenIso(today, event.effectiveAt) <= 90
-      ),
+    hasNewInformation: pool === "news" || hasUpcomingEffectiveDate,
     deepLink,
     sourceUrl: event.sourceUrl,
     event,

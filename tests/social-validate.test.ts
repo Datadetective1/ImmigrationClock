@@ -21,6 +21,13 @@ const SOURCE = "https://www.federalregister.gov/documents/2026/08/10/2026-16231/
 function facts(over: Partial<FactSet> = {}): FactSet {
   return {
     subjectId: "event:test:1",
+    subjectKind: "document",
+    // AFTER the effective date, so this shared fixture is a settled rule rather
+    // than an upcoming one. The effective-date-preservation check applies only
+    // to FUTURE dates, and these cases are about figures, quotations and banned
+    // constructions — a fixture that silently also demanded a date in every
+    // sample string would be testing two things and reporting one.
+    today: "2026-10-01",
     title: "Biometric Entry-Exit Fee for H-1B and L-1 Visas",
     summary: "DHS is amending the regulations concerning the fee for certain H-1B and L-1 visas. The fee is $500.",
     sourceName: "Federal Register",

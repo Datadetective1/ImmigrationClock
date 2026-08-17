@@ -328,15 +328,44 @@ describe("the standing rotation", () => {
   });
 
   it("reaches every asset over a full turn of the rotation", () => {
+    // The rotation still reaches everything; what changed is that it no longer
+    // decides across KINDS. Assets now sit in category tiers — a dataset always
+    // outranks a reference page, which always outranks a page about
+    // ImmigrationClock itself — so the single top-scoring asset is always a
+    // dataset and asking whether every asset leads the whole pool would now be
+    // asking whether the tiers work, not whether the rotation turns.
+    //
+    // The property that matters is unchanged: no asset is stranded. Over one
+    // full turn every asset leads ITS OWN category exactly once.
     const usable = assetsWithInsight(STANDING_ASSETS.map((a) => a.id), TODAY).length;
     const leaders = new Set<string>();
+
     for (let d = 0; d < usable; d++) {
       const date = new Date(Date.parse(`${TODAY}T00:00:00Z`) + d * 86_400_000)
         .toISOString()
         .slice(0, 10);
-      const first = standingPool(date).filter((c) => c.subjectId.startsWith("asset:"))[0];
-      leaders.add(first.subjectId);
+      const assets = standingPool(date).filter((c) => c.subjectId.startsWith("asset:"));
+      const bestPerCategory = new Map<string, string>();
+      for (const c of assets) {
+        // standingPool returns descending score, so the first of each category
+        // is that category's leader for the day.
+        if (!bestPerCategory.has(c.category)) bestPerCategory.set(c.category, c.subjectId);
+      }
+      for (const subjectId of bestPerCategory.values()) leaders.add(subjectId);
     }
+
     expect(leaders.size).toBe(usable);
+  });
+
+  it("never lets a page about ImmigrationClock outrank a dataset", () => {
+    // The methodology post in one line. These two were one point apart.
+    const pool = standingPool(TODAY).filter((c) => c.subjectId.startsWith("asset:"));
+    const worstData = Math.min(
+      ...pool.filter((c) => c.category === "data_insight").map((c) => c.score)
+    );
+    const bestSelf = Math.max(
+      ...pool.filter((c) => c.category === "methodology").map((c) => c.score)
+    );
+    expect(bestSelf).toBeLessThan(worstData);
   });
 });

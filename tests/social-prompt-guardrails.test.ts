@@ -42,7 +42,7 @@ const DV = KEY_DATES.find((k) => k.id === "dv-lottery")!;
 
 /** The exact fact set the failing proposal was generated from. */
 function dvFacts(): FactSet {
-  return buildKeyDateFacts(DV, 53, "2026-10-01");
+  return buildKeyDateFacts(DV, 53, "2026-10-01", "2026-08-15");
 }
 
 /** The exact copy the model returned, byte for byte. */
@@ -222,7 +222,7 @@ describe("the prompt asks X to leave margin below the hard limit", () => {
   });
 
   it("is recorded as a new prompt version, so ledger rows are traceable", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/4");
+    expect(PROMPT_VERSION).toBe("social-prompt/5");
   });
 });
 

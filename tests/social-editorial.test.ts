@@ -75,8 +75,8 @@ describe("the account knows what it is for", () => {
   });
 
   it("is versioned, so a change of voice is traceable in the ledger", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/4");
-    expect(VALIDATOR_VERSION).toBe("social-validator/3");
+    expect(PROMPT_VERSION).toBe("social-prompt/5");
+    expect(VALIDATOR_VERSION).toBe("social-validator/4");
   });
 });
 
@@ -118,7 +118,7 @@ describe("timing is rendered as a fact, in both directions", () => {
   it("asks a recurring window for preparation time, not a description of the programme", () => {
     const dv = KEY_DATES.find((k) => k.id === "dv-lottery")!;
     const prompt = buildUserPrompt({
-      facts: buildKeyDateFacts(dv, 51, "2026-10-01"),
+      facts: buildKeyDateFacts(dv, 51, "2026-10-01", "2026-08-15"),
       slot: SLOT_BY_ID.get("evening")!,
       angle: "preparation_window",
       avoidOpenings: [],
@@ -153,7 +153,11 @@ describe("the validator refuses individual-case claims", () => {
   });
 
   it("still accepts the ordinary sense of 'track' — we track rules, not people", () => {
-    const fine = `ImmigrationClock tracks the fee schedule and records when each change takes effect, with the source on every entry. ${link}`;
+    // Carries the effective date because this fact set has a future one, and
+    // v4 requires the date to survive into the copy. The test is about the verb
+    // "track", and a sample that failed a different rule would prove nothing
+    // about it either way.
+    const fine = `ImmigrationClock tracks the fee schedule and records when each change takes effect — this one on 2026-09-18 — with the source on every entry. ${link}`;
     expect(validatePost(fine, "x", facts).failures).toEqual([]);
   });
 

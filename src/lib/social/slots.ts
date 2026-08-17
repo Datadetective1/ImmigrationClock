@@ -42,6 +42,11 @@ export const SLOTS: SlotDef[] = [
       "filing requirement, an eligibility test. State requirements as facts " +
       "about the document, never as instructions to the reader. If nothing " +
       "clears the bar, this slot stays silent.",
+    // No fallback, deliberately. This slot's silence IS its standard: a morning
+    // with no qualifying development says nothing rather than reaching for a
+    // page to fill the hour. That is where filler would be most visible and
+    // least excusable.
+    fallbackPools: [],
     angles: ["breaking_change", "what_it_requires"],
   },
   {
@@ -55,11 +60,22 @@ export const SLOTS: SlotDef[] = [
       "effective date that is coming, or where a change sits in a sequence " +
       "we have been tracking. Written for someone with a real application in " +
       "progress, not for a policy analyst. Explanatory, never breaking.",
+    // A development that published this morning is still the most useful thing
+    // this account holds at 3pm. If the morning slot has already covered it, the
+    // 7-day subject block and same-day topic variety keep it out; if it landed
+    // after 9am, or the morning slot skipped it, this slot can now reach it
+    // instead of explaining something older while the news sits unposted.
+    fallbackPools: ["news"],
     angles: [
       "who_is_affected",
       "what_changed_from_previous",
       "effective_date_reminder",
       "historical_context",
+      // Admitted for fallback candidates only: nothing in the knowledge pool
+      // supports these, so they cannot change what this slot does with its own
+      // material.
+      "breaking_change",
+      "what_it_requires",
     ],
   },
   {
@@ -73,11 +89,41 @@ export const SLOTS: SlotDef[] = [
       "key dates, H-1B sponsorship data, WARN layoff intelligence, the " +
       "timeline, the map, a country or visa hub. Useful on any evening, and " +
       "never manufactured urgency.",
+    // THE SLOT THAT PUBLISHED THE METHODOLOGY POST.
+    //
+    // It could see fifteen standing pages and nothing else, so the only question
+    // available to it was "which page", and a rotation index answered that. Now
+    // it can see the news pool as well. Its own pool is still its primary
+    // job — most evenings there is no development left unposted and it hands
+    // someone a tool, which is what this slot is for — but on an evening when a
+    // material development is sitting unposted, a page about our own methodology
+    // no longer wins by default.
+    //
+    // Standing is never empty, so this slot's post count is unchanged by the
+    // fallback. Only its choices are.
+    //
+    // NEWS ONLY, not the knowledge archive. A first draft of this let the
+    // evening reach the archive too, and the preview showed exactly why that is
+    // wrong: the archive holds dozens of live effective-date items, they all
+    // rank in the deadline tier, and they swamped the datasets — two slots of
+    // "a rule starts on the 18th" and no evening this account ever hands
+    // somebody a tool. Archive alerts are the AFTERNOON's job. What the evening
+    // needs from outside its own pool is the rarer thing: a development that
+    // published today and has not been posted yet.
+    fallbackPools: ["news"],
     // No historical_context here. Placing an item among related activity is a
-    // treatment of an EVENT, and this slot's pool is durable pages and recurring
-    // dates. Leaving it in let one angle span two slots for no benefit; the
-    // afternoon slot owns it.
-    angles: ["deadline_approaching", "preparation_window", "data_insight"],
+    // treatment of an EVENT, and this slot's primary pool is durable pages and
+    // recurring dates. Leaving it in let one angle span two slots for no
+    // benefit; the afternoon slot owns it.
+    angles: [
+      "deadline_approaching",
+      "preparation_window",
+      "data_insight",
+      // For fallback candidates only — a fresh development. The archive's own
+      // treatments stay with the afternoon slot that owns them.
+      "breaking_change",
+      "what_it_requires",
+    ],
   },
 ];
 

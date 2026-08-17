@@ -33,6 +33,14 @@
 
 import type { IndexedEvent } from "@/lib/event-index";
 import type { Angle, Platform } from "./types";
+import {
+  MIX_PENALTY,
+  MIX_WINDOW_DAYS,
+  isOverTarget,
+  mixBucketFor,
+  type ContentCategory,
+  type MixBucket,
+} from "./categories";
 import { publishedPosts, type PostLedger, type PostRecord } from "./ledger";
 
 // -----------------------------------------------------------------------------
@@ -110,6 +118,13 @@ export function topicFamilyFor(input: {
   // --- standing assets: their tags -------------------------------------------
   if (subjectId.startsWith("asset:")) {
     const tags = input.assetTags ?? [];
+    // Pages about ImmigrationClock itself are not a data topic. Filing them under
+    // "data-trends" made them compete for — and consume — the diversity slot that
+    // belongs to actual datasets, so a methodology post could suppress an
+    // enforcement figure the next day for looking like the same kind of thing.
+    if (tags.includes("methodology") || tags.includes("product") || tags.includes("privacy")) {
+      return "other";
+    }
     if (tags.includes("h1b")) return "h1b";
     if (tags.includes("layoffs")) return "employment";
     if (tags.includes("enforcement") || tags.includes("border")) return "enforcement";
@@ -237,7 +252,19 @@ export interface RecentMemory {
   angles: Map<string, number>;
   /** Families already used TODAY, which the daily diversity target reads. */
   familiesToday: Set<string>;
+  /** Mix buckets already used TODAY. Drives the daily shape of the feed. */
+  bucketsToday: Set<MixBucket>;
+  /** Posts per bucket over MIX_WINDOW_DAYS, for the weekly share check. */
+  bucketCounts: Record<MixBucket, number>;
 }
+
+const EMPTY_BUCKET_COUNTS = (): Record<MixBucket, number> => ({
+  news: 0,
+  alerts: 0,
+  data: 0,
+  evergreen: 0,
+  product: 0,
+});
 
 function daysAgo(row: PostRecord, now: Date): number {
   return Math.floor((now.getTime() - Date.parse(row.runAtUtc)) / 86_400_000);
@@ -262,7 +289,23 @@ export function buildMemory(
     destinations: new Map(),
     angles: new Map(),
     familiesToday: new Set(),
+    bucketsToday: new Set(),
+    bucketCounts: EMPTY_BUCKET_COUNTS(),
   };
+
+  // The mix window is longer than the diversity window and is counted first, so
+  // a share means something over a fortnight rather than over three posts. Rows
+  // written before categories existed carry no category and are skipped rather
+  // than guessed at — an unknown bucket must not be able to suppress a real one.
+  for (const row of publishedPosts(ledger)) {
+    if (row.platform !== platform) continue;
+    if (!row.category) continue;
+    const age = daysAgo(row, now);
+    if (age > MIX_WINDOW_DAYS) continue;
+    const bucket = mixBucketFor(row.category as ContentCategory);
+    memory.bucketCounts[bucket] += 1;
+    if (row.localDate === localDate) memory.bucketsToday.add(bucket);
+  }
 
   for (const row of publishedPosts(ledger)) {
     if (row.platform !== platform) continue;
@@ -308,6 +351,8 @@ export interface RotationResult {
 export interface RotationInput {
   subjectId: string;
   topicFamily: TopicFamily;
+  /** What kind of content this is. Drives the mix penalties. */
+  category: ContentCategory;
   deepLink: string;
   angle: Angle;
   baseScore: number;
@@ -363,6 +408,28 @@ export function applyRotation(input: RotationInput, memory: RecentMemory): Rotat
   if (memory.familiesToday.has(input.topicFamily)) {
     penalty += PENALTY.sameDayFamily;
     parts.push(`family already used today −${PENALTY.sameDayFamily}`);
+  }
+
+  // --- the content mix -------------------------------------------------------
+  //
+  // The only instrument the mix targets get, and it is a penalty on something
+  // that has ALREADY had its turn — never a promotion, never a filter, and never
+  // anything that could put a candidate in the running that did not earn its
+  // way there. A bucket with nothing to offer simply yields its share to
+  // whatever else qualifies, which is why these are targets and not quotas.
+  //
+  // sameDayBucket is exactly one tier step: it does not exclude a second
+  // development, it makes that development compete one band down, on its own
+  // merits, against the deadline or the dataset it would otherwise have
+  // displaced. A big second story still wins. A routine one gives way.
+  const bucket = mixBucketFor(input.category);
+  if (memory.bucketsToday.has(bucket)) {
+    penalty += MIX_PENALTY.sameDayBucket;
+    parts.push(`"${bucket}" already posted today −${MIX_PENALTY.sameDayBucket}`);
+  }
+  if (isOverTarget(bucket, memory.bucketCounts)) {
+    penalty += MIX_PENALTY.weekOvershoot;
+    parts.push(`"${bucket}" over its ${MIX_WINDOW_DAYS}d share −${MIX_PENALTY.weekOvershoot}`);
   }
 
   // --- destination and angle -------------------------------------------------

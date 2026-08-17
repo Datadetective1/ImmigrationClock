@@ -21,7 +21,7 @@
 // =============================================================================
 
 import { ANGLE_LABEL, type Angle, type CopyRequest, type FactSet } from "./types";
-import { LIMITS, permittedAgencies } from "./validate";
+import { LIMITS, OPENING_CHARS, permittedAgencies, subjectAnchors } from "./validate";
 
 /**
  * v2 renders `dataPoints` and makes the data-insight brief conditional on
@@ -49,7 +49,32 @@ import { LIMITS, permittedAgencies } from "./validate";
  * next), and renders an explicit TIMING block so an ABSENT date is as visible
  * as a present one.
  */
-export const PROMPT_VERSION = "social-prompt/4";
+/**
+ * v5 is the cold-reader version, and it exists because of one published post:
+ *
+ *     "No implementation date has been set; ImmigrationClock labels each
+ *      figure's derivation and period completeness, publishes source limits,
+ *      and does not collect profiles, tracking, or identifying personal data."
+ *
+ * Every clause of that is true and the post is still a failure, because a reader
+ * scrolling past it cannot tell what it is about. It opens on the ABSENCE of a
+ * date for a subject that was never on a calendar — a methodology page — and
+ * names its topic nowhere.
+ *
+ * Two things in this file produced it, and both are fixed here rather than
+ * papered over with a "be clearer" instruction:
+ *
+ *   • renderTiming() emitted "NO effective or implementation date is recorded.
+ *     State that plainly" for EVERY subject. That line is exactly right for a
+ *     federal document whose start date has not been set, and meaningless for a
+ *     page explaining how we classify data. It now branches on subjectKind, and
+ *     a resource is never asked about its implementation date.
+ *
+ *   • Nothing required the post to identify its own subject. The COLD READER
+ *     TEST below states that requirement, and validate.ts v4 enforces it — a
+ *     post whose opening names nothing from its own fact set is rejected.
+ */
+export const PROMPT_VERSION = "social-prompt/5";
 
 /**
  * The band X copy should land in.
@@ -83,6 +108,26 @@ So structure every post around as much of this as the facts support, in this ord
 
 Not as four labelled sections — as the shape of the thought. On X you will often fit only the first two, and that is the right two to keep. Drop a beat the fact set cannot support rather than padding it.
 
+THE COLD READER TEST — THE FIRST THING EVERY POST MUST PASS
+
+Someone sees this post alone, in a timeline, knowing nothing about this account and nothing about the post above it. There is no previous post. There is no thread. They will not click the link before deciding whether it is worth reading.
+
+From the post ALONE, that person must be able to say what it is about.
+
+So: NAME THE SUBJECT FIRST. The opening clause identifies the thing — the agency and what it did, the form, the visa category, the programme, the dataset. Only then say what is true of it.
+
+  BAD:  "No implementation date has been set; the labelling covers each figure's derivation..."
+        Orphan. What has no date? What labelling?
+  GOOD: "DHS has proposed [the specific change]. No implementation date has been set."
+
+Never open with:
+- a bare negative about something you have not yet named — "No date has been set...", "None of these apply..."
+- a pronoun or a bare demonstrative standing in for a subject you have not named — "It now requires...", "This affects...", "They will need..."
+- a continuation of a thought the reader cannot see — "Also...", "Meanwhile...", "In addition..."
+- a description of what a page contains rather than what it says
+
+A number is not a subject either. "1,240 notices were filed" needs to say notices of what, from where.
+
 TIMING IS THE POINT, AND TIMING IS NEVER INVENTED
 
 - If the fact set records an effective date, it belongs in the post. That is the single most useful thing you can tell someone.
@@ -90,6 +135,20 @@ TIMING IS THE POINT, AND TIMING IS NEVER INVENTED
 - A proposed rule is not on anyone's calendar yet. Say what would have to happen for it to become operative: it would have to be finalised. Never give a proposed rule an effective date, and never describe it as coming into force.
 - For a recurring window, the useful thing is the preparation time ahead of it, not a description of the program.
 - Never state a consequence, a deadline, or a next step the fact set does not contain.
+
+SAY WHICH STAGE A CHANGE IS AT, IN THE SOURCE'S OWN TERMS
+
+These are different things and a reader plans differently around each. Use the one the fact set supports and never upgrade it:
+
+  proposed    published for comment. Nothing has changed. It may never be finalised.
+  announced   the agency has said it intends to do this. Not yet the legal instrument.
+  finalised   the rule is made, whether or not it has started.
+  effective   it is operating now, or starts on a stated date.
+  delayed     a date that existed has moved.
+  blocked     a court has stopped it, in whole or in part.
+  withdrawn   it is no longer going ahead.
+
+A proposal described as a change is the single most damaging error this account can make: it tells someone to plan around a rule that does not exist. If the fact set says proposed, the post says proposed, and the verb is conditional — "would require", not "requires".
 
 WHAT THIS ACCOUNT DOES NOT DO
 
@@ -204,6 +263,9 @@ function renderFacts(facts: FactSet): string {
   lines.push("");
   lines.push(renderAttribution(facts));
 
+  lines.push("");
+  lines.push(renderSubjectAnchors(facts));
+
   if (facts.notes.length) {
     lines.push("");
     lines.push(`CONSTRAINTS AND CAVEATS:\n- ${facts.notes.join("\n- ")}`);
@@ -245,10 +307,32 @@ function renderTiming(facts: FactSet): string {
   }
 
   if (facts.effectiveAt) {
-    lines.push(`- Takes effect: ${facts.effectiveAt}. Say so — it is the most useful fact you have.`);
-  } else if (facts.classification !== "proposed_rule") {
     lines.push(
-      "- NO effective or implementation date is recorded. State that plainly rather than omitting it: the absence is the timing information."
+      `- Takes effect: ${facts.effectiveAt}. Say so — it is the most useful fact you have, and the post is rejected without it.`
+    );
+  } else if (facts.subjectKind === "document" && facts.classification !== "proposed_rule") {
+    // ONLY for documents, and this is the fix for the published methodology post.
+    //
+    // This line used to be emitted for every subject. Applied to a durable page
+    // it asks the model to report the absence of a date that could not exist,
+    // and the model dutifully did: the post opened "No implementation date has
+    // been set" about our own methodology page. For a document the same line is
+    // genuinely useful — "no start date has been set" is what a reader wants to
+    // know about a rule that has been made — so it stays, scoped to documents.
+    lines.push(
+      "- NO effective or implementation date is recorded for this document. State that plainly rather than omitting it: the absence is the timing information. Name the document FIRST — the absence of a date is never the opening clause."
+    );
+  }
+
+  if (facts.subjectKind === "resource") {
+    lines.push(
+      "- This is a durable reference page, not a dated change. It has no effective date, no implementation date and no start date, and none is missing — do not mention dates it was never going to have. Its timing value is what the underlying data covers and when that data was last refreshed, if the facts below say so."
+    );
+  }
+
+  if (facts.subjectKind === "recurring_date") {
+    lines.push(
+      "- This is a recurring calendar window, not a change. The useful timing is how far away it is and what the official source fixes about it."
     );
   }
 
@@ -259,6 +343,27 @@ function renderTiming(facts: FactSet): string {
   );
 
   return lines.join("\n");
+}
+
+/**
+ * The words that would tell a stranger what this post is about.
+ *
+ * Computed by the same function the validator requires one of, for the same
+ * reason permittedAgencies() is shared: a rule the model is judged by and cannot
+ * see is a rule that produces rejections nobody can act on. The failure this
+ * prevents is the model writing a true, well-formed sentence whose subject is
+ * only implied — which is what happened, and cost a published post.
+ */
+function renderSubjectAnchors(facts: FactSet): string {
+  const anchors = subjectAnchors(facts).filter((a) => a !== "immigrationclock");
+  const shown = anchors.slice(0, 12);
+
+  return [
+    `NAMING THE SUBJECT — the cold reader test, mechanically checked:`,
+    `The first ${OPENING_CHARS} characters of each post must contain at least one of these words, which are the ones that identify this subject:`,
+    shown.length ? `  ${shown.join(", ")}` : `  (none derived — use the source name or the title's own nouns)`,
+    `This is not a keyword requirement and it is not satisfied by mentioning one late. Write an opening that genuinely says what the post is about, and the check passes as a side effect. A post whose opening names none of them is rejected unread.`,
+  ].join("\n");
 }
 
 function renderAttribution(facts: FactSet): string {

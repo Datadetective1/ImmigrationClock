@@ -87,6 +87,15 @@ export interface PostRecord {
    * rotation existed, which read as "unknown family" and so apply no fatigue.
    */
   topicFamily: string | null;
+  /**
+   * What KIND of content this was — see categories.ts.
+   *
+   * Null on rows written before categories existed. buildMemory() skips those
+   * rather than guessing a bucket for them: an unknown category that defaulted
+   * to any real bucket would let historical rows suppress a category they were
+   * never actually about.
+   */
+  category: string | null;
   /** Base score minus repetition penalties — the number that won the slot. */
   adjustedScore: number | null;
   /** Which penalties applied. Free text, for auditing a selection later. */

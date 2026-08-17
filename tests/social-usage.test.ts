@@ -302,6 +302,7 @@ function posted(over: Partial<PostRecord>): PostRecord {
     approvedBy: null,
     topicKey: null,
     topicFamily: null,
+    category: null,
     adjustedScore: null,
     rotationExplain: null,
     inputTokens: null,
