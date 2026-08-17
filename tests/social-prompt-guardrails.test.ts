@@ -222,7 +222,7 @@ describe("the prompt asks X to leave margin below the hard limit", () => {
   });
 
   it("is recorded as a new prompt version, so ledger rows are traceable", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/5");
+    expect(PROMPT_VERSION).toBe("social-prompt/6");
   });
 });
 

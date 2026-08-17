@@ -74,7 +74,16 @@ import type { FactSet, Platform, ValidationResult } from "./types";
  *
  * They stay mechanical. None of them asks whether the copy is good.
  */
-export const VALIDATOR_VERSION = "social-validator/4";
+/**
+ * v5 adds the AGE-AWARE FRAMING group, because the news pool now retains an
+ * item for five days rather than two. Retention is not permission: a rule from
+ * Tuesday may be discussed on Friday, and may not claim to have landed on
+ * Friday. The angle list withholds `breaking_change` past two days; this rejects
+ * the wording independently, because "what it requires" is a legitimate angle
+ * for a four-day-old rule and nothing about choosing it stops the sentence
+ * starting "USCIS just announced".
+ */
+export const VALIDATOR_VERSION = "social-validator/5";
 
 // -----------------------------------------------------------------------------
 // PLATFORM SHAPE
@@ -217,6 +226,40 @@ const ALL_BANNED = [
  * will…" is a perfectly good opening that takes a clause to get there.
  */
 export const OPENING_CHARS = 140;
+
+/**
+ * The oldest an item may be and still be framed as having just happened.
+ *
+ * The line between "this just published" and "this exists, and here is what it
+ * does". The news pool reaches back five days; beyond this boundary select.ts
+ * withdraws the `breaking_change` angle entirely, and the checks below reject
+ * just-happened wording whatever angle was chosen. The angle list is the
+ * request; this is the guarantee.
+ *
+ * Defined here rather than in select.ts because visuals.ts already imports this
+ * module and select.ts imports visuals — putting it the other way round would
+ * close an import cycle.
+ */
+export const BREAKING_MAX_AGE_DAYS = 2;
+
+/**
+ * Wording that asserts an item is brand new.
+ *
+ * Constructions, not words, on the same principle as everything else here. A
+ * four-day-old rule may be discussed freely; what it may not do is claim to have
+ * landed this morning. "This week" is deliberately absent — for a four-day-old
+ * document that is simply true.
+ */
+const JUST_HAPPENED: [RegExp, string][] = [
+  [/\bjust (published|announced|issued|released|took effect|changed|dropped)\b/i, "claims it just happened"],
+  [/\b(published|announced|issued|released|filed) (today|this morning|this afternoon|tonight)\b/i, "dates it to today"],
+  [/\b(today|this morning|this afternoon)[,:]/i, "opens on today"],
+  [/\bas of today\b/i, "dates it to today"],
+  [/\bbreaking\b/i, "breaking-news framing"],
+  [/\b(moments|minutes|hours) ago\b/i, "claims it just happened"],
+  [/\bnew today\b/i, "dates it to today"],
+  [/\bhas just\b/i, "claims it just happened"],
+];
 
 /**
  * Constructions that cannot open a standalone post, because each of them refers
@@ -557,6 +600,33 @@ export function validatePost(
         `(expected one of: ${subjectAnchors(facts).slice(0, 8).join(", ")}). ` +
         `A post that never names its subject is unreadable on its own.`
     );
+  }
+
+  // --- age-aware framing -----------------------------------------------------
+  //
+  // The news pool retains an item for five days. Retaining it is not permission
+  // to present it as having just landed, and the angle list alone cannot enforce
+  // that: `what_it_requires` is a perfectly legitimate treatment of a four-day
+  // -old rule, and nothing about that angle stops a sentence beginning "USCIS
+  // just announced". So the wording is checked directly, against the one clock
+  // the fact set carries.
+  if (facts.publishedAt && facts.today) {
+    const ageDays = Math.round(
+      (Date.parse(`${facts.today}T00:00:00Z`) - Date.parse(`${facts.publishedAt}T00:00:00Z`)) /
+        86_400_000
+    );
+    if (ageDays > BREAKING_MAX_AGE_DAYS) {
+      checked.push("age-aware-framing");
+      for (const [re, label] of JUST_HAPPENED) {
+        const m = trimmed.match(re);
+        if (m) {
+          failures.push(
+            `Published ${ageDays} days ago but the post ${label}: "${m[0]}". ` +
+              `Say what the document does, not that it just happened.`
+          );
+        }
+      }
+    }
   }
 
   // --- proposed rules must not sound like law --------------------------------

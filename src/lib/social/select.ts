@@ -42,11 +42,62 @@ import {
   categoryForAsset,
   categoryForEvent,
 } from "./categories";
+import { BREAKING_MAX_AGE_DAYS } from "./validate";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import type { Angle, Candidate, PoolId, SlotDef } from "./types";
 
-/** How far back the morning slot will call something "new". */
-export const NEWS_LOOKBACK_DAYS = 2;
+/**
+ * How far back the news pool reaches.
+ *
+ * WAS 2, AND TWO WAS TOO STRICT. Measured against the real archive — 513
+ * events, walking the 120 days to 2026-08-10 — a two-day window left the
+ * morning slot, the only slot whose primary job is news, silent on 55% of days:
+ *
+ *     window   days with a candidate   silent
+ *       2d          54 / 120            55%
+ *       3d          62 / 120            48%
+ *       5d          75 / 120            38%
+ *       7d          87 / 120            28%
+ *      14d         106 / 120            12%
+ *
+ * Qualifying news-grade developments arrive about four times a month, and they
+ * clear a deliberately high bar (breadth ≥ 2 AND an obligation step). A DHS rule
+ * does not stop mattering forty-eight hours after it publishes, and the window
+ * was throwing away material that was still the most useful thing this account
+ * held.
+ *
+ * FIVE, NOT SEVEN OR FOURTEEN. Past a week the mean age of the winning
+ * candidate passes three days and a single item can hold the top of the pool for
+ * over a fortnight, which is where calling it "news" stops being honest. The
+ * knowledge pool already owns everything older.
+ *
+ * Widening the window does NOT widen what may be said about an item — see
+ * BREAKING_MAX_AGE_DAYS. An item retained for five days is retained as a
+ * development, not as a thing that just happened.
+ */
+export const NEWS_LOOKBACK_DAYS = 5;
+
+/**
+ * Score lost per day of age, inside the news pool only.
+ *
+ * SIZED SO IT CAN NEVER OUTRANK CONSEQUENCE. The ranking model's dominant
+ * factor is breadth, at 1000 per step. Five days is the oldest anything in this
+ * pool can be, so the most recency can ever move a candidate is
+ *
+ *     5 × 150 = 750  <  1000
+ *
+ * — strictly less than one breadth step. A development that reaches a broader
+ * population therefore beats a fresher one every time, at any age difference the
+ * pool can produce. What the gradient DOES decide is the case it was asked to:
+ * two comparable developments, where the newer one should lead. A one-day
+ * difference (150) outweighs one obligation step (100), which is the intended
+ * "all else reasonably equal" behaviour.
+ *
+ * Applied to the news pool alone. The knowledge pool spans 6–180 days, where a
+ * per-day decay of this size would cross tier boundaries and turn a category
+ * ladder back into an age ladder.
+ */
+export const RECENCY_DECAY_PER_DAY = 150;
 
 /** The afternoon slot starts where the morning slot stops. */
 export const KNOWLEDGE_MIN_AGE_DAYS = NEWS_LOOKBACK_DAYS + 1;
@@ -129,15 +180,79 @@ export function newsPool(events: IndexedEvent[], today: string): Candidate[] {
   return scoreEvents(eligible, from, today)
     .filter((s) => s.score >= NEWS_SCORE_FLOOR)
     .map((s) => {
-      // "What it requires" is earned from the ranking model's obligation
-      // factor, never from the wording of the title. Level 2 means the document
-      // changes an obligation, eligibility test or adjudication standard —
-      // enough that there is a concrete requirement to state.
-      const angles: Angle[] = ["breaking_change"];
-      if (obligationLevel(s.event) >= 2) angles.push("what_it_requires");
-      return toEventCandidate(s.event, s.score, s.explain, "news", angles, today, true);
+      const ageDays = daysBetweenIso(s.event.publishedAt, today);
+      const angles = newsAnglesFor(s.event, ageDays, today, events);
+
+      // A retained item with no honest treatment does not enter the pool.
+      //
+      // This is the cost of the wider window, taken deliberately. A four-day-old
+      // notice that imposes no obligation, names no population, carries no
+      // effective date and revises nothing has nothing to say that is not
+      // "this happened" — and at four days that framing is exactly what the
+      // graduated model exists to refuse. It is not lost: at six days the
+      // knowledge pool picks it up under the same earned-angle rules.
+      if (angles.length === 0) return null;
+
+      return toEventCandidate(
+        s.event,
+        s.score,
+        s.explain,
+        "news",
+        angles,
+        today,
+        true,
+        ageDays * RECENCY_DECAY_PER_DAY
+      );
     })
     .filter((c): c is Candidate => c !== null);
+}
+
+/**
+ * Which treatments a news-pool item may receive, given its age.
+ *
+ * The whole of the graduated framing model, in one function:
+ *
+ *   0–2 days   it genuinely just happened. `breaking_change` is on the table,
+ *              plus `what_it_requires` when the ranking model scores a real
+ *              obligation — the same rule as before.
+ *
+ *   3–5 days   it is a development, not an event. `breaking_change` is
+ *              withdrawn entirely and the item must earn a treatment from its
+ *              own data, exactly as an archive item does: what it requires, who
+ *              it reaches, what it changed, when it starts. If it can earn
+ *              none, it does not run.
+ *
+ * The angles for the older band come from anglesForArchiveEvent(), reused rather
+ * than reimplemented, because "what may this document honestly be said to
+ * support" is the same question at four days as at forty.
+ */
+export function newsAnglesFor(
+  event: IndexedEvent,
+  ageDays: number,
+  today: string,
+  all: IndexedEvent[]
+): Angle[] {
+  const obligation = obligationLevel(event);
+
+  if (ageDays <= BREAKING_MAX_AGE_DAYS) {
+    // "What it requires" is earned from the ranking model's obligation factor,
+    // never from the wording of the title. Level 2 means the document changes an
+    // obligation, eligibility test or adjudication standard — enough that there
+    // is a concrete requirement to state.
+    const angles: Angle[] = ["breaking_change"];
+    if (obligation >= 2) angles.push("what_it_requires");
+    return angles;
+  }
+
+  const earned: Angle[] = [];
+  if (obligation >= 2) earned.push("what_it_requires");
+  for (const angle of anglesForArchiveEvent(event, today, all)) {
+    // historical_context is the afternoon slot's treatment of the archive, not
+    // a way to present something published this week.
+    if (angle === "historical_context") continue;
+    if (!earned.includes(angle)) earned.push(angle);
+  }
+  return earned;
 }
 
 // -----------------------------------------------------------------------------
@@ -444,7 +559,9 @@ function toEventCandidate(
   pool: "news" | "knowledge",
   angles: Angle[],
   today: string,
-  fresh: boolean
+  fresh: boolean,
+  /** Recency decay, already computed. News pool only; 0 everywhere else. */
+  recencyPenalty = 0
 ): Candidate | null {
   const deepLink = resolveDeepLink(event);
   // No destination, no post. Falling back to the homepage would waste the click
@@ -469,11 +586,16 @@ function toEventCandidate(
     pool,
     label: event.title,
     category,
-    // Tier first, merits second. The ranking model's output is preserved intact
-    // as the within-tier ordering, so an improvement to it still improves social
-    // selection — it simply can no longer decide a question of kind.
-    score: CATEGORY_TIER[category] + score,
-    scoreExplain: `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${score}: ${explain}`,
+    // Tier first, merits second, recency third. The ranking model's output is
+    // preserved intact as the within-tier ordering, so an improvement to it
+    // still improves social selection — it simply can no longer decide a
+    // question of kind. The recency term is bounded well below one breadth step
+    // (see RECENCY_DECAY_PER_DAY), so it orders comparable items and never
+    // overturns a more consequential one.
+    score: CATEGORY_TIER[category] + score - recencyPenalty,
+    scoreExplain:
+      `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${score}` +
+      `${recencyPenalty ? ` − ${recencyPenalty} recency` : ""}: ${explain}`,
     supportedAngles: angles,
     topicKey: topicKeyFor({ subjectId: `event:${event.id}`, event }),
     topicFamily: topicFamilyFor({

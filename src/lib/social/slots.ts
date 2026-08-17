@@ -47,7 +47,19 @@ export const SLOTS: SlotDef[] = [
     // page to fill the hour. That is where filler would be most visible and
     // least excusable.
     fallbackPools: [],
-    angles: ["breaking_change", "what_it_requires"],
+    // breaking_change is this slot's signature and belongs to it alone. The
+    // other four are here because the news pool now reaches back five days and
+    // an item aged 3–5 days is deliberately NOT offered breaking framing — it
+    // has to earn one of these from its own data instead. Without them in this
+    // list the graduated model would select a treatment the slot then filtered
+    // out, and the widened window would have bought nothing.
+    angles: [
+      "breaking_change",
+      "what_it_requires",
+      "who_is_affected",
+      "what_changed_from_previous",
+      "effective_date_reminder",
+    ],
   },
   {
     id: "afternoon",

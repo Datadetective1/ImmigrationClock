@@ -90,6 +90,53 @@ Thresholds are expressed against those weights:
 `routine` severity is never posted, whatever it scores — that is form edition
 dates and information-collection notices, i.e. the filler the principle forbids.
 
+#### The graduated freshness model
+
+The news window was two days. Measured against the real archive — 513 events,
+the 120 days to 2026-08-10 — that left the morning slot silent on **55% of
+days**:
+
+| window | days with a candidate | morning silent | mean age of winner |
+|---|---|---|---|
+| 2d (old) | 54 / 120 | 55% | 0.9d |
+| **5d (now)** | **75 / 120** | **38%** | **2.1d** |
+| 7d | 87 / 120 | 28% | 2.9d |
+| 14d | 106 / 120 | 12% | 6.3d |
+
+Qualifying developments arrive about four times a month. Five days, not seven or
+fourteen: past a week the mean winner age passes three days and one item can
+hold the top of the pool for a fortnight, which is where "news" stops being an
+honest word.
+
+**Retention is not permission.** A wider window changes how long an item is
+available, never what may be said about it:
+
+| Age | Framing |
+|---|---|
+| 0–2 days | `breaking_change` is on the table, plus `what_it_requires` when the obligation factor earns it |
+| 3–5 days | `breaking_change` is **withdrawn**. The item must earn a treatment from its own data — what it requires, who it reaches, what it changed, when it starts — exactly as an archive item does. Earning none means it does not run. |
+
+Enforced twice, deliberately: `newsAnglesFor()` withholds the angle, and
+`validate.ts` rejects just-happened wording independently — because
+`what_it_requires` is a legitimate angle for a four-day-old rule and choosing it
+does nothing to stop a sentence beginning "USCIS just announced". The prompt
+states the item's age so the rejection is never a surprise.
+
+**The recency gradient** is `150 points per day of age`, applied inside the news
+pool only, subtracted after the tier and the ranking score:
+
+```
+score = CATEGORY_TIER[category] + rankingScore − (ageDays × 150)
+```
+
+Sized so it can never outrank consequence: five days is the oldest anything in
+this pool can be, so the largest swing is `5 × 150 = 750` — strictly less than
+one breadth step (1000). A broader development beats a fresher one at any age
+difference the pool can produce, while a one-day difference (150) still
+outweighs one obligation step (100), which is the intended "all else reasonably
+equal" behaviour. Not applied to the knowledge pool, which spans 6–180 days
+where a decay this size would cross tier boundaries.
+
 Scheduled-for-publication documents are excluded. The Federal Register puts
 items on public inspection days before publication; posting one forces
 "scheduled for publication on…" phrasing that is weaker and easier to get subtly

@@ -21,7 +21,13 @@
 // =============================================================================
 
 import { ANGLE_LABEL, type Angle, type CopyRequest, type FactSet } from "./types";
-import { LIMITS, OPENING_CHARS, permittedAgencies, subjectAnchors } from "./validate";
+import {
+  BREAKING_MAX_AGE_DAYS,
+  LIMITS,
+  OPENING_CHARS,
+  permittedAgencies,
+  subjectAnchors,
+} from "./validate";
 
 /**
  * v2 renders `dataPoints` and makes the data-insight brief conditional on
@@ -74,7 +80,14 @@ import { LIMITS, OPENING_CHARS, permittedAgencies, subjectAnchors } from "./vali
  *     TEST below states that requirement, and validate.ts v4 enforces it — a
  *     post whose opening names nothing from its own fact set is rejected.
  */
-export const PROMPT_VERSION = "social-prompt/5";
+/**
+ * v6 states the item's AGE and, past two days, says plainly that it is not
+ * breaking news. The news pool now retains items for five days; the model has no
+ * clock, so without this a four-day-old rule looked exactly like one that landed
+ * an hour ago, and "just announced" is the natural thing to write about
+ * something handed to you as news.
+ */
+export const PROMPT_VERSION = "social-prompt/6";
 
 /**
  * The band X copy should land in.
@@ -336,7 +349,26 @@ function renderTiming(facts: FactSet): string {
     );
   }
 
-  if (facts.publishedAt) lines.push(`- Published: ${facts.publishedAt}.`);
+  if (facts.publishedAt) {
+    const ageDays = Math.round(
+      (Date.parse(`${facts.today}T00:00:00Z`) - Date.parse(`${facts.publishedAt}T00:00:00Z`)) /
+        86_400_000
+    );
+    lines.push(`- Published: ${facts.publishedAt} — ${ageDays} day(s) before today (${facts.today}).`);
+
+    // THE AGE IS STATED, NOT LEFT TO BE INFERRED.
+    //
+    // The news pool retains an item for five days. The model has no clock, so
+    // without this line a four-day-old rule is indistinguishable from one that
+    // landed an hour ago, and "just announced" is the natural thing to write
+    // about something presented as news. validate.ts rejects that wording past
+    // two days; saying so here is what stops the rejection being a surprise.
+    if (ageDays > BREAKING_MAX_AGE_DAYS) {
+      lines.push(
+        `- This is NOT breaking news. It published ${ageDays} days ago, so do not write "just announced", "just published", "today", "breaking", or anything else implying it landed moments ago — that wording is rejected. It is still current and still worth saying; write what the document DOES and when it matters, not that it happened.`
+      );
+    }
+  }
 
   lines.push(
     "- Anything else about timing — a deadline, a phase-in, a next step, a consequence that starts later — is not available unless it appears in the facts below."

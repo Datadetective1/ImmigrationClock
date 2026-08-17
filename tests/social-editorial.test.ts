@@ -75,8 +75,8 @@ describe("the account knows what it is for", () => {
   });
 
   it("is versioned, so a change of voice is traceable in the ledger", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/5");
-    expect(VALIDATOR_VERSION).toBe("social-validator/4");
+    expect(PROMPT_VERSION).toBe("social-prompt/6");
+    expect(VALIDATOR_VERSION).toBe("social-validator/5");
   });
 });
 
