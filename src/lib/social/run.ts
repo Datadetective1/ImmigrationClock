@@ -27,7 +27,7 @@ import type { IndexedEvent } from "@/lib/event-index";
 import { candidatesFor } from "./select";
 import { checkSameDayVariety, checkSubject, checkWording } from "./dedupe";
 import { applyRotation, buildMemory, type RotationResult } from "./rotation";
-import { validatePost } from "./validate";
+import { isRepairable, isRepairableResult, validatePost, type FailureCode } from "./validate";
 import { VALIDATOR_VERSION } from "./validate";
 import { PROMPT_VERSION } from "./prompt";
 import { chicagoParts, SLOT_BY_ID } from "./slots";
@@ -57,7 +57,20 @@ import type {
 } from "./types";
 import { PLATFORMS } from "./types";
 
-/** One regeneration, never a loop. Two strikes and the slot stays silent. */
+/**
+ * One repair, never a loop. Two strikes and the slot stays silent.
+ *
+ * The second attempt is now a REPAIR rather than a regeneration, and it is only
+ * spent when the first attempt failed for mechanical reasons — see
+ * isRepairableResult(). A post whose figures are ungrounded, whose attribution
+ * is unsupported, or which describes a proposal as law does not get a second
+ * call: asking a model to re-say something so that it passes a trust check is
+ * asking it to negotiate with the trust layer, and the honest outcome is silence.
+ *
+ * That also happens to be the cheaper behaviour. The whole-day dry run spent six
+ * calls and $0.3352, and the wasted ones were second attempts at posts that were
+ * never going to pass.
+ */
 export const MAX_GENERATION_ATTEMPTS = 2;
 
 /**
@@ -169,6 +182,8 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
   let usage: EngineUsage | null = null;
   let validation: Record<Platform, ValidationResult> | null = null;
   let feedback: string[] = [];
+  /** The rejected text, handed to the repair attempt so it has something to fix. */
+  let previousCopy: { x: string; linkedin: string } | undefined;
 
   // EVERY attempt, kept. A regeneration bills a second time, and the previous
   // code overwrote `usage` — so a slot that retried spent twice and reported
@@ -185,6 +200,7 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
         angle,
         avoidOpenings: recentOpenings(ledger, "x", OPENINGS_SHOWN),
         validatorFeedback: attempt > 1 ? feedback : undefined,
+        previousCopy: attempt > 1 ? previousCopy : undefined,
       });
     } catch (err) {
       // A failed call is still a call, and an exhausted token budget is still
@@ -268,6 +284,46 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     if (failing.length === 0) break;
 
     feedback = failing.flatMap((p) => validation![p].failures.map((f) => `[${p}] ${f}`));
+
+    // ---- is a repair justified? ---------------------------------------------
+    //
+    // Only when EVERY failing platform failed for mechanical reasons. One
+    // semantic failure means the post says something it should not, and making
+    // it shorter would not make that untrue.
+    const repairable = failing.every((p) => isRepairableResult(validation![p]));
+
+    if (!repairable) {
+      const semantic = failing.flatMap((p) =>
+        validation![p].codes
+          .filter((c) => !isRepairable(c as FailureCode))
+          .map((c) => `[${p}] ${c}`)
+      );
+      return finish(
+        opts,
+        {
+          ...emptyOutcome(base, slot, candidates.length),
+          subjectId: candidate.subjectId,
+          subjectLabel: candidate.label,
+          angle,
+          score: candidate.score,
+          scoreExplain: candidate.scoreExplain,
+          topicKey: candidate.topicKey,
+          topicFamily: candidate.topicFamily,
+          category: candidate.category,
+          deepLink: candidate.deepLink,
+          validator: mergeValidation(validation, relevant),
+          usage,
+          attempts,
+        },
+        "SKIPPED_VALIDATION_FAILED",
+        `Not repairable (${semantic.join(", ")}) — ${feedback.join("; ")}`
+      );
+    }
+
+    // The repair carries the previous text and the exact failures. Without the
+    // text, "too long by 58 characters" is not actionable — the model would be
+    // writing a fresh post and hoping, which is what the old regeneration did.
+    previousCopy = { x: generated.copy.x, linkedin: generated.copy.linkedin };
 
     if (attempt === MAX_GENERATION_ATTEMPTS) {
       return finish(
@@ -601,8 +657,9 @@ function mergeValidation(
   relevant: Platform[]
 ): ValidationResult {
   const failures = relevant.flatMap((p) => validation[p].failures.map((f) => `[${p}] ${f}`));
+  const codes = relevant.flatMap((p) => validation[p].codes);
   const checked = [...new Set(relevant.flatMap((p) => validation[p].checked))];
-  return { ok: failures.length === 0, failures, checked };
+  return { ok: failures.length === 0, failures, codes, checked };
 }
 
 /** A skip: same record shape, written for every platform, so nothing is invisible. */
@@ -791,6 +848,10 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
   const validator: ValidationResult = {
     ok: check.ok,
     failures: check.failures,
+    // The approval path does not classify: a human-approved envelope that fails
+    // re-validation is refused outright, never repaired. Repair exists to save
+    // an unattended slot, and there is nothing unattended about this path.
+    codes: [],
     checked: check.checked,
   };
 

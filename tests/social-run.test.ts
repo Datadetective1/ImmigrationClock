@@ -265,12 +265,21 @@ describe("generation failures end the slot rather than degrading it", () => {
     expect(r.outcome.platforms.every((p) => p.text === null)).toBe(true);
   });
 
-  it("regenerates exactly once on a validation failure, then stops", async () => {
+  it("repairs exactly once on a MECHANICAL validation failure, then stops", async () => {
     let attempt = 0;
     const engine = new StubEngine((req) => {
       attempt++;
-      // Always invalid: no link at all.
-      return { x: "A post with no link in it whatsoever, which cannot be published.", linkedin: "Likewise." };
+      // Mechanically invalid and nothing else: it names its subject, states a
+      // grounded fact and carries the effective date — it simply omits the link.
+      // That distinction is the whole point of the repair path, so the fixture
+      // has to fail for a repairable reason or it tests the wrong branch.
+      return {
+        x: "The public charge ground of inadmissibility is being amended, effective 18 September 2026.",
+        linkedin:
+          "The public charge ground of inadmissibility is being amended, effective 18 September 2026.\n\n" +
+          "The rescission applies to benefit requests decided on or after that date, and the earlier framework stops applying.\n\n" +
+          "The underlying document is recorded in full, with the source linked beside it, so the change can be read rather than taken on trust.",
+      };
     });
     const r = await runSlot({
       ...base,
@@ -283,17 +292,40 @@ describe("generation failures end the slot rather than degrading it", () => {
     expect(r.outcome.platforms[0].decision).toBe("SKIPPED_VALIDATION_FAILED");
   });
 
-  it("passes the validator's reasons back on the retry", async () => {
+  it("passes the validator's reasons AND the rejected text back on the repair", async () => {
     let secondRequest: CopyRequest | null = null;
     let n = 0;
     const engine = new StubEngine((req) => {
       n++;
       if (n === 2) secondRequest = req;
-      return { x: "No link here at all, so this can never be published anywhere.", linkedin: "Nor here." };
+      return {
+        x: "The public charge ground of inadmissibility is being amended, effective 18 September 2026.",
+        linkedin:
+          "The public charge ground of inadmissibility is being amended, effective 18 September 2026.\n\n" +
+          "The rescission applies to benefit requests decided on or after that date, and the earlier framework stops applying.\n\n" +
+          "The underlying document is recorded in full, with the source linked beside it, so the change can be read rather than taken on trust.",
+      };
     });
     await runSlot({ ...base, ledger: EMPTY_POST_LEDGER, engine, publishers: {}, live: false });
     expect(secondRequest).not.toBeNull();
-    expect((secondRequest as unknown as CopyRequest).validatorFeedback?.length).toBeGreaterThan(0);
+    const req = secondRequest as unknown as CopyRequest;
+    expect(req.validatorFeedback?.length).toBeGreaterThan(0);
+    // Without the rejected text a "repair" is a fresh post written in hope.
+    expect(req.previousCopy?.x).toContain("public charge");
+  });
+
+  it("does NOT spend a second call on a SEMANTIC failure", async () => {
+    // An ungrounded figure is not a container defect. Asking the model to re-say
+    // it so that it passes is asking it to negotiate with the trust layer, and
+    // the honest outcome is silence — one call, then stop.
+    const engine = new StubEngine((req) => ({
+      x: `The public charge rule reaches 47000 applicants a year. ${req.facts.deepLink}`,
+      linkedin: `The public charge rule reaches 47000 applicants a year.\n\nThat figure appears nowhere in the source material, which is the point of this fixture.\n\nThe document itself is linked in full so the claim can be checked against it directly.\n\n${req.facts.deepLink}`,
+    }));
+    const r = await runSlot({ ...base, ledger: EMPTY_POST_LEDGER, engine, publishers: {}, live: false });
+    expect(engine.calls).toBe(1);
+    expect(r.outcome.platforms[0].decision).toBe("SKIPPED_VALIDATION_FAILED");
+    expect(r.outcome.platforms[0].reason).toMatch(/not repairable/i);
   });
 });
 

@@ -24,7 +24,12 @@
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
-import { buildUserPrompt, PROMPT_VERSION, X_TARGET_MIN, X_TARGET_MAX } from "@/lib/social/prompt";
+import {
+  buildUserPrompt,
+  PROMPT_VERSION,
+  X_SAFETY_MARGIN,
+  xBudget,
+} from "@/lib/social/prompt";
 import {
   LIMITS,
   permittedAgencies,
@@ -194,37 +199,77 @@ describe("the prompt states which attributions are available", () => {
   });
 });
 
-describe("the prompt asks X to leave margin below the hard limit", () => {
+describe("the X budget is computed from the real URL, not guessed", () => {
+  // THE 333-CHARACTER FAILURE, PINNED.
+  //
+  // The prompt used to carry `const LINK_BUDGET = 45` and tell the model the
+  // sentence had "about 215 to work with". Forty-five was never measured: real
+  // destinations run 36 to 101 characters, because /what-changed?q=… deep links
+  // carry four percent-encoded title words. On a subject whose URL was 86, a
+  // model that obeyed the instruction perfectly would still have produced
+  // 215 + 1 + 86 = 302 characters against a 275 limit.
+  //
+  // So these tests assert ARITHMETIC rather than wording: the budget must be
+  // derived from the actual link, and the derivation must leave the complete
+  // post inside the validator's limit for every destination in the catalogue.
   const slot = SLOT_BY_ID.get("evening")!;
-  const prompt = buildUserPrompt({
-    facts: dvFacts(),
-    slot,
-    angle: "deadline_approaching",
-    avoidOpenings: [],
+  const facts = dvFacts();
+  const prompt = buildUserPrompt({ facts, slot, angle: "deadline_approaching", avoidOpenings: [] });
+
+  it("subtracts the exact URL length, not an assumed one", () => {
+    const b = xBudget(facts);
+    expect(b.linkChars).toBe(facts.deepLink.length);
+    expect(b.reservedChars).toBe(facts.deepLink.length + 1);
   });
 
-  it("states the 240–260 band", () => {
-    expect(prompt).toContain(`${X_TARGET_MIN}–${X_TARGET_MAX} characters`);
+  it("leaves the complete post inside the validator's limit, with margin", () => {
+    const b = xBudget(facts);
+    expect(b.proseMax + b.reservedChars).toBe(LIMITS.x.maxChars - X_SAFETY_MARGIN);
+    expect(b.proseMax + b.reservedChars).toBeLessThan(LIMITS.x.maxChars);
   });
 
-  it("keeps the band strictly inside the validator's limit", () => {
-    expect(X_TARGET_MAX).toBeLessThan(LIMITS.x.maxChars);
-    expect(X_TARGET_MIN).toBeGreaterThan(LIMITS.x.minChars);
+  it("holds for EVERY destination the catalogue can produce, including the longest", () => {
+    // The regression in one assertion. A 101-character URL is the worst case in
+    // the live catalogue; the old fixed budget failed it by 42 characters.
+    for (const link of [
+      "https://immigrationclock.com/key-dates",
+      "https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility",
+      "https://immigrationclock.com/what-changed?q=establishing%20fixed%20admission%20nonimmigrant%20students",
+    ]) {
+      const b = xBudget({ ...facts, deepLink: link } as typeof facts);
+      const worstCasePost = "x".repeat(b.proseMax) + " " + link;
+      expect(worstCasePost.length, link).toBeLessThanOrEqual(LIMITS.x.maxChars);
+      expect(b.proseMax, link).toBeGreaterThan(LIMITS.x.minChars);
+    }
+  });
+
+  it("states the three numbers in the prompt, so the model can do the arithmetic", () => {
+    const b = xBudget(facts);
+    expect(prompt).toContain(String(b.hardTotal));
+    expect(prompt).toContain(String(b.proseMax));
+    expect(prompt).toContain(String(b.linkChars));
+  });
+
+  it("tells the model the URL is counted at full literal length", () => {
+    expect(prompt).toMatch(/NOT counted as 23 characters/);
+    expect(prompt).toMatch(/full literal length/i);
   });
 
   it("says what happens at the limit rather than only naming it", () => {
-    expect(prompt).toMatch(/hard limit that fails the post/);
-    expect(prompt).toContain(`Copy that lands at ${LIMITS.x.maxChars + 1} is discarded`);
+    expect(prompt).toMatch(/fails and the slot publishes nothing/i);
   });
 
-  it("tells the model to count the link at full length", () => {
-    expect(prompt).toMatch(/Count the link at its full literal length/);
+  it("names what may never be cut to make room", () => {
+    // The failure mode a character budget invites: shortening by deleting the
+    // effective date, which is the most useful fact in the post.
+    expect(prompt).toMatch(/Never drop the effective date/i);
   });
 
   it("is recorded as a new prompt version, so ledger rows are traceable", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/6");
+    expect(PROMPT_VERSION).toBe("social-prompt/7");
   });
 });
+
 
 describe("nothing else was relaxed", () => {
   it("the X limit is unchanged", () => {

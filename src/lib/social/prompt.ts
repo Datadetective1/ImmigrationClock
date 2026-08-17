@@ -87,7 +87,17 @@ import {
  * an hour ago, and "just announced" is the natural thing to write about
  * something handed to you as news.
  */
-export const PROMPT_VERSION = "social-prompt/6";
+/**
+ * v7 replaces the guessed link budget with a computed one, and turns the second
+ * attempt into a repair.
+ *
+ * A whole-day dry run against the real model skipped the afternoon slot on a
+ * 333-character X post. The cause was in this file: `LINK_BUDGET = 45` was never
+ * measured, real destinations run 36 to 101 characters, and the model was told
+ * it had 215 characters of prose for a subject whose URL alone was 86. A
+ * perfectly obedient model would have produced 302 and failed too.
+ */
+export const PROMPT_VERSION = "social-prompt/7";
 
 /**
  * The band X copy should land in.
@@ -100,8 +110,70 @@ export const PROMPT_VERSION = "social-prompt/6";
 export const X_TARGET_MIN = 240;
 export const X_TARGET_MAX = 260;
 
-/** Typical absolute URL length, so the model can budget the sentence. */
-const LINK_BUDGET = 45;
+/**
+ * Headroom kept below the hard limit, in characters.
+ *
+ * A model writing to a cliff lands on the wrong side of it often enough to
+ * matter. This is the margin that turns the limit into a target — and unlike the
+ * old fixed band it is applied to a budget that is computed per subject.
+ */
+export const X_SAFETY_MARGIN = 15;
+
+/**
+ * THE PROSE BUDGET FOR ONE SUBJECT, COMPUTED FROM ITS ACTUAL URL.
+ *
+ * This function exists because of a 333-character post that skipped a slot.
+ *
+ * The old code carried `const LINK_BUDGET = 45` and told the model "the link is
+ * roughly 45 characters, so the sentence before it has about 215 to work with".
+ * Forty-five was never measured. The real destinations range from 36 to 101
+ * characters, because `/what-changed?q=…` deep links carry four percent-encoded
+ * title words:
+ *
+ *     36   https://immigrationclock.com/key-dates
+ *     86   https://immigrationclock.com/what-changed?q=public%20charge%20…
+ *    101   https://immigrationclock.com/what-changed?q=establishing%20…
+ *
+ * So on the afternoon slot the model was told it had 215 characters of prose,
+ * wrote to roughly that, and the 86-character URL took the total past 275. A
+ * PERFECTLY OBEDIENT MODEL WOULD ALSO HAVE FAILED: 215 + 1 + 86 = 302. Every one
+ * of the eight longest destinations in the catalogue overshoots the limit if the
+ * model writes to the budget the prompt gave it.
+ *
+ * The budget is therefore derived, never assumed: hard limit, minus the exact
+ * URL, minus the space before it, minus a margin. The validator is unchanged and
+ * remains the final authority — this makes the instruction achievable, it does
+ * not make the check more forgiving.
+ */
+export interface XBudget {
+  /** The exact destination URL length, in characters. */
+  linkChars: number;
+  /** URL plus the single space before it. */
+  reservedChars: number;
+  /** The hard limit the validator enforces. */
+  hardTotal: number;
+  /** Most prose the model may write. */
+  proseMax: number;
+  /** Least prose worth writing, so the post is not a bare link. */
+  proseMin: number;
+}
+
+export function xBudget(facts: FactSet): XBudget {
+  const linkChars = facts.deepLink.length;
+  const reservedChars = linkChars + 1; // the space between sentence and link
+  const hardTotal = LIMITS.x.maxChars;
+  const proseMax = hardTotal - reservedChars - X_SAFETY_MARGIN;
+
+  return {
+    linkChars,
+    reservedChars,
+    hardTotal,
+    proseMax,
+    // A floor that cannot invert on a very long URL, and never drops below the
+    // point where the post would be a link with a label.
+    proseMin: Math.max(LIMITS.x.minChars, proseMax - 25),
+  };
+}
 
 /**
  * Stable across every request. Kept first and byte-identical so it is the
@@ -195,7 +267,7 @@ export const RESPONSE_SCHEMA = {
   properties: {
     x: {
       type: "string",
-      description: `The X post, ${X_TARGET_MIN}–${X_TARGET_MAX} characters including the link. Anything over ${LIMITS.x.maxChars} is discarded.`,
+      description: `The complete X post INCLUDING the destination URL. Hard maximum ${LIMITS.x.maxChars} characters for the whole string; the per-subject prose budget is stated in the platform brief and is smaller, because the URL is counted at its literal length.`,
     },
     linkedin: {
       type: "string",
@@ -211,10 +283,18 @@ export const RESPONSE_SCHEMA = {
 } as const;
 
 /** Per-platform instructions. Differences are editorial, not cosmetic. */
-function platformBrief(): string {
-  return `X (aim for ${X_TARGET_MIN}–${X_TARGET_MAX} characters including the link; ${LIMITS.x.maxChars} is a hard limit that fails the post):
-- Count the link at its full literal length, not as a short token. It is roughly ${LINK_BUDGET} characters, so the sentence before it has about ${X_TARGET_MAX - LINK_BUDGET} to work with.
-- The band is the target and the limit is a cliff. Copy that lands at ${LIMITS.x.maxChars + 1} is discarded, so write to the band and leave the margin unused.
+function platformBrief(facts: FactSet): string {
+  const b = xBudget(facts);
+
+  return `X — THE BUDGET FOR THIS POST, IN CHARACTERS. These numbers are computed from the exact destination URL below, not estimated:
+
+    ${String(b.hardTotal).padStart(4)}   hard limit for the COMPLETE post. ${b.hardTotal + 1} characters fails and the slot publishes nothing.
+    ${String(b.reservedChars).padStart(4)}   taken by the destination URL (${b.linkChars} characters) plus the space before it. This is not negotiable and does not shrink.
+    ${String(b.proseMax).padStart(4)}   YOUR TEXT. Write between ${b.proseMin} and ${b.proseMax} characters of prose. Everything you write counts: every letter, space, comma and digit.
+
+- Count the URL at its full literal length. It is NOT shortened, NOT a token, and NOT counted as 23 characters — it is ${b.linkChars} characters exactly, and it is already subtracted above.
+- ${b.proseMax} is your ceiling, not your target. Land near ${b.proseMin}–${b.proseMax} and leave the rest unused.
+- If the facts will not fit in ${b.proseMax} characters, say LESS — drop a subordinate clause, an adjective, a restatement. Never drop the effective date, the stage word, the subject or the link to make room; those are the post.
 - One statement. Lead with what changed or what the resource is.
 - Do not restate the page title verbatim — the link preview already shows it. Say the thing the title does not.
 - The link goes at the end, on its own.
@@ -452,6 +532,65 @@ function angleBrief(angle: Angle, facts: FactSet): string {
   return `${ANGLE_LABEL[angle]} — ${briefs[angle]}`;
 }
 
+/**
+ * THE REPAIR BRIEF — a second call with one job, not a second guess.
+ *
+ * The runner only reaches this for MECHANICAL failures: too long, link missing,
+ * an emoji, a date the model had and dropped. The facts were right and the
+ * container was wrong, so this asks for the smallest edit that fixes the
+ * container — and names, explicitly, the things that may not be sacrificed to
+ * make room.
+ *
+ * That last part is the safety argument. The obvious way for a model to shorten
+ * a post is to drop a clause, and the most droppable-looking clause is often the
+ * effective date, which is the single most useful fact this account carries. So
+ * the instruction is not "make it shorter"; it is "make it shorter and here is
+ * what shortening may not cost". The validator then re-runs in full, so a repair
+ * that drops a date or changes a stage fails the same checks the original would
+ * have — the instruction makes the right repair likely, the check makes the
+ * wrong one unpublishable.
+ */
+function renderRepairBrief(req: CopyRequest): string {
+  const b = xBudget(req.facts);
+  const previous = req.previousCopy;
+
+  const lines = [
+    "YOUR PREVIOUS ATTEMPT WAS REJECTED FOR A MECHANICAL FAULT. This is a repair, not a rewrite.",
+    "",
+    "What the validator said:",
+    `- ${(req.validatorFeedback ?? []).join("\n- ")}`,
+  ];
+
+  if (previous) {
+    lines.push(
+      "",
+      `Your previous X post (${previous.x.length} characters, limit ${b.hardTotal}):`,
+      previous.x,
+      "",
+      `Your previous LinkedIn post (${previous.linkedin.length} characters):`,
+      previous.linkedin
+    );
+  }
+
+  lines.push(
+    "",
+    "Repair it. Keep the same subject, the same angle, the same facts and the same destination. Change only what the failures above require.",
+    "",
+    "WHAT YOU MAY CUT to save characters: adjectives, qualifiers, subordinate clauses, restatement, anything the link preview already shows, the second half of a sentence that repeats the first.",
+    "",
+    "WHAT YOU MAY NOT CUT, ever, to make it fit:",
+    "- the effective date, if the fact set records one. It is the most useful fact in the post.",
+    "- the stage word — proposed, proposal, would. A proposal that loses its label becomes a false statement of law.",
+    "- the subject. The opening must still name what this is about.",
+    "- the destination URL, or any part of it.",
+    "- a figure that carries the point, if the post rests on it.",
+    "",
+    `If it still will not fit in ${b.proseMax} characters of prose with all of that intact, say less ABOUT the subject rather than dropping any of it — one clause about what the document does is enough.`
+  );
+
+  return lines.join("\n");
+}
+
 /** The user turn. Everything volatile lives here, after the stable system prompt. */
 export function buildUserPrompt(req: CopyRequest): string {
   const sections: string[] = [];
@@ -459,7 +598,7 @@ export function buildUserPrompt(req: CopyRequest): string {
   sections.push(`SLOT: ${req.slot.id.toUpperCase()}\n${req.slot.purpose}`);
   sections.push(`ANGLE: ${angleBrief(req.angle, req.facts)}`);
   sections.push(`FACT SET:\n${renderFacts(req.facts)}`);
-  sections.push(`PLATFORM BRIEFS:\n${platformBrief()}`);
+  sections.push(`PLATFORM BRIEFS:\n${platformBrief(req.facts)}`);
 
   if (req.avoidOpenings.length) {
     sections.push(
@@ -470,11 +609,7 @@ export function buildUserPrompt(req: CopyRequest): string {
   }
 
   if (req.validatorFeedback?.length) {
-    sections.push(
-      `YOUR PREVIOUS ATTEMPT WAS REJECTED. Fix exactly these and change nothing else:\n- ${req.validatorFeedback.join(
-        "\n- "
-      )}`
-    );
+    sections.push(renderRepairBrief(req));
   }
 
   return sections.join("\n\n---\n\n");

@@ -414,8 +414,18 @@ export interface CopyRequest {
   angle: Angle;
   /** Openings from recent posts. A nudge for variety; dedupe.ts is the guarantee. */
   avoidOpenings: string[];
-  /** Present on a regeneration: exactly why the first attempt was rejected. */
+  /** Present on a repair: exactly why the first attempt was rejected. */
   validatorFeedback?: string[];
+  /**
+   * Present on a repair: the exact text that was rejected.
+   *
+   * Without it the second attempt is a fresh post written in hope. "Too long by
+   * 58 characters" is only actionable against the 333 characters that were too
+   * long — and a repair that starts from the rejected text is far likelier to
+   * preserve the facts, the stage and the date than one that starts from
+   * nothing, which is the whole safety argument for repairing at all.
+   */
+  previousCopy?: { x: string; linkedin: string };
 }
 
 // -----------------------------------------------------------------------------
@@ -500,6 +510,13 @@ export interface ValidationResult {
   ok: boolean;
   /** Empty when ok. Each string is a specific, actionable failure. */
   failures: string[];
+  /**
+   * Machine-readable code per failure, parallel to `failures`.
+   *
+   * What lets the runner tell a container defect from a claim defect, and so
+   * decide whether a second API call is justified at all. See FailureCode.
+   */
+  codes: string[];
   /** Checks that ran and passed, so the ledger records what was verified. */
   checked: string[];
 }

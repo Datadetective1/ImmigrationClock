@@ -74,7 +74,24 @@ const good = (req: CopyRequest) => ({
 });
 
 /** Copy the validator rejects — an invented figure — forcing a regeneration. */
-const bad = (req: CopyRequest) => ({
+/**
+ * Rejected for a MECHANICAL reason: too long, and nothing else wrong.
+ *
+ * These tests are about ACCOUNTING — that a billed attempt stays visible — so
+ * the fixture has to reach a second call at all. Only mechanical failures are
+ * repaired now, and a semantic one (see `ungrounded` below) stops at one call by
+ * design, which would make these assertions test the wrong branch.
+ */
+const tooLong = (req: CopyRequest) => ({
+  ...good(req),
+  x:
+    `DHS is amending the fee and eligibility requirements that apply to benefit requests, and the change takes effect on 2026-09-18, ` +
+    `with the existing requirements remaining the ones in force until that date for every applicant and petitioner filing a covered request. ` +
+    req.facts.deepLink,
+});
+
+/** Rejected for a SEMANTIC reason: a figure that appears nowhere in the source. */
+const ungrounded = (req: CopyRequest) => ({
   ...good(req),
   x: `DHS is amending fee requirements across 8,412 categories of benefit request. ${req.facts.deepLink}`,
 });
@@ -134,12 +151,26 @@ describe("one attempt", () => {
   });
 });
 
+describe("a semantic failure costs one call, not two", () => {
+  it("does not spend a repair on an ungrounded figure", async () => {
+    // The cost half of the repair change. The whole-day dry run spent six calls
+    // and $0.3352, and the wasted ones were second attempts at posts that were
+    // never going to pass. A claim defect is not repairable, so it is not
+    // retried, so it is not billed twice.
+    const engine = new ScriptedEngine([ungrounded, good], [usage(), usage()]);
+    const r = await run(engine);
+    expect(engine.calls).toBe(1);
+    expect(r.outcome.attempts).toHaveLength(1);
+    expect(r.outcome.platforms[0].decision).toBe("SKIPPED_VALIDATION_FAILED");
+  });
+});
+
 describe("a retry is billed, and must be visible", () => {
   it("keeps BOTH attempts rather than overwriting", async () => {
     // The exact regression: the runner used to do `usage = generated.usage`, so
     // the rejected first call vanished from the record while still being billed.
     const engine = new ScriptedEngine(
-      [bad, good],
+      [tooLong, good],
       [usage({ outputTokens: 6000, reasoningTokens: 5800, costUsd: 0.0629 }), usage()]
     );
     const r = await run(engine);
@@ -152,17 +183,17 @@ describe("a retry is billed, and must be visible", () => {
 
   it("records WHY the first attempt was rejected", async () => {
     const r = await run(
-      new ScriptedEngine([bad, good], [usage(), usage()])
+      new ScriptedEngine([tooLong, good], [usage(), usage()])
     );
     expect(r.outcome.attempts[0].ok).toBe(false);
-    expect(r.outcome.attempts[0].validation).toMatch(/8412/);
+    expect(r.outcome.attempts[0].validation).toMatch(/Too long for x/);
     expect(r.outcome.attempts[1].ok).toBe(true);
     expect(r.outcome.attempts[1].validation).toBe("pass");
   });
 
   it("counts the discarded attempt's spend in the slot total", async () => {
     const r = await run(
-      new ScriptedEngine([bad, good], [usage({ costUsd: 0.06 }), usage({ costUsd: 0.05 })])
+      new ScriptedEngine([tooLong, good], [usage({ costUsd: 0.06 }), usage({ costUsd: 0.05 })])
     );
     const [spend] = spendBySlot(r.ledger);
     expect(spend.apiCalls).toBe(2);
@@ -176,7 +207,7 @@ describe("a retry is billed, and must be visible", () => {
   it("sums tokens across attempts, not just the winner", async () => {
     const r = await run(
       new ScriptedEngine(
-        [bad, good],
+        [tooLong, good],
         [usage({ inputTokens: 2300, outputTokens: 6000, reasoningTokens: 5800, cachedInputTokens: 0 }), usage()]
       )
     );

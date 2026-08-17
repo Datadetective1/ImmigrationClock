@@ -88,8 +88,8 @@ function envelopeFor(candidate = firstCandidate(), now = NOW): ApprovalEnvelope 
     factsHash: hashFacts(candidate.facts),
     usage: { model: "test-model", inputTokens: 100, outputTokens: 50, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0.001 },
     validation: {
-      x: { ok: true, failures: [], checked: ["length"] },
-      linkedin: { ok: true, failures: [], checked: ["length"] },
+      x: { ok: true, failures: [], codes: [], checked: ["length"] },
+      linkedin: { ok: true, failures: [], codes: [], checked: ["length"] },
     },
     promptVersion: PROMPT_VERSION,
     now,
@@ -269,7 +269,7 @@ describe("approving binds a decision to a specific reading", () => {
       ...e,
       validationAtGeneration: {
         ...e.validationAtGeneration,
-        linkedin: { ok: false, failures: ["Too short"], checked: [] },
+        linkedin: { ok: false, codes: [], failures: ["Too short"], checked: [] },
       },
     };
     const r = approveEnvelope(failing, {
@@ -425,8 +425,8 @@ describe("the publish-time gate — the full pipeline runs again", () => {
         factsHash: hashFacts(candidate.facts),
         usage: { model: "test-model", inputTokens: 1, outputTokens: 1, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0 },
         validation: {
-          x: { ok: true, failures: [], checked: [] },
-          linkedin: { ok: true, failures: [], checked: [] },
+          x: { ok: true, failures: [], codes: [], checked: [] },
+          linkedin: { ok: true, failures: [], codes: [], checked: [] },
         },
         promptVersion: PROMPT_VERSION,
         now: NOW,

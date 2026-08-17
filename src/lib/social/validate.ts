@@ -488,6 +488,107 @@ export function allowedDigitRuns(facts: FactSet): Set<string> {
 }
 
 // -----------------------------------------------------------------------------
+// FAILURE CODES — what kind of wrong this is
+//
+// Every failure carries a machine-readable code beside its sentence, so the
+// runner can ask the one question that decides whether a second API call is
+// justified: is this a MECHANICAL defect in an otherwise sound post, or is the
+// post itself wrong?
+//
+// The distinction is not a matter of severity. It is a matter of what a repair
+// would have to do:
+//
+//   MECHANICAL  the facts are right and the container is wrong. Too long, link
+//               missing, an emoji, a date the model had and dropped. Fixing it
+//               means re-expressing the SAME facts — nothing has to be invented
+//               and nothing has to be surrendered.
+//
+//   SEMANTIC    the post makes a claim it should not. An ungrounded figure, an
+//               unsupported attribution, a proposal described as law, an opening
+//               a stranger cannot parse. "Repairing" these means changing what
+//               the post SAYS, and a model asked to change what a post says in
+//               order to pass a check is being asked to negotiate with the
+//               trust layer. These fail once and stay failed.
+//
+// The set is deliberately small and closed. Anything not named REPAIRABLE is
+// semantic by default, so a check added later is strict until somebody argues
+// otherwise in a commit.
+// -----------------------------------------------------------------------------
+
+export type FailureCode =
+  // --- mechanical: the container is wrong, the facts are not ---
+  | "length-max"
+  | "length-min"
+  | "no-link"
+  | "wrong-destination"
+  | "too-many-links"
+  | "too-many-hashtags"
+  | "emoji"
+  | "x-linebreaks"
+  | "linkedin-fold-link"
+  | "effective-date-dropped"
+  // --- semantic: the post makes a claim it should not ---
+  | "empty"
+  | "url-not-whitelisted"
+  | "figure-ungrounded"
+  | "quotation-ungrounded"
+  | "attribution-unsupported"
+  | "banned-construction"
+  | "cold-reader-opening"
+  | "cold-reader-subject"
+  | "age-framing"
+  | "proposed-not-labelled"
+  | "proposed-in-effect"
+  | "proposed-asserted-as-fact"
+  | "invented-effective-date"
+  | "linkedin-fold-thin";
+
+/**
+ * The only failures a repair attempt may be spent on.
+ *
+ * `effective-date-dropped` is here, and it is the interesting member: the fix is
+ * to put back a date the fact set already contains, which ADDS a material fact
+ * rather than removing one. A repair that cannot restore it will fail the same
+ * check again, so the guarantee holds without a special case.
+ *
+ * `url-not-whitelisted` is deliberately NOT here, though it looks mechanical. A
+ * URL we did not vet is a destination the model invented, and inventing a
+ * destination is the single easiest way to send a reader somewhere we have never
+ * seen. That is a trust failure wearing a formatting failure's clothes.
+ */
+export const REPAIRABLE_FAILURES: ReadonlySet<FailureCode> = new Set<FailureCode>([
+  "length-max",
+  "length-min",
+  "no-link",
+  "wrong-destination",
+  "too-many-links",
+  "too-many-hashtags",
+  "emoji",
+  "x-linebreaks",
+  "linkedin-fold-link",
+  "effective-date-dropped",
+]);
+
+export function isRepairable(code: FailureCode): boolean {
+  return REPAIRABLE_FAILURES.has(code);
+}
+
+/**
+ * May this result be repaired at all?
+ *
+ * Every failure must be mechanical. One semantic failure in a list of five
+ * mechanical ones still means the post says something it should not, and
+ * shortening it would not make that untrue.
+ */
+export function isRepairableResult(result: ValidationResult): boolean {
+  return (
+    !result.ok &&
+    result.codes.length > 0 &&
+    result.codes.every((c) => isRepairable(c as FailureCode))
+  );
+}
+
+// -----------------------------------------------------------------------------
 // THE VALIDATOR
 // -----------------------------------------------------------------------------
 
@@ -497,21 +598,30 @@ export function validatePost(
   facts: FactSet
 ): ValidationResult {
   const failures: string[] = [];
+  const codes: FailureCode[] = [];
   const checked: string[] = [];
   const limits = LIMITS[platform];
+
+  // One push site for both arrays. Two parallel arrays maintained by hand would
+  // drift the first time somebody adds a check in a hurry, and a failure with
+  // the wrong code is a failure the runner might spend an API call repairing.
+  const add = (code: FailureCode, message: string) => {
+    codes.push(code);
+    failures.push(message);
+  };
 
   // --- shape -----------------------------------------------------------------
   const trimmed = text.trim();
   if (trimmed === "") {
-    return { ok: false, failures: ["Empty post"], checked: [] };
+    return { ok: false, failures: ["Empty post"], codes: ["empty"], checked: [] };
   }
 
   checked.push("length");
   if (trimmed.length > limits.maxChars) {
-    failures.push(`Too long for ${platform}: ${trimmed.length} chars (max ${limits.maxChars})`);
+    add("length-max", `Too long for ${platform}: ${trimmed.length} chars (max ${limits.maxChars})`);
   }
   if (trimmed.length < limits.minChars) {
-    failures.push(`Too short for ${platform}: ${trimmed.length} chars (min ${limits.minChars})`);
+    add("length-min", `Too short for ${platform}: ${trimmed.length} chars (min ${limits.minChars})`);
   }
 
   // --- URLs: exact whitelist -------------------------------------------------
@@ -520,16 +630,16 @@ export function validatePost(
   const allowed = new Set(facts.allowedUrls);
   for (const u of urls) {
     if (!allowed.has(u)) {
-      failures.push(`URL not in the permitted set: ${u}`);
+      add("url-not-whitelisted", `URL not in the permitted set: ${u}`);
     }
   }
   if (urls.length > limits.maxLinks) {
-    failures.push(`Too many links: ${urls.length} (max ${limits.maxLinks})`);
+    add("too-many-links", `Too many links: ${urls.length} (max ${limits.maxLinks})`);
   }
   if (urls.length === 0) {
-    failures.push("No link — every post must send the reader to a specific page");
+    add("no-link", "No link — every post must send the reader to a specific page");
   } else if (!urls.includes(facts.deepLink)) {
-    failures.push(`Post does not link to its destination (${facts.deepLink})`);
+    add("wrong-destination", `Post does not link to its destination (${facts.deepLink})`);
   }
 
   // --- numbers: nothing invented --------------------------------------------
@@ -538,7 +648,8 @@ export function validatePost(
   const used = digitRuns(stripUrls(trimmed)).map(normalizeRun);
   for (const run of used) {
     if (!permitted.has(run)) {
-      failures.push(
+      add(
+        "figure-ungrounded",
         `Figure "${run}" does not appear in the source material — it cannot be verified`
       );
     }
@@ -550,7 +661,7 @@ export function validatePost(
     `${facts.title} ${facts.summary} ${(facts.dataPoints ?? []).join(" ")} ${facts.notes.join(" ")}`.toLowerCase();
   for (const q of extractQuotations(trimmed)) {
     if (!corpus.includes(q.toLowerCase())) {
-      failures.push(`Quotation is not verbatim in the source: "${q}"`);
+      add("quotation-ungrounded", `Quotation is not verbatim in the source: "${q}"`);
     }
   }
 
@@ -560,7 +671,8 @@ export function validatePost(
   for (const agency of ATTRIBUTABLE_AGENCIES) {
     const re = agencyPattern(agency);
     if (re.test(trimmed) && !re.test(corpusForAttribution)) {
-      failures.push(
+      add(
+        "attribution-unsupported",
         `Attributes this to "${agency}", which does not appear in the source material`
       );
     }
@@ -570,12 +682,12 @@ export function validatePost(
   checked.push("banned-constructions");
   for (const [re, label] of ALL_BANNED) {
     const m = trimmed.match(re);
-    if (m) failures.push(`Contains ${label}: "${m[0]}"`);
+    if (m) add("banned-construction", `Contains ${label}: "${m[0]}"`);
   }
 
   checked.push("no-emoji");
   const emoji = trimmed.match(EMOJI);
-  if (emoji) failures.push(`Contains an emoji (${emoji[0]}) — this account does not use them`);
+  if (emoji) add("emoji", `Contains an emoji (${emoji[0]}) — this account does not use them`);
 
   // --- the cold reader test --------------------------------------------------
   //
@@ -586,7 +698,8 @@ export function validatePost(
   const withoutUrls = stripUrls(trimmed).trim();
   for (const [re, label] of ORPHAN_OPENINGS) {
     if (re.test(withoutUrls)) {
-      failures.push(
+      add(
+        "cold-reader-opening",
         `Cold reader test: ${label}. Someone seeing only this post cannot tell what it is about — name the subject first.`
       );
       break; // One diagnosis is enough; listing five ways to say "orphan" is noise.
@@ -595,7 +708,8 @@ export function validatePost(
 
   checked.push("cold-reader-subject");
   if (!opensWithSubject(trimmed, facts)) {
-    failures.push(
+    add(
+      "cold-reader-subject",
       `Cold reader test: the first ${OPENING_CHARS} characters name nothing from the fact set ` +
         `(expected one of: ${subjectAnchors(facts).slice(0, 8).join(", ")}). ` +
         `A post that never names its subject is unreadable on its own.`
@@ -620,7 +734,8 @@ export function validatePost(
       for (const [re, label] of JUST_HAPPENED) {
         const m = trimmed.match(re);
         if (m) {
-          failures.push(
+          add(
+            "age-framing",
             `Published ${ageDays} days ago but the post ${label}: "${m[0]}". ` +
               `Say what the document does, not that it just happened.`
           );
@@ -633,12 +748,13 @@ export function validatePost(
   if (facts.classification === "proposed_rule") {
     checked.push("proposed-rule-framing");
     if (!/\bproposed?\b/i.test(trimmed)) {
-      failures.push(
+      add(
+        "proposed-not-labelled",
         "This is a proposed rule but the post never says so — a reader would take it as being in force"
       );
     }
     if (/\b(takes|took|comes into|is now in) effect\b/i.test(trimmed)) {
-      failures.push("Describes a proposed rule as being in effect");
+      add("proposed-in-effect", "Describes a proposed rule as being in effect");
     }
     // A PROPOSAL STATED IN THE PRESENT TENSE IS A FALSE STATEMENT OF LAW.
     //
@@ -657,7 +773,7 @@ export function validatePost(
     ];
     for (const [re, label] of ASSERTED_AS_FACT) {
       const m = trimmed.match(re);
-      if (m) failures.push(`Proposed rule ${label}: "${m[0]}" — nothing has changed yet`);
+      if (m) add("proposed-asserted-as-fact", `Proposed rule ${label}: "${m[0]}" — nothing has changed yet`);
     }
   }
 
@@ -667,7 +783,7 @@ export function validatePost(
     // "take" as well as "takes": "filings take effect on…" asserts a date just
     // as firmly as "the rule takes effect on…", and only the second was caught.
     if (/\b(takes?|taking) effect (on|from)\b/i.test(trimmed)) {
-      failures.push("States an effective date, but the archive records none for this item");
+      add("invented-effective-date", "States an effective date, but the archive records none for this item");
     }
   } else if (facts.effectiveAt > facts.today && facts.classification !== "proposed_rule") {
     // THE DATE IS THE POINT. A post about a change that starts on a known future
@@ -677,7 +793,8 @@ export function validatePost(
     // is history, and repeating its date is not what makes that post useful.
     checked.push("effective-date-preserved");
     if (!mentionsDate(trimmed, facts.effectiveAt)) {
-      failures.push(
+      add(
+        "effective-date-dropped",
         `Drops the effective date (${facts.effectiveAt}), which is in the future and is the most useful fact in the set`
       );
     }
@@ -687,7 +804,7 @@ export function validatePost(
   checked.push("hashtags");
   const tags = extractHashtags(trimmed);
   if (tags.length > limits.maxHashtags) {
-    failures.push(`Too many hashtags: ${tags.length} (max ${limits.maxHashtags})`);
+    add("too-many-hashtags", `Too many hashtags: ${tags.length} (max ${limits.maxHashtags})`);
   }
 
   // --- platform shape --------------------------------------------------------
@@ -697,20 +814,20 @@ export function validatePost(
     if (URL_RE.test(fold)) {
       // Reset lastIndex — URL_RE is global and .test() is stateful.
       URL_RE.lastIndex = 0;
-      failures.push("Link appears above the LinkedIn fold, where it costs the lede its space");
+      add("linkedin-fold-link", "Link appears above the LinkedIn fold, where it costs the lede its space");
     }
     URL_RE.lastIndex = 0;
     if (fold.trim().length < 80) {
-      failures.push("Nothing substantial above the LinkedIn fold");
+      add("linkedin-fold-thin", "Nothing substantial above the LinkedIn fold");
     }
   }
 
   if (platform === "x") {
     checked.push("x-shape");
-    if (/\n{3,}/.test(trimmed)) failures.push("Excessive line breaks for X");
+    if (/\n{3,}/.test(trimmed)) add("x-linebreaks", "Excessive line breaks for X");
   }
 
-  return { ok: failures.length === 0, failures, checked };
+  return { ok: failures.length === 0, failures, codes, checked };
 }
 
 /** Validate both platforms' copy at once. Used by the runner and the preflight. */
