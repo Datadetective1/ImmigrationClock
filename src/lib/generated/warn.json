@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T11:10:52.793Z",
+  "generatedAt": "2026-08-18T09:30:13.993Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2298,
-      "employeesTotal": 370663,
-      "latestNotice": "2026-11-04",
+      "noticeCount": 2299,
+      "employeesTotal": 371037,
+      "latestNotice": "2026-11-17",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2287
+      "withEffectiveOnly": 2288
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1485,
-      "employeesTotal": 234826,
-      "latestNotice": "2026-08-12",
-      "withNoticeDate": 1485,
+      "noticeCount": 1486,
+      "employeesTotal": 234880,
+      "latestNotice": "2026-08-14",
+      "withNoticeDate": 1486,
       "withEffectiveOnly": 0
     },
     {
@@ -64,11 +64,11 @@
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7381,
-  "employeesTotal": 958116,
-  "employerCount": 5779,
+  "noticeCount": 7383,
+  "employeesTotal": 958544,
+  "employerCount": 5781,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-12",
+  "maxNoticeDate": "2026-08-14",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -4890,6 +4890,17 @@
         "WA"
       ],
       "latestNotice": "2014-10-22"
+    },
+    {
+      "normalized": "GROCERY DELIVERY E- DBA HELLO FRESH",
+      "name": "Grocery Delivery E-Services USA, Inc DBA Hello Fresh",
+      "slug": "grocery-delivery-e-services-usa-inc-dba-hello-fresh",
+      "notices": 1,
+      "employees": 374,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-11-17"
     },
     {
       "normalized": "BED BATH AND BEYOND (LEWISVILLE)",
@@ -43083,6 +43094,17 @@
       "latestNotice": "2026-08-14"
     },
     {
+      "normalized": "NORWESCO",
+      "name": "Norwesco",
+      "slug": "norwesco",
+      "notices": 1,
+      "employees": 54,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-14"
+    },
+    {
       "normalized": "COMERICA BANK(FRISCO STAR TOWER FACILITY)",
       "name": "Comerica Bank(Frisco Star Tower Facility)",
       "slug": "comerica-bank-frisco-star-tower-facility",
@@ -63896,6 +63918,18 @@
   ],
   "notices": [
     {
+      "employer": "Grocery Delivery E-Services USA, Inc DBA Hello Fresh",
+      "normalized": "GROCERY DELIVERY E- DBA HELLO FRESH",
+      "city": "Swedesboro",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-11-17",
+      "employees": 374,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "UBS",
       "normalized": "UBS",
       "city": "Weehawken",
@@ -64242,6 +64276,18 @@
       "employees": 54,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Norwesco",
+      "normalized": "NORWESCO",
+      "city": "Fife",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-14",
+      "effectiveDate": "2026-10-16",
+      "employees": 54,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "Jack in the Box",
