@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T11:18:11.278Z",
+  "generatedAt": "2026-08-20T14:24:52.932Z",
   "cadence": "weekly",
   "today": "2026-08-20",
   "editions": [
@@ -15,7 +15,7 @@
       "subject": "Immigration Pulse — 5 changes",
       "htmlPath": "/public/newsletter/weekly-en-2026-08-20/en.html",
       "textPath": "/public/newsletter/weekly-en-2026-08-20/en.txt",
-      "audienceConfigured": false,
+      "audienceConfigured": true,
       "readingMinutes": 3,
       "changeCount": 5,
       "agencyCount": 2,
@@ -43,7 +43,7 @@
       "subject": "Immigration Pulse — 5 cambios",
       "htmlPath": "/public/newsletter/weekly-es-2026-08-20/es.html",
       "textPath": "/public/newsletter/weekly-es-2026-08-20/es.txt",
-      "audienceConfigured": false,
+      "audienceConfigured": true,
       "readingMinutes": 3,
       "changeCount": 5,
       "agencyCount": 2,
@@ -71,7 +71,7 @@
       "subject": "Immigration Pulse — 5 changements",
       "htmlPath": "/public/newsletter/weekly-fr-2026-08-20/fr.html",
       "textPath": "/public/newsletter/weekly-fr-2026-08-20/fr.txt",
-      "audienceConfigured": false,
+      "audienceConfigured": true,
       "readingMinutes": 3,
       "changeCount": 5,
       "agencyCount": 2,

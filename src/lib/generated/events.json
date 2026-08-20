@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-20T11:18:10.454Z",
+  "generatedAt": "2026-08-20T14:24:52.046Z",
   "since": "2026-05-22",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:08.332Z",
+      "lastRunAt": "2026-08-20T14:24:50.625Z",
       "ok": true,
       "eventCount": 57,
       "warnings": [
@@ -17,7 +17,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:08.523Z",
+      "lastRunAt": "2026-08-20T14:24:50.819Z",
       "ok": true,
       "eventCount": 2,
       "warnings": [
@@ -28,7 +28,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:08.592Z",
+      "lastRunAt": "2026-08-20T14:24:50.860Z",
       "ok": true,
       "eventCount": 16,
       "warnings": [
@@ -39,7 +39,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:08.670Z",
+      "lastRunAt": "2026-08-20T14:24:50.906Z",
       "ok": true,
       "eventCount": 8,
       "warnings": []
@@ -48,7 +48,7 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:09.837Z",
+      "lastRunAt": "2026-08-20T14:24:51.424Z",
       "ok": true,
       "eventCount": 4,
       "warnings": [
@@ -59,7 +59,7 @@
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:09.837Z",
+      "lastRunAt": "2026-08-20T14:24:51.424Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
@@ -70,7 +70,7 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-08-20T11:18:09.870Z",
+      "lastRunAt": "2026-08-20T14:24:51.460Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -81,7 +81,7 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-08-20T11:18:10.437Z",
+      "lastRunAt": "2026-08-20T14:24:52.031Z",
       "ok": true,
       "eventCount": 1,
       "warnings": []
