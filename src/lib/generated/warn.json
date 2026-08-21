@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T14:24:47.863Z",
+  "generatedAt": "2026-08-21T09:33:56.530Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1486,
-      "employeesTotal": 234880,
-      "latestNotice": "2026-08-14",
-      "withNoticeDate": 1486,
+      "noticeCount": 1487,
+      "employeesTotal": 234955,
+      "latestNotice": "2026-08-18",
+      "withNoticeDate": 1487,
       "withEffectiveOnly": 0
     },
     {
@@ -44,10 +44,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1115,
-      "employeesTotal": 130094,
-      "latestNotice": "2026-08-10",
-      "withNoticeDate": 1115,
+      "noticeCount": 1116,
+      "employeesTotal": 130163,
+      "latestNotice": "2026-08-17",
+      "withNoticeDate": 1116,
       "withEffectiveOnly": 0
     },
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 128,
-      "employeesTotal": 6353,
-      "latestNotice": "2026-08-17",
-      "withNoticeDate": 128,
+      "noticeCount": 135,
+      "employeesTotal": 6776,
+      "latestNotice": "2026-08-19",
+      "withNoticeDate": 135,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7386,
-  "employeesTotal": 958732,
-  "employerCount": 5784,
+  "noticeCount": 7395,
+  "employeesTotal": 959299,
+  "employerCount": 5792,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-17",
+  "maxNoticeDate": "2026-08-19",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -2097,7 +2097,7 @@
         "NJ",
         "WA"
       ],
-      "latestNotice": "2026-08-03"
+      "latestNotice": "2026-08-19"
     },
     {
       "normalized": "VOLVO TRUCKS NORTH AMERICA",
@@ -3190,6 +3190,18 @@
         "WA"
       ],
       "latestNotice": "2020-06-01"
+    },
+    {
+      "normalized": "LEEMAH ELECTRONICS",
+      "name": "LeeMAH Electronics",
+      "slug": "leemah-electronics",
+      "notices": 3,
+      "employees": 501,
+      "states": [
+        "CA",
+        "TX"
+      ],
+      "latestNotice": "2026-08-17"
     },
     {
       "normalized": "STADELMAN FRUIT",
@@ -6628,18 +6640,6 @@
         "NJ"
       ],
       "latestNotice": "2007-11-05"
-    },
-    {
-      "normalized": "LEEMAH ELECTRONICS",
-      "name": "LeeMAH Electronics",
-      "slug": "leemah-electronics",
-      "notices": 2,
-      "employees": 296,
-      "states": [
-        "CA",
-        "TX"
-      ],
-      "latestNotice": "2026-07-07"
     },
     {
       "normalized": "JC PENNEY (ALLAINCE SUPPLY CHAIN)",
@@ -27542,6 +27542,17 @@
       "latestNotice": "2010-07-10"
     },
     {
+      "normalized": "VOLUME (SODEXO)",
+      "name": "Volume Services, Inc. (Sodexo)",
+      "slug": "volume-services-inc-sodexo",
+      "notices": 1,
+      "employees": 93,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-17"
+    },
+    {
       "normalized": "GMRI DBA BAHAMA BREEZE",
       "name": "GMRI, Inc. dba Bahama Breeze",
       "slug": "gmri-inc-dba-bahama-breeze",
@@ -33816,6 +33827,17 @@
       "latestNotice": "2006-03-10"
     },
     {
+      "normalized": "TT COMMERCE GLOBAL",
+      "name": "TT Commerce & Global Services",
+      "slug": "tt-commerce-global-services",
+      "notices": 1,
+      "employees": 75,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
       "normalized": "MEADOW BURKE D/B/A LEVIAT",
       "name": "Meadow Burke, LLC d/b/a Leviat",
       "slug": "meadow-burke-llc-d-b-a-leviat",
@@ -36304,6 +36326,17 @@
       "latestNotice": "2026-09-16"
     },
     {
+      "normalized": "TEKSYNAP",
+      "name": "TekSynap Corporation",
+      "slug": "teksynap-corporation",
+      "notices": 1,
+      "employees": 69,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-08-17"
+    },
+    {
       "normalized": "CROTHALL HEALTHCARE-HOUSTON",
       "name": "Crothall Healthcare-Houston",
       "slug": "crothall-healthcare-houston",
@@ -37843,6 +37876,17 @@
         "NJ"
       ],
       "latestNotice": "2005-08-31"
+    },
+    {
+      "normalized": "STOCKTON TRUSS",
+      "name": "Stockton Truss LLC",
+      "slug": "stockton-truss-llc",
+      "notices": 1,
+      "employees": 65,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
     },
     {
       "normalized": "NUTANIX",
@@ -44654,6 +44698,17 @@
         "NJ"
       ],
       "latestNotice": "2005-07-15"
+    },
+    {
+      "normalized": "STONE BREWING - CITRACADO PARKWAY",
+      "name": "Stone Brewing CO., LLC - Citracado Parkway",
+      "slug": "stone-brewing-co-llc-citracado-parkway",
+      "notices": 1,
+      "employees": 50,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-19"
     },
     {
       "normalized": "LAZ PARKING CALIFORNIA (5251 WEST 98TH STREET)",
@@ -57803,6 +57858,17 @@
       "latestNotice": "2005-12-31"
     },
     {
+      "normalized": "STONE BREWING - EXECUTIVE PLACE",
+      "name": "Stone Brewing Co., LLC - Executive Place",
+      "slug": "stone-brewing-co-llc-executive-place",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-19"
+    },
+    {
       "normalized": "YERBA MATE",
       "name": "Yerba Mate Co., LLC",
       "slug": "yerba-mate-co-llc",
@@ -61285,6 +61351,28 @@
       "latestNotice": "2010-09-21"
     },
     {
+      "normalized": "STONE BREWING - HARMONY GROVE",
+      "name": "Stone Brewing Co., LLC - Harmony Grove",
+      "slug": "stone-brewing-co-llc-harmony-grove",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-19"
+    },
+    {
+      "normalized": "CORTEVA AGRISCIENCE",
+      "name": "Corteva Agriscience LLC",
+      "slug": "corteva-agriscience-llc",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
       "normalized": "SHARP METROPOLITAN MEDICAL GROUP - SHARP MCDONALD CENTER",
       "name": "Sharp Metropolitan Medical Group - Sharp McDonald Center",
       "slug": "sharp-metropolitan-medical-group-sharp-mcdonald-center",
@@ -64287,6 +64375,90 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Stone Brewing Co., LLC - Executive Place",
+      "normalized": "STONE BREWING - EXECUTIVE PLACE",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-19",
+      "effectiveDate": "2026-10-19",
+      "employees": 6,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Stone Brewing Co., LLC - Harmony Grove",
+      "normalized": "STONE BREWING - HARMONY GROVE",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-19",
+      "effectiveDate": "2026-10-19",
+      "employees": 2,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Stone Brewing CO., LLC - Citracado Parkway",
+      "normalized": "STONE BREWING - CITRACADO PARKWAY",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-19",
+      "effectiveDate": "2026-10-19",
+      "employees": 50,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "JP Morgan Chase",
+      "normalized": "JP MORGAN CHASE",
+      "city": "Jersey City",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-08-19",
+      "employees": 63,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Corteva Agriscience LLC",
+      "normalized": "CORTEVA AGRISCIENCE",
+      "city": "Pittsburg",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-30",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Stockton Truss LLC",
+      "normalized": "STOCKTON TRUSS",
+      "city": "Stockton",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-18",
+      "employees": 65,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "TT Commerce & Global Services",
+      "normalized": "TT COMMERCE GLOBAL",
+      "city": "Bellevue",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-19",
+      "employees": 75,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
       "employer": "Roskam Baking Company dba Organic Milling",
       "normalized": "ROSKAM BAKING DBA ORGANIC MILLING",
       "city": "San Dimas",
@@ -64297,6 +64469,42 @@
       "employees": 115,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "LeeMAH Electronics",
+      "normalized": "LEEMAH ELECTRONICS",
+      "city": "Brisbane",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-08-17",
+      "effectiveDate": "2026-10-16",
+      "employees": 205,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Volume Services, Inc. (Sodexo)",
+      "normalized": "VOLUME (SODEXO)",
+      "city": "Simi Valley",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-17",
+      "effectiveDate": "2026-10-16",
+      "employees": 93,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "TekSynap Corporation",
+      "normalized": "TEKSYNAP",
+      "city": "Statewide VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-08-17",
+      "effectiveDate": null,
+      "employees": 69,
+      "layoffType": "Layoff",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },
     {
       "employer": "Acme Markets Inc.",
@@ -71977,18 +72185,6 @@
       "employees": 62,
       "layoffType": null,
       "sourceUrl": "https://data.texas.gov/d/8w53-c4f6"
-    },
-    {
-      "employer": "JP Morgan Chase",
-      "normalized": "JP MORGAN CHASE",
-      "city": "Jersey City",
-      "county": null,
-      "state": "NJ",
-      "noticeDate": null,
-      "effectiveDate": "2025-08-04",
-      "employees": 63,
-      "layoffType": null,
-      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
       "employer": "Wellmore Energy Company LLC",
