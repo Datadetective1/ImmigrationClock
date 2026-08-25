@@ -1,4 +1,5 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
+Optum,OPTUM,Basking Ridge,,NJ,,2026-12-07,57,,https://www.nj.gov/labor/employer-services/warn/
 "Grocery Delivery E-Services USA, Inc DBA Hello Fresh",GROCERY DELIVERY E- DBA HELLO FRESH,Swedesboro,,NJ,,2026-11-17,374,,https://www.nj.gov/labor/employer-services/warn/
 UBS,UBS,Weehawken,,NJ,,2026-11-04,58,,https://www.nj.gov/labor/employer-services/warn/
 BASF Corporation,BASF,Florham Park,,NJ,,2026-11-01,62,,https://www.nj.gov/labor/employer-services/warn/
@@ -26,7 +27,10 @@ Optum Services Inc.,OPTUM,Basking Ridge,,NJ,,2026-08-26,36,,https://www.nj.gov/l
 UBS,UBS,Weehawken,,NJ,,2026-08-26,65,,https://www.nj.gov/labor/employer-services/warn/
 Novartis Group,NOVARTIS GROUP,East Hanover,,NJ,,2026-08-21,76,,https://www.nj.gov/labor/employer-services/warn/
 Johnson & Johnson,JOHNSON JOHNSON,New Brunswick,,NJ,,2026-08-21,86,,https://www.nj.gov/labor/employer-services/warn/
+Cenlar FSB,CENLAR FSB,Ewing Twp.,,NJ,,2026-08-21,50,,https://www.nj.gov/labor/employer-services/warn/
+"Twin City Foods, Inc.",TWIN CITY FOODS,Ellensburg,,WA,2026-08-21,2026-11-02,109,Permanent,https://esd.wa.gov/about-employees/WARN
 Meta,META,Statewide,,NJ,,2026-08-20,74,,https://www.nj.gov/labor/employer-services/warn/
+Starbucks,STARBUCKS,Seattle,,WA,2026-08-20,2026-10-19,224,Permanent,https://esd.wa.gov/about-employees/WARN
 "Stone Brewing Co., LLC - Executive Place",STONE BREWING - EXECUTIVE PLACE,Escondido,San Diego,CA,2026-08-19,2026-10-19,6,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Stone Brewing Co., LLC - Harmony Grove",STONE BREWING - HARMONY GROVE,Escondido,San Diego,CA,2026-08-19,2026-10-19,2,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Stone Brewing CO., LLC - Citracado Parkway",STONE BREWING - CITRACADO PARKWAY,Escondido,San Diego,CA,2026-08-19,2026-10-19,50,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
