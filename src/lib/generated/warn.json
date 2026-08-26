@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-25T11:17:45.442Z",
+  "generatedAt": "2026-08-26T11:20:29.083Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 135,
-      "employeesTotal": 6776,
-      "latestNotice": "2026-08-19",
-      "withNoticeDate": 135,
+      "noticeCount": 153,
+      "employeesTotal": 7769,
+      "latestNotice": "2026-08-24",
+      "withNoticeDate": 153,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7399,
-  "employeesTotal": 959739,
-  "employerCount": 5792,
+  "noticeCount": 7417,
+  "employeesTotal": 960732,
+  "employerCount": 5801,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-21",
+  "maxNoticeDate": "2026-08-24",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -2392,6 +2392,19 @@
         "NJ"
       ],
       "latestNotice": "2012-06-29"
+    },
+    {
+      "normalized": "JABIL",
+      "name": "Jabil Inc.",
+      "slug": "jabil-inc",
+      "notices": 3,
+      "employees": 638,
+      "states": [
+        "CA",
+        "TX",
+        "WA"
+      ],
+      "latestNotice": "2026-08-20"
     },
     {
       "normalized": "CORIZON HEALTH",
@@ -5137,6 +5150,19 @@
       "latestNotice": "2026-11-01"
     },
     {
+      "normalized": "FLYING FOOD GROUP",
+      "name": "Flying Food Group, LLC",
+      "slug": "flying-food-group-llc",
+      "notices": 4,
+      "employees": 364,
+      "states": [
+        "CA",
+        "VA",
+        "WA"
+      ],
+      "latestNotice": "2026-08-14"
+    },
+    {
       "normalized": "MIDDLESEX AVENUE LOGISTICS",
       "name": "Middlesex Avenue Logistics, LLC",
       "slug": "middlesex-avenue-logistics-llc",
@@ -6720,18 +6746,6 @@
       "latestNotice": "2023-12-07"
     },
     {
-      "normalized": "FLYING FOOD GROUP",
-      "name": "Flying Food Group, LLC",
-      "slug": "flying-food-group-llc",
-      "notices": 3,
-      "employees": 292,
-      "states": [
-        "VA",
-        "WA"
-      ],
-      "latestNotice": "2021-02-11"
-    },
-    {
       "normalized": "SODEXO (SDH EAST ) FORT WORTH INDEPENDENT SCHOOL DISTRICT",
       "name": "Sodexo (SDH Services East, LLC) Fort Worth Independent School District",
       "slug": "sodexo-sdh-services-east-llc-fort-worth-independent-school-district",
@@ -7821,18 +7835,6 @@
       "latestNotice": "2007-12-07"
     },
     {
-      "normalized": "JABIL",
-      "name": "Jabil, Inc.",
-      "slug": "jabil-inc",
-      "notices": 2,
-      "employees": 256,
-      "states": [
-        "TX",
-        "WA"
-      ],
-      "latestNotice": "2024-10-10"
-    },
-    {
       "normalized": "CH2M",
       "name": "CH2M",
       "slug": "ch2m",
@@ -8694,6 +8696,17 @@
         "WA"
       ],
       "latestNotice": "2013-09-03"
+    },
+    {
+      "normalized": "SILGAN CONTAINERS",
+      "name": "Silgan Containers",
+      "slug": "silgan-containers",
+      "notices": 3,
+      "employees": 235,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-12"
     },
     {
       "normalized": "GEO SECURE -LAWRENCEVILLE CORRECTIONAL CENTER",
@@ -22020,17 +22033,6 @@
       "latestNotice": "2026-08-17"
     },
     {
-      "normalized": "SILGAN CONTAINERS",
-      "name": "Silgan Containers",
-      "slug": "silgan-containers",
-      "notices": 2,
-      "employees": 115,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-21"
-    },
-    {
       "normalized": "PROVIDENCE MEDICAL GROUP",
       "name": "Providence Medical Group",
       "slug": "providence-medical-group",
@@ -25537,6 +25539,17 @@
         "NJ"
       ],
       "latestNotice": "2005-02-01"
+    },
+    {
+      "normalized": "CELLARES",
+      "name": "Cellares Corporation",
+      "slug": "cellares-corporation",
+      "notices": 1,
+      "employees": 100,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-21"
     },
     {
       "normalized": "COLLEGE SUCCESS FOUNDATION",
@@ -32485,6 +32498,17 @@
       "latestNotice": "2026-10-01"
     },
     {
+      "normalized": "APPLE - CUPERTINO",
+      "name": "Apple, Inc. - Cupertino",
+      "slug": "apple-inc-cupertino",
+      "notices": 1,
+      "employees": 79,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-20"
+    },
+    {
       "normalized": "TOP GUARD SECURITY",
       "name": "Top Guard Security",
       "slug": "top-guard-security",
@@ -34683,6 +34707,17 @@
         "WA"
       ],
       "latestNotice": "2005-11-10"
+    },
+    {
+      "normalized": "HAAS AUTOMATION",
+      "name": "Haas Automation, Inc.",
+      "slug": "haas-automation-inc",
+      "notices": 1,
+      "employees": 73,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-19"
     },
     {
       "normalized": "HOME CARE DELIVERED",
@@ -46064,6 +46099,17 @@
       "latestNotice": "2006-04-17"
     },
     {
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "name": "Blue Shield of California",
+      "slug": "blue-shield-of-california",
+      "notices": 6,
+      "employees": 47,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-21"
+    },
+    {
       "normalized": "SUNNYSIDE RESTAURANT AND LODGE",
       "name": "Sunnyside Restaurant and Lodge",
       "slug": "sunnyside-restaurant-and-lodge",
@@ -47904,6 +47950,17 @@
       "latestNotice": "2007-05-10"
     },
     {
+      "normalized": "APPLE - MAUDE AVE",
+      "name": "Apple, Inc. - Maude Ave.",
+      "slug": "apple-inc-maude-ave",
+      "notices": 1,
+      "employees": 40,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-20"
+    },
+    {
       "normalized": "PROPIO LANGUAGE",
       "name": "Propio Language Services",
       "slug": "propio-language-services",
@@ -48133,6 +48190,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "BFG SUPPLY",
+      "name": "BFG Supply Co., LLC",
+      "slug": "bfg-supply-co-llc",
+      "notices": 2,
+      "employees": 39,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-24"
     },
     {
       "normalized": "DHL SUPPLY CHAIN - SUGAR LAND",
@@ -50575,6 +50643,17 @@
         "NJ"
       ],
       "latestNotice": "2026-08-26"
+    },
+    {
+      "normalized": "APPLE - SUNNYVALE",
+      "name": "Apple, Inc. - Sunnyvale",
+      "slug": "apple-inc-sunnyvale",
+      "notices": 1,
+      "employees": 28,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-20"
     },
     {
       "normalized": "UDEMY",
@@ -54596,6 +54675,17 @@
         "NJ"
       ],
       "latestNotice": "2004-12-31"
+    },
+    {
+      "normalized": "BLUE SHIELD OF CALIFORNIA (BUILDING B)",
+      "name": "Blue Shield of California (Building B)",
+      "slug": "blue-shield-of-california-building-b",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-21"
     },
     {
       "normalized": "TPE ACQUISITION - 5026",
@@ -62134,6 +62224,17 @@
       "latestNotice": "2009-06-30"
     },
     {
+      "normalized": "BLUE SHIELD OF CALIFORNIA (BUILDING C)",
+      "name": "Blue Shield of California (Building C)",
+      "slug": "blue-shield-of-california-building-c",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-21"
+    },
+    {
       "normalized": "EBALDC (3850 SAN PABLO AVE)",
       "name": "EBALDC (3850 San Pablo Ave)",
       "slug": "ebaldc-3850-san-pablo-ave",
@@ -64351,6 +64452,138 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "BFG Supply Co., LLC",
+      "normalized": "BFG SUPPLY",
+      "city": "San Bernardino",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-08-24",
+      "effectiveDate": "2026-10-25",
+      "employees": 37,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "BFG Supply Co., LLC",
+      "normalized": "BFG SUPPLY",
+      "city": "West Sacramento",
+      "county": "Yolo",
+      "state": "CA",
+      "noticeDate": "2026-08-24",
+      "effectiveDate": "2026-10-25",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California",
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 25,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California (Building C)",
+      "normalized": "BLUE SHIELD OF CALIFORNIA (BUILDING C)",
+      "city": "El Dorado Hills",
+      "county": "El Dorado",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California (Building B)",
+      "normalized": "BLUE SHIELD OF CALIFORNIA (BUILDING B)",
+      "city": "El Dorado Hills",
+      "county": "El Dorado",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 12,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California",
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "city": "Long Beach",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 8,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California",
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "city": "Woodland Hills",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California",
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "city": "Rancho Cordova",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California",
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California",
+      "normalized": "BLUE SHIELD OF CALIFORNIA",
+      "city": "Lodi",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cellares Corporation",
+      "normalized": "CELLARES",
+      "city": "South San Francisco",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-10-20",
+      "employees": 100,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Novartis Group",
       "normalized": "NOVARTIS GROUP",
       "city": "East Hanover",
@@ -64397,6 +64630,54 @@
       "employees": 109,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Apple, Inc. - Cupertino",
+      "normalized": "APPLE - CUPERTINO",
+      "city": "Cupertino",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-20",
+      "effectiveDate": "2026-10-19",
+      "employees": 79,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Apple, Inc. - Sunnyvale",
+      "normalized": "APPLE - SUNNYVALE",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-20",
+      "effectiveDate": "2026-10-19",
+      "employees": 28,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Apple, Inc. - Maude Ave.",
+      "normalized": "APPLE - MAUDE AVE",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-20",
+      "effectiveDate": "2026-10-19",
+      "employees": 40,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Jabil Inc.",
+      "normalized": "JABIL",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-20",
+      "effectiveDate": "2026-11-23",
+      "employees": 382,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Meta",
@@ -64456,6 +64737,18 @@
       "effectiveDate": "2026-10-19",
       "employees": 50,
       "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Haas Automation, Inc.",
+      "normalized": "HAAS AUTOMATION",
+      "city": "Oxnard",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-19",
+      "effectiveDate": "2026-11-02",
+      "employees": 73,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -64567,6 +64860,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Flying Food Group, LLC",
+      "normalized": "FLYING FOOD GROUP",
+      "city": "Burlingame",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-08-14",
+      "effectiveDate": "2026-10-13",
+      "employees": 72,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Embassy Suites by Hilton",
       "normalized": "EMBASSY SUITES BY HILTON",
       "city": "Parsippany",
@@ -64612,6 +64917,18 @@
       "effectiveDate": "2026-07-14",
       "employees": 59,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Silgan Containers",
+      "normalized": "SILGAN CONTAINERS",
+      "city": "Riverbank",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-08-12",
+      "effectiveDate": "2026-10-12",
+      "employees": 120,
+      "layoffType": "Layoff Temporary",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
