@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-26T11:20:29.083Z",
+  "generatedAt": "2026-08-27T23:20:11.520Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,17 +56,17 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 153,
-      "employeesTotal": 7769,
+      "noticeCount": 154,
+      "employeesTotal": 7841,
       "latestNotice": "2026-08-24",
-      "withNoticeDate": 153,
+      "withNoticeDate": 154,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7417,
-  "employeesTotal": 960732,
-  "employerCount": 5801,
+  "noticeCount": 7418,
+  "employeesTotal": 960804,
+  "employerCount": 5802,
   "minNoticeDate": "2004-01-12",
   "maxNoticeDate": "2026-08-24",
   "byEmployer": [
@@ -35084,6 +35084,17 @@
       "latestNotice": "2004-04-14"
     },
     {
+      "normalized": "LEVINE MANAGEMENT GROUP",
+      "name": "Levine Management Group, Inc.",
+      "slug": "levine-management-group-inc",
+      "notices": 1,
+      "employees": 72,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
       "normalized": "OLIVER",
       "name": "Oliver Inc.",
       "slug": "oliver-inc",
@@ -64784,6 +64795,18 @@
       "noticeDate": "2026-08-18",
       "effectiveDate": "2026-10-18",
       "employees": 65,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Group, Inc.",
+      "normalized": "LEVINE MANAGEMENT GROUP",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-08-17",
+      "employees": 72,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
