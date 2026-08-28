@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T23:20:11.520Z",
+  "generatedAt": "2026-08-28T20:36:05.021Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2301,
-      "employeesTotal": 371144,
-      "latestNotice": "2026-12-07",
+      "noticeCount": 2302,
+      "employeesTotal": 371331,
+      "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2290
+      "withEffectiveOnly": 2291
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1489,
-      "employeesTotal": 235288,
-      "latestNotice": "2026-08-21",
-      "withNoticeDate": 1489,
+      "noticeCount": 1492,
+      "employeesTotal": 236379,
+      "latestNotice": "2026-08-28",
+      "withNoticeDate": 1492,
       "withEffectiveOnly": 0
     },
     {
@@ -45,7 +45,7 @@
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
       "noticeCount": 1116,
-      "employeesTotal": 130163,
+      "employeesTotal": 130103,
       "latestNotice": "2026-08-17",
       "withNoticeDate": 1116,
       "withEffectiveOnly": 0
@@ -64,11 +64,11 @@
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7418,
-  "employeesTotal": 960804,
-  "employerCount": 5802,
+  "noticeCount": 7422,
+  "employeesTotal": 962022,
+  "employerCount": 5804,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-24",
+  "maxNoticeDate": "2026-08-28",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -505,6 +505,17 @@
       "latestNotice": "2010-12-01"
     },
     {
+      "normalized": "BORTON SONS",
+      "name": "Borton & Sons, Inc.",
+      "slug": "borton-sons-inc",
+      "notices": 2,
+      "employees": 1953,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-21"
+    },
+    {
       "normalized": "BLOOMIN' BRANDS (OUTBACK STEAKHOUSE)",
       "name": "Bloomin' Brands (Outback Steakhouse)",
       "slug": "bloomin-brands-outback-steakhouse",
@@ -822,6 +833,19 @@
       "latestNotice": "2015-04-03"
     },
     {
+      "normalized": "T-MOBILE",
+      "name": "T-Mobile USA, Inc.",
+      "slug": "t-mobile-usa-inc",
+      "notices": 6,
+      "employees": 1398,
+      "states": [
+        "NJ",
+        "TX",
+        "WA"
+      ],
+      "latestNotice": "2026-08-26"
+    },
+    {
       "normalized": "ST BARNABAS HEALTH",
       "name": "ST. BARNABAS HEALTH",
       "slug": "st-barnabas-health",
@@ -867,19 +891,6 @@
         "TX"
       ],
       "latestNotice": "2024-01-05"
-    },
-    {
-      "normalized": "T-MOBILE",
-      "name": "T-Mobile USA",
-      "slug": "t-mobile-usa",
-      "notices": 5,
-      "employees": 1321,
-      "states": [
-        "NJ",
-        "TX",
-        "WA"
-      ],
-      "latestNotice": "2026-04-21"
     },
     {
       "normalized": "BED BATH BEYOND | BUY BUY BABY | BBB VALUE",
@@ -1136,17 +1147,6 @@
         "VA"
       ],
       "latestNotice": "2018-06-19"
-    },
-    {
-      "normalized": "BORTON SONS",
-      "name": "Borton & Sons, Inc.",
-      "slug": "borton-sons-inc",
-      "notices": 1,
-      "employees": 1025,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-09-17"
     },
     {
       "normalized": "SAM'S CLUB",
@@ -11757,6 +11757,17 @@
         "NJ"
       ],
       "latestNotice": "2007-02-05"
+    },
+    {
+      "normalized": "ENABLX",
+      "name": "Enablx, INC",
+      "slug": "enablx-inc",
+      "notices": 1,
+      "employees": 187,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-12-31"
     },
     {
       "normalized": "CITIBANK N/A CITIGROUP GLOBAL MARKETS CITIGROUP CITISHARE",
@@ -29702,6 +29713,17 @@
       "latestNotice": "2026-10-11"
     },
     {
+      "normalized": "COLUMBIA HOSPITALITY",
+      "name": "Columbia Hospitality, Inc",
+      "slug": "columbia-hospitality-inc",
+      "notices": 1,
+      "employees": 86,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
       "normalized": "SODEXO (SDH EAST ) HCA CLEAR LAKE",
       "name": "Sodexo (SDH Services East, LLC) HCA Clear Lake",
       "slug": "sodexo-sdh-services-east-llc-hca-clear-lake",
@@ -36370,17 +36392,6 @@
         "NJ"
       ],
       "latestNotice": "2026-09-16"
-    },
-    {
-      "normalized": "TEKSYNAP",
-      "name": "TekSynap Corporation",
-      "slug": "teksynap-corporation",
-      "notices": 1,
-      "employees": 69,
-      "states": [
-        "VA"
-      ],
-      "latestNotice": "2026-08-17"
     },
     {
       "normalized": "CROTHALL HEALTHCARE-HOUSTON",
@@ -56186,6 +56197,17 @@
       "latestNotice": "2007-06-01"
     },
     {
+      "normalized": "TEKSYNAP",
+      "name": "TekSynap Corporation",
+      "slug": "teksynap-corporation",
+      "notices": 1,
+      "employees": 9,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-08-17"
+    },
+    {
       "normalized": "EBALDC (1955 SAN PABLO AVE)",
       "name": "EBALDC (1955 San Pablo Ave)",
       "slug": "ebaldc-1955-san-pablo-ave",
@@ -64151,6 +64173,18 @@
   ],
   "notices": [
     {
+      "employer": "Enablx, INC",
+      "normalized": "ENABLX",
+      "city": "Rockaway Township",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-31",
+      "employees": 187,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Optum",
       "normalized": "OPTUM",
       "city": "Basking Ridge",
@@ -64415,6 +64449,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Columbia Hospitality, Inc",
+      "normalized": "COLUMBIA HOSPITALITY",
+      "city": "Kenmore",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-30",
+      "employees": 86,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
       "employer": "Optum Select Management Inc.",
       "normalized": "OPTUM SELECT MANAGEMENT",
       "city": "Somerset",
@@ -64461,6 +64507,18 @@
       "employees": 65,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "T-Mobile USA, Inc.",
+      "normalized": "T-MOBILE",
+      "city": "Seattle, Bellingham, Bothell, Vancouver, Bellevue, Kennewick, Tacoma, and Yakima",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-26",
+      "effectiveDate": "2026-09-21",
+      "employees": 77,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "BFG Supply Co., LLC",
@@ -64639,6 +64697,18 @@
       "noticeDate": "2026-08-21",
       "effectiveDate": "2026-11-02",
       "employees": 109,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Borton & Sons, Inc.",
+      "normalized": "BORTON SONS",
+      "city": "Yakima, Zillah, Pasco, Burbank, Prescott, Soap Lake, Othello, Mesa",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-21",
+      "effectiveDate": "2026-11-08",
+      "employees": 928,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
@@ -64866,7 +64936,7 @@
       "state": "VA",
       "noticeDate": "2026-08-17",
       "effectiveDate": null,
-      "employees": 69,
+      "employees": 9,
       "layoffType": "Layoff",
       "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },

@@ -1,4 +1,5 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
+"Enablx, INC",ENABLX,Rockaway Township,,NJ,,2026-12-31,187,,https://www.nj.gov/labor/employer-services/warn/
 Optum,OPTUM,Basking Ridge,,NJ,,2026-12-07,57,,https://www.nj.gov/labor/employer-services/warn/
 "Grocery Delivery E-Services USA, Inc DBA Hello Fresh",GROCERY DELIVERY E- DBA HELLO FRESH,Swedesboro,,NJ,,2026-11-17,374,,https://www.nj.gov/labor/employer-services/warn/
 UBS,UBS,Weehawken,,NJ,,2026-11-04,58,,https://www.nj.gov/labor/employer-services/warn/
@@ -21,10 +22,12 @@ Digital Room LLC,DIGITAL ROOM,Saddle Brook,,NJ,,2026-09-16,69,,https://www.nj.go
 AT&T,AT T,Cumberland County,,NJ,,2026-09-15,138,,https://www.nj.gov/labor/employer-services/warn/
 Merck & Co,MERCK,Rahway,,NJ,,2026-09-04,88,,https://www.nj.gov/labor/employer-services/warn/
 Gerresheimer,GERRESHEIMER,Vineland,,NJ,,2026-09-01,139,,https://www.nj.gov/labor/employer-services/warn/
+"Columbia Hospitality, Inc",COLUMBIA HOSPITALITY,Kenmore,,WA,2026-08-28,2026-10-30,86,Permanent,https://esd.wa.gov/about-employees/WARN
 Optum Select Management Inc.,OPTUM SELECT MANAGEMENT,Somerset,,NJ,,2026-08-26,17,,https://www.nj.gov/labor/employer-services/warn/
 Optum Care Inc.,OPTUM CARE,Rutherford,,NJ,,2026-08-26,5,,https://www.nj.gov/labor/employer-services/warn/
 Optum Services Inc.,OPTUM,Basking Ridge,,NJ,,2026-08-26,36,,https://www.nj.gov/labor/employer-services/warn/
 UBS,UBS,Weehawken,,NJ,,2026-08-26,65,,https://www.nj.gov/labor/employer-services/warn/
+"T-Mobile USA, Inc.",T-MOBILE,"Seattle, Bellingham, Bothell, Vancouver, Bellevue, Kennewick, Tacoma, and Yakima",,WA,2026-08-26,2026-09-21,77,Permanent,https://esd.wa.gov/about-employees/WARN
 "BFG Supply Co., LLC",BFG SUPPLY,San Bernardino,San Bernardino,CA,2026-08-24,2026-10-25,37,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "BFG Supply Co., LLC",BFG SUPPLY,West Sacramento,Yolo,CA,2026-08-24,2026-10-25,2,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Blue Shield of California,BLUE SHIELD OF CALIFORNIA,Oakland,Alameda,CA,2026-08-21,2026-10-20,25,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -40,6 +43,7 @@ Novartis Group,NOVARTIS GROUP,East Hanover,,NJ,,2026-08-21,76,,https://www.nj.go
 Johnson & Johnson,JOHNSON JOHNSON,New Brunswick,,NJ,,2026-08-21,86,,https://www.nj.gov/labor/employer-services/warn/
 Cenlar FSB,CENLAR FSB,Ewing Twp.,,NJ,,2026-08-21,50,,https://www.nj.gov/labor/employer-services/warn/
 "Twin City Foods, Inc.",TWIN CITY FOODS,Ellensburg,,WA,2026-08-21,2026-11-02,109,Permanent,https://esd.wa.gov/about-employees/WARN
+"Borton & Sons, Inc.",BORTON SONS,"Yakima, Zillah, Pasco, Burbank, Prescott, Soap Lake, Othello, Mesa",,WA,2026-08-21,2026-11-08,928,Permanent,https://esd.wa.gov/about-employees/WARN
 "Apple, Inc. - Cupertino",APPLE - CUPERTINO,Cupertino,Santa Clara,CA,2026-08-20,2026-10-19,79,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Apple, Inc. - Sunnyvale",APPLE - SUNNYVALE,Sunnyvale,Santa Clara,CA,2026-08-20,2026-10-19,28,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Apple, Inc. - Maude Ave.",APPLE - MAUDE AVE,Sunnyvale,Santa Clara,CA,2026-08-20,2026-10-19,40,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -58,7 +62,7 @@ TT Commerce & Global Services,TT COMMERCE GLOBAL,Bellevue,,WA,2026-08-18,2026-10
 Roskam Baking Company dba Organic Milling,ROSKAM BAKING DBA ORGANIC MILLING,San Dimas,Los Angeles,CA,2026-08-17,2026-10-02,115,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 LeeMAH Electronics,LEEMAH ELECTRONICS,Brisbane,San Mateo,CA,2026-08-17,2026-10-16,205,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Volume Services, Inc. (Sodexo)",VOLUME (SODEXO),Simi Valley,Ventura,CA,2026-08-17,2026-10-16,93,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
-TekSynap Corporation,TEKSYNAP,Statewide VA,,VA,2026-08-17,,69,Layoff,https://www.vec.virginia.gov/warn-notices
+TekSynap Corporation,TEKSYNAP,Statewide VA,,VA,2026-08-17,,9,Layoff,https://www.vec.virginia.gov/warn-notices
 Acme Markets Inc.,ACME MARKETS,Edgewater,,NJ,,2026-08-15,115,,https://www.nj.gov/labor/employer-services/warn/
 "Flying Food Group, LLC",FLYING FOOD GROUP,Burlingame,San Mateo,CA,2026-08-14,2026-10-13,72,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Embassy Suites by Hilton,EMBASSY SUITES BY HILTON,Parsippany,,NJ,,2026-08-14,54,,https://www.nj.gov/labor/employer-services/warn/
