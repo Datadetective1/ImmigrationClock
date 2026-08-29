@@ -22,7 +22,15 @@
 
 import { ANGLE_LABEL, type Angle, type CopyRequest, type FactSet } from "./types";
 import {
+  TREATMENT_BRIEF,
+  TREATMENT_LABEL,
+  treatmentForFacts,
+  type EditorialTreatment,
+  type ReaderValue,
+} from "./reader-value";
+import {
   BREAKING_MAX_AGE_DAYS,
+  describesAProposal,
   LIMITS,
   OPENING_CHARS,
   permittedAgencies,
@@ -97,7 +105,46 @@ import {
  * it had 215 characters of prose for a subject whose URL alone was 86. A
  * perfectly obedient model would have produced 302 and failed too.
  */
-export const PROMPT_VERSION = "social-prompt/7";
+/**
+ * v8 makes the first sentence answer "why should someone care?".
+ *
+ * v7 produced copy that was accurate, grounded, correctly timed — and shaped
+ * like a database row:
+ *
+ *     "USCIS Policy Manual update on investigations and examinations for
+ *      naturalization eligibility."
+ *
+ * Every gate passed it. It names its subject, carries no invented figure, states
+ * the right stage. It also gives nobody a reason to read the second half, because
+ * it opens on the DOCUMENT GENRE — "Policy Manual update" — rather than on the
+ * person the document reaches. The version that works opens on the reader:
+ *
+ *     "Applying for U.S. citizenship? USCIS just changed part of its guidance on
+ *      investigations and examinations used in naturalization eligibility
+ *      reviews."
+ *
+ * Same facts, same stage, same grounding. Three things in this file changed to
+ * make the second one the likely output rather than the lucky one:
+ *
+ *   • THE FIRST SENTENCE has its own section in the system prompt, with that
+ *     exact pair as the worked example, and with the four things it must not
+ *     become — clickbait, exaggeration, manufactured urgency, false breaking.
+ *   • AN EDITORIAL TREATMENT is chosen from the facts (reader-value.ts) and
+ *     rendered as its own brief. Five shapes, selected by what the subject IS,
+ *     never rotated: a subject with a date in play is a DEADLINE post, and a
+ *     court ruling is never handed a countdown voice.
+ *   • WHY A READER WOULD CARE is computed deterministically and rendered. Not new
+ *     facts — each line says the fact set's own language covers money, or work,
+ *     or eligibility — so it points the model at the sentence it should be
+ *     writing without giving it anything to fabricate.
+ *
+ * v8 also names the opening CONSTRUCTIONS the account has already leaned on.
+ * Showing recent openings (v3) turned out to be a weak instrument: a model
+ * obliges by changing the nouns and keeping the frame, because the frame is not
+ * what it was shown. dedupe.ts now measures the frame and refuses a third use;
+ * this states it up front so the refusal is followable.
+ */
+export const PROMPT_VERSION = "social-prompt/8";
 
 /**
  * The band X copy should land in.
@@ -193,6 +240,29 @@ So structure every post around as much of this as the facts support, in this ord
 
 Not as four labelled sections — as the shape of the thought. On X you will often fit only the first two, and that is the right two to keep. Drop a beat the fact set cannot support rather than padding it.
 
+THE FIRST SENTENCE ANSWERS "WHY SHOULD SOMEONE CARE?"
+
+Before a stranger reads your second sentence, they have decided whether to. So the first one has to give a real person a reason — something that could affect their status, their money, their eligibility, a deadline they are working to, their job, their travel, or their plans.
+
+That reason has to come from the facts. You are not adding urgency to a dull document; you are finding the person the document already reaches and saying so.
+
+  BAD:    "USCIS Policy Manual update on investigations and examinations for naturalization eligibility."
+          True, and shaped like a database row. It opens on the document's genre. Nobody is in it.
+
+  BETTER: "Applying for U.S. citizenship? USCIS just changed part of its guidance on investigations and examinations used in naturalization eligibility reviews."
+          Same facts, same stage, same grounding — and the first four words tell a reader whether this is theirs.
+
+Ways to open that work, when the facts support them: name the population ("Applying for U.S. citizenship?", "H-1B employers"); lead with the money; lead with the date; lead with what stops being true.
+
+FOUR THINGS THAT SENTENCE MUST NOT BECOME
+
+- Not clickbait. No teasing, no withholding the point to make someone click, no "here's what changed" without saying what.
+- Not exaggeration. If the change is narrow, the sentence is narrow. A modest change described modestly is still worth publishing; a modest change inflated is the one post that costs this account its reader.
+- Not manufactured urgency. If nothing is closing, nothing is closing. A window four months out is "coming", not "closing".
+- Not false breaking news. "Breaking", "just announced" and "today" belong only to something that genuinely landed in the last day or two AND matters. The fact set tells you the age; believe it.
+
+If the honest answer to "why should someone care" is "they probably shouldn't", that is a real answer — write the plainest accurate sentence you can and let the post be small. Do not inflate it to fill the space.
+
 THE COLD READER TEST — THE FIRST THING EVERY POST MUST PASS
 
 Someone sees this post alone, in a timeline, knowing nothing about this account and nothing about the post above it. There is no previous post. There is no thread. They will not click the link before deciding whether it is worth reading.
@@ -251,7 +321,9 @@ Hard rules:
 - A proposed rule is not law. An announcement is not the legal instrument. Say which one you are describing.
 - No emoji, no engagement bait, no threads.
 
-Voice: plain declarative sentences. Not a government notice and not a rewrite of the source document — a person who has read the document telling you the part that matters and when. Specific nouns. No throat-clearing, no build-up, no rhetorical questions. Assume the reader is an informed adult who wants the fact, not a reaction to the fact. Where the subject affects people's status or obligations, the appropriate register is careful, not dramatic — the facts carry the weight without help.
+Voice: plain declarative sentences. Not a government notice and not a rewrite of the source document — a person who has read the document telling you the part that matters and when. Specific nouns. No throat-clearing, no build-up, no rhetorical questions.
+
+ONE EXCEPTION, AND IT IS NARROW: a short opening question that NAMES THE POPULATION is not a rhetorical question, it is an address — "Applying for U.S. citizenship?", "Sponsoring an H-1B worker?". It is allowed, it must be answerable yes or no by the person reading, and the sentence after it must deliver the fact immediately. A question that asks the reader to wonder, guess, or keep reading to find out — "What does this mean for you?", "Did you know?" — is the banned kind, and it stays banned. Most posts should still open declaratively; use the address when identifying the population is genuinely the fastest way to say who this is for. Assume the reader is an informed adult who wants the fact, not a reaction to the fact. Where the subject affects people's status or obligations, the appropriate register is careful, not dramatic — the facts carry the weight without help.
 
 Return both platform variants in one response. They cover the same subject from the same angle but are written for different readers, not truncated from one another.`;
 
@@ -393,9 +465,16 @@ function renderFacts(facts: FactSet): string {
 function renderTiming(facts: FactSet): string {
   const lines = ["TIMING — the part this account exists for:"];
 
-  if (facts.classification === "proposed_rule") {
+  // describesAProposal(), not the classification, so the prompt and the check
+  // read the same rule. An agency newsroom item announcing a proposal is a
+  // proposal, and the model has to be told so before it writes "DHS is adding a
+  // fee" about a rule nobody has made.
+  const proposal = describesAProposal(facts);
+
+  if (proposal) {
     lines.push(
-      "- This is a PROPOSAL. It is not on anyone's calendar. It would have to be finalised before any date attaches to it, and it may never be."
+      "- This is a PROPOSAL. It is not on anyone's calendar. It would have to be finalised before any date attaches to it, and it may never be.",
+      "- Say so in the post, in the source's own terms — proposed, would require, has proposed. A proposal described as a change tells someone to plan around a rule that does not exist, and the post is rejected without the label."
     );
   }
 
@@ -403,7 +482,7 @@ function renderTiming(facts: FactSet): string {
     lines.push(
       `- Takes effect: ${facts.effectiveAt}. Say so — it is the most useful fact you have, and the post is rejected without it.`
     );
-  } else if (facts.subjectKind === "document" && facts.classification !== "proposed_rule") {
+  } else if (facts.subjectKind === "document" && !proposal) {
     // ONLY for documents, and this is the fix for the published methodology post.
     //
     // This line used to be emitted for every subject. Applied to a durable page
@@ -591,14 +670,131 @@ function renderRepairBrief(req: CopyRequest): string {
   return lines.join("\n");
 }
 
+/**
+ * THE EDITORIAL TREATMENT — what SHAPE this post takes.
+ *
+ * Five shapes, and the one that applies is a property of the subject rather than
+ * of the schedule. That distinction is the requirement: a treatment rotated
+ * mechanically produces a countdown voice on a court decision and a "what this
+ * means for you" framing on a page with nothing to require. reader-value.ts picks
+ * it from the facts; this renders the brief.
+ */
+function renderTreatment(treatment: EditorialTreatment, facts: FactSet): string {
+  const lines = [
+    `EDITORIAL TREATMENT: ${TREATMENT_LABEL[treatment]}`,
+    "",
+    TREATMENT_BRIEF[treatment],
+  ];
+
+  // A PROPOSAL TAKES ITS TREATMENT IN THE CONDITIONAL, WHICHEVER TREATMENT IT IS.
+  //
+  // The strongest proposals in the archive — a $100,000 H-1B fee, a public-charge
+  // rescission — are exactly the ones whose facts name a population and a
+  // consequence, so they select WHAT THIS MEANS FOR YOU on their merits. That is
+  // the right shape and the most dangerous one: the same brief that produces
+  // "H-1B employers would pay…" produces "H-1B employers pay…" if nothing
+  // intervenes. So the stage is restated where the shape is set, not only in the
+  // timing block twenty lines further down.
+  if (describesAProposal(facts)) {
+    lines.push(
+      "",
+      "THIS SUBJECT IS A PROPOSAL, so every sentence of the treatment above is conditional. Nothing has changed, nobody owes anything yet, and no date attaches. Write 'would require', 'has proposed', 'if finalised' — never the present tense of the thing being proposed."
+    );
+  }
+
+  lines.push(
+    "",
+    "This shape was chosen from this subject's own facts, not from a rotation. Write it in this shape."
+  );
+
+  return lines.join("\n");
+}
+
+/**
+ * WHY A READER WOULD CARE — derived, not invented.
+ *
+ * Every line here reports that the fact set's own language covers a particular
+ * kind of consequence, which is true because a pattern matched that language.
+ * The model still has to find the specific words in the summary above; nothing
+ * in this block licenses a consequence the source does not state, and the
+ * validator's grounding checks are unchanged.
+ *
+ * It exists because "answer why someone should care" is not actionable against a
+ * fact set the model has to re-read looking for the human angle. This is that
+ * re-reading, done deterministically, once.
+ */
+function renderReaderValue(value: ReaderValue): string {
+  const lines = [
+    "WHY A READER WOULD CARE — computed from the fact set above, strongest first.",
+    "Use these to find your first sentence. They are pointers to what the facts already contain, not extra facts:",
+    "",
+    ...value.hooks.map((h) => `- ${h}`),
+  ];
+
+  if (value.lowValue.length) {
+    lines.push(
+      "",
+      "WEAKNESSES IN THIS SUBJECT, so you do not write around them:",
+      ...value.lowValue.map((l) => `- ${LOW_VALUE_NOTE[l]}`)
+    );
+  }
+
+  return lines.join("\n");
+}
+
+/**
+ * What to do about a weakness, rather than merely that it exists.
+ *
+ * Naming the weakness without a remedy is how a model ends up writing a defensive
+ * sentence about it — which is exactly the published methodology post's failure,
+ * in a new costume.
+ */
+const LOW_VALUE_NOTE: Record<string, string> = {
+  methodology:
+    "This subject is about ImmigrationClock itself. Say the one thing a reader would use, not what the page contains, and keep it short.",
+  product_documentation:
+    "This describes a product behaviour, not a change in the world. Do not give it the weight of a policy change.",
+  routine_dataset_refresh:
+    "This is a scheduled refresh. Nothing has changed for anyone; do not imply it has.",
+  generic_description:
+    "There is no measurement and no change here. The only honest post is the distinction a reader gets wrong — do not fill the space by describing a page.",
+  no_reported_figure:
+    "This resource holds no reported figure today. Do not reach for a number: state the point the page makes, or the distinction a reader most often gets wrong.",
+  minor_procedural:
+    "This is procedural paperwork. If there is a real consequence in the facts, that is the post; if there is not, say the small true thing and stop.",
+};
+
 /** The user turn. Everything volatile lives here, after the stable system prompt. */
 export function buildUserPrompt(req: CopyRequest): string {
   const sections: string[] = [];
 
   sections.push(`SLOT: ${req.slot.id.toUpperCase()}\n${req.slot.purpose}`);
+
+  // Derived when the caller did not supply one, so a fact set alone is still a
+  // complete request — the approval path and the fixtures both rely on that.
+  const treatment =
+    req.treatment ??
+    (req.readerValue ? treatmentForFacts(req.facts, req.angle, req.readerValue) : null);
+  if (treatment) sections.push(renderTreatment(treatment, req.facts));
+
   sections.push(`ANGLE: ${angleBrief(req.angle, req.facts)}`);
+
+  if (req.readerValue) sections.push(renderReaderValue(req.readerValue));
+
   sections.push(`FACT SET:\n${renderFacts(req.facts)}`);
   sections.push(`PLATFORM BRIEFS:\n${platformBrief(req.facts)}`);
+
+  if (req.bannedOpenings?.length) {
+    sections.push(
+      [
+        "OPENING CONSTRUCTIONS THIS ACCOUNT HAS ALREADY USED — these are refused, not discouraged.",
+        "A post beginning with any of these word sequences is rejected and the slot publishes nothing:",
+        `- ${req.bannedOpenings.join("\n- ")}`,
+        "",
+        "Changing the nouns is not enough. Change the construction: start from the population, or the money, or the date, or the thing that stops being true.",
+      ].join("\n")
+    );
+  }
 
   if (req.avoidOpenings.length) {
     sections.push(

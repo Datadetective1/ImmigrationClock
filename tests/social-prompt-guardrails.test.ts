@@ -266,7 +266,7 @@ describe("the X budget is computed from the real URL, not guessed", () => {
   });
 
   it("is recorded as a new prompt version, so ledger rows are traceable", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/7");
+    expect(PROMPT_VERSION).toBe("social-prompt/8");
   });
 });
 

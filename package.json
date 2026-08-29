@@ -2,7 +2,7 @@
   "name": "immigration-clock",
   "version": "1.0.0",
   "private": true,
-  "description": "The Immigration Clock — live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
+  "description": "The Immigration Clock \u2014 live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
   "scripts": {
     "dev": "next dev",
     "refresh": "node scripts/refresh-data.mjs",
@@ -33,6 +33,7 @@
     "social:preflight": "tsx scripts/social-preflight.ts",
     "social:verify-x": "tsx scripts/social-verify-x.ts",
     "social:simulate": "tsx scripts/social-simulate.ts",
+    "social:preview": "tsx scripts/social-preview.ts",
     "social:rotation": "tsx scripts/social-rotation-report.ts"
   },
   "dependencies": {
