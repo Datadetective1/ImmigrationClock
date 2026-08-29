@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-28T21:17:32.060Z",
+  "generatedAt": "2026-08-29T15:23:12.277Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
