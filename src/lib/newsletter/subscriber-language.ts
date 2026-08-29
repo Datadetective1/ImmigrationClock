@@ -24,6 +24,20 @@
 
 import { LOCALES, type Locale } from "./types";
 
+/**
+ * What these functions need from an environment: string lookup, nothing more.
+ *
+ * Deliberately a plain record rather than NodeJS.ProcessEnv. This project's
+ * ProcessEnv requires NODE_ENV, so every caller wanting to resolve one variable
+ * has to construct a whole environment or cast through `unknown` — the existing
+ * tests do the latter nine times. src/lib/social/copy-engine.ts and
+ * src/lib/social/platforms/x.ts already made this choice for the same reason;
+ * this brings the newsletter side in line.
+ *
+ * Strictly wider than ProcessEnv, so every existing caller is unaffected.
+ */
+export type EnvLookup = Record<string, string | undefined>;
+
 /** The contact property that carries the choice. One key, one place. */
 export const LANGUAGE_PROPERTY = "language";
 
@@ -64,7 +78,7 @@ export function segmentSources(locale: Locale): string[] {
  * Null is a real answer, not a failure: it means "recorded, not yet delivered".
  * It must NEVER be substituted with another language's segment.
  */
-export function segmentIdFor(locale: Locale, env: NodeJS.ProcessEnv = process.env): string | null {
+export function segmentIdFor(locale: Locale, env: EnvLookup = process.env): string | null {
   for (const name of segmentSources(locale)) {
     const value = env[name]?.trim();
     if (value) return value;
@@ -73,7 +87,7 @@ export function segmentIdFor(locale: Locale, env: NodeJS.ProcessEnv = process.en
 }
 
 /** Which variable actually supplied the value, for logs an operator must trust. */
-export function segmentSourceName(locale: Locale, env: NodeJS.ProcessEnv = process.env): string | null {
+export function segmentSourceName(locale: Locale, env: EnvLookup = process.env): string | null {
   return segmentSources(locale).find((name) => env[name]?.trim()) ?? null;
 }
 
@@ -91,7 +105,7 @@ export function effectiveLocale(properties: Record<string, unknown> | null | und
 }
 
 /** Every language that currently has somewhere to deliver to. */
-export function configuredSegments(env: NodeJS.ProcessEnv = process.env): Map<Locale, string> {
+export function configuredSegments(env: EnvLookup = process.env): Map<Locale, string> {
   const out = new Map<Locale, string>();
   for (const l of LOCALES) {
     const id = segmentIdFor(l, env);
@@ -129,7 +143,7 @@ export interface SegmentPlan {
  * because two languages could legitimately point at the same segment id during
  * a migration, and joining then leaving the same id would strip the contact.
  */
-export function planSegments(locale: Locale, env: NodeJS.ProcessEnv = process.env): SegmentPlan {
+export function planSegments(locale: Locale, env: EnvLookup = process.env): SegmentPlan {
   const configured = configuredSegments(env);
   const join = configured.get(locale) ?? null;
   const leave = [...configured.entries()]
