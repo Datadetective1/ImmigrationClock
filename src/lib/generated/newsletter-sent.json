@@ -7,6 +7,13 @@
       "audienceId": "84934be1-58ef-41f1-8680-3cd665df4d32",
       "broadcastId": "f168b54d-317f-42c8-a88f-f30e74b868a6",
       "sentAt": "2026-08-08T18:47:22.026Z"
+    },
+    {
+      "issueId": "weekly-en-2026-08-29",
+      "locale": "en",
+      "audienceId": "84934be1-58ef-41f1-8680-3cd665df4d32",
+      "broadcastId": "878fbef3-3b55-4b59-a6b6-abe22f9bd427",
+      "sentAt": "2026-08-29T23:59:29.337Z"
     }
   ]
 }
