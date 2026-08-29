@@ -23,6 +23,7 @@ import { fileURLToPath } from "node:url";
 import { SITE } from "../src/lib/site";
 import { LOCALES, type Cadence, type Locale, type Segment } from "../src/lib/newsletter/types";
 import { STRINGS } from "../src/lib/newsletter/locales";
+import { segmentIdFor } from "../src/lib/newsletter/subscriber-language";
 import { selectIssue } from "../src/lib/newsletter/select";
 import { renderIssue } from "../src/lib/newsletter/render";
 import { validateIssue, validateRendered, mergeResults } from "../src/lib/newsletter/validate";
@@ -60,9 +61,17 @@ function segments(): Segment[] {
     id: `${cadence}-${locale}`,
     locale,
     cadence,
-    // The audience each edition broadcasts to. Absent until configured, which
+    // The segment each edition broadcasts to. Absent until configured, which
     // the send script treats as "build but do not send".
-    audienceId: process.env[`RESEND_AUDIENCE_${locale.toUpperCase()}`] || undefined,
+    //
+    // RESOLVED THROUGH THE SAME FUNCTION THE SENDER USES. This read
+    // RESEND_AUDIENCE_<LOCALE> directly, which is the deprecated alias, so a
+    // migration to the canonical RESEND_SEGMENT_<LOCALE> names would have made
+    // every edition report `audienceConfigured: false` in the manifest while
+    // the sender happily resolved and targeted them. The manifest is what the
+    // operator dashboard and the workflow summary read, so the visible state of
+    // the system would have contradicted its actual behaviour.
+    audienceId: segmentIdFor(locale) ?? undefined,
   }));
 }
 

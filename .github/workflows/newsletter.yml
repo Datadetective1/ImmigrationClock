@@ -325,21 +325,19 @@ jobs:
           COUNT: ${{ steps.preflight.outputs.blocking_count }}
         run: |
           echo "::warning::Delivery withheld — $COUNT blocking issue(s): $REASON"
-          gh issue create \
-            --title "Immigration Pulse: delivery withheld $(date -u +%Y-%m-%d)" \
-            --label "automated,newsletter" \
-            --body "$(printf '%s\n' \
+          bash .github/scripts/alert-issue.sh \
+            "Immigration Pulse: delivery withheld $(date -u +%Y-%m-%d)" \
+            "$(printf '%s\n' \
               "Preflight found **$COUNT blocking problem(s)**, so this week's issue was **built, archived and deployed but not emailed**." \
               "" \
               "**Reason(s):** $REASON" \
               "" \
-              "This usually means a source changed shape — an adapter still returns HTTP 200 while its parser extracts nothing." \
+              "This usually means a source changed shape — an adapter still returns HTTP 200 while its parser extracts nothing. It can also mean a required variable is unset; preflight names which." \
               "" \
               "- Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               "- Preview the issue that was withheld: \`public/newsletter/\`" \
               "" \
-              "Once the source is fixed, re-run this workflow with \`send = true\` to deliver.")" \
-            || echo "::warning::could not open an alert issue"
+              "Once the cause is fixed, re-run this workflow with \`send = true\` to deliver.")"
 
       # Unattended pipelines need someone told when they break. A failed
       # workflow email is easy to miss; an issue persists until it is closed.
@@ -353,13 +351,11 @@ jobs:
             echo ""
             echo "No broadcast was sent. Check the steps above."
           } >> "$GITHUB_STEP_SUMMARY"
-          gh issue create \
-            --title "Immigration Pulse failed $(date -u +%Y-%m-%d)" \
-            --label "automated,newsletter" \
-            --body "$(printf '%s\n' \
+          bash .github/scripts/alert-issue.sh \
+            "Immigration Pulse failed $(date -u +%Y-%m-%d)" \
+            "$(printf '%s\n' \
               "The Immigration Pulse workflow failed. **No newsletter was sent.**" \
               "" \
               "- Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
               "" \
-              "Data refresh retries three times and the send twice, so a single transient outage should not reach here — this is likely a real fault.")" \
-            || echo "::warning::could not open an alert issue"
+              "Data refresh retries three times and the send twice, so a single transient outage should not reach here — this is likely a real fault.")"

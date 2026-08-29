@@ -67,6 +67,7 @@ import {
   type SendLedger,
 } from "../src/lib/newsletter/send-ledger";
 import { segmentEnvVar, segmentIdFor, segmentSourceName } from "../src/lib/newsletter/subscriber-language";
+import { contactPaths, liveContactCount } from "../src/lib/newsletter/resend";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
@@ -184,7 +185,7 @@ async function get(path: string): Promise<{ ok: boolean; status: number; body: s
 async function audienceCount(audienceId: string): Promise<number | null> {
   if (!KEY) return null;
 
-  // SEGMENTS FIRST, audiences second.
+  // SEGMENTS FIRST, audiences second — and the order lives in one place now.
   //
   // Resend renamed Audiences to Segments, and the API reference no longer
   // documents any /audiences/* endpoint — only /segments/* and /contacts/*.
@@ -195,13 +196,17 @@ async function audienceCount(audienceId: string): Promise<number | null> {
   // before an irreversible send. "Unknown" next to a live send prompt is how
   // somebody approves a blast radius they never actually saw. Both paths are
   // read-only GETs, so trying the new one and falling back costs nothing.
-  for (const path of [`/segments/${audienceId}/contacts`, `/audiences/${audienceId}/contacts`]) {
+  //
+  // The list itself moved to src/lib/newsletter/resend.ts because the preflight
+  // needs the same answer and had a different one: it probed /audiences only,
+  // and blocked delivery on the 404 that produced.
+  for (const path of contactPaths(audienceId)) {
     try {
       const res = await get(path);
       if (!res.ok) continue;
-      const parsed = JSON.parse(res.body || "{}") as { data?: Array<{ unsubscribed?: boolean }> };
-      if (!Array.isArray(parsed.data)) continue;
-      return parsed.data.filter((c) => !c.unsubscribed).length;
+      const live = liveContactCount(JSON.parse(res.body || "{}"));
+      if (live === null) continue;
+      return live;
     } catch {
       // Try the next path; a network fault on one is not evidence about the other.
     }

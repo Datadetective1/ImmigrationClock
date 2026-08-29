@@ -25,6 +25,13 @@
 import { readFile, appendFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import {
+  parseLocale,
+  segmentIdFor,
+  segmentSources,
+  type EnvLookup,
+} from "../src/lib/newsletter/subscriber-language";
+import { contactPaths, liveContactCount } from "../src/lib/newsletter/resend";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
@@ -251,11 +258,30 @@ export function assess(
 /* ── Delivery preflight: is Resend actually able to receive this? ─────── */
 
 const RESEND_API = process.env.RESEND_API_BASE || "https://api.resend.com";
-const KEY = process.env.RESEND_API_KEY || "";
 
-async function checkAudiences(locales: string[]): Promise<Verdict> {
+/**
+ * Everything this check reads from the outside world, injected.
+ *
+ * Exported and parameterised because it was previously untestable — it read
+ * `process.env` and the global `fetch` directly, so the only way to exercise it
+ * was to run it against a live Resend account. Two defects lived in here for
+ * weeks as a direct result, and neither could have been caught by a test that
+ * did not exist.
+ */
+export interface DeliveryChecks {
+  /** Plain record, not ProcessEnv — see EnvLookup in subscriber-language.ts. */
+  env: EnvLookup;
+  fetch: typeof globalThis.fetch;
+  apiBase: string;
+}
+
+export async function checkAudiences(
+  locales: string[],
+  deps: DeliveryChecks = { env: process.env, fetch: globalThis.fetch, apiBase: RESEND_API }
+): Promise<Verdict> {
   const blocking: string[] = [];
   const warnings: string[] = [];
+  const key = deps.env.RESEND_API_KEY || "";
 
   // ── Reply-To, fail-safe ─────────────────────────────────────────────
   // Blocking, not a warning. Unset, this variable silently costs the broadcast
@@ -266,58 +292,118 @@ async function checkAudiences(locales: string[]): Promise<Verdict> {
   //
   // The site publishes a contact address; a newsletter that discards replies to
   // it is worse than one that fails to send.
-  if (!process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()) {
+  if (!deps.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()) {
     blocking.push(
       "NEXT_PUBLIC_CONTACT_EMAIL is not set — the broadcast would carry no Reply-To and the " +
         "archived edition would drop its Contact link"
     );
   }
 
-  if (!KEY) {
+  if (!key) {
     // Not a defect at preflight time — send-newsletter.ts fails loudly if a
     // live send is attempted without a key. Reported so the log is honest.
     warnings.push("RESEND_API_KEY not set — audience sizes not verified");
-    return { safe: true, blocking, warnings };
+    return { safe: blocking.length === 0, blocking, warnings };
   }
 
   let reachable = 0;
   for (const locale of locales) {
-    const id = process.env[`RESEND_AUDIENCE_${locale.toUpperCase()}`];
-    if (!id) {
-      warnings.push(`RESEND_AUDIENCE_${locale.toUpperCase()} unset — ${locale} will be skipped`);
+    const parsed = parseLocale(locale);
+    if (!parsed) {
+      warnings.push(`unrecognised locale "${locale}" in the manifest — skipped`);
       continue;
     }
-    try {
-      const res = await fetch(`${RESEND_API}/audiences/${id}/contacts`, {
-        headers: { Authorization: `Bearer ${KEY}` },
-        signal: AbortSignal.timeout(20_000),
-      });
-      if (!res.ok) {
-        blocking.push(`Resend audience ${locale.toUpperCase()} unreachable (HTTP ${res.status})`);
-        continue;
-      }
-      const body = (await res.json()) as { data?: Array<{ unsubscribed?: boolean }> };
-      if (!Array.isArray(body.data)) {
-        blocking.push(`Resend audience ${locale.toUpperCase()} returned an unexpected shape`);
-        continue;
-      }
-      const live = body.data.filter((c) => !c.unsubscribed).length;
-      if (live === 0) warnings.push(`${locale.toUpperCase()} audience has 0 subscribed contacts`);
-      else reachable++;
-    } catch (err) {
-      blocking.push(
-        `Resend audience ${locale.toUpperCase()} check failed: ${(err as Error)?.message ?? err}`
+
+    // THE SAME RESOLVER THE SENDER USES, not a second copy of the rule.
+    //
+    // This read `RESEND_AUDIENCE_<LOCALE>` directly while send-newsletter.ts
+    // resolved through segmentIdFor(), which prefers the canonical
+    // RESEND_SEGMENT_<LOCALE> and falls back to the alias. So a migration to the
+    // canonical names — the migration the whole env-var family exists to
+    // support — would have made this check silently stop verifying anything:
+    // every locale "unset", nothing probed, and a green preflight that had
+    // confirmed nothing at all.
+    const id = segmentIdFor(parsed, deps.env);
+    if (!id) {
+      warnings.push(
+        `${locale} has no segment configured (set ${segmentSources(parsed).join(" or ")}) — it will be skipped`
       );
+      continue;
+    }
+
+    const outcome = await probeContacts(id, key, deps);
+    if (outcome.kind === "unreachable") {
+      blocking.push(`Resend segment ${locale.toUpperCase()} unreachable (${outcome.detail})`);
+      continue;
+    }
+    if (outcome.kind === "unexpected-shape") {
+      blocking.push(`Resend segment ${locale.toUpperCase()} returned an unexpected shape`);
+      continue;
+    }
+    if (outcome.live === 0) {
+      warnings.push(`${locale.toUpperCase()} segment has 0 subscribed contacts`);
+    } else {
+      reachable++;
     }
   }
 
   // Every configured audience failing means the integration is down, not that
   // one language is quiet.
   if (reachable === 0 && blocking.length > 0) {
-    blocking.push("no Resend audience could be verified — treating delivery as unsafe");
+    blocking.push("no Resend segment could be verified — treating delivery as unsafe");
   }
 
   return { safe: blocking.length === 0, blocking, warnings };
+}
+
+type Probe =
+  | { kind: "ok"; live: number }
+  | { kind: "unreachable"; detail: string }
+  | { kind: "unexpected-shape" };
+
+/**
+ * Read a segment's live contact count, trying both API generations.
+ *
+ * THE DEFECT THIS REPLACES WOULD HAVE WITHHELD DELIVERY ON A HEALTHY ACCOUNT.
+ * The old code probed `/audiences/{id}/contacts` and nothing else, and treated
+ * any non-OK response as blocking. Resend has retired that path from its
+ * reference in favour of `/segments/{id}/contacts` — which the SENDER was
+ * already updated for and this file was not. The first week RESEND_API_KEY was
+ * set, every locale would have 404'd, every 404 would have been recorded as
+ * "unreachable", and the run would have concluded "no Resend audience could be
+ * verified — treating delivery as unsafe": an outage reported at Resend on a
+ * week when Resend was fine.
+ *
+ * Both paths come from contactPaths() so the sender and this check cannot drift
+ * apart again. A path is only "unreachable" when EVERY path failed; the detail
+ * carries what each one said, because "HTTP 404" alone would send an operator
+ * looking at the wrong system.
+ */
+async function probeContacts(id: string, key: string, deps: DeliveryChecks): Promise<Probe> {
+  const failures: string[] = [];
+
+  for (const path of contactPaths(id)) {
+    try {
+      const res = await deps.fetch(`${deps.apiBase}${path}`, {
+        headers: { Authorization: `Bearer ${key}` },
+        signal: AbortSignal.timeout(20_000),
+      });
+      if (!res.ok) {
+        failures.push(`${path} → HTTP ${res.status}`);
+        continue;
+      }
+      const live = liveContactCount(await res.json());
+      // A 200 with a body we cannot read is NOT something to retry on the older
+      // path: the endpoint answered, it simply answered something unexpected,
+      // and that is a finding rather than a reason to keep looking.
+      if (live === null) return { kind: "unexpected-shape" };
+      return { kind: "ok", live };
+    } catch (err) {
+      failures.push(`${path} → ${(err as Error)?.message ?? err}`);
+    }
+  }
+
+  return { kind: "unreachable", detail: failures.join("; ") };
 }
 
 async function loadJson<T>(rel: string): Promise<T> {
