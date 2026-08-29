@@ -88,6 +88,7 @@ Every update above links directly to the original government source. We summariz
 Document titles and summaries are quoted exactly as the U.S. government published them, in English. We do not translate official text, because a translated quote is no longer a quote.
 
 Read this issue online: https://immigrationclock.com/newsletter/weekly-en-2026-08-29/en.html
+Contact: contact@immigrationclock.com
 Unsubscribe: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ImmigrationClock reports public U.S. government data. It is not a law firm and does not give legal advice.
