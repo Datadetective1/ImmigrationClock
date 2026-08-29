@@ -43,6 +43,17 @@ import {
   categoryForEvent,
 } from "./categories";
 import { BREAKING_MAX_AGE_DAYS } from "./validate";
+import { assetInsights as insightFor } from "./asset-facts";
+import {
+  READER_VALUE_FLOOR,
+  READER_VALUE_WEIGHT,
+  readerValueForAsset,
+  readerValueForEvent,
+  readerValueForKeyDate,
+  treatmentFor,
+  treatmentForFacts,
+  type ReaderValue,
+} from "./reader-value";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import type { Angle, Candidate, PoolId, SlotDef } from "./types";
 
@@ -107,6 +118,96 @@ export const KNOWLEDGE_LOOKBACK_DAYS = 180;
 
 /** A key date closer than this leads the evening slot ahead of any dataset. */
 export const DEADLINE_URGENT_DAYS = 45;
+
+/**
+ * THE EDITORIAL GATE, APPLIED IN EVERY POOL.
+ *
+ * One question, asked of every candidate before it is allowed to compete:
+ *
+ *     Would a real immigrant, applicant, international student, worker,
+ *     employer, attorney or family member stop scrolling because this could
+ *     affect their status, money, eligibility, deadline, work, travel or plans?
+ *
+ * A candidate that cannot answer it is not demoted, it is REMOVED — and if that
+ * empties a pool, the slot is silent, which is the outcome this whole system was
+ * designed to make cheap. Silence was already a first-class result; this simply
+ * gives it a reason it did not have before.
+ *
+ * Placed in the pools rather than after the merge because that is where the
+ * other quality floors live (NEWS_SCORE_FLOOR, KNOWLEDGE_SCORE_FLOOR) and
+ * because it is the cost control: a candidate dropped here costs nothing, and
+ * every gate that runs before the copy engine is a decision made for free.
+ *
+ * ONE CONSEQUENCE WORTH BEING EXPLICIT ABOUT. The standing pool used to be
+ * incapable of being empty, so the evening slot always had something. It can now
+ * be empty — when the only durable pages left are ones whose post would describe
+ * ImmigrationClock — and on those evenings the slot stays silent. That is the
+ * intended trade: fewer posts, and none of them about us.
+ */
+export function clearsReaderValueFloor(value: ReaderValue): boolean {
+  return value.score >= READER_VALUE_FLOOR;
+}
+
+/**
+ * The durable pages that could be published TODAY, and why.
+ *
+ * TWO GATES, AND THEY ASK DIFFERENT QUESTIONS. assetInsights() asks whether the
+ * page has anything grounded to say at all — a WARN feed that failed to resolve
+ * has nothing, and the asset leaves. This asks the further question: given that
+ * it has something to say, would anyone care that it said it?
+ *
+ * Exported because both the preflight and the tests want the same answer, and
+ * because a rule this consequential should be readable from one place rather
+ * than reconstructed from a pool's side effects.
+ */
+export function publishableAssets(
+  today: string
+): { id: string; value: ReaderValue; publishable: boolean; hasInsight: boolean }[] {
+  return STANDING_ASSETS.map((asset) => {
+    const insight = insightFor(asset.id, today);
+    const value = readerValueForAsset(asset, insight);
+    return {
+      id: asset.id,
+      value,
+      hasInsight: insight !== null,
+      publishable: insight !== null && clearsReaderValueFloor(value),
+    };
+  });
+}
+
+/**
+ * Reader value expressed in the same units as the rest of a candidate's score.
+ *
+ * APPLIED TO EVENTS ONLY, AND THAT IS A DESIGN DECISION RATHER THAN AN OVERSIGHT.
+ *
+ * In the news and knowledge pools it is doing work nothing else does: the
+ * ranking model's dominant term is breadth, its tie-break is recency, and
+ * neither of those can tell a fee change from a procedural amendment that
+ * mentions the same number of people. That is where "consequential beats fresh"
+ * and "money beats paperwork" have to be decided, so reader value is a merit
+ * there.
+ *
+ * In the STANDING pool it is a gate and nothing more, because the ordering
+ * questions are already answered better by other things:
+ *
+ *   • which KIND of page wins is the category tier's job — a dataset outranks an
+ *     explainer by a whole band, and reader value would only re-litigate that.
+ *   • which of two comparable pages goes tonight is the ROTATION's job, and the
+ *     rotation is the only thing in the system that guarantees the catalogue is
+ *     worked through rather than parked on. A merit worth thousands would swamp
+ *     a rotation index worth fifteen, and the evening slot would lead with the
+ *     same page every day until its cooldown fired — which is precisely the
+ *     failure the rotation exists to prevent, arrived at from the other side.
+ *   • which deadline is most urgent is the urgency figure's job. A key date four
+ *     months out must never outrank one that closes next week because its
+ *     programme scores higher on impact.
+ *
+ * So the standing pool takes the floor and keeps its own ordering. Reader value
+ * decides WHETHER a durable page is worth an evening; it does not decide which.
+ */
+export function readerValueMerit(value: ReaderValue): number {
+  return value.score * READER_VALUE_WEIGHT;
+}
 
 /**
  * The coarse subject a reader would name, used for same-day variety.
@@ -180,6 +281,13 @@ export function newsPool(events: IndexedEvent[], today: string): Candidate[] {
   return scoreEvents(eligible, from, today)
     .filter((s) => s.score >= NEWS_SCORE_FLOOR)
     .map((s) => {
+      // The editorial gate runs before the angle work, because a candidate no
+      // reader would care about does not become publishable by having a
+      // treatment available. A fresh notice about an information collection
+      // clears the ranking floor and fails here, which is the point.
+      const value = readerValueForEvent(s.event, today);
+      if (!clearsReaderValueFloor(value)) return null;
+
       const ageDays = daysBetweenIso(s.event.publishedAt, today);
       const angles = newsAnglesFor(s.event, ageDays, today, events);
 
@@ -201,6 +309,7 @@ export function newsPool(events: IndexedEvent[], today: string): Candidate[] {
         angles,
         today,
         true,
+        value,
         ageDays * RECENCY_DECAY_PER_DAY
       );
     })
@@ -274,11 +383,14 @@ export function knowledgePool(events: IndexedEvent[], today: string, slot: SlotD
   return scoreEvents(eligible, oldest, today)
     .filter((s) => s.score >= KNOWLEDGE_SCORE_FLOOR)
     .map((s) => {
+      const value = readerValueForEvent(s.event, today);
+      if (!clearsReaderValueFloor(value)) return null;
+
       const angles = anglesForArchiveEvent(s.event, today, events).filter((a) =>
         slot.angles.includes(a)
       );
       if (angles.length === 0) return null;
-      return toEventCandidate(s.event, s.score, s.explain, "knowledge", angles, today, false);
+      return toEventCandidate(s.event, s.score, s.explain, "knowledge", angles, today, false, value);
     })
     .filter((c): c is Candidate => c !== null);
 }
@@ -376,13 +488,30 @@ export function standingPool(today: string): Candidate[] {
     const angle: Angle =
       info.days <= DEADLINE_URGENT_DAYS ? "deadline_approaching" : "preparation_window";
 
+    const value = readerValueForKeyDate(kd, info.days);
+    if (!clearsReaderValueFloor(value)) continue;
+    const facts = buildKeyDateFacts(kd, info.days, info.dateLabel, today);
+
     out.push({
       subjectId: `keydate:${kd.id}`,
       pool: "standing",
       label: `${kd.title} (${milestone})`,
       category: "deadline",
+      // Urgency alone orders the deadlines. Reader value has already done its
+      // job above, by deciding this window was worth a post at all.
       score: CATEGORY_TIER.deadline + merit,
-      scoreExplain: `${CATEGORY_LABEL.deadline} (tier ${CATEGORY_TIER.deadline}) + ${merit}: days=${info.days} urgent=${info.days <= DEADLINE_URGENT_DAYS}`,
+      scoreExplain:
+        `${CATEGORY_LABEL.deadline} (tier ${CATEGORY_TIER.deadline}) + ${merit}: days=${info.days} ` +
+        `urgent=${info.days <= DEADLINE_URGENT_DAYS}; ${value.reason}`,
+      readerValue: value,
+      treatment: treatmentFor({
+        subjectKind: "recurring_date",
+        angle,
+        ageDays: null,
+        hasFutureEffectiveDate: false,
+        hasFigures: facts.figures.length > 0,
+        value,
+      }),
       supportedAngles: [angle],
       topicKey: topicKeyFor({ subjectId: `keydate:${kd.id}`, keyDateCategory: kd.category }),
       topicFamily: topicFamilyFor({
@@ -396,7 +525,7 @@ export function standingPool(today: string): Candidate[] {
       deepLink: "/key-dates",
       sourceUrl: kd.sourceUrl,
       event: null,
-      facts: buildKeyDateFacts(kd, info.days, info.dateLabel, today),
+      facts,
       visual: buildKeyDateVisual(kd, info.days, angle),
     });
   }
@@ -406,13 +535,29 @@ export function standingPool(today: string): Candidate[] {
   // matters: rotating over the full catalogue and dropping members later would
   // leave holes on fixed days, so the same weekday would go quiet every week for
   // no reason a reader could see.
-  const usable = STANDING_ASSETS.map((asset) => ({ asset, facts: buildAssetFacts(asset, today) }))
-    .filter((a): a is { asset: (typeof STANDING_ASSETS)[number]; facts: NonNullable<ReturnType<typeof buildAssetFacts>> } => a.facts !== null);
+  //
+  // The reader-value floor is applied HERE, in the same pass, for the same
+  // reason: an asset that fails it must not occupy a rotation position it will
+  // never use. Filtering after the rotation was computed would leave a hole on a
+  // fixed weekday, and the same evening would go quiet every week for a reason no
+  // reader could see.
+  const usable = STANDING_ASSETS.map((asset) => ({
+    asset,
+    facts: buildAssetFacts(asset, today),
+    value: readerValueForAsset(asset, insightFor(asset.id, today)),
+  }))
+    .filter(
+      (a): a is {
+        asset: (typeof STANDING_ASSETS)[number];
+        facts: NonNullable<ReturnType<typeof buildAssetFacts>>;
+        value: ReaderValue;
+      } => a.facts !== null && clearsReaderValueFloor(a.value)
+    );
 
   // Deterministic rotation: the day number picks the starting offset, so the
   // catalogue advances one step a day and every asset comes round.
   const dayNumber = Math.floor(Date.parse(`${today}T00:00:00Z`) / 86_400_000);
-  usable.forEach(({ asset, facts }, i) => {
+  usable.forEach(({ asset, facts, value }, i) => {
     const position = (i - dayNumber) % usable.length;
     const normalized = (position + usable.length) % usable.length;
 
@@ -435,8 +580,24 @@ export function standingPool(today: string): Candidate[] {
       pool: "standing",
       label: asset.label,
       category,
+      // The rotation index survives untouched, still doing its one honest job:
+      // ordering PEERS, so the catalogue is worked through rather than parked
+      // on. What changed is who its peers are — the floor above removed the
+      // pages whose post could only have been about ImmigrationClock, so the
+      // calendar now chooses among pages that all deserve an evening.
       score: CATEGORY_TIER[category] + rotationMerit,
-      scoreExplain: `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${rotationMerit}: rotation position=${normalized}`,
+      scoreExplain:
+        `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${rotationMerit}: ` +
+        `rotation position=${normalized}; ${value.reason}`,
+      readerValue: value,
+      treatment: treatmentFor({
+        subjectKind: "resource",
+        angle: "data_insight",
+        ageDays: null,
+        hasFutureEffectiveDate: false,
+        hasFigures: facts.figures.length > 0,
+        value,
+      }),
       supportedAngles: ["data_insight"],
       topicKey: topicKeyFor({ subjectId: `asset:${asset.id}`, assetTags: asset.tags }),
       topicFamily: topicFamilyFor({
@@ -516,7 +677,7 @@ export function candidatesFor(
 
       const existing = seen.get(candidate.subjectId);
       if (existing && existing.score >= candidate.score) continue;
-      seen.set(candidate.subjectId, { ...candidate, supportedAngles: angles });
+      seen.set(candidate.subjectId, withAngles(candidate, angles));
     }
   }
 
@@ -531,9 +692,27 @@ function withSlotAngles(candidates: Candidate[], slot: SlotDef): Candidate[] {
   for (const candidate of candidates) {
     const angles = candidate.supportedAngles.filter((a) => slot.angles.includes(a));
     if (angles.length === 0) continue;
-    out.push({ ...candidate, supportedAngles: angles });
+    out.push(withAngles(candidate, angles));
   }
   return out;
+}
+
+/**
+ * Narrow a candidate's angles AND re-derive its editorial shape.
+ *
+ * Both halves matter. A candidate built in the news pool leads with
+ * `breaking_change`; the same candidate reaching the evening slot as a fallback
+ * may only keep `what_it_requires`, and the post it should write is a different
+ * shape. Carrying the original treatment through would apply a "something
+ * changed" framing to a post the slot is running as "what this obliges" — the
+ * kind of mismatch that reads as a template rather than as editing.
+ */
+function withAngles(candidate: Candidate, angles: Angle[]): Candidate {
+  return {
+    ...candidate,
+    supportedAngles: angles,
+    treatment: treatmentForFacts(candidate.facts, angles[0], candidate.readerValue),
+  };
 }
 
 function poolCandidates(
@@ -560,6 +739,8 @@ function toEventCandidate(
   angles: Angle[],
   today: string,
   fresh: boolean,
+  /** Already computed by the caller, which also applied the floor. */
+  value: ReaderValue,
   /** Recency decay, already computed. News pool only; 0 everywhere else. */
   recencyPenalty = 0
 ): Candidate | null {
@@ -579,23 +760,41 @@ function toEventCandidate(
     fresh,
     obligationLevel: obligationLevel(event),
     hasUpcomingEffectiveDate,
+    readerValue: value.score,
   });
+
+  const facts = buildEventFacts(event, deepLink, today);
 
   return {
     subjectId: `event:${event.id}`,
     pool,
     label: event.title,
     category,
-    // Tier first, merits second, recency third. The ranking model's output is
-    // preserved intact as the within-tier ordering, so an improvement to it
-    // still improves social selection — it simply can no longer decide a
-    // question of kind. The recency term is bounded well below one breadth step
-    // (see RECENCY_DECAY_PER_DAY), so it orders comparable items and never
-    // overturns a more consequential one.
-    score: CATEGORY_TIER[category] + score - recencyPenalty,
+    // Tier first, then reader value and the ranking model, then recency last.
+    //
+    // The ranking model's output is preserved intact — an improvement to it
+    // still improves social selection. What has changed is that it is no longer
+    // the only merit: reader value is worth 50 per point, so a 16-point gap
+    // outranks any recency difference the pool can produce and a 20-point gap
+    // outranks a whole breadth step. Those are the two arguments the old
+    // ordering got wrong, and both now resolve toward the reader.
+    //
+    // The sum of both merits is still bounded below TIER_STEP, so a question of
+    // KIND is still settled one level up and nothing here can overturn it.
+    score: CATEGORY_TIER[category] + score + readerValueMerit(value) - recencyPenalty,
     scoreExplain:
       `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${score}` +
-      `${recencyPenalty ? ` − ${recencyPenalty} recency` : ""}: ${explain}`,
+      ` + ${readerValueMerit(value)} reader value (${value.score}/100)` +
+      `${recencyPenalty ? ` − ${recencyPenalty} recency` : ""}: ${explain}; ${value.reason}`,
+    readerValue: value,
+    treatment: treatmentFor({
+      subjectKind: "document",
+      angle: angles[0],
+      ageDays: daysBetweenIso(event.publishedAt, today),
+      hasFutureEffectiveDate: hasUpcomingEffectiveDate,
+      hasFigures: facts.figures.length > 0,
+      value,
+    }),
     supportedAngles: angles,
     topicKey: topicKeyFor({ subjectId: `event:${event.id}`, event }),
     topicFamily: topicFamilyFor({
@@ -610,7 +809,7 @@ function toEventCandidate(
     deepLink,
     sourceUrl: event.sourceUrl,
     event,
-    facts: buildEventFacts(event, deepLink, today),
+    facts,
     // The strongest angle the candidate supports decides the card, because that
     // is the angle chooseCandidate() prefers.
     visual: buildEventVisual(event, angles[0], SOURCE_BY_KEY[event.sourceKey]?.name ?? event.sourceKey),

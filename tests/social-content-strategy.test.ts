@@ -48,6 +48,8 @@ import {
   type ContentCategory,
 } from "@/lib/social/categories";
 import { ASSET_BY_ID } from "@/lib/social/links";
+import { assetInsights } from "@/lib/social/asset-facts";
+import { READER_VALUE_FLOOR, readerValueForAsset } from "@/lib/social/reader-value";
 import { EMPTY_POST_LEDGER, appendRecords, type PostLedger, type PostRecord } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
 import type { FactSet } from "@/lib/social/types";
@@ -99,6 +101,9 @@ function record(over: Partial<PostRecord> = {}): PostRecord {
     topicKey: "topic:other",
     topicFamily: "other",
     category: "development",
+    readerValue: null,
+    readerValueExplain: null,
+    treatment: null,
     adjustedScore: 70_000,
     rotationExplain: null,
     inputTokens: null,
@@ -392,26 +397,54 @@ describe("5 — a page about ImmigrationClock never displaces a development", ()
     expect(candidates.some((c) => c.subjectId.startsWith("event:"))).toBe(true);
   });
 
-  it("ranks that development above every standing page, including methodology", () => {
+  it("ranks that development above every standing page that survives the floor", () => {
     const evening = SLOT_BY_ID.get("evening")!;
     const candidates = candidatesFor(evening, [event()], TODAY);
 
     const development = candidates.find((c) => c.subjectId.startsWith("event:"))!;
-    const methodology = candidates.find((c) => c.subjectId === "asset:methodology")!;
-
     expect(development).toBeDefined();
-    expect(methodology).toBeDefined();
-    expect(development.score).toBeGreaterThan(methodology.score);
+
+    for (const c of candidates.filter((x) => x.subjectId.startsWith("asset:"))) {
+      expect(development.score, c.subjectId).toBeGreaterThan(c.score);
+    }
     // And it wins the slot outright, not merely on a tie-break.
     expect(candidates[0].subjectId).toBe(development.subjectId);
   });
 
-  it("still lets the methodology page post when nothing has happened", () => {
-    // The point is not to silence it. An account that never explains how it
-    // knows things is also failing; it simply must not outrank the news.
+  it("NO LONGER lets the methodology page post at all, on any evening", () => {
+    // THE RULE CHANGED HERE, DELIBERATELY, AND THIS TEST IS THE RECORD OF IT.
+    //
+    // The old rule was "methodology may post, it simply must not outrank news",
+    // on the reasoning that an account which never explains how it knows things
+    // is also failing. That reasoning is sound about the SITE and wrong about
+    // the FEED: /methodology is one click from every post, and a timeline is the
+    // worst place to explain provenance to somebody who has not yet decided the
+    // account is worth reading.
+    //
+    // Reader value settles it mechanically rather than by taste. A page whose
+    // subject is ImmigrationClock scores 0/100 — no reader-impact signal, and a
+    // 60-point penalty for being about us — so it cannot clear the floor however
+    // quiet the archive is. The evening slot goes silent instead, which is a
+    // first-class outcome this system was built to make cheap.
     const evening = SLOT_BY_ID.get("evening")!;
     const candidates = candidatesFor(evening, [], TODAY);
-    expect(candidates.some((c) => c.subjectId === "asset:methodology")).toBe(true);
+    expect(candidates.some((c) => c.subjectId === "asset:methodology")).toBe(false);
+
+    for (const id of ["methodology", "sources", "following"]) {
+      const value = readerValueForAsset(ASSET_BY_ID.get(id)!, assetInsights(id, TODAY));
+      expect(value.score, id).toBeLessThan(READER_VALUE_FLOOR);
+      expect(value.lowValue.join(" "), id).toMatch(/methodology|product_documentation/);
+    }
+  });
+
+  it("keeps the containers out too — a way of finding things is not a subject", () => {
+    // The change feed and the timeline are indexes. What they hold is valuable;
+    // a post ABOUT them is a generic dataset description, which is the shape
+    // this account was asked to stop publishing.
+    const inPool = standingPool(TODAY).map((c) => c.subjectId);
+    for (const id of ["what-changed", "timeline"]) {
+      expect(inPool, id).not.toContain(`asset:${id}`);
+    }
   });
 
   it("does not let a rotation index decide anything across kinds any more", () => {

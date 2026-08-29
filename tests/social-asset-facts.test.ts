@@ -21,7 +21,7 @@ import { describe, it, expect } from "vitest";
 import { assetInsights, assetsWithInsight } from "@/lib/social/asset-facts";
 import { buildAssetFacts } from "@/lib/social/facts";
 import { STANDING_ASSETS, ASSET_BY_ID, absolute } from "@/lib/social/links";
-import { standingPool } from "@/lib/social/select";
+import { publishableAssets, standingPool } from "@/lib/social/select";
 import { buildUserPrompt } from "@/lib/social/prompt";
 import { SLOTS } from "@/lib/social/slots";
 import { allowedDigitRuns, validatePost } from "@/lib/social/validate";
@@ -309,15 +309,28 @@ describe("the prompt tells the engine which kind of evening this is", () => {
 });
 
 describe("the standing rotation", () => {
-  it("carries only assets that have something to say", () => {
-    const ids = assetsWithInsight(
-      STANDING_ASSETS.map((a) => a.id),
-      TODAY
+  it("carries only assets that have something to say AND someone to say it to", () => {
+    // TWO GATES NOW, ASKING DIFFERENT QUESTIONS.
+    //
+    // assetsWithInsight() asks whether the page has anything grounded to say
+    // today — a WARN feed that failed to resolve has nothing, and the asset
+    // leaves. The reader-value floor asks the further question: given that it
+    // has something to say, would anyone care that it said it? A page whose
+    // only honest post is "here is how we label our own figures" clears the
+    // first gate and fails the second.
+    const publishable = publishableAssets(TODAY);
+    const expected = new Set(publishable.filter((a) => a.publishable).map((a) => a.id));
+
+    const inPool = new Set(
+      standingPool(TODAY)
+        .filter((c) => c.subjectId.startsWith("asset:"))
+        .map((c) => c.subjectId.slice("asset:".length))
     );
-    const inPool = standingPool(TODAY)
-      .filter((c) => c.subjectId.startsWith("asset:"))
-      .map((c) => c.subjectId.slice("asset:".length));
-    expect(new Set(inPool)).toEqual(new Set(ids));
+    expect(inPool).toEqual(expected);
+
+    // And the second gate is doing real work rather than being a no-op: some
+    // asset has an insight and is still not worth an evening.
+    expect(publishable.some((a) => a.hasInsight && !a.publishable)).toBe(true);
   });
 
   it("gives every rotating asset a fact set", () => {
@@ -337,7 +350,7 @@ describe("the standing rotation", () => {
     //
     // The property that matters is unchanged: no asset is stranded. Over one
     // full turn every asset leads ITS OWN category exactly once.
-    const usable = assetsWithInsight(STANDING_ASSETS.map((a) => a.id), TODAY).length;
+    const usable = publishableAssets(TODAY).filter((a) => a.publishable).length;
     const leaders = new Set<string>();
 
     for (let d = 0; d < usable; d++) {
@@ -357,15 +370,13 @@ describe("the standing rotation", () => {
     expect(leaders.size).toBe(usable);
   });
 
-  it("never lets a page about ImmigrationClock outrank a dataset", () => {
-    // The methodology post in one line. These two were one point apart.
+  it("never offers a page about ImmigrationClock at all", () => {
+    // The methodology post in one line. These two used to be one point apart;
+    // then a tier put six bands between them; now the self-referential page is
+    // not in the pool to be ranked, because there is no evening quiet enough to
+    // make a post about our own labelling practice worth a reader's attention.
     const pool = standingPool(TODAY).filter((c) => c.subjectId.startsWith("asset:"));
-    const worstData = Math.min(
-      ...pool.filter((c) => c.category === "data_insight").map((c) => c.score)
-    );
-    const bestSelf = Math.max(
-      ...pool.filter((c) => c.category === "methodology").map((c) => c.score)
-    );
-    expect(bestSelf).toBeLessThan(worstData);
+    expect(pool.filter((c) => c.category === "methodology")).toEqual([]);
+    expect(pool.length).toBeGreaterThan(0);
   });
 });

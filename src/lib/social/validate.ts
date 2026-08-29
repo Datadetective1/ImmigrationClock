@@ -83,7 +83,21 @@ import type { FactSet, Platform, ValidationResult } from "./types";
  * for a four-day-old rule and nothing about choosing it stops the sentence
  * starting "USCIS just announced".
  */
-export const VALIDATOR_VERSION = "social-validator/5";
+/**
+ * v6 widens the proposal test from a classification to a question — see
+ * describesAProposal(). Nothing was relaxed: an NPRM is still a proposal, and
+ * two newsroom items that describe a rule nobody has made yet now get the same
+ * refusals an NPRM does.
+ */
+/**
+ * v7 adds the COLD READER ADDRESS check, which exists because v8 of the prompt
+ * permits an opening question that names the population. That permission is the
+ * only new CLAIM the editorial change introduces — "Applying for U.S.
+ * citizenship?" on a post about H-1B fees passes every other check here and is
+ * still false to the reader most likely to act on it — so the address is checked
+ * against the same anchors the rest of the opening is judged by.
+ */
+export const VALIDATOR_VERSION = "social-validator/7";
 
 // -----------------------------------------------------------------------------
 // PLATFORM SHAPE
@@ -343,10 +357,72 @@ export function subjectAnchors(facts: FactSet): string[] {
   return [...out];
 }
 
+/**
+ * The opening question, when a post opens with one.
+ *
+ * Deliberately narrow: only a question that is the FIRST thing in the post, and
+ * only within the opening window. A question later in a post is not an address —
+ * "The rule changes what counts as a public charge. Who does that reach?" is a
+ * rhetorical move the voice rules handle, not a claim about the audience.
+ *
+ * Returns "" when the post does not open with one, and the caller then checks
+ * nothing — an address that does not exist cannot be wrong.
+ */
+export function openingQuestion(text: string): string {
+  const opening = stripUrls(text).trim().slice(0, OPENING_CHARS);
+
+  // "U.S." is an abbreviation, not a sentence break, and it is in the single
+  // most likely address this account will ever write — "Applying for U.S.
+  // citizenship?". Masking the dot with a same-length placeholder keeps the
+  // offsets valid so the span can be sliced out of the ORIGINAL text.
+  const masked = opening.replace(/\b([A-Za-z])\./g, "$1 ");
+  const match = /^([^.!?\n]{3,80}\?)/.exec(masked);
+  return match ? opening.slice(0, match[1].length).trim() : "";
+}
+
 /** Does the opening actually name something from the fact set? */
 export function opensWithSubject(text: string, facts: FactSet): boolean {
   const opening = stripUrls(text).slice(0, OPENING_CHARS).toLowerCase();
   return subjectAnchors(facts).some((anchor) => opening.includes(anchor));
+}
+
+/**
+ * IS THIS SUBJECT A PROPOSAL, WHATEVER THE ARCHIVE FILED IT AS?
+ *
+ * The classification `proposed_rule` belongs to a Federal Register NPRM. It is
+ * not the only way a proposal reaches this account: a USCIS or DHS newsroom item
+ * announcing one is classified `announcement`, and two are sitting in the
+ * archive right now —
+ *
+ *     "DHS Proposes Additional H-1B Fee"
+ *     "DHS Proposes Rule to Prioritize Americans' Safety by Strengthening
+ *      Screening of Asylum Seekers"
+ *
+ * — both of which describe a rule that does not exist yet, and neither of which
+ * was getting the stage protection an NPRM gets. A post reading "DHS is adding a
+ * fee to H-1B petitions" would have passed every check, and would have told
+ * people to plan around a rule nobody has made. That is the single most damaging
+ * error this account can make, and it was one classification field away.
+ *
+ * DELIBERATELY NARROW, ON TWO CONDITIONS THAT MUST BOTH HOLD:
+ *
+ *   • The propose-language is in the TITLE, not the summary. A final rule's
+ *     summary routinely refers back to the proposed rule it came from — "as
+ *     described in the proposed rule published in March" — and reading that as a
+ *     stage would relabel rules that are actually in force. Both archive matches
+ *     for summary-only propose-language are final rules with effective dates.
+ *   • The archive records NO effective date. A dated instrument is not a
+ *     proposal, whatever its title says.
+ *
+ * Nothing about `proposed_rule` changes: an NPRM is a proposal by
+ * classification, before this function is consulted.
+ */
+const PROPOSE_LANGUAGE = /\bpropos(e|es|ed|al|als|ing)\b/i;
+
+export function describesAProposal(facts: FactSet): boolean {
+  if (facts.classification === "proposed_rule") return true;
+  if (facts.effectiveAt) return false;
+  return PROPOSE_LANGUAGE.test(facts.title);
 }
 
 /**
@@ -536,6 +612,7 @@ export type FailureCode =
   | "banned-construction"
   | "cold-reader-opening"
   | "cold-reader-subject"
+  | "cold-reader-address"
   | "age-framing"
   | "proposed-not-labelled"
   | "proposed-in-effect"
@@ -706,6 +783,32 @@ export function validatePost(
     }
   }
 
+  // --- an address must be addressed to the right people ----------------------
+  //
+  // The prompt now permits one opening question, when it NAMES THE POPULATION —
+  // "Applying for U.S. citizenship?", "Sponsoring an H-1B worker?" — because
+  // that is the fastest honest way to tell a reader whether a post is theirs.
+  //
+  // It is also a claim, and the only new kind of claim this change introduces.
+  // "Applying for U.S. citizenship? DHS is raising H-1B fees…" passes every
+  // other check here: the subject IS named within the opening window, the
+  // figures are grounded, the attribution is supported. It is still false about
+  // who the post is for, and it is false to the reader most likely to act on it.
+  //
+  // So the question itself has to name something from the fact set, by exactly
+  // the anchor test the rest of the opening is judged by. Semantic, not
+  // mechanical: an address aimed at the wrong people is not fixed by making the
+  // sentence shorter.
+  checked.push("cold-reader-address");
+  const address = openingQuestion(trimmed);
+  if (address && !subjectAnchors(facts).some((a) => address.toLowerCase().includes(a))) {
+    add(
+      "cold-reader-address",
+      `Opens by addressing a population — "${address}" — that this fact set does not name. ` +
+        `An address is a claim about who the post is for; use only the categories, countries or visa types the facts carry.`
+    );
+  }
+
   checked.push("cold-reader-subject");
   if (!opensWithSubject(trimmed, facts)) {
     add(
@@ -745,9 +848,16 @@ export function validatePost(
   }
 
   // --- proposed rules must not sound like law --------------------------------
-  if (facts.classification === "proposed_rule") {
+  //
+  // Keyed on describesAProposal() rather than on the classification alone, so an
+  // agency newsroom item announcing a proposal gets the same stage protection a
+  // Federal Register NPRM gets. See that function for why the test is narrow.
+  if (describesAProposal(facts)) {
     checked.push("proposed-rule-framing");
-    if (!/\bproposed?\b/i.test(trimmed)) {
+    // "proposes" as well as "proposed": the natural verb for a newsroom item is
+    // the present tense, and the older pattern would have rejected the most
+    // likely correct sentence a model could write about one.
+    if (!PROPOSE_LANGUAGE.test(trimmed)) {
       add(
         "proposed-not-labelled",
         "This is a proposed rule but the post never says so — a reader would take it as being in force"
@@ -785,7 +895,7 @@ export function validatePost(
     if (/\b(takes?|taking) effect (on|from)\b/i.test(trimmed)) {
       add("invented-effective-date", "States an effective date, but the archive records none for this item");
     }
-  } else if (facts.effectiveAt > facts.today && facts.classification !== "proposed_rule") {
+  } else if (facts.effectiveAt > facts.today && !describesAProposal(facts)) {
     // THE DATE IS THE POINT. A post about a change that starts on a known future
     // date, which does not tell the reader that date, has dropped the single
     // most useful fact it was given — the one thing this account exists to

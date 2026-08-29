@@ -22,6 +22,7 @@ import type { IndexedEvent } from "@/lib/event-index";
 import type { VisualSpec } from "./visuals";
 import type { TopicFamily } from "./rotation";
 import type { ContentCategory } from "./categories";
+import type { EditorialTreatment, ReaderValue } from "./reader-value";
 
 // -----------------------------------------------------------------------------
 // SLOTS
@@ -195,6 +196,23 @@ export interface Candidate {
   score: number;
   /** Every factor, so a selection can be explained in the ledger. */
   scoreExplain: string;
+  /**
+   * WOULD A REAL PERSON STOP SCROLLING FOR THIS? — 0-100, plus the signals that
+   * produced it. See reader-value.ts.
+   *
+   * The one question none of the other rankings asked. It decides three things:
+   * whether the candidate enters the pool at all (the floor), whether a fresh
+   * item earns the top category band, and where it sits among its peers.
+   */
+  readerValue: ReaderValue;
+  /**
+   * The shape this post should take, chosen from the facts.
+   *
+   * Deliberately NOT rotated. A subject with a date in play is a deadline post
+   * whether or not the feed used that shape yesterday; rotating treatments is
+   * how a countdown voice ends up on a court decision.
+   */
+  treatment: EditorialTreatment;
   /** The angles this candidate genuinely supports, given its own data. */
   supportedAngles: Angle[];
   /**
@@ -412,8 +430,33 @@ export interface CopyRequest {
   facts: FactSet;
   slot: SlotDef;
   angle: Angle;
+  /**
+   * The editorial shape this post should take, chosen from the facts by
+   * treatmentFor(). Optional so a caller holding only a fact set — the approval
+   * path, a fixture — still type-checks; the prompt derives one when it is absent.
+   */
+  treatment?: EditorialTreatment;
+  /**
+   * Why a reader would care, derived deterministically from the fact set.
+   *
+   * Not new information: every entry says "the fact set's own language covers
+   * X", which is true because a pattern matched that language. It gives the
+   * model somewhere to look for its first sentence instead of leading with the
+   * document's genre.
+   */
+  readerValue?: ReaderValue;
   /** Openings from recent posts. A nudge for variety; dedupe.ts is the guarantee. */
   avoidOpenings: string[];
+  /**
+   * Opening constructions this account has already leaned on, as an explicit
+   * refusal rather than a hint.
+   *
+   * `avoidOpenings` shows whole sentences and asks the model not to echo them,
+   * which it mostly honours by changing the nouns and keeping the shape. These
+   * are the SHAPES — the first few words, normalised — that recur across recent
+   * posts, and checkOpeningVariety() rejects a post that uses one again.
+   */
+  bannedOpenings?: string[];
   /** Present on a repair: exactly why the first attempt was rejected. */
   validatorFeedback?: string[];
   /**
@@ -491,6 +534,12 @@ export interface SlotOutcome {
   topicFamily: string | null;
   /** Content category, recorded so the mix can be measured over a fortnight. */
   category: ContentCategory | null;
+  /** 0-100 reader value, recorded so a silent slot can be explained later. */
+  readerValue: number | null;
+  /** Which impact signals fired, and which weaknesses. Free text, for auditing. */
+  readerValueExplain: string | null;
+  /** The editorial shape used. Recorded so treatment variety can be measured. */
+  treatment: EditorialTreatment | null;
   /** Base score minus the repetition penalties. What actually won the slot. */
   adjustedScore: number | null;
   /** Which penalties applied, so a selection can be explained later. */

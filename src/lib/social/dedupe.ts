@@ -340,6 +340,204 @@ export function checkWording(
   return { ok: true, reason: "distinct", maxSimilarity: max, nearest };
 }
 
+// -----------------------------------------------------------------------------
+// GATE 2b — OPENING CONSTRUCTIONS
+//
+// checkWording() compares whole posts and catches a post that IS another post.
+// It does not catch the subtler thing a feed does when it is written to a
+// template: forty distinct posts, every one of them opening "USCIS has updated
+// its guidance on…". Trigram similarity across those two sentences is low —
+// they share three words out of thirty — so the similarity gate passes each of
+// them individually while the feed reads as one voice with a stuck needle.
+//
+// What repeats in that failure is the SHAPE of the opening, not its content. So
+// the shape is what is measured: the first few words, normalised down to the
+// construction and away from the subject.
+//
+// A NUDGE IN THE PROMPT WAS NOT ENOUGH, WHICH IS WHY THIS IS A GATE. The prompt
+// has always shown recent openings and asked the model not to echo them; a model
+// obliges by changing the nouns and keeping the frame, because the frame is not
+// what it was shown. Naming the frame — and refusing it — is the difference.
+// -----------------------------------------------------------------------------
+
+/**
+ * How many words of an opening make up its "construction".
+ *
+ * Three. Two is too coarse ("USCIS has" would collide across genuinely different
+ * sentences) and four is too fine — "USCIS has updated its" and "USCIS has
+ * updated the" are the same opening to a reader and would slip past a
+ * four-word key.
+ */
+export const OPENING_WORDS = 3;
+
+/** How many recent published posts the construction check looks back over. */
+export const OPENING_HISTORY = 12;
+
+/**
+ * How many times a construction may appear in that window before it is refused.
+ *
+ * Two, not one. One reuse across a fortnight is a coincidence and a feed that
+ * banned it would start writing around its own rule, which produces worse
+ * sentences than the repetition did. The third use is a pattern.
+ */
+export const OPENING_REPEAT_LIMIT = 2;
+
+/**
+ * The construction a post opens with: its first three words, normalised toward
+ * the shape and away from the wording.
+ *
+ * NOT normalizeForComparison(), AND THE DIFFERENCE IS LOAD-BEARING. That
+ * function deletes every digit, which is right for whole-post similarity — two
+ * treatments of one rule quote the same dates, and leaving those in would make
+ * them look alike for reasons that have nothing to do with how they read.
+ * Applied to an OPENING the same rule is actively wrong, because in this domain
+ * the digit is frequently the subject:
+ *
+ *     "H-1B/L-1 visas: the biometric entry-exit fee…"   ->   "h b l"
+ *     "H-2B/L-1 visas: the seasonal worker cap…"        ->   "h b l"
+ *
+ * Two posts about different visa classes, keyed identically, and the second one
+ * refused for repeating an opening it does not share. So designations survive
+ * here: hyphens stay, digits stay, and everything else that is not a letter or a
+ * digit becomes a space.
+ *
+ *     "H-1B/L-1 visas: …"   ->   "h-1b l-1 visas"
+ *     "H-2B/L-1 visas: …"   ->   "h-2b l-1 visas"
+ *
+ * Returns "" for a post with nothing to key on, and every caller treats "" as
+ * "do not enforce" — failing open, on the same reasoning as
+ * checkSameDayVariety(): a little sameness is cheaper than a slot silenced by
+ * missing data.
+ */
+export function openingConstruction(text: string): string {
+  const words = text
+    .toLowerCase()
+    .replace(/https?:\/\/\S+/g, " ")
+    .replace(/#\w+/g, " ")
+    .replace(/[^a-z0-9-]/g, " ")
+    // A hyphen stranded by punctuation is not part of a designation.
+    .replace(/(^|\s)-+/g, " ")
+    .replace(/-+(\s|$)/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean);
+
+  if (words.length < OPENING_WORDS) return "";
+  return words.slice(0, OPENING_WORDS).join(" ");
+}
+
+/** The real first words of a post, for showing a human — or a model — the shape. */
+export function openingPhrase(text: string, chars = 60): string {
+  const clean = text.replace(/https?:\/\/\S+/g, " ").replace(/\s+/g, " ").trim();
+  return clean.length > chars ? `${clean.slice(0, chars)}…` : clean;
+}
+
+/** How often each opening construction appears in the recent window. */
+export function openingConstructionCounts(
+  ledger: PostLedger,
+  platform: Platform,
+  limit = OPENING_HISTORY
+): Map<string, { count: number; example: string }> {
+  const counts = new Map<string, { count: number; example: string }>();
+  for (const text of recentTexts(ledger, platform, limit)) {
+    const key = openingConstruction(text);
+    if (!key) continue;
+    const seen = counts.get(key);
+    // recentTexts() is newest-first, so keeping the FIRST example shows the most
+    // recent use of the construction rather than an arbitrary one.
+    counts.set(key, {
+      count: (seen?.count ?? 0) + 1,
+      example: seen?.example ?? openingPhrase(text),
+    });
+  }
+  return counts;
+}
+
+/**
+ * Constructions the account has already leaned on, with the most recent post
+ * that used each.
+ *
+ * The raw data. bannedOpeningLines() below turns it into something a model can
+ * read; this shape is for callers that want the key, the count, or both.
+ */
+export function overusedOpenings(
+  ledger: PostLedger,
+  platform: Platform,
+  limit = OPENING_HISTORY
+): { construction: string; example: string; count: number }[] {
+  return [...openingConstructionCounts(ledger, platform, limit)]
+    .filter(([, v]) => v.count >= OPENING_REPEAT_LIMIT)
+    .sort((a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0]))
+    .map(([construction, v]) => ({ construction, example: v.example, count: v.count }));
+}
+
+/**
+ * The refused openings as lines a model can act on, across every platform this
+ * run will publish to.
+ *
+ * TWO FIXES IN ONE FUNCTION, BOTH FOUND BY ASKING WHAT THE MODEL ACTUALLY GETS.
+ *
+ * THE KEYS ARE NOT PROSE. openingConstruction() produces "h-1b l-1 visas" and
+ * "employees across state" — normalised shapes, useful for comparison and close
+ * to meaningless as an instruction. Handing those over and saying "do not write
+ * these" repeats, one level down, the mistake of judging a model against a rule
+ * it cannot see: it can see this rule and cannot read it. So the real opening
+ * goes beside the key.
+ *
+ * AND THE CHECK IS PER PLATFORM WHILE THE BRIEF WAS NOT. checkOpeningVariety()
+ * runs against each platform's own history, but the brief was built from X's
+ * alone, so LinkedIn copy was judged against a list the engine had never been
+ * shown. One call produces both variants, so the union is what it needs.
+ */
+export function bannedOpeningLines(
+  ledger: PostLedger,
+  platforms: Platform[],
+  limit = OPENING_HISTORY
+): string[] {
+  const merged = new Map<string, { example: string; count: number }>();
+  for (const platform of platforms) {
+    for (const row of overusedOpenings(ledger, platform, limit)) {
+      const seen = merged.get(row.construction);
+      if (!seen || row.count > seen.count) {
+        merged.set(row.construction, { example: row.example, count: row.count });
+      }
+    }
+  }
+  return [...merged]
+    .sort((a, b) => b[1].count - a[1].count || a[0].localeCompare(b[0]))
+    .map(
+      ([construction, v]) =>
+        `"${v.example}" — used ${v.count}x. Any opening whose first three words reduce to "${construction}" is refused.`
+    );
+}
+
+/** Does this post open the way the account has already opened too often? */
+export function checkOpeningVariety(
+  ledger: PostLedger,
+  text: string,
+  platform: Platform,
+  limit = OPENING_HISTORY
+): { ok: boolean; reason: string; construction: string; seen: number } {
+  const construction = openingConstruction(text);
+  if (!construction) {
+    return { ok: true, reason: "no opening construction to compare", construction: "", seen: 0 };
+  }
+
+  const seen = openingConstructionCounts(ledger, platform, limit).get(construction)?.count ?? 0;
+  if (seen >= OPENING_REPEAT_LIMIT) {
+    return {
+      ok: false,
+      reason:
+        `Opening variety: "${construction}…" has opened ${seen} of the last ${limit} posts on ` +
+        `${platform}. A third would make it this account's house sentence.`,
+      construction,
+      seen,
+    };
+  }
+  return { ok: true, reason: "distinct opening construction", construction, seen };
+}
+
 /** Every subject published in the window, for the simulation's repetition report. */
 export function subjectsPostedSince(ledger: PostLedger, sinceIso: string): string[] {
   return publishedPosts(ledger)

@@ -25,7 +25,13 @@
 import { createHash } from "node:crypto";
 import type { IndexedEvent } from "@/lib/event-index";
 import { candidatesFor } from "./select";
-import { checkSameDayVariety, checkSubject, checkWording } from "./dedupe";
+import {
+  bannedOpeningLines,
+  checkOpeningVariety,
+  checkSameDayVariety,
+  checkSubject,
+  checkWording,
+} from "./dedupe";
 import { applyRotation, buildMemory, type RotationResult } from "./rotation";
 import { isRepairable, isRepairableResult, validatePost, type FailureCode } from "./validate";
 import { VALIDATOR_VERSION } from "./validate";
@@ -198,7 +204,18 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
         facts: candidate.facts,
         slot,
         angle,
+        treatment: candidate.treatment,
+        readerValue: candidate.readerValue,
         avoidOpenings: recentOpenings(ledger, "x", OPENINGS_SHOWN),
+        // The constructions checkOpeningVariety() will refuse, stated up front
+        // and as readable prose. A rule the model is judged by and cannot see
+        // produces rejections nobody can act on — the same reasoning as
+        // permittedAgencies() — and a rule stated in normalised keys it cannot
+        // parse is the same failure wearing a different hat.
+        //
+        // Across BOTH platforms, because one call writes both variants and the
+        // check runs against each platform's own history.
+        bannedOpenings: bannedOpeningLines(ledger, PLATFORMS),
         validatorFeedback: attempt > 1 ? feedback : undefined,
         previousCopy: attempt > 1 ? previousCopy : undefined,
       });
@@ -231,6 +248,9 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
           angle,
           score: candidate.score,
           scoreExplain: candidate.scoreExplain,
+          readerValue: candidate.readerValue.score,
+          readerValueExplain: candidate.readerValue.reason,
+          treatment: candidate.treatment,
           deepLink: candidate.deepLink,
           attempts,
         },
@@ -262,11 +282,39 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     const relevant = eligible.filter((p) => publishers[p] || !live);
     const failing = relevant.filter((p) => !validation![p].ok);
 
+    // ---- gate 4b: opening variety, INSIDE the loop ---------------------------
+    //
+    // IT WAS BELOW THE LOOP, AND THAT WAS THE WRONG PLACE FOR IT.
+    //
+    // Down there it could only ever end the slot: the copy was already written
+    // and already billed, the second attempt had not been spent, and there was
+    // no way to tell the model what was wrong — so one over-used opening threw
+    // away a call and published nothing. That is precisely backwards for the
+    // most trivially fixable defect this system can detect, and it contradicted
+    // the gate ordering this file is built around, where anything that can be
+    // decided before the engine is, and anything that cannot is at least made
+    // repairable.
+    //
+    // Here, a repeated opening is a MECHANICAL defect in the ordinary sense: the
+    // facts are right and the first clause is wrong. It joins the validator's
+    // feedback, the repair attempt is spent on it, and the check re-runs in full
+    // against the repair — so the guarantee is unchanged and the cost is not.
+    const openingChecks = relevant.map((p) => ({
+      platform: p,
+      result: checkOpeningVariety(ledger, generated.copy[p], p),
+    }));
+    const staleOpenings = openingChecks.filter((c) => !c.result.ok);
+
+    const problems = [
+      ...failing.flatMap((p) => validation![p].failures.map((f) => `[${p}] ${f}`)),
+      ...staleOpenings.map((c) => `[${c.platform}] ${c.result.reason}`),
+    ];
+
     attempts.push({
       slot: slot.id,
       attempt,
       model: generated.usage.model,
-      ok: failing.length === 0,
+      ok: problems.length === 0,
       error: null,
       durationMs: Date.now() - startedAt,
       inputTokens: generated.usage.inputTokens,
@@ -275,21 +323,23 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
       reasoningTokens: generated.usage.reasoningTokens,
       totalTokens: generated.usage.totalTokens,
       costUsd: generated.usage.costUsd,
-      validation:
-        failing.length === 0
-          ? "pass"
-          : failing.flatMap((p) => validation![p].failures.map((f) => `[${p}] ${f}`)).join("; ").slice(0, 400),
+      validation: problems.length === 0 ? "pass" : problems.join("; ").slice(0, 400),
     });
 
-    if (failing.length === 0) break;
+    if (problems.length === 0) break;
 
-    feedback = failing.flatMap((p) => validation![p].failures.map((f) => `[${p}] ${f}`));
+    feedback = problems;
 
     // ---- is a repair justified? ---------------------------------------------
     //
     // Only when EVERY failing platform failed for mechanical reasons. One
     // semantic failure means the post says something it should not, and making
     // it shorter would not make that untrue.
+    //
+    // A stale opening is mechanical by construction — the facts are right and
+    // the first clause is wrong — so a slot whose ONLY problem is an opening
+    // reaches this with `failing` empty, and `.every()` over an empty list is
+    // true. That is the intended reading, not an accident of the idiom.
     const repairable = failing.every((p) => isRepairableResult(validation![p]));
 
     if (!repairable) {
@@ -307,6 +357,9 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
           angle,
           score: candidate.score,
           scoreExplain: candidate.scoreExplain,
+          readerValue: candidate.readerValue.score,
+          readerValueExplain: candidate.readerValue.reason,
+          treatment: candidate.treatment,
           topicKey: candidate.topicKey,
           topicFamily: candidate.topicFamily,
           category: candidate.category,
@@ -335,12 +388,21 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
           angle,
           score: candidate.score,
           scoreExplain: candidate.scoreExplain,
+          readerValue: candidate.readerValue.score,
+          readerValueExplain: candidate.readerValue.reason,
+          treatment: candidate.treatment,
           deepLink: candidate.deepLink,
           validator: mergeValidation(validation, relevant),
           usage,
           attempts,
         },
-        "SKIPPED_VALIDATION_FAILED",
+        // A slot that only ever failed on WORDING is a duplicate, not a
+        // validation failure, and the distinction is not cosmetic: a
+        // SKIPPED_VALIDATION_FAILED row stands the subject×angle down for
+        // VALIDATION_COOLDOWN_DAYS, which is right for copy the validator will
+        // reject again and wrong for a subject whose only problem was that the
+        // model opened two posts the same way.
+        failing.length === 0 ? "SKIPPED_DUPLICATE" : "SKIPPED_VALIDATION_FAILED",
         feedback.join("; ")
       );
     }
@@ -403,6 +465,11 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
       continue;
     }
 
+    // Opening variety is NOT checked here. It ran inside the generation loop —
+    // see gate 4b — where a failure can still be repaired instead of costing a
+    // billed call for nothing. Anything reaching this point has already passed
+    // it on every platform this run would publish to.
+
     if (!live) {
       outcomes.push({
         platform,
@@ -450,6 +517,9 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     angle,
     score: candidate.score,
     scoreExplain: candidate.scoreExplain,
+    readerValue: candidate.readerValue.score,
+    readerValueExplain: candidate.readerValue.reason,
+    treatment: candidate.treatment,
     topicKey: candidate.topicKey,
     topicFamily: candidate.topicFamily,
     category: candidate.category,
@@ -609,6 +679,56 @@ export function explainRotation(
   return { chosen, rejections };
 }
 
+/** One candidate's standing in a slot, after the rotation penalties. */
+export interface RankedCandidate {
+  candidate: Candidate;
+  rotation: RotationResult;
+}
+
+/**
+ * The whole field, ranked, plus the winner — for a preview that has to say what
+ * LOST and why.
+ *
+ * explainRotation() answers "what was turned away outright". This answers the
+ * harder editorial question: of the candidates that were genuinely in the
+ * running, which came second, and by what margin. A selection nobody can see the
+ * runners-up for is a selection nobody can argue with.
+ */
+export function explainSelection(
+  candidates: Candidate[],
+  ledger: PostLedger,
+  now: Date,
+  localDate: string
+): { chosen: Chosen | null; ranked: RankedCandidate[]; rejections: RotationRejection[] } {
+  const rejections: RotationRejection[] = [];
+  const chosen = chooseCandidate(candidates, ledger, now, localDate, rejections);
+
+  const memory = buildMemory(ledger, "x", now, localDate);
+  const ranked = candidates
+    .map((candidate) => ({
+      candidate,
+      rotation: applyRotation(
+        {
+          subjectId: candidate.subjectId,
+          topicFamily: candidate.topicFamily,
+          category: candidate.category,
+          deepLink: candidate.deepLink,
+          angle: candidate.supportedAngles[0],
+          baseScore: candidate.score,
+          hasNewInformation: candidate.hasNewInformation,
+        },
+        memory
+      ),
+    }))
+    .sort(
+      (a, b) =>
+        b.rotation.adjustedScore - a.rotation.adjustedScore ||
+        a.candidate.subjectId.localeCompare(b.candidate.subjectId)
+    );
+
+  return { chosen, ranked, rejections };
+}
+
 function firstRejection(candidates: Candidate[], ledger: PostLedger, now: Date): string {
   const top = candidates[0];
   const check = checkSubject(
@@ -640,6 +760,9 @@ function emptyOutcome(
     topicKey: null,
     topicFamily: null,
     category: null,
+    readerValue: null,
+    readerValueExplain: null,
+    treatment: null,
     adjustedScore: null,
     rotationExplain: null,
     deepLink: null,
@@ -736,6 +859,9 @@ function toRecord(
     topicKey: outcome.topicKey,
     topicFamily: outcome.topicFamily,
     category: outcome.category,
+    readerValue: outcome.readerValue,
+    readerValueExplain: outcome.readerValueExplain,
+    treatment: outcome.treatment,
     adjustedScore: outcome.adjustedScore,
     rotationExplain: outcome.rotationExplain,
     text: platform.text,
@@ -813,6 +939,9 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
     topicKey: null,
     topicFamily: null,
     category: null,
+    readerValue: null,
+    readerValueExplain: null,
+    treatment: null,
     adjustedScore: null,
     rotationExplain: null,
     deepLink: envelope.deepLink,

@@ -250,6 +250,9 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
 
     console.log(`Selected       : ${o.subjectLabel}`);
     console.log(`Subject id     : ${o.subjectId}`);
+    console.log(`Reader value   : ${o.readerValueExplain ?? "—"}`);
+    console.log(`Category       : ${o.category ?? "—"}`);
+    console.log(`Treatment      : ${o.treatment ?? "—"}`);
     console.log(`Angle          : ${o.angle}`);
     console.log(`Score          : ${o.score}   [${o.scoreExplain}]`);
     console.log(`Destination    : ${o.deepLink}`);
@@ -322,6 +325,26 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
   console.log(`Distinct destinations      : ${Object.keys(urlCounts).length} of ${urls.length}`);
   console.log(`Destinations reused        : ${repeatedUrls.length}`);
   for (const [u, n] of repeatedUrls) console.log(`  ${u} × ${n}`);
+
+  // Treatment spread. A feed that only ever reaches for one shape is applying a
+  // template, which is the failure the treatments exist to prevent — and it is
+  // invisible unless it is counted.
+  const treatments = tally(wouldPost.map((o) => o.treatment ?? "—"));
+  console.log(`\nEditorial treatments used  : ${Object.keys(treatments).length}`);
+  for (const [t, n] of Object.entries(treatments).sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${t.padEnd(26)} ${n}`);
+  }
+
+  const readerValues = wouldPost
+    .map((o) => o.readerValue)
+    .filter((v): v is number => typeof v === "number");
+  if (readerValues.length) {
+    const mean = readerValues.reduce((a, b) => a + b, 0) / readerValues.length;
+    console.log(
+      `\nReader value of published   : mean ${mean.toFixed(1)}/100 · ` +
+        `min ${Math.min(...readerValues)} · max ${Math.max(...readerValues)}`
+    );
+  }
 
   const validationFailures = outcomes.filter((o) => o.validator && !o.validator.ok);
   console.log(`\nValidation failures        : ${validationFailures.length}`);

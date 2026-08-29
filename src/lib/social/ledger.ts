@@ -96,6 +96,23 @@ export interface PostRecord {
    * never actually about.
    */
   category: string | null;
+  /**
+   * WOULD A READER HAVE CARED? — 0-100, from reader-value.ts.
+   *
+   * Recorded on skips as well as posts, and that is the reason it is here: the
+   * interesting question about this system is what it declined to say, and
+   * "reader value 12/100 — no reader-impact signal; weakened by minor procedural
+   * notice" is an answer somebody can check six weeks later. Null on rows written
+   * before the score existed.
+   */
+  readerValue: number | null;
+  /** Which impact signals fired and which weaknesses. Free text, for auditing. */
+  readerValueExplain: string | null;
+  /**
+   * The editorial shape the post took — IMPORTANT CHANGE, DEADLINE / DATE, and
+   * so on. Recorded so treatment variety is measurable rather than assumed.
+   */
+  treatment: string | null;
   /** Base score minus repetition penalties — the number that won the slot. */
   adjustedScore: number | null;
   /** Which penalties applied. Free text, for auditing a selection later. */

@@ -37,6 +37,7 @@
 // =============================================================================
 
 import type { StandingAsset } from "./links";
+import { DEVELOPMENT_READER_VALUE_FLOOR } from "./reader-value";
 
 /**
  * The seven kinds of thing this account publishes, in priority order.
@@ -162,6 +163,27 @@ export const MIX_TARGET: Record<MixBucket, number> = {
  * shape the mix describes (roughly one news, one alert, one other) expressed as
  * arithmetic instead of a quota.
  */
+/**
+ * WHAT ONE TIER STEP BUYS, MEASURED RATHER THAN ASSUMED.
+ *
+ * The penalty below is one TIER_STEP, on the reasoning that it moves a bucket
+ * down one band. That is true of the BASE, and not quite true of the total,
+ * because the bands are not equally furnished: over the real archive an event's
+ * merit runs 2,950–8,225 while a standing asset's runs 1–9. So a development
+ * demoted by a full step lands around 63,800 and the best key-date deadline the
+ * catalogue ever produces is 63,119 — the demoted development still wins.
+ *
+ * That is the intended editorial answer (a real development outranks a
+ * countdown), but it means the same-day penalty makes a second development
+ * COMPETE with the deadline tier rather than yield to it, and it never reaches
+ * the datasets three bands down at all.
+ *
+ * The case it was written for is now handled a level up, which is why this is a
+ * note and not a change: a second development that ought to yield is usually one
+ * with little reader value, and such an item no longer reaches the `development`
+ * tier — categoryForEvent() sends it down the archive ladder instead. The mix
+ * penalty is left doing the narrower job it can actually do.
+ */
 export const MIX_PENALTY = {
   /** The bucket already published today. One tier step. */
   sameDayBucket: TIER_STEP,
@@ -247,6 +269,29 @@ export function categoryForEvent(input: {
   fresh: boolean;
   obligationLevel: number;
   hasUpcomingEffectiveDate: boolean;
+  /**
+   * How much a reader would actually care — 0-100, from reader-value.ts.
+   *
+   * NEWEST IS NOT AUTOMATICALLY BEST, AND THIS IS WHERE THAT IS ENFORCED.
+   *
+   * `fresh` used to be sufficient for the top band on its own, which made the
+   * ladder partly an age ladder: a routine notice published this morning sat two
+   * whole tiers — 20,000 points — above a fee rule from last week that changes
+   * what somebody pays. No amount of merit could close that, because tier steps
+   * are not crossable by merit, which is the property that makes them useful
+   * everywhere else.
+   *
+   * So freshness is now necessary and not sufficient. A new item that reaches
+   * people leads the day; a new item that reaches nobody falls through to the
+   * SAME ladder an archive item is judged on and competes there on what it does.
+   * It is not suppressed — it is simply no longer promoted for having a recent
+   * date on it.
+   *
+   * OPTIONAL, and its absence means "not assessed". Callers that do not compute
+   * reader value get the original freshness rule, so this is an addition to the
+   * model rather than a silent change to every caller's behaviour.
+   */
+  readerValue?: number;
 }): ContentCategory {
   if (input.classification === "proposed_rule") return "proposed";
   // Freshness before the effective date, deliberately. A rule that published
@@ -255,7 +300,9 @@ export function categoryForEvent(input: {
   // deadline tier because it carries a date would rank it below the archive
   // items that merely resurface one. The date is not lost: it is required in the
   // copy by the validator's effective-date check.
-  if (input.fresh) return "development";
+  const consequentialEnough =
+    input.readerValue === undefined || input.readerValue >= DEVELOPMENT_READER_VALUE_FLOOR;
+  if (input.fresh && consequentialEnough) return "development";
   if (input.hasUpcomingEffectiveDate) return "deadline";
   if (input.obligationLevel >= 2) return "actionable";
   return "explainer";
