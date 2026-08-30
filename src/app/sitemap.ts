@@ -76,6 +76,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/developers", warnDate, "weekly", 0.7],
     // Audience + guidance.
     ["/for-you", buildDate, "monthly", 0.7],
+    ["/following", buildDate, "monthly", 0.5],
     ["/key-dates", buildDate, "weekly", 0.8],
     ["/resources", buildDate, "monthly", 0.5],
     ["/explained", buildDate, "monthly", 0.6],

@@ -151,8 +151,14 @@ export function EntityChanges({
 
       {/* Next actions — a page that answers a question should say what to do next. */}
       <div className="flex flex-wrap gap-2.5">
+        {/* /following, not /what-changed#follow. The #follow anchor sits inside
+            FollowingPanel, which renders a placeholder until it has hydrated —
+            so the target does not exist when the browser tries to scroll to it,
+            and this button quietly dropped the reader at the top of a long
+            archive instead. /following is the follow feature's own page and
+            opens its picker for a reader who follows nothing. */}
         <Link
-          href="/what-changed#follow"
+          href="/following"
           className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft"
         >
           Follow {label}

@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { SearchPageClient } from "@/components/SearchPageClient";
@@ -23,10 +22,11 @@ export default function SearchPage() {
           { href: "/search", label: "Search" },
         ]}
       />
+      {/* No Suspense boundary: SearchPageClient reads ?q= from location on mount
+          instead of with useSearchParams, so the search box itself prerenders
+          into the static HTML rather than appearing only after hydration. */}
       <div className="container-page max-w-3xl py-10">
-        <Suspense fallback={<p className="text-sm text-slate-400">Loading search…</p>}>
-          <SearchPageClient />
-        </Suspense>
+        <SearchPageClient />
       </div>
     </div>
   );

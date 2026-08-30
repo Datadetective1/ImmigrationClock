@@ -42,13 +42,23 @@ export function employerBySlug(slug: string): { employer: DirectoryEmployer; ran
   return BY_SLUG.get(slug) ?? null;
 }
 
-/** Name substring match, ranked by approvals (EMPLOYERS is pre-sorted). */
+/**
+ * Name substring match, ranked by approvals (EMPLOYERS is pre-sorted).
+ *
+ * Matching ignores punctuation on both sides. Data Hub legal names carry their
+ * own spacing and punctuation ("WAL MART ASSOCIATES INC", "AMAZON.COM SERVICES
+ * LLC"), which a reader does not reproduce: "walmart" and "amazon.com" both
+ * used to return nothing for employers that are plainly there.
+ */
 export function searchEmployers(q: string, limit = 50): DirectoryEmployer[] {
   const s = q.trim().toLowerCase();
   if (!s) return [];
+  const sq = s.replace(/[^a-z0-9]+/g, "");
+  if (!sq) return [];
   const out: DirectoryEmployer[] = [];
   for (const e of EMPLOYERS) {
-    if (e.name.toLowerCase().includes(s)) {
+    const name = e.name.toLowerCase();
+    if (name.includes(s) || name.replace(/[^a-z0-9]+/g, "").includes(sq)) {
       out.push(e);
       if (out.length >= limit) break;
     }

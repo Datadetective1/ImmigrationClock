@@ -12,6 +12,7 @@ import { warnH1bCrossLink } from "./warn";
 import { WARN_SOURCE, WARN_SUMMARY } from "./warn-summary";
 import { EMPLOYERS_META } from "./employers";
 import {
+  countries,
   cbpRows,
   iceByFy,
   H1B_NATIONAL,
@@ -56,6 +57,12 @@ function signedPct(n: number): string {
 }
 
 /** Build the full set of insight cards from the current dataset snapshot. */
+/** Country display name -> its page, or the origin map when we have no page. */
+function countrySlug(name: string | undefined): string {
+  const match = countries.find((c) => c.name === name);
+  return match ? `/country/${match.slug}` : "/migration-map";
+}
+
 export function buildInsights(): Insight[] {
   const out: Insight[] = [];
   const national = H1B_NATIONAL[EMPLOYER_LATEST_FY].approvals;
@@ -105,7 +112,11 @@ export function buildInsights(): Insight[] {
       group: "visa",
       provenance: "reported",
       periodLabel: `FY${EMPLOYER_LATEST_FY}`,
-      href: `/country/${first.country?.toLowerCase()}`,
+      // Lowercasing the display name is not the slug: "South Korea" becomes
+      // "south korea", and /country/south korea is a 404. Only India
+      // currently tops this ranking, which is the sole reason the link has
+      // worked.
+      href: countrySlug(first.country),
       ...SRC.uscis,
       sourceUpdatedAt: UPDATED.uscis_h1b,
     });

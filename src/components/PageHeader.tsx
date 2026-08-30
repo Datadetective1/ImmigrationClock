@@ -43,15 +43,32 @@ export function PageHeader({
       {crumbs && crumbs.length > 0 ? <BreadcrumbJsonLd crumbs={crumbs} /> : null}
       <div className="container-page py-8 sm:py-10">
         {crumbs && crumbs.length > 0 ? (
-          <nav className="mb-3 flex flex-wrap items-center gap-1.5 text-xs text-slate-500">
-            {crumbs.map((c, i) => (
-              <span key={c.href} className="flex items-center gap-1.5">
-                <Link href={c.href} className="hover:text-slate-300">
-                  {c.label}
-                </Link>
-                {i < crumbs.length - 1 ? <span className="text-slate-700">/</span> : null}
-              </span>
-            ))}
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-3 flex flex-wrap items-center gap-1.5 text-xs text-slate-500"
+          >
+            {crumbs.map((c, i) => {
+              const isCurrent = i === crumbs.length - 1;
+              return (
+                <span key={c.href} className="flex items-center gap-1.5">
+                  {/* The last crumb is the page you are already on. As a link it
+                      was an extra tab stop that navigated nowhere, and nothing
+                      told assistive tech which entry was current. The JSON-LD
+                      below still lists it — structured data wants the full
+                      trail. */}
+                  {isCurrent ? (
+                    <span aria-current="page" className="text-slate-400">
+                      {c.label}
+                    </span>
+                  ) : (
+                    <Link href={c.href} className="hover:text-slate-300">
+                      {c.label}
+                    </Link>
+                  )}
+                  {!isCurrent ? <span className="text-slate-700">/</span> : null}
+                </span>
+              );
+            })}
           </nav>
         ) : null}
         <div className="flex flex-wrap items-end justify-between gap-4">

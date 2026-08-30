@@ -9,6 +9,12 @@
 
 html {
   scroll-behavior: smooth;
+  /* The header is 64px and sticky, so without this every anchor lands its
+     target underneath it: the skip link, "#subscribe", "#follow", and the
+     in-page jumps on /layoffs all scrolled the thing you asked for out of
+     sight. 5rem is the header plus a little breathing room, and it applies to
+     the instant jump on a cross-page hash load as well as to smooth scrolling. */
+  scroll-padding-top: 5rem;
 }
 
 /* Respect a reader's motion preference globally, not just on the map. */

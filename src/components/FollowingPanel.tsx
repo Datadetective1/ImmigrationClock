@@ -209,7 +209,12 @@ export function FollowingPanel({
   // twelve things.
   if (!hydrated) {
     return (
-      <div className="rounded-2xl border border-white/5 bg-white/[0.02] p-4">
+      // The min-height matches the panel that replaces this. Without it the
+      // placeholder is one line tall and the hydrated panel is several times
+      // that, so on /what-changed the whole archive feed below jumped down the
+      // moment hydration finished — under the cursor of anyone already reaching
+      // for a link.
+      <div className="min-h-[168px] rounded-2xl border border-white/5 bg-white/[0.02] p-4">
         <p className="text-sm text-slate-500">Loading your followed topics…</p>
       </div>
     );

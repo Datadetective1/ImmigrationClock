@@ -158,7 +158,10 @@ export default function WhatChangedPage() {
               <section key={date} aria-labelledby={`day-${date}`}>
                 <h2
                   id={`day-${date}`}
-                  className="sticky top-0 z-10 -mx-1 bg-ink-950/90 px-1 py-2 text-sm font-semibold text-slate-300 backdrop-blur"
+                  // top-16, not top-0: the site header is sticky at top-0 and 64px
+                  // tall, so a running date pinned at 0 sat behind it and was
+                  // never actually visible while scrolling the archive.
+                  className="sticky top-16 z-10 -mx-1 bg-ink-950/90 px-1 py-2 text-sm font-semibold text-slate-300 backdrop-blur"
                 >
                   {formatDate(date)}
                   <span className="ml-2 font-normal text-slate-500">

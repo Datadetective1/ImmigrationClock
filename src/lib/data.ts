@@ -45,6 +45,7 @@ import type {
 } from "./types";
 import refresh from "./generated/refresh.json";
 import { EMPLOYERS, EMPLOYERS_META, displayEmployer } from "./employers";
+import { formatNumber } from "./format";
 import {
   WARN_SUMMARY,
   WARN_SOURCE,
@@ -776,68 +777,210 @@ export function buildMetrics(): Metric[] {
 // Search (employers, states, countries, visa types, job titles)
 // ---------------------------------------------------------------------------
 export interface SearchResult {
-  type: "company" | "state" | "country" | "visa" | "occupation";
+  /**
+   * `company` is one of the ten curated employer profiles; `employer` is a row
+   * from the USCIS H-1B Employer Data Hub directory. They are different pages
+   * about different things (/company/amazon is a written profile,
+   * /employer/amazon-com-services-llc is a sponsorship record), so they stay
+   * separate types rather than being merged into one list.
+   */
+  type: "company" | "employer" | "state" | "country" | "visa" | "occupation";
   label: string;
   sublabel: string;
   href: string;
 }
 
-export function search(query: string): SearchResult[] {
+/**
+ * Punctuation-blind form of a string, for matching only.
+ *
+ * The site's own vocabulary is hyphenated ("H-1B", "F-1", "WAL MART ASSOCIATES
+ * INC") while readers type it plain — and the site's own URLs are plain
+ * (/h1b/top-sponsors, /h1b/salaries/...). Before this, "h1b" matched nothing
+ * anywhere: not the search box, not the employer directory, not the change
+ * archive, even though "H-1B" matched all three. Stripping non-alphanumerics on
+ * both sides makes the two spellings the same query.
+ */
+export function squash(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+/**
+ * How well a candidate answers the query, or -1 for no match.
+ *
+ * Corpus order is not relevance. Typing "CA" used to return HCL America first,
+ * because "hcl ameri(ca)" happens to contain the letters and companies are
+ * scanned before states — so Enter, which follows the first result, navigated
+ * to an employer profile instead of California. Scoring by WHERE the match
+ * falls fixes that without reordering the corpora: an exact hit beats a
+ * start-of-string hit, which beats a word-start hit, which beats an accident
+ * in the middle of a word.
+ */
+function matchScore(candidate: string, q: string, sq: string): number {
+  const lower = candidate.toLowerCase();
+  const squashed = squash(candidate);
+  if (lower === q || squashed === sq) return 100;
+  if (squashed.startsWith(sq)) return 80;
+  // Start of any later word — "services" in "AMAZON.COM SERVICES LLC".
+  if (lower.split(/[^a-z0-9]+/).some((w) => w.startsWith(q))) return 60;
+  if (squashed.includes(sq)) return 40;
+  return -1;
+}
+
+/**
+ * Visa classes that have a page to send a reader to.
+ *
+ * The dataset also carries J-1, EB and Family-based IV, but no page on the site
+ * discusses them — the old code sent every unmatched class to /h1b/top-sponsors,
+ * so searching "J-1" offered an H-1B page that never mentions J-1. A search
+ * result is a promise about the destination; classes without one are omitted
+ * rather than pointed somewhere plausible.
+ */
+const VISA_PAGES: Record<string, string> = {
+  "F-1": "/visa/f1-student-visas",
+  "H-1B": "/h1b/top-sponsors",
+};
+
+export interface SearchOptions {
+  /** Max results per type, so one big corpus cannot crowd out the others. */
+  perType?: number;
+  /** Max results overall. */
+  limit?: number;
+}
+
+/**
+ * Site-wide lookup across every entity that has its own page.
+ *
+ * The employer directory is included here rather than bolted onto one surface.
+ * It is the largest corpus the site has (2,600+ real sponsors) and it was
+ * previously reachable only from /search and /h1b/employers — so the search box
+ * on the homepage, which invites "Search employer", answered "Nothing matches"
+ * for Wipro, Deloitte, Accenture and 2,611 others. The weight is already in the
+ * bundle either way: data.ts imports EMPLOYERS for the H-1B selectors above.
+ */
+/**
+ * Every match for a query, ranked, before any cap is applied.
+ *
+ * Split out so `search` and `searchTotals` share one pass over the corpora
+ * instead of scanning 2,600+ employers twice per keystroke.
+ */
+function rankedMatches(query: string): SearchResult[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  const results: SearchResult[] = [];
+  const sq = squash(q);
+  if (!sq) return [];
+
+  // One or two characters is a state code or a visa class, not a prefix: "CA"
+  // otherwise word-start-matches 297 employers (Capgemini, Capital One,
+  // Caterpillar…) and buries California in them. Short queries take exact
+  // matches only.
+  const minScore = sq.length <= 2 ? 100 : 0;
+
+  const scored: { score: number; result: SearchResult }[] = [];
+  const add = (score: number, result: SearchResult) => {
+    if (score >= minScore && score >= 0) scored.push({ score, result });
+  };
 
   for (const c of companies) {
-    if (c.name.toLowerCase().includes(q) || c.industry.toLowerCase().includes(q)) {
-      results.push({
-        type: "company",
-        label: c.name,
-        sublabel: `${c.industry} · ${c.headquartersCity}, ${c.stateCode}`,
-        href: `/company/${c.slug}`,
-      });
-    }
-  }
-  for (const s of states) {
-    if (s.name.toLowerCase().includes(q) || s.code.toLowerCase() === q) {
-      results.push({
-        type: "state",
-        label: s.name,
-        sublabel: `State · ${s.region}`,
-        href: `/state/${s.code}`,
-      });
-    }
-  }
-  for (const c of countries) {
-    if (c.name.toLowerCase().includes(q)) {
-      results.push({
-        type: "country",
-        label: c.name,
-        sublabel: `Country · ${c.region}`,
-        href: `/country/${c.slug}`,
-      });
-    }
-  }
-  for (const v of visaClasses()) {
-    if (v.toLowerCase().includes(q)) {
-      results.push({
-        type: "visa",
-        label: v,
-        sublabel: "Visa class",
-        href: v === "F-1" ? "/visa/f1-student-visas" : "/h1b/top-sponsors",
-      });
-    }
-  }
-  const occSet = new Set<string>();
-  for (const c of companies)
-    for (const t of c.topJobTitles)
-      if (t.title.toLowerCase().includes(q)) occSet.add(t.title);
-  for (const title of occSet) {
-    results.push({
-      type: "occupation",
-      label: title,
-      sublabel: "Job title · H-1B salaries",
-      href: `/h1b/salaries/${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+    // Industry is a weaker signal than the name, so it never scores above a
+    // mid-word name hit.
+    const score = Math.max(matchScore(c.name, q, sq), Math.min(matchScore(c.industry, q, sq), 30));
+    add(score, {
+      type: "company",
+      label: c.name,
+      sublabel: `${c.industry} · ${c.headquartersCity}, ${c.stateCode}`,
+      href: `/company/${c.slug}`,
     });
   }
-  return results.slice(0, 12);
+  for (const e of EMPLOYERS) {
+    add(matchScore(e.name, q, sq), {
+      type: "employer",
+      label: displayEmployer(e.name),
+      sublabel: `${formatNumber(e.approvals)} H-1B approvals${e.topState ? ` · ${e.topState}` : ""}`,
+      href: `/employer/${e.slug}`,
+    });
+  }
+  for (const s of states) {
+    // The two-letter code is an exact-or-nothing match: treating it as a
+    // substring would make every query containing "ca" a hit for California.
+    const score = squash(s.code) === sq ? 100 : matchScore(s.name, q, sq);
+    add(score, {
+      type: "state",
+      label: s.name,
+      sublabel: `State · ${s.region}`,
+      href: `/state/${s.code}`,
+    });
+  }
+  for (const c of countries) {
+    add(matchScore(c.name, q, sq), {
+      type: "country",
+      label: c.name,
+      sublabel: `Country · ${c.region}`,
+      href: `/country/${c.slug}`,
+    });
+  }
+  for (const v of visaClasses()) {
+    const href = VISA_PAGES[v];
+    if (!href) continue;
+    add(matchScore(v, q, sq), { type: "visa", label: v, sublabel: "Visa class", href });
+  }
+  const occSeen = new Set<string>();
+  for (const c of companies) {
+    for (const t of c.topJobTitles) {
+      if (occSeen.has(t.title)) continue;
+      const score = matchScore(t.title, q, sq);
+      if (score < 0) continue;
+      occSeen.add(t.title);
+      add(score, {
+        type: "occupation",
+        label: t.title,
+        sublabel: "Job title · H-1B salaries",
+        href: `/h1b/salaries/${t.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+      });
+    }
+  }
+
+  // Equal scores break toward the more specific answer: one California, one
+  // India, thousands of employers whose names happen to contain the word. Within
+  // a type, ties keep corpus order — EMPLOYERS arrives pre-sorted by approvals,
+  // so the bigger sponsor comes first — which a stable sort preserves.
+  scored.sort((a, b) => b.score - a.score || TYPE_RANK[b.result.type] - TYPE_RANK[a.result.type]);
+  return scored.map((s) => s.result);
+}
+
+/** Tie-break order only. Higher wins when two results score the same. */
+const TYPE_RANK: Record<SearchResult["type"], number> = {
+  state: 6,
+  country: 5,
+  visa: 4,
+  company: 3,
+  occupation: 2,
+  employer: 1,
+};
+
+export function search(query: string, opts: SearchOptions = {}): SearchResult[] {
+  const perType = opts.perType ?? 6;
+  const limit = opts.limit ?? 12;
+  const perTypeCount: Partial<Record<SearchResult["type"], number>> = {};
+  const out: SearchResult[] = [];
+  for (const result of rankedMatches(query)) {
+    const n = perTypeCount[result.type] ?? 0;
+    if (n >= perType) continue;
+    perTypeCount[result.type] = n + 1;
+    out.push(result);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+/**
+ * How many results each type has in total, ignoring the caps.
+ *
+ * The results page prints "H-1B sponsors · 8" next to a capped list; without
+ * this it was printing the size of the truncated list as though it were the
+ * whole answer, so 297 matches read as 8.
+ */
+export function searchTotals(query: string): Partial<Record<SearchResult["type"], number>> {
+  const totals: Partial<Record<SearchResult["type"], number>> = {};
+  for (const r of rankedMatches(query)) totals[r.type] = (totals[r.type] ?? 0) + 1;
+  return totals;
 }

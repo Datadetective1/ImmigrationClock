@@ -105,7 +105,18 @@ function matchesText(e: IndexedEvent, needle: string): boolean {
   // Every whitespace-separated term must appear somewhere, so adding a word
   // narrows rather than widens — what a reader expects from a search box.
   const hay = `${e.title} ${e.summary} ${e.sourceKey}`.toLowerCase();
-  return q.split(/\s+/).every((term) => hay.includes(term));
+  // Punctuation-blind fallback, so the archive answers the spelling readers
+  // actually type. "h1b" used to return 0 events against "H-1B"'s 14 — and the
+  // search box's own no-results state offers this archive as the next step, so
+  // the miss was being handed on. This widens punctuation only; the whole-term
+  // rule above is unchanged.
+  const squashed = hay.replace(/[^a-z0-9]+/g, "");
+  return q.split(/\s+/).every((term) => {
+    if (hay.includes(term)) return true;
+    const sq = term.replace(/[^a-z0-9]+/g, "");
+    // An all-punctuation term squashes to nothing; it must not match everything.
+    return sq.length > 0 && squashed.includes(sq);
+  });
 }
 
 export function filterEvents(events: IndexedEvent[], f: EventFilters): IndexedEvent[] {
