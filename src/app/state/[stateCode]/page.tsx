@@ -204,7 +204,14 @@ export default function StatePage({ params }: { params: { stateCode: string } })
               source={{ sourceName: "USCIS + DOL OFLC", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: agg.state.sourceUpdatedAt }}
             >
               {employerBars.length > 0 ? (
-                <HorizontalBarChart data={employerBars} labelKey="label" valueKey="value" colorByIndex />
+                <HorizontalBarChart
+                  data={employerBars}
+                  labelKey="label"
+                  valueKey="value"
+                  colorByIndex
+                  valueLabel="H-1B approvals"
+                  dataCaption={`H-1B approvals attributable to worksites in ${agg.state.name}`}
+                />
               ) : (
                 <p className="text-sm text-slate-400">No tracked employers with worksites in this state.</p>
               )}

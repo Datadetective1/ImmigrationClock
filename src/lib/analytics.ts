@@ -110,9 +110,20 @@ const PLAUSIBLE_NAME: Record<AnalyticsEvent, string> = {
 export function sanitizeSearchTerm(raw: string): string | null {
   const t = raw.trim().toLowerCase().replace(/\s+/g, " ");
   if (!t) return null;
-  // Anything resembling an email, phone number, or long digit string is dropped
-  // wholesale rather than partially redacted.
+  // Anything resembling an email or a long unbroken digit string is dropped
+  // wholesale rather than partially redacted. An A-number ("A123456789") is
+  // caught here.
   if (/@|\d{6,}/.test(t)) return null;
+  // …and so is a digit run broken up by separators, which the rule above misses:
+  // "415-555-1234", "(415) 555 1234", "123-45-6789". On an immigration site the
+  // SSN shape matters more than the phone shape, and both slip past \d{6,}.
+  //
+  // Deliberately NOT a plain digit count. Form numbers are how people search
+  // here — "i-130 i-485 i-765" is nine digits and a completely ordinary query.
+  // Requiring the digits to sit in ONE separator-joined run keeps those, because
+  // the letters between them break the run.
+  const run = t.match(/\d[\d\s().+-]{5,}\d/);
+  if (run && run[0].replace(/\D/g, "").length >= 7) return null;
   return t.slice(0, 60);
 }
 

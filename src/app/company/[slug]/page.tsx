@@ -128,6 +128,7 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
                 { key: "Approvals", label: "Approvals", color: "#38bdf8" },
                 { key: "Denials", label: "Denials", color: "#f43f5e" },
               ]}
+              dataCaption={`USCIS H-1B petition outcomes for ${company.name} by fiscal year`}
             />
           </ChartCard>
           <ChartCard
@@ -140,6 +141,7 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
               xKey="label"
               series={[{ key: "Avg offered wage", label: "Avg offered wage", color: "#22c55e" }]}
               currency
+              dataCaption={`DOL LCA-disclosed average offered wage for ${company.name} by fiscal year`}
             />
           </ChartCard>
         </div>

@@ -109,6 +109,9 @@ export default function SalaryPage({ params }: { params: { jobTitle: string } })
             currency
             colorByIndex
             height={Math.max(220, matches.length * 38)}
+            // The "Sponsoring employers" list directly below prints the same
+            // employer and wage this chart plots.
+            hideData
           />
         </ChartCard>
 
