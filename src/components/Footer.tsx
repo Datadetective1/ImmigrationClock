@@ -53,7 +53,10 @@ export function Footer() {
           <p className="text-xs leading-relaxed text-slate-500">{SITE.footerDisclaimer}</p>
         </div>
 
-        <nav className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400">
+        <nav
+          aria-label="Legal and policy"
+          className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400"
+        >
           {LEGAL_LINKS.map((l) => (
             <Link key={l.href} href={l.href} className="transition-colors hover:text-white">
               {l.label}

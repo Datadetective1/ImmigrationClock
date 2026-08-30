@@ -45,6 +45,17 @@ export interface NavItem {
   label: string;
   href?: string; // single link, or the hub landing page for a group
   children?: NavChild[];
+  /**
+   * Extra path prefixes that belong to this section, for the "you are here"
+   * highlight.
+   *
+   * Without this the navbar highlighted nothing on every generated page — the
+   * 2,600+ employer records, the company, state, country and salary pages —
+   * because no nav href is a prefix of any of them (/h1b/top-sponsors does not
+   * contain /h1b/state/CA). Those are precisely the pages a reader arrives on
+   * from Google, with the least idea where they have landed.
+   */
+  match?: string[];
 }
 
 export const NAV: NavItem[] = [
@@ -56,6 +67,7 @@ export const NAV: NavItem[] = [
   {
     label: "Enforcement & Border",
     href: "/enforcement",
+    match: ["/enforcement", "/immigration", "/border", "/timeline"],
     children: [
       { href: "/enforcement", label: "Section overview", desc: "The enforcement & border picture at a glance" },
       { href: "/immigration/enforcement-trends", label: "Enforcement trends", desc: "ICE arrests, removals, detention" },
@@ -66,6 +78,20 @@ export const NAV: NavItem[] = [
   {
     label: "Work & Visas",
     href: "/work-visas",
+    // Every generated employer, company, state, country and salary page lives
+    // under this section — together the large majority of the site's URLs.
+    match: [
+      "/work-visas",
+      "/h1b",
+      "/visa",
+      "/company",
+      "/employer",
+      "/state",
+      "/country",
+      "/migration-map",
+      "/layoffs",
+      "/layoffs-vs-h1b",
+    ],
     children: [
       { href: "/work-visas", label: "Section overview", desc: "Visas, sponsors & the workforce at a glance" },
       { href: "/migration-map", label: "Origin map", desc: "Where H-1B & F-1 visa holders come from" },
@@ -79,9 +105,14 @@ export const NAV: NavItem[] = [
   {
     label: "For Immigrants",
     href: "/for-you",
+    match: ["/for-you", "/key-dates", "/resources", "/explained", "/following"],
     children: [
       { href: "/for-you", label: "What this means for you", desc: "The data read for your situation" },
       { href: "/key-dates", label: "Key dates & deadlines", desc: "H-1B, tax, DV lottery, OPT — counted down" },
+      // The follow feature had exactly one entry point on the whole site — a
+      // single homepage CTA — so a reader who arrived on any other page could
+      // not find it at all.
+      { href: "/following", label: "Follow what matters", desc: "Pick countries, visas & topics to track" },
       { href: "/resources", label: "Resources & services", desc: "Legal, tax, money transfer & more" },
       { href: "/explained", label: "Explained", desc: "Plain-English definitions" },
     ],
@@ -130,7 +161,13 @@ export const FOOTER_SECTIONS = [
       { href: "/developers", label: "Free WARN API" },
       { href: "/sources", label: "Sources" },
       { href: "/admin/refresh-status", label: "Refresh status" },
-      { href: "/admin/pulse-email", label: "Pulse email (weekly)" },
+      // Was /admin/pulse-email — the operator's build dashboard, which under
+      // this label is exactly what a reader looking for the weekly email
+      // clicks. It answers with an eleven-column table of spam flags and byte
+      // sizes and an instruction to set RESEND_AUDIENCE_<LOCALE>. The page a
+      // reader wants is /pulse, where the sign-up form actually is. The route
+      // itself is unchanged and still reachable by typing it.
+      { href: "/pulse#subscribe", label: "Weekly Pulse email" },
     ],
   },
 ];

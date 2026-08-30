@@ -60,6 +60,11 @@ export default function FollowingPage() {
         eyebrow="Personalized"
         title="Follow what matters to you"
         description="Choose countries, visas, agencies or immigration topics you care about. ImmigrationClock will organize relevant changes for you without creating a personal immigration profile."
+        crumbs={[
+          { href: "/", label: "Home" },
+          { href: "/for-you", label: "For you" },
+          { href: "/following", label: "Following" },
+        ]}
       />
 
       {/* The primary interaction, first. */}

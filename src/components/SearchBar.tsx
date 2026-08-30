@@ -20,7 +20,8 @@ import { SITE } from "@/lib/site";
 const SEARCH_EXAMPLES = ["H-1B", "F-1", "India", "Canada", "Amazon", "Google", "California", "Texas"];
 
 const TYPE_LABEL: Record<SearchResult["type"], string> = {
-  company: "Employer",
+  company: "Profile",
+  employer: "Sponsor",
   state: "State",
   country: "Country",
   visa: "Visa",

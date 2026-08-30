@@ -71,7 +71,11 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
         description={`${agg.country.region} · U.S. visa issuance trends and, where public, enforcement data by nationality.`}
         crumbs={[
           { href: "/", label: "Home" },
-          { href: "/visa/f1-student-visas", label: "Visas" },
+          // The country index is /migration-map, which lists and links every
+          // country profile. The old target, /visa/f1-student-visas, renders its
+          // country data as unclickable bars, so the only way up from a country
+          // page led somewhere you could not reach another country from.
+          { href: "/migration-map", label: "Countries" },
           { href: `/country/${agg.country.slug}`, label: agg.country.name },
         ]}
         share
