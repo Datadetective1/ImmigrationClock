@@ -8,7 +8,7 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { Faq, type FaqItem } from "@/components/Faq";
-import { TrendLineChart } from "@/components/charts/Charts";
+import { TrendLineChart } from "@/components/charts/LazyCharts";
 import { SourceBadge } from "@/components/SourceBadge";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { warnForEmployer } from "@/lib/warn";

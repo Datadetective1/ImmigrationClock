@@ -136,7 +136,7 @@ export default function LayoffsPage() {
           </div>
         ) : null}
 
-        <PulseSignup />
+        <PulseSignup placement="layoffs" />
 
         <ChartCard
           title="Most recent notices"

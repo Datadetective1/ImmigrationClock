@@ -8,7 +8,7 @@ import { ChartCard } from "@/components/ChartCard";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { RelevanceCard } from "@/components/RelevanceCard";
-import { TrendLineChart } from "@/components/charts/Charts";
+import { TrendLineChart } from "@/components/charts/LazyCharts";
 import { countryRelevance } from "@/lib/relevance";
 import { formatNumber, fiscalYearLabel } from "@/lib/format";
 import { EntityChanges } from "@/components/EntityChanges";

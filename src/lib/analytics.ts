@@ -47,6 +47,13 @@ export type AnalyticsEvent =
   /** Reader hit a real coverage gap we disclose, e.g. a state with no WARN feed. */
   | "coverage_gap_shown"
 
+  /** A contextual "related" link was followed — related sponsors, a linked
+   *  policy change, a sibling entity. Distinct from a nav or search click: it
+   *  measures whether the links we DERIVE from the data actually move readers
+   *  onward, which is the only way to tell a useful related-links block from
+   *  decoration. */
+  | "related_link_click"
+
   // --- RETURN ----------------------------------------------------------------
   | "newsletter_signup_started"
   | "newsletter_signup_submitted"
@@ -80,6 +87,7 @@ const PLAUSIBLE_NAME: Record<AnalyticsEvent, string> = {
   search_no_results: "Search — No Results",
   search_results: "Search — Results",
   coverage_gap_shown: "Coverage Gap Shown",
+  related_link_click: "Related Link Click",
   newsletter_signup_started: "Newsletter Signup Started",
   newsletter_signup_submitted: "Newsletter Signup Submitted",
   what_changed_view: "What Changed View",
@@ -150,4 +158,15 @@ export function trackSearch(rawTerm: string, resultCount: number): void {
 /** A disclosed coverage gap was shown to a reader (e.g. a state with no feed). */
 export function trackCoverageGap(dataset: string, scope: string): void {
   track("coverage_gap_shown", { dataset, scope });
+}
+
+/**
+ * A derived "related" link was followed.
+ *
+ * `surface` names the block (e.g. "related-sponsors"), `relation` names WHY the
+ * link was offered (e.g. "volume", "state"). Both are short fixed strings from
+ * our own vocabulary, never anything the reader typed.
+ */
+export function trackRelatedClick(surface: string, relation: string): void {
+  track("related_link_click", { surface, relation });
 }

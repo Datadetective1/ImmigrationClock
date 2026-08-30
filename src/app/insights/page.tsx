@@ -54,7 +54,7 @@ export default function InsightsPage() {
           ))}
         </div>
 
-        <PulseSignup />
+        <PulseSignup placement="insights" />
 
         <MethodologyNote>
           Insights are derived automatically from the same public datasets shown across the site

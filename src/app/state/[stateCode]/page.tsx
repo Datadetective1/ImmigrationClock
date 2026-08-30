@@ -19,7 +19,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { SourceBadge } from "@/components/SourceBadge";
 import { RelevanceCard } from "@/components/RelevanceCard";
-import { HorizontalBarChart } from "@/components/charts/Charts";
+import { HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { stateRelevance } from "@/lib/relevance";
 import { formatNumber, formatCurrency, formatDate, fiscalYearLabel } from "@/lib/format";
 

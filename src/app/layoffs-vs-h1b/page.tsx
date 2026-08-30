@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { GroupedBarChart } from "@/components/charts/Charts";
+import { GroupedBarChart } from "@/components/charts/LazyCharts";
 import { DownloadCsvButton } from "@/components/DownloadCsvButton";
 import { DataStatus } from "@/components/DataStatus";
 import { warnH1bCrossLink, WARN_META } from "@/lib/warn";

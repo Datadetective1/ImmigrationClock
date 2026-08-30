@@ -75,7 +75,7 @@ export default function PulsePage() {
 
         <ChangeFeed />
 
-        <PulseSignup />
+        <PulseSignup placement="pulse" />
 
         <div className="panel panel-pad">
           <h2 className="text-sm font-semibold text-white">Share the Pulse</h2>

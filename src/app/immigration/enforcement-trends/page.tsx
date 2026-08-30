@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
+import { TrendLineChart, GroupedBarChart, HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { StateMap } from "@/components/StateMap";
 import { DataStatus } from "@/components/DataStatus";
 import {

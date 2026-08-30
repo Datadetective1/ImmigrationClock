@@ -6,11 +6,13 @@ import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EmployerTable } from "@/components/EmployerTable";
 import { RelevanceCard } from "@/components/RelevanceCard";
-import { HorizontalBarChart } from "@/components/charts/Charts";
+import { HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { employerRelevance } from "@/lib/relevance";
 import { topSponsors, topOccupationsBySponsorship, LAST_COMPLETE_FY } from "@/lib/data";
 import { states, UPDATED } from "@/lib/dataset";
 import { EMPLOYERS_META } from "@/lib/employers";
+import { EntityChanges } from "@/components/EntityChanges";
+import { entityId } from "@/domains/graph/entities";
 import { formatNumber, formatCurrency, formatRate, fiscalYearLabel, slugify } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -137,6 +139,14 @@ export default function TopSponsorsPage() {
             ))}
           </div>
         </ChartCard>
+
+        {/* The H-1B section hub showed sponsorship statistics and none of the
+            27 recorded H-1B policy changes — the same gap EntityChanges was
+            built to close on country and F-1 pages. Statistics describe what
+            happened; a rule change is what may happen to the reader next. The
+            entity link is the archive's own visa:h-1b tag, not a keyword
+            guess. */}
+        <EntityChanges entityId={entityId("visa", "H-1B")} label="H-1B" kind="visa" />
 
         <MethodologyNote variant="warning">
           These employers are a tracked subset of all H-1B sponsors, not the entire national total. H-1B

@@ -73,3 +73,58 @@ export function displayEmployer(name: string): string {
     .replace(/\b([a-z])/g, (m) => m.toUpperCase())
     .replace(/\b(Llc|Inc|Llp|Ltd|Plc|Usa|Us|It|Dba|Na)\b/g, (m) => m.toUpperCase());
 }
+
+// ---------------------------------------------------------------------------
+// Related sponsors
+// ---------------------------------------------------------------------------
+//
+// The 2,614 employer pages had no link to another employer — not one. Every one
+// of them is a cul-de-sac inside its own family: the only ways out are the
+// breadcrumb back to the directory, /layoffs, and USCIS. A reader arriving on
+// Wipro from a search engine and wanting to compare Infosys had to go back and
+// search again.
+//
+// These two relationships are real properties of the committed snapshot, not
+// invented affinity. EMPLOYERS is pre-sorted by approvals, so adjacency in the
+// array IS adjacency in sponsorship volume; and every one of the 2,614 rows
+// carries a topState (52 states, exactly one of them with a single sponsor).
+// Nothing here infers an industry, a relationship, or a similarity we cannot
+// show from the data.
+
+export interface RelatedSponsors {
+  /** Sponsors immediately above and below this one by approval count. */
+  byVolume: DirectoryEmployer[];
+  /** Other large sponsors whose approvals concentrate in the same state. */
+  byState: DirectoryEmployer[];
+  /** The shared state, or null when this employer has none recorded. */
+  state: string | null;
+}
+
+/**
+ * Sponsors worth comparing against this one.
+ *
+ * `byVolume` is a window around the employer's own rank rather than the top of
+ * the list: "the sponsors either side of you" is a comparison a reader can act
+ * on, where "here are the ten biggest again" is the directory they just left.
+ */
+export function relatedSponsors(slug: string, perGroup = 4): RelatedSponsors {
+  const found = BY_SLUG.get(slug);
+  if (!found) return { byVolume: [], byState: [], state: null };
+  const i = found.rank - 1;
+
+  // A window centred on this employer, clamped at both ends of the list so the
+  // first and last sponsors still get a full set of neighbours.
+  const half = Math.ceil(perGroup / 2);
+  let from = Math.max(0, i - half);
+  const to = Math.min(EMPLOYERS.length, from + perGroup + 1);
+  from = Math.max(0, to - perGroup - 1);
+  const byVolume = EMPLOYERS.slice(from, to).filter((e) => e.slug !== slug);
+
+  const state = found.employer.topState || null;
+  const seen = new Set(byVolume.map((e) => e.slug));
+  const byState = state
+    ? EMPLOYERS.filter((e) => e.topState === state && e.slug !== slug && !seen.has(e.slug)).slice(0, perGroup)
+    : [];
+
+  return { byVolume, byState, state };
+}

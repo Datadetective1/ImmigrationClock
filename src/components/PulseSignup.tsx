@@ -63,7 +63,15 @@ function NotOpenNotice({ compact = false, devMode }: { compact?: boolean; devMod
  * Weekly "Immigration Pulse" email capture. `card` is the full panel; `inline`
  * is a slim banner-row variant used where ad slots would otherwise sit.
  */
-export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" }) {
+export function PulseSignup({
+  variant = "card",
+  /** Names the surface for the conversion events, so a signup on the
+   *  homepage can be told apart from one on /layoffs. */
+  placement = "page",
+}: {
+  variant?: "card" | "inline";
+  placement?: string;
+}) {
   const state = resolveState();
   const open = canSubscribe(state);
   const devMode = state.kind === "dev-disabled";
@@ -143,6 +151,7 @@ export function PulseSignup({ variant = "card" }: { variant?: "card" | "inline" 
             <PulseSignupForm
               provider={state.provider}
               endpoint={state.provider === "external" ? state.endpoint : undefined}
+              placement={placement}
             />
           ) : (
             <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
