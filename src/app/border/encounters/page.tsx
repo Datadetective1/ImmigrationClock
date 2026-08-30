@@ -6,7 +6,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { BorderExplorer } from "@/components/BorderExplorer";
 import { ChangeTracker } from "@/components/ChangeTracker";
 import { borderChartMarkers } from "@/lib/events";
-import { GroupedBarChart, HorizontalBarChart } from "@/components/charts/Charts";
+import { GroupedBarChart, HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { DataStatus } from "@/components/DataStatus";
 import {
   borderYearlyData,

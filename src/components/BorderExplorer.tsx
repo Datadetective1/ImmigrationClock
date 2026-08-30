@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChartCard } from "./ChartCard";
-import { GroupedBarChart, type ChartMarker } from "./charts/Charts";
+import { GroupedBarChart, type ChartMarker } from "./charts/LazyCharts";
 
 type Border = "southwest" | "northern" | "nationwide";
 type Row = Record<string, number | string | boolean>;

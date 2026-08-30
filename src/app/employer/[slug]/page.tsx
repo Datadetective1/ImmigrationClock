@@ -2,18 +2,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
+import { RelatedSponsors } from "@/components/RelatedSponsors";
 import { Stat, StatRow } from "@/components/Stat";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ProvenanceTag } from "@/components/ProvenanceTag";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { DataStatus } from "@/components/DataStatus";
-import {
-  EMPLOYERS,
-  EMPLOYERS_META,
-  AVG_APPROVAL_RATE,
-  employerBySlug,
-  displayEmployer,
-} from "@/lib/employers";
+import { EMPLOYERS, EMPLOYERS_META, AVG_APPROVAL_RATE, employerBySlug, displayEmployer, relatedSponsors } from "@/lib/employers";
 import { warnForEmployer } from "@/lib/warn";
 import { formatNumber, formatRate, formatDate } from "@/lib/format";
 
@@ -221,6 +216,10 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
             ) : null}
           </section>
         ) : null}
+
+        {/* The way out. Every one of the 2,614 employer pages ended here
+            with no route to another employer. */}
+        <RelatedSponsors related={relatedSponsors(e.slug)} name={name} />
 
         <Faq items={faqItems} />
 

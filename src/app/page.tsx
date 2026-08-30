@@ -215,7 +215,7 @@ export default function HomePage() {
 
         <ReportError />
 
-        <PulseSignup />
+        <PulseSignup placement="home" />
       </div>
     </div>
   );

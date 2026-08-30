@@ -6,7 +6,7 @@ import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { Faq, type FaqItem } from "@/components/Faq";
-import { HorizontalBarChart } from "@/components/charts/Charts";
+import { HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { companies, UPDATED } from "@/lib/dataset";
 import { SALARY_JOB_TITLES } from "@/lib/seo-pages";
 import { LAST_COMPLETE_FY } from "@/lib/data";

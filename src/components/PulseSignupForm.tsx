@@ -27,6 +27,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { isPlausibleEmail } from "@/lib/newsletter";
+import { track } from "@/lib/analytics";
 import { LOCALES, type Locale } from "@/lib/newsletter/types";
 
 const CONSENT_TEXT = "Email me the weekly Immigration Pulse. I can unsubscribe from any email.";
@@ -73,9 +74,13 @@ type Status =
 export function PulseSignupForm({
   provider,
   endpoint,
+  /** Which surface this form is on. Kept to a short fixed vocabulary so the
+   *  analytics dimension stays low-cardinality and carries nothing personal. */
+  placement = "page",
 }: {
   provider: "self" | "external";
   endpoint?: string;
+  placement?: string;
 }) {
   const [consented, setConsented] = useState(false);
   const [email, setEmail] = useState("");
@@ -158,6 +163,11 @@ export function PulseSignupForm({
     }
 
     setStatus({ kind: "submitting" });
+    // Newsletter conversion was entirely unmeasurable: both events below were
+    // declared in the analytics taxonomy and never once emitted, so there was
+    // no way to tell a signup funnel that leaks from one nobody reaches. Fired
+    // after validation passes, so a typo is not counted as an attempt.
+    track("newsletter_signup_started", { placement });
     const form = e.currentTarget;
     const honeypot = (form.elements.namedItem("website") as HTMLInputElement | null)?.value ?? "";
 
@@ -169,6 +179,7 @@ export function PulseSignupForm({
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
+        track("newsletter_signup_submitted", { placement, language });
         setStatus({ kind: "done" });
         return;
       }

@@ -4,7 +4,11 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { search, type SearchResult } from "@/lib/data";
+import { trackSearch } from "@/lib/analytics";
 import { SITE } from "@/lib/site";
+
+/** Wait for a pause in typing before recording a query. */
+const TRACK_DELAY_MS = 800;
 
 /**
  * What the search box can actually answer, shown as examples.
@@ -36,6 +40,23 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
   const wrapRef = useRef<HTMLDivElement>(null);
 
   const results = useMemo(() => (q ? search(q) : []), [q]);
+
+  // This box is the site's busiest search surface — it is on the homepage, the
+  // 404 page and /work-visas — and it recorded nothing. Only /search and
+  // /what-changed were instrumented, so the zero-result queries that tell us
+  // what coverage is missing were being collected from everywhere except the
+  // place most people type. Debounced, and deduped against the last recorded
+  // query, so a settled question is logged once rather than once per keystroke.
+  const tracked = useRef("");
+  useEffect(() => {
+    const term = q.trim();
+    if (!term || term === tracked.current) return;
+    const t = setTimeout(() => {
+      tracked.current = term;
+      trackSearch(term, results.length);
+    }, TRACK_DELAY_MS);
+    return () => clearTimeout(t);
+  }, [q, results.length]);
 
   useEffect(() => {
     function onClick(e: MouseEvent) {

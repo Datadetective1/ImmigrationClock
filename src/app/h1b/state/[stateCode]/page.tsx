@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
-import { HorizontalBarChart } from "@/components/charts/Charts";
+import { HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { formatNumber, formatCurrency, fiscalYearLabel } from "@/lib/format";
 
 export function generateStaticParams() {

@@ -5,7 +5,7 @@ import { ChartCard } from "@/components/ChartCard";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { ReportingLag } from "@/components/ReportingLag";
 import { RelevanceCard } from "@/components/RelevanceCard";
-import { TrendLineChart, HorizontalBarChart } from "@/components/charts/Charts";
+import { TrendLineChart, HorizontalBarChart } from "@/components/charts/LazyCharts";
 import { studentRelevance } from "@/lib/relevance";
 import Link from "next/link";
 import { visaChartData, visaSeriesDefs, visaCountryData } from "@/lib/chart-data";

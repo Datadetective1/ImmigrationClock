@@ -26,6 +26,7 @@
 // =============================================================================
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { track } from "@/lib/analytics";
 import {
   readStoredFollows,
   writeStoredFollows,
@@ -102,7 +103,20 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
   );
 
   const toggle = useCallback(
-    (entityId: string) => commit(toggleFollowPure(latest.current, entityId)),
+    (entityId: string) => {
+      const next = toggleFollowPure(latest.current, entityId);
+      // entity_follow was declared in the taxonomy and never emitted, so the one
+      // feature built specifically to bring readers back was the one we could
+      // not tell was being used. The entity id is a public slug from our own
+      // vocabulary (country:mexico, visa:h-1b) — it names a topic, not a person,
+      // and the follow list itself still never leaves the browser.
+      track("entity_follow", {
+        entity: entityId,
+        action: next.length > latest.current.length ? "follow" : "unfollow",
+        total: next.length,
+      });
+      commit(next);
+    },
     [commit]
   );
 
