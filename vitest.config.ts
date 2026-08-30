@@ -7,6 +7,11 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  // tsconfig sets jsx:"preserve" and leaves the transform to Next, so esbuild
+  // here would otherwise fall back to the classic runtime and every rendered
+  // component would throw "React is not defined". Needed to render a component
+  // to markup in a test at all.
+  esbuild: { jsx: "automatic" },
   test: {
     environment: "node",
     include: ["tests/**/*.test.ts"],

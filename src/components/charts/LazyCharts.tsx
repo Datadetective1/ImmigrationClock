@@ -40,6 +40,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import type { ChartMarker, SeriesDef } from "./Charts";
+import { ChartData, type DataColumn } from "./ChartData";
 
 export type { ChartMarker, SeriesDef };
 
@@ -52,14 +53,62 @@ export type { ChartMarker, SeriesDef };
  */
 function ChartSkeleton({ height }: { height: number }) {
   return (
-    <div
-      style={{ width: "100%", height }}
-      className="flex items-center justify-center rounded-xl border border-white/5 bg-white/[0.02]"
-      role="status"
-      aria-live="polite"
-    >
-      <span className="text-xs text-slate-500">Loading chart…</span>
-    </div>
+    <>
+      {/* Without JavaScript the chart never arrives, so a placeholder that says
+          "Loading chart…" is a promise the page cannot keep — it sat there
+          permanently. Hiding it for those readers leaves the data disclosure
+          below, which is real information rather than a stuck spinner. A
+          <noscript> block is inert when scripts run, so the placeholder still
+          behaves normally for everyone else. */}
+      <noscript>
+        {/* eslint-disable-next-line react/no-danger */}
+        <style dangerouslySetInnerHTML={{ __html: ".ic-chart-skeleton{display:none}" }} />
+      </noscript>
+      <div
+        style={{ width: "100%", height }}
+        className="ic-chart-skeleton flex items-center justify-center rounded-xl border border-white/5 bg-white/[0.02]"
+        role="status"
+        aria-live="polite"
+      >
+        <span className="text-xs text-slate-500">Loading chart…</span>
+      </div>
+    </>
+  );
+}
+
+/**
+ * Chart plus the numbers behind it.
+ *
+ * Every chart goes through here, so no route can ship a picture with no readable
+ * values by forgetting to opt in. `data` is not passed twice: the table is
+ * derived from the array the chart is already plotting, which is also why the
+ * two can never disagree.
+ *
+ * `hideData` exists for the pages that already print these figures elsewhere —
+ * /layoffs-vs-h1b, /h1b/salaries/*, /state/*, /h1b/state/* were measured at 100%
+ * visible before any of this. Repeating them there would be duplication, which
+ * is the thing to avoid, not more coverage.
+ */
+function WithData({
+  height,
+  rows,
+  columns,
+  caption,
+  hideData,
+  children,
+}: {
+  height: number;
+  rows: Record<string, number | string | boolean>[];
+  columns: DataColumn[];
+  caption?: string;
+  hideData?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <Deferred height={height}>{children}</Deferred>
+      {hideData ? null : <ChartData rows={rows} columns={columns} caption={caption} />}
+    </>
   );
 }
 
@@ -86,7 +135,15 @@ const HorizontalBarChartImpl = dynamic(() => import("./Charts").then((m) => m.Ho
  * meant to avoid. `suppressHydrationWarning` is not needed: the server renders
  * the skeleton, and the client replaces it after mount.
  */
-type TrendLineProps = {
+/** Shared by every chart: what the figures are, and whether to print them. */
+interface DataProps {
+  /** A short phrase naming the figures, e.g. "Estimated H-1B and F-1 issuances to India". */
+  dataCaption?: string;
+  /** Suppress the table where the page already shows these values. */
+  hideData?: boolean;
+}
+
+type TrendLineProps = DataProps & {
   data: Record<string, number | string | boolean>[];
   xKey: string;
   series: SeriesDef[];
@@ -95,36 +152,67 @@ type TrendLineProps = {
   markers?: ChartMarker[];
 };
 
-export function TrendLineChart(props: TrendLineProps) {
+/** The x-axis column plus one column per plotted series — the chart's own shape. */
+function seriesColumns(xKey: string, series: SeriesDef[], currency?: boolean): DataColumn[] {
+  return [
+    { key: xKey, label: "Period" },
+    ...series.map((s) => ({ key: s.key, label: s.label, numeric: true, currency })),
+  ];
+}
+
+export function TrendLineChart({ dataCaption, hideData, ...props }: TrendLineProps) {
   return (
-    <Deferred height={props.height ?? 260}>
+    <WithData
+      height={props.height ?? 260}
+      rows={props.data}
+      columns={seriesColumns(props.xKey, props.series, props.currency)}
+      caption={dataCaption}
+      hideData={hideData}
+    >
       <TrendLineChartImpl {...props} />
-    </Deferred>
+    </WithData>
   );
 }
 
-export function GroupedBarChart(props: TrendLineProps) {
+export function GroupedBarChart({ dataCaption, hideData, ...props }: TrendLineProps) {
   return (
-    <Deferred height={props.height ?? 260}>
+    <WithData
+      height={props.height ?? 260}
+      rows={props.data}
+      columns={seriesColumns(props.xKey, props.series, props.currency)}
+      caption={dataCaption}
+      hideData={hideData}
+    >
       <GroupedBarChartImpl {...props} />
-    </Deferred>
+    </WithData>
   );
 }
 
-type HorizontalBarProps = {
+type HorizontalBarProps = DataProps & {
   data: Record<string, number | string | boolean>[];
   labelKey: string;
   valueKey: string;
   height?: number;
   currency?: boolean;
   colorByIndex?: boolean;
+  /** Column heading for the value column. Defaults to the value key. */
+  valueLabel?: string;
 };
 
-export function HorizontalBarChart(props: HorizontalBarProps) {
+export function HorizontalBarChart({ dataCaption, hideData, valueLabel, ...props }: HorizontalBarProps) {
   return (
-    <Deferred height={props.height ?? 280}>
+    <WithData
+      height={props.height ?? 280}
+      rows={props.data}
+      columns={[
+        { key: props.labelKey, label: "Name" },
+        { key: props.valueKey, label: valueLabel ?? "Value", numeric: true, currency: props.currency },
+      ]}
+      caption={dataCaption}
+      hideData={hideData}
+    >
       <HorizontalBarChartImpl {...props} />
-    </Deferred>
+    </WithData>
   );
 }
 

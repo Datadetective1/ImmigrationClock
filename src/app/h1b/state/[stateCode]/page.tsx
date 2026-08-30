@@ -60,7 +60,14 @@ export default function H1bStatePage({ params }: { params: { stateCode: string }
               source={{ sourceName: "USCIS H-1B Employer Data Hub", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: agg.state.sourceUpdatedAt }}
             >
               {bars.length > 0 ? (
-                <HorizontalBarChart data={bars} labelKey="label" valueKey="value" colorByIndex />
+                <HorizontalBarChart
+                  data={bars}
+                  labelKey="label"
+                  valueKey="value"
+                  colorByIndex
+                  valueLabel="H-1B approvals"
+                  dataCaption={`Top H-1B employers with worksites in ${agg.state.name}`}
+                />
               ) : (
                 <p className="text-sm text-slate-400">No tracked employers with worksites here.</p>
               )}

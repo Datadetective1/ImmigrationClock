@@ -67,7 +67,13 @@ export function TrendLineChart({
   markers?: ChartMarker[];
 }) {
   return (
-    <div style={{ width: "100%", height }}>
+    // aria-hidden, because the numbers now ship as a real table alongside
+    // (ChartData, rendered by LazyCharts). Before that existed, hiding the
+    // chart would have removed the only copy of the data; leaving it exposed
+    // made a screen reader read the axis ticks as one unbroken string —
+    // "FY21FY22FY23FY24FY25FY26080K160K240K320KH-1B visasF-1 visas". With a
+    // table present the picture is decoration, and says so.
+    <div style={{ width: "100%", height }} aria-hidden="true">
       <ResponsiveContainer>
         <LineChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
           <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" vertical={false} />
@@ -114,7 +120,13 @@ export function GroupedBarChart({
   markers?: ChartMarker[];
 }) {
   return (
-    <div style={{ width: "100%", height }}>
+    // aria-hidden, because the numbers now ship as a real table alongside
+    // (ChartData, rendered by LazyCharts). Before that existed, hiding the
+    // chart would have removed the only copy of the data; leaving it exposed
+    // made a screen reader read the axis ticks as one unbroken string —
+    // "FY21FY22FY23FY24FY25FY26080K160K240K320KH-1B visasF-1 visas". With a
+    // table present the picture is decoration, and says so.
+    <div style={{ width: "100%", height }} aria-hidden="true">
       <ResponsiveContainer>
         <BarChart data={data} margin={{ top: 8, right: 12, bottom: 4, left: 4 }}>
           <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" vertical={false} />
@@ -160,7 +172,13 @@ export function HorizontalBarChart({
   colorByIndex?: boolean;
 }) {
   return (
-    <div style={{ width: "100%", height }}>
+    // aria-hidden, because the numbers now ship as a real table alongside
+    // (ChartData, rendered by LazyCharts). Before that existed, hiding the
+    // chart would have removed the only copy of the data; leaving it exposed
+    // made a screen reader read the axis ticks as one unbroken string —
+    // "FY21FY22FY23FY24FY25FY26080K160K240K320KH-1B visasF-1 visas". With a
+    // table present the picture is decoration, and says so.
+    <div style={{ width: "100%", height }} aria-hidden="true">
       <ResponsiveContainer>
         <BarChart data={data} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 8 }}>
           <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" horizontal={false} />

@@ -57,6 +57,7 @@ export function BorderExplorer({
             xKey="label"
             series={[{ key: "Encounters", label: "Encounters", color: "#38bdf8" }]}
             markers={markers}
+            dataCaption="CBP encounters by fiscal year for the selected border"
           />
         </ChartCard>
         <ChartCard title="Encounters by demographic" subtitle="Single adults, family units, minors" source={source}>
@@ -68,6 +69,7 @@ export function BorderExplorer({
               { key: "Family units", label: "Family units", color: "#a78bfa" },
               { key: "Unaccompanied minors", label: "Minors", color: "#f59e0b" },
             ]}
+            dataCaption="CBP encounters by demographic group and fiscal year"
           />
         </ChartCard>
       </div>

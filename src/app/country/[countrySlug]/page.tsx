@@ -115,6 +115,7 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
               { key: "F-1 visas", label: "F-1 visas", color: "#f59e0b" },
             ]}
             height={300}
+          dataCaption={`Estimated H-1B and F-1 issuances to nationals of ${agg.country.name}`}
           />
         </ChartCard>
 

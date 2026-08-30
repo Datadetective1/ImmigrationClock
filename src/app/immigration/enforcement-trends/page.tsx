@@ -94,6 +94,7 @@ export default function EnforcementTrendsPage() {
                 { key: "Arrests", label: "Arrests", color: "#f43f5e" },
                 { key: "Removals", label: "Removals", color: "#f59e0b" },
               ]}
+            dataCaption="ICE arrests, removals and detention by fiscal year"
             />
           </ChartCard>
           <ChartCard
@@ -108,6 +109,7 @@ export default function EnforcementTrendsPage() {
                 { key: "Criminal", label: "Criminal", color: "#38bdf8" },
                 { key: "Non-criminal", label: "Non-criminal", color: "#a78bfa" },
               ]}
+            dataCaption="ICE enforcement actions by fiscal year"
             />
           </ChartCard>
         </div>
@@ -130,7 +132,15 @@ export default function EnforcementTrendsPage() {
           provenance="modeled"
           source={{ sourceName: "ICE / DHS statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
         >
-          <HorizontalBarChart data={byCountry} labelKey="label" valueKey="value" colorByIndex height={320} />
+          <HorizontalBarChart
+            data={byCountry}
+            labelKey="label"
+            valueKey="value"
+            colorByIndex
+            height={320}
+            valueLabel="Removals"
+            dataCaption="ICE removals by country of citizenship"
+          />
         </ChartCard>
 
         <DataStatus

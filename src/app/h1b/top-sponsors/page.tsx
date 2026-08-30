@@ -108,6 +108,8 @@ export default function TopSponsorsPage() {
               valueKey="value"
               colorByIndex
               height={300}
+            valueLabel="H-1B approvals"
+            dataCaption="Tracked H-1B sponsors by petition approvals"
             />
           </ChartCard>
           <ChartCard title="Explore H-1B salaries by job title" subtitle="Average offered wage per occupation">

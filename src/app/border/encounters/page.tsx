@@ -85,6 +85,7 @@ export default function BorderEncountersPage() {
             xKey="label"
             series={[{ key: "Encounters", label: "Encounters", color: "#38bdf8" }]}
             height={300}
+          dataCaption="CBP encounters by month and border"
           />
         </ChartCard>
 
@@ -96,7 +97,15 @@ export default function BorderEncountersPage() {
           provenance="modeled"
           source={SOURCE}
         >
-          <HorizontalBarChart data={byCountry} labelKey="label" valueKey="value" colorByIndex height={320} />
+          <HorizontalBarChart
+            data={byCountry}
+            labelKey="label"
+            valueKey="value"
+            colorByIndex
+            height={320}
+            valueLabel="Encounters"
+            dataCaption="CBP nationwide encounters by nationality"
+          />
         </ChartCard>
 
         <DataStatus

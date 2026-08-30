@@ -122,6 +122,9 @@ export default function LayoffsVsH1bPage() {
               { key: "Layoffs (WARN)", label: "Layoffs (WARN)", color: "#f43f5e" },
             ]}
             height={340}
+            // The full matched-employer table below carries these same columns for
+            // every employer, not just the top ten — plus a CSV download.
+            hideData
           />
         </ChartCard>
 

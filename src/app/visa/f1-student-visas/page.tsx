@@ -95,7 +95,13 @@ export default function VisaFlowPage() {
           tooltip="Counts reflect visas issued at consulates, not petitions approved by USCIS."
           source={SOURCE}
         >
-          <TrendLineChart data={visa} xKey="label" series={defs} height={320} />
+          <TrendLineChart
+            data={visa}
+            xKey="label"
+            series={defs}
+            height={320}
+            dataCaption="Department of State visa issuances by class and fiscal year"
+          />
         </ChartCard>
 
 
@@ -108,14 +114,30 @@ export default function VisaFlowPage() {
             subtitle={`${fiscalYearLabel(LATEST_COMPLETE_FY)} · estimated shares`}
             source={SOURCE}
           >
-            <HorizontalBarChart data={f1Country} labelKey="label" valueKey="value" colorByIndex height={320} />
+            <HorizontalBarChart
+              data={f1Country}
+              labelKey="label"
+              valueKey="value"
+              colorByIndex
+              height={320}
+              valueLabel="F-1 issuances"
+              dataCaption="F-1 student visa issuances by country of nationality"
+            />
           </ChartCard>
           <ChartCard
             title="H-1B approvals by country"
             subtitle={`${fiscalYearLabel(EMPLOYER_LATEST_FY)} · USCIS`}
             source={{ sourceName: "USCIS H-1B statistics", sourceUrl: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub", sourceUpdatedAt: UPDATED.uscis_h1b }}
           >
-            <HorizontalBarChart data={h1bCountry} labelKey="label" valueKey="value" colorByIndex height={320} />
+            <HorizontalBarChart
+              data={h1bCountry}
+              labelKey="label"
+              valueKey="value"
+              colorByIndex
+              height={320}
+              valueLabel="H-1B issuances"
+              dataCaption="H-1B visa issuances by country of nationality"
+            />
           </ChartCard>
         </div>
 
