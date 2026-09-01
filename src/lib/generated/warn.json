@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T17:45:49.828Z",
+  "generatedAt": "2026-09-01T13:59:04.359Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2302,
-      "employeesTotal": 371331,
+      "noticeCount": 2303,
+      "employeesTotal": 371399,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2291
+      "withEffectiveOnly": 2292
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1492,
-      "employeesTotal": 236379,
-      "latestNotice": "2026-08-28",
-      "withNoticeDate": 1492,
+      "noticeCount": 1495,
+      "employeesTotal": 236738,
+      "latestNotice": "2026-08-31",
+      "withNoticeDate": 1495,
       "withEffectiveOnly": 0
     },
     {
@@ -44,10 +44,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1116,
-      "employeesTotal": 130103,
-      "latestNotice": "2026-08-17",
-      "withNoticeDate": 1116,
+      "noticeCount": 1117,
+      "employeesTotal": 130648,
+      "latestNotice": "2026-08-28",
+      "withNoticeDate": 1117,
       "withEffectiveOnly": 0
     },
     {
@@ -64,11 +64,11 @@
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7422,
-  "employeesTotal": 962022,
-  "employerCount": 5804,
+  "noticeCount": 7427,
+  "employeesTotal": 962994,
+  "employerCount": 5806,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-28",
+  "maxNoticeDate": "2026-08-31",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -132,14 +132,14 @@
       "normalized": "AMAZON",
       "name": "Amazon",
       "slug": "amazon",
-      "notices": 12,
-      "employees": 8442,
+      "notices": 13,
+      "employees": 8563,
       "states": [
         "NJ",
         "VA",
         "WA"
       ],
-      "latestNotice": "2026-07-02"
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "WASHINGTON MUTUAL",
@@ -1081,6 +1081,18 @@
         "NJ"
       ],
       "latestNotice": "2011-02-06"
+    },
+    {
+      "normalized": "CROTHALL HEALTHCARE",
+      "name": "Crothall Healthcare",
+      "slug": "crothall-healthcare",
+      "notices": 6,
+      "employees": 1103,
+      "states": [
+        "VA",
+        "WA"
+      ],
+      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "HUDSON HOSPITAL OPCO D/B/A CAREPOINT HEALTH ¿ CHRIST HOSPITAL",
@@ -2901,18 +2913,6 @@
         "VA"
       ],
       "latestNotice": "2019-07-22"
-    },
-    {
-      "normalized": "CROTHALL HEALTHCARE",
-      "name": "Crothall Healthcare, Inc.",
-      "slug": "crothall-healthcare-inc",
-      "notices": 5,
-      "employees": 558,
-      "states": [
-        "VA",
-        "WA"
-      ],
-      "latestNotice": "2023-10-13"
     },
     {
       "normalized": "STITCH FIX",
@@ -11760,7 +11760,7 @@
     },
     {
       "normalized": "ENABLX",
-      "name": "Enablx, INC",
+      "name": "Enablx, Inc.",
       "slug": "enablx-inc",
       "notices": 1,
       "employees": 187,
@@ -13722,6 +13722,18 @@
         "NJ"
       ],
       "latestNotice": "2005-12-11"
+    },
+    {
+      "normalized": "CELLARES",
+      "name": "Cellares Corporation",
+      "slug": "cellares-corporation",
+      "notices": 2,
+      "employees": 168,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-11-19"
     },
     {
       "normalized": "M1 SUPPORT",
@@ -17143,6 +17155,17 @@
         "NJ"
       ],
       "latestNotice": "2026-09-18"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / RIVERSIDE CASINO",
+      "name": "Maverick Washington LLC / Riverside Casino",
+      "slug": "maverick-washington-llc-riverside-casino",
+      "notices": 1,
+      "employees": 142,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "PHILLIPS ULTRASOUND",
@@ -25552,17 +25575,6 @@
       "latestNotice": "2005-02-01"
     },
     {
-      "normalized": "CELLARES",
-      "name": "Cellares Corporation",
-      "slug": "cellares-corporation",
-      "notices": 1,
-      "employees": 100,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-08-21"
-    },
-    {
       "normalized": "COLLEGE SUCCESS FOUNDATION",
       "name": "College Success Foundation",
       "slug": "college-success-foundation",
@@ -26805,6 +26817,17 @@
         "NJ"
       ],
       "latestNotice": "2005-02-28"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
+      "name": "Maverick Washington LLC / Great American Casino",
+      "slug": "maverick-washington-llc-great-american-casino",
+      "notices": 1,
+      "employees": 96,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "ONPOINT LOGISTICS",
@@ -64173,9 +64196,9 @@
   ],
   "notices": [
     {
-      "employer": "Enablx, INC",
+      "employer": "Enablx, Inc.",
       "normalized": "ENABLX",
-      "city": "Rockaway Township",
+      "city": "Rockaway Twp.",
       "county": null,
       "state": "NJ",
       "noticeDate": null,
@@ -64193,6 +64216,18 @@
       "noticeDate": null,
       "effectiveDate": "2026-12-07",
       "employees": 57,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Cellares Corporation",
+      "normalized": "CELLARES",
+      "city": "Bridgewater",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-11-19",
+      "employees": 68,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
@@ -64447,6 +64482,54 @@
       "employees": 139,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Amazon",
+      "normalized": "AMAZON",
+      "city": "Seattle, Bellevue, Sumner",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-10-01",
+      "employees": 121,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Riverside Casino",
+      "normalized": "MAVERICK WASHINGTON / RIVERSIDE CASINO",
+      "city": "Tukwila",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-11-01",
+      "employees": 142,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Great American Casino",
+      "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
+      "city": "Tukwila",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-11-01",
+      "employees": 96,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Crothall Healthcare",
+      "normalized": "CROTHALL HEALTHCARE",
+      "city": "Richmond VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": null,
+      "employees": 545,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },
     {
       "employer": "Columbia Hospitality, Inc",

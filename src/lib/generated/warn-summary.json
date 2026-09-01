@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T17:45:49.828Z",
+  "generatedAt": "2026-09-01T13:59:04.359Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "sourceName": "State WARN Act notices (state open-data portals)",
   "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
@@ -10,11 +10,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2302,
-      "employeesTotal": 371331,
+      "noticeCount": 2303,
+      "employeesTotal": 371399,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2291
+      "withEffectiveOnly": 2292
     },
     {
       "code": "WA",
@@ -22,10 +22,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1492,
-      "employeesTotal": 236379,
-      "latestNotice": "2026-08-28",
-      "withNoticeDate": 1492,
+      "noticeCount": 1495,
+      "employeesTotal": 236738,
+      "latestNotice": "2026-08-31",
+      "withNoticeDate": 1495,
       "withEffectiveOnly": 0
     },
     {
@@ -46,10 +46,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1116,
-      "employeesTotal": 130103,
-      "latestNotice": "2026-08-17",
-      "withNoticeDate": 1116,
+      "noticeCount": 1117,
+      "employeesTotal": 130648,
+      "latestNotice": "2026-08-28",
+      "withNoticeDate": 1117,
       "withEffectiveOnly": 0
     },
     {
@@ -73,14 +73,14 @@
     "VA",
     "WA"
   ],
-  "noticeCount": 7422,
-  "employeesTotal": 962022,
-  "employerCount": 5804,
+  "noticeCount": 7427,
+  "employeesTotal": 962994,
+  "employerCount": 5806,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-28",
+  "maxNoticeDate": "2026-08-31",
   "yearBasisNote": "Yearly totals date each notice by the state-published notice/received date where available, and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). Notices with neither date are excluded from yearly totals but included in the overall counts.",
-  "datedByNoticeDate": 5120,
-  "datedByEffectiveDate": 2291,
+  "datedByNoticeDate": 5124,
+  "datedByEffectiveDate": 2292,
   "noticesWithoutDate": 11,
   "byYear": [
     {
@@ -195,8 +195,8 @@
     },
     {
       "year": 2026,
-      "employees": 54738,
-      "notices": 475
+      "employees": 55710,
+      "notices": 480
     }
   ],
   "byMonth": [
@@ -357,8 +357,8 @@
     },
     {
       "month": "2026-08",
-      "employees": 6502,
-      "notices": 102
+      "employees": 7406,
+      "notices": 106
     },
     {
       "month": "2026-09",
@@ -372,8 +372,8 @@
     },
     {
       "month": "2026-11",
-      "employees": 494,
-      "notices": 3
+      "employees": 562,
+      "notices": 4
     },
     {
       "month": "2026-12",
@@ -495,8 +495,8 @@
       },
       {
         "year": 2026,
-        "employees": 15754,
-        "notices": 123
+        "employees": 15822,
+        "notices": 124
       }
     ],
     "WA": [
@@ -612,15 +612,8 @@
       },
       {
         "year": 2026,
-        "employees": 12988,
-        "notices": 81
-      }
-    ],
-    "CA": [
-      {
-        "year": 2026,
-        "employees": 7841,
-        "notices": 154
+        "employees": 13347,
+        "notices": 84
       }
     ],
     "VA": [
@@ -706,8 +699,15 @@
       },
       {
         "year": 2026,
-        "employees": 5921,
-        "notices": 48
+        "employees": 6466,
+        "notices": 49
+      }
+    ],
+    "CA": [
+      {
+        "year": 2026,
+        "employees": 7841,
+        "notices": 154
       }
     ],
     "TX": [
