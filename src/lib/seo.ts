@@ -7,6 +7,16 @@ interface SeoInput {
   path?: string;
   keywords?: string[];
   noindex?: boolean;
+  /**
+   * The page's own Open Graph card: a site-relative path such as
+   * ogImagePath("change", slug), or an absolute URL. Always 1200×630 PNG.
+   *
+   * Without this every page shared the homepage card, and a post about a court
+   * order, a fee rule and a layoff figure all unfurled identically in a feed.
+   * The default stays the brand card for pages that have nothing more specific
+   * to show.
+   */
+  image?: string;
 }
 
 // Builds consistent Next.js Metadata (canonical, OpenGraph, Twitter, OG image).
@@ -16,6 +26,7 @@ export function buildMetadata({
   path = "/",
   keywords = [],
   noindex = false,
+  image,
 }: SeoInput): Metadata {
   const url = `${SITE.url}${path}`;
   const fullTitle =
@@ -30,7 +41,12 @@ export function buildMetadata({
   // public/brand/og-image.png is 1200x630 and is generated FROM production by
   // scripts/build-brand-assets.mjs (headless Chrome against the real tokens), so
   // it cannot drift from the site's own look the way a hand-drawn asset would.
-  const ogImage = `${SITE.url}/brand/og-image.png`;
+  // Story cards under /og/ are rendered from the same tokens at build time.
+  const ogImage = image
+    ? /^https?:\/\//.test(image)
+      ? image
+      : `${SITE.url}${image.startsWith("/") ? image : `/${image}`}`
+    : `${SITE.url}/brand/og-image.png`;
   return {
     title: fullTitle,
     description,
@@ -58,6 +74,9 @@ export function buildMetadata({
       title: fullTitle,
       description,
       images: [ogImage],
+      // The account attribution, only once an account genuinely exists — the
+      // same rule site.ts applies to the handle itself.
+      ...(SITE.twitter ? { site: SITE.twitter } : {}),
     },
     robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
   };
