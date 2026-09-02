@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -21,6 +22,7 @@ export const metadata = buildMetadata({
   description:
     "WARN Act layoff notices from state open-data portals: employer, location, employees affected and effective date, each linked to its source.",
   path: "/layoffs",
+  image: ogImagePath("page", "layoffs"),
   keywords: ["WARN notices", "layoff tracker", "WARN Act layoffs", "layoffs by state", "mass layoff notices"],
 });
 

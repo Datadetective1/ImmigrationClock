@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { DashboardGrid } from "@/components/DashboardGrid";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -10,6 +11,7 @@ export const metadata = buildMetadata({
   description:
     "U.S. enforcement and border data at a glance: ICE arrests, removals and detention, CBP encounters, and a policy timeline. Every figure sourced and labelled.",
   path: "/enforcement",
+  image: ogImagePath("page", "enforcement"),
   keywords: [
     "immigration enforcement data",
     "ICE arrests removals detention",

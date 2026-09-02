@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -22,6 +23,7 @@ export const metadata = buildMetadata({
   description:
     "ICE arrests, removals, and detention population by fiscal year, plus criminal vs non-criminal breakdowns and state and nationality slices.",
   path: "/immigration/enforcement-trends",
+  image: ogImagePath("page", "enforcement-trends"),
   keywords: ["ICE arrests", "deportations", "removals", "detention population"],
 });
 

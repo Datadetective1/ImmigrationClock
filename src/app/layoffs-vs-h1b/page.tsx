@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -17,6 +18,7 @@ export const metadata = buildMetadata({
   description:
     "Compare WARN layoff notices with H-1B sponsorship at the same employers — presented side-by-side, without claiming causation.",
   path: "/layoffs-vs-h1b",
+  image: ogImagePath("page", "layoffs-vs-h1b"),
   keywords: ["layoffs vs H-1B", "WARN notices", "H-1B sponsorship", "worker replacement"],
 });
 

@@ -38,6 +38,7 @@
 // =============================================================================
 
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { FollowingPanel } from "@/components/FollowingPanel";
 import { ChangesForYou } from "@/components/ChangesForYou";
@@ -48,6 +49,7 @@ export const metadata = buildMetadata({
   description:
     "Choose countries, visas, agencies or immigration topics you care about. ImmigrationClock organizes relevant changes for you — stored in your browser, never on our servers.",
   path: "/following",
+  image: ogImagePath("page", "following"),
 });
 
 export default function FollowingPage() {

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -12,6 +13,7 @@ export const metadata = buildMetadata({
   title: "H-1B Employer Directory — Search Every Sponsor",
   description: `Search ${EMPLOYERS_META.count.toLocaleString()} U.S. H-1B sponsoring employers by name and see their reported USCIS approvals, denials, and approval rate for FY${EMPLOYERS_META.fiscalYear}.`,
   path: "/h1b/employers",
+  image: ogImagePath("page", "h1b-employers"),
   keywords: ["H-1B employer search", "H-1B sponsors directory", "USCIS employer data hub", "H-1B approvals by employer"],
 });
 
