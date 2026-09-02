@@ -1,66 +1,53 @@
-# ImmigrationClock social publishing — three opportunities a day, unattended.
+# ImmigrationClock social publishing — one editorial engine, three windows a day.
 #
 # THE GOVERNING PRINCIPLE
 # -----------------------
 # ImmigrationClock never posts because the clock says it is time to post. It
 # posts because it has something useful, factual, timely or genuinely
 # interesting to tell someone. The schedule creates opportunities; the content
-# earns publication. A slot that produces nothing is the system working, and on
-# most days at least one of the three will.
+# earns publication. A run that produces nothing is the system working.
 #
 # WHAT A SCHEDULED RUN ACTUALLY DOES
 # ----------------------------------
-#   window → pool → score → angle → subject/URL cooldown → LLM → validate →
-#   wording dedupe → publish → commit the ledger
+#   gate (is a window open, and unfilled?) → cadence → candidates → queue →
+#   rotation → subject/URL cooldown → LLM (or stored ready copy) → validate →
+#   opening + shape variety → wording dedupe → publish → commit ledger + queue
 #
 # Every stage can end the run, and every refusal is a named row in the ledger.
-# There is no human in the loop, by design: the gates that would otherwise need
-# a reviewer are code, and they fail closed. Nothing here can publish a figure
-# that is not in the fact set, a link that is not whitelisted, a quotation that
-# is not verbatim, or a post too similar to a recent one.
+# Nothing here can publish a figure that is not in the fact set, a link that is
+# not whitelisted, a quotation that is not verbatim, or a post too similar to a
+# recent one.
 #
-# THE APPROVAL PATH IS NOT USED HERE, DELIBERATELY
-# ------------------------------------------------
-# scripts/social-approve.ts exists for controlled, human-approved posts, and it
-# requires someone at a keyboard. This workflow runs the unattended path
-# (`social:post`), which applies exactly the same validator, the same fact-set
-# grounding and the same dedupe rules — it simply has no approval envelope,
-# because there is nobody to sign one at 09:07 on a Tuesday.
+# WHY THE CRON FIRES EVERY HOUR, AND WHY THAT IS SAFE
+# ---------------------------------------------------
+# The first schedule fired six times a day at three exact hours and gated on
+# the exact Chicago hour. Measured against this workflow's own run log for the
+# two weeks to 2026-09-01, GitHub delivered the morning and afternoon firings
+# hours late or not at all from 2026-08-26 onward, and the gate discarded every
+# late one. Six consecutive days with no morning run. GitHub documents that
+# scheduled workflows are delayed under load; the schedule assumed they were not.
 #
-# THE DST PROBLEM, AND WHY THE CRON LOOKS ODD
-# -------------------------------------------
-# GitHub Actions cron is ALWAYS UTC. There is no `timezone` key — adding one is
-# silently ignored rather than rejected, which is the worst kind of wrong,
-# because the schedule looks correct in the file and drifts by an hour twice a
-# year in production.
+# So the publishing day is three WINDOWS (08–12, 13–16, 17–20 America/Chicago)
+# and the cron fires at :07 every hour that can fall inside one, in either US
+# offset. A firing that arrives two hours late still lands inside its window.
+# What keeps that from posting twice is the ledger's rerun guard — one post per
+# window per day — checked by the gate step BEFORE dependencies are installed,
+# so the ten or so no-op firings a day cost seconds each.
 #
-# So the schedule is written twice, once per US offset. The mapping is not
-# guesswork: it is `utcHoursFor()` in src/lib/social/slots.ts, which the test
-# suite pins.
+# GitHub Actions cron is ALWAYS UTC and has no timezone key. The hours below are
+# allPublishingUtcHours() in src/lib/social/slots.ts, which the test suite pins
+# against this file.
 #
-#     slot        Chicago    CDT (UTC-5)    CST (UTC-6)
-#     morning     09:07      14:07 UTC      15:07 UTC
-#     afternoon   15:07      20:07 UTC      21:07 UTC
-#     evening     18:07      23:07 UTC      00:07 UTC (next UTC day)
-#
-# The :07 is deliberate — see the schedule block below. The HOURS are what
-# utcHoursFor() pins; the minute only has to be inside the slot's local hour.
-#
-# Six firings a day. On any given date three of them are for the other offset,
-# and `currentSlot()` reads the real America/Chicago wall clock and returns null
-# for those, so they exit in seconds having done nothing.
-#
-# An earlier draft of this file scheduled "0 13,19,22" as its second set. Those
-# hours correspond to no slot in either offset — 13:00 UTC is 08:00 CDT — so the
-# winter half of the year had no valid firing at all and the account would have
-# gone silent from November to March. The hours below are the tested ones.
+#     window       Chicago        CDT (UTC-5)      CST (UTC-6)
+#     morning      08:00–12:59    13:07–17:07Z     14:07–18:07Z
+#     afternoon    13:00–16:59    18:07–21:07Z     19:07–22:07Z
+#     evening      17:00–20:59    22:07–01:07Z     23:07–02:07Z
 #
 # WHY THIS DOES NOT TOUCH THE NEWSLETTER
 # --------------------------------------
 # Deliberately separate: separate workflow, separate ledger, separate secrets,
-# separate enable flag. Nothing here reads or writes PULSE_SEND_ENABLED, the
-# newsletter ledger, or anything under src/lib/newsletter/. A fault in social
-# publishing must not be able to affect a system that sends email.
+# separate enable flag. A fault in social publishing must not be able to affect
+# a system that sends email.
 
 name: Social publishing
 
@@ -78,33 +65,19 @@ on:
   # │   2. Comment out the two `- cron:` lines below. Stops the runs too.      │
   # │                                                                          │
   # │ LinkedIn is NOT enabled. Its secrets are wired but unset, so it records  │
-  # │ SKIPPED_CREDENTIAL_EXPIRED every slot and X is unaffected. That is the   │
-  # │ intended state, not a fault.                                             │
+  # │ SKIPPED_CREDENTIAL_EXPIRED and can no longer make a subject "eligible":  │
+  # │ selection only considers platforms that can actually publish.           │
   # └──────────────────────────────────────────────────────────────────────────┘
-  # WHY :07 AND NOT :00
-  #
-  # GitHub Actions cron is best-effort, and the top of the hour is the most
-  # contended minute on the platform: everybody schedules there. Runs at :00 are
-  # routinely delayed by tens of minutes and are sometimes dropped entirely,
-  # which is what happened to the first armed 09:00 slot — no run appeared at
-  # all. Seven minutes past is unremarkable to a reader and materially more
-  # likely to actually fire.
-  #
-  # Safe because currentSlot() matches on the local HOUR, not the minute: a
-  # firing anywhere inside the 09:00 hour is the morning slot. That tolerance
-  # already existed for exactly this reason — Actions starting late is normal,
-  # and a minute-exact gate would drop real runs.
+  # WHY :07 AND NOT :00 — the top of the hour is the most contended minute on
+  # the platform. Safe because the gate matches on the window, not the minute.
   schedule:
-    # CDT (UTC-5), roughly mid-March to early November.
-    - cron: "7 14,20,23 * * *" # 09:07, 15:07, 18:07 America/Chicago
-    # CST (UTC-6), roughly early November to mid-March. 00:07 UTC is the
-    # PREVIOUS Chicago day at 18:07 — chicagoParts() resolves the local date,
-    # so the ledger records the day a reader would say it posted.
-    - cron: "7 0,15,21 * * *" # 18:07 (prev day), 09:07, 15:07 America/Chicago
+    # Every hour that can fall inside a window in CDT or CST. See the table above.
+    - cron: "7 13-23 * * *"
+    - cron: "7 0-2 * * *"
   workflow_dispatch:
     inputs:
       slot:
-        description: "Force a slot: morning | afternoon | evening. Blank uses the current Chicago hour."
+        description: "Force a window: morning | afternoon | evening. Blank uses the current Chicago hour."
         required: false
         default: ""
       live:
@@ -112,12 +85,12 @@ on:
         type: boolean
         default: false
       dry_run_day:
-        description: "Preview a whole day (09:00 + 15:00 + 18:00) with the real model. Publishes NOTHING, ignores `live`."
+        description: "Preview a whole week (three windows a day) with the real model. Publishes NOTHING, ignores `live`."
         type: boolean
         default: false
 
 permissions:
-  contents: write # commit the post ledger
+  contents: write # commit the post ledger and the editorial queue
 
 concurrency:
   # Shares the writer lock with the newsletter and the data refreshes: all of
@@ -130,71 +103,39 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      # THE COPY ENGINE.
-      #
-      # OpenAI is the production provider while the Anthropic organization is
-      # unavailable. Absent a key, a live run skips every slot rather than
-      # publishing something a model did not write — there is no template
-      # fallback and never has been.
+      # THE COPY ENGINE. OpenAI is the production provider. Absent a key, a live
+      # run skips rather than publishing something a model did not write —
+      # there is no template fallback and never has been.
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-      # Kept wired, not deleted. Losing access to an organization is a different
-      # thing from the integration being wrong, and SOCIAL_ENGINE=anthropic
-      # restores the previous provider in one variable if access returns.
+      # Kept wired, not deleted. SOCIAL_ENGINE=anthropic restores the previous
+      # provider in one variable.
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-      # THE PROVIDER NAME, AND WHY IT IS NOT A BARE `vars` REFERENCE.
-      #
-      # This was `${{ vars.SOCIAL_ENGINE }}` alone, and the repository variable
-      # was never set. An unset variable does not leave the key absent — it
-      # renders as the EMPTY STRING, so every scheduled live run reached
-      # createCopyEngine() with SOCIAL_ENGINE="" and died on
-      # `Unknown copy engine provider:` with nothing after the colon.
-      #
-      # Nothing caught it earlier because the empty string only loses to a `||`,
-      # not to a `??`: preflight used `||` and reported "openai" happily, and dry
-      # runs pass --engine=openai explicitly. The one path with no explicit
-      # provider was the one nobody watches.
-      #
-      # `|| 'openai'` makes the fallback happen HERE, in the file, where it is
-      # visible — production resolves to openai whether or not the variable
-      # exists, and setting the variable still overrides it. Both halves matter:
-      # the code is blank-safe too (resolveProvider), and this line means the
-      # workflow no longer depends on that rescue.
-      #
-      # Job-level `env:` — so it reaches EVERY step below, including "Publish
-      # this slot", which is the step that was failing. Not a step-level env on
-      # preflight, which is how the two paths disagreed in the first place.
+      # THE PROVIDER NAME, WITH AN EXPLICIT DEFAULT. An unset repository variable
+      # renders as the EMPTY STRING, which once reached createCopyEngine() as
+      # "" and killed every scheduled run. `|| 'openai'` makes the fallback
+      # visible here, at JOB level so every step inherits it.
       SOCIAL_ENGINE: ${{ vars.SOCIAL_ENGINE || 'openai' }}
       SOCIAL_MODEL: ${{ vars.SOCIAL_MODEL }}
 
       # X — OAuth 1.0a user context. These tokens do not expire, which is what
-      # lets X genuinely run unattended.
+      # lets X genuinely run unattended. The API is pay-per-use: a run that
+      # meets HTTP 402 records SKIPPED_PUBLISH_FAILED with "credits depleted"
+      # and leaves the validated copy in the queue for the next window.
       X_API_KEY: ${{ secrets.X_API_KEY }}
       X_API_SECRET: ${{ secrets.X_API_SECRET }}
       X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
       X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
 
       # LinkedIn — the access token EXPIRES on a fixed cycle and programmatic
-      # refresh is gated behind an approved-partner product, so this platform
-      # has a manual touchpoint roughly every two months and no architecture
-      # removes it.
-      #
-      # Wiring these is safe whether or not the secrets exist:
-      # readLinkedInCredentials() requires BOTH values, so an unset secret
-      # resolves to the empty string, no LinkedIn publisher is constructed, and
-      # the platform records SKIPPED_CREDENTIAL_EXPIRED while X is entirely
-      # unaffected. Copy is still generated and validated for LinkedIn at no
-      # extra cost — one engine call returns both variants.
+      # refresh is gated behind an approved-partner product. Wiring these is
+      # safe whether or not the secrets exist: readLinkedInCredentials()
+      # requires BOTH values, so an unset secret resolves to the empty string,
+      # no LinkedIn publisher is constructed, and X is entirely unaffected.
       LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
       LINKEDIN_AUTHOR_URN: ${{ vars.LINKEDIN_AUTHOR_URN }}
 
-      # THE PUBLISHING SWITCH.
-      #
-      # scripts/social-post.ts requires this to equal exactly "true". Unset
-      # resolves to the empty string, which is not "true", so publishing stays
-      # disabled by default. The `--live` flag below is a second, independent
-      # gate — both must agree before anything reaches a platform.
+      # THE PUBLISHING SWITCH. scripts/social-post.ts requires this to equal
+      # exactly "true". The `--live` flag below is a second, independent gate.
       SOCIAL_POST_ENABLED: ${{ vars.SOCIAL_POST_ENABLED }}
 
       # Absolute URLs in post copy. Without it the deep links fall back to the
@@ -211,93 +152,63 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
-
-      # THE GATE. Exits early and cleanly on the three daily firings that belong
-      # to the other UTC offset, so those runs are a few seconds of CI and
-      # nothing else. Manual dispatches skip this entirely — a human forcing a
-      # slot has already decided.
-      - name: Is a slot open right now?
+      # THE GATE, BEFORE THE INSTALL.
+      #
+      # Most firings are no-ops: the hour is outside every window, or the open
+      # window already published today. scripts/social-gate.ts answers both from
+      # files already in the checkout, using tsx alone, so a no-op firing never
+      # pays for `npm ci`. Manual dispatches skip this: a human forcing a window
+      # has already decided.
+      - name: Is a window open, and unfilled?
         id: gate
         if: github.event_name == 'schedule'
         run: |
-          if npx tsx -e "
-            import { currentSlot, chicagoParts } from './src/lib/social/slots';
-            const now = new Date();
-            const slot = currentSlot(now);
-            const p = chicagoParts(now);
-            if (!slot) {
-              console.log('No slot open at ' + p.date + ' ' + p.time + ' America/Chicago. This is the other offset\'s firing.');
-              process.exit(1);
-            }
-            console.log('Slot open: ' + slot.id + ' at ' + p.time + ' America/Chicago');
-          "; then
+          if npx --yes tsx scripts/social-gate.ts; then
             echo "open=true" >> "$GITHUB_OUTPUT"
           else
             echo "open=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # Reports ledger health, which credentials are present, what each slot
-      # would do, and whether any destination is unpublishable. It exits
-      # non-zero only for conditions that make a run unsafe — an unreadable
-      # ledger or a broken deep link — and an empty news pool is not one of
-      # them, because that is the normal state most days.
+      - name: Install dependencies
+        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true'
+        run: npm ci
+
+      # Reports ledger and queue health, which credentials are present, what the
+      # cadence policy would allow right now, and what the queue holds. It exits
+      # non-zero only for conditions that make a run unsafe.
       - name: Preflight
         if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true'
         run: npm run social:preflight
 
-      # Proves the X credential authenticates and reports which account answered,
-      # using a read-only GET that cannot publish. Non-blocking: a transient X
-      # outage here must not suppress a post that would otherwise succeed, and
-      # the publish step reports a credential failure of its own accord.
+      # Proves the X credential authenticates, using a read-only GET that cannot
+      # publish. Non-blocking: a transient X outage here must not suppress a
+      # post that would otherwise succeed.
       - name: Verify the X credential (read-only)
         if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true'
         continue-on-error: true
         run: npm run social:verify-x
 
-      # A WHOLE DAY, PREVIEWED, WITH THE REAL MODEL AND NO PUBLISHER.
-      #
-      # Runs all three slots against the real Anthropic engine and carries the
-      # ledger between them, so the same-day variety gate actually engages and
-      # the three posts are the three a reader would have seen.
-      #
-      # It cannot publish. scripts/social-simulate.ts calls runSlot() with
-      # `publishers: {}` and `live: false` — there is no platform client to
-      # publish through, whatever SOCIAL_POST_ENABLED says. That is why this is a
-      # separate step from the one below rather than a flag on it.
-      - name: Preview a whole day (dry run, real model)
+      # A WHOLE WEEK, PREVIEWED, WITH THE REAL MODEL AND NO PUBLISHER.
+      # scripts/social-simulate.ts calls runSlot() with `publishers: {}` and
+      # `live: false` — there is no platform client to publish through, whatever
+      # SOCIAL_POST_ENABLED says.
+      - name: Preview a week (dry run, real model)
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run_day == 'true'
         run: |
-          # --ledger points at the committed history, so the rotation layer sees
-          # what actually published this week rather than an empty slate. The
-          # simulator reads it and never writes it.
-          npm run social:simulate --             --days=1             --engine=openai             --ledger=src/lib/generated/social-posted.json             | tee /tmp/social-run.log
+          npm run social:simulate -- --days=7 --engine=openai --ledger=src/lib/generated/social-posted.json | tee /tmp/social-run.log
 
       # THE RUN.
       #
       # `--live` is passed on every scheduled firing and on a dispatch only when
       # the operator ticked the box. social-post.ts then requires
-      # SOCIAL_POST_ENABLED to be "true" as well. Two independent switches,
-      # because an unattended process posting to a public account before anyone
-      # has read its output is not recoverable by editing a file afterwards.
-      - name: Publish this slot
+      # SOCIAL_POST_ENABLED to be "true" as well.
+      - name: Publish this window
         if: |
           github.event.inputs.dry_run_day != 'true'
           && (github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true')
         run: |
-          # WITHOUT THIS, A FAILED PUBLISH IS A GREEN CHECKMARK.
-          #
-          # A bash pipeline reports the exit status of its LAST command, and the
-          # last command here is `tee`, which succeeds whenever it can write the
-          # file. So social-post.ts could exit non-zero — an unreadable ledger, a
-          # platform that rejected the post — and the Actions run would still
-          # show green. On an unattended publisher that is the worst kind of
-          # failure: silent, and indistinguishable from a quiet day.
-          #
-          # Safe to surface, because the ledger is committed by a later step
-          # guarded with `always()`. A post that went out and then failed the job
-          # still records its row, so the next run cannot repost it.
+          # WITHOUT THIS, A FAILED PUBLISH IS A GREEN CHECKMARK. A bash pipeline
+          # reports its LAST command's status, and the last command is `tee`.
           set -o pipefail
           ARGS=""
           if [ -n "${{ github.event.inputs.slot }}" ]; then
@@ -319,24 +230,22 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      # THE LEDGER MUST SURVIVE THE RUN.
+      # THE LEDGER AND THE QUEUE MUST SURVIVE THE RUN.
       #
-      # It is what stops a subject being posted twice and what makes the feed
-      # auditable, and it only survives across runs if it is committed. This runs
-      # even on failure: a slot where the post went out and a later step then
-      # failed MUST still persist that record, or the next run has no idea it
-      # happened and can repeat it.
-      # Skipped on a whole-day preview: the simulator holds its ledger in memory
-      # and writes nothing, so there would be nothing to commit.
-      - name: Persist the post ledger
+      # The ledger is what stops a subject being posted twice; the queue is what
+      # keeps validated copy for the next window when a publish fails. Both run
+      # even on failure: a post that went out and then hit a failing step MUST
+      # still record its row, or the next run repeats it.
+      - name: Persist the post ledger and the editorial queue
         if: |
           always()
           && github.event.inputs.dry_run_day != 'true'
           && (github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true')
         run: |
           bash .github/scripts/commit-and-push.sh \
-            "chore(social): record slot $(date -u +%Y-%m-%dT%H:%M)" \
-            src/lib/generated/social-posted.json
+            "chore(social): record window $(date -u +%Y-%m-%dT%H:%M)" \
+            src/lib/generated/social-posted.json \
+            src/lib/generated/social-queue.json
 
       - name: Publishing not enabled
         if: |
@@ -347,7 +256,7 @@ jobs:
           {
             echo "### Nothing was published"
             echo ""
-            echo 'The slot ran, selected, generated and validated normally, but the'
+            echo 'The window ran, selected, generated and validated normally, but the'
             echo 'repository variable `SOCIAL_POST_ENABLED` is not set to `true`, so'
             echo 'nothing reached X.'
             echo ""

@@ -38,7 +38,7 @@
 // =============================================================================
 
 import Anthropic from "@anthropic-ai/sdk";
-import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "../prompt";
+import { SYSTEM_PROMPT, buildUserPrompt, responseSchemaFor } from "../prompt";
 import type { CopyEngine, CopyRequest, EngineResult, GeneratedCopy } from "../types";
 
 /** Published rates, USD per million tokens. Used only for the ledger's cost column. */
@@ -115,7 +115,7 @@ export class AnthropicCopyEngine implements CopyEngine {
       messages: [{ role: "user", content: buildUserPrompt(req) }],
       output_config: {
         effort: "medium",
-        format: { type: "json_schema", schema: RESPONSE_SCHEMA },
+        format: { type: "json_schema", schema: responseSchemaFor(req) },
       },
       betas: ["server-side-fallback-2026-07-01"],
       fallbacks: "default",

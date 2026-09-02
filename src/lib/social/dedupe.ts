@@ -41,6 +41,7 @@ import {
   lastPostForUrl,
   postsOnLocalDate,
   publishedPosts,
+  recentStructures,
   recentTexts,
   recentValidationFailure,
   treatmentCount,
@@ -48,11 +49,14 @@ import {
 } from "./ledger";
 
 /** Subject kinds, derived from the id prefix. */
-export type SubjectKind = "event" | "keydate" | "asset";
+export type SubjectKind = "event" | "keydate" | "asset" | "explainer" | "signal" | "discovery";
 
 export function subjectKind(subjectId: string): SubjectKind {
   if (subjectId.startsWith("keydate:")) return "keydate";
   if (subjectId.startsWith("asset:")) return "asset";
+  if (subjectId.startsWith("explainer:")) return "explainer";
+  if (subjectId.startsWith("signal:")) return "signal";
+  if (subjectId.startsWith("discovery:")) return "discovery";
   return "event";
 }
 
@@ -69,13 +73,26 @@ interface CooldownPolicy {
 }
 
 export const COOLDOWNS: Record<SubjectKind, CooldownPolicy> = {
-  // A news event: each angle is spent once, angles must be spaced two weeks
+  // A news event: each treatment is spent once, treatments are spaced a week
   // apart so a story cannot be milked, and four treatments is the ceiling.
-  event: { treatmentCooldownDays: Infinity, subjectCooldownDays: 14, maxTreatments: 4 },
+  //
+  // Seven, not fourteen. A breaking post, then a why-it-matters a week later,
+  // then an effective-date reminder as the date approaches is the life of a
+  // consequential rule, and each of those is a different thing to say. At
+  // fourteen days the second and third could never happen for a rule that
+  // starts within a month of publishing — which most do.
+  event: { treatmentCooldownDays: Infinity, subjectCooldownDays: 7, maxTreatments: 4 },
   // An annual deadline. It genuinely comes round again.
   keydate: { treatmentCooldownDays: 300, subjectCooldownDays: 21, maxTreatments: Infinity },
   // A permanent page. Re-surfacing it a few months later is useful, not lazy.
   asset: { treatmentCooldownDays: 120, subjectCooldownDays: 21, maxTreatments: Infinity },
+  // THE EVERGREEN TIER. An explainer is as true in four months as today and no
+  // sooner; a data signal is recomputed from a refreshed snapshot, so it can
+  // come round faster; a tool changes least of all. Each of these has exactly
+  // one treatment, so the treatment and subject cooldowns are the same number.
+  explainer: { treatmentCooldownDays: 120, subjectCooldownDays: 120, maxTreatments: Infinity },
+  signal: { treatmentCooldownDays: 45, subjectCooldownDays: 45, maxTreatments: Infinity },
+  discovery: { treatmentCooldownDays: 90, subjectCooldownDays: 90, maxTreatments: Infinity },
 };
 
 /** Days before the same destination URL may be linked again on a platform. */
@@ -536,6 +553,40 @@ export function checkOpeningVariety(
     };
   }
   return { ok: true, reason: "distinct opening construction", construction, seen };
+}
+
+// -----------------------------------------------------------------------------
+// GATE 2c — THE SHAPE OF THE POST
+//
+// The opening-construction check catches "USCIS has updated…" three times. It
+// does not catch the same SHAPE — subject, status, date — worn by three
+// different openings, which is what twenty-two published posts turned out to
+// be. The writer is now offered several shapes and reports the one it used;
+// this refuses a third consecutive use of the same one.
+//
+// Mechanical and repairable: the facts are right, the frame is stale, and the
+// writer can be told which other frames are open.
+// -----------------------------------------------------------------------------
+
+/** How many consecutive posts may share one shape before the next is refused. */
+export const STRUCTURE_RUN_LIMIT = 2;
+
+export function checkStructureVariety(
+  ledger: PostLedger,
+  structure: string | undefined,
+  platform: Platform
+): { ok: boolean; reason: string; run: number } {
+  if (!structure) return { ok: true, reason: "no structure reported — variety not enforced", run: 0 };
+  const recent = recentStructures(ledger, platform, STRUCTURE_RUN_LIMIT);
+  const run = recent.length >= STRUCTURE_RUN_LIMIT && recent.every((s) => s === structure) ? recent.length : 0;
+  if (run >= STRUCTURE_RUN_LIMIT) {
+    return {
+      ok: false,
+      reason: `Structure variety: the last ${run} posts on ${platform} already used the "${structure}" shape. Use a different one of the shapes on offer.`,
+      run,
+    };
+  }
+  return { ok: true, reason: "distinct structure", run };
 }
 
 /** Every subject published in the window, for the simulation's repetition report. */

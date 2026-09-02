@@ -33,7 +33,7 @@
 // additionalProperties false — so it transfers without modification.
 // =============================================================================
 
-import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "../prompt";
+import { SYSTEM_PROMPT, buildUserPrompt, responseSchemaFor } from "../prompt";
 import type { CopyEngine, CopyRequest, EngineResult, EngineUsage, GeneratedCopy } from "../types";
 import { EngineRefusal } from "./anthropic";
 
@@ -196,7 +196,10 @@ export class OpenAICopyEngine implements CopyEngine {
             type: "json_schema",
             name: "immigrationclock_social_copy",
             strict: true,
-            schema: RESPONSE_SCHEMA,
+            // Narrowed per request: `structure` is an enum of the shapes this
+            // post was offered, so a shape the writer was not offered cannot be
+            // returned at all.
+            schema: responseSchemaFor(req),
           },
         },
         max_output_tokens: MAX_OUTPUT_TOKENS,

@@ -23,6 +23,15 @@
 // false rejection (a skipped slot, which is safe), while a figure invented
 // downstream causes a false publication (which is not). The asymmetry is
 // deliberate.
+//
+// FIVE KINDS OF SUBJECT, ONE SHAPE
+// --------------------------------
+// A recorded change, a recurring date, an explainer, a data signal and a tool
+// all become the same FactSet, because the engine and the validator should not
+// have to know which they are holding. What differs is where the sentences come
+// from: an archive summary, a cited source, a computed figure, or a description
+// of verified behaviour. `implications` is the one field that is derived rather
+// than copied, and implications.ts explains why that is still restatement.
 // =============================================================================
 
 import type { IndexedEvent } from "@/lib/event-index";
@@ -30,8 +39,14 @@ import type { KeyDate } from "@/lib/key-dates";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { ENTITY_BY_ID } from "@/domains/graph/entities";
 import { COUNTRY_BY_SLUG } from "@/domains/graph/countries";
+import type { Explainer } from "@/lib/editorial/explainers";
+import type { DataSignal } from "@/lib/editorial/signals";
+import type { Discovery } from "@/lib/editorial/discovery";
+import { changePath, explainerPath, shortHash, signalPath, trackedUrl } from "@/lib/share";
 import { absolute, type StandingAsset } from "./links";
 import { assetInsights } from "./asset-facts";
+import { implicationsFor } from "./implications";
+import type { ContentType } from "./content-types";
 import type { FactSet } from "./types";
 
 /**
@@ -66,12 +81,6 @@ export function normalizeFigure(raw: string): string {
  * Only commas BETWEEN digits are removed. Stripping every comma would merge
  * "in 2026, 500 people" into the single nonsense figure 2026500 — but that
  * phrase has a space after the comma, so the lookahead never fires.
- *
- * Without this, the validator rejects any copy whose separator style differs
- * from the source's. Federal Register summaries use separators; a model writing
- * naturally often does not. It is a false rejection rather than a false
- * publication, so it fails safe — but it fails constantly, and a check that
- * cries wolf on ordinary correct copy stops being useful.
  */
 export function stripThousandsSeparators(text: string): string {
   return text.replace(/(?<=\d),(?=\d)/g, "");
@@ -110,12 +119,36 @@ export function describeEntities(entityIds: string[]): string[] {
   return [...new Set(out)];
 }
 
+/** The short public key a record is attributed by. Matches utm_content. */
+export function storyKeyForEvent(event: { id: string }): string {
+  return `change:${shortHash(event.id)}`;
+}
+
+/**
+ * The URL a post must contain: the record's canonical address with the
+ * attribution parameters Plausible reads. The clean address is also allowed,
+ * so a repair that drops the parameters is a wrong-destination failure and
+ * not a whitelist failure — but the deep link the prompt hands over is the
+ * tracked one.
+ */
+function trackedFor(path: string, contentType: ContentType, storyKey: string): { deepLink: string; shareUrl: string } {
+  const shareUrl = absolute(path);
+  return {
+    shareUrl,
+    deepLink: trackedUrl(shareUrl, { platform: "x", contentType, story: storyKey }),
+  };
+}
+
+// -----------------------------------------------------------------------------
+// RECORDED CHANGES
 // -----------------------------------------------------------------------------
 
 export function buildEventFacts(
   event: IndexedEvent,
-  deepLink: string,
-  today: string
+  /** Site-relative destination. The record's own page unless a caller says otherwise. */
+  deepLink: string = changePath(event),
+  today: string,
+  contentType: ContentType = "breaking_change"
 ): FactSet {
   const sourceName = sourceDisplayName(event.sourceKey);
   const agency = issuingAgency(event.sourceKey);
@@ -143,11 +176,15 @@ export function buildEventFacts(
     notes.push(`This takes effect on ${event.effectiveAt}, which is in the future.`);
   }
 
-  const allowedUrls = [absolute(deepLink), event.sourceUrl].filter(Boolean);
+  const storyKey = storyKeyForEvent(event);
+  const urls = trackedFor(deepLink, contentType, storyKey);
+  const allowedUrls = [urls.deepLink, urls.shareUrl, event.sourceUrl].filter(Boolean);
+  const implications = implicationsFor(event, today);
 
   return {
     subjectId: `event:${event.id}`,
     subjectKind: "document",
+    contentType,
     today,
     title: event.title,
     summary: event.summary,
@@ -161,12 +198,20 @@ export function buildEventFacts(
     // An archive event speaks for itself; the summary IS the source's own prose.
     // Nothing is computed on top of it.
     dataPoints: [],
+    implications,
     allowedUrls,
-    deepLink: absolute(deepLink),
-    figures: extractFigures(`${event.title} ${event.summary} ${agency ?? ""}`),
+    deepLink: urls.deepLink,
+    shareUrl: urls.shareUrl,
+    // Figures come from the source text AND from the derived implications, so a
+    // day count computed there ("29 days from today") is stateable.
+    figures: extractFigures(`${event.title} ${event.summary} ${agency ?? ""} ${implications.join(" ")}`),
     notes,
   };
 }
+
+// -----------------------------------------------------------------------------
+// RECURRING DATES
+// -----------------------------------------------------------------------------
 
 export function buildKeyDateFacts(
   kd: KeyDate,
@@ -185,10 +230,13 @@ export function buildKeyDateFacts(
   }
 
   const body = `${kd.title}. ${kd.detail}`;
+  const storyKey = `keydate:${kd.id}`;
+  const urls = trackedFor("/key-dates", "key_date", storyKey);
 
   return {
     subjectId: `keydate:${kd.id}`,
     subjectKind: "recurring_date",
+    contentType: "key_date",
     today,
     title: kd.title,
     summary: kd.detail,
@@ -199,19 +247,15 @@ export function buildKeyDateFacts(
     classification: "deadline",
     severity: null,
     entities: [],
-    // The countdown is the computed fact here, and it is stated in `figures`
-    // beside the detail text rather than as a sentence of its own.
     dataPoints: [],
-    allowedUrls: [absolute("/key-dates"), kd.sourceUrl],
-    deepLink: absolute("/key-dates"),
+    implications: [],
+    allowedUrls: [urls.deepLink, urls.shareUrl, kd.sourceUrl],
+    deepLink: urls.deepLink,
+    shareUrl: urls.shareUrl,
     // The countdown is a real, checkable figure — it is computed here, so the
-    // engine may state it.
-    //
-    // The exact date is NOT offered when the window is approximate. Handing over
-    // the digits of a date the agency has not announced, alongside a note saying
-    // it is approximate, is an invitation to publish "October 1" as if it were
-    // confirmed — and the validator would allow it, because the digits were in
-    // the fact set. Withholding them is what makes the caveat enforceable.
+    // engine may state it. The exact date is NOT offered when the window is
+    // approximate: handing over the digits of a date the agency has not
+    // announced is an invitation to publish it as confirmed.
     figures: [
       ...extractFigures(body),
       String(daysAway),
@@ -221,12 +265,128 @@ export function buildKeyDateFacts(
   };
 }
 
+// -----------------------------------------------------------------------------
+// EXPLAINERS
+// -----------------------------------------------------------------------------
+
+export function buildExplainerFacts(e: Explainer, today: string): FactSet {
+  const storyKey = `explainer:${e.slug}`;
+  const urls = trackedFor(explainerPath(e.slug), "explainer", storyKey);
+  const corpus = `${e.title} ${e.kicker} ${e.facts.join(" ")} ${e.whyItMatters}`;
+  return {
+    subjectId: `explainer:${e.slug}`,
+    subjectKind: "explainer",
+    contentType: "explainer",
+    today,
+    title: e.title,
+    summary: e.kicker,
+    // The source named is the one the facts were written from. The validator's
+    // attribution check reads this and the facts, so an explainer written from
+    // a USCIS page may say "USCIS" and one written from the U.S. Code may not.
+    sourceName: e.sources.map((s) => s.name).join("; "),
+    sourceKey: `explainer:${e.group}`,
+    publishedAt: null,
+    effectiveAt: null,
+    classification: null,
+    severity: null,
+    entities: [],
+    dataPoints: e.facts,
+    implications: [e.whyItMatters],
+    allowedUrls: [urls.deepLink, urls.shareUrl, ...e.sources.map((s) => s.url)],
+    deepLink: urls.deepLink,
+    shareUrl: urls.shareUrl,
+    figures: extractFigures(corpus),
+    notes: [
+      "This is an evergreen explanation, not a news event. Do not describe it as new, as a change, or as having just happened.",
+      "State only the facts listed. Nothing here is legal or tax advice, and the post must not tell a reader what to do.",
+      "Every sentence was written from the cited source. Do not add a detail the facts do not carry, however familiar it seems.",
+    ],
+  };
+}
+
+// -----------------------------------------------------------------------------
+// DATA SIGNALS
+// -----------------------------------------------------------------------------
+
+export function buildSignalFacts(s: DataSignal, today: string): FactSet {
+  const storyKey = `signal:${s.slug}`;
+  const urls = trackedFor(signalPath(s.slug), "data_signal", storyKey);
+  return {
+    subjectId: `signal:${s.slug}`,
+    subjectKind: "data_signal",
+    contentType: "data_signal",
+    today,
+    title: s.title,
+    summary: `${s.figure} — ${s.figureLabel}`,
+    sourceName: s.sourceName,
+    sourceKey: `signal:${s.group}`,
+    publishedAt: null,
+    effectiveAt: null,
+    classification: null,
+    severity: null,
+    entities: [],
+    dataPoints: s.points,
+    implications: [],
+    allowedUrls: [urls.deepLink, urls.shareUrl, absolute(s.explorePath), s.sourceUrl],
+    deepLink: urls.deepLink,
+    shareUrl: urls.shareUrl,
+    // Extracted from the computed points and the figure, so every numeral the
+    // engine is OFFERED is one deterministic code put there.
+    figures: extractFigures(`${s.figure} ${s.figureLabel} ${s.points.join(" ")}`),
+    notes: [
+      `The figures are ${s.provenance === "reported" ? "reported by the source named" : "exact counts of ImmigrationClock's own records"}, for ${s.periodLabel}. State them as given; do not derive a new number — no shares, differences, averages or trends that are not written out above.`,
+      ...s.caveats,
+      "This is a data observation, not a news event. Do not describe it as new or as a change.",
+    ],
+  };
+}
+
+// -----------------------------------------------------------------------------
+// DATA DISCOVERY
+// -----------------------------------------------------------------------------
+
+export function buildDiscoveryFacts(d: Discovery, today: string): FactSet {
+  const storyKey = `discovery:${d.slug}`;
+  const urls = trackedFor(d.path, "data_discovery", storyKey);
+  return {
+    subjectId: `discovery:${d.slug}`,
+    subjectKind: "resource",
+    contentType: "data_discovery",
+    today,
+    title: d.title,
+    summary: d.need,
+    sourceName: "ImmigrationClock",
+    sourceKey: `discovery:${d.slug}`,
+    publishedAt: null,
+    effectiveAt: null,
+    classification: null,
+    severity: null,
+    entities: [],
+    dataPoints: d.facts,
+    implications: [],
+    allowedUrls: [urls.deepLink, urls.shareUrl],
+    deepLink: urls.deepLink,
+    shareUrl: urls.shareUrl,
+    figures: extractFigures(`${d.need} ${d.facts.join(" ")}`),
+    notes: [
+      "This describes a tool ImmigrationClock offers. State only the capabilities listed; do not describe a feature the facts do not name.",
+      ...d.caveats,
+      "No sales language, no superlatives, no urgency. A reader who needs the tool will recognise the need.",
+    ],
+  };
+}
+
+// -----------------------------------------------------------------------------
+// STANDING ASSETS — the first design's durable pages, retained for the archive
+// -----------------------------------------------------------------------------
+
 /**
  * A standing asset, with whatever its underlying data actually supports.
  *
  * Returns null when the asset has no grounded insight today — see
- * asset-facts.ts. The caller must drop it rather than fall back to describing
- * the page, which is the failure this whole layer exists to fix.
+ * asset-facts.ts. No longer a selection pool: data signals and discovery posts
+ * replaced it, with their own pages and cards. Kept so the ledger's history and
+ * the asset-insight tests remain readable.
  */
 export function buildAssetFacts(asset: StandingAsset, today: string): FactSet | null {
   const insight = assetInsights(asset.id, today);
@@ -238,25 +398,21 @@ export function buildAssetFacts(asset: StandingAsset, today: string): FactSet | 
   ];
 
   if (insight.numeric) {
-    // The figures are already computed and already attributed. What remains
-    // possible — and is the realistic failure here rather than invention — is
-    // arithmetic ON them: a share, a difference, a per-year average. Each of
-    // those produces a numeral the validator has never seen, so it fails closed;
-    // saying so here is what stops the model wasting the one regeneration it has.
     notes.push(
       "The figures above are the only ones you have, and they are already calculated. State them as given. Do not derive a new number from them — no shares, differences, averages, rates or comparisons that are not written out above."
     );
   }
 
+  const storyKey = `asset:${asset.id}`;
+  const urls = trackedFor(asset.path, "data_signal", storyKey);
+
   return {
     subjectId: `asset:${asset.id}`,
     subjectKind: "resource",
+    contentType: "data_signal",
     today,
     title: asset.label,
     summary: asset.description,
-    // Attribution follows the figures. When the numbers came from USCIS or CBP,
-    // the post must be able to say so, and validate.ts checks agency mentions
-    // against this field.
     sourceName: insight.sourceName ?? "ImmigrationClock",
     sourceKey: `asset:${asset.id}`,
     publishedAt: null,
@@ -265,17 +421,10 @@ export function buildAssetFacts(asset: StandingAsset, today: string): FactSet | 
     severity: null,
     entities: [],
     dataPoints: insight.points,
-    allowedUrls: [absolute(asset.path)],
-    deepLink: absolute(asset.path),
-    // Extracted from the computed points, so every numeral the engine is
-    // OFFERED is one deterministic code put there — and empty when the asset has
-    // no measurement to offer.
-    //
-    // Deliberately not extracted from the description. "H-1B" and "F-1" put a 1
-    // in any description that names a visa, and a non-numeric asset that
-    // advertises "NUMBERS YOU MAY USE: 1" is inviting the model to find a use
-    // for it. The validator is unaffected: it grounds digits against the whole
-    // fact set including the summary, so copy may still write "H-1B".
+    implications: [],
+    allowedUrls: [urls.deepLink, urls.shareUrl],
+    deepLink: urls.deepLink,
+    shareUrl: urls.shareUrl,
     figures: insight.numeric ? extractFigures(insight.points.join(" ")) : [],
     notes,
   };

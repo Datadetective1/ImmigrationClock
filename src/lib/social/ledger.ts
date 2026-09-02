@@ -113,6 +113,31 @@ export interface PostRecord {
    * so on. Recorded so treatment variety is measurable rather than assumed.
    */
   treatment: string | null;
+  /**
+   * WHAT KIND OF POST THIS WAS — see content-types.ts.
+   *
+   * The second design's primary editorial identity: breaking_change,
+   * what_changed, why_it_matters, effective_date, key_date, data_signal,
+   * explainer, data_discovery. The cadence policy reads it back to decide what
+   * the rest of the day may publish, and the analytics arrival event carries
+   * the same value, so a post's kind can be compared with its clicks. Null on
+   * rows written before content types existed, which count as no tier at all.
+   */
+  contentType?: string | null;
+  /** The cadence tier it published under: news, follow_up, evergreen. */
+  tier?: string | null;
+  /**
+   * The shape the writer chose, from the ones it was offered. Recorded so a run
+   * of one shape is measurable, and refused when it repeats — see
+   * checkStructureVariety().
+   */
+  structure?: string | null;
+  /** The record's short public key, "change:abc123". Matches utm_content. */
+  storyKey?: string | null;
+  /** The clean canonical URL the post pointed at. */
+  shareUrl?: string | null;
+  /** What the cadence policy decided for this run, in words. */
+  cadenceExplain?: string | null;
   /** Base score minus repetition penalties — the number that won the slot. */
   adjustedScore: number | null;
   /** Which penalties applied. Free text, for auditing a selection later. */
@@ -377,6 +402,20 @@ export function recentTexts(ledger: PostLedger, platform: Platform, limit: numbe
     .sort((a, b) => b.runAtUtc.localeCompare(a.runAtUtc))
     .slice(0, limit)
     .map((p) => p.text as string);
+}
+
+/**
+ * The shapes of the most recent published posts, newest first.
+ *
+ * Rows written before shapes were recorded carry null and are skipped rather
+ * than read as a shape — an unknown shape must not be able to refuse a real one.
+ */
+export function recentStructures(ledger: PostLedger, platform: Platform, limit: number): string[] {
+  return publishedPosts(ledger)
+    .filter((p) => p.platform === platform && p.structure)
+    .sort((a, b) => b.runAtUtc.localeCompare(a.runAtUtc))
+    .slice(0, limit)
+    .map((p) => p.structure as string);
 }
 
 /** Opening fragments of recent posts — a variety nudge for the copy engine. */

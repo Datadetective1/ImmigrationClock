@@ -64,6 +64,7 @@ import type {
   SlotId,
   ValidationResult,
 } from "./types";
+import type { ContentType } from "./content-types";
 
 /** Bump only for a breaking envelope shape change. Mismatches fail closed. */
 export const APPROVAL_VERSION = "social-approval/1" as const;
@@ -102,6 +103,8 @@ export interface ApprovalEnvelope {
   subjectId: string;
   subjectLabel: string;
   angle: Angle;
+  /** What kind of post this is. Absent on envelopes written before content types existed. */
+  contentType?: ContentType;
   score: number;
   scoreExplain: string;
   deepLink: string;
@@ -150,12 +153,14 @@ function contentBlock(e: Omit<ApprovalEnvelope, "contentDigest" | "approval">): 
     e.pool,
     e.subjectId,
     e.angle,
+    e.contentType ?? null,
     e.deepLink,
     e.factsHash,
     e.validatorVersion,
     e.copy.x,
     e.copy.linkedin,
     e.copy.deepLink,
+    e.copy.structure ?? null,
   ]);
 }
 
@@ -199,6 +204,7 @@ export function buildApproval(input: BuildApprovalInput): ApprovalEnvelope {
     subjectId: input.candidate.subjectId,
     subjectLabel: input.candidate.label,
     angle: input.angle,
+    contentType: input.candidate.contentType,
     score: input.candidate.score,
     scoreExplain: input.candidate.scoreExplain,
     deepLink: input.candidate.deepLink,
@@ -403,13 +409,17 @@ export function checkApproval(input: ApprovalCheckInput): ApprovalCheck {
 
   // --- the subject still exists, and its data has not moved ------------------
   checked.push("subject-still-eligible");
-  const slot = SLOT_BY_ID.get(e.slot);
-  const candidates = slot ? candidatesFor(slot, events, today) : [];
-  const candidate = candidates.find((c) => c.subjectId === e.subjectId) ?? null;
+  const candidates = candidatesFor(events, today);
+  const candidate =
+    candidates.find(
+      (c) => c.subjectId === e.subjectId && (!e.contentType || c.contentType === e.contentType)
+    ) ??
+    candidates.find((c) => c.subjectId === e.subjectId) ??
+    null;
 
   if (!candidate) {
     failures.push(
-      `${e.subjectId} is no longer in the ${e.slot} pool for ${today} — it has aged out, lost its data, or no longer clears the bar.`
+      `${e.subjectId} is no longer a candidate for ${today} — it has aged out, lost its data, or no longer clears the bar.`
     );
   } else {
     if (!candidate.supportedAngles.includes(e.angle)) {

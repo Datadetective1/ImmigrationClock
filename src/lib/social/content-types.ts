@@ -122,11 +122,20 @@ export const TYPE_COOLDOWN_DAYS: Record<ContentType, number> = {
   data_discovery: 90,
 };
 
-/** How old a development may be and still take each treatment. Days since publication. */
+/**
+ * How old a development may be and still take each treatment. Days since
+ * publication.
+ *
+ * Short on purpose. A what-changed on a five-day-old rule is still an
+ * explanation of something recent; on a ten-day-old one it is an archive item
+ * wearing a news frame. A why-it-matters is the second post on a story, not a
+ * way to revisit last month's — past a week, the effective-date reminder is
+ * the honest follow-up, and past that the record's own page is the record.
+ */
 export const TYPE_MAX_AGE_DAYS: Partial<Record<ContentType, number>> = {
   breaking_change: 2,
-  what_changed: 10,
-  why_it_matters: 21,
+  what_changed: 5,
+  why_it_matters: 7,
 };
 
 // -----------------------------------------------------------------------------

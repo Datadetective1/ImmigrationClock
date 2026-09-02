@@ -59,6 +59,8 @@ export type ContentCategory =
   | "data_insight"
   /** Durable explanation: what a category is, how a process works. */
   | "explainer"
+  /** A verified ImmigrationClock capability, offered to a reader who needs it. */
+  | "discovery"
   /** ImmigrationClock itself — methodology, sources, product, credibility. */
   | "methodology";
 
@@ -69,6 +71,7 @@ export const CONTENT_CATEGORIES: ContentCategory[] = [
   "proposed",
   "data_insight",
   "explainer",
+  "discovery",
   "methodology",
 ];
 
@@ -89,6 +92,10 @@ export const CATEGORY_TIER: Record<ContentCategory, number> = {
   proposed: 4 * TIER_STEP,
   data_insight: 3 * TIER_STEP,
   explainer: 2 * TIER_STEP,
+  // Half a step above methodology and half below an explainer: a tool a reader
+  // can use today outranks a page about how we work, and never outranks a
+  // distinction they need to understand a change.
+  discovery: 1.5 * TIER_STEP,
   methodology: 1 * TIER_STEP,
 };
 
@@ -100,6 +107,7 @@ export const CATEGORY_LABEL: Record<ContentCategory, string> = {
   proposed: "Proposed rule",
   data_insight: "ImmigrationClock data",
   explainer: "Explainer",
+  discovery: "Data discovery",
   methodology: "Methodology / product",
 };
 
@@ -128,6 +136,7 @@ export function mixBucketFor(category: ContentCategory): MixBucket {
       return "data";
     case "explainer":
       return "evergreen";
+    case "discovery":
     case "methodology":
       return "product";
   }
@@ -145,11 +154,11 @@ export function mixBucketFor(category: ContentCategory): MixBucket {
  * the system working rather than a shortfall to correct.
  */
 export const MIX_TARGET: Record<MixBucket, number> = {
-  news: 0.5,
+  news: 0.45,
   alerts: 0.2,
   data: 0.15,
-  evergreen: 0.1,
-  product: 0.05,
+  evergreen: 0.12,
+  product: 0.08,
 };
 
 /**
@@ -250,6 +259,27 @@ export function categoryForAsset(asset: StandingAsset): ContentCategory {
   }
   if (tags.includes("data")) return "data_insight";
   return "explainer";
+}
+
+/**
+ * Which category the evergreen content types belong to.
+ *
+ * Event-backed types are categorised by categoryForEvent(), which reads the
+ * document; these three are categorised by what they ARE, because a data signal
+ * is data whatever its subject and an explainer is explanation whatever it
+ * explains.
+ */
+export function categoryForEvergreen(
+  contentType: "data_signal" | "explainer" | "data_discovery"
+): ContentCategory {
+  switch (contentType) {
+    case "data_signal":
+      return "data_insight";
+    case "explainer":
+      return "explainer";
+    case "data_discovery":
+      return "discovery";
+  }
 }
 
 /**
