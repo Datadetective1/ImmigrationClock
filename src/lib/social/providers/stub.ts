@@ -111,12 +111,39 @@ function questionFor(f: FactSet): string {
   return f.summary.endsWith("?") ? f.summary : `${f.summary.replace(/\.$/, "")}?`;
 }
 
-/** Trim prose to the X budget without cutting inside a word. */
+/** Trim one paragraph without cutting inside a word. */
+function trimTo(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, Math.max(0, max - 1));
+  const boundary = cut.lastIndexOf(" ");
+  return `${cut.slice(0, boundary > max / 2 ? boundary : max - 1).trimEnd()}…`;
+}
+
+/**
+ * Fit prose to the X budget the way an editor would: the first paragraph (the
+ * subject) and the last paragraph (the timing, or the source) survive intact,
+ * and the middle gives way. A naive cut from the end was dropping the
+ * effective date, which the validator rightly refused.
+ */
 function fit(prose: string, max: number): string {
   if (prose.length <= max) return prose;
-  const cut = prose.slice(0, max - 1);
-  const boundary = Math.max(cut.lastIndexOf(" "), cut.lastIndexOf("\n"));
-  return `${cut.slice(0, boundary > max / 2 ? boundary : max - 1).trimEnd()}…`;
+  const paragraphs = prose.split("\n\n").filter(Boolean);
+  if (paragraphs.length === 1) return trimTo(prose, max);
+  const first = paragraphs[0];
+  const last = paragraphs[paragraphs.length - 1];
+  const middle = paragraphs.slice(1, -1);
+  const fixed = first.length + last.length + 4;
+  let room = max - fixed;
+  const kept: string[] = [];
+  for (const p of middle) {
+    if (room <= 20) break;
+    const t = trimTo(p, room);
+    kept.push(t);
+    room -= t.length + 2;
+  }
+  const joined = [first, ...kept, last].join("\n\n");
+  // The two anchors alone may still be too long for a very long title.
+  return joined.length <= max ? joined : `${trimTo(first, max - last.length - 4)}\n\n${last}`;
 }
 
 export class StubCopyEngine implements CopyEngine {

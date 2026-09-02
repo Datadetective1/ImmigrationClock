@@ -114,6 +114,9 @@ export const DEADLINE_URGENT_DAYS = 45;
  */
 export const RECENCY_DECAY_PER_DAY = 150;
 
+/** One breadth step of merit for the news tier. See toEventCandidate(). */
+export const NEWS_TIER_MERIT = 1000;
+
 /**
  * The ranking floor, and the exception that fixes a real omission.
  *
@@ -275,7 +278,17 @@ export function eventCandidates(events: IndexedEvent[], today: string): Candidat
     const types: { type: ContentType; tier: CadenceTier }[] = [];
 
     if (hasSummary && ageDays <= (TYPE_MAX_AGE_DAYS.breaking_change ?? 2)) {
-      if (qualifiesAsNews(e, s.score) && value.score >= DEVELOPMENT_READER_VALUE_FLOOR) {
+      // Two ways in. A change that clears the ranking floor must also reach
+      // people (the development floor); a change that qualifies on KIND — a
+      // court order, an executive action, a major final rule — is consequential
+      // by what it is, and needs only the base reader-value floor it already
+      // cleared. The court order that enjoined two policy memos on 08-28 scored
+      // 40 here; it should have led that day.
+      const kindQualified = qualifiesAsNews(e, s.score) && s.score < NEWS_SCORE_FLOOR;
+      if (
+        (s.score >= NEWS_SCORE_FLOOR && value.score >= DEVELOPMENT_READER_VALUE_FLOOR) ||
+        kindQualified
+      ) {
         types.push({ type: "breaking_change", tier: "news" });
       }
     }
@@ -318,19 +331,27 @@ function toEventCandidate(
   const facts = buildEventFacts(event, path, today, contentType);
   const angle = ANGLE_FOR_TYPE[contentType];
 
-  const fresh = contentType === "breaking_change";
+  // A breaking change IS a development, by definition: the selector has already
+  // applied its floors. Everything else is categorised by what the document
+  // does, the way an archive item is.
   const category =
-    contentType === "effective_date"
-      ? "deadline"
-      : categoryForEvent({
-          classification: event.classification,
-          fresh,
-          obligationLevel: obligationLevel(event),
-          hasUpcomingEffectiveDate,
-          readerValue: value.score,
-        });
+    contentType === "breaking_change"
+      ? "development"
+      : contentType === "effective_date"
+        ? "deadline"
+        : categoryForEvent({
+            classification: event.classification,
+            fresh: false,
+            obligationLevel: obligationLevel(event),
+            hasUpcomingEffectiveDate,
+            readerValue: value.score,
+          });
 
-  // News decays with age; follow-ups are ordered by how soon they matter.
+  // News decays with age; follow-ups are ordered by how soon they matter. The
+  // news tier also carries one breadth step of merit, so a record's own
+  // what-changed (news, today) outranks its own why-it-matters (follow-up):
+  // without it the recency decay made the fresher treatment the cheaper one.
+  const tierMerit = tier === "news" ? NEWS_TIER_MERIT : 0;
   const recencyPenalty = tier === "news" ? ageDays * RECENCY_DECAY_PER_DAY : 0;
   // An effective date a week away outranks one two months away.
   const proximityMerit =
@@ -338,7 +359,7 @@ function toEventCandidate(
       ? Math.max(0, EFFECTIVE_DATE_HORIZON_DAYS - daysBetweenIso(today, event.effectiveAt)) * 10
       : 0;
 
-  const score = CATEGORY_TIER[category] + rank + readerValueMerit(value) + proximityMerit - recencyPenalty;
+  const score = CATEGORY_TIER[category] + rank + readerValueMerit(value) + proximityMerit + tierMerit - recencyPenalty;
 
   const supported = [angle, ...anglesForArchiveEvent(event, today, all).filter((a) => a !== angle)];
 
@@ -354,6 +375,7 @@ function toEventCandidate(
     scoreExplain:
       `${CATEGORY_LABEL[category]} (tier ${CATEGORY_TIER[category]}) + ${rank.toFixed(1)}` +
       ` + ${readerValueMerit(value)} reader value (${value.score}/100)` +
+      `${tierMerit ? ` + ${tierMerit} news tier` : ""}` +
       `${proximityMerit ? ` + ${proximityMerit} proximity` : ""}` +
       `${recencyPenalty ? ` − ${recencyPenalty} recency` : ""}: ${explain}; ${value.reason}`,
     readerValue: value,
@@ -464,13 +486,13 @@ function evergreenValue(score: number, reason: string, hooks: string[]): ReaderV
 /** Is this explainer about something that changed recently? */
 function topicalBoost(e: Explainer, events: IndexedEvent[], today: string): { boost: number; why: string } {
   const since = isoShift(today, -14);
-  const hit = events.find(
-    (ev) =>
-      ev.publishedAt >= since &&
-      ev.publishedAt <= today &&
-      ev.severity !== "routine" &&
-      e.keywords.some((k) => `${ev.title} ${ev.summary}`.toLowerCase().includes(k))
-  );
+  const hit = events.find((ev) => {
+    if (ev.publishedAt < since || ev.publishedAt > today || ev.severity === "routine") return false;
+    // A rule with a start date ahead makes the effective-date explainer
+    // topical whether or not its summary uses the words.
+    const hay = `${ev.title} ${ev.summary}${ev.effectiveAt && ev.effectiveAt > today ? " effective date" : ""}`.toLowerCase();
+    return e.keywords.some((k) => hay.includes(k));
+  });
   return hit ? { boost: 2000, why: `topical: "${hit.title.slice(0, 50)}" (${hit.publishedAt})` } : { boost: 0, why: "" };
 }
 

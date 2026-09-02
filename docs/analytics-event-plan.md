@@ -47,6 +47,29 @@ The most valuable group. These are a direct, unfiltered list of gaps.
 | `topic_view` | Topic hub viewed | `topic` | Which subjects sustain attention? (Phase 3) |
 | `entity_follow` | Reader follows a country/visa/employer/agency/topic | `entity_type`, `entity` | What do people want ongoing? Direct input to alerting. (Phase 4) |
 
+## Editorial — does the social publication bring readers?
+
+The social engine (docs/social.md) attributes every post it publishes: the
+link it posts carries `utm_source`, `utm_medium=social`, `utm_campaign=<content
+type>` and `utm_content=<story key>`, and the landing page fires one event on
+arrival. Read together with the ledger's `contentType`, `structure` and
+`storyKey` columns, this is what lets the eight content types — breaking
+change, what changed, why it matters, effective date, key date, data signal,
+explainer, data discovery — be compared for the readers they actually bring.
+Nothing here optimises automatically; the point is to collect trustworthy data
+first.
+
+| Event | Trigger | Properties | Business question |
+| --- | --- | --- | --- |
+| `social_post_click` | A visit arrives from a social post (utm parameters present), once per story per session | `platform`, `content_type`, `story`, `path` | **Which kind of post brings readers?** Joined to the ledger on `story`. |
+| `share_click` | Reader uses the share button on a record, explainer or signal page | `surface`, `story` | Which records do readers pass on? |
+| `what_changed_view` | A change's own page is viewed (`entry: "story"`) | `entry`, `story`, `category` | Do story pages hold attention beyond the click? |
+
+Plausible also records the UTM parameters on the pageview itself, so
+`utm_campaign` (the content type) is available as a source breakdown without
+any custom goal. The three events above need goals created in the Plausible
+dashboard before they show in its Goals report.
+
 ## Professional — deliberately separate
 
 Kept apart from the public funnel so public-mission metrics are never distorted by
