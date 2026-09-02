@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { KeyDates } from "@/components/KeyDates";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -12,6 +13,7 @@ export const metadata = buildMetadata({
   description:
     "H-1B registration, the Diversity Visa lottery, the Visa Bulletin, the F-1 OPT window and more — counted down, each with its official source.",
   path: "/key-dates",
+  image: ogImagePath("page", "key-dates"),
   keywords: [
     "H-1B registration dates",
     "immigration deadlines 2026",

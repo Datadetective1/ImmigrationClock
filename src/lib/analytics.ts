@@ -22,7 +22,17 @@
 // policy, not an identifier. This module never identifies a device, replays a
 // session, or follows anyone between sites — the Directive and the privacy
 // policy both forbid it. With no provider configured every call is a no-op.
+//
+// SOCIAL ARRIVALS
+// A click from a social post lands with standard UTM parameters (see
+// src/lib/share.ts). Plausible attributes the visit from those on its own; the
+// `social_post_click` event below adds the STORY, so an editor can see which
+// record a post actually moved readers to rather than only which network sent
+// them. The story key is a public record's own identifier and the content type
+// is one of a handful of fixed strings — nothing about the reader.
 // =============================================================================
+
+import { parseTracking, type ShareTracking } from "@/lib/share";
 
 /** Everything the platform measures. Adding an event means adding it here. */
 export type AnalyticsEvent =
@@ -61,6 +71,13 @@ export type AnalyticsEvent =
   | "topic_view"
   | "entity_follow"
 
+  // --- ARRIVAL AND SHARING ---------------------------------------------------
+  /** A reader arrived from one of the platform's own social posts. Fired once
+   *  per story per browser session, with the network and the story key. */
+  | "social_post_click"
+  /** A reader pressed a share button. Which surface, and which story if any. */
+  | "share_click"
+
   // --- PROFESSIONAL (kept separate from the public funnel) --------------------
   | "intelligence_page_view"
   | "sample_report_view"
@@ -93,6 +110,8 @@ const PLAUSIBLE_NAME: Record<AnalyticsEvent, string> = {
   what_changed_view: "What Changed View",
   topic_view: "Topic View",
   entity_follow: "Entity Follow",
+  social_post_click: "Social Post Click",
+  share_click: "Share Click",
   intelligence_page_view: "Intelligence Page View",
   sample_report_view: "Sample Report View",
   briefing_request_submitted: "Briefing Request Submitted",
@@ -180,4 +199,69 @@ export function trackCoverageGap(dataset: string, scope: string): void {
  */
 export function trackRelatedClick(surface: string, relation: string): void {
   track("related_link_click", { surface, relation });
+}
+
+// -----------------------------------------------------------------------------
+// SOCIAL ARRIVALS AND SHARES
+// -----------------------------------------------------------------------------
+
+/** A reader landed from one of our own posts. `path` is the page, not the full URL. */
+export function trackSocialArrival(t: ShareTracking, path: string): void {
+  track("social_post_click", {
+    platform: t.platform,
+    content_type: t.contentType,
+    story: t.story,
+    path: path.slice(0, 120),
+  });
+}
+
+/**
+ * A share button was pressed. `surface` names the block ("change", "explainer",
+ * "signal", "page"); `story` is the record's public key when there is one.
+ */
+export function trackShare(surface: string, story?: string): void {
+  track("share_click", { surface, story });
+}
+
+/** A story page was opened. Same event as the feed, with `entry: "story"`. */
+export function trackStoryView(story: string, category: string): void {
+  track("what_changed_view", { entry: "story", story, category });
+}
+
+/** Prefix of the per-story session key that keeps an arrival from double-firing. */
+export const SOCIAL_ARRIVAL_PREFIX = "ic-social-arrival:";
+
+/** The slice of Storage the arrival guard needs. sessionStorage satisfies it. */
+export interface OnceStore {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+}
+
+/**
+ * Decide whether an arrival should be recorded, and claim it if so.
+ *
+ * Pure apart from the store, so the once-per-story rule is testable without a
+ * browser: given the landing URL's query string and a store, it returns the
+ * tracking to fire or null. Null means one of three things — no social
+ * attribution on the URL, the store already holds this story for the session,
+ * or the store is unavailable and cannot promise "once", in which case the
+ * event is still fired (an arrival counted twice is a smaller error than an
+ * arrival never counted, and a browser with no sessionStorage is rare).
+ *
+ * The query string is READ, never rewritten: Plausible reads the utm_*
+ * parameters itself, so stripping them would break the attribution this event
+ * exists to extend.
+ */
+export function claimSocialArrival(search: string, store: OnceStore | null): ShareTracking | null {
+  const t = parseTracking(search);
+  if (!t) return null;
+  if (!store) return t;
+  const key = `${SOCIAL_ARRIVAL_PREFIX}${t.story || `${t.platform}:${t.contentType}`}`;
+  try {
+    if (store.getItem(key)) return null;
+    store.setItem(key, "1");
+  } catch {
+    /* storage blocked — fire anyway, see above */
+  }
+  return t;
 }

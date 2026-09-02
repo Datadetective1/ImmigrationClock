@@ -26,6 +26,7 @@
 // =============================================================================
 
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { EventCard } from "@/components/EventCard";
@@ -47,6 +48,7 @@ export const metadata = buildMetadata({
   description:
     "Every U.S. immigration policy change traced to its official government source — rules, executive actions, agency guidance and court decisions.",
   path: "/what-changed",
+  image: ogImagePath("page", "what-changed"),
   keywords: [
     "immigration policy changes",
     "new immigration rules",

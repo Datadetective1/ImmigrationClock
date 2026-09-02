@@ -29,6 +29,9 @@ export function PageHeader({
   description,
   crumbs,
   share,
+  shareSurface,
+  shareStory,
+  sharePath,
   children,
 }: {
   eyebrow?: string;
@@ -36,6 +39,12 @@ export function PageHeader({
   description?: string;
   crumbs?: Crumb[];
   share?: boolean;
+  /** For the share event: which kind of page ("change", "explainer", "signal"). */
+  shareSurface?: string;
+  /** The record's public key ("change:abc123") when the page is one record. */
+  shareStory?: string;
+  /** The canonical path to share, when the page can be reached by more than one. */
+  sharePath?: string;
   children?: React.ReactNode;
 }) {
   return (
@@ -79,7 +88,9 @@ export function PageHeader({
               <p className="mt-3 text-base leading-relaxed text-slate-400">{description}</p>
             ) : null}
           </div>
-          {share ? <ShareButton title={title} /> : null}
+          {share ? (
+            <ShareButton title={title} surface={shareSurface} story={shareStory} path={sharePath} />
+          ) : null}
         </div>
         {children ? <div className="mt-6">{children}</div> : null}
       </div>

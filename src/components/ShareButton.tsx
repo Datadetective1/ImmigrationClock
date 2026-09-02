@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackShare } from "@/lib/analytics";
 
 /** Share via Web Share API where available, else copy link to clipboard. */
 export function ShareButton({
@@ -8,15 +9,24 @@ export function ShareButton({
   text,
   path,
   compact = false,
+  surface = "page",
+  story,
 }: {
   title: string;
   text?: string;
   path?: string;
   compact?: boolean;
+  /** Which kind of thing is being shared: "change", "explainer", "signal", "page". */
+  surface?: string;
+  /** The record's public key ("change:abc123") when the button belongs to one. */
+  story?: string;
 }) {
   const [copied, setCopied] = useState(false);
 
   async function onShare() {
+    // Recorded before the share sheet opens, because a cancelled sheet is still
+    // a reader who wanted to share this — and the outcome cannot be observed.
+    trackShare(surface, story);
     const url =
       typeof window !== "undefined"
         ? `${window.location.origin}${path ?? window.location.pathname}`

@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { ConsentBanner } from "@/components/ConsentBanner";
+import { SocialArrival } from "@/components/SocialArrival";
 import { StructuredData } from "@/components/StructuredData";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE } from "@/lib/site";
@@ -46,6 +48,12 @@ export default function RootLayout({
             were removed from the platform — see docs/founder-directive-gap-analysis.md
             (conflict C-2). */}
         <AnalyticsScripts />
+        {/* Attributes a landing from one of our own social posts to its story.
+            Reads the query string only; renders nothing. In Suspense because
+            useSearchParams() would otherwise de-optimise every static page. */}
+        <Suspense fallback={null}>
+          <SocialArrival />
+        </Suspense>
         {/* First tab stop on every page — lets keyboard and screen-reader users
             jump past the navigation straight to the content. */}
         <a href="#main-content" className="skip-link">

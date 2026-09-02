@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -23,6 +24,7 @@ export const metadata = buildMetadata({
   description:
     "CBP southwest, northern, and nationwide encounters by fiscal year and month, with family unit, single adult, and unaccompanied minor breakdowns.",
   path: "/border/encounters",
+  image: ogImagePath("page", "border-encounters"),
   keywords: ["border encounters", "CBP", "southwest border", "family units"],
 });
 

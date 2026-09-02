@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -11,6 +12,7 @@ export const metadata = buildMetadata({
   description:
     "A free, no-key, machine-readable feed of real WARN Act layoff notices — JSON and CSV, refreshed each build, licensed for open use.",
   path: "/developers",
+  image: ogImagePath("page", "developers"),
   keywords: ["WARN API", "layoff data API", "WARN notices JSON", "WARN notices CSV", "free layoff dataset"],
 });
 
