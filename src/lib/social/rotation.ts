@@ -38,7 +38,7 @@ import {
   MIX_WINDOW_DAYS,
   TIER_STEP,
   isOverTarget,
-  mixBucketFor,
+  mixBucketForPost,
   type ContentCategory,
   type MixBucket,
 } from "./categories";
@@ -395,7 +395,7 @@ export function buildMemory(
     if (!row.category) continue;
     const age = daysAgo(row, now);
     if (age > MIX_WINDOW_DAYS) continue;
-    const bucket = mixBucketFor(row.category as ContentCategory);
+    const bucket = mixBucketForPost(row.category as ContentCategory, row.contentType);
     memory.bucketCounts[bucket] += 1;
     if (row.localDate === localDate) memory.bucketsToday.add(bucket);
   }
@@ -518,7 +518,7 @@ export function applyRotation(input: RotationInput, memory: RecentMemory): Rotat
   // development, it makes that development compete one band down, on its own
   // merits, against the deadline or the dataset it would otherwise have
   // displaced. A big second story still wins. A routine one gives way.
-  const bucket = mixBucketFor(input.category);
+  const bucket = mixBucketForPost(input.category, input.contentType);
   if (memory.bucketsToday.has(bucket)) {
     penalty += MIX_PENALTY.sameDayBucket;
     parts.push(`"${bucket}" already posted today −${MIX_PENALTY.sameDayBucket}`);

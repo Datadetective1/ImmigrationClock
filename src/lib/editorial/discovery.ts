@@ -16,7 +16,6 @@ import { EMPLOYERS_META } from "@/lib/employers";
 import { WARN_SUMMARY } from "@/lib/warn-summary";
 import { INDEX_COVERAGE } from "@/lib/event-index";
 import { KEY_DATES } from "@/lib/key-dates";
-import { countries } from "@/lib/dataset";
 import { formatNumber } from "@/lib/format";
 import { EXPLAINERS } from "./explainers";
 
@@ -125,18 +124,6 @@ export function buildDiscoveries(): Discovery[] {
         "Appearing in both datasets does not mean a layoff affected sponsored workers, and does not indicate that any worker was displaced. The two filings are made to different agencies for different purposes and are never combined into one figure.",
       ],
       topicKey: "topic:layoffs",
-    },
-    {
-      slug: "country-pages",
-      need: "Looking at U.S. immigration from one country's point of view?",
-      title: "Country pages",
-      path: "/country/india",
-      facts: [
-        `ImmigrationClock has a page for each of ${countries.length} countries, showing H-1B and F-1 visa figures by fiscal year alongside the recorded policy changes that name the country.`,
-        "Every figure on a country page carries a label saying how it was derived — reported by an agency, or estimated from a published total — and the source it came from.",
-      ],
-      caveats: ["Country splits for some visa classes are estimates of a published national total and are labelled as such on the page. They are not stated in posts."],
-      topicKey: "topic:countries",
     },
     {
       slug: "weekly-pulse",

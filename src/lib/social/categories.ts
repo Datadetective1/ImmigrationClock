@@ -124,6 +124,37 @@ export const CATEGORY_LABEL: Record<ContentCategory, string> = {
  */
 export type MixBucket = "news" | "alerts" | "data" | "evergreen" | "product";
 
+/**
+ * The bucket a post belongs to, by what KIND OF POST it was when that is
+ * known, and by category otherwise.
+ *
+ * The content type is the better key. A why-it-matters post about a court
+ * order is a news post, but the order's category on the archive ladder is
+ * "explainer" (no obligation, no date) — and counting it as evergreen put the
+ * evergreen bucket over its share after two such posts, which then penalised
+ * every real explainer by a tier step and handed a quiet afternoon to a tool
+ * post. Rows written before content types existed fall back to the category.
+ */
+export function mixBucketForPost(category: ContentCategory, contentType?: string | null): MixBucket {
+  switch (contentType) {
+    case "breaking_change":
+    case "what_changed":
+    case "why_it_matters":
+      return "news";
+    case "effective_date":
+    case "key_date":
+      return "alerts";
+    case "data_signal":
+      return "data";
+    case "explainer":
+      return "evergreen";
+    case "data_discovery":
+      return "product";
+    default:
+      return mixBucketFor(category);
+  }
+}
+
 export function mixBucketFor(category: ContentCategory): MixBucket {
   switch (category) {
     case "development":
