@@ -19,6 +19,7 @@ import {
   treatmentCount,
   recentTexts,
   recentOpenings,
+  recentStructures,
   recentValidationFailure,
   EMPTY_POST_LEDGER,
   LEDGER_VERSION,
@@ -178,6 +179,40 @@ describe("recentTexts and recentOpenings", () => {
 
   it("openings are the first sentence only", () => {
     expect(recentOpenings(l, "x", 1)[0]).toBe("Newer post here.");
+  });
+});
+
+describe("recentStructures", () => {
+  const l = appendRecords(EMPTY_POST_LEDGER, [
+    record({ runAtUtc: "2026-08-01T14:05:00.000Z", structure: "news" }),
+    // A row written before shapes were recorded.
+    record({ runAtUtc: "2026-08-02T14:05:00.000Z", structure: null }),
+    record({ runAtUtc: "2026-08-03T14:05:00.000Z", structure: "direct" }),
+    // A dry run is not a published shape.
+    record({ runAtUtc: "2026-08-04T14:05:00.000Z", structure: "list", decision: "DRY_RUN" }),
+    record({ runAtUtc: "2026-08-05T14:05:00.000Z", structure: "list", platform: "linkedin" }),
+  ]);
+
+  it("returns the shapes of published posts, newest first, skipping rows that recorded none", () => {
+    expect(recentStructures(l, "x", 5)).toEqual(["direct", "news"]);
+  });
+
+  it("respects the limit and stays within a platform", () => {
+    expect(recentStructures(l, "x", 1)).toEqual(["direct"]);
+    expect(recentStructures(l, "linkedin", 5)).toEqual(["list"]);
+  });
+
+  it("round-trips the new optional columns through the ledger file", () => {
+    const row = record({
+      contentType: "why_it_matters",
+      tier: "follow_up",
+      structure: "why_it_matters",
+      storyKey: "change:abc123",
+      shareUrl: "https://immigrationclock.com/what-changed/a-rule-abc123",
+      cadenceExplain: "news may publish; a follow-up may publish. 0 post(s) today",
+    });
+    const back = parsePostLedger(serializePostLedger(appendRecords(EMPTY_POST_LEDGER, [row])));
+    expect(back?.posts[0]).toEqual(row);
   });
 });
 

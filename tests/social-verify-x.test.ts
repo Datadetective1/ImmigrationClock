@@ -18,6 +18,7 @@
 
 import { describe, it, expect, vi, afterEach } from "vitest";
 import {
+  XPublisher,
   verifyXCredentials,
   buildAuthorizationHeader,
   readXCredentials,
@@ -169,6 +170,68 @@ describe("what the response means", () => {
     expect(result.ok).toBe(false);
     expect(result.status).toBeNull();
     expect(result.error).toMatch(/Could not reach X/);
+  });
+});
+
+// -----------------------------------------------------------------------------
+// THE PUBLISHER NAMES THE FAILURE
+//
+// X's API is pay-per-use and answers HTTP 402 when the balance runs out — it
+// did on 2026-08-10, and the first design filed it under a generic publish
+// failure. The code on the result is what lets the ledger, the preflight and
+// the summary say what actually happened and what to do about it, because no
+// code change fixes an empty balance.
+// -----------------------------------------------------------------------------
+
+describe("the publisher names the balance and the rate limit, not just 'failed'", () => {
+  it("posts to the tweets endpoint and reports the platform's own id", async () => {
+    const calls = stubFetch({ status: 201, text: JSON.stringify({ data: { id: "1234567890" } }) });
+    const r = await new XPublisher(CREDS).publish("hello");
+    expect(calls[0].url).toBe("https://api.x.com/2/tweets");
+    expect(calls[0].init.method).toBe("POST");
+    expect(JSON.parse(String(calls[0].init.body))).toEqual({ text: "hello" });
+    expect(r.ok).toBe(true);
+    expect(r.externalId).toBe("1234567890");
+    expect(r.externalUrl).toBe("https://x.com/i/web/status/1234567890");
+  });
+
+  it("reports HTTP 402 as depleted credits — a human problem, never a retry", async () => {
+    stubFetch({ ok: false, status: 402, text: '{"title":"CreditsDepleted"}' });
+    const r = await new XPublisher(CREDS).publish("hello");
+    expect(r.ok).toBe(false);
+    expect(r.code).toBe("credits");
+    expect(r.credentialProblem).toBe(false);
+    expect(r.error).toMatch(/credits depleted \(HTTP 402\)/i);
+    expect(r.error).toMatch(/Top up/);
+  });
+
+  it("reports HTTP 429 as a rate limit — transient, the next window tries again", async () => {
+    stubFetch({ ok: false, status: 429, text: '{"title":"Too Many Requests"}' });
+    const r = await new XPublisher(CREDS).publish("hello");
+    expect(r.ok).toBe(false);
+    expect(r.code).toBe("rate_limit");
+    expect(r.credentialProblem).toBe(false);
+    expect(r.error).toMatch(/rate limit reached \(HTTP 429\)/i);
+  });
+
+  it("reports 401 and 403 as a credential problem, which must not stop the other platform", async () => {
+    for (const status of [401, 403]) {
+      stubFetch({ ok: false, status, text: '{"title":"Unauthorized"}' });
+      const r = await new XPublisher(CREDS).publish("hello");
+      expect(r.ok, String(status)).toBe(false);
+      expect(r.code, String(status)).toBe("credential");
+      expect(r.credentialProblem, String(status)).toBe(true);
+    }
+  });
+
+  it("reports anything else as other, with X's own text and never a secret", async () => {
+    stubFetch({ ok: false, status: 500, text: "SECRET_CS upstream" });
+    const r = await new XPublisher(CREDS).publish("hello");
+    expect(r.ok).toBe(false);
+    expect(r.code).toBe("other");
+    expect(r.error).toContain("HTTP 500");
+    // X's body is echoed for diagnosis, but our own values are not added to it.
+    expect(JSON.stringify({ ...r, error: "" })).not.toContain("SECRET_CS");
   });
 });
 

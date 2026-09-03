@@ -13,12 +13,14 @@
 import { describe, it, expect } from "vitest";
 import {
   checkSubject,
+  checkStructureVariety,
   checkWording,
   similarity,
   trigrams,
   normalizeForComparison,
   subjectKind,
   COOLDOWNS,
+  STRUCTURE_RUN_LIMIT,
   URL_COOLDOWN_DAYS,
   SIMILARITY_LIMIT,
   VALIDATION_COOLDOWN_DAYS,
@@ -91,6 +93,12 @@ describe("subjectKind", () => {
     expect(subjectKind("keydate:dv-lottery")).toBe("keydate");
     expect(subjectKind("asset:timeline")).toBe("asset");
   });
+
+  it("recognises the evergreen tier's prefixes", () => {
+    expect(subjectKind("explainer:proposed-rule-vs-final-rule")).toBe("explainer");
+    expect(subjectKind("signal:warn-by-state")).toBe("signal");
+    expect(subjectKind("discovery:employer-directory")).toBe("discovery");
+  });
 });
 
 describe("the same treatment never repeats", () => {
@@ -118,7 +126,7 @@ describe("a second angle on the same subject is legitimate", () => {
 
   it("blocks a different angle DURING the subject cooldown", () => {
     const l = ledgerWith(record());
-    // 3 days later; the event subject cooldown is 14. A different destination is
+    // 3 days later; the event subject cooldown is 7. A different destination is
     // used so the URL cooldown — which would also block — is not what answers.
     const r = check(l, ["who_is_affected"], "2026-08-04T14:05:00Z", {
       pool: "knowledge",
@@ -126,6 +134,21 @@ describe("a second angle on the same subject is legitimate", () => {
     });
     expect(r.ok).toBe(false);
     expect(r.reason).toContain("Subject cooldown");
+  });
+
+  it("spaces an event's treatments a week apart, not a fortnight", () => {
+    // Seven, not fourteen: a breaking post, a why-it-matters a week later and
+    // an effective-date reminder as the date approaches is the life of a
+    // consequential rule, and at fourteen days the second and third could never
+    // happen for a rule that starts within a month of publishing.
+    expect(COOLDOWNS.event.subjectCooldownDays).toBe(7);
+    const l = ledgerWith(record());
+    const eighthDay = check(l, ["why_it_matters"], "2026-08-09T14:05:00Z", {
+      pool: "knowledge",
+      deepLink: "https://immigrationclock.com/other",
+    });
+    expect(eighthDay.ok).toBe(true);
+    expect(eighthDay.availableAngles).toEqual(["why_it_matters"]);
   });
 
   it("returns only the angles still open, not a bare yes/no", () => {
@@ -199,6 +222,43 @@ describe("durable subjects behave differently from events", () => {
   });
 });
 
+describe("the evergreen tier cools down slowly, by kind", () => {
+  const evergreen = (subjectId: string, angle: Angle, deepLink: string) =>
+    ledgerWith(record({ subjectId, angle, pool: "editorial", deepLink }));
+
+  it("spaces an explainer by four months — it is as true then as today, and no sooner", () => {
+    expect(COOLDOWNS.explainer.subjectCooldownDays).toBe(120);
+    expect(COOLDOWNS.explainer.treatmentCooldownDays).toBe(120);
+    const l = evergreen("explainer:x", "explainer", "/explained/x");
+    const opts = { subjectId: "explainer:x", pool: "editorial" as const, deepLink: "/explained/x" };
+    expect(check(l, ["explainer"], "2026-11-01T14:05:00Z", opts).ok).toBe(false);
+    expect(check(l, ["explainer"], "2026-12-15T14:05:00Z", opts).ok).toBe(true);
+  });
+
+  it("lets a data signal come round faster — it is recomputed from a refreshed snapshot", () => {
+    expect(COOLDOWNS.signal.subjectCooldownDays).toBe(45);
+    const l = evergreen("signal:x", "data_insight", "/insights/x");
+    const opts = { subjectId: "signal:x", pool: "editorial" as const, deepLink: "/insights/x" };
+    expect(check(l, ["data_insight"], "2026-09-01T14:05:00Z", opts).ok).toBe(false);
+    expect(check(l, ["data_insight"], "2026-10-01T14:05:00Z", opts).ok).toBe(true);
+  });
+
+  it("spaces a tool by three months", () => {
+    expect(COOLDOWNS.discovery.subjectCooldownDays).toBe(90);
+    const l = evergreen("discovery:x", "data_discovery", "/h1b/employers");
+    const opts = { subjectId: "discovery:x", pool: "editorial" as const, deepLink: "/h1b/employers" };
+    expect(check(l, ["data_discovery"], "2026-10-01T14:05:00Z", opts).ok).toBe(false);
+    expect(check(l, ["data_discovery"], "2026-11-15T14:05:00Z", opts).ok).toBe(true);
+  });
+
+  it("never lets an evergreen record run out of treatments — it has exactly one, forever", () => {
+    for (const kind of ["explainer", "signal", "discovery"] as const) {
+      expect(COOLDOWNS[kind].maxTreatments).toBe(Infinity);
+      expect(COOLDOWNS[kind].treatmentCooldownDays).toBe(COOLDOWNS[kind].subjectCooldownDays);
+    }
+  });
+});
+
 describe("URL cooldown", () => {
   it("blocks a different subject that lands on the same page", () => {
     const l = ledgerWith(record({ subjectId: "event:a", pool: "knowledge" }));
@@ -269,6 +329,54 @@ describe("validation-failure cooldown", () => {
       deepLink: "https://immigrationclock.com/b",
     });
     expect(r.ok).toBe(true);
+  });
+});
+
+describe("structure variety — the shape of the post", () => {
+  const shaped = (structure: string | null, runAtUtc: string, subjectId = "event:a") =>
+    record({ structure, runAtUtc, subjectId, text: `post ${runAtUtc}` });
+
+  it("refuses a third consecutive post in the same shape", () => {
+    expect(STRUCTURE_RUN_LIMIT).toBe(2);
+    const l = ledgerWith(
+      shaped("news", "2026-08-01T14:05:00.000Z", "event:a"),
+      shaped("news", "2026-08-02T14:05:00.000Z", "event:b")
+    );
+    const r = checkStructureVariety(l, "news", "x");
+    expect(r.ok).toBe(false);
+    expect(r.run).toBe(2);
+    expect(r.reason).toMatch(/already used the "news" shape/);
+  });
+
+  it("allows a different shape, and a second use of the same one", () => {
+    const l = ledgerWith(
+      shaped("news", "2026-08-01T14:05:00.000Z", "event:a"),
+      shaped("news", "2026-08-02T14:05:00.000Z", "event:b")
+    );
+    expect(checkStructureVariety(l, "direct", "x").ok).toBe(true);
+    expect(checkStructureVariety(ledgerWith(shaped("news", "2026-08-01T14:05:00.000Z")), "news", "x").ok).toBe(true);
+  });
+
+  it("fails open when no shape was reported, and skips rows that recorded none", () => {
+    // A row written before shapes existed carries null and must not be read as
+    // a shape — an unknown shape must not be able to refuse a real one.
+    const l = ledgerWith(
+      shaped("news", "2026-08-01T14:05:00.000Z", "event:a"),
+      shaped(null, "2026-08-02T14:05:00.000Z", "event:b"),
+      shaped("news", "2026-08-03T14:05:00.000Z", "event:c")
+    );
+    expect(checkStructureVariety(l, undefined, "x").ok).toBe(true);
+    // Two "news" rows are the two most recent SHAPED rows, so the run is real.
+    expect(checkStructureVariety(l, "news", "x").ok).toBe(false);
+  });
+
+  it("compares only within a platform, and only what published", () => {
+    const l = ledgerWith(
+      shaped("news", "2026-08-01T14:05:00.000Z", "event:a"),
+      { ...shaped("news", "2026-08-02T14:05:00.000Z", "event:b"), decision: "DRY_RUN" }
+    );
+    expect(checkStructureVariety(l, "news", "x").ok).toBe(true);
+    expect(checkStructureVariety(l, "news", "linkedin").ok).toBe(true);
   });
 });
 
