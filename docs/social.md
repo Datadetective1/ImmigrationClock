@@ -248,6 +248,18 @@ npm run social:post -- --slot=afternoon
 npm run social:verify-og -- --base=https://immigrationclock.com
 ```
 
+```bash
+npm run social:examples
+```
+
+`social:examples` runs the seven example posts in
+`fixtures/social-examples-v9.json` — one per content type, written to the v9
+brief against records in the archive — through the validator, the opening and
+shape checks and the wording-similarity check against the committed ledger. It
+is how a reader can see what the brief asks for without an API key, and how the
+examples in the launch report were verified. The entries are authored, not
+model-generated, and nothing in that file is ever published.
+
 The stub engine (`providers/stub.ts`) writes copy from the fact set in the
 shape it is offered. It is a planning tool for exercising the deterministic
 layers on a machine with no API key — not the voice, and unreachable from the

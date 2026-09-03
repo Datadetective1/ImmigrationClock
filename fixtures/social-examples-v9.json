@@ -1,0 +1,57 @@
+{
+  "_readme": [
+    "Example posts written to the v9 brief (src/lib/social/prompt.ts), one per",
+    "content type, keyed by <subjectId>::<contentType> against records in the",
+    "committed archive on 2026-09-02. They exist so the voice can be read and",
+    "so the validator, the opening-variety and the shape checks can be run over",
+    "them without an API key: scripts/social-examples.ts does exactly that.",
+    "",
+    "They are AUTHORED, not model-generated. The production voice is the",
+    "model's, under the same brief; a real-model dry run (social:simulate",
+    "--engine=openai) is what shows it. Nothing here is ever published."
+  ],
+  "entries": {
+    "event:federal_register:2026-17726::breaking_change": {
+      "structure": "news",
+      "headline": "DOL drops its coordinated-enforcement rules, effective Sept. 30",
+      "x": "The Department of Labor just withdrew the regulations that set formal procedures for coordinating enforcement across its farmworker programs.\n\nThe rule is final. It takes effect Sept. 30, 2026; until then the current procedures stay in force.\n\n{deepLink}",
+      "linkedin": "The Department of Labor is rescinding the regulations that established formal procedures for coordinating enforcement among the Wage and Hour Division, OSHA and the Employment and Training Administration with respect to migrant and seasonal farmworkers.\n\nThe rule is final, and it takes effect Sept. 30, 2026. Until that date the existing coordination procedures remain in force. The Department's stated reason is that the procedures are obsolete and no longer reflect how its agencies coordinate.\n\nWho this reaches: employers of migrant and seasonal farmworkers, and the agencies that enforce their obligations.\n\nWhat a rescission does not do: it removes the rule it names. It does not change the statute the rule was issued under, or the Department's other enforcement authorities.\n\n{deepLink}"
+    },
+    "event:uscis_policy_manual:20260831-voterregnatzceremonies::what_changed": {
+      "structure": "what_changed",
+      "headline": "USCIS reverses last year's policy on voter registration at naturalization ceremonies",
+      "x": "USCIS just reversed its policy on voter registration at naturalization ceremonies.\n\nWhat changed: the Aug. 29, 2025 policy is withdrawn and the earlier guidance is back, so nonpartisan nonprofits may again register new citizens right after the oath.\n\n{deepLink}",
+      "linkedin": "USCIS has reversed its August 29, 2025 policy on voter registration at administrative naturalization ceremonies.\n\nWhat changed: the 2025 policy is rescinded, and the earlier guidance in the USCIS Policy Manual is reinstated. Under that guidance, nonprofit and nonpartisan non-governmental organizations may take part in ceremonies by distributing and collecting voter registration applications and registering new citizens to vote immediately after the ceremony, where state and local election offices are not there to do it.\n\nWho this reaches: people naturalizing at USCIS-administered ceremonies, and the organizations that work at them.\n\nWhat ImmigrationClock is watching: the updates page does not publish an effective date, so we record none. Policy Manual guidance instructs USCIS officers; it is not a regulation and can change again without rulemaking.\n\n{deepLink}"
+    },
+    "event:uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355::why_it_matters": {
+      "structure": "why_it_matters",
+      "headline": "A court has paused two USCIS hold policies. What that does, and does not, mean",
+      "x": "A federal court has enjoined two USCIS memos on holds, PM 602-0192 and PM 602-0194, by order of Aug. 24, 2026.\n\nWhy it matters: the order stops enforcement as the court specifies. It does not rewrite the memos, and an appeal can stay or reverse it.\n\n{deepLink}",
+      "linkedin": "USCIS says a federal court has enjoined two of its policy memos on holds.\n\nOn Aug. 24, 2026, the U.S. District Court for the Northern District of California issued an order in Red Eagle Law, L.C., et al., v. Joseph B. Edlow, enjoining PM 602-0192 and PM 602-0194.\n\nWhy it matters: a court order binds according to the court that issued it. It stops enforcement as the order specifies; it does not rewrite the policy text. And it can be stayed, narrowed or reversed on appeal, so the pause is a pause, not a repeal.\n\nWho this reaches: anyone whose case was on hold under either memo.\n\nImmigrationClock is watching the docket for a stay or an appeal, and USCIS’s own notice of how it will comply.\n\n{deepLink}"
+    },
+    "event:federal_register:2026-14539::effective_date": {
+      "structure": "date_lede",
+      "headline": "The 2022 public charge rule is rescinded from Sept. 18",
+      "x": "Starting Sept. 18, 2026, the 2022 public charge regulations are rescinded.\n\nUntil that date the 2022 rule stays in force. DHS published the final rule on July 20; the 2022 standard applies to determinations until the rescission takes effect.\n\n{deepLink}",
+      "linkedin": "Sept. 18, 2026 is the date the 2022 public charge ground of inadmissibility regulations are rescinded.\n\nDHS published the final rule on July 20, 2026. Until the effective date, the 2022 rule remains in force and remains the basis for public charge determinations. From Sept. 18 it no longer applies.\n\nWho this reaches: people applying for admission or adjustment of status who are subject to the public charge ground of inadmissibility.\n\nA final rule and an effective rule are different things, and the month between them is the part a reader can still plan around.\n\n{deepLink}"
+    },
+    "signal:h1b-sponsor-concentration::data_signal": {
+      "structure": "data_question",
+      "headline": "Ten employers hold 15.1% of all H-1B approvals",
+      "x": "How concentrated is H-1B sponsorship?\n\nIn the USCIS Employer Data Hub export for fiscal year 2023, 28,061 employers had approvals. The 10 largest account for 26,678 of them, or 15.1% of all 176,949.\n\nSource: USCIS H-1B Employer Data Hub\n\n{deepLink}",
+      "linkedin": "How concentrated is H-1B sponsorship? More than the employer count suggests.\n\nThe USCIS H-1B Employer Data Hub export for fiscal year 2023 records 176,949 petition approvals across 28,061 employers. The 10 largest sponsors account for 26,678 of those approvals, or 15.1% of the total; the 50 largest account for 50,809, or 28.7%.\n\nWhat the figure counts: petition approvals, not workers. One person can be the beneficiary of more than one approved petition. And the export is fiscal year 2023, the latest USCIS has published at employer level.\n\nImmigrationClock's employer directory lists the 2,614 employers with at least 10 approvals, with approvals, denials and approval rate for each.\n\n{deepLink}"
+    },
+    "explainer:proposed-rule-vs-final-rule::explainer": {
+      "structure": "distinction",
+      "headline": "A proposed rule is not a rule",
+      "x": "A proposed rule is not a rule.\n\nA proposal invites comment, commonly for 30 to 60 days, and changes nothing by itself. A final rule is the agency's decision: it states an effective date, and it can differ from the proposal.\n\n{deepLink}",
+      "linkedin": "A proposed rule is not a rule, and the difference is the whole story.\n\nA proposed rule is published in the Federal Register to invite public comment, commonly for 30 to 60 days. It is a notice of what an agency intends to do. By itself it changes no requirement, fee or eligibility test, and it can be withdrawn or never finalised.\n\nA final rule is the agency's binding decision. It can differ from the proposal, it states an effective date, and it can be delayed, challenged in court or rescinded by a later rule.\n\nWho this reaches: anyone planning around a fee or an eligibility test they read about before it was final.\n\nImmigrationClock labels a proposed rule \"not in force\" wherever it appears and never records an effective date for one.\n\n{deepLink}"
+    },
+    "discovery:employer-directory::data_discovery": {
+      "structure": "need_first",
+      "headline": "Search every H-1B sponsor in the USCIS export by name",
+      "x": "Looking for a specific H-1B sponsor?\n\nImmigrationClock's employer directory lets you search 2,614 sponsoring employers by name, with each one's approvals, denials and approval rate for fiscal year 2023, as USCIS reports them.\n\n{deepLink}",
+      "linkedin": "Looking for a specific H-1B sponsor?\n\nImmigrationClock's employer directory lets a reader search 2,614 H-1B sponsoring employers by name. Each entry shows the employer's petition approvals, denials and approval rate for fiscal year 2023, as reported in the USCIS H-1B Employer Data Hub, and the state where most of its approvals were recorded.\n\nEvery listed employer has its own page, with the sponsors immediately above and below it by volume and the other large sponsors in the same state. The directory covers every employer in the export with at least 10 approvals.\n\nWhat the figures are: petition counts, not headcounts, for the latest fiscal year USCIS has published at employer level.\n\n{deepLink}"
+    }
+  }
+}
