@@ -18,6 +18,8 @@
 import { billingStatus } from "@/lib/billing/config";
 import { MAX_TTL_DAYS, cookieFor, sign, type Entitlement } from "@/lib/billing/entitlement";
 import { StripeClient, StripeError, grantsAccess } from "@/lib/billing/stripe";
+import { emailKey, resolveStore } from "@/lib/billing/store";
+import { mergeSubscriber } from "@/lib/billing/subscription";
 import { clientIp, json, rateLimited, serializeCookie } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
@@ -89,8 +91,30 @@ export async function POST(req: Request): Promise<Response> {
       }
     }
 
+    // Write it down before minting anything. The webhook usually gets here
+    // first, but ordering between a redirect and a webhook delivery is not
+    // guaranteed, and a subscriber whose only record was a cookie is exactly
+    // the failure this store exists to remove.
+    const secret = process.env.BILLING_SESSION_SECRET as string;
+    const store = resolveStore();
+    if (store && email) {
+      try {
+        const key = emailKey(email, secret);
+        if (customerId) await store.linkCustomer(customerId, key);
+        const existing = await store.getSubscriber(key);
+        await store.putSubscriber(
+          key,
+          mergeSubscriber(existing, { email, customerId, status: "active", currentPeriodEnd: exp }, now)
+        );
+      } catch (err) {
+        // The person has paid; do not refuse them because a write failed. The
+        // webhook will write the same record, and the cookie covers the gap.
+        console.error(`[billing] activate store write failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    }
+
     const entitlement: Entitlement = { plan: "pro", email, customerId, exp };
-    const token = sign(entitlement, process.env.BILLING_SESSION_SECRET as string, now);
+    const token = sign(entitlement, secret, now);
     const cookie = cookieFor(token, Math.min(exp, now + MAX_TTL_DAYS * 86_400), now, billingOriginIsHttps());
 
     console.log(`[billing] activated · customer ${customerId || "unknown"} · expires ${new Date(exp * 1000).toISOString()}`);

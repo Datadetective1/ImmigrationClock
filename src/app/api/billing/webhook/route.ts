@@ -10,22 +10,23 @@
 //   2. Verify the signature and the timestamp tolerance.
 //   3. Only then look at what the event says.
 //
-// WHAT IT DOES, GIVEN THERE IS NO DATABASE
-// ----------------------------------------
-// It cannot write a subscription row, because there is no table. What it does
-// is the part that still matters without one:
+// WHAT IT DOES
+// ------------
+// It writes the subscription to the subscriber store, and that write is what
+// makes a paid subscription honest:
 //
-//   • It is the audit trail. Every handled event is logged with its type, its
-//     id and the subscription status — never an email, never a card.
-//   • It is the acknowledgement Stripe needs. An endpoint that errors makes
-//     Stripe retry with backoff for days and eventually disable the endpoint.
-//   • It is where a cancellation becomes visible to an operator today, and
-//     where the revocation write will go on the day a store exists.
+//   • ACCESS SURVIVES THE BROWSER. The store, not a cookie, is what a sign-in
+//     link and every Pro gate read. Clearing cookies costs a subscriber one
+//     email, not their subscription.
+//   • A CANCELLATION TAKES EFFECT AT ONCE. `customer.subscription.deleted`
+//     writes the cancelled status here, and the next request that checks the
+//     store is refused — rather than access lingering until a cookie lapses.
+//   • It is the audit trail: type, event id, object id and status. Never an
+//     email, never a card.
 //
-// Access itself is granted by /account exchanging a checkout session for a
-// signed, short-lived claim (src/lib/billing/entitlement.ts), and lapses on its
-// own. That is the honest architecture for a site with no database, and its
-// limitation is written down in docs/monetization.md rather than hidden here.
+// If no store is configured the endpoint still verifies and acknowledges, and
+// says so in the log. Losing the write is bad; making Stripe retry a delivery
+// it cannot ever complete is worse.
 //
 // ALWAYS 200 FOR AN EVENT WE SIMPLY DO NOT HANDLE. Stripe sends dozens of event
 // types; 400ing on the ones we ignore would teach it to retry them forever.
@@ -33,6 +34,8 @@
 
 import { billingStatus } from "@/lib/billing/config";
 import { grantsAccess, isHandledEvent, verifyWebhookSignature } from "@/lib/billing/stripe";
+import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
+import { mergeSubscriber } from "@/lib/billing/subscription";
 import { json } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
@@ -84,14 +87,91 @@ export async function POST(req: Request): Promise<Response> {
   const subscriptionStatus = typeof object.status === "string" ? object.status : null;
   const access = type === "customer.subscription.deleted" ? false : grantsAccess(subscriptionStatus ?? "active");
 
+  const store = resolveStore();
+  let stored = false;
+  if (store) {
+    try {
+      stored = await persist(store, type, object, subscriptionStatus, access);
+    } catch (err) {
+      // Logged, not thrown: a 500 makes Stripe retry for days and then disable
+      // the endpoint, which would lose every later event as well.
+      console.error(`[billing] webhook store write failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
   // The audit line. Ids and statuses only — no email, no name, no card, no
   // address. These logs are readable by anyone with deployment access.
   console.log(
     `[billing] ${type} · event ${event.id ?? "unknown"} · object ${String(object.id ?? "unknown")} · ` +
-      `status ${subscriptionStatus ?? "n/a"} · access ${access ? "granted" : "ended"}`
+      `status ${subscriptionStatus ?? "n/a"} · access ${access ? "granted" : "ended"} · ` +
+      `${store ? (stored ? "stored" : "not stored") : "no store configured"}`
   );
 
-  return json({ received: true, handled: true, type, access }, 200);
+  return json({ received: true, handled: true, type, access, stored }, 200);
+}
+
+/**
+ * Write what this event says about a subscription.
+ *
+ * Two shapes arrive. A checkout session carries the billing EMAIL and the
+ * customer; a subscription event carries the status and the period end but no
+ * email. So the email is stored once, from checkout, and the customer id is
+ * indexed to it — later events find the person through that index and merge
+ * rather than overwrite, or the address would be lost on the first renewal and
+ * the subscriber would be unreachable by sign-in link and by alert.
+ */
+async function persist(
+  store: SubscriberStore,
+  type: string,
+  object: Record<string, unknown>,
+  status: string | null,
+  access: boolean
+): Promise<boolean> {
+  const now = Math.floor(Date.now() / 1000);
+  const secret = process.env.BILLING_SESSION_SECRET;
+  if (!secret) return false;
+
+  const customerId =
+    typeof object.customer === "string" ? object.customer : typeof object.id === "string" && type.startsWith("customer.subscription") ? "" : "";
+
+  if (type === "checkout.session.completed") {
+    const details = object.customer_details as { email?: string } | undefined;
+    const email = (details?.email || (object.customer_email as string) || "").trim().toLowerCase();
+    const customer = typeof object.customer === "string" ? object.customer : "";
+    if (!email || !customer) return false;
+
+    const key = emailKey(email, secret);
+    await store.linkCustomer(customer, key);
+    const existing = await store.getSubscriber(key);
+    await store.putSubscriber(
+      key,
+      mergeSubscriber(existing, { email, customerId: customer, status: "active" }, now)
+    );
+    return true;
+  }
+
+  // A subscription event: find the person by the customer index.
+  const customer = customerId || (typeof object.customer === "string" ? object.customer : "");
+  if (!customer) return false;
+  const key = await store.getEmailKeyForCustomer(customer);
+  if (!key) return false;
+
+  const periodEnd = typeof object.current_period_end === "number" ? object.current_period_end : undefined;
+  const existing = await store.getSubscriber(key);
+  await store.putSubscriber(
+    key,
+    mergeSubscriber(
+      existing,
+      {
+        customerId: customer,
+        status: access ? status ?? "active" : status ?? "canceled",
+        // A deletion ends access now rather than at the period end it carries.
+        currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
+      },
+      now
+    )
+  );
+  return true;
 }
 
 /** An operator's readiness check. Never reveals the secret or its length. */

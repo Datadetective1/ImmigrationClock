@@ -65,6 +65,22 @@ export const CAPABILITIES = [
 ] as const;
 export type Capability = (typeof CAPABILITIES)[number];
 
+/**
+ * Whether a paid capability actually works yet.
+ *
+ * This is on the pricing page, verbatim, beside each line. Selling five
+ * features and shipping one is the fastest way to lose a subscriber and to
+ * deserve it — and "coming soon" printed honestly costs far less than a refund
+ * conversation. A free capability is always "available"; it is the site.
+ */
+export type CapabilityStatus = "available" | "building" | "planned";
+
+export const STATUS_LABEL: Record<CapabilityStatus, string> = {
+  available: "Available now",
+  building: "In build",
+  planned: "Planned",
+};
+
 export interface CapabilitySpec {
   id: Capability;
   label: string;
@@ -74,6 +90,8 @@ export interface CapabilitySpec {
   plan: PlanId;
   /** True when the site does this today. A false here is a capability Pro adds. */
   existsToday: boolean;
+  /** Does it work yet? Shown to the reader before they pay. */
+  status: CapabilityStatus;
 }
 
 export const CAPABILITY_SPECS: CapabilitySpec[] = [
@@ -83,6 +101,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Every recorded change, with its source, dates, status and its own page.",
     plan: "free",
     existsToday: true,
+    status: "available",
   },
   {
     id: "employer_directory",
@@ -90,6 +109,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Every sponsoring employer in the USCIS export, with approvals, denials and rates.",
     plan: "free",
     existsToday: true,
+    status: "available",
   },
   {
     id: "public_api",
@@ -97,6 +117,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "The layoff feed as JSON and CSV, no key, no rate limit.",
     plan: "free",
     existsToday: true,
+    status: "available",
   },
   {
     id: "weekly_newsletter",
@@ -104,6 +125,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Immigration Pulse, every week, free.",
     plan: "free",
     existsToday: true,
+    status: "available",
   },
   {
     id: "browser_follows",
@@ -111,6 +133,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Follow visas, countries, agencies, topics and employers. Stored on your device.",
     plan: "free",
     existsToday: true,
+    status: "available",
   },
   {
     id: "page_csv",
@@ -118,6 +141,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Download the table you are looking at.",
     plan: "free",
     existsToday: true,
+    status: "available",
   },
   {
     id: "watchlist_alerts",
@@ -126,6 +150,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
       "An email when something changes for the employers, visas, countries and topics you follow — not a digest of everything.",
     plan: "pro",
     existsToday: false,
+    status: "building",
   },
   {
     id: "watchlist_sync",
@@ -133,6 +158,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "The same follows on every device, and kept if you clear your browser.",
     plan: "pro",
     existsToday: false,
+    status: "available",
   },
   {
     id: "bulk_export",
@@ -140,6 +166,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "The whole filtered set — archive, directory or layoff feed — as CSV or Excel.",
     plan: "pro",
     existsToday: false,
+    status: "planned",
   },
   {
     id: "advanced_filters",
@@ -147,6 +174,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Filter the archive by agency, classification, severity, effective date and date range at once.",
     plan: "pro",
     existsToday: false,
+    status: "planned",
   },
   {
     id: "employer_monitoring",
@@ -154,6 +182,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "Tell me when an employer I watch files a WARN notice or its sponsorship numbers move.",
     plan: "pro",
     existsToday: false,
+    status: "building",
   },
 ];
 
@@ -215,4 +244,14 @@ export function capabilitiesFor(plan: PlanId): CapabilitySpec[] {
 /** The capabilities a plan adds over free. Empty for free itself. */
 export function capabilitiesAddedBy(plan: PlanId): CapabilitySpec[] {
   return plan === "free" ? [] : CAPABILITY_SPECS.filter((c) => c.plan === plan);
+}
+
+/** Paid capabilities that work today. What a subscriber gets on the day they pay. */
+export function availableNow(plan: PlanId): CapabilitySpec[] {
+  return capabilitiesAddedBy(plan).filter((c) => c.status === "available");
+}
+
+/** Paid capabilities that do not work yet. Never sold as if they do. */
+export function notYetAvailable(plan: PlanId): CapabilitySpec[] {
+  return capabilitiesAddedBy(plan).filter((c) => c.status !== "available");
 }

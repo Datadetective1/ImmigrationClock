@@ -31,6 +31,8 @@ import {
   capabilitiesFor,
   isInterval,
   isPlanId,
+  availableNow,
+  notYetAvailable,
 } from "@/lib/billing/plans";
 import {
   billingEnabled,
@@ -100,6 +102,23 @@ describe("the free/paid boundary", () => {
     ] as const) {
       expect(free.has(id), id).toBe(true);
     }
+  });
+
+  it("never advertises a paid capability as working when it is not", () => {
+    // The pricing page prints this status beside each line. A capability that
+    // is sold as available and is not is the one lie a paid product cannot
+    // survive, so the two sources are asserted to agree.
+    for (const c of CAPABILITY_SPECS) {
+      if (c.plan === "free") expect(c.status, c.id).toBe("available");
+      // Anything marked available must be something we can actually do: either
+      // it already existed, or it is one of the ones this work shipped.
+      if (c.status === "available" && !c.existsToday) {
+        expect(["watchlist_sync"], c.id).toContain(c.id);
+      }
+    }
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
+    expect(notYetAvailable("pro").length).toBeGreaterThan(0);
+    for (const c of notYetAvailable("pro")) expect(["building", "planned"]).toContain(c.status);
   });
 
   it("gives Pro everything free plus its own", () => {

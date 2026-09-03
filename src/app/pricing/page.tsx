@@ -17,7 +17,8 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { UpgradeButton } from "@/components/UpgradeButton";
 import { PricingAnalytics } from "@/components/PricingAnalytics";
-import { CAPABILITY_SPECS, PLAN_BY_ID, annualSavingUsd } from "@/lib/billing/plans";
+import { CAPABILITY_SPECS, PLAN_BY_ID, STATUS_LABEL, annualSavingUsd, notYetAvailable } from "@/lib/billing/plans";
+import type { CapabilityStatus } from "@/lib/billing/plans";
 import { SITE } from "@/lib/site";
 
 export const metadata = buildMetadata({
@@ -40,9 +41,26 @@ function Check({ on }: { on: boolean }) {
   );
 }
 
+/**
+ * Whether a paid line works yet, stated beside it.
+ *
+ * Not a footnote and not a colour: the words "In build" next to a feature
+ * someone is about to pay for. A subscriber who reads this and buys anyway has
+ * bought what they were shown.
+ */
+function Status({ status }: { status: CapabilityStatus }) {
+  if (status === "available") return null;
+  return (
+    <span className="ml-2 rounded border border-status-amber/40 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-status-amber">
+      {STATUS_LABEL[status]}
+    </span>
+  );
+}
+
 export default function PricingPage() {
   const freeFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "free");
   const proFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "pro");
+  const pending = notYetAvailable("pro");
 
   return (
     <div>
@@ -110,9 +128,10 @@ export default function PricingPage() {
             <ul className="mt-5 space-y-2.5 text-sm">
               {proFeatures.map((f) => (
                 <li key={f.id} className="flex gap-2.5">
-                  <Check on />
+                  <Check on={f.status === "available"} />
                   <span>
                     <span className="font-medium text-white">{f.label}</span>
+                    <Status status={f.status} />
                     <span className="block text-xs text-slate-400">{f.blurb}</span>
                   </span>
                 </li>
@@ -127,6 +146,16 @@ export default function PricingPage() {
                 </span>
               </li>
             </ul>
+
+            {pending.length > 0 ? (
+              <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
+                <strong className="text-white">Being straight with you:</strong>{" "}
+                {pending.length} of the {proFeatures.length} capabilities above{" "}
+                {pending.length === 1 ? "is" : "are"} not finished yet —{" "}
+                {pending.map((f) => f.label.toLowerCase()).join(", ")}. Subscribe now only if the ones
+                marked available are already worth it to you. The rest arrive at no extra cost.
+              </p>
+            ) : null}
 
             <div className="mt-6 space-y-3">
               <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />

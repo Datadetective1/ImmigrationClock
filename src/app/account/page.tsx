@@ -19,9 +19,11 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { AccountActivation } from "@/components/AccountActivation";
 import { ManageBillingButton } from "@/components/ManageBillingButton";
+import { SignInForm } from "@/components/SignInForm";
 import { COOKIE_NAME, isActive, verify } from "@/lib/billing/entitlement";
 import { billingStatus } from "@/lib/billing/config";
-import { capabilitiesAddedBy } from "@/lib/billing/plans";
+import { STATUS_LABEL, availableNow, capabilitiesAddedBy, notYetAvailable } from "@/lib/billing/plans";
+import { storeConfigured } from "@/lib/billing/store";
 
 export const dynamic = "force-dynamic";
 
@@ -89,15 +91,30 @@ export default function AccountPage() {
               </p>
             </div>
 
-            <p className="mt-5 border-t border-white/5 pt-4 text-xs text-slate-500">
-              Access is remembered in this browser and re-checked with Stripe when it renews. On a new
-              device, subscribe again from the same email or use the billing page — we are building a
-              proper sign-in link next, and it is recorded in{" "}
-              <Link href="/pricing" className="text-accent hover:underline">
-                what Pro includes
-              </Link>
-              .
-            </p>
+            <div className="mt-5 border-t border-white/5 pt-4">
+              <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                What your subscription does today
+              </h3>
+              <ul className="mt-2 space-y-1.5 text-sm">
+                {availableNow("pro").map((c) => (
+                  <li key={c.id} className="text-slate-300">
+                    <span className="text-status-green" aria-hidden>
+                      ✓
+                    </span>{" "}
+                    {c.label}
+                  </li>
+                ))}
+                {notYetAvailable("pro").map((c) => (
+                  <li key={c.id} className="text-slate-500">
+                    <span aria-hidden>·</span> {c.label}{" "}
+                    <span className="text-status-amber">({STATUS_LABEL[c.status].toLowerCase()})</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs text-slate-500">
+                You are not charged again for the ones still in build.
+              </p>
+            </div>
           </section>
         ) : (
           <section className="panel panel-pad" aria-labelledby="none-heading">
@@ -122,6 +139,19 @@ export default function AccountPage() {
             >
               See what Pro costs
             </Link>
+
+            {storeConfigured() ? (
+              <div className="mt-6 border-t border-white/5 pt-5">
+                <h3 className="text-sm font-semibold text-white">Already subscribed?</h3>
+                <p className="mt-1 text-sm text-slate-400">
+                  If you subscribed on another device, or cleared this browser, get a sign-in link by
+                  email.
+                </p>
+                <div className="mt-3">
+                  <SignInForm />
+                </div>
+              </div>
+            ) : null}
           </section>
         )}
 
