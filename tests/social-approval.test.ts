@@ -31,7 +31,6 @@ import {
 } from "@/lib/social/approval";
 import { runApproved, hashFacts, isPublishingEnabled } from "@/lib/social/run";
 import { candidatesFor } from "@/lib/social/select";
-import { SLOT_BY_ID } from "@/lib/social/slots";
 import { VALIDATOR_VERSION } from "@/lib/social/validate";
 import { PROMPT_VERSION } from "@/lib/social/prompt";
 import {
@@ -44,17 +43,17 @@ import { EVENT_INDEX } from "@/lib/event-index";
 import type { PublishResult, Publisher } from "@/lib/social/platforms/types";
 import type { Candidate, FactSet, GeneratedCopy, Platform } from "@/lib/social/types";
 
-// 23:05 UTC on 2026-08-09 is 18:05 America/Chicago — the evening slot.
+// 23:05 UTC on 2026-08-09 is 18:05 America/Chicago — the evening window.
 const NOW = new Date("2026-08-09T23:05:00.000Z");
 const TODAY = "2026-08-09";
-const SLOT = SLOT_BY_ID.get("evening")!;
 
 /**
- * Copy that passes the real validator for any standing asset.
+ * Copy that passes the real validator for any explainer.
  *
  * Deliberately digit-free and agency-free, so these tests exercise the approval
- * machinery rather than re-testing figure grounding — which social-validate and
- * social-asset-facts already cover from both directions.
+ * machinery rather than re-testing figure grounding — which social-validate
+ * covers from both directions. "ImmigrationClock" is a subject anchor on every
+ * fact set, so the cold-reader check passes whichever explainer is chosen.
  */
 function copyFor(facts: FactSet): GeneratedCopy {
   const x = `ImmigrationClock keeps this reference current, with the source and the date shown beside every entry on it. ${facts.deepLink}`;
@@ -71,17 +70,19 @@ function copyFor(facts: FactSet): GeneratedCopy {
 }
 
 function firstCandidate(): Candidate {
-  const candidates = candidatesFor(SLOT, EVENT_INDEX, TODAY);
-  const asset = candidates.find((c) => c.subjectId.startsWith("asset:"));
-  if (!asset) throw new Error("no standing asset in the evening pool — fixture assumption broke");
-  return asset;
+  // An explainer: the most stable evergreen record — a static registry rather
+  // than a data snapshot — so the fixture does not move with a refresh.
+  const candidates = candidatesFor(EVENT_INDEX, TODAY);
+  const explainer = candidates.find((c) => c.subjectId.startsWith("explainer:"));
+  if (!explainer) throw new Error("no explainer in the queue — fixture assumption broke");
+  return explainer;
 }
 
 function envelopeFor(candidate = firstCandidate(), now = NOW): ApprovalEnvelope {
   const copy = copyFor(candidate.facts);
   return buildApproval({
     candidate,
-    angle: "data_insight",
+    angle: "explainer",
     slot: "evening",
     copy,
     facts: candidate.facts,
@@ -373,11 +374,19 @@ describe("the publish-time gate — freshness", () => {
 });
 
 describe("the publish-time gate — the candidate must still be real", () => {
-  it("refuses a subject that has left the pool", () => {
-    const e = approved(reseal({ ...envelopeFor(), subjectId: "asset:no-such-page" }));
+  it("refuses a subject that has left the queue", () => {
+    const e = approved(reseal({ ...envelopeFor(), subjectId: "explainer:no-such-page" }));
     const result = check(e);
     expect(result.ok).toBe(false);
-    expect(result.failures.join(" ")).toMatch(/no longer in the evening pool/);
+    expect(result.failures.join(" ")).toMatch(/no longer a candidate/);
+  });
+
+  it("finds the candidate by subject AND content type, so the right treatment is re-checked", () => {
+    const e = approved(envelopeFor());
+    expect(e.contentType).toBe("explainer");
+    const result = check(e);
+    expect(result.candidate?.contentType).toBe("explainer");
+    expect(result.candidate?.subjectId).toBe(e.subjectId);
   });
 
   it("refuses when the underlying data has moved since generation", () => {
@@ -391,12 +400,19 @@ describe("the publish-time gate — the candidate must still be real", () => {
   });
 
   it("refuses when the destination has moved", () => {
-    const e = approved(
-      reseal({ ...envelopeFor(), deepLink: "https://immigrationclock.com/methodology" })
-    );
+    const e = approved(reseal({ ...envelopeFor(), deepLink: "/explained/somewhere-else" }));
     const result = check(e);
     expect(result.ok).toBe(false);
     expect(result.failures.join(" ")).toMatch(/Destination moved|no longer supports/);
+  });
+
+  it("keeps the envelope's destination site-relative, like the candidate's", () => {
+    // The ledger, the cooldowns and the rotation memory key on the canonical
+    // path; the tracked absolute URL lives on the fact set and in the copy.
+    const e = envelopeFor();
+    expect(e.deepLink.startsWith("/explained/")).toBe(true);
+    expect(e.copy.x).toContain(e.facts.deepLink);
+    expect(e.facts.deepLink).toContain(e.deepLink);
   });
 });
 
@@ -414,7 +430,7 @@ describe("the publish-time gate — the full pipeline runs again", () => {
     const forged = approved(
       buildApproval({
         candidate,
-        angle: "data_insight",
+        angle: "explainer",
         slot: "evening",
         copy: {
           ...copy,

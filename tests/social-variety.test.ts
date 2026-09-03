@@ -17,7 +17,7 @@
 
 import { describe, it, expect } from "vitest";
 import { checkSameDayVariety } from "@/lib/social/dedupe";
-import { topicKeyFor, standingPool, candidatesFor } from "@/lib/social/select";
+import { topicKeyFor, keyDateCandidates, candidatesFor } from "@/lib/social/select";
 import {
   assertVisualGrounded,
   angleSupportsVisual,
@@ -25,7 +25,6 @@ import {
   buildEventVisual,
   describeVisual,
 } from "@/lib/social/visuals";
-import { SLOT_BY_ID } from "@/lib/social/slots";
 import { EMPTY_POST_LEDGER, appendRecords, type PostLedger, type PostRecord } from "@/lib/social/ledger";
 import { KEY_DATES } from "@/lib/key-dates";
 import { EVENT_INDEX } from "@/lib/event-index";
@@ -254,29 +253,31 @@ describe("which posts earn a card", () => {
 });
 
 describe("every number on a card is grounded in the fact set", () => {
-  const evening = SLOT_BY_ID.get("evening")!;
+  // 2026-09-17 is a milestone day: both 1 October key dates carry countdown cards.
+  const MILESTONE = "2026-09-17";
 
-  it("passes for every card the real evening pool would produce", () => {
-    for (const c of standingPool(TODAY)) {
-      if (!c.visual) continue;
-      const result = assertVisualGrounded(c.visual, c.facts);
+  it("passes for every card a milestone day's key dates would produce", () => {
+    const carded = keyDateCandidates(MILESTONE).filter((c) => c.visual);
+    expect(carded.length).toBeGreaterThan(0);
+    for (const c of carded) {
+      const result = assertVisualGrounded(c.visual!, c.facts);
       expect(result.failures, `${c.subjectId}: ${result.failures.join("; ")}`).toEqual([]);
     }
   });
 
   it("rejects a card carrying a figure the fact set does not have", () => {
-    const c = standingPool(TODAY).find((x) => x.visual)!;
+    const c = keyDateCandidates(MILESTONE).find((x) => x.visual)!;
     const forged = { ...c.visual!, hero: "918273" };
     const result = assertVisualGrounded(forged, c.facts);
     expect(result.ok).toBe(false);
     expect(result.failures.join(" ")).toContain("918273");
   });
 
-  it("holds across every slot, not just the evening one", () => {
-    for (const slot of [SLOT_BY_ID.get("morning")!, SLOT_BY_ID.get("afternoon")!, evening]) {
-      for (const c of candidatesFor(slot, EVENT_INDEX, TODAY)) {
+  it("holds across the whole queue, not just the key dates", () => {
+    for (const date of [TODAY, MILESTONE]) {
+      for (const c of candidatesFor(EVENT_INDEX, date)) {
         if (!c.visual) continue;
-        expect(assertVisualGrounded(c.visual, c.facts).failures, c.subjectId).toEqual([]);
+        expect(assertVisualGrounded(c.visual, c.facts).failures, `${date} ${c.subjectId}`).toEqual([]);
       }
     }
   });
@@ -284,11 +285,15 @@ describe("every number on a card is grounded in the fact set", () => {
   it("leaves most candidates without a card", () => {
     // The design intent, asserted: if this ever flips to "most posts have an
     // image", that is a decision someone should have to make on purpose.
-    const all = [SLOT_BY_ID.get("morning")!, SLOT_BY_ID.get("afternoon")!, evening].flatMap((s) =>
-      candidatesFor(s, EVENT_INDEX, TODAY)
-    );
+    const all = candidatesFor(EVENT_INDEX, TODAY);
     const withVisual = all.filter((c) => c.visual).length;
     expect(all.length).toBeGreaterThan(0);
     expect(withVisual).toBeLessThan(all.length / 2);
+  });
+
+  it("gives the evergreen tier no card at all — prose carries an explainer", () => {
+    for (const c of candidatesFor([], TODAY)) {
+      if (c.tier === "evergreen") expect(c.visual, c.subjectId).toBeNull();
+    }
   });
 });

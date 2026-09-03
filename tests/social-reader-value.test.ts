@@ -33,13 +33,10 @@
 import { describe, it, expect } from "vitest";
 import {
   candidatesFor,
+  eventCandidates,
   clearsReaderValueFloor,
-  knowledgePool,
-  newsPool,
-  publishableAssets,
   readerValueMerit,
-  standingPool,
-  NEWS_LOOKBACK_DAYS,
+  WHAT_CHANGED_NEWS_AGE_DAYS,
   RECENCY_DECAY_PER_DAY,
 } from "@/lib/social/select";
 import {
@@ -63,7 +60,7 @@ import { runSlot } from "@/lib/social/run";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { buildEventFacts } from "@/lib/social/facts";
 import { buildUserPrompt, SYSTEM_PROMPT } from "@/lib/social/prompt";
-import { describesAProposal, isRepairable, validatePost } from "@/lib/social/validate";
+import { BREAKING_MAX_AGE_DAYS, describesAProposal, isRepairable, validatePost } from "@/lib/social/validate";
 import { ASSET_BY_ID } from "@/lib/social/links";
 import { assetInsights } from "@/lib/social/asset-facts";
 import { KEY_DATES } from "@/lib/key-dates";
@@ -79,9 +76,6 @@ import { EVENT_INDEX, type IndexedEvent } from "@/lib/event-index";
 import type { CopyEngine, CopyRequest, EngineResult } from "@/lib/social/types";
 
 const TODAY = "2026-08-15";
-
-/** The three real slots, so the invariant sweep below covers every pool. */
-const SLOT_IDS = { morning: "morning", afternoon: "afternoon", evening: "evening" } as const;
 
 function event(over: Partial<IndexedEvent> = {}): IndexedEvent {
   return {
@@ -204,20 +198,22 @@ describe("1 — a major fee increase beats a page about our methodology", () => 
     expect(value.lowValue).toContain("methodology");
     expect(clearsReaderValueFloor(value)).toBe(false);
 
-    expect(standingPool(TODAY).map((c) => c.subjectId)).not.toContain("asset:methodology");
+    // And the standing catalogue is no longer a pool at all: no `asset:`
+    // subject is ever in the queue, on any day.
+    expect(candidatesFor([], TODAY).map((c) => c.subjectId)).not.toContain("asset:methodology");
+    expect(candidatesFor([], TODAY).some((c) => c.subjectId.startsWith("asset:"))).toBe(false);
   });
 
-  it("puts the fee rule above every page the evening slot can still see", () => {
-    // The evening slot is the one that published the methodology post. It can
-    // now see the news pool as a fallback, and the fee rule outranks the whole
-    // standing catalogue by a tier, not by a tie-break.
-    const evening = SLOT_BY_ID.get("evening")!;
-    const candidates = candidatesFor(evening, [event()], TODAY);
+  it("puts the fee rule above every evergreen candidate the evening can see", () => {
+    // The evening window is the one that published the methodology post. There
+    // is one queue now, and the fee rule outranks every explainer, signal and
+    // tool in it by a tier, not by a tie-break.
+    const candidates = candidatesFor([event()], TODAY);
     const fee = candidates.find((c) => c.subjectId.startsWith("event:"))!;
 
     expect(fee).toBeDefined();
     expect(candidates[0].subjectId).toBe(fee.subjectId);
-    for (const other of candidates.filter((c) => c.subjectId.startsWith("asset:"))) {
+    for (const other of candidates.filter((c) => c.tier === "evergreen")) {
       expect(fee.score, other.subjectId).toBeGreaterThan(other.score);
     }
   });
@@ -231,11 +227,15 @@ describe("2 — a deadline beats a generic dataset page", () => {
   it("keeps the change feed and the timeline out — a container is not a subject", () => {
     // Both hold enormously useful material. A post ABOUT either is a description
     // of a page, which is the shape this account was asked to stop publishing.
-    const publishable = publishableAssets(TODAY);
+    // The reader-value model still says so about the pages themselves; the
+    // queue no longer holds standing pages at all.
     for (const id of ["what-changed", "timeline"]) {
-      const row = publishable.find((a) => a.id === id)!;
-      expect(row.publishable, id).toBe(false);
-      expect(row.value.lowValue, id).toContain("generic_description");
+      const value = readerValueForAsset(ASSET_BY_ID.get(id)!, assetInsights(id, TODAY));
+      expect(clearsReaderValueFloor(value), id).toBe(false);
+      expect(value.lowValue, id).toContain("generic_description");
+    }
+    for (const id of ["what-changed", "timeline"]) {
+      expect(candidatesFor([], TODAY).map((c) => c.subjectId), id).not.toContain(`asset:${id}`);
     }
   });
 
@@ -247,15 +247,16 @@ describe("2 — a deadline beats a generic dataset page", () => {
     }
   });
 
-  it("ranks a live deadline above every surviving dataset page", () => {
+  it("ranks a live deadline above every data signal, explainer and tool", () => {
     // 2026-09-17 is exactly fourteen days before the 1 October fiscal-year
-    // start, so the key date crosses a milestone and enters the pool.
-    const pool = standingPool("2026-09-17");
-    const deadline = pool.find((c) => c.subjectId.startsWith("keydate:"))!;
+    // start, so the key date crosses a milestone and enters the queue.
+    const queue = candidatesFor([], "2026-09-17");
+    const deadline = queue.find((c) => c.subjectId.startsWith("keydate:"))!;
     expect(deadline).toBeDefined();
+    expect(queue[0].subjectId).toBe(deadline.subjectId);
 
-    for (const asset of pool.filter((c) => c.subjectId.startsWith("asset:"))) {
-      expect(deadline.score, asset.subjectId).toBeGreaterThan(asset.score);
+    for (const evergreen of queue.filter((c) => c.tier === "evergreen")) {
+      expect(deadline.score, evergreen.subjectId).toBeGreaterThan(evergreen.score);
     }
   });
 
@@ -294,17 +295,19 @@ describe("3 — an eligibility change beats an evergreen explainer", () => {
     expect(value.score).toBeGreaterThanOrEqual(DEVELOPMENT_READER_VALUE_FLOOR);
   });
 
-  it("outranks the work-visa hub, which is the strongest evergreen explainer we hold", () => {
-    const evening = SLOT_BY_ID.get("evening")!;
-    const candidates = candidatesFor(evening, [eligibility], TODAY);
+  it("outranks every evergreen explainer in the queue", () => {
+    const candidates = candidatesFor([eligibility], TODAY);
 
     const change = candidates.find((c) => c.subjectId.startsWith("event:"))!;
-    const explainer = candidates.find((c) => c.subjectId === "asset:work-visas");
+    const explainers = candidates.filter((c) => c.contentType === "explainer");
 
     expect(change).toBeDefined();
-    // The explainer is still publishable — it is a genuinely useful page — it
-    // simply never displaces a change to who qualifies for citizenship.
-    if (explainer) expect(change.score).toBeGreaterThan(explainer.score);
+    expect(explainers.length).toBeGreaterThan(0);
+    // The explainers are still publishable — they are genuinely useful — they
+    // simply never displace a change to who qualifies for citizenship.
+    for (const explainer of explainers) {
+      expect(change.score, explainer.subjectId).toBeGreaterThan(explainer.score);
+    }
     expect(candidates[0].subjectId).toBe(change.subjectId);
   });
 
@@ -330,15 +333,15 @@ describe("4 — a routine administrative notice produces SILENT, and costs nothi
     expect(value.score).toBeLessThan(READER_VALUE_FLOOR);
   });
 
-  it("keeps it out of the news pool even though it clears the ranking floor", () => {
+  it("keeps it out of the queue even though it clears the ranking floor", () => {
     // The point of the test: the older gates let this through. The document is
     // `notable`, it is substantive by classification, and its language about
     // employment authorization scores real breadth. Nothing before reader value
     // asked whether it does anything to anybody.
-    expect(newsPool([routineNotice()], TODAY)).toEqual([]);
+    expect(eventCandidates([routineNotice()], TODAY)).toEqual([]);
   });
 
-  it("makes the morning slot silent rather than filling it", async () => {
+  it("makes the morning window silent rather than filling it", async () => {
     const engine = new CountingEngine();
     const result = await runSlot({
       slot: SLOT_BY_ID.get("morning")!,
@@ -348,10 +351,17 @@ describe("4 — a routine administrative notice produces SILENT, and costs nothi
       publishers: {},
       now: new Date(`${TODAY}T14:05:00.000Z`),
       live: false,
+      platforms: ["x"],
     });
 
-    expect(result.outcome.platforms[0].decision).toBe("SKIPPED_NO_QUALIFYING_CONTENT");
-    // THE COST CONTROL AND THE QUALITY BAR ARE THE SAME MECHANISM. A slot that
+    // The queue still holds the evergreen tier, and the morning may not draw on
+    // it — so the window is silent by cadence rather than by an empty queue.
+    // Either way, nothing about the notice was chosen.
+    expect(["SKIPPED_NO_QUALIFYING_CONTENT", "SKIPPED_CADENCE"]).toContain(
+      result.outcome.platforms[0].decision
+    );
+    expect(result.outcome.subjectId).toBeNull();
+    // THE COST CONTROL AND THE QUALITY BAR ARE THE SAME MECHANISM. A window that
     // decided it had nothing to say must not have paid to find that out.
     expect(engine.calls).toBe(0);
   });
@@ -533,19 +543,22 @@ describe("7 — newest is not automatically best", () => {
     expect(older.score).toBeGreaterThan(newer.score);
   });
 
-  it("lets the older, more consequential item win the morning slot", () => {
-    const pool = newsPool([consequential, trivial], TODAY);
-    expect(pool.length).toBe(2);
-    expect(pool[0].subjectId).toBe(`event:${consequential.id}`);
+  it("lets the older, more consequential item lead the queue", () => {
+    const changes = candidatesFor([consequential, trivial], TODAY).filter((c) =>
+      c.subjectId.startsWith("event:")
+    );
+    expect(new Set(changes.map((c) => c.subjectId)).size).toBe(2);
+    expect(changes[0].subjectId).toBe(`event:${consequential.id}`);
   });
 
   it("sizes reader value so it can always outrun the recency gradient", () => {
     // THE ARITHMETIC, STATED RATHER THAN ASSUMED.
     //
-    // The most recency can ever move a news candidate is the whole window's
-    // decay. A sixteen-point reader-value gap therefore overturns any age
-    // difference the pool is capable of producing.
-    const maxRecency = NEWS_LOOKBACK_DAYS * RECENCY_DECAY_PER_DAY;
+    // The most recency can ever move a news candidate is the news tier's whole
+    // decay — nothing older than two days is news. A sixteen-point reader-value
+    // gap therefore overturns any age difference the tier is capable of
+    // producing.
+    const maxRecency = Math.max(BREAKING_MAX_AGE_DAYS, WHAT_CHANGED_NEWS_AGE_DAYS) * RECENCY_DECAY_PER_DAY;
     expect(readerValueMerit({ score: 16 } as never)).toBeGreaterThan(maxRecency);
   });
 
@@ -574,23 +587,23 @@ describe("7 — newest is not automatically best", () => {
   });
 
   it("lets a consequential archive item outrank a fresh trivial one across the tiers", () => {
-    // The end-to-end version: the afternoon slot sees both pools. A dated,
-    // obligation-bearing rule from three weeks ago now sits in the deadline
-    // band, and a fresh administrative item no longer sits above it.
+    // The end-to-end version: one queue sees both. A dated, obligation-bearing
+    // rule from three weeks ago sits in the deadline band as an effective-date
+    // reminder, and a fresh administrative item no longer sits above it.
     const older = event({
       id: "federal_register:rv-archive",
       publishedAt: "2026-07-20",
-      effectiveAt: "2026-09-18",
+      effectiveAt: "2026-09-10",
       title: "Public Charge Ground of Inadmissibility",
       summary:
         "DHS is rescinding the public charge ground of inadmissibility regulations. Eligibility determinations for benefit requests decided on or after the effective date are affected.",
       entityIds: ["agency:dhs", "topic:green-card"],
     });
 
-    const afternoon = SLOT_BY_ID.get("afternoon")!;
-    const candidates = candidatesFor(afternoon, [older, trivial], TODAY);
+    const candidates = candidatesFor([older, trivial], TODAY);
     expect(candidates[0].subjectId).toBe(`event:${older.id}`);
-    expect(knowledgePool([older], TODAY, afternoon).length).toBe(1);
+    expect(candidates[0].contentType).toBe("effective_date");
+    expect(eventCandidates([older], TODAY).map((c) => c.contentType)).toEqual(["effective_date"]);
   });
 });
 
@@ -989,18 +1002,17 @@ describe("the tier ladder still cannot be crossed by merit", () => {
   it("holds against the whole real archive, not only against the arithmetic", () => {
     // The symbolic bound below is only as good as the assumption that no real
     // candidate exceeds it. This checks the assumption, over every candidate the
-    // three pools actually produce across a fortnight of real dates.
+    // queue actually produces across a fortnight of real dates — recency decay,
+    // effective-date proximity and the explainers' topical boost included.
     for (let d = 0; d < 14; d++) {
       const date = new Date(Date.parse("2026-08-16T00:00:00Z") + d * 86_400_000)
         .toISOString()
         .slice(0, 10);
 
-      for (const slot of Object.values(SLOT_IDS)) {
-        for (const c of candidatesFor(SLOT_BY_ID.get(slot)!, EVENT_INDEX, date)) {
-          const merit = c.score - CATEGORY_TIER[c.category];
-          expect(merit, `${date} ${c.subjectId}`).toBeGreaterThanOrEqual(0);
-          expect(merit, `${date} ${c.subjectId}`).toBeLessThan(TIER_STEP);
-        }
+      for (const c of candidatesFor(EVENT_INDEX, date)) {
+        const merit = c.score - CATEGORY_TIER[c.category];
+        expect(merit, `${date} ${c.subjectId}::${c.contentType}`).toBeGreaterThanOrEqual(0);
+        expect(merit, `${date} ${c.subjectId}::${c.contentType}`).toBeLessThan(TIER_STEP);
       }
     }
   });
@@ -1110,35 +1122,33 @@ describe("the prompt asks the first sentence to earn its place", () => {
   const facts = buildEventFacts(event(), "/what-changed?q=fee", TODAY);
   const value = readerValueForEvent(event(), TODAY);
 
-  it("states the question, with the worked example from the brief", () => {
-    expect(SYSTEM_PROMPT).toMatch(/THE FIRST SENTENCE ANSWERS "WHY SHOULD SOMEONE CARE\?"/);
-    expect(SYSTEM_PROMPT).toContain("USCIS Policy Manual update on investigations and examinations");
-    expect(SYSTEM_PROMPT).toContain("Applying for U.S. citizenship?");
+  it("states the question, and the shape of the answer", () => {
+    expect(SYSTEM_PROMPT).toMatch(/WHY SHOULD SOMEONE CARE/);
+    expect(SYSTEM_PROMPT).toMatch(/The first sentence gives a real person a reason/);
+    // The worked contrast: the change as a person would say it, not the
+    // document's genre.
+    expect(SYSTEM_PROMPT).toContain('Prefer "USCIS just changed…"');
   });
 
-  it("names the four things that sentence must not become", () => {
-    expect(SYSTEM_PROMPT).toMatch(/Not clickbait/);
-    expect(SYSTEM_PROMPT).toMatch(/Not exaggeration/);
-    expect(SYSTEM_PROMPT).toMatch(/Not manufactured urgency/);
-    expect(SYSTEM_PROMPT).toMatch(/Not false breaking news/);
+  it("names what that sentence must not become", () => {
+    expect(SYSTEM_PROMPT).toMatch(/not sensational/);
+    expect(SYSTEM_PROMPT).toMatch(/not salesy/);
+    expect(SYSTEM_PROMPT).toMatch(/not adding urgency/);
+    expect(SYSTEM_PROMPT).toMatch(/no engagement bait/);
   });
 
-  it("resolves its own contradiction about opening questions", () => {
-    // THE BRIEF'S WORKED EXAMPLE OPENS WITH A QUESTION. The voice section has
-    // always banned rhetorical questions, and left unqualified that is a
-    // straightforwardly contradictory instruction — the model is told to write
-    // "Applying for U.S. citizenship?" and told not to. So the exception is
-    // stated where the ban is, and it is narrow: an address that names the
-    // population is allowed; a question that asks the reader to wonder is not.
-    expect(SYSTEM_PROMPT).toMatch(/no rhetorical questions/);
-    expect(SYSTEM_PROMPT).toMatch(/ONE EXCEPTION, AND IT IS NARROW/);
-    expect(SYSTEM_PROMPT).toMatch(/answerable yes or no by the person reading/);
-    expect(SYSTEM_PROMPT).toMatch(/"What does this mean for you\?", "Did you know\?" — is the banned kind/);
+  it("keeps the opening-question exception narrow", () => {
+    // An address that names the population is allowed; a question that asks
+    // the reader to wonder is not. The validator's cold-reader-address check is
+    // what enforces the first half; the "did you know" ban enforces the second.
+    expect(SYSTEM_PROMPT).toMatch(/A short opening question is allowed only when it names the population this reaches/);
+    expect(SYSTEM_PROMPT).toMatch(/or asks the question the post immediately answers with a fact/);
+    expect(SYSTEM_PROMPT).toMatch(/no "did you know"/);
   });
 
   it("allows a small subject to be small rather than inflated", () => {
-    expect(SYSTEM_PROMPT).toMatch(/that is a real answer/);
-    expect(SYSTEM_PROMPT).toMatch(/Do not inflate it to fill the space/);
+    expect(SYSTEM_PROMPT).toMatch(/If the honest answer is "they probably shouldn't"/);
+    expect(SYSTEM_PROMPT).toMatch(/let the post be small/);
   });
 
   it("renders the treatment and the derived reasons a reader would care", () => {
@@ -1150,10 +1160,10 @@ describe("the prompt asks the first sentence to earn its place", () => {
       readerValue: value,
       avoidOpenings: [],
     });
-    expect(prompt).toContain(`EDITORIAL TREATMENT: ${TREATMENT_LABEL.important_change}`);
-    expect(prompt).toMatch(/chosen from this subject's own facts, not from a rotation/);
+    expect(prompt).toContain(`EDITORIAL EMPHASIS: ${TREATMENT_LABEL.important_change}`);
+    expect(prompt).toContain(TREATMENT_BRIEF.important_change);
     expect(prompt).toMatch(/WHY A READER WOULD CARE/);
-    expect(prompt).toMatch(/pointers to what the facts already contain, not extra facts/);
+    expect(prompt).toMatch(/pointers to what the facts already contain, not extra facts/i);
   });
 
   it("still works from a bare fact set, with no reader value supplied", () => {
