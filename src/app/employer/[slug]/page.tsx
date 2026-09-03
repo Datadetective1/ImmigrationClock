@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ProCallout } from "@/components/ProCallout";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
@@ -216,6 +217,15 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
             ) : null}
           </section>
         ) : null}
+
+        {/* The one paid prompt on this page, where the capability it names
+            would actually live: this employer, watched. Nothing about the
+            employer or the reader goes to analytics — the event carries a
+            capability id and a placement name. */}
+        <ProCallout capability="employer_monitoring" placement="employer_page">
+          This page is a snapshot. Pro watches this employer and emails you when a new WARN notice
+          appears or the USCIS sponsorship figures move.
+        </ProCallout>
 
         {/* The way out. Every one of the 2,614 employer pages ended here
             with no route to another employer. */}

@@ -1,0 +1,175 @@
+// =============================================================================
+// ENTITLEMENTS — who may use what, and how the server knows
+//
+// THE CONSTRAINT THAT SHAPES ALL OF THIS: THERE IS NO DATABASE.
+//
+// This repository has no database, no ORM and no auth provider, and the whole
+// site is 3,856 prerendered pages plus one serverless function. Adding Postgres
+// and a session table to sell a subscription would be the largest architectural
+// change in the project's history, and it would be made before a single person
+// has paid.
+//
+// So Stripe is the system of record, and the browser carries a SIGNED CLAIM
+// rather than a session id pointing at a row we do not have:
+//
+//   1. Checkout is Stripe-hosted. Stripe collects the email and the card.
+//   2. On return, the server asks Stripe about that checkout session and, only
+//      if it is genuinely paid, mints a cookie: {plan, email, customerId, exp},
+//      signed with BILLING_SESSION_SECRET.
+//   3. Every gate verifies the signature and the expiry. No lookup, no round
+//      trip, no shared state between serverless invocations.
+//   4. The cookie is short-lived on purpose (see MAX_TTL_DAYS). A cancellation
+//      takes effect when it lapses at the latest, and the webhook shortens that
+//      by refusing to re-mint.
+//
+// WHAT THIS DELIBERATELY IS NOT: it is not a general auth system, there are no
+// passwords, and the claim cannot be used to read anything about a person. It
+// says "this browser may export CSVs", not "this is who you are".
+//
+// WHY HMAC RATHER THAN A JWT LIBRARY: the payload is four fields we control on
+// both sides, the repository already hand-rolls HMAC signing for X's OAuth 1.0a
+// (src/lib/social/platforms/x.ts) and verifies Stripe's own webhook scheme the
+// same way, and a JWT dependency would add a parser for algorithms we never
+// use — including "none", which is how JWT libraries get people breached.
+// =============================================================================
+
+import { createHmac, timingSafeEqual } from "node:crypto";
+import { CAPABILITY_BY_ID, isPlanId, type Capability, type PlanId } from "./plans";
+
+/**
+ * How long a minted claim is good for.
+ *
+ * Short enough that a cancelled subscription cannot keep working for long,
+ * long enough that a paying reader is not asked to prove themselves weekly.
+ * The claim is also capped by the subscription's own period end, so a monthly
+ * subscriber's cookie never outlives the month they paid for.
+ */
+export const MAX_TTL_DAYS = 30;
+
+export interface Entitlement {
+  plan: PlanId;
+  /** The billing email, so the account page can say whose subscription this is. */
+  email: string;
+  /** Stripe customer id, used only to open the customer portal. */
+  customerId: string;
+  /** Unix seconds. */
+  exp: number;
+}
+
+/** The anonymous state: everything free, nothing more. */
+export const ANONYMOUS: Entitlement = { plan: "free", email: "", customerId: "", exp: 0 };
+
+/** May this entitlement use this capability? */
+export function can(entitlement: Entitlement | null, capability: Capability): boolean {
+  const spec = CAPABILITY_BY_ID.get(capability);
+  if (!spec) return false;
+  if (spec.plan === "free") return true;
+  return (entitlement?.plan ?? "free") === spec.plan;
+}
+
+/** True when the claim is a paid plan that has not lapsed. */
+export function isActive(entitlement: Entitlement | null, nowSeconds: number): boolean {
+  return Boolean(entitlement && entitlement.plan !== "free" && entitlement.exp > nowSeconds);
+}
+
+function base64url(input: Buffer | string): string {
+  return Buffer.from(input).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function fromBase64url(input: string): Buffer {
+  const pad = input.length % 4 === 0 ? "" : "=".repeat(4 - (input.length % 4));
+  return Buffer.from(input.replace(/-/g, "+").replace(/_/g, "/") + pad, "base64");
+}
+
+function signature(payload: string, secret: string): string {
+  return base64url(createHmac("sha256", secret).update(payload).digest());
+}
+
+/**
+ * Mint a signed claim.
+ *
+ * `exp` is clamped to MAX_TTL_DAYS so a caller cannot mint a claim that
+ * outlives the policy by passing a distant period end from Stripe.
+ */
+export function sign(entitlement: Entitlement, secret: string, nowSeconds: number): string {
+  if (!secret) throw new Error("BILLING_SESSION_SECRET is required to sign an entitlement");
+  const exp = Math.min(entitlement.exp, nowSeconds + MAX_TTL_DAYS * 86_400);
+  const payload = base64url(
+    JSON.stringify({ p: entitlement.plan, e: entitlement.email, c: entitlement.customerId, x: exp })
+  );
+  return `${payload}.${signature(payload, secret)}`;
+}
+
+/**
+ * Read a claim back, or null.
+ *
+ * Null for every failure mode without distinguishing them to the caller: a
+ * forged signature, a truncated cookie, an expired claim and a plan that no
+ * longer exists all mean the same thing to a gate — this browser is anonymous.
+ */
+export function verify(token: string | undefined | null, secret: string, nowSeconds: number): Entitlement | null {
+  if (!token || !secret) return null;
+  const dot = token.indexOf(".");
+  if (dot <= 0) return null;
+
+  const payload = token.slice(0, dot);
+  const provided = token.slice(dot + 1);
+  const expected = signature(payload, secret);
+
+  // Constant-time, and length-guarded: timingSafeEqual throws on a length
+  // mismatch, which would turn a malformed cookie into a 500.
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+
+  let parsed: { p?: unknown; e?: unknown; c?: unknown; x?: unknown };
+  try {
+    parsed = JSON.parse(fromBase64url(payload).toString("utf8"));
+  } catch {
+    return null;
+  }
+
+  const plan = typeof parsed.p === "string" && isPlanId(parsed.p) ? parsed.p : null;
+  const exp = typeof parsed.x === "number" ? parsed.x : 0;
+  if (!plan || exp <= nowSeconds) return null;
+
+  return {
+    plan,
+    email: typeof parsed.e === "string" ? parsed.e : "",
+    customerId: typeof parsed.c === "string" ? parsed.c : "",
+    exp,
+  };
+}
+
+/** The cookie this claim travels in. httpOnly: script must never read it. */
+export const COOKIE_NAME = "ic_ent";
+
+export interface CookieOptions {
+  name: string;
+  value: string;
+  httpOnly: true;
+  secure: boolean;
+  sameSite: "lax";
+  path: "/";
+  maxAge: number;
+}
+
+export function cookieFor(token: string, exp: number, nowSeconds: number, secure = true): CookieOptions {
+  return {
+    name: COOKIE_NAME,
+    value: token,
+    httpOnly: true,
+    secure,
+    // Lax, not Strict: the reader arrives from checkout.stripe.com by
+    // top-level navigation, and Strict would withhold the cookie on exactly
+    // that first request.
+    sameSite: "lax",
+    path: "/",
+    maxAge: Math.max(0, exp - nowSeconds),
+  };
+}
+
+/** The cookie that clears the claim. */
+export function clearedCookie(secure = true): CookieOptions {
+  return { name: COOKIE_NAME, value: "", httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 };
+}
