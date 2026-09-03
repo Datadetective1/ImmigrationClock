@@ -38,6 +38,7 @@
     "social:queue": "tsx scripts/social-queue.ts",
     "social:verify-og": "tsx scripts/social-verify-og.ts",
     "check:sources": "tsx scripts/check-sources.ts",
+    "review:queue": "tsx scripts/review-queue.ts",
     "social:examples": "tsx scripts/social-examples.ts",
     "social:rotation": "tsx scripts/social-rotation-report.ts"
   },

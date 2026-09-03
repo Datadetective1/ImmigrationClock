@@ -72,6 +72,56 @@ export type ChangeStatus =
   | "superseded"
   | "informational";
 
+/**
+ * One classification, with the evidence for it.
+ *
+ * MEASURED, NOT ASSUMED. Filtering `?visa=h-1b` against the committed archive
+ * returns 11 records; 16 records name H-1B in their own title or summary; only
+ * 6 are in both. Recall is 38%. Worse, reading the disagreements by hand found
+ * an H-2A wage rule classified `visa:h-1b` because the rule's body cites
+ * section 212(p) in a historical aside — at confidence 1.
+ *
+ * The classifier matches anywhere in the source document, including footnotes
+ * and citations, and every classification already stores the verbatim quote
+ * that produced it. Flattening that to `["h-1b"]` threw away the only thing
+ * that lets a consumer tell a real H-1B rule from a footnote.
+ *
+ * So a classification carries its evidence. A monitoring product built on this
+ * can show the quote, or refuse a match whose quote does not mention the
+ * subject in its own words. That is a filter someone can trust; a bare list of
+ * ids at 38% recall and imperfect precision is not.
+ */
+export interface Classification {
+  /** The value: "h-1b", "india". */
+  id: string;
+  /**
+   * How it was established.
+   *   stated  — the source document says it, and `evidence` quotes where.
+   *   derived — inferred by the ingestion pipeline from context.
+   */
+  basis: string;
+  /** Verbatim quote from the source. Present for every `stated` classification. */
+  evidence: string | null;
+  /** 1 for stated, below 1 otherwise. Not a quality score — see `evidence`. */
+  confidence: number;
+}
+
+/**
+ * What an EMPTY classification list means. Three different things, and a
+ * consumer that cannot tell them apart will read every one as "no".
+ *
+ *   known          — the list has entries, established from the document.
+ *   not_applicable — the document was examined and names none. An enforcement
+ *                    statistics release genuinely has no visa category.
+ *   not_classified — nobody has looked. 490 of 544 records are here, and an
+ *                    empty list on one of them is an absence of work, not an
+ *                    absence of relevance.
+ *
+ * Derived from the store's own `impact.completeness`: "unspecified" means the
+ * record was never classified, so every dimension on it is not_classified.
+ */
+export type ClassificationState = "known" | "not_applicable" | "not_classified";
+
 export interface PublicSource {
   /** Short key, stable across releases: "federal_register", "uscis_newsroom". */
   key: string;
@@ -112,8 +162,17 @@ export interface PublicChange {
 
   /** What the record is about. Not who it affects. */
   topics: string[];
-  visaCategories: string[];
-  countries: string[];
+  visaCategories: Classification[];
+  countries: Classification[];
+
+  /**
+   * Whether each dimension was classified at all, so an empty list is legible.
+   * See ClassificationState: an absent value is not the same as "none".
+   */
+  classificationState: {
+    visaCategories: ClassificationState;
+    countries: ClassificationState;
+  };
 
   /** What this record does NOT cover, in the source's or our own words. */
   limitations: string[];
@@ -143,11 +202,29 @@ export interface PublicChange {
  */
 export type ChangeInput = ImmigrationEvent;
 
-function idsOf(list: readonly { entityId: string }[] | undefined, prefix: string): string[] {
+function classificationsOf(
+  list: readonly { entityId: string; basis: string; evidence?: string; confidence: number }[] | undefined,
+  prefix: string
+): Classification[] {
   return (list ?? [])
-    .map((x) => x.entityId)
-    .filter((id) => id.startsWith(`${prefix}:`))
-    .map((id) => id.slice(prefix.length + 1));
+    .filter((x) => x.entityId.startsWith(`${prefix}:`))
+    .map((x) => ({
+      id: x.entityId.slice(prefix.length + 1),
+      basis: x.basis,
+      evidence: x.evidence ?? null,
+      confidence: x.confidence,
+    }));
+}
+
+/**
+ * Did anyone classify this record on this dimension?
+ *
+ * "unspecified" completeness means the ingestion never attempted it. Anything
+ * else means the document was examined, so an empty list is a real "none".
+ */
+function stateFor(completeness: string | undefined, entries: Classification[]): ClassificationState {
+  if (entries.length > 0) return "known";
+  return !completeness || completeness === "unspecified" ? "not_classified" : "not_applicable";
 }
 
 /** Which records this one amends, from the relation the store already carries. */
@@ -181,6 +258,8 @@ export function toPublicChange(
   amendedBy: string[] = []
 ): PublicChange {
   const source = SOURCE_BY_KEY[input.sourceKey];
+  const visas = classificationsOf(input.impact?.visaCategories, "visa");
+  const countries = classificationsOf(input.impact?.countries, "country");
   const topicsFromEntities = (input.entities ?? [])
     .filter((e) => e.entityId.startsWith("topic:"))
     .map((e) => e.entityId.slice("topic:".length));
@@ -211,8 +290,13 @@ export function toPublicChange(
     lastVerified: input.lastVerifiedAt ?? null,
 
     topics: [...new Set(topicsFromEntities)],
-    visaCategories: idsOf(input.impact?.visaCategories, "visa"),
-    countries: idsOf(input.impact?.countries, "country"),
+    visaCategories: visas,
+    countries: countries,
+
+    classificationState: {
+      visaCategories: stateFor(input.impact?.completeness, visas),
+      countries: stateFor(input.impact?.completeness, countries),
+    },
 
     limitations: input.limitations ?? [],
 
@@ -253,5 +337,19 @@ export const ATTRIBUTION = {
     "Records are derived from public U.S. government sources. ImmigrationClock normalizes, dates and links them; it is not the originating authority. Every record carries its source URL — check it before relying on it.",
   notLegalAdvice:
     "This is information about published government material, not legal advice, and it makes no determination about any individual case.",
+  /**
+   * The measured state of classification, stated in every response.
+   *
+   * A consumer building monitoring on a filter needs to know its recall before
+   * they rely on it, not after a customer asks why a change was missed. These
+   * numbers came from comparing each filter against the records' own text; the
+   * method is in docs/intelligence-api.md so anyone can re-run it.
+   */
+  classificationQuality:
+    "Classification is incomplete and its coverage is measured rather than assumed: 90% of records " +
+    "carry no visa or country classification at all (classificationState: not_classified), and a " +
+    "filter on visaCategories currently returns about 38% of the records whose own text names that " +
+    "visa. Every classification carries the verbatim quote it was derived from — check the evidence " +
+    "before relying on a match, and treat an empty list as unclassified rather than as 'not relevant'.",
   schemaVersion: CHANGE_SCHEMA_VERSION,
 } as const;

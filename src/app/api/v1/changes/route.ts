@@ -86,8 +86,8 @@ export async function GET(request: Request): Promise<Response> {
 
   if (since) changes = changes.filter((c) => c.publishedDate >= since);
   if (until) changes = changes.filter((c) => c.publishedDate <= until);
-  if (visa) changes = changes.filter((c) => c.visaCategories.some((v) => v.toLowerCase() === visa));
-  if (country) changes = changes.filter((c) => c.countries.some((v) => v.toLowerCase() === country));
+  if (visa) changes = changes.filter((c) => c.visaCategories.some((v) => v.id.toLowerCase() === visa));
+  if (country) changes = changes.filter((c) => c.countries.some((v) => v.id.toLowerCase() === country));
   if (agency) changes = changes.filter((c) => (c.agency ?? "").toLowerCase() === agency);
   if (classification) changes = changes.filter((c) => c.classification.toLowerCase() === classification);
   if (status) changes = changes.filter((c) => c.status.toLowerCase() === status);
@@ -109,6 +109,19 @@ export async function GET(request: Request): Promise<Response> {
         returned: page.length,
         hasMore: offset + page.length < total,
       },
+      // Stated on the response that used the filter, not only in the docs: a
+      // consumer who never reads /developers still learns that an empty result
+      // is not the same as "nothing happened".
+      ...(visa || country
+        ? {
+            filterQuality: {
+              note:
+                "This filter matches only records that were classified on that dimension. About 90% of " +
+                "records are unclassified (classificationState: not_classified), so a filtered result is " +
+                "a floor, not a complete set. Each match carries the verbatim evidence it was derived from.",
+            },
+          }
+        : {}),
       attribution: ATTRIBUTION,
       generatedAt: new Date().toISOString(),
     },
