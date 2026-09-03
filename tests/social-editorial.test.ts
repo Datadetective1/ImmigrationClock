@@ -6,13 +6,15 @@
 // ImmigrationClock either.
 //
 // What distinguishes this account is the TIME dimension — when a change bites,
-// which window is open, what is still ahead. These tests pin the two halves of
-// making that reliable:
+// which window is open, what is still ahead — and, since the ninth prompt, a
+// VOICE and a choice of SHAPES rather than one template. These tests pin the
+// two halves of making that reliable:
 //
-//   • The PROMPT must put timing in front of the model, and must make an ABSENT
-//     date as visible as a present one. A missing effective date is information
-//     ("no date has been set"), not a gap to write around, and it is the honest
-//     answer far more often than a date is.
+//   • The PROMPT must put timing in front of the model, as words, and must make
+//     an ABSENT date as visible as a present one — sayable in plain words, and
+//     never the opening. It must name the content type, offer the shapes, list
+//     the implications the record supports, and show agencies as a person
+//     writes them.
 //
 //   • The VALIDATOR must refuse the one claim this framing makes tempting: that
 //     ImmigrationClock knows something about the reader's own case. It tracks
@@ -30,7 +32,6 @@ import type { IndexedEvent } from "@/lib/event-index";
 import type { Angle, FactSet, SlotId } from "@/lib/social/types";
 
 const TODAY = "2026-08-11";
-const LINK = "https://immigrationclock.com/what-changed?q=fee";
 
 function event(over: Partial<IndexedEvent> = {}): IndexedEvent {
   return {
@@ -55,45 +56,68 @@ const ask = (facts: FactSet, angle: Angle = "breaking_change", slot: SlotId = "m
 // -----------------------------------------------------------------------------
 
 describe("the account knows what it is for", () => {
-  it("states the time dimension as the subject, not as a nice-to-have", () => {
-    expect(SYSTEM_PROMPT).toContain("TIME DIMENSION");
-    expect(SYSTEM_PROMPT).toMatch(/Anyone can restate a Federal Register summary/);
+  it("states the voice, and what it is not", () => {
+    expect(SYSTEM_PROMPT).toContain("THE VOICE");
+    expect(SYSTEM_PROMPT).toMatch(/Clear\. Curious\. Precise\. Calm\. Useful\. Human\. Data-literate\./);
+    expect(SYSTEM_PROMPT).toMatch(/not the voice of a press release or a database/);
   });
 
-  it("gives the post a shape rather than a checklist", () => {
-    expect(SYSTEM_PROMPT).toContain(
-      "WHAT CHANGED  ->  WHEN IT MATTERS  ->  WHO SHOULD PAY ATTENTION  ->  WHAT HAPPENS NEXT"
-    );
-    // The beats are droppable. A four-part template applied to a two-fact
-    // subject is padding, which is what the whole system exists to avoid.
-    expect(SYSTEM_PROMPT).toMatch(/Drop a beat the fact set cannot support/);
+  it("makes timing the point, and never invented", () => {
+    expect(SYSTEM_PROMPT).toContain("TIMING IS THE POINT, AND TIMING IS NEVER INVENTED");
+    expect(SYSTEM_PROMPT).toMatch(/If the facts record an effective date, it belongs in the post, as words/);
+    expect(SYSTEM_PROMPT).toMatch(/Never state a consequence, deadline or next step the facts do not carry/);
+  });
+
+  it("gives the post a choice of shapes rather than one template", () => {
+    expect(SYSTEM_PROMPT).toContain("THE SHAPE OF THE POST");
+    expect(SYSTEM_PROMPT).toMatch(/Do not blend shapes, and do not open every post the same way/);
+    expect(SYSTEM_PROMPT).toMatch(/the account must not read as one template with the nouns swapped/);
+  });
+
+  it("names the stage words, because the difference is the story", () => {
+    for (const stage of ["proposed", "announced", "finalised", "effective", "enjoined", "rescinded"]) {
+      expect(SYSTEM_PROMPT, stage).toMatch(new RegExp(`^\\s*${stage}\\s{2,}`, "m"));
+    }
   });
 
   it("forbids implying the account knows about a reader's own filing", () => {
     expect(SYSTEM_PROMPT).toMatch(/does not track anyone's individual case/);
-    expect(SYSTEM_PROMPT).toMatch(/never the reader's file/);
+    expect(SYSTEM_PROMPT).toMatch(/Never write "your case", "check your status here"/);
   });
 
   it("is versioned, so a change of voice is traceable in the ledger", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/8");
-    expect(VALIDATOR_VERSION).toBe("social-validator/7");
+    expect(PROMPT_VERSION).toBe("social-prompt/9");
+    expect(VALIDATOR_VERSION).toBe("social-validator/8");
   });
 });
 
 describe("timing is rendered as a fact, in both directions", () => {
-  it("puts a recorded effective date in front of the model", () => {
+  it("puts a recorded effective date in front of the model, as words and as ISO", () => {
     const prompt = ask(buildEventFacts(event(), "/what-changed?q=fee", TODAY));
-    expect(prompt).toContain("TIMING — the part this account exists for");
-    expect(prompt).toContain("Takes effect: 2026-09-18");
+    expect(prompt).toContain("TIMING — the part this publication exists for");
+    expect(prompt).toContain("Takes effect: September 18, 2026 (2026-09-18)");
+    expect(prompt).toMatch(/Write it as words/);
     expect(prompt).toMatch(/most useful fact you have/);
   });
 
-  it("states an ABSENT date positively, instead of only forbidding one", () => {
-    // The failure this prevents: a model told "do not state an effective date"
-    // simply omits timing, and the post reads like a news summary again.
+  it("renders every date as words with the ISO in parentheses, never as a bare ISO", () => {
+    // Dates appeared as "2026-09-18" in published posts because that is how
+    // the fact set showed them. Now the words come first.
+    const prompt = ask(buildEventFacts(event(), "/what-changed?q=fee", TODAY));
+    expect(prompt).toContain("PUBLISHED: August 10, 2026 (2026-08-10)");
+    expect(prompt).toContain("EFFECTIVE: September 18, 2026 (2026-09-18)");
+    expect(SYSTEM_PROMPT).toMatch(/Write dates as words/);
+    expect(SYSTEM_PROMPT).toMatch(/Never "2026-09-30"/);
+  });
+
+  it("states an ABSENT date positively, and forbids leading with it", () => {
+    // The failure this prevents in both directions: a model told "do not state
+    // an effective date" simply omits timing, and a model told "state that none
+    // is recorded" opens on the absence before naming the subject.
     const prompt = ask(buildEventFacts(event({ effectiveAt: null }), "/what-changed?q=fee", TODAY));
-    expect(prompt).toMatch(/NO effective or implementation date is recorded/);
-    expect(prompt).toMatch(/the absence is the timing information/i);
+    expect(prompt).toMatch(/No effective or implementation date is recorded for this document/);
+    expect(prompt).toMatch(/You may say so in plain words/);
+    expect(prompt).toMatch(/never open on its absence/);
   });
 
   it("tells the model a proposal is not on anyone's calendar, and what would change that", () => {
@@ -106,16 +130,17 @@ describe("timing is rendered as a fact, in both directions", () => {
   it("never invites a proposal to carry an effective date", () => {
     const proposed = event({ classification: "proposed_rule", effectiveAt: null });
     const prompt = ask(buildEventFacts(proposed, "/what-changed?q=fee", TODAY));
-    expect(prompt).not.toMatch(/NO effective or implementation date is recorded/);
-    expect(SYSTEM_PROMPT).toMatch(/Never give a proposed rule an effective date/);
+    expect(prompt).not.toMatch(/No effective or implementation date is recorded/i);
+    expect(SYSTEM_PROMPT).toMatch(/A proposed rule is not on anyone's calendar/);
+    expect(SYSTEM_PROMPT).toMatch(/never give it a start date; use the conditional/);
   });
 
   it("closes the door on any other timing claim", () => {
     const prompt = ask(buildEventFacts(event(), "/what-changed?q=fee", TODAY));
-    expect(prompt).toMatch(/not available unless it appears in the facts below/);
+    expect(prompt).toMatch(/not available unless it appears below/);
   });
 
-  it("asks a recurring window for preparation time, not a description of the programme", () => {
+  it("asks a recurring window for how far away it is, not a description of the programme", () => {
     const dv = KEY_DATES.find((k) => k.id === "dv-lottery")!;
     const prompt = buildUserPrompt({
       facts: buildKeyDateFacts(dv, 51, "2026-10-01", "2026-08-15"),
@@ -123,13 +148,60 @@ describe("timing is rendered as a fact, in both directions", () => {
       angle: "preparation_window",
       avoidOpenings: [],
     });
-    expect(prompt).toMatch(/The value is knowing it is coming, not being hurried/);
-    expect(SYSTEM_PROMPT).toMatch(/the useful thing is the preparation time ahead of it/);
+    expect(prompt).toMatch(/CONTENT TYPE: KEY DATE/);
+    expect(prompt).toMatch(/recurring calendar window, not a change/);
+    expect(prompt).toMatch(/how far away it is/);
+    expect(prompt).toMatch(/Never tell anyone to act/);
   });
 
   it("pairs a requirement with the date it applies from", () => {
     const prompt = ask(buildEventFacts(event(), "/what-changed?q=fee", TODAY), "what_it_requires");
-    expect(prompt).toMatch(/the reader's real question is FROM WHEN/);
+    expect(prompt).toContain("Takes effect: September 18, 2026 (2026-09-18)");
+    expect(prompt).toMatch(/the post is rejected without it/);
+  });
+});
+
+describe("the ninth prompt tells the writer what kind of post this is", () => {
+  const facts = () => buildEventFacts(event(), "/what-changed?q=fee", TODAY);
+
+  it("names the content type and its brief", () => {
+    const prompt = ask(facts());
+    expect(prompt).toMatch(/^CONTENT TYPE: BREAKING \/ MATERIAL CHANGE/m);
+    expect(prompt).toMatch(/The stage word is load-bearing/);
+  });
+
+  it("offers the shapes, marks the ones used recently, and refuses a third run", () => {
+    const prompt = buildUserPrompt({
+      facts: facts(),
+      slot: SLOT_BY_ID.get("morning")!,
+      angle: "breaking_change",
+      contentType: "breaking_change",
+      structures: ["news", "direct", "address", "date_lede"],
+      recentStructures: ["news", "news"],
+      avoidOpenings: [],
+    });
+    expect(prompt).toContain("SHAPES ON OFFER");
+    expect(prompt).toMatch(/- news \(News\) — USED RECENTLY/);
+    expect(prompt).toMatch(/- direct \(Direct\): /);
+    expect(prompt).toMatch(/A third consecutive use of the same shape is refused/);
+  });
+
+  it("lists the implications the record supports, as the only significance it may claim", () => {
+    const prompt = ask(facts());
+    expect(prompt).toContain("IMPLICATIONS YOU MAY STATE");
+    expect(prompt).toMatch(/The rule is final but does not apply until September 18, 2026/);
+    expect(prompt).toMatch(/ImmigrationClock is watching the September 18, 2026 effective date/);
+  });
+
+  it("shows permitted agencies as a person writes them, not as match strings", () => {
+    // Five published posts wrote "dhs's final rule" because the prompt showed
+    // the lowercase match strings. The attribution line now shows display case.
+    const prompt = ask(facts());
+    const line = prompt.split("\n").find((l) => l.startsWith("- These agencies, written exactly like this:"))!;
+    expect(line).toBeDefined();
+    expect(line).toContain("USCIS");
+    expect(line).toContain("the Federal Register");
+    expect(line).not.toMatch(/\buscis\b/);
   });
 });
 
@@ -154,9 +226,9 @@ describe("the validator refuses individual-case claims", () => {
 
   it("still accepts the ordinary sense of 'track' — we track rules, not people", () => {
     // Carries the effective date because this fact set has a future one, and
-    // v4 requires the date to survive into the copy. The test is about the verb
-    // "track", and a sample that failed a different rule would prove nothing
-    // about it either way.
+    // the validator requires the date to survive into the copy. The test is
+    // about the verb "track", and a sample that failed a different rule would
+    // prove nothing about it either way.
     const fine = `ImmigrationClock tracks the fee schedule and records when each change takes effect — this one on 2026-09-18 — with the source on every entry. ${link}`;
     expect(validatePost(fine, "x", facts).failures).toEqual([]);
   });
@@ -179,6 +251,7 @@ describe("the validator refuses individual-case claims", () => {
       [`You should file before the deadline. ${link}`, /instruction to the reader/],
       [`An unprecedented change to the fee schedule. ${link}`, /superlative/],
       [`Follow us for more immigration updates. ${link}`, /engagement bait/],
+      [`Did you know the fee schedule changed? ${link}`, /engagement bait/],
     ];
     for (const [text, expected] of cases) {
       const result = validatePost(text, "x", facts);
