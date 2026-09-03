@@ -372,6 +372,16 @@ export interface CopyRequest {
   facts: FactSet;
   slot: SlotDef;
   angle: Angle;
+  /**
+   * The platforms this run can actually publish to.
+   *
+   * Copy is written only for these. Absent, both are written, which is what a
+   * dry run over every platform wants. Live with no LinkedIn credential this is
+   * ["x"], and the request then carries no LinkedIn brief and its schema no
+   * LinkedIn property — the 1,300-character variant that used to be generated
+   * and discarded every window is simply not asked for.
+   */
+  platforms?: Platform[];
   /** What kind of post this is. Defaults to the fact set's own content type. */
   contentType?: ContentType;
   /** The shapes the writer may choose between. Defaults to a plain "direct" shape. */

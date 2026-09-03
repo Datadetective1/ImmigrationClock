@@ -203,6 +203,16 @@ function report(o: SlotOutcome, live: boolean, engineId: string) {
     console.log(`Dedupe   : ${o.dedupe.ok ? "distinct" : "blocked"} (max similarity ${o.dedupe.maxSimilarity.toFixed(2)})`);
   }
 
+  // What the copy engine actually did, with latency. The provider logs each
+  // transport attempt as it happens; this is the same story after the fact,
+  // from the ledger's own record. No prompt, no key, no full copy.
+  for (const a of o.attempts ?? []) {
+    console.log(
+      `Attempt ${a.attempt}: ${a.ok ? "pass" : "fail"} in ${a.durationMs} ms · ${a.model}` +
+        `${a.error ? ` — ${a.error.replace(/\s+/g, " ").slice(0, 90)}` : ""}`
+    );
+  }
+
   for (const p of o.platforms) {
     console.log(`\n── ${p.platform.toUpperCase()} — ${p.decision}`);
     if (p.reason && p.decision !== "POSTED") console.log(`   ${p.reason}`);

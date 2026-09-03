@@ -174,9 +174,7 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
   //
   // In a dry run every platform is exercised, so copy for both is generated and
   // validated. Live, only a platform with a credential counts — see the header.
-  const targets: Platform[] = live
-    ? PLATFORMS.filter((p) => Boolean(publishers[p]))
-    : (opts.platforms?.filter((p) => PLATFORMS.includes(p)) ?? PLATFORMS);
+  const targets: Platform[] = targetPlatforms(opts);
   if (targets.length === 0) {
     return finish(opts, queue, emptyOutcome(base, slot, 0), "SKIPPED_CREDENTIAL_EXPIRED",
       "No platform has a usable credential configured; nothing can publish.");
@@ -324,6 +322,10 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
         recentStructures: recent,
         treatment: candidate.treatment,
         readerValue: candidate.readerValue,
+        // Only the platforms that can publish. A LinkedIn variant nobody can
+        // post is a second set of constraints to satisfy, up to 1,300 more
+        // characters to write and more reasoning to pay for, all discarded.
+        platforms: relevant.length ? relevant : targets,
         avoidOpenings: recentOpenings(ledger, reference, OPENINGS_SHOWN),
         bannedOpenings: bannedOpeningLines(ledger, relevant.length ? relevant : targets),
         validatorFeedback: attempt > 1 ? feedback : undefined,
@@ -439,7 +441,10 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     const text = copy[platform];
 
     if (!targets.includes(platform)) {
-      outcomes.push(skip(platform, "SKIPPED_CREDENTIAL_EXPIRED", `No usable ${platform} credential is configured`, text));
+      // No copy was generated for it, so there is none to record.
+      outcomes.push(
+        skip(platform, "SKIPPED_CREDENTIAL_EXPIRED", `No usable ${platform} credential is configured`, text || null)
+      );
       continue;
     }
 
@@ -808,6 +813,20 @@ function mergeValidation(validation: Record<Platform, ValidationResult>, relevan
 }
 
 /** A skip: same record shape, written for every platform, so nothing is invisible. */
+/**
+ * The platforms this run can publish to.
+ *
+ * Live, that is the platforms with a credential; in a dry run it is whatever
+ * the caller named, or every platform. Read in two places — the run itself and
+ * the skip path below — so the two can never disagree about which platform was
+ * ever in scope.
+ */
+export function targetPlatforms(opts: Pick<RunOptions, "live" | "publishers" | "platforms">): Platform[] {
+  return opts.live
+    ? PLATFORMS.filter((p) => Boolean(opts.publishers[p]))
+    : (opts.platforms?.filter((p) => PLATFORMS.includes(p)) ?? PLATFORMS);
+}
+
 function finish(
   opts: RunOptions,
   queue: EditorialQueue,
@@ -815,7 +834,12 @@ function finish(
   decision: PostRecord["decision"],
   reason: string
 ): RunResult {
-  return finishWith(opts.ledger, queue, opts.engine.id, outcome, decision, reason, null);
+  // A platform that could never have published this window says so, rather
+  // than inheriting a reason about an engine it never called. The first live
+  // window recorded "Copy engine failed: timeout" against a LinkedIn that has
+  // no credential, which reads as a wasted model call and was not one.
+  const unavailable = PLATFORMS.filter((p) => !targetPlatforms(opts).includes(p));
+  return finishWith(opts.ledger, queue, opts.engine.id, outcome, decision, reason, null, unavailable);
 }
 
 /** The shared skip path, engine-agnostic so the approved path can use it too. */
@@ -826,16 +850,23 @@ function finishWith(
   outcome: SlotOutcome,
   decision: PostRecord["decision"],
   reason: string,
-  provenance: RecordProvenance | null
+  provenance: RecordProvenance | null,
+  /** Platforms that had no credential this run, so the reason is theirs. */
+  unavailable: Platform[] = []
 ): RunResult {
-  const platforms: PlatformOutcome[] = PLATFORMS.map((platform) => ({
-    platform,
-    decision,
-    reason,
-    text: null,
-    externalId: null,
-    externalUrl: null,
-  }));
+  const platforms: PlatformOutcome[] = PLATFORMS.map((platform) => {
+    const noCredential = unavailable.includes(platform) && decision !== "SKIPPED_CREDENTIAL_EXPIRED";
+    return {
+      platform,
+      decision: noCredential ? ("SKIPPED_CREDENTIAL_EXPIRED" as const) : decision,
+      reason: noCredential
+        ? `No usable ${platform} credential is configured; no copy was generated for it.`
+        : reason,
+      text: null,
+      externalId: null,
+      externalUrl: null,
+    };
+  });
   const full = { ...outcome, platforms };
   const records = platforms.map((p) =>
     toRecord(
