@@ -9,13 +9,24 @@
 //   content earns publication.
 //
 // Read structurally, that means the pipeline is a series of gates, each of
-// which can end the slot, and only the last one publishes:
+// which can end the run, and only the last one publishes:
 //
-//   window → pool → candidate → score → angle → dedupe → LLM → validate → post
+//   window → cadence → candidates → queue → score → dedupe → LLM → validate → post
 //
 // Every gate's refusal is a first-class, named outcome (see SkipReason), not an
-// error and not a silent return. A slot that produces nothing is the system
+// error and not a silent return. A run that produces nothing is the system
 // working.
+//
+// WHAT CHANGED IN THE SECOND DESIGN
+// ---------------------------------
+// The first design had three exact-hour slots, each with its own pool, and one
+// shape of post. Measured on the live account it produced a database summarising
+// itself, at a falling rate, because a slot that fired an hour late was dropped
+// and a slot whose pool was dry stayed silent. The second design has three
+// WINDOWS a run may land in, eight CONTENT TYPES drawn from one ranked queue, a
+// CADENCE policy that targets roughly one useful post a day, and sixteen SHAPES
+// a post may take. The trust layer — the closed fact set and the validator — is
+// unchanged.
 // =============================================================================
 
 import type { IndexedEvent } from "@/lib/event-index";
@@ -23,62 +34,47 @@ import type { VisualSpec } from "./visuals";
 import type { TopicFamily } from "./rotation";
 import type { ContentCategory } from "./categories";
 import type { EditorialTreatment, ReaderValue } from "./reader-value";
+import type { CadenceTier, ContentType, Structure } from "./content-types";
 
 // -----------------------------------------------------------------------------
-// SLOTS
+// WINDOWS
 // -----------------------------------------------------------------------------
 
 /**
- * Three slots a day, each drawing on a DIFFERENT pool.
+ * Three windows a day. A run may land anywhere inside one and still count.
  *
- * This is the load-bearing decision of the whole design. The archive yields
- * roughly six qualifying official developments in a week; three news posts a
- * day would need twenty-one. A design where every slot competes for the same
- * news pool must either skip almost everything or repeat itself within days.
- *
- * So the slots are not three chances at the same job. They are three different
- * jobs, and only the first one is news.
+ * The ids are kept from the first design (morning, afternoon, evening) so the
+ * ledger's history stays readable, but the meaning changed: a window is a span
+ * of local hours, not an hour. See slots.ts for why that had to happen.
  */
 export type SlotId = "morning" | "afternoon" | "evening";
 
 export interface SlotDef {
   id: SlotId;
-  /** Local hour in America/Chicago. The workflow gates on this. */
+  /** First local hour of the window (America/Chicago). Kept for compatibility. */
   hour: number;
-  /** What this slot is FOR. Shown to the copy engine verbatim. */
+  /** Inclusive local hours the window spans. */
+  hours: [number, number];
+  /** What this window is FOR, for humans reading the ledger and the preview. */
   purpose: string;
-  /** Which pool supplies its candidates. Recorded in the ledger as the slot's identity. */
+  /** The nominal pool recorded on a skip, when no candidate was chosen. */
   pool: PoolId;
-  /**
-   * Pools this slot may ALSO draw on when they carry something material.
-   *
-   * The original design gave each slot one pool and no overlap, on the reasoning
-   * that three slots competing for one thin news pool would either skip
-   * everything or repeat itself. That reasoning is still right about the MORNING
-   * slot's job, and it had one consequence nobody intended: a qualifying
-   * immigration development could never win the afternoon or evening slot, at
-   * any score, because it was not in the pool at all. A methodology page beat
-   * fourteen other pages on a rotation index while real developments sat in an
-   * archive the slot could not see.
-   *
-   * So the later slots keep their own pool as their PRIMARY job and may reach
-   * for news when news exists. The dedupe layer is what makes this safe rather
-   * than repetitive: a subject that published this morning is inside its 7-day
-   * block by the evening, and same-day topic variety blocks the rest.
-   */
-  fallbackPools: PoolId[];
-  /** Editorial angles this slot may use. Enforced, not merely suggested. */
-  angles: Angle[];
 }
 
-/** Where candidates come from. One pool per slot. */
+/**
+ * Where a candidate came from. Recorded in the ledger as part of a row's
+ * identity, and read by the URL cooldown (news is exempt from cooldowns other
+ * pools caused).
+ */
 export type PoolId =
-  /** Genuinely new qualifying official developments. Often empty. */
+  /** A qualifying official development from the last ten days. */
   | "news"
-  /** The historical archive: active rules, effective dates, obligations. */
+  /** The archive: effective dates ahead, why-it-matters on an older change. */
   | "knowledge"
-  /** Durable assets: key dates, H-1B data, WARN, timelines, maps, hubs. */
-  | "standing";
+  /** Recurring dates. */
+  | "standing"
+  /** Explainers, data signals and product discovery — the evergreen tier. */
+  | "editorial";
 
 // -----------------------------------------------------------------------------
 // SUBJECTS AND ANGLES
@@ -87,38 +83,30 @@ export type PoolId =
 /**
  * What a post is ABOUT, as a stable identity.
  *
- * Not an event id, because two of the three pools do not draw on events. A key
- * date and a data page are subjects in exactly the same sense: a durable thing
- * we can say something true about, whose reuse we need to track.
+ *   "event:<id>"       a recorded change
+ *   "keydate:<id>"     a recurring date
+ *   "explainer:<slug>" an evergreen explainer
+ *   "signal:<slug>"    a data signal
+ *   "discovery:<slug>" a product capability
+ *   "asset:<id>"       a standing page (first design; retained for history)
  */
-export type SubjectId = string; // "event:<id>" | "keydate:<id>" | "asset:<id>"
+export type SubjectId = string;
 
 /**
- * The editorial TREATMENT of a subject.
- *
- * The first cut of this system keyed dedupe on subject alone and banned a
- * subject forever once posted. That is wrong, and expensively so: the H-1B fee
- * rule is legitimately worth a post when it lands, a second when its effective
- * date approaches, and a third explaining who actually pays it. Those are three
- * different things to say, not one thing said three times.
- *
- * Uniqueness is therefore (subject, angle, platform) plus a cooldown — and the
- * wording check in dedupe.ts catches the case where two angles produce the same
- * sentence anyway, which is the failure the naive rule was really aiming at.
+ * The editorial TREATMENT of a subject — one per content type, plus the
+ * first design's finer-grained treatments of an archive event, which the
+ * dedupe layer still keys on. Uniqueness is (subject, angle, platform) plus a
+ * cooldown, so the same development can carry a breaking post, a what-changed
+ * and a why-it-matters over its life, and never the same one twice.
  */
 export type Angle =
   /** It just happened and it changes something. */
   | "breaking_change"
-  /**
-   * What the document actually obliges someone to do, pay or file.
-   *
-   * The most useful thing this account can say, and the easiest to get wrong.
-   * It states the REQUIREMENT as a property of the rule — "the rule requires a
-   * $500 fee at filing" — never as an instruction to the reader. "You should
-   * file" is legal advice and the validator rejects it; "the rule requires" is
-   * a fact about a federal document. Earned only when the ranking model scores
-   * a real obligation change, so the angle cannot be chosen and then padded.
-   */
+  /** A recent development explained in plain English. */
+  | "what_changed"
+  /** A verified development and its defensible significance. */
+  | "why_it_matters"
+  /** What the document actually obliges someone to do, pay or file. */
   | "what_it_requires"
   /** Who this reaches, concretely. */
   | "who_is_affected"
@@ -128,20 +116,21 @@ export type Angle =
   | "effective_date_reminder"
   /** A filing window or deadline is closing. */
   | "deadline_approaching"
-  /**
-   * A window is coming, but not yet. What it is, when it opens, what the
-   * official source says about it — stated as a fact about the calendar, not as
-   * a prompt to act. Distinct from `deadline_approaching`, which is for a
-   * window closing soon enough that the countdown itself is the news.
-   */
+  /** A window is coming, but not yet. */
   | "preparation_window"
   /** Where this sits in a sequence we have been tracking. */
   | "historical_context"
   /** A figure from our own datasets that says something. */
-  | "data_insight";
+  | "data_insight"
+  /** Evergreen explanation of a distinction. */
+  | "explainer"
+  /** A verified capability of ImmigrationClock. */
+  | "data_discovery";
 
 export const ALL_ANGLES: Angle[] = [
   "breaking_change",
+  "what_changed",
+  "why_it_matters",
   "what_it_requires",
   "who_is_affected",
   "what_changed_from_previous",
@@ -150,11 +139,15 @@ export const ALL_ANGLES: Angle[] = [
   "preparation_window",
   "historical_context",
   "data_insight",
+  "explainer",
+  "data_discovery",
 ];
 
 /** Human wording for logs and the ledger. */
 export const ANGLE_LABEL: Record<Angle, string> = {
   breaking_change: "Breaking change",
+  what_changed: "What changed",
+  why_it_matters: "Why it matters",
   what_it_requires: "What it requires",
   who_is_affected: "Who is affected",
   what_changed_from_previous: "What changed from the previous rule",
@@ -163,6 +156,20 @@ export const ANGLE_LABEL: Record<Angle, string> = {
   preparation_window: "Window ahead",
   historical_context: "Historical context",
   data_insight: "Data insight",
+  explainer: "Explainer",
+  data_discovery: "Data discovery",
+};
+
+/** The one angle each content type publishes under. */
+export const ANGLE_FOR_TYPE: Record<ContentType, Angle> = {
+  breaking_change: "breaking_change",
+  what_changed: "what_changed",
+  why_it_matters: "why_it_matters",
+  effective_date: "effective_date_reminder",
+  key_date: "deadline_approaching",
+  data_signal: "data_insight",
+  explainer: "explainer",
+  data_discovery: "data_discovery",
 };
 
 // -----------------------------------------------------------------------------
@@ -178,77 +185,48 @@ export const ANGLE_LABEL: Record<Angle, string> = {
 export interface Candidate {
   subjectId: SubjectId;
   pool: PoolId;
+  /** What KIND of post this is. Decides the cadence tier and the shapes on offer. */
+  contentType: ContentType;
+  /** The cadence tier, derived from the content type. */
+  tier: CadenceTier;
+  /** The shapes the copy engine may choose between for this candidate. */
+  structures: Structure[];
   /** One-line identity for logs. Never sent to a platform as-is. */
   label: string;
-  /**
-   * What KIND of thing this is. Decides the band; `score` decides the place
-   * within it. See categories.ts for why this had to stop being implicit.
-   */
+  /** What KIND of thing this is for the category ladder. See categories.ts. */
   category: ContentCategory;
-  /**
-   * Ordering score: the category's tier plus the candidate's own merits.
-   *
-   * The tier dominates by construction — see TIER_STEP. Before categories
-   * existed this field carried a rotation index for standing candidates, which
-   * meant a page about our own methodology and a page of enforcement data
-   * differed by one point and the calendar broke the tie.
-   */
+  /** Ordering score: the category's tier plus the candidate's own merits. */
   score: number;
   /** Every factor, so a selection can be explained in the ledger. */
   scoreExplain: string;
-  /**
-   * WOULD A REAL PERSON STOP SCROLLING FOR THIS? — 0-100, plus the signals that
-   * produced it. See reader-value.ts.
-   *
-   * The one question none of the other rankings asked. It decides three things:
-   * whether the candidate enters the pool at all (the floor), whether a fresh
-   * item earns the top category band, and where it sits among its peers.
-   */
+  /** Would a real person stop scrolling? 0-100 plus the signals. See reader-value.ts. */
   readerValue: ReaderValue;
-  /**
-   * The shape this post should take, chosen from the facts.
-   *
-   * Deliberately NOT rotated. A subject with a date in play is a deadline post
-   * whether or not the feed used that shape yesterday; rotating treatments is
-   * how a countdown voice ends up on a court decision.
-   */
+  /** The first design's editorial shape, kept for the ledger and the prompt. */
   treatment: EditorialTreatment;
-  /** The angles this candidate genuinely supports, given its own data. */
+  /** The angles this candidate genuinely supports. The first is the one used. */
   supportedAngles: Angle[];
-  /**
-   * What this post is broadly ABOUT, coarser than the subject.
-   *
-   * Two different subjects can be the same story to a reader: an H-1B fee rule
-   * in the morning and the H-1B sponsor directory in the evening are one topic
-   * seen twice, however distinct their subject ids are. Same-day variety is
-   * enforced on this key, not on the subject — see checkSameDayVariety().
-   */
+  /** What this post is broadly ABOUT, for same-day variety. */
   topicKey: string;
   /** The coarse section of immigration this belongs to. See rotation.ts. */
   topicFamily: TopicFamily;
-  /**
-   * Does this candidate have something genuinely new to say?
-   *
-   * A fresh publication, a timing change, or an approaching milestone. After a
-   * subject's 14-day heavy-penalty band this is what separates "worth saying
-   * again" from "still in the index".
-   */
+  /** Does this candidate have something genuinely new to say? */
   hasNewInformation: boolean;
-  /** The ImmigrationClock page this post sends people to. */
+  /**
+   * The ImmigrationClock page this post sends people to, as a SITE-RELATIVE
+   * canonical path. The ledger, the URL cooldown and the rotation memory key on
+   * this; the absolute, tracked URL the post must actually contain is
+   * `facts.deepLink`.
+   */
   deepLink: string;
+  /** A short public identifier for the record, for analytics: "change:abc123". */
+  storyKey: string;
   /** The government document behind it, when there is one. */
   sourceUrl: string | null;
   /** The event, when the candidate came from the archive. */
   event: IndexedEvent | null;
   /** Everything the copy engine is allowed to know. Built by facts.ts. */
   facts: FactSet;
-  /**
-   * The branded card this post would carry, or null when prose is enough.
-   *
-   * Built in select.ts from the same records the fact set comes from, so it is
-   * verified data rather than anything a model produced. Most candidates carry
-   * null — see visuals.ts for why that is the design and not a gap.
-   */
+  /** The branded card this post would carry, or null. See visuals.ts. */
   visual: VisualSpec | null;
 }
 
@@ -258,41 +236,28 @@ export interface Candidate {
  * The copy engine has no web access, no retrieval and no tools. This object is
  * the entirety of what it knows about the subject. If a fact is not in here, no
  * amount of prompting can make the model produce it truthfully — and validate.ts
- * checks the output back against exactly these fields, so producing it untruthfully
- * fails closed.
- */
-/**
- * What SORT of subject this fact set describes.
- *
- * Load-bearing, and its absence is half of why the methodology post read the way
- * it did. The TIMING block told the model, unconditionally, that "NO effective
- * or implementation date is recorded — state that plainly", which is exactly
- * right for a federal document that has not been given a start date and is
- * meaningless for a page explaining how we classify data. A methodology page
- * cannot have an implementation date, so reporting that it lacks one is not a
- * fact about the world; it is a fact about the prompt.
- *
- * The published post opened on it: "No implementation date has been set; ..."
+ * checks the output back against exactly these fields, so producing it
+ * untruthfully fails closed.
  */
 export type SubjectKind =
   /** A government document: a rule, decision, notice, executive action. */
   | "document"
   /** A recurring calendar event: a filing window, a lottery, a deadline. */
   | "recurring_date"
-  /** A durable ImmigrationClock page: a dataset, a hub, a reference. */
-  | "resource";
+  /** A durable ImmigrationClock page: a dataset, a hub, a tool. */
+  | "resource"
+  /** An evergreen, source-backed explanation. */
+  | "explainer"
+  /** A figure computed from ImmigrationClock's own data. */
+  | "data_signal";
 
 export interface FactSet {
   subjectId: SubjectId;
   /** What sort of thing this is. Timing language depends on it. */
   subjectKind: SubjectKind;
-  /**
-   * The Chicago-local date this fact set was built for.
-   *
-   * Carried so the validator can tell a future effective date from a past one
-   * without being handed a second clock. Two clocks in one pipeline is how a
-   * simulation and a production run start disagreeing.
-   */
+  /** What kind of post is being written from these facts. Absent on fact sets built before content types. */
+  contentType?: ContentType;
+  /** The Chicago-local date this fact set was built for. */
   today: string;
   /** Neutral title as published. Never rewritten by us. */
   title: string;
@@ -309,28 +274,25 @@ export interface FactSet {
   /** Entities the archive already linked. Used for "who is affected". */
   entities: string[];
   /**
-   * Finished statements of fact computed from our own datasets.
-   *
-   * The difference between this and `summary` is who did the arithmetic. A
-   * summary is the source's own prose; a data point is a sentence assembled by
-   * deterministic code in asset-facts.ts from figures the repository holds — the
-   * WARN notice count, the size of a USCIS export, the number of employers in
-   * both. The model may state these; it may never compute one.
-   *
-   * Empty for most subjects. The evening slot is what this exists for: a page
-   * has no "summary as published", and without this the only honest thing it
-   * could say was what the page contains.
+   * Finished statements of fact computed from our own data, or written from a
+   * cited source for an explainer. The model may state these; it may never
+   * compute one.
    */
   dataPoints: string[];
+  /**
+   * Implications DERIVED from the record's own fields — what a rescission does,
+   * when a final rule bites, what a proposal is not. Each one restates a field.
+   * The model may state these and nothing beyond them; the validator grounds
+   * copy against this list as it does against dataPoints.
+   */
+  implications?: string[];
   /** Every URL the post is permitted to contain. Exact-match whitelist. */
   allowedUrls: string[];
-  /** The one URL the post SHOULD use. Always in allowedUrls. */
+  /** The one URL the post SHOULD use — absolute, with attribution parameters. */
   deepLink: string;
-  /**
-   * Numbers the post may state, as they appear in the source. Any numeral in
-   * the generated copy that is not here (and is not a date or a year already
-   * present) fails validation.
-   */
+  /** The clean canonical URL of the record, for humans and cards. Defaults to the deep link. */
+  shareUrl?: string;
+  /** Numbers the post may state, as they appear in the source. */
   figures: string[];
   /** Free-text caveats that must not be contradicted. */
   notes: string[];
@@ -350,23 +312,19 @@ export interface GeneratedCopy {
   linkedin: string;
   /** Must be one of facts.allowedUrls. Checked, not trusted. */
   deepLink: string;
+  /** Which of the offered shapes the writer used. Recorded, and refused if stale. */
+  structure?: string;
+  /** A short headline for the queue and the ledger. Not published. */
+  headline?: string;
 }
 
 export interface EngineUsage {
   model: string;
   inputTokens: number;
   outputTokens: number;
-  /**
-   * Input tokens served from the provider's prompt cache, billed at a discount.
-   * A subset of `inputTokens`, not an addition. 0 when the provider does not
-   * report it.
-   */
+  /** Input tokens served from the provider's prompt cache. A subset of inputTokens. */
   cachedInputTokens: number;
-  /**
-   * Reasoning tokens. A SUBSET of `outputTokens`, not an addition — the
-   * Responses API counts them inside the output total, and they are billed at
-   * the full output rate. 0 when the provider does not report them.
-   */
+  /** Reasoning tokens. A subset of outputTokens, billed at the output rate. */
   reasoningTokens: number;
   /** Provider-reported total, when it gives one. Null rather than derived. */
   totalTokens: number | null;
@@ -374,17 +332,10 @@ export interface EngineUsage {
   costUsd: number;
 }
 
-/**
- * One API request, recorded whether it succeeded or not.
- *
- * The runner used to overwrite `usage` on every attempt, so a slot that
- * regenerated billed twice and reported once. Every attempt is kept here
- * instead: a discarded first attempt is real spend, and spend you cannot see is
- * spend you cannot control.
- */
+/** One API request, recorded whether it succeeded or not. */
 export interface EngineAttempt {
   slot: SlotId;
-  /** 1-based. Anything above 1 is a regeneration after a validator rejection. */
+  /** 1-based. Anything above 1 is a repair after a rejection. */
   attempt: number;
   model: string;
   ok: boolean;
@@ -392,18 +343,13 @@ export interface EngineAttempt {
   error: string | null;
   /** Wall-clock duration of the request, milliseconds. */
   durationMs: number;
-
   inputTokens: number;
   cachedInputTokens: number;
   outputTokens: number;
   reasoningTokens: number;
   totalTokens: number | null;
   costUsd: number;
-
-  /**
-   * What the validator said about THIS attempt: "pass", a failure summary, or
-   * null when the call threw and there was nothing to validate.
-   */
+  /** What the validator said about THIS attempt: "pass", a failure summary, or null. */
   validation: string | null;
 }
 
@@ -413,15 +359,11 @@ export interface EngineResult {
 }
 
 /**
- * The provider seam.
- *
- * One method, one implementation today (Anthropic / Claude Opus 5). The seam
- * exists so a model change is a config change, not an architecture change —
- * NOT so that a registry of providers can be maintained. Resist adding a
- * second abstraction layer here until there is a second real provider.
+ * The provider seam. One method. The seam exists so a model change is a config
+ * change, not an architecture change.
  */
 export interface CopyEngine {
-  /** Stable id recorded in the ledger, e.g. "anthropic:claude-opus-5". */
+  /** Stable id recorded in the ledger, e.g. "openai:gpt-5". */
   readonly id: string;
   generate(req: CopyRequest): Promise<EngineResult>;
 }
@@ -430,44 +372,23 @@ export interface CopyRequest {
   facts: FactSet;
   slot: SlotDef;
   angle: Angle;
-  /**
-   * The editorial shape this post should take, chosen from the facts by
-   * treatmentFor(). Optional so a caller holding only a fact set — the approval
-   * path, a fixture — still type-checks; the prompt derives one when it is absent.
-   */
+  /** What kind of post this is. Defaults to the fact set's own content type. */
+  contentType?: ContentType;
+  /** The shapes the writer may choose between. Defaults to a plain "direct" shape. */
+  structures?: Structure[];
+  /** The shapes the account used most recently, newest first, so the writer can avoid a run. */
+  recentStructures?: Structure[];
+  /** The first design's editorial shape. Optional; the prompt derives one when absent. */
   treatment?: EditorialTreatment;
-  /**
-   * Why a reader would care, derived deterministically from the fact set.
-   *
-   * Not new information: every entry says "the fact set's own language covers
-   * X", which is true because a pattern matched that language. It gives the
-   * model somewhere to look for its first sentence instead of leading with the
-   * document's genre.
-   */
+  /** Why a reader would care, derived deterministically from the fact set. */
   readerValue?: ReaderValue;
   /** Openings from recent posts. A nudge for variety; dedupe.ts is the guarantee. */
   avoidOpenings: string[];
-  /**
-   * Opening constructions this account has already leaned on, as an explicit
-   * refusal rather than a hint.
-   *
-   * `avoidOpenings` shows whole sentences and asks the model not to echo them,
-   * which it mostly honours by changing the nouns and keeping the shape. These
-   * are the SHAPES — the first few words, normalised — that recur across recent
-   * posts, and checkOpeningVariety() rejects a post that uses one again.
-   */
+  /** Opening constructions the account has leaned on, as an explicit refusal. */
   bannedOpenings?: string[];
   /** Present on a repair: exactly why the first attempt was rejected. */
   validatorFeedback?: string[];
-  /**
-   * Present on a repair: the exact text that was rejected.
-   *
-   * Without it the second attempt is a fresh post written in hope. "Too long by
-   * 58 characters" is only actionable against the 333 characters that were too
-   * long — and a repair that starts from the rejected text is far likelier to
-   * preserve the facts, the stage and the date than one that starts from
-   * nothing, which is the whole safety argument for repairing at all.
-   */
+  /** Present on a repair: the exact text that was rejected. */
   previousCopy?: { x: string; linkedin: string };
 }
 
@@ -476,7 +397,7 @@ export interface CopyRequest {
 // -----------------------------------------------------------------------------
 
 /**
- * Why a slot produced nothing.
+ * Why a run produced nothing.
  *
  * Every one of these is a normal, expected outcome that exits zero. The system
  * is designed to emit them often; a week with no skips would mean the quality
@@ -484,18 +405,14 @@ export interface CopyRequest {
  */
 export type SkipReason =
   | "SKIPPED_OUTSIDE_WINDOW"
+  /** The cadence policy said no: daily maximum, spacing, or a tier this window does not take. */
+  | "SKIPPED_CADENCE"
   | "SKIPPED_NO_QUALIFYING_CONTENT"
   | "SKIPPED_DUPLICATE"
   | "SKIPPED_COOLDOWN"
   | "SKIPPED_VALIDATION_FAILED"
   | "SKIPPED_ENGINE_UNAVAILABLE"
-  /**
-   * The engine is reachable but misconfigured — a token cap too small for the
-   * model to finish, say. Separate from UNAVAILABLE because the two need
-   * different responses: an outage is waited out, a bad cap never fixes itself,
-   * and a misconfigured call is still BILLED. One of these in the ledger is a
-   * bug report; a run of UNAVAILABLE is a weather report.
-   */
+  /** The engine is reachable but misconfigured — a token cap too small, say. */
   | "SKIPPED_ENGINE_MISCONFIGURED"
   | "SKIPPED_CREDENTIAL_EXPIRED"
   | "SKIPPED_PUBLISH_FAILED"
@@ -503,7 +420,7 @@ export type SkipReason =
 
 export type PostDecision = "POSTED" | "DRY_RUN" | SkipReason;
 
-/** One platform's outcome within one slot. */
+/** One platform's outcome within one run. */
 export interface PlatformOutcome {
   platform: Platform;
   decision: PostDecision;
@@ -515,7 +432,7 @@ export interface PlatformOutcome {
   externalUrl: string | null;
 }
 
-/** Everything that happened in one slot, on one day. */
+/** Everything that happened in one run, in one window, on one day. */
 export interface SlotOutcome {
   /** ISO date in America/Chicago — the day a reader would say this posted. */
   localDate: string;
@@ -526,31 +443,35 @@ export interface SlotOutcome {
   subjectId: SubjectId | null;
   subjectLabel: string | null;
   angle: Angle | null;
+  /** What kind of post this was. */
+  contentType: string | null;
+  /** The cadence tier it published under. */
+  tier: string | null;
+  /** The shape the writer chose. */
+  structure: string | null;
+  /** The record's short public key, for analytics. */
+  storyKey: string | null;
+  /** The clean canonical URL of the record. */
+  shareUrl: string | null;
   score: number | null;
   scoreExplain: string | null;
-  /** Coarse topic, recorded so same-day variety can be enforced tomorrow. */
   topicKey: string | null;
-  /** Topic family, recorded so tomorrow's rotation can read this week's feed. */
   topicFamily: string | null;
-  /** Content category, recorded so the mix can be measured over a fortnight. */
   category: ContentCategory | null;
-  /** 0-100 reader value, recorded so a silent slot can be explained later. */
   readerValue: number | null;
-  /** Which impact signals fired, and which weaknesses. Free text, for auditing. */
   readerValueExplain: string | null;
-  /** The editorial shape used. Recorded so treatment variety can be measured. */
   treatment: EditorialTreatment | null;
-  /** Base score minus the repetition penalties. What actually won the slot. */
   adjustedScore: number | null;
-  /** Which penalties applied, so a selection can be explained later. */
   rotationExplain: string | null;
   deepLink: string | null;
-  /** Candidates considered before one was chosen. For auditing selection. */
+  /** Candidates considered before one was chosen. */
   poolSize: number;
+  /** What the cadence policy decided, in words. */
+  cadenceExplain: string | null;
   validator: ValidationResult | null;
   dedupe: DedupeResult | null;
   usage: EngineUsage | null;
-  /** Every API request this slot made, in order. Empty when none was needed. */
+  /** Every API request this run made, in order. Empty when none was needed. */
   attempts: EngineAttempt[];
   platforms: PlatformOutcome[];
 }
@@ -559,12 +480,7 @@ export interface ValidationResult {
   ok: boolean;
   /** Empty when ok. Each string is a specific, actionable failure. */
   failures: string[];
-  /**
-   * Machine-readable code per failure, parallel to `failures`.
-   *
-   * What lets the runner tell a container defect from a claim defect, and so
-   * decide whether a second API call is justified at all. See FailureCode.
-   */
+  /** Machine-readable code per failure, parallel to `failures`. */
   codes: string[];
   /** Checks that ran and passed, so the ledger records what was verified. */
   checked: string[];

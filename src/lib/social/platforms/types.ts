@@ -9,6 +9,12 @@ export interface PublishResult {
    * stop publishing on the other.
    */
   credentialProblem: boolean;
+  /**
+   * What KIND of failure this was, when it failed. `credits` is the one that
+   * needs a human: X's pay-per-use API answered HTTP 402, and no retry helps
+   * until the balance is topped up. `rate_limit` is transient.
+   */
+  code?: "credential" | "credits" | "rate_limit" | "other";
   error: string | null;
   externalId: string | null;
   externalUrl: string | null;

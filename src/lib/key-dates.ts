@@ -47,14 +47,18 @@ export const KEY_DATES: KeyDate[] = [
     id: "h1b-registration",
     title: "H-1B electronic registration",
     detail:
-      "USCIS opens the H-1B cap registration window for about three weeks. Miss it and you wait a full year for the next lottery.",
+      "USCIS opens the H-1B cap registration window in early March for at least 14 calendar days — about two weeks. Miss it and you wait a full year for the next lottery.",
     month: 3,
     day: 1,
     approx: true,
     category: "h1b",
     personas: ["h1b-worker", "employer"],
     sourceName: "USCIS — H-1B cap season",
-    sourceUrl: "https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations/h-1b-electronic-registration-process",
+    // USCIS moved this page under /temporary-workers/ in 2026; the old address
+    // is a 404. scripts/check-sources.ts (npm run check:sources) fetches every
+    // source here on a weekly schedule so a dead link cannot persist unnoticed.
+    sourceUrl:
+      "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations/h-1b-electronic-registration-process",
     partnerIds: ["boundless", "attorney-match"],
   },
   {

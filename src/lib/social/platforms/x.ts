@@ -203,7 +203,35 @@ export class XPublisher implements Publisher {
       return {
         ok: false,
         credentialProblem: true,
+        code: "credential",
         error: `X rejected the credential (HTTP ${response.status}): ${summarize(body)}`,
+        externalId: null,
+        externalUrl: null,
+      };
+    }
+
+    // THE BALANCE, NOT THE CREDENTIAL. X's API is pay-per-use and answers 402
+    // "credits depleted" when the balance runs out — it did on 2026-08-10, and
+    // the first design filed it under a generic publish failure. Named here so
+    // the ledger, the preflight and the summary can say what actually happened
+    // and what to do about it, because no code change fixes an empty balance.
+    if (response.status === 402) {
+      return {
+        ok: false,
+        credentialProblem: false,
+        code: "credits",
+        error: `X API credits depleted (HTTP 402). Top up the pay-per-use balance in the X developer portal; nothing publishes until then. ${summarize(body)}`,
+        externalId: null,
+        externalUrl: null,
+      };
+    }
+
+    if (response.status === 429) {
+      return {
+        ok: false,
+        credentialProblem: false,
+        code: "rate_limit",
+        error: `X rate limit reached (HTTP 429). The next window will try again. ${summarize(body)}`,
         externalId: null,
         externalUrl: null,
       };
@@ -213,6 +241,7 @@ export class XPublisher implements Publisher {
       return {
         ok: false,
         credentialProblem: false,
+        code: "other",
         error: `X returned HTTP ${response.status}: ${summarize(body)}`,
         externalId: null,
         externalUrl: null,

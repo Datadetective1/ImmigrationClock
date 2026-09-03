@@ -31,7 +31,8 @@ import { checkSubject, checkWording } from "../src/lib/social/dedupe";
 import { validatePost } from "../src/lib/social/validate";
 import { PROMPT_VERSION } from "../src/lib/social/prompt";
 import { hashFacts } from "../src/lib/social/run";
-import { parsePostLedger, recentOpenings } from "../src/lib/social/ledger";
+import { parsePostLedger, recentOpenings, recentStructures } from "../src/lib/social/ledger";
+import type { Structure } from "../src/lib/social/content-types";
 import {
   approveEnvelope,
   buildApproval,
@@ -111,8 +112,8 @@ async function propose() {
   // Selection and subject dedupe, exactly as the unattended path runs them. A
   // proposal for a subject that is on cooldown would be a proposal that can
   // never be published.
-  const candidates = candidatesFor(slot, EVENT_INDEX, parts.date);
-  if (candidates.length === 0) fail(`Nothing in the ${slot.pool} pool clears the bar for ${parts.date}.`);
+  const candidates = candidatesFor(EVENT_INDEX, parts.date);
+  if (candidates.length === 0) fail(`Nothing clears the bar for ${parts.date}.`);
 
   let chosen: { candidate: (typeof candidates)[number]; angle: (typeof candidates)[number]["supportedAngles"][number]; platforms: Platform[] } | null = null;
   for (const candidate of candidates) {
@@ -139,7 +140,7 @@ async function propose() {
     }
     if (chosen) break;
   }
-  if (!chosen) fail(`Every candidate in the ${slot.pool} pool is on cooldown or already used.`);
+  if (!chosen) fail(`Every candidate is on cooldown or already used.`);
 
   const { candidate, angle } = chosen;
 
@@ -148,6 +149,11 @@ async function propose() {
     facts: candidate.facts,
     slot,
     angle,
+    contentType: candidate.contentType,
+    structures: candidate.structures,
+    recentStructures: recentStructures(ledger, "x", 6) as Structure[],
+    treatment: candidate.treatment,
+    readerValue: candidate.readerValue,
     avoidOpenings: recentOpenings(ledger, "x", 12),
   });
 
@@ -278,6 +284,7 @@ function render(
   console.log(line);
   console.log(`Subject : ${e.subjectLabel}`);
   console.log(`Id      : ${e.subjectId}`);
+  console.log(`Type    : ${e.contentType ?? "—"} · shape ${e.copy.structure ?? "—"}`);
   console.log(`Angle   : ${e.angle}`);
   console.log(`Score   : ${e.score}  (${e.scoreExplain})`);
   console.log(`Link    : ${e.deepLink}`);

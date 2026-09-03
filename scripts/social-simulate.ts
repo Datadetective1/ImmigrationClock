@@ -1,25 +1,33 @@
 // =============================================================================
-// scripts/social-simulate.ts — seven consecutive days, twenty-one slots
+// scripts/social-simulate.ts — days of windows, the real pipeline, no network
 //
-//   npm run social:simulate -- --from=2026-08-11 --days=7 \
-//       --engine=transcript --transcript=fixtures/social-transcript.json
+//   npm run social:simulate -- --from=2026-09-02 --days=7 --engine=stub
+//   npm run social:simulate -- --from=2026-09-02 --days=7 --engine=openai --ledger=src/lib/generated/social-posted.json
+//   npm run social:simulate -- --days=3 --engine=transcript --transcript=fixtures/social-transcript.json
 //
-// Runs the REAL pipeline — the same selection, scoring, angle choice, dedupe,
-// validator and ledger that production uses — over a simulated calendar, with
-// the ledger carried forward from slot to slot so cooldowns behave exactly as
-// they would in life.
+// Runs the REAL pipeline — selection, cadence, queue, rotation, dedupe,
+// validator and ledger — over a simulated calendar, three windows a day, with
+// the ledger and the queue carried forward from window to window so cooldowns
+// and the cadence policy behave exactly as they would in life.
 //
-// Nothing is published and no network call is made when the transcript engine is
-// used. `--emit-requests` writes out every fact set the engine was asked about,
-// which is how a transcript gets authored in the first place: run once, see what
-// the selector actually chose, write copy for those subjects, run again.
+// Nothing is published: runSlot() is called with `publishers: {}` and
+// `live: false`, so there is no client to publish through whatever the
+// environment says. With `--engine=stub` no network call is made either.
+//
+// THE STUB ENGINE
+// ---------------
+// Writes copy from the fact set in the shape it is offered, choosing the shape
+// the account used least recently. It is a planning tool for exercising the
+// deterministic layers — cadence, variety, the queue — on a machine with no
+// API key. It is not the voice, it lives in this script rather than in src/,
+// and it can never be reached from the production entry point.
 // =============================================================================
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { EVENT_INDEX } from "../src/lib/event-index";
 import { runSlot } from "../src/lib/social/run";
-import { SLOTS } from "../src/lib/social/slots";
+import { SLOTS, instantInWindow } from "../src/lib/social/slots";
 import { createCopyEngine } from "../src/lib/social/copy-engine";
 import {
   EMPTY_POST_LEDGER,
@@ -28,89 +36,26 @@ import {
   spendBySlot,
   type PostLedger,
 } from "../src/lib/social/ledger";
-import { similarity } from "../src/lib/social/dedupe";
-
+import { EMPTY_QUEUE, summarizeQueue, type EditorialQueue } from "../src/lib/social/queue";
+import { openingConstruction, similarity } from "../src/lib/social/dedupe";
+import { StubCopyEngine } from "../src/lib/social/providers/stub";
 import type { CopyEngine, CopyRequest, EngineResult, SlotOutcome } from "../src/lib/social/types";
+import type { IndexedEvent } from "../src/lib/event-index";
 
 function arg(name: string, fallback?: string): string | undefined {
   const hit = process.argv.find((a) => a.startsWith(`--${name}=`));
   return hit ? hit.split("=").slice(1).join("=") : fallback;
 }
 
-/**
- * PLAN ENGINE — mechanical placeholder copy, for discovering the slot sequence.
- *
- * Selection and cooldowns depend on what got published, and what gets published
- * depends on copy existing. That circularity makes the first pass useless: with
- * no copy, nothing publishes, no cooldown engages, and every day picks the same
- * subject.
- *
- * So this engine emits valid-but-obviously-placeholder copy assembled from the
- * fact set. Run once with it to learn which 21 subjects and angles the selector
- * actually reaches, write real copy for exactly those, then run again for real.
- * It is a planning tool and lives in this script rather than in src/ — it must
- * never be reachable from the production entry point.
- */
-class PlanCopyEngine implements CopyEngine {
-  readonly id = "plan:placeholder";
-
-  async generate(req: CopyRequest): Promise<EngineResult> {
-    const f = req.facts;
-    // The validator's framing rules apply to placeholder copy too — that is the
-    // point of them. Satisfying them here is what lets the plan pass reach the
-    // same publish/skip decisions the real copy will.
-    const kind = f.classification === "proposed_rule" ? "Proposed rule" : "Record";
-    const title = f.title.length > 120 ? `${f.title.slice(0, 117)}...` : f.title;
-
-    const x = `${kind}: ${title} — ${f.sourceName}. ${f.deepLink}`;
-
-    const body = [
-      `${kind}: ${title}`,
-      "",
-      f.summary,
-      "",
-      f.entities.length
-        ? `Recorded against: ${f.entities.join(", ")}.`
-        : `Published by ${f.sourceName}.`,
-      `Tracked by ImmigrationClock from ${f.sourceName}, with the underlying document linked in full.`,
-      "",
-      f.deepLink,
-    ].join("\n");
-
-    // Pad to the LinkedIn floor with neutral, grounded filler rather than
-    // letting a short placeholder fail for a reason the real copy will not.
-    const padded =
-      body.length >= 300
-        ? body
-        : body.replace(
-            f.deepLink,
-            `ImmigrationClock records changes like this one with their source, classification and date, so the original document is always one click away.\n\n${f.deepLink}`
-          );
-
-    return {
-      copy: { x: x.slice(0, 275), linkedin: padded, deepLink: f.deepLink },
-      usage: { model: this.id, inputTokens: 0, outputTokens: 0, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: null, costUsd: 0 },
-    };
-  }
-}
-
-/**
- * Wraps the real engine to capture every request.
- *
- * Recording on the way IN rather than on success means a slot whose copy does
- * not exist yet still tells you what it wanted — which is the whole point of the
- * first pass.
- */
+/** Wraps the real engine to capture every request. */
 class RecordingEngine implements CopyEngine {
   readonly id: string;
   readonly requests: { key: string; request: CopyRequest }[] = [];
-
   constructor(private readonly inner: CopyEngine) {
     this.id = inner.id;
   }
-
   async generate(req: CopyRequest): Promise<EngineResult> {
-    this.requests.push({ key: `${req.facts.subjectId}::${req.angle}`, request: req });
+    this.requests.push({ key: `${req.facts.subjectId}::${req.contentType ?? req.angle}`, request: req });
     return this.inner.generate(req);
   }
 }
@@ -120,82 +65,72 @@ async function main() {
   const days = Number(arg("days", "7"));
   const emitPath = arg("emit-requests");
   const outPath = arg("out");
+  const firingsPerWindow = Number(arg("firings", "1"));
+  // X only, by default: that is what production publishes to. Passing both
+  // platforms would let LinkedIn's empty history make subjects eligible that X
+  // cannot post, which is the ghost the live path no longer has.
+  const platforms = (arg("platforms", "x") as string).split(",").map((p) => p.trim()) as ("x" | "linkedin")[];
 
-  const provider = arg("engine", "transcript");
+  const provider = arg("engine", "stub");
   const inner =
-    provider === "plan"
-      ? new PlanCopyEngine()
+    provider === "stub"
+      ? new StubCopyEngine()
       : createCopyEngine({
           provider,
           transcriptPath: arg("transcript") ? resolve(arg("transcript") as string) : undefined,
         });
   const engine = new RecordingEngine(inner);
 
-  // START FROM REAL HISTORY WHEN ASKED.
-  //
-  // An empty ledger makes a one-day preview lie in the most flattering
-  // direction: every rotation penalty reads zero, because there is nothing to
-  // have repeated. Production reads the committed ledger and therefore knows
-  // that three subjects went out this week. `--ledger=` closes that gap, and the
-  // simulator still WRITES nothing — it carries its copy forward in memory.
+  let events: IndexedEvent[] = EVENT_INDEX;
+  const eventsPath = arg("events");
+  if (eventsPath) {
+    const parsed = JSON.parse(readFileSync(resolve(eventsPath), "utf8")) as { events: IndexedEvent[] } | IndexedEvent[];
+    events = Array.isArray(parsed) ? parsed : parsed.events;
+    console.log(`Archive from ${eventsPath}: ${events.length} event(s).\n`);
+  }
+
+  // START FROM REAL HISTORY WHEN ASKED. An empty ledger makes a preview lie in
+  // the most flattering direction: every rotation penalty reads zero.
   let ledger: PostLedger = EMPTY_POST_LEDGER;
   const ledgerPath = arg("ledger");
   if (ledgerPath) {
-    const raw = readFileSync(resolve(ledgerPath), "utf8");
-    const parsed = parsePostLedger(raw);
-    if (!parsed) {
-      throw new Error(`Ledger at ${ledgerPath} is unreadable — refusing to simulate against unknown history.`);
-    }
+    const parsed = parsePostLedger(readFileSync(resolve(ledgerPath), "utf8"));
+    if (!parsed) throw new Error(`Ledger at ${ledgerPath} is unreadable — refusing to simulate against unknown history.`);
     ledger = parsed;
     console.log(
-      `Starting from ${ledgerPath}: ${parsed.posts.length} row(s), ` +
-        `${publishedPosts(parsed).length} published. Rotation will see this history.
-`
+      `Starting from ${ledgerPath}: ${parsed.posts.length} row(s), ${publishedPosts(parsed).length} published. Rotation and cadence will see this history.\n`
     );
   }
+  let queue: EditorialQueue = EMPTY_QUEUE;
 
   const outcomes: SlotOutcome[] = [];
 
   for (let d = 0; d < days; d++) {
-    const date = new Date(Date.parse(`${from}T00:00:00Z`) + d * 86_400_000)
-      .toISOString()
-      .slice(0, 10);
+    const date = new Date(Date.parse(`${from}T00:00:00Z`) + d * 86_400_000).toISOString().slice(0, 10);
 
     for (const slot of SLOTS) {
-      // Noon UTC + the slot's Chicago hour lands the instant inside the right
-      // local day regardless of which offset is in force that week.
-      const at = new Date(`${date}T${String(slot.hour + 5).padStart(2, "0")}:05:00Z`);
+      for (let firing = 0; firing < firingsPerWindow; firing++) {
+        // Later firings land later in the window, the way a delayed cron does:
+        // one an hour, then the last hour repeating, minutes staggered.
+        const at = instantInWindow(date, slot, 5 + ((firing * 17) % 50), firing);
 
-      const result = await runSlot({
-        slot,
-        events: EVENT_INDEX,
-        ledger,
-        engine,
-        publishers: {},
-        now: at,
-        live: false,
-      });
+        const result = await runSlot({ slot, events, ledger, engine, publishers: {}, now: at, live: false, queue, platforms });
 
-      // CARRY THE LEDGER FORWARD AS IF IT HAD PUBLISHED.
-      //
-      // The dedupe queries only count decision === "POSTED", which is correct in
-      // production: a dry run must not consume a subject that a later live run
-      // should still be able to use. But inside a simulation it would mean no
-      // cooldown ever engages, every day picks the same top-scoring subject, and
-      // the whole exercise proves nothing. So the carried ledger promotes
-      // DRY_RUN to POSTED, while the outcome shown to the reader keeps saying
-      // DRY_RUN — which is what actually happened.
-      ledger = {
-        version: result.ledger.version,
-        posts: result.ledger.posts.map((p) =>
-          p.decision === "DRY_RUN" ? { ...p, decision: "POSTED" as const } : p
-        ),
-      };
-      outcomes.push(result.outcome);
+        // CARRY THE LEDGER FORWARD AS IF IT HAD PUBLISHED. The dedupe queries
+        // count only POSTED, which is right in production and would make a
+        // simulation prove nothing — so the carried ledger promotes DRY_RUN to
+        // POSTED, while the outcome shown to the reader keeps saying DRY_RUN.
+        ledger = {
+          version: result.ledger.version,
+          posts: result.ledger.posts.map((p) => (p.decision === "DRY_RUN" ? { ...p, decision: "POSTED" as const } : p)),
+        };
+        queue = result.queue;
+        outcomes.push(result.outcome);
+      }
     }
   }
 
-  render(outcomes, ledger);
+  render(outcomes, ledger, queue);
 
   if (emitPath) {
     mkdirSync(dirname(resolve(emitPath)), { recursive: true });
@@ -207,7 +142,8 @@ async function main() {
           requests: engine.requests.map(({ key, request }) => ({
             key,
             slot: request.slot.id,
-            angle: request.angle,
+            contentType: request.contentType,
+            structures: request.structures,
             facts: request.facts,
           })),
         },
@@ -221,23 +157,21 @@ async function main() {
 
   if (outPath) {
     mkdirSync(dirname(resolve(outPath)), { recursive: true });
-    writeFileSync(resolve(outPath), `${JSON.stringify({ outcomes, ledger }, null, 2)}\n`, "utf8");
+    writeFileSync(resolve(outPath), `${JSON.stringify({ outcomes, ledger, queue }, null, 2)}\n`, "utf8");
     console.log(`Wrote simulation detail → ${outPath}`);
   }
 }
 
 // -----------------------------------------------------------------------------
 
-function render(outcomes: SlotOutcome[], ledger: PostLedger) {
+function render(outcomes: SlotOutcome[], ledger: PostLedger, queue: EditorialQueue) {
   const rule = "═".repeat(78);
 
   for (const o of outcomes) {
     console.log(`\n${rule}`);
-    console.log(
-      `${o.localDate}  ${o.localTime} CT   ${o.slot.toUpperCase().padEnd(9)} pool=${o.pool}`
-    );
+    console.log(`${o.localDate}  ${o.localTime} CT   ${o.slot.toUpperCase().padEnd(9)}`);
     console.log(rule);
-
+    if (o.cadenceExplain) console.log(`Cadence        : ${o.cadenceExplain}`);
     console.log(`Candidate pool : ${o.poolSize} considered`);
 
     if (!o.subjectId) {
@@ -250,20 +184,14 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
 
     console.log(`Selected       : ${o.subjectLabel}`);
     console.log(`Subject id     : ${o.subjectId}`);
+    console.log(`Content type   : ${o.contentType} (${o.tier})`);
+    console.log(`Shape          : ${o.structure ?? "unspecified"}`);
     console.log(`Reader value   : ${o.readerValueExplain ?? "—"}`);
     console.log(`Category       : ${o.category ?? "—"}`);
-    console.log(`Treatment      : ${o.treatment ?? "—"}`);
-    console.log(`Angle          : ${o.angle}`);
     console.log(`Score          : ${o.score}   [${o.scoreExplain}]`);
-    console.log(`Destination    : ${o.deepLink}`);
+    console.log(`Share URL      : ${o.shareUrl}`);
     console.log(
-      `Validator      : ${
-        !o.validator
-          ? "— (never ran)"
-          : o.validator.ok
-            ? "PASS"
-            : `FAIL — ${o.validator.failures.join("; ")}`
-      }`
+      `Validator      : ${!o.validator ? "— (never ran)" : o.validator.ok ? "PASS" : `FAIL — ${o.validator.failures.join("; ")}`}`
     );
     console.log(
       `Dedupe         : ${o.dedupe ? `${o.dedupe.ok ? "distinct" : "BLOCKED"} (max sim ${o.dedupe.maxSimilarity.toFixed(2)})` : "n/a"}`
@@ -271,9 +199,7 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
 
     for (const p of o.platforms) {
       console.log(`\n  ${p.platform.toUpperCase()} → ${p.decision}`);
-      if (p.decision !== "DRY_RUN" && p.decision !== "POSTED") {
-        console.log(`  ${p.reason}`);
-      }
+      if (p.decision !== "DRY_RUN" && p.decision !== "POSTED") console.log(`  ${p.reason}`);
       if (p.text) {
         console.log("");
         console.log(p.text.split("\n").map((l) => `    ${l}`).join("\n"));
@@ -282,25 +208,50 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
     }
   }
 
+  // ---- THE FEED, AS A READER WOULD SEE IT ------------------------------------
+  const wouldPost = outcomes.filter((o) => o.platforms.some((p) => p.decision === "DRY_RUN" || p.decision === "POSTED"));
+  console.log(`\n\n${rule}`);
+  console.log("THE FEED — every X post in order, as a reader would scroll it");
+  console.log(rule);
+  for (const o of wouldPost) {
+    const x = o.platforms.find((p) => p.platform === "x")?.text;
+    if (!x) continue;
+    console.log(`\n[${o.localDate} ${o.slot} · ${o.contentType} · ${o.structure ?? "?"}]`);
+    console.log(x.split("\n").map((l) => `  ${l}`).join("\n"));
+  }
+
   // ---- summary --------------------------------------------------------------
   console.log(`\n\n${rule}`);
   console.log("SUMMARY");
   console.log(rule);
 
-  const slots = outcomes.length;
-  const wouldPost = outcomes.filter((o) =>
-    o.platforms.some((p) => p.decision === "DRY_RUN" || p.decision === "POSTED")
-  );
   const skipped = outcomes.filter((o) => !wouldPost.includes(o));
+  const daysSeen = new Set(outcomes.map((o) => o.localDate)).size || 1;
 
-  console.log(`Slots evaluated            : ${slots}`);
-  console.log(`Slots that would publish   : ${wouldPost.length}`);
-  console.log(`Slots skipped              : ${skipped.length}`);
+  console.log(`Windows evaluated          : ${outcomes.length} over ${daysSeen} day(s)`);
+  console.log(`Windows that would publish : ${wouldPost.length}  (${(wouldPost.length / daysSeen).toFixed(2)} posts/day)`);
+  console.log(`Windows skipped            : ${skipped.length}`);
 
-  const byPool: Record<string, number> = {};
-  for (const o of wouldPost) byPool[o.pool] = (byPool[o.pool] ?? 0) + 1;
-  console.log(`\nBy pool:`);
-  for (const [pool, n] of Object.entries(byPool)) console.log(`  ${pool.padEnd(10)} ${n}`);
+  const perDay = tally(wouldPost.map((o) => o.localDate));
+  const quietDays = daysSeen - Object.keys(perDay).length;
+  console.log(`Days with 0 / 1 / 2 / 3 posts: ${quietDays} / ${count(perDay, 1)} / ${count(perDay, 2)} / ${count(perDay, 3)}`);
+
+  console.log(`\nBy content type:`);
+  for (const [t, n] of Object.entries(tally(wouldPost.map((o) => o.contentType ?? "—"))).sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${t.padEnd(18)} ${n}`);
+  }
+
+  console.log(`\nBy shape:`);
+  for (const [t, n] of Object.entries(tally(wouldPost.map((o) => o.structure ?? "—"))).sort((a, b) => b[1] - a[1])) {
+    console.log(`  ${t.padEnd(18)} ${n}`);
+  }
+
+  const openings = tally(
+    wouldPost.map((o) => openingConstruction(o.platforms.find((p) => p.platform === "x")?.text ?? ""))
+  );
+  const repeatedOpenings = Object.entries(openings).filter(([k, n]) => k && n > 1);
+  console.log(`\nDistinct opening constructions: ${Object.keys(openings).length} of ${wouldPost.length}`);
+  for (const [k, n] of repeatedOpenings) console.log(`  "${k}…" × ${n}`);
 
   const skipReasons: Record<string, number> = {};
   for (const o of skipped) {
@@ -310,56 +261,19 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
   console.log(`\nSkip reasons:`);
   for (const [reason, n] of Object.entries(skipReasons)) console.log(`  ${reason.padEnd(32)} ${n}`);
 
-  // Repetition
   const subjects = wouldPost.map((o) => o.subjectId as string);
   const subjectCounts = tally(subjects);
   const repeatedSubjects = Object.entries(subjectCounts).filter(([, n]) => n > 1);
+  console.log(`\nDistinct subjects          : ${Object.keys(subjectCounts).length} of ${subjects.length}`);
+  for (const [s, n] of repeatedSubjects) console.log(`  ${s} × ${n}`);
 
   const urls = wouldPost.map((o) => o.deepLink as string);
   const urlCounts = tally(urls);
-  const repeatedUrls = Object.entries(urlCounts).filter(([, n]) => n > 1);
-
-  console.log(`\nDistinct subjects          : ${Object.keys(subjectCounts).length} of ${subjects.length}`);
-  console.log(`Subjects appearing twice+  : ${repeatedSubjects.length}`);
-  for (const [s, n] of repeatedSubjects) console.log(`  ${s} × ${n}`);
   console.log(`Distinct destinations      : ${Object.keys(urlCounts).length} of ${urls.length}`);
-  console.log(`Destinations reused        : ${repeatedUrls.length}`);
-  for (const [u, n] of repeatedUrls) console.log(`  ${u} × ${n}`);
 
-  // Treatment spread. A feed that only ever reaches for one shape is applying a
-  // template, which is the failure the treatments exist to prevent — and it is
-  // invisible unless it is counted.
-  const treatments = tally(wouldPost.map((o) => o.treatment ?? "—"));
-  console.log(`\nEditorial treatments used  : ${Object.keys(treatments).length}`);
-  for (const [t, n] of Object.entries(treatments).sort((a, b) => b[1] - a[1])) {
-    console.log(`  ${t.padEnd(26)} ${n}`);
-  }
-
-  const readerValues = wouldPost
-    .map((o) => o.readerValue)
-    .filter((v): v is number => typeof v === "number");
-  if (readerValues.length) {
-    const mean = readerValues.reduce((a, b) => a + b, 0) / readerValues.length;
-    console.log(
-      `\nReader value of published   : mean ${mean.toFixed(1)}/100 · ` +
-        `min ${Math.min(...readerValues)} · max ${Math.max(...readerValues)}`
-    );
-  }
-
-  const validationFailures = outcomes.filter((o) => o.validator && !o.validator.ok);
-  console.log(`\nValidation failures        : ${validationFailures.length}`);
-  for (const v of validationFailures) {
-    console.log(`  ${v.localDate} ${v.slot}: ${v.validator?.failures.join("; ")}`);
-  }
-
-  // Wording similarity across everything that would ship, per platform.
   for (const platform of ["x", "linkedin"] as const) {
-    const texts = wouldPost
-      .map((o) => o.platforms.find((p) => p.platform === platform)?.text)
-      .filter((t): t is string => Boolean(t));
-    let max = 0;
-    let sum = 0;
-    let pairs = 0;
+    const texts = wouldPost.map((o) => o.platforms.find((p) => p.platform === platform)?.text).filter((t): t is string => Boolean(t));
+    let max = 0, sum = 0, pairs = 0;
     for (let i = 0; i < texts.length; i++) {
       for (let j = i + 1; j < texts.length; j++) {
         const s = similarity(texts[i], texts[j]);
@@ -369,91 +283,27 @@ function render(outcomes: SlotOutcome[], ledger: PostLedger) {
       }
     }
     console.log(
-      `\n${platform.toUpperCase()} wording: ${texts.length} posts · mean pairwise similarity ${
-        pairs ? (sum / pairs).toFixed(3) : "n/a"
-      } · max ${max.toFixed(3)}`
+      `\n${platform.toUpperCase()} wording: ${texts.length} posts · mean pairwise similarity ${pairs ? (sum / pairs).toFixed(3) : "n/a"} · max ${max.toFixed(3)}`
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // API USAGE — measured, not estimated
-  //
-  // Every number below comes from the provider's own usage metadata, aggregated
-  // per slot from `attempts`. The previous version divided a row sum by two and
-  // called the result "engine calls", which counted SLOTS and was blind to
-  // retries — so a slot that regenerated billed twice and reported once.
-  // ---------------------------------------------------------------------------
+  const q = summarizeQueue(queue);
+  console.log(`\nQueue at the end: ${queue.items.length} item(s) — ready ${q.ready}, scheduled ${q.scheduled}, verified ${q.verified}, published ${q.published}, rejected ${q.rejected}, superseded ${q.superseded}`);
+
   const spend = spendBySlot(ledger);
-
-  if (spend.length === 0) {
-    console.log(`\n${rule}`);
-    console.log("API USAGE");
-    console.log(rule);
-    console.log("No API attempts recorded — this run used the transcript engine.");
-  } else {
-    const sum = (f: (s: (typeof spend)[number]) => number) => spend.reduce((n, x) => n + f(x), 0);
-
-    const apiCalls = sum((s) => s.apiCalls);
-    const retries = sum((s) => s.retries);
-    const inTok = sum((s) => s.inputTokens);
-    const cachedIn = sum((s) => s.cachedInputTokens);
-    const outTok = sum((s) => s.outputTokens);
-    const reasoning = sum((s) => s.reasoningTokens);
-    const total = sum((s) => s.costUsd);
-    const days = new Set(spend.map((s) => s.localDate)).size || 1;
-
-    const pct = (part: number, whole: number) => (whole ? ((part / whole) * 100).toFixed(1) : "0.0");
-
-    console.log(`\n${rule}`);
-    console.log("API USAGE — from the provider's own metadata");
-    console.log(rule);
-
-    console.log("\n1. API calls by slot");
-    for (const s of spend) {
-      console.log(`   ${s.localDate} ${s.slot.padEnd(10)} ${s.apiCalls} call(s)   ${(s.durationMs / 1000).toFixed(1)}s`);
-    }
-    console.log(`   ${"TOTAL".padEnd(21)} ${apiCalls} call(s)`);
-
-    console.log("\n2. Retries by slot");
-    for (const s of spend) {
-      console.log(
-        `   ${s.localDate} ${s.slot.padEnd(10)} ${s.retries}` +
-          (s.retries ? "   ← a rejected attempt was billed and discarded" : "")
-      );
-    }
-    console.log(`   ${"TOTAL".padEnd(21)} ${retries}`);
-
-    console.log(`\n3.  Input tokens              : ${inTok.toLocaleString()}`);
-    console.log(`4.  Cached input tokens       : ${cachedIn.toLocaleString()}`);
-    console.log(`5.  Uncached input tokens     : ${(inTok - cachedIn).toLocaleString()}`);
-    console.log(`6.  Reasoning tokens          : ${reasoning.toLocaleString()}`);
-    console.log(`7.  Non-reasoning output      : ${(outTok - reasoning).toLocaleString()}   (the visible posts)`);
-    console.log(`8.  Total billed tokens       : ${(inTok + outTok).toLocaleString()}`);
-
-    console.log("\n9.  Estimated cost per slot");
-    for (const s of spend) {
-      console.log(`    ${s.localDate} ${s.slot.padEnd(10)} $${s.costUsd.toFixed(4)}`);
-    }
-
-    console.log(`\n10. Total for this run        : $${total.toFixed(4)} over ${days} day(s)`);
-    console.log(`11. Projected 30-day cost     : $${((total / days) * 30).toFixed(2)}`);
-    console.log(`12. Output that is reasoning  : ${pct(reasoning, outTok)}%`);
-    console.log(`13. Input served from cache   : ${pct(cachedIn, inTok)}%`);
-
-    console.log(
-      `\nReasoning is a SUBSET of output tokens, not an addition, and is billed at
-` +
-        `the full output rate. Cached input is a subset of input tokens and is billed
-` +
-        `at a discount the figures above do NOT apply — treat the cost as an upper bound.`
-    );
-  }
+  const apiCalls = spend.reduce((n, s) => n + s.apiCalls, 0);
+  const cost = spend.reduce((n, s) => n + s.costUsd, 0);
+  console.log(`API calls: ${apiCalls} · recorded cost $${cost.toFixed(4)} (zero for the stub and transcript engines)`);
 }
 
 function tally(values: string[]): Record<string, number> {
   const out: Record<string, number> = {};
   for (const v of values) out[v] = (out[v] ?? 0) + 1;
   return out;
+}
+
+function count(perDay: Record<string, number>, n: number): number {
+  return Object.values(perDay).filter((v) => v === n).length;
 }
 
 main().catch((err) => {

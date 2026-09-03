@@ -8,8 +8,8 @@
 //   x + li:   'Attributes this to "state department", which does not appear
 //              in the source material'
 //
-// Both rejections were correct and neither is fixed by touching the validator.
-// They are generation-layer problems:
+// Both rejections were correct at the time and neither was fixed by touching
+// the validator. They were generation-layer problems:
 //
 //   • "at most 275" is a cliff, and a model writing to a cliff lands past it.
 //   • The fact set names its source "U.S. Dept. of State — DV Program", which
@@ -17,10 +17,16 @@
 //     from general knowledge — true of the world, absent from the closed world —
 //     because nothing had told it which attributions were actually available.
 //
+// One of the two has since been re-measured rather than relaxed. X counts every
+// link as a fixed 23-character t.co token, so the 286-character post was 271 as
+// X counts it, and the validator's eighth revision counts the way X does. The
+// attribution failure stands exactly as it was. And the fact set now hands the
+// writer a TRACKED destination, so the same post fails on destination instead.
+//
 // This file has two jobs. The FIRST half pins the validator's behaviour on the
 // exact strings that failed, so the checks can never be quietly loosened to make
-// this candidate pass. The SECOND half asserts the prompt now tells the model
-// what it needs to know to avoid producing them.
+// this candidate pass. The SECOND half asserts the prompt tells the model what
+// it needs to know to avoid producing them.
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
@@ -28,14 +34,20 @@ import {
   buildUserPrompt,
   PROMPT_VERSION,
   X_SAFETY_MARGIN,
+  X_TARGET_MAX,
+  X_TARGET_MIN,
   xBudget,
 } from "@/lib/social/prompt";
 import {
+  AGENCY_DISPLAY,
   LIMITS,
+  X_URL_WEIGHT,
   permittedAgencies,
   attributionCorpus,
+  AGENCY_ALIASES,
   ATTRIBUTABLE_AGENCIES,
   validatePost,
+  xWeightedLength,
 } from "@/lib/social/validate";
 import { buildKeyDateFacts, buildEventFacts } from "@/lib/social/facts";
 import { KEY_DATES } from "@/lib/key-dates";
@@ -73,11 +85,43 @@ const FAILING_LINKEDIN = [
 describe("regression: the copy that failed on 2026-08-09 still fails", () => {
   const facts = dvFacts();
 
-  it("rejects the X variant for length, at the length it actually was", () => {
+  it("is 286 characters as written and 271 as X counts it — inside the limit now", () => {
+    // The re-measurement, stated. The literal string is unchanged; what changed
+    // is that the validator counts the 38-character link as X's 23.
     expect(FAILING_X.trim().length).toBe(286);
+    expect(xWeightedLength(FAILING_X)).toBe(286 - "https://immigrationclock.com/key-dates".length + X_URL_WEIGHT);
+    expect(xWeightedLength(FAILING_X)).toBe(271);
     const result = validatePost(FAILING_X, "x", facts);
     expect(result.ok).toBe(false);
-    expect(result.failures).toContain(`Too long for x: 286 chars (max ${LIMITS.x.maxChars})`);
+    expect(result.codes).not.toContain("length-max");
+  });
+
+  it("still rejects a post that is over the limit AS X COUNTS IT, and says how it counted", () => {
+    const over = FAILING_X.replace("It is free, and it", "Registration is free of charge, and it");
+    const measured = xWeightedLength(over);
+    expect(measured).toBeGreaterThan(LIMITS.x.maxChars);
+    const result = validatePost(over, "x", facts);
+    expect(result.codes).toContain("length-max");
+    expect(result.failures).toContain(
+      `Too long for x: ${measured} chars as x counts them (max ${LIMITS.x.maxChars}; each URL counts as ${X_URL_WEIGHT})`
+    );
+  });
+
+  it("rejects the same copy for its destination — the clean URL is not the tracked one", () => {
+    // The post must carry the attribution parameters. The clean canonical URL
+    // stays on the whitelist so this is a wrong-destination failure rather than
+    // an off-site link, but it is still a failure.
+    for (const [platform, text] of [
+      ["x", FAILING_X],
+      ["linkedin", FAILING_LINKEDIN],
+    ] as const) {
+      const result = validatePost(text, platform, facts);
+      expect(result.codes, platform).toContain("wrong-destination");
+      expect(result.codes, platform).not.toContain("url-not-whitelisted");
+    }
+    expect(facts.allowedUrls).toContain("https://immigrationclock.com/key-dates");
+    expect(facts.deepLink).not.toBe("https://immigrationclock.com/key-dates");
+    expect(facts.deepLink.startsWith("https://immigrationclock.com/key-dates?")).toBe(true);
   });
 
   it("rejects both variants for the unsupported State Department attribution", () => {
@@ -93,24 +137,24 @@ describe("regression: the copy that failed on 2026-08-09 still fails", () => {
     }
   });
 
-  it("still rejects the attribution after the length is fixed", () => {
-    // Proves the two failures are independent. Trimming to fit does not make the
-    // attribution available, and a fix that only shortened the copy would ship
-    // an unsupported claim.
-    const shortened =
-      "Diversity Visa registration opens for roughly one month each fall. It is free and needs no employer or family sponsor. The State Department sets the exact window each year. https://immigrationclock.com/key-dates";
-    expect(shortened.length).toBeLessThanOrEqual(LIMITS.x.maxChars);
+  it("still rejects the attribution after the length and the destination are fixed", () => {
+    // Proves the failures are independent. Trimming to fit and linking to the
+    // right place does not make the attribution available, and a fix that only
+    // did those would ship an unsupported claim.
+    const shortened = `Diversity Visa registration opens for roughly one month each fall. It is free and needs no employer or family sponsor. The State Department sets the exact window each year. ${facts.deepLink}`;
+    expect(xWeightedLength(shortened)).toBeLessThanOrEqual(LIMITS.x.maxChars);
     const result = validatePost(shortened, "x", facts);
     expect(result.ok).toBe(false);
+    expect(result.codes).toEqual(["attribution-unsupported"]);
     expect(result.failures.join(" ")).toMatch(/state department/i);
   });
 
   it("accepts the same post written without the unsupported attribution", () => {
     // The wording the prompt now steers toward: neutral, and grounded in the
     // fact set's own phrasing rather than in what the model knows.
-    const neutral =
-      "Diversity Visa registration opens for about one month in the fall. It is free and needs no employer or family sponsor. The exact window is set by the agency each year, so our date is approximate. https://immigrationclock.com/key-dates";
-    expect(neutral.length).toBeLessThanOrEqual(LIMITS.x.maxChars);
+    const neutral = `Diversity Visa registration opens for about one month in the fall. It is free and needs no employer or family sponsor. The exact window is set by the agency each year, so our date is approximate. ${facts.deepLink}`;
+    expect(neutral.length).toBeGreaterThan(LIMITS.x.maxChars); // literally, because the tracked URL is long…
+    expect(xWeightedLength(neutral)).toBeLessThanOrEqual(LIMITS.x.maxChars); // …and inside as X counts
     expect(validatePost(neutral, "x", facts).failures).toEqual([]);
   });
 
@@ -140,7 +184,7 @@ describe("the prompt states which attributions are available", () => {
   it("names the specific wrong answer the model reached for", () => {
     // Naming it is the point. A generic "do not attribute" instruction did not
     // stop this, because the model did not believe it was inventing anything.
-    expect(ask(dvFacts())).toContain('Do not write "State Department"');
+    expect(ask(dvFacts())).toContain('Do not write "the State Department"');
   });
 
   it("offers concrete neutral wording instead of only a prohibition", () => {
@@ -150,10 +194,11 @@ describe("the prompt states which attributions are available", () => {
   });
 
   it("says that certainty about the responsible agency is not permission", () => {
-    expect(ask(dvFacts())).toMatch(/even if you are certain which agency is responsible/);
+    expect(ask(dvFacts())).toMatch(/however certain you are/);
+    expect(ask(dvFacts())).toMatch(/that certainty comes from your own knowledge, not from this fact set/);
   });
 
-  it("lists the agencies when the fact set does support them", () => {
+  it("lists the agencies when the fact set does support them, as a person writes them", () => {
     const event: IndexedEvent = {
       id: "federal_register:2026-1",
       title: "Fee Adjustment for Certain Immigration Benefit Requests",
@@ -178,8 +223,13 @@ describe("the prompt states which attributions are available", () => {
       angle: "breaking_change",
       avoidOpenings: [],
     });
-    expect(prompt).toContain("These agency names, which the fact set does support");
-    expect(prompt).toContain("uscis");
+    const line = prompt.split("\n").find((l) => l.startsWith("- These agencies, written exactly like this:"))!;
+    expect(line).toBeDefined();
+    // Display case, not the lowercase match strings the validator compares on.
+    // The first design showed "uscis" and the model wrote "dhs's final rule".
+    expect(line).toContain(AGENCY_DISPLAY.uscis);
+    expect(line).toContain(AGENCY_DISPLAY["federal register"]);
+    expect(line).not.toMatch(/\buscis\b/);
     expect(prompt).not.toContain("No agency short name is available");
   });
 
@@ -189,56 +239,77 @@ describe("the prompt states which attributions are available", () => {
     // exactly how a false permission would be introduced.
     const facts = dvFacts();
     const prompt = ask(facts);
+    expect(prompt).not.toContain("These agencies, written exactly like this");
     for (const agency of ATTRIBUTABLE_AGENCIES) {
       if (permittedAgencies(facts).includes(agency)) continue;
-      const advertised = prompt.includes(
-        `These agency names, which the fact set does support: ${agency}`
-      );
-      expect(advertised, agency).toBe(false);
+      const display = AGENCY_DISPLAY[agency] ?? agency;
+      expect(prompt.includes(`written exactly like this: ${display}`), agency).toBe(false);
     }
   });
 });
 
-describe("the X budget is computed from the real URL, not guessed", () => {
-  // THE 333-CHARACTER FAILURE, PINNED.
+describe("the X budget is counted the way X counts", () => {
+  // THE 333-CHARACTER FAILURE, PINNED — AND THE TELEGRAM THAT FOLLOWED IT.
   //
-  // The prompt used to carry `const LINK_BUDGET = 45` and tell the model the
-  // sentence had "about 215 to work with". Forty-five was never measured: real
-  // destinations run 36 to 101 characters, because /what-changed?q=… deep links
-  // carry four percent-encoded title words. On a subject whose URL was 86, a
-  // model that obeyed the instruction perfectly would still have produced
-  // 215 + 1 + 86 = 302 characters against a 275 limit.
+  // The prompt once carried `const LINK_BUDGET = 45` and told the model it had
+  // "about 215 to work with"; on an 86-character URL a perfectly obedient
+  // model produced 302 characters against a 275 limit. The next fix computed
+  // the budget from the literal URL, which was right about the arithmetic and
+  // wrong about the platform: X wraps every link in a fixed-width t.co token.
+  // Counting a 101-character link at its literal length left the writer about
+  // 150 characters of prose, and the live account read like a telegram.
   //
-  // So these tests assert ARITHMETIC rather than wording: the budget must be
-  // derived from the actual link, and the derivation must leave the complete
-  // post inside the validator's limit for every destination in the catalogue.
+  // So these tests assert ARITHMETIC rather than wording: the budget is derived
+  // from X's link weight, is independent of the URL's literal length, and
+  // leaves the complete post inside the validator's limit as X measures it.
   const slot = SLOT_BY_ID.get("evening")!;
   const facts = dvFacts();
   const prompt = buildUserPrompt({ facts, slot, angle: "deadline_approaching", avoidOpenings: [] });
 
-  it("subtracts the exact URL length, not an assumed one", () => {
+  it("charges the t.co width for the link, not its literal length", () => {
     const b = xBudget(facts);
-    expect(b.linkChars).toBe(facts.deepLink.length);
-    expect(b.reservedChars).toBe(facts.deepLink.length + 1);
+    expect(b.linkChars).toBe(X_URL_WEIGHT);
+    expect(b.reservedChars).toBe(X_URL_WEIGHT + 1);
+    expect(facts.deepLink.length).toBeGreaterThan(X_URL_WEIGHT);
+  });
+
+  it("does not move with the URL", () => {
+    const short = xBudget({ ...facts, deepLink: "https://immigrationclock.com/key-dates" });
+    const long = xBudget({
+      ...facts,
+      deepLink: "https://immigrationclock.com/what-changed?q=establishing%20fixed%20admission%20nonimmigrant%20students",
+    });
+    expect(short).toEqual(long);
+    expect(short).toEqual(xBudget(facts));
+  });
+
+  it("gives the writer a real band, not a telegram", () => {
+    const b = xBudget(facts);
+    expect(b.proseMax).toBe(X_TARGET_MAX);
+    expect(b.proseMin).toBe(X_TARGET_MIN);
+    expect(b.proseMax).toBeGreaterThanOrEqual(220);
+    expect(b.proseMin).toBeGreaterThanOrEqual(150);
+    expect(b.proseMin).toBeLessThan(b.proseMax);
   });
 
   it("leaves the complete post inside the validator's limit, with margin", () => {
     const b = xBudget(facts);
-    expect(b.proseMax + b.reservedChars).toBe(LIMITS.x.maxChars - X_SAFETY_MARGIN);
-    expect(b.proseMax + b.reservedChars).toBeLessThan(LIMITS.x.maxChars);
+    expect(b.hardTotal).toBe(LIMITS.x.maxChars);
+    expect(b.proseMax + b.reservedChars + X_SAFETY_MARGIN).toBeLessThanOrEqual(LIMITS.x.maxChars);
   });
 
   it("holds for EVERY destination the catalogue can produce, including the longest", () => {
-    // The regression in one assertion. A 101-character URL is the worst case in
-    // the live catalogue; the old fixed budget failed it by 42 characters.
+    // A 150-character tracked URL is the worst case now; the old literal
+    // budget would have left it a hundred characters of prose.
     for (const link of [
       "https://immigrationclock.com/key-dates",
       "https://immigrationclock.com/what-changed?q=public%20charge%20ground%20inadmissibility",
       "https://immigrationclock.com/what-changed?q=establishing%20fixed%20admission%20nonimmigrant%20students",
+      facts.deepLink,
     ]) {
-      const b = xBudget({ ...facts, deepLink: link } as typeof facts);
-      const worstCasePost = "x".repeat(b.proseMax) + " " + link;
-      expect(worstCasePost.length, link).toBeLessThanOrEqual(LIMITS.x.maxChars);
+      const b = xBudget({ ...facts, deepLink: link });
+      const worstCasePost = "x".repeat(b.proseMax) + "\n" + link;
+      expect(xWeightedLength(worstCasePost), link).toBeLessThanOrEqual(LIMITS.x.maxChars);
       expect(b.proseMax, link).toBeGreaterThan(LIMITS.x.minChars);
     }
   });
@@ -248,38 +319,57 @@ describe("the X budget is computed from the real URL, not guessed", () => {
     expect(prompt).toContain(String(b.hardTotal));
     expect(prompt).toContain(String(b.proseMax));
     expect(prompt).toContain(String(b.linkChars));
+    expect(prompt).toMatch(new RegExp(`Write between ${b.proseMin} and ${b.proseMax} characters of prose`));
   });
 
-  it("tells the model the URL is counted at full literal length", () => {
-    expect(prompt).toMatch(/NOT counted as 23 characters/);
-    expect(prompt).toMatch(/full literal length/i);
+  it("tells the model the URL is counted the way X counts it", () => {
+    expect(prompt).toMatch(/X counts any link as 23 characters/);
+    expect(prompt).toContain("THE BUDGET, IN CHARACTERS AS X COUNTS THEM");
   });
 
   it("says what happens at the limit rather than only naming it", () => {
-    expect(prompt).toMatch(/fails and the slot publishes nothing/i);
+    expect(prompt).toMatch(/One over and the post is refused/);
   });
 
   it("names what may never be cut to make room", () => {
     // The failure mode a character budget invites: shortening by deleting the
     // effective date, which is the most useful fact in the post.
-    expect(prompt).toMatch(/Never drop the effective date/i);
+    expect(prompt).toMatch(/Never drop the effective date, the stage word, the subject or the link/);
   });
 
   it("is recorded as a new prompt version, so ledger rows are traceable", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/8");
+    expect(PROMPT_VERSION).toBe("social-prompt/9");
   });
 });
-
 
 describe("nothing else was relaxed", () => {
   it("the X limit is unchanged", () => {
     expect(LIMITS.x.maxChars).toBe(275);
   });
 
-  it("the attribution list is unchanged", () => {
+  it("every attribution the old list policed is still policed, as an alias of a group", () => {
+    // The flat list became alias groups so that "the Department of Homeland
+    // Security" is judged like "DHS". Nothing the old list caught is released.
+    const aliases = Object.values(AGENCY_ALIASES).flat();
+    for (const old of [
+      "uscis", "dhs", "cbp", "ice", "state department", "department of state", "department of labor", "dol",
+      "eoir", "justice department", "department of justice", "federal register", "supreme court", "congress", "irs",
+    ]) {
+      expect(aliases, old).toContain(old);
+    }
     expect(ATTRIBUTABLE_AGENCIES).toContain("state department");
-    expect(ATTRIBUTABLE_AGENCIES).toContain("department of state");
-    expect(ATTRIBUTABLE_AGENCIES.length).toBe(15);
+    expect(ATTRIBUTABLE_AGENCIES).toEqual(Object.keys(AGENCY_ALIASES));
+    // The spelled-out forms the denylist let through are now judged too.
+    for (const spelled of ["department of homeland security", "labor department", "customs and border protection", "immigration and customs enforcement", "trump administration"]) {
+      expect(aliases, spelled).toContain(spelled);
+    }
+  });
+
+  it("every attributable agency has a display form", () => {
+    for (const agency of ATTRIBUTABLE_AGENCIES) {
+      expect(AGENCY_DISPLAY[agency], agency).toBeTruthy();
+      expect(AGENCY_DISPLAY[agency].toLowerCase(), agency).toContain(agency.split(" ").pop()!);
+    }
   });
 
   it("figure grounding, quotations and URLs still bite on this fact set", () => {

@@ -1,26 +1,56 @@
 // =============================================================================
 // THE PROMPT — versioned, and narrower than it looks
 //
-// The copy engine's job is WORDING. Selection, scoring, angle, destination and
-// dedupe are all decided before this prompt is built; validation happens after
-// it returns. What the model contributes is the sentence, and nothing else.
+// The copy engine's job is WORDING. Selection, content type, shape, destination
+// and dedupe are all decided before this prompt is built; validation happens
+// after it returns. What the model contributes is the sentence, and nothing
+// else. It is never asked to decide a fact.
 //
-// The version string is recorded in the ledger beside every post, so a change in
-// the feed's voice can be traced to a change in this file rather than guessed at.
-// Bump it whenever the text below changes.
+// The version string is recorded in the ledger beside every post, so a change
+// in the feed's voice can be traced to a change in this file rather than
+// guessed at. Bump it whenever the text below changes.
 //
-// A NOTE ON WHAT IS *NOT* IN HERE
-// -------------------------------
-// There is no "double-check your work before answering", no "think carefully",
-// no worked examples, and no restatement of rules the validator enforces
-// mechanically. Verification scaffolding makes current models verbose without
-// making them more accurate, and every rule stated here that is ALSO checked in
-// validate.ts is stated once, briefly, because the check is what makes it true.
-// The prompt's job is to make good output likely; the validator's job is to make
-// bad output unpublishable.
+// WHY v9 IS A REWRITE AND NOT A PATCH
+// -----------------------------------
+// Twenty-two published posts were read back from the ledger. Nine opened
+// "[Subject]: [agency] [verb]…". Eight carried "no implementation date is
+// recorded/set/posted". Five wrote an agency in lowercase ("dhs's final rule")
+// because the permitted-attribution list showed the lowercase match strings.
+// Dates appeared as "2026-09-18" because that is how the fact set showed them.
+// And every post was compressed to roughly 150 characters of prose because the
+// budget counted an 86-character URL at its literal length.
+//
+// None of that was the model's taste. It was the instructions. So v9 changes
+// the instructions:
+//
+//   • A VOICE, stated once: clear, curious, precise, calm, useful, human,
+//     data-literate. Not bureaucratic, not sensational, not a press release.
+//   • SHAPES, enumerated per content type (content-types.ts). The writer is
+//     offered the shapes that fit these facts, told which ones the account used
+//     most recently, chooses one, and reports it. Chosen, never rotated.
+//   • DATES IN WORDS, agencies as a person writes them, and a prose budget that
+//     counts a URL the way X does.
+//   • IMPLICATIONS the record supports, derived from its own fields, as the
+//     only "why it matters" the writer may state.
+//   • The mandatory "no implementation date" sentence is gone. Timing is still
+//     the point, and a future effective date is still required by the
+//     validator; the ABSENCE of one is now something the writer may mention,
+//     in plain words, and need not.
 // =============================================================================
 
-import { ANGLE_LABEL, type Angle, type CopyRequest, type FactSet } from "./types";
+import {
+  ANGLE_LABEL,
+  type Angle,
+  type CopyRequest,
+  type FactSet,
+} from "./types";
+import {
+  CONTENT_TYPE_LABEL,
+  STRUCTURE_BRIEF,
+  STRUCTURE_LABEL,
+  type ContentType,
+  type Structure,
+} from "./content-types";
 import {
   TREATMENT_BRIEF,
   TREATMENT_LABEL,
@@ -29,317 +59,133 @@ import {
   type ReaderValue,
 } from "./reader-value";
 import {
+  AGENCY_DISPLAY,
   BREAKING_MAX_AGE_DAYS,
-  describesAProposal,
   LIMITS,
   OPENING_CHARS,
+  X_URL_WEIGHT,
+  describesAProposal,
   permittedAgencies,
   subjectAnchors,
 } from "./validate";
+import { longDate } from "./implications";
 
-/**
- * v2 renders `dataPoints` and makes the data-insight brief conditional on
- * whether any exist. Before it, the evening slot was told it had no figures
- * whether or not that was true, which is why its posts described pages.
- *
- * v3 answers the first real Anthropic proposal, which failed on both of the two
- * things this file can influence and the validator cannot fix:
- *
- *   • X came back at 286 characters against a 275 limit. "At most 275" is a
- *     cliff, and a model writing to a cliff lands on the wrong side of it often
- *     enough to matter. v3 asks for a 240–260 band instead, so the limit has
- *     margin rather than being the target.
- *   • Both variants wrote "State Department" for a subject whose fact set says
- *     "U.S. Dept. of State — DV Program". That attribution is real-world true
- *     and unsupported by the closed world, which is exactly the failure the
- *     validator exists to catch — but the model had no way to know which
- *     attributions were available. v3 computes and states them.
- *
- * v4 gives the account its subject. The copy was accurate and could have come
- * from any immigration news feed, because nothing told the model what
- * ImmigrationClock is FOR: the time dimension — when a change bites, which
- * window is open, what is still ahead. v4 states that, gives it a shape
- * (what changed -> when it matters -> who should pay attention -> what happens
- * next), and renders an explicit TIMING block so an ABSENT date is as visible
- * as a present one.
- */
-/**
- * v5 is the cold-reader version, and it exists because of one published post:
- *
- *     "No implementation date has been set; ImmigrationClock labels each
- *      figure's derivation and period completeness, publishes source limits,
- *      and does not collect profiles, tracking, or identifying personal data."
- *
- * Every clause of that is true and the post is still a failure, because a reader
- * scrolling past it cannot tell what it is about. It opens on the ABSENCE of a
- * date for a subject that was never on a calendar — a methodology page — and
- * names its topic nowhere.
- *
- * Two things in this file produced it, and both are fixed here rather than
- * papered over with a "be clearer" instruction:
- *
- *   • renderTiming() emitted "NO effective or implementation date is recorded.
- *     State that plainly" for EVERY subject. That line is exactly right for a
- *     federal document whose start date has not been set, and meaningless for a
- *     page explaining how we classify data. It now branches on subjectKind, and
- *     a resource is never asked about its implementation date.
- *
- *   • Nothing required the post to identify its own subject. The COLD READER
- *     TEST below states that requirement, and validate.ts v4 enforces it — a
- *     post whose opening names nothing from its own fact set is rejected.
- */
-/**
- * v6 states the item's AGE and, past two days, says plainly that it is not
- * breaking news. The news pool now retains items for five days; the model has no
- * clock, so without this a four-day-old rule looked exactly like one that landed
- * an hour ago, and "just announced" is the natural thing to write about
- * something handed to you as news.
- */
-/**
- * v7 replaces the guessed link budget with a computed one, and turns the second
- * attempt into a repair.
- *
- * A whole-day dry run against the real model skipped the afternoon slot on a
- * 333-character X post. The cause was in this file: `LINK_BUDGET = 45` was never
- * measured, real destinations run 36 to 101 characters, and the model was told
- * it had 215 characters of prose for a subject whose URL alone was 86. A
- * perfectly obedient model would have produced 302 and failed too.
- */
-/**
- * v8 makes the first sentence answer "why should someone care?".
- *
- * v7 produced copy that was accurate, grounded, correctly timed — and shaped
- * like a database row:
- *
- *     "USCIS Policy Manual update on investigations and examinations for
- *      naturalization eligibility."
- *
- * Every gate passed it. It names its subject, carries no invented figure, states
- * the right stage. It also gives nobody a reason to read the second half, because
- * it opens on the DOCUMENT GENRE — "Policy Manual update" — rather than on the
- * person the document reaches. The version that works opens on the reader:
- *
- *     "Applying for U.S. citizenship? USCIS just changed part of its guidance on
- *      investigations and examinations used in naturalization eligibility
- *      reviews."
- *
- * Same facts, same stage, same grounding. Three things in this file changed to
- * make the second one the likely output rather than the lucky one:
- *
- *   • THE FIRST SENTENCE has its own section in the system prompt, with that
- *     exact pair as the worked example, and with the four things it must not
- *     become — clickbait, exaggeration, manufactured urgency, false breaking.
- *   • AN EDITORIAL TREATMENT is chosen from the facts (reader-value.ts) and
- *     rendered as its own brief. Five shapes, selected by what the subject IS,
- *     never rotated: a subject with a date in play is a DEADLINE post, and a
- *     court ruling is never handed a countdown voice.
- *   • WHY A READER WOULD CARE is computed deterministically and rendered. Not new
- *     facts — each line says the fact set's own language covers money, or work,
- *     or eligibility — so it points the model at the sentence it should be
- *     writing without giving it anything to fabricate.
- *
- * v8 also names the opening CONSTRUCTIONS the account has already leaned on.
- * Showing recent openings (v3) turned out to be a weak instrument: a model
- * obliges by changing the nouns and keeping the frame, because the frame is not
- * what it was shown. dedupe.ts now measures the frame and refuses a third use;
- * this states it up front so the refusal is followable.
- */
-export const PROMPT_VERSION = "social-prompt/8";
+export const PROMPT_VERSION = "social-prompt/9";
 
-/**
- * The band X copy should land in.
- *
- * Below the 275 limit by design. A model asked for "at most 275" writes to 275
- * and overshoots; the first real proposal came back at 286. Asking for 240–260
- * turns the limit into margin, and the cost of that margin is ~15 characters on
- * a platform where terse is better anyway.
- */
-export const X_TARGET_MIN = 240;
-export const X_TARGET_MAX = 260;
+// -----------------------------------------------------------------------------
+// THE X BUDGET — counted the way X counts
+// -----------------------------------------------------------------------------
 
-/**
- * Headroom kept below the hard limit, in characters.
- *
- * A model writing to a cliff lands on the wrong side of it often enough to
- * matter. This is the margin that turns the limit into a target — and unlike the
- * old fixed band it is applied to a budget that is computed per subject.
- */
-export const X_SAFETY_MARGIN = 15;
+/** Headroom kept below the hard limit, in characters. A model writing to a cliff lands past it. */
+export const X_SAFETY_MARGIN = 10;
 
-/**
- * THE PROSE BUDGET FOR ONE SUBJECT, COMPUTED FROM ITS ACTUAL URL.
- *
- * This function exists because of a 333-character post that skipped a slot.
- *
- * The old code carried `const LINK_BUDGET = 45` and told the model "the link is
- * roughly 45 characters, so the sentence before it has about 215 to work with".
- * Forty-five was never measured. The real destinations range from 36 to 101
- * characters, because `/what-changed?q=…` deep links carry four percent-encoded
- * title words:
- *
- *     36   https://immigrationclock.com/key-dates
- *     86   https://immigrationclock.com/what-changed?q=public%20charge%20…
- *    101   https://immigrationclock.com/what-changed?q=establishing%20…
- *
- * So on the afternoon slot the model was told it had 215 characters of prose,
- * wrote to roughly that, and the 86-character URL took the total past 275. A
- * PERFECTLY OBEDIENT MODEL WOULD ALSO HAVE FAILED: 215 + 1 + 86 = 302. Every one
- * of the eight longest destinations in the catalogue overshoots the limit if the
- * model writes to the budget the prompt gave it.
- *
- * The budget is therefore derived, never assumed: hard limit, minus the exact
- * URL, minus the space before it, minus a margin. The validator is unchanged and
- * remains the final authority — this makes the instruction achievable, it does
- * not make the check more forgiving.
- */
+/** The band X prose should land in. Room for three short lines, not a telegram. */
+export const X_TARGET_MIN = 170;
+export const X_TARGET_MAX = 240;
+
 export interface XBudget {
-  /** The exact destination URL length, in characters. */
+  /** What X charges for the URL: a fixed t.co token. */
   linkChars: number;
-  /** URL plus the single space before it. */
+  /** URL plus the line break before it. */
   reservedChars: number;
   /** The hard limit the validator enforces. */
   hardTotal: number;
   /** Most prose the model may write. */
   proseMax: number;
-  /** Least prose worth writing, so the post is not a bare link. */
+  /** Least prose worth writing. */
   proseMin: number;
 }
 
-export function xBudget(facts: FactSet): XBudget {
-  const linkChars = facts.deepLink.length;
-  const reservedChars = linkChars + 1; // the space between sentence and link
+export function xBudget(_facts: FactSet): XBudget {
+  const linkChars = X_URL_WEIGHT;
+  const reservedChars = linkChars + 1;
   const hardTotal = LIMITS.x.maxChars;
-  const proseMax = hardTotal - reservedChars - X_SAFETY_MARGIN;
-
-  return {
-    linkChars,
-    reservedChars,
-    hardTotal,
-    proseMax,
-    // A floor that cannot invert on a very long URL, and never drops below the
-    // point where the post would be a link with a label.
-    proseMin: Math.max(LIMITS.x.minChars, proseMax - 25),
-  };
+  const proseMax = Math.min(X_TARGET_MAX, hardTotal - reservedChars - X_SAFETY_MARGIN);
+  return { linkChars, reservedChars, hardTotal, proseMax, proseMin: Math.min(X_TARGET_MIN, proseMax - 30) };
 }
 
-/**
- * Stable across every request. Kept first and byte-identical so it is the
- * cacheable prefix if call volume ever rises enough for caching to pay.
- */
-export const SYSTEM_PROMPT = `You write short posts for ImmigrationClock, a U.S. immigration data publication.
+// -----------------------------------------------------------------------------
+// THE SYSTEM PROMPT — stable across every request
+// -----------------------------------------------------------------------------
 
-The account is a reference source. People follow it to find out what actually changed, from an outfit that does not overstate. Its credibility is the only thing it has.
+export const SYSTEM_PROMPT = `You write posts for ImmigrationClock, a U.S. immigration intelligence publication. It records official changes traced to their government source, explains what changed in plain English, says why a change matters when the record supports it, and surfaces what its own datasets show.
 
-WHAT MAKES THIS ACCOUNT DIFFERENT FROM AN IMMIGRATION NEWS FEED
+The account is read by people with something at stake — applicants, students, workers, employers, lawyers, families — and by people who simply want to know what is true. Its only asset is being believed.
 
-ImmigrationClock's subject is the TIME DIMENSION of U.S. immigration: when something changes, when it starts to bite, which window is open, what is still ahead. Anyone can restate a Federal Register summary. The reader came here to know where a change sits on a calendar and whether it is on their radar yet.
+THE VOICE
 
-So structure every post around as much of this as the facts support, in this order:
+Clear. Curious. Precise. Calm. Useful. Human. Data-literate.
 
-  WHAT CHANGED  ->  WHEN IT MATTERS  ->  WHO SHOULD PAY ATTENTION  ->  WHAT HAPPENS NEXT
+Not bureaucratic, not sensational, not political, not partisan, not salesy, and not the voice of a press release or a database. A person who has read the document and understands the data, telling you the part that matters.
 
-Not as four labelled sections — as the shape of the thought. On X you will often fit only the first two, and that is the right two to keep. Drop a beat the fact set cannot support rather than padding it.
+- Prefer "USCIS just changed…" to "USCIS announces the rescission and reinstatement of…" whenever both are true.
+- Short sentences. Plain verbs. Specific nouns. No throat-clearing, no build-up, no reaction words.
+- Write dates as words: "Sept. 30", "Sept. 30, 2026", "August 29, 2025". Never "2026-09-30".
+- Write agencies as a person writes them: USCIS, DHS, the State Department, the Department of Labor.
+- Two or three short paragraphs separated by a blank line usually read better than one dense sentence. Use them.
+- Precision is not sacrificed for plainness. "Proposed", "final", "effective", "enjoined" are different words for different things and the difference is the story.
 
-THE FIRST SENTENCE ANSWERS "WHY SHOULD SOMEONE CARE?"
+THE SHAPE OF THE POST
 
-Before a stranger reads your second sentence, they have decided whether to. So the first one has to give a real person a reason — something that could affect their status, their money, their eligibility, a deadline they are working to, their job, their travel, or their plans.
+You will be offered several shapes that fit this post's facts, with the ones the account used most recently. Choose the shape that fits THESE facts best, prefer one the account has not just used, write in it, and report which you chose. Do not blend shapes, and do not open every post the same way: the account must not read as one template with the nouns swapped.
 
-That reason has to come from the facts. You are not adding urgency to a dull document; you are finding the person the document already reaches and saying so.
+THE COLD READER TEST
 
-  BAD:    "USCIS Policy Manual update on investigations and examinations for naturalization eligibility."
-          True, and shaped like a database row. It opens on the document's genre. Nobody is in it.
+Someone sees this post alone, in a timeline, knowing nothing about this account. From the post alone they must be able to say what it is about. Name the subject early — the agency and what it did, the rule, the visa, the figure — before saying what is true of it. Never open on a bare negative, a pronoun with nothing to refer to, or a continuation of a thought the reader cannot see.
 
-  BETTER: "Applying for U.S. citizenship? USCIS just changed part of its guidance on investigations and examinations used in naturalization eligibility reviews."
-          Same facts, same stage, same grounding — and the first four words tell a reader whether this is theirs.
+WHY SHOULD SOMEONE CARE
 
-Ways to open that work, when the facts support them: name the population ("Applying for U.S. citizenship?", "H-1B employers"); lead with the money; lead with the date; lead with what stops being true.
-
-FOUR THINGS THAT SENTENCE MUST NOT BECOME
-
-- Not clickbait. No teasing, no withholding the point to make someone click, no "here's what changed" without saying what.
-- Not exaggeration. If the change is narrow, the sentence is narrow. A modest change described modestly is still worth publishing; a modest change inflated is the one post that costs this account its reader.
-- Not manufactured urgency. If nothing is closing, nothing is closing. A window four months out is "coming", not "closing".
-- Not false breaking news. "Breaking", "just announced" and "today" belong only to something that genuinely landed in the last day or two AND matters. The fact set tells you the age; believe it.
-
-If the honest answer to "why should someone care" is "they probably shouldn't", that is a real answer — write the plainest accurate sentence you can and let the post be small. Do not inflate it to fill the space.
-
-THE COLD READER TEST — THE FIRST THING EVERY POST MUST PASS
-
-Someone sees this post alone, in a timeline, knowing nothing about this account and nothing about the post above it. There is no previous post. There is no thread. They will not click the link before deciding whether it is worth reading.
-
-From the post ALONE, that person must be able to say what it is about.
-
-So: NAME THE SUBJECT FIRST. The opening clause identifies the thing — the agency and what it did, the form, the visa category, the programme, the dataset. Only then say what is true of it.
-
-  BAD:  "No implementation date has been set; the labelling covers each figure's derivation..."
-        Orphan. What has no date? What labelling?
-  GOOD: "DHS has proposed [the specific change]. No implementation date has been set."
-
-Never open with:
-- a bare negative about something you have not yet named — "No date has been set...", "None of these apply..."
-- a pronoun or a bare demonstrative standing in for a subject you have not named — "It now requires...", "This affects...", "They will need..."
-- a continuation of a thought the reader cannot see — "Also...", "Meanwhile...", "In addition..."
-- a description of what a page contains rather than what it says
-
-A number is not a subject either. "1,240 notices were filed" needs to say notices of what, from where.
+The first sentence gives a real person a reason: their status, money, eligibility, a date they are working to, their job, their travel. The reason comes from the facts — you are finding the person the record already reaches, not adding urgency. If the honest answer is "they probably shouldn't", write the plainest accurate sentence you can and let the post be small.
 
 TIMING IS THE POINT, AND TIMING IS NEVER INVENTED
 
-- If the fact set records an effective date, it belongs in the post. That is the single most useful thing you can tell someone.
-- If it records none, say so plainly — "no implementation date has been set", "the timing has not been announced" — and never imply one exists. An absent date is information, not a gap to smooth over.
-- A proposed rule is not on anyone's calendar yet. Say what would have to happen for it to become operative: it would have to be finalised. Never give a proposed rule an effective date, and never describe it as coming into force.
-- For a recurring window, the useful thing is the preparation time ahead of it, not a description of the program.
-- Never state a consequence, a deadline, or a next step the fact set does not contain.
+- If the facts record an effective date, it belongs in the post, as words.
+- If they record none, you may say so plainly — "USCIS has not posted a separate effective date" — and you may leave it out. Never imply a date exists.
+- A proposed rule is not on anyone's calendar. Say what would have to happen for it to become operative; never give it a start date; use the conditional.
+- Never state a consequence, deadline or next step the facts do not carry. The IMPLICATIONS block lists the ones they do.
 
 SAY WHICH STAGE A CHANGE IS AT, IN THE SOURCE'S OWN TERMS
-
-These are different things and a reader plans differently around each. Use the one the fact set supports and never upgrade it:
 
   proposed    published for comment. Nothing has changed. It may never be finalised.
   announced   the agency has said it intends to do this. Not yet the legal instrument.
   finalised   the rule is made, whether or not it has started.
   effective   it is operating now, or starts on a stated date.
-  delayed     a date that existed has moved.
-  blocked     a court has stopped it, in whole or in part.
-  withdrawn   it is no longer going ahead.
-
-A proposal described as a change is the single most damaging error this account can make: it tells someone to plan around a rule that does not exist. If the fact set says proposed, the post says proposed, and the verb is conditional — "would require", not "requires".
+  enjoined    a court has stopped it, in whole or in part.
+  rescinded   it is withdrawn; where the facts say so, earlier guidance is back.
 
 WHAT THIS ACCOUNT DOES NOT DO
 
-It does not track anyone's individual case, and it cannot say what will happen to a specific application. Never write anything that implies otherwise — no "your case", no "check your status here", no suggestion that following this account tells someone about their own filing. The subject is always the rule and the calendar, never the reader's file.
+It does not track anyone's individual case and cannot say what will happen to a specific application. Never write "your case", "check your status here", or anything that implies following this account tells someone about their own filing. It gives no legal, tax or immigration advice: never tell a reader what they should do, whether they qualify, or when to file.
 
-You will be given a closed set of facts about one subject and one editorial angle. Everything you may say must come from those facts. You have no other information about this subject and no way to look anything up — if a detail is not in the fact set, it is not available to you, and writing it would be fabrication rather than recall.
+You will be given a closed set of facts about one subject. Everything you may say must come from those facts. You have no other information and no way to look anything up — a detail that is not in the fact set is not available to you, and writing it is fabrication, not recall.
 
 Hard rules:
-- No prediction, forecasting, or speculation about consequences. Report what a document does, not what it might lead to.
-- No legal, tax, or immigration advice. Never tell a reader what they should do, whether they qualify, or when to file.
-- No invented statistics. You may only use numbers that appear in the fact set.
+- No prediction, forecasting or speculation. Report what a record says, not what it might lead to.
+- No invented statistics. Only numbers that appear in the fact set.
 - No quotations unless the quoted words appear verbatim in the fact set.
-- No superlatives you cannot support from the fact set: nothing is unprecedented, historic, sweeping, massive, or a crackdown.
-- Name an agency or organization ONLY if it is listed under PERMITTED ATTRIBUTION. Knowing which agency runs a program is not permission to say so: if the fact set does not carry that attribution, it is not available to you, however certain you are. Write around it instead — "the official instructions", "the program rules", "the agency that sets the window" — or use the wording the fact set itself uses.
-- A proposed rule is not law. An announcement is not the legal instrument. Say which one you are describing.
-- No emoji, no engagement bait, no threads.
+- No superlatives the facts do not support: nothing is unprecedented, historic, sweeping, massive, or a crackdown.
+- Name an agency ONLY if it appears under PERMITTED ATTRIBUTION. Certainty from your own knowledge is not permission.
+- No emoji, no hashtags unless one is genuinely the term people search, no engagement bait, no threads, no "did you know".
+- A short opening question is allowed only when it names the population this reaches or asks the question the post immediately answers with a fact.
 
-Voice: plain declarative sentences. Not a government notice and not a rewrite of the source document — a person who has read the document telling you the part that matters and when. Specific nouns. No throat-clearing, no build-up, no rhetorical questions.
+Return both platform variants in one response. They cover the same subject in the same shape but are written for different readers, not truncated from one another. Also return the shape you used and a short headline for the record.`;
 
-ONE EXCEPTION, AND IT IS NARROW: a short opening question that NAMES THE POPULATION is not a rhetorical question, it is an address — "Applying for U.S. citizenship?", "Sponsoring an H-1B worker?". It is allowed, it must be answerable yes or no by the person reading, and the sentence after it must deliver the fact immediately. A question that asks the reader to wonder, guess, or keep reading to find out — "What does this mean for you?", "Did you know?" — is the banned kind, and it stays banned. Most posts should still open declaratively; use the address when identifying the population is genuinely the fastest way to say who this is for. Assume the reader is an informed adult who wants the fact, not a reaction to the fact. Where the subject affects people's status or obligations, the appropriate register is careful, not dramatic — the facts carry the weight without help.
-
-Return both platform variants in one response. They cover the same subject from the same angle but are written for different readers, not truncated from one another.`;
+// -----------------------------------------------------------------------------
+// THE RESPONSE SCHEMA — structured output as a trust control
+// -----------------------------------------------------------------------------
 
 /**
- * The JSON schema the response is constrained to.
- *
- * Structured output rather than free-form prose is a trust control, not a
- * convenience: there is no surrounding commentary to strip, no preamble that
- * might leak into a post, and no parsing step that could mis-slice a response.
+ * The base schema. `structure` is a free string here; responseSchemaFor()
+ * narrows it to the shapes on offer for one request, which is what makes a
+ * shape the model was not offered impossible to return rather than merely
+ * refused afterwards.
  */
 export const RESPONSE_SCHEMA = {
   type: "object",
   properties: {
     x: {
       type: "string",
-      description: `The complete X post INCLUDING the destination URL. Hard maximum ${LIMITS.x.maxChars} characters for the whole string; the per-subject prose budget is stated in the platform brief and is smaller, because the URL is counted at its literal length.`,
+      description: `The complete X post INCLUDING the destination URL, which X counts as ${X_URL_WEIGHT} characters. Hard maximum ${LIMITS.x.maxChars} characters as X counts them; the prose budget is stated in the platform brief.`,
     },
     linkedin: {
       type: "string",
@@ -349,126 +195,68 @@ export const RESPONSE_SCHEMA = {
       type: "string",
       description: "The destination URL. Must be exactly the deepLink given in the fact set.",
     },
+    structure: {
+      type: "string",
+      description: "The id of the shape you wrote in, from the shapes on offer.",
+    },
+    headline: {
+      type: "string",
+      description: "A headline for the record, under 90 characters, in the same voice. Not published.",
+    },
   },
-  required: ["x", "linkedin", "deepLink"],
+  required: ["x", "linkedin", "deepLink", "structure", "headline"],
   additionalProperties: false,
 } as const;
 
-/** Per-platform instructions. Differences are editorial, not cosmetic. */
-function platformBrief(facts: FactSet): string {
-  const b = xBudget(facts);
-
-  return `X — THE BUDGET FOR THIS POST, IN CHARACTERS. These numbers are computed from the exact destination URL below, not estimated:
-
-    ${String(b.hardTotal).padStart(4)}   hard limit for the COMPLETE post. ${b.hardTotal + 1} characters fails and the slot publishes nothing.
-    ${String(b.reservedChars).padStart(4)}   taken by the destination URL (${b.linkChars} characters) plus the space before it. This is not negotiable and does not shrink.
-    ${String(b.proseMax).padStart(4)}   YOUR TEXT. Write between ${b.proseMin} and ${b.proseMax} characters of prose. Everything you write counts: every letter, space, comma and digit.
-
-- Count the URL at its full literal length. It is NOT shortened, NOT a token, and NOT counted as 23 characters — it is ${b.linkChars} characters exactly, and it is already subtracted above.
-- ${b.proseMax} is your ceiling, not your target. Land near ${b.proseMin}–${b.proseMax} and leave the rest unused.
-- If the facts will not fit in ${b.proseMax} characters, say LESS — drop a subordinate clause, an adjective, a restatement. Never drop the effective date, the stage word, the subject or the link to make room; those are the post.
-- One statement. Lead with what changed or what the resource is.
-- Do not restate the page title verbatim — the link preview already shows it. Say the thing the title does not.
-- The link goes at the end, on its own.
-- At most one hashtag, and only if it is genuinely the term people search. None is usually better.
-
-LinkedIn (${LIMITS.linkedin.minChars}–${LIMITS.linkedin.maxChars} characters):
-- The first 140 characters are all that shows before "see more". The substance goes there. Not a preamble, not a label — the finding itself.
-- Two to four short paragraphs, separated by a blank line.
-- Include one sentence naming who this actually reaches, drawn from the fact set. If the facts do not identify a population, say what the document covers instead — do not guess at who it touches.
-- The link goes on its own line at the end.
-- Zero to three hashtags, at the very end, and only ones a reader would actually follow. Do not add hashtags to reach three; most posts need none or one. This account should read like an authoritative information source, not a marketing feed.`;
+/** The base schema with `structure` narrowed to the shapes this request offers. */
+export function responseSchemaFor(req: Pick<CopyRequest, "structures">): Record<string, unknown> {
+  const structures = req.structures?.length ? req.structures : ["direct"];
+  return {
+    ...RESPONSE_SCHEMA,
+    properties: {
+      ...RESPONSE_SCHEMA.properties,
+      structure: {
+        type: "string",
+        enum: [...structures],
+        description: "The id of the shape you wrote in, from the shapes on offer.",
+      },
+    },
+  };
 }
 
-function renderFacts(facts: FactSet): string {
-  const lines: string[] = [];
-  lines.push(`TITLE: ${facts.title}`);
-  lines.push(`SOURCE: ${facts.sourceName}`);
-  if (facts.publishedAt) lines.push(`PUBLISHED: ${facts.publishedAt}`);
-  if (facts.effectiveAt) lines.push(`EFFECTIVE: ${facts.effectiveAt}`);
-  if (facts.classification) lines.push(`TYPE: ${facts.classification}`);
-  if (facts.severity) lines.push(`SEVERITY (our classification): ${facts.severity}`);
-  lines.push("");
-  // Timing first, before the source's own prose. The order is the instruction:
-  // this account leads with where a change sits on a calendar, and the summary
-  // is context for that rather than the other way round.
-  lines.push(renderTiming(facts));
+// -----------------------------------------------------------------------------
+// CONTENT TYPES — what each kind of post is FOR
+// -----------------------------------------------------------------------------
 
-  lines.push("");
-  lines.push(`SUMMARY AS PUBLISHED:\n${facts.summary}`);
+export const CONTENT_TYPE_BRIEF: Record<ContentType, string> = {
+  breaking_change:
+    "A material official change that just landed. Say what changed, with the agency as the subject of the sentence, then the specific, then the timing. The stage word is load-bearing.",
+  what_changed:
+    "A recent development explained in plain English for someone who has not followed it. What happened, what specifically changed (what is gone, what is back, what is required), and the one thing still open — usually timing. No breaking-news framing.",
+  why_it_matters:
+    "A verified development and its practical significance. State the development and its date, then the significance — drawn ONLY from the IMPLICATIONS block, which restates the record's own fields. Say what changed and what did not. Close with the source.",
+  effective_date:
+    "A rule with a start date ahead. The date is the story: what starts, changes or stops on it, and what stays true until then. No countdown language, no urging.",
+  key_date:
+    "A recurring calendar window. What it is for, roughly how far away it is, and what the official source fixes about it. If the date is approximate, say so. Never tell anyone to act.",
+  data_signal:
+    "A factual observation from ImmigrationClock's own data. The figure carries the post: one number, what it counts, the period, the source. Say what it does not show if the caveats require it. No trend, cause or direction the facts do not state.",
+  explainer:
+    "An evergreen explanation of a distinction readers get wrong. The distinction first, then two or three plain sentences from the facts, then what ImmigrationClock does about the difference. It is not news and must not read as news.",
+  data_discovery:
+    "A tool ImmigrationClock offers, described to the reader who needs it. The need first, or the tool plainly, using only the capabilities the facts list. No pitch.",
+};
 
-  // Rendered as finished sentences, not as a table of values. The arithmetic and
-  // the attribution were both done in asset-facts.ts; what is wanted from the
-  // model here is a choice about which of these is the lede, not a calculation.
-  if (facts.dataPoints?.length) {
-    lines.push("");
-    lines.push(
-      `ESTABLISHED FACTS FROM OUR OWN DATA — verified, and already stated in their final form. Use them as written; do not recalculate, combine or extend them:\n- ${facts.dataPoints.join(
-        "\n- "
-      )}`
-    );
-  }
+// -----------------------------------------------------------------------------
+// RENDERING THE FACT SET
+// -----------------------------------------------------------------------------
 
-  if (facts.entities.length) {
-    lines.push("");
-    lines.push(`ENTITIES THIS IS LINKED TO: ${facts.entities.join(", ")}`);
-  }
-
-  lines.push("");
-  lines.push(`DESTINATION URL (use exactly this): ${facts.deepLink}`);
-  lines.push(`URLS YOU MAY USE (no others): ${facts.allowedUrls.join(" | ")}`);
-
-  lines.push("");
-  lines.push(
-    facts.figures.length
-      ? `NUMBERS YOU MAY USE (no others): ${facts.figures.join(", ")}`
-      : "NUMBERS YOU MAY USE: none. Do not put any figure in these posts."
-  );
-
-  lines.push("");
-  lines.push(renderAttribution(facts));
-
-  lines.push("");
-  lines.push(renderSubjectAnchors(facts));
-
-  if (facts.notes.length) {
-    lines.push("");
-    lines.push(`CONSTRAINTS AND CAVEATS:\n- ${facts.notes.join("\n- ")}`);
-  }
-
-  return lines.join("\n");
+function words(iso: string | null): string {
+  return iso ? `${longDate(iso)} (${iso})` : "";
 }
 
-/**
- * Exactly which attributions this subject supports, computed from the same code
- * the validator checks against.
- *
- * The failure this replaces: the Diversity Visa fact set names its source
- * "U.S. Dept. of State — DV Program", and the model wrote "State Department" —
- * true of the world, absent from the closed world, correctly rejected. Nothing
- * in the prompt had told it which attributions were on the table, so it fell
- * back on knowledge, which is the one source it is not allowed to use.
- *
- * Naming the empty case explicitly matters more than naming the full one. "None
- * available" plus a concrete neutral alternative is a usable instruction; silence
- * is an invitation.
- */
-/**
- * The calendar position of this subject, stated positively in both directions.
- *
- * An absent effective date used to be visible only as a prohibition buried in
- * the caveats ("do not state one"), which reads as a gap to write around. Here
- * it is a fact with its own line, because "no date has been set" is genuinely
- * useful to a reader deciding whether something is on their radar yet — and it
- * is the honest answer far more often than a date is.
- */
 function renderTiming(facts: FactSet): string {
-  const lines = ["TIMING — the part this account exists for:"];
-
-  // describesAProposal(), not the classification, so the prompt and the check
-  // read the same rule. An agency newsroom item announcing a proposal is a
-  // proposal, and the model has to be told so before it writes "DHS is adding a
-  // fee" about a rule nobody has made.
+  const lines = ["TIMING — the part this publication exists for:"];
   const proposal = describesAProposal(facts);
 
   if (proposal) {
@@ -480,155 +268,194 @@ function renderTiming(facts: FactSet): string {
 
   if (facts.effectiveAt) {
     lines.push(
-      `- Takes effect: ${facts.effectiveAt}. Say so — it is the most useful fact you have, and the post is rejected without it.`
+      `- Takes effect: ${words(facts.effectiveAt)}. Write it as words. It is the most useful fact you have, and the post is rejected without it.`
     );
   } else if (facts.subjectKind === "document" && !proposal) {
-    // ONLY for documents, and this is the fix for the published methodology post.
-    //
-    // This line used to be emitted for every subject. Applied to a durable page
-    // it asks the model to report the absence of a date that could not exist,
-    // and the model dutifully did: the post opened "No implementation date has
-    // been set" about our own methodology page. For a document the same line is
-    // genuinely useful — "no start date has been set" is what a reader wants to
-    // know about a rule that has been made — so it stays, scoped to documents.
     lines.push(
-      "- NO effective or implementation date is recorded for this document. State that plainly rather than omitting it: the absence is the timing information. Name the document FIRST — the absence of a date is never the opening clause."
+      "- No effective or implementation date is recorded for this document. You may say so in plain words — \"USCIS has not posted a separate effective date\" — or leave timing out. Never state or imply one, and never open on its absence."
     );
   }
 
-  if (facts.subjectKind === "resource") {
+  if (facts.subjectKind === "resource" || facts.subjectKind === "explainer" || facts.subjectKind === "data_signal") {
     lines.push(
-      "- This is a durable reference page, not a dated change. It has no effective date, no implementation date and no start date, and none is missing — do not mention dates it was never going to have. Its timing value is what the underlying data covers and when that data was last refreshed, if the facts below say so."
+      "- This is not a dated change. It has no effective date and none is missing; do not mention dates it was never going to have. Its timing value, if any, is the period the underlying data covers."
     );
   }
 
   if (facts.subjectKind === "recurring_date") {
-    lines.push(
-      "- This is a recurring calendar window, not a change. The useful timing is how far away it is and what the official source fixes about it."
-    );
+    lines.push("- This is a recurring calendar window, not a change. The useful timing is how far away it is and what the official source fixes about it.");
   }
 
   if (facts.publishedAt) {
     const ageDays = Math.round(
-      (Date.parse(`${facts.today}T00:00:00Z`) - Date.parse(`${facts.publishedAt}T00:00:00Z`)) /
-        86_400_000
+      (Date.parse(`${facts.today}T00:00:00Z`) - Date.parse(`${facts.publishedAt}T00:00:00Z`)) / 86_400_000
     );
-    lines.push(`- Published: ${facts.publishedAt} — ${ageDays} day(s) before today (${facts.today}).`);
-
-    // THE AGE IS STATED, NOT LEFT TO BE INFERRED.
-    //
-    // The news pool retains an item for five days. The model has no clock, so
-    // without this line a four-day-old rule is indistinguishable from one that
-    // landed an hour ago, and "just announced" is the natural thing to write
-    // about something presented as news. validate.ts rejects that wording past
-    // two days; saying so here is what stops the rejection being a surprise.
+    lines.push(`- Published: ${words(facts.publishedAt)} — ${ageDays} day(s) before today (${longDate(facts.today)}).`);
     if (ageDays > BREAKING_MAX_AGE_DAYS) {
       lines.push(
-        `- This is NOT breaking news. It published ${ageDays} days ago, so do not write "just announced", "just published", "today", "breaking", or anything else implying it landed moments ago — that wording is rejected. It is still current and still worth saying; write what the document DOES and when it matters, not that it happened.`
+        `- This is NOT breaking news. It published ${ageDays} days ago, so do not write "just", "today", "breaking", or anything implying it landed moments ago — that wording is rejected. It is still current and still worth saying; write what the record does and when it matters.`
       );
+    } else {
+      lines.push(`- This is recent: "just" and "this week" are honest. "Today" only if it published today.`);
     }
   }
 
-  lines.push(
-    "- Anything else about timing — a deadline, a phase-in, a next step, a consequence that starts later — is not available unless it appears in the facts below."
-  );
-
+  lines.push("- Anything else about timing — a deadline, a phase-in, a consequence that starts later — is not available unless it appears below.");
   return lines.join("\n");
 }
 
-/**
- * The words that would tell a stranger what this post is about.
- *
- * Computed by the same function the validator requires one of, for the same
- * reason permittedAgencies() is shared: a rule the model is judged by and cannot
- * see is a rule that produces rejections nobody can act on. The failure this
- * prevents is the model writing a true, well-formed sentence whose subject is
- * only implied — which is what happened, and cost a published post.
- */
-function renderSubjectAnchors(facts: FactSet): string {
-  const anchors = subjectAnchors(facts).filter((a) => a !== "immigrationclock");
-  const shown = anchors.slice(0, 12);
-
-  return [
-    `NAMING THE SUBJECT — the cold reader test, mechanically checked:`,
-    `The first ${OPENING_CHARS} characters of each post must contain at least one of these words, which are the ones that identify this subject:`,
-    shown.length ? `  ${shown.join(", ")}` : `  (none derived — use the source name or the title's own nouns)`,
-    `This is not a keyword requirement and it is not satisfied by mentioning one late. Write an opening that genuinely says what the post is about, and the check passes as a side effect. A post whose opening names none of them is rejected unread.`,
-  ].join("\n");
-}
-
 function renderAttribution(facts: FactSet): string {
-  const agencies = permittedAgencies(facts);
-  const head = `PERMITTED ATTRIBUTION — the ONLY names you may attribute this to:`;
-  const sourceLine = `- The source, written exactly as it appears above: "${facts.sourceName}"`;
+  const agencies = permittedAgencies(facts).map((a) => AGENCY_DISPLAY[a] ?? a);
+  const head = "PERMITTED ATTRIBUTION — the ONLY names you may attribute this to:";
+  const sourceLine = `- The source, as it appears above: "${facts.sourceName}"`;
 
   if (agencies.length === 0) {
     return [
       head,
       sourceLine,
-      `No agency short name is available for this subject. Do not write "State Department", "DHS", "USCIS", "the Justice Department" or any other agency name, even if you are certain which agency is responsible — that certainty comes from your own knowledge, not from this fact set, and it will be rejected.`,
-      `Where you would have named an agency, use neutral wording instead: "the official instructions", "the program rules", "the agency that sets the window", or the fact set's own phrasing.`,
+      "No agency short name is available for this subject. Do not write \"the State Department\", \"DHS\", \"USCIS\" or any other agency name, however certain you are — that certainty comes from your own knowledge, not from this fact set, and it will be rejected. Use neutral wording: \"the official instructions\", \"the program rules\", \"the agency that sets the window\".",
     ].join("\n");
   }
 
   return [
     head,
     sourceLine,
-    `- These agency names, which the fact set does support: ${agencies.join(", ")}`,
-    `Nothing else. Any other agency or organization name comes from your own knowledge rather than from this fact set, and will be rejected. Where you would have named one, use neutral wording: "the official instructions", "the program rules", or the fact set's own phrasing.`,
+    `- These agencies, written exactly like this: ${agencies.join(", ")}`,
+    "Nothing else. Any other agency or organization name comes from your own knowledge rather than from this fact set, and will be rejected.",
   ].join("\n");
 }
 
-function angleBrief(angle: Angle, facts: FactSet): string {
-  const briefs: Record<Angle, string> = {
-    breaking_change:
-      "This just published and it changes something. Say what it does, whether it is in force yet, and — the part a news feed would leave out — when it starts to matter. If no date is recorded, say that no implementation date has been set.",
-    what_it_requires:
-      "The document imposes a requirement, and the reader's real question is FROM WHEN. Pair the requirement with its timing: what it requires, and the date it applies from — or that no date has been set.  — a fee, a filing step, an eligibility test, an evidentiary standard. State it as a property of the rule: 'the rule requires', 'the fee applies to', 'filings on or after X must include'. NEVER as an instruction: no 'you should', no 'make sure to', no 'apply now'. The reader decides what to do; your job is to tell them precisely what the document says, so they can.",
-    who_is_affected:
-      "Focus on the population this reaches, using only the categories, countries or visa types named in the fact set. Where the facts carry timing, say when it reaches them — 'who, and from when' is more useful than 'who'. Never suggest this tells anyone about their own case.",
-    what_changed_from_previous:
-      "Focus on the difference between the prior state and the current one, as far as the fact set describes it. If the fact set does not describe the prior state, say what the document revises rather than inventing the before.",
-    effective_date_reminder:
-      "The effective date is the news. State what changes on that date, and what remains true until then — the gap between now and then is the useful part, because it is the part someone can still plan around.",
-    deadline_approaching:
-      "A recurring deadline is coming. State what it is, roughly when, and what the window is for. The value is the time left, not the description of the program. Do not tell anyone to act.",
-    preparation_window:
-      "A window opens some time ahead — far enough away that urgency would be false. Say what the window is, roughly when it falls, and what the official source actually determines about it. The value is knowing it is coming, not being hurried. Do not use countdown language, do not imply anything is closing, and if the date is approximate say so plainly.",
-    historical_context:
-      "Place this among the related activity named in the fact set. Do not characterise a trend the fact set does not state.",
-    // Both variants of this brief are here rather than one hedged version,
-    // because the difference is what the slot is for. With figures, the post is
-    // the figure. Without them, the useful thing is almost always the
-    // methodological point a reader gets wrong — and saying so is not the same
-    // as padding out a description of the page.
-    // Branches on `figures`, not on `dataPoints`: an asset can have plenty to
-    // say and no measurement to say it with, and those are two different posts.
-    data_insight: facts.figures.length
-      ? "Lead with the most striking of the established facts above — the number itself, not the page it sits on. One figure carries a post; three read as a specification. Do not open by naming the page or saying what it contains."
-      : "This resource has no figures you may quote. The post is the point the page makes: what the data does and does not show, or the distinction a reader most often gets wrong. Do not fill the space with a description of what the page contains.",
-  };
-  return `${ANGLE_LABEL[angle]} — ${briefs[angle]}`;
+function renderSubjectAnchors(facts: FactSet): string {
+  const anchors = subjectAnchors(facts).filter((a) => a !== "immigrationclock");
+  const shown = anchors.slice(0, 12);
+  return [
+    "NAMING THE SUBJECT — the cold reader test, mechanically checked:",
+    `The first ${OPENING_CHARS} characters of each post must contain at least one of these words, which identify this subject:`,
+    shown.length ? `  ${shown.join(", ")}` : "  (none derived — use the source name or the title's own nouns)",
+    "Write an opening that genuinely says what the post is about and the check passes as a side effect. A post whose opening names none of them is rejected unread.",
+  ].join("\n");
 }
 
-/**
- * THE REPAIR BRIEF — a second call with one job, not a second guess.
- *
- * The runner only reaches this for MECHANICAL failures: too long, link missing,
- * an emoji, a date the model had and dropped. The facts were right and the
- * container was wrong, so this asks for the smallest edit that fixes the
- * container — and names, explicitly, the things that may not be sacrificed to
- * make room.
- *
- * That last part is the safety argument. The obvious way for a model to shorten
- * a post is to drop a clause, and the most droppable-looking clause is often the
- * effective date, which is the single most useful fact this account carries. So
- * the instruction is not "make it shorter"; it is "make it shorter and here is
- * what shortening may not cost". The validator then re-runs in full, so a repair
- * that drops a date or changes a stage fails the same checks the original would
- * have — the instruction makes the right repair likely, the check makes the
- * wrong one unpublishable.
- */
+function renderFacts(facts: FactSet): string {
+  const lines: string[] = [];
+  lines.push(`TITLE: ${facts.title}`);
+  lines.push(`SOURCE: ${facts.sourceName}`);
+  if (facts.publishedAt) lines.push(`PUBLISHED: ${words(facts.publishedAt)}`);
+  if (facts.effectiveAt) lines.push(`EFFECTIVE: ${words(facts.effectiveAt)}`);
+  if (facts.classification) lines.push(`TYPE: ${facts.classification}`);
+  if (facts.severity) lines.push(`SEVERITY (our classification): ${facts.severity}`);
+  lines.push("");
+  lines.push(renderTiming(facts));
+
+  lines.push("");
+  lines.push(`SUMMARY AS PUBLISHED:\n${facts.summary}`);
+
+  if (facts.dataPoints?.length) {
+    lines.push("");
+    lines.push(
+      `ESTABLISHED FACTS — verified, already in their final form. Use them as written; do not recalculate, combine or extend them:\n- ${facts.dataPoints.join("\n- ")}`
+    );
+  }
+
+  if (facts.implications?.length) {
+    lines.push("");
+    lines.push(
+      `IMPLICATIONS YOU MAY STATE — each one restates a field of the record, and they are the ONLY significance you may claim. Say them in your own words; add nothing:\n- ${facts.implications.join("\n- ")}`
+    );
+  }
+
+  if (facts.entities.length) {
+    lines.push("");
+    lines.push(`ENTITIES THIS IS LINKED TO: ${facts.entities.join(", ")}`);
+  }
+
+  lines.push("");
+  lines.push(`DESTINATION URL (use exactly this, on its own line at the end): ${facts.deepLink}`);
+  lines.push(`URLS YOU MAY USE (no others): ${facts.allowedUrls.join(" | ")}`);
+
+  lines.push("");
+  lines.push(
+    facts.figures.length
+      ? `NUMBERS YOU MAY USE (no others): ${facts.figures.join(", ")}`
+      : "NUMBERS YOU MAY USE: none. Do not put any figure in these posts."
+  );
+
+  lines.push("");
+  lines.push(renderAttribution(facts));
+  lines.push("");
+  lines.push(renderSubjectAnchors(facts));
+
+  if (facts.notes.length) {
+    lines.push("");
+    lines.push(`CONSTRAINTS AND CAVEATS:\n- ${facts.notes.join("\n- ")}`);
+  }
+
+  return lines.join("\n");
+}
+
+// -----------------------------------------------------------------------------
+// THE SHAPES ON OFFER
+// -----------------------------------------------------------------------------
+
+function renderStructures(structures: Structure[], recent: Structure[]): string {
+  const lines = ["SHAPES ON OFFER — choose the one that fits these facts best, and report its id:"];
+  for (const s of structures) {
+    const used = recent.includes(s);
+    lines.push(`- ${s} (${STRUCTURE_LABEL[s]})${used ? " — USED RECENTLY; prefer another unless it is clearly the right shape" : ""}: ${STRUCTURE_BRIEF[s]}`);
+  }
+  if (recent.length) {
+    lines.push("", `The account's most recent shapes, newest first: ${recent.join(", ")}. A third consecutive use of the same shape is refused.`);
+  }
+  return lines.join("\n");
+}
+
+function renderReaderValue(value: ReaderValue): string {
+  if (!value.hooks.length) return "";
+  return [
+    "WHY A READER WOULD CARE — computed from the fact set, strongest first. Pointers to what the facts already contain, not extra facts:",
+    ...value.hooks.map((h) => `- ${h}`),
+  ].join("\n");
+}
+
+function renderTreatment(treatment: EditorialTreatment, facts: FactSet): string {
+  const lines = [`EDITORIAL EMPHASIS: ${TREATMENT_LABEL[treatment]}`, TREATMENT_BRIEF[treatment]];
+  if (describesAProposal(facts)) {
+    lines.push(
+      "THIS SUBJECT IS A PROPOSAL, so every sentence is conditional. Nothing has changed, nobody owes anything yet, and no date attaches. Write 'would require', 'has proposed', 'if finalised' — never the present tense of the thing being proposed."
+    );
+  }
+  return lines.join("\n");
+}
+
+// -----------------------------------------------------------------------------
+// PLATFORM BRIEFS
+// -----------------------------------------------------------------------------
+
+function platformBrief(facts: FactSet): string {
+  const b = xBudget(facts);
+  return `X — THE BUDGET, IN CHARACTERS AS X COUNTS THEM:
+
+    ${String(b.hardTotal).padStart(4)}   hard limit for the complete post. One over and the post is refused.
+    ${String(b.reservedChars).padStart(4)}   the destination URL (X counts any link as ${b.linkChars} characters) plus the line break before it.
+    ${String(b.proseMax).padStart(4)}   YOUR PROSE. Write between ${b.proseMin} and ${b.proseMax} characters of prose. Every letter, space and line break counts.
+
+- ${b.proseMax} is a ceiling, not a target. Land in the band and leave the rest unused.
+- If the facts will not fit, say LESS — drop a subordinate clause, a restatement. Never drop the effective date, the stage word, the subject or the link.
+- Two or three short paragraphs separated by one blank line read well on X. A single dense sentence does not.
+- Do not restate the record's title verbatim — the link card shows it. Say the thing the title does not.
+- The link goes last, on its own line. At most one hashtag, and none is usually better.
+
+LinkedIn (${LIMITS.linkedin.minChars}–${LIMITS.linkedin.maxChars} characters):
+- The first 140 characters are all that shows before "see more". The substance goes there — the finding, not a label.
+- Two to four short paragraphs, separated by a blank line.
+- One sentence naming who this actually reaches, drawn from the fact set. If the facts do not identify a population, say what the record covers instead.
+- The link goes on its own line at the end. Zero to three hashtags, only ones a reader would follow; most posts need none.`;
+}
+
+// -----------------------------------------------------------------------------
+// THE REPAIR BRIEF
+// -----------------------------------------------------------------------------
+
 function renderRepairBrief(req: CopyRequest): string {
   const b = xBudget(req.facts);
   const previous = req.previousCopy;
@@ -643,7 +470,7 @@ function renderRepairBrief(req: CopyRequest): string {
   if (previous) {
     lines.push(
       "",
-      `Your previous X post (${previous.x.length} characters, limit ${b.hardTotal}):`,
+      `Your previous X post (${previous.x.length} characters as written; X counts each URL as ${X_URL_WEIGHT}; limit ${b.hardTotal}):`,
       previous.x,
       "",
       `Your previous LinkedIn post (${previous.linkedin.length} characters):`,
@@ -653,134 +480,48 @@ function renderRepairBrief(req: CopyRequest): string {
 
   lines.push(
     "",
-    "Repair it. Keep the same subject, the same angle, the same facts and the same destination. Change only what the failures above require.",
+    "Repair it. Keep the same subject, the same facts and the same destination. Change only what the failures above require — including the shape, if the failure was that the shape had been used too often.",
     "",
-    "WHAT YOU MAY CUT to save characters: adjectives, qualifiers, subordinate clauses, restatement, anything the link preview already shows, the second half of a sentence that repeats the first.",
+    "WHAT YOU MAY CUT to save characters: adjectives, qualifiers, subordinate clauses, restatement, anything the link card already shows.",
     "",
     "WHAT YOU MAY NOT CUT, ever, to make it fit:",
-    "- the effective date, if the fact set records one. It is the most useful fact in the post.",
+    "- the effective date, if the fact set records one.",
     "- the stage word — proposed, proposal, would. A proposal that loses its label becomes a false statement of law.",
     "- the subject. The opening must still name what this is about.",
     "- the destination URL, or any part of it.",
     "- a figure that carries the point, if the post rests on it.",
     "",
-    `If it still will not fit in ${b.proseMax} characters of prose with all of that intact, say less ABOUT the subject rather than dropping any of it — one clause about what the document does is enough.`
+    `If it still will not fit in ${b.proseMax} characters of prose with all of that intact, say less ABOUT the subject rather than dropping any of it.`
   );
 
   return lines.join("\n");
 }
 
-/**
- * THE EDITORIAL TREATMENT — what SHAPE this post takes.
- *
- * Five shapes, and the one that applies is a property of the subject rather than
- * of the schedule. That distinction is the requirement: a treatment rotated
- * mechanically produces a countdown voice on a court decision and a "what this
- * means for you" framing on a page with nothing to require. reader-value.ts picks
- * it from the facts; this renders the brief.
- */
-function renderTreatment(treatment: EditorialTreatment, facts: FactSet): string {
-  const lines = [
-    `EDITORIAL TREATMENT: ${TREATMENT_LABEL[treatment]}`,
-    "",
-    TREATMENT_BRIEF[treatment],
-  ];
-
-  // A PROPOSAL TAKES ITS TREATMENT IN THE CONDITIONAL, WHICHEVER TREATMENT IT IS.
-  //
-  // The strongest proposals in the archive — a $100,000 H-1B fee, a public-charge
-  // rescission — are exactly the ones whose facts name a population and a
-  // consequence, so they select WHAT THIS MEANS FOR YOU on their merits. That is
-  // the right shape and the most dangerous one: the same brief that produces
-  // "H-1B employers would pay…" produces "H-1B employers pay…" if nothing
-  // intervenes. So the stage is restated where the shape is set, not only in the
-  // timing block twenty lines further down.
-  if (describesAProposal(facts)) {
-    lines.push(
-      "",
-      "THIS SUBJECT IS A PROPOSAL, so every sentence of the treatment above is conditional. Nothing has changed, nobody owes anything yet, and no date attaches. Write 'would require', 'has proposed', 'if finalised' — never the present tense of the thing being proposed."
-    );
-  }
-
-  lines.push(
-    "",
-    "This shape was chosen from this subject's own facts, not from a rotation. Write it in this shape."
-  );
-
-  return lines.join("\n");
-}
-
-/**
- * WHY A READER WOULD CARE — derived, not invented.
- *
- * Every line here reports that the fact set's own language covers a particular
- * kind of consequence, which is true because a pattern matched that language.
- * The model still has to find the specific words in the summary above; nothing
- * in this block licenses a consequence the source does not state, and the
- * validator's grounding checks are unchanged.
- *
- * It exists because "answer why someone should care" is not actionable against a
- * fact set the model has to re-read looking for the human angle. This is that
- * re-reading, done deterministically, once.
- */
-function renderReaderValue(value: ReaderValue): string {
-  const lines = [
-    "WHY A READER WOULD CARE — computed from the fact set above, strongest first.",
-    "Use these to find your first sentence. They are pointers to what the facts already contain, not extra facts:",
-    "",
-    ...value.hooks.map((h) => `- ${h}`),
-  ];
-
-  if (value.lowValue.length) {
-    lines.push(
-      "",
-      "WEAKNESSES IN THIS SUBJECT, so you do not write around them:",
-      ...value.lowValue.map((l) => `- ${LOW_VALUE_NOTE[l]}`)
-    );
-  }
-
-  return lines.join("\n");
-}
-
-/**
- * What to do about a weakness, rather than merely that it exists.
- *
- * Naming the weakness without a remedy is how a model ends up writing a defensive
- * sentence about it — which is exactly the published methodology post's failure,
- * in a new costume.
- */
-const LOW_VALUE_NOTE: Record<string, string> = {
-  methodology:
-    "This subject is about ImmigrationClock itself. Say the one thing a reader would use, not what the page contains, and keep it short.",
-  product_documentation:
-    "This describes a product behaviour, not a change in the world. Do not give it the weight of a policy change.",
-  routine_dataset_refresh:
-    "This is a scheduled refresh. Nothing has changed for anyone; do not imply it has.",
-  generic_description:
-    "There is no measurement and no change here. The only honest post is the distinction a reader gets wrong — do not fill the space by describing a page.",
-  no_reported_figure:
-    "This resource holds no reported figure today. Do not reach for a number: state the point the page makes, or the distinction a reader most often gets wrong.",
-  minor_procedural:
-    "This is procedural paperwork. If there is a real consequence in the facts, that is the post; if there is not, say the small true thing and stop.",
-};
+// -----------------------------------------------------------------------------
+// THE USER TURN
+// -----------------------------------------------------------------------------
 
 /** The user turn. Everything volatile lives here, after the stable system prompt. */
 export function buildUserPrompt(req: CopyRequest): string {
   const sections: string[] = [];
+  const contentType: ContentType = req.contentType ?? req.facts.contentType ?? "breaking_change";
+  const structures: Structure[] = req.structures?.length ? req.structures : ["direct"];
+  const recent: Structure[] = req.recentStructures ?? [];
 
-  sections.push(`SLOT: ${req.slot.id.toUpperCase()}\n${req.slot.purpose}`);
+  sections.push(`CONTENT TYPE: ${CONTENT_TYPE_LABEL[contentType].toUpperCase()}\n${CONTENT_TYPE_BRIEF[contentType]}`);
 
-  // Derived when the caller did not supply one, so a fact set alone is still a
-  // complete request — the approval path and the fixtures both rely on that.
+  sections.push(renderStructures(structures, recent));
+
   const treatment =
-    req.treatment ??
-    (req.readerValue ? treatmentForFacts(req.facts, req.angle, req.readerValue) : null);
+    req.treatment ?? (req.readerValue ? treatmentForFacts(req.facts, req.angle, req.readerValue) : null);
   if (treatment) sections.push(renderTreatment(treatment, req.facts));
 
-  sections.push(`ANGLE: ${angleBrief(req.angle, req.facts)}`);
+  if (req.readerValue) {
+    const rv = renderReaderValue(req.readerValue);
+    if (rv) sections.push(rv);
+  }
 
-  if (req.readerValue) sections.push(renderReaderValue(req.readerValue));
-
+  sections.push(`ANGLE: ${ANGLE_LABEL[req.angle as Angle] ?? req.angle}`);
   sections.push(`FACT SET:\n${renderFacts(req.facts)}`);
   sections.push(`PLATFORM BRIEFS:\n${platformBrief(req.facts)}`);
 
@@ -788,19 +529,17 @@ export function buildUserPrompt(req: CopyRequest): string {
     sections.push(
       [
         "OPENING CONSTRUCTIONS THIS ACCOUNT HAS ALREADY USED — these are refused, not discouraged.",
-        "A post beginning with any of these word sequences is rejected and the slot publishes nothing:",
+        "A post beginning with any of these word sequences is rejected:",
         `- ${req.bannedOpenings.join("\n- ")}`,
         "",
-        "Changing the nouns is not enough. Change the construction: start from the population, or the money, or the date, or the thing that stops being true.",
+        "Changing the nouns is not enough. Change the construction: start from the population, the money, the date, the distinction, or the thing that stops being true.",
       ].join("\n")
     );
   }
 
   if (req.avoidOpenings.length) {
     sections.push(
-      `RECENT OPENINGS ON THIS ACCOUNT — do not echo their structure or phrasing:\n- ${req.avoidOpenings.join(
-        "\n- "
-      )}`
+      `RECENT OPENINGS ON THIS ACCOUNT — do not echo their structure or phrasing:\n- ${req.avoidOpenings.join("\n- ")}`
     );
   }
 

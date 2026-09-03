@@ -39,10 +39,13 @@ export class TranscriptCopyEngine implements CopyEngine {
   }
 
   async generate(req: CopyRequest): Promise<EngineResult> {
-    const key = transcriptKey(req.facts.subjectId, req.angle);
-    const copy = this.entries[key];
+    // Keyed by content type first (the second design's identity), then by
+    // angle, so fixtures written for the first design still replay.
+    const byType = transcriptKey(req.facts.subjectId, req.contentType ?? req.facts.contentType ?? "breaking_change");
+    const byAngle = transcriptKey(req.facts.subjectId, req.angle);
+    const copy = this.entries[byType] ?? this.entries[byAngle];
     if (!copy) {
-      throw new Error(`No transcript entry for ${key}`);
+      throw new Error(`No transcript entry for ${byType} (or ${byAngle})`);
     }
     return {
       copy,
@@ -62,8 +65,8 @@ export class TranscriptCopyEngine implements CopyEngine {
     };
   }
 
-  has(subjectId: string, angle: string): boolean {
-    return Boolean(this.entries[transcriptKey(subjectId, angle)]);
+  has(subjectId: string, angleOrType: string): boolean {
+    return Boolean(this.entries[transcriptKey(subjectId, angleOrType)]);
   }
 }
 

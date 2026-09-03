@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { formatDate } from "@/lib/format";
@@ -11,6 +12,7 @@ export const metadata = buildMetadata({
   description:
     "A timeline of major U.S. immigration events, each linked to its official source and the data figure at the time.",
   path: "/timeline",
+  image: ogImagePath("page", "timeline"),
   keywords: [
     "immigration timeline",
     "Title 42 ended",

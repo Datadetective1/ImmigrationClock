@@ -12,11 +12,25 @@
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
-import { validatePost, LIMITS, extractUrls, extractQuotations, allowedDigitRuns } from "@/lib/social/validate";
+import {
+  validatePost,
+  LIMITS,
+  VALIDATOR_VERSION,
+  X_URL_WEIGHT,
+  extractUrls,
+  extractQuotations,
+  allowedDigitRuns,
+  measuredLength,
+  xWeightedLength,
+  mentionsDate,
+  describesAProposal,
+} from "@/lib/social/validate";
 import type { FactSet } from "@/lib/social/types";
 
 const LINK = "https://immigrationclock.com/h1b/top-sponsors";
 const SOURCE = "https://www.federalregister.gov/documents/2026/08/10/2026-16231/fee";
+/** The shape every destination has now: the clean page plus attribution parameters. */
+const TRACKED = `${LINK}?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Aabc123`;
 
 function facts(over: Partial<FactSet> = {}): FactSet {
   return {
@@ -241,6 +255,97 @@ describe("effective dates must be real", () => {
   });
 });
 
+describe("X counts a link as a fixed-width token", () => {
+  // Every URL on X is wrapped in a t.co token of one width, so a 130-character
+  // tracked deep link costs the same as a 36-character one. Counting the
+  // literal string was the single biggest reason the live account's posts read
+  // like telegrams.
+  it("weighs every URL at 23 characters, whatever its literal length", () => {
+    expect(X_URL_WEIGHT).toBe(23);
+    expect(xWeightedLength(`abc ${LINK}`)).toBe(4 + X_URL_WEIGHT);
+    expect(xWeightedLength(`abc ${TRACKED}`)).toBe(4 + X_URL_WEIGHT);
+    expect(xWeightedLength(`abc ${LINK} ${SOURCE}`)).toBe(5 + 2 * X_URL_WEIGHT);
+  });
+
+  it("weights only on X — LinkedIn measures the literal string", () => {
+    expect(measuredLength(`abc ${TRACKED}`, "x")).toBe(4 + X_URL_WEIGHT);
+    expect(measuredLength(`abc ${TRACKED}`, "linkedin")).toBe(`abc ${TRACKED}`.length);
+  });
+
+  it("accepts an X post that is literally over 275 and inside the limit as X counts it", () => {
+    const f = facts({ allowedUrls: [TRACKED, LINK, SOURCE], deepLink: TRACKED });
+    const prose =
+      "DHS is amending the fee regulations for certain H-1B and L-1 visas. The change takes effect on 9 September 2026. " +
+      "Until that date the existing regulations are the ones in force, and the fee stays at $500 for petitions filed before it.";
+    const post = `${prose}\n${TRACKED}`;
+    expect(post.length).toBeGreaterThan(LIMITS.x.maxChars);
+    expect(xWeightedLength(post)).toBeLessThanOrEqual(LIMITS.x.maxChars);
+    const r = validatePost(post, "x", f);
+    expect(r.codes).not.toContain("length-max");
+    expect(r.ok).toBe(true);
+  });
+
+  it("still rejects a post over the limit as X counts it, and says how it counted", () => {
+    const f = facts({ allowedUrls: [TRACKED, LINK, SOURCE], deepLink: TRACKED });
+    const post = `${"DHS amended the H-1B and L-1 visa fee regulations. ".repeat(6)}${TRACKED}`;
+    const measured = xWeightedLength(post);
+    expect(measured).toBeGreaterThan(LIMITS.x.maxChars);
+    expect(validatePost(post, "x", f).failures).toContain(
+      `Too long for x: ${measured} chars as x counts them (max ${LIMITS.x.maxChars}; each URL counts as ${X_URL_WEIGHT})`
+    );
+  });
+
+  it("is recorded as the eighth revision, so the arithmetic change is traceable", () => {
+    expect(VALIDATOR_VERSION).toBe("social-validator/8");
+  });
+});
+
+describe("the eighth revision's typography and bans", () => {
+  it("allows the single right arrow before a link", () => {
+    const ok = `DHS is amending the fee regulations for certain H-1B and L-1 visas. The change takes effect on 9 September 2026. Here's the source → ${LINK}`;
+    expect(validatePost(ok, "x", facts()).failures).toEqual([]);
+  });
+
+  it("still bans every other arrow and decorative glyph", () => {
+    for (const glyph of ["←", "⇒", "➡", "✅"]) {
+      const bad = `DHS is amending the fee regulations for certain H-1B and L-1 visas. ${glyph} ${LINK}`;
+      expect(validatePost(bad, "x", facts()).codes, glyph).toContain("emoji");
+    }
+  });
+
+  it('bans "did you know" as engagement bait', () => {
+    const bad = `Did you know DHS amended the H-1B and L-1 fee regulations? It takes effect on 9 September 2026. ${LINK}`;
+    const r = validatePost(bad, "x", facts());
+    expect(r.ok).toBe(false);
+    expect(r.failures.join(" ")).toMatch(/engagement bait: "Did you know"/);
+  });
+
+  it("does not mistake a slash date for thread numbering", () => {
+    // "09/09/2026" is how a Federal Register abstract writes a date, and the
+    // first design rejected a valid post for containing one. A thread number
+    // never has a leading zero and is never followed by a year.
+    const dated = `DHS amended the H-1B and L-1 fee rules; filings received on or after 09/09/2026 pay the $500 fee. ${LINK}`;
+    expect(validatePost(dated, "x", facts()).failures.join(" ")).not.toMatch(/thread numbering/);
+    const thread = `DHS amended the H-1B and L-1 fee regulations, effective 9 September 2026. 1/5 ${LINK}`;
+    expect(validatePost(thread, "x", facts()).failures.join(" ")).toMatch(/thread numbering/);
+  });
+
+  it("grounds figures and quotations in the derived implications too", () => {
+    // implications.ts restates the record's own fields — "30 days from today"
+    // is arithmetic deterministic code did — so a figure or a quotation from
+    // that list is as grounded as one from the summary.
+    const f = facts({
+      implications: ["The rule is final but does not apply until September 9, 2026, 30 days from today."],
+    });
+    const ok = `DHS is amending the H-1B and L-1 fee regulations. The rule is final but does not apply until September 9, 2026, 30 days from today. ${LINK}`;
+    expect(validatePost(ok, "x", f).failures).toEqual([]);
+    const quoted = `DHS says the H-1B and L-1 fee rule "does not apply until September 9, 2026". ${LINK}`;
+    expect(validatePost(quoted, "x", f).codes).not.toContain("quotation-ungrounded");
+    // Without the implication, the same day count is an invented figure.
+    expect(validatePost(ok, "x", facts()).codes).toContain("figure-ungrounded");
+  });
+});
+
 describe("platform shape", () => {
   it("rejects an X post over the limit", () => {
     const bad = `${"DHS amended the H-1B and L-1 visa fee regulations. ".repeat(6)}${LINK}`;
@@ -296,5 +401,107 @@ describe("helpers", () => {
     expect(runs.has("9")).toBe(true); // effectiveAt month, leading zero stripped
     expect(runs.has("500")).toBe(true); // summary
     expect(runs.has("47")).toBe(false);
+  });
+});
+
+
+describe("the 2026-09-03 review's gaps, pinned", () => {
+  it("refuses an invented effective date however it is phrased", () => {
+    const f = facts({ effectiveAt: null, today: "2026-09-02" });
+    for (const phrase of [
+      "It takes effect Sept. 10, 2026.",
+      "The change goes into effect September 10, 2026.",
+      "It becomes effective Aug. 10.",
+      "It has been in effect since 2026.",
+      "Effective Aug. 10, the fee applies.",
+    ]) {
+      const r = validatePost(`DHS amended the fee rule. ${phrase} ${LINK}`, "x", f);
+      expect(r.codes, phrase).toContain("invented-effective-date");
+    }
+    const honest = validatePost(`DHS amended the fee rule. The archive records no separate effective date. ${LINK}`, "x", f);
+    expect(honest.codes).not.toContain("invented-effective-date");
+  });
+
+  it("refuses a proposal given a start date in the prompt's own date style", () => {
+    const f = facts({
+      classification: "proposed_rule",
+      effectiveAt: null,
+      today: "2026-08-12",
+      summary: "DHS proposes a $500 fee for certain H-1B and L-1 petitions.",
+    });
+    expect(
+      validatePost(`DHS has proposed a $500 fee. Starting Oct. 1, 2026, petitions carry the fee under the proposal. ${LINK}`, "x", f).codes
+    ).toContain("proposed-asserted-as-fact");
+    expect(validatePost(`DHS has proposed a $500 fee. The fee will take effect Oct. 1, 2026. ${LINK}`, "x", f).codes).toContain(
+      "proposed-in-effect"
+    );
+    const conditional = validatePost(
+      `DHS has proposed a $500 fee. If finalised, it would take effect on a date the final rule sets. ${LINK}`,
+      "x",
+      f
+    );
+    expect(conditional.codes).not.toContain("proposed-in-effect");
+    expect(conditional.codes).not.toContain("proposed-asserted-as-fact");
+  });
+
+  it("grounds whole numbers, not only their digit runs", () => {
+    const f = facts({
+      summary: "The 10 largest sponsors hold 15.1% of approvals; the 50 largest hold 28.7%.",
+      figures: ["10", "15.1%", "50", "28.7%"],
+    });
+    expect(validatePost(`The 10 largest sponsors hold 28.7% of approvals. ${LINK}`, "x", f).codes).not.toContain("figure-ungrounded");
+    expect(validatePost(`The 10 largest sponsors hold 28.1% of approvals. ${LINK}`, "x", f).codes).toContain("figure-ungrounded");
+    expect(validatePost(`The 10 largest sponsors hold 1.5% of approvals. ${LINK}`, "x", f).codes).toContain("figure-ungrounded");
+  });
+
+  it("refuses a quantity in words the source never uses", () => {
+    expect(validatePost(`The fee reaches nearly a million workers. ${LINK}`, "x", facts()).codes).toContain("figure-ungrounded");
+    expect(validatePost(`The fee reaches half of all petitions. ${LINK}`, "x", facts()).codes).toContain("figure-ungrounded");
+    const g = facts({ summary: "The fee applies to half of all petitions." });
+    expect(validatePost(`The fee applies to half of all petitions. ${LINK}`, "x", g).codes).not.toContain("figure-ungrounded");
+  });
+
+  it("judges a spelled-out agency like its abbreviation", () => {
+    // The fixture's entities name the Department of Homeland Security.
+    expect(validatePost(`The Department of Homeland Security amended the fee. ${LINK}`, "x", facts()).codes).not.toContain(
+      "attribution-unsupported"
+    );
+    const bare = facts({
+      entities: ["H-1B specialty occupation"],
+      summary: "The fee for certain H-1B and L-1 visas is amended. The fee is $500.",
+    });
+    for (const who of ["The Department of Homeland Security", "The Labor Department", "The Trump administration", "Customs and Border Protection"]) {
+      expect(validatePost(`${who} amended the fee. ${LINK}`, "x", bare).codes, who).toContain("attribution-unsupported");
+    }
+  });
+
+  it("sees a link X would auto-link, with or without a scheme", () => {
+    for (const bare of ["uscis.gov/newsroom/alerts", "www.uscis.gov/h-1b"]) {
+      const r = validatePost(`DHS amended the fee; see ${bare} for the notice. ${LINK}`, "x", facts());
+      expect(r.codes, bare).toContain("url-not-whitelisted");
+    }
+    // A name that happens to end in a top-level domain is not a link.
+    const named = facts({ summary: "Amazon.com Services LLC holds the most approvals." });
+    expect(validatePost(`Amazon.com Services holds the most approvals. ${LINK}`, "x", named).codes).not.toContain("url-not-whitelisted");
+  });
+
+  it("does not find one day inside another", () => {
+    expect(mentionsDate("takes effect Sept. 20, 2026", "2026-09-02")).toBe(false);
+    expect(mentionsDate("takes effect Sept. 2, 2026", "2026-09-02")).toBe(true);
+    expect(mentionsDate("takes effect on September 2nd", "2026-09-02")).toBe(true);
+    expect(mentionsDate("on 9/18", "2026-09-01")).toBe(false);
+    expect(mentionsDate("on 12 September", "2026-09-02")).toBe(false);
+    expect(mentionsDate("on 2 September 2026", "2026-09-02")).toBe(true);
+  });
+
+  it("holds only a recorded document to proposal-stage rules", () => {
+    expect(
+      describesAProposal(
+        facts({ subjectKind: "explainer", classification: null, effectiveAt: null, title: "A proposed rule is not a rule" })
+      )
+    ).toBe(false);
+    expect(
+      describesAProposal(facts({ classification: "announcement", effectiveAt: null, title: "DHS Proposes Additional H-1B Fee" }))
+    ).toBe(true);
   });
 });

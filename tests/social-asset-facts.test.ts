@@ -15,15 +15,20 @@
 // assets are allowed figures at all. That line follows the site's own provenance
 // labels — reported figures only — and it is the sort of decision that erodes
 // silently when someone later wants one more post to pass.
+//
+// Standing assets are no longer a selection pool — data signals and discovery
+// posts replaced them, with their own pages and cards. buildAssetFacts() is
+// kept so the ledger's history stays readable and so this layer's grounding
+// guarantees remain pinned; the last block asserts the pool really is gone.
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
 import { assetInsights, assetsWithInsight } from "@/lib/social/asset-facts";
 import { buildAssetFacts } from "@/lib/social/facts";
 import { STANDING_ASSETS, ASSET_BY_ID, absolute } from "@/lib/social/links";
-import { publishableAssets, standingPool } from "@/lib/social/select";
+import { candidatesFor } from "@/lib/social/select";
 import { buildUserPrompt } from "@/lib/social/prompt";
-import { SLOTS } from "@/lib/social/slots";
+import { SLOT_BY_ID } from "@/lib/social/slots";
 import { allowedDigitRuns, validatePost } from "@/lib/social/validate";
 import { digitRuns } from "@/lib/social/facts";
 import { WARN_SUMMARY } from "@/lib/warn-summary";
@@ -224,12 +229,18 @@ describe("buildAssetFacts", () => {
     );
   });
 
-  it("never widens the link whitelist beyond the asset's own page", () => {
+  it("keeps the link whitelist to the asset's own page — tracked and clean", () => {
+    // The tracked URL is what the post must carry; the clean canonical URL is
+    // permitted so a repair that drops the parameters fails as a wrong
+    // destination rather than as an off-site link. Nothing else is allowed.
     for (const a of STANDING_ASSETS) {
       const facts = buildAssetFacts(a, TODAY);
       if (!facts) continue;
-      expect(facts.allowedUrls).toEqual([absolute(a.path)]);
-      expect(facts.deepLink).toBe(absolute(a.path));
+      const clean = absolute(a.path);
+      expect(facts.shareUrl, a.id).toBe(clean);
+      expect(facts.deepLink.startsWith(`${clean}?`), a.id).toBe(true);
+      expect(facts.deepLink, a.id).toContain("utm_source=x");
+      expect(facts.allowedUrls, a.id).toEqual([facts.deepLink, clean]);
     }
   });
 
@@ -275,8 +286,8 @@ describe("the validator still refuses an ungrounded figure", () => {
   });
 });
 
-describe("the prompt tells the engine which kind of evening this is", () => {
-  const slot = SLOTS.find((s) => s.pool === "standing")!;
+describe("the prompt tells the engine what kind of fact set this is", () => {
+  const slot = SLOT_BY_ID.get("evening")!;
   const ask = (id: string) =>
     buildUserPrompt({
       facts: buildAssetFacts(ASSET_BY_ID.get(id)!, TODAY)!,
@@ -287,96 +298,54 @@ describe("the prompt tells the engine which kind of evening this is", () => {
 
   it("renders the computed facts for an asset that has them", () => {
     const prompt = ask("layoffs");
-    expect(prompt).toContain("ESTABLISHED FACTS FROM OUR OWN DATA");
+    expect(prompt).toContain("ESTABLISHED FACTS");
     expect(prompt).toContain(formatNumber(WARN_SUMMARY.noticeCount));
-    expect(prompt).toMatch(/Lead with the most striking of the established facts/);
+    expect(prompt).toMatch(/Use them as written; do not recalculate/);
   });
 
   it("does not claim there are no figures when there are", () => {
-    // The bug this whole change fixes: the old brief told every evening slot it
+    // The bug the asset layer fixed: the old brief told every evening slot it
     // had no figures, which is why its posts described pages.
-    expect(ask("layoffs")).not.toMatch(/no figures you may quote/i);
+    const prompt = ask("layoffs");
+    expect(prompt).toContain("NUMBERS YOU MAY USE (no others)");
+    expect(prompt).not.toContain("NUMBERS YOU MAY USE: none");
   });
 
   it("still tells an asset without figures that it has none", () => {
     // A non-numeric asset still has established facts — they just carry no
-    // measurement. What must change is the brief and the permitted-numbers line.
+    // measurement. The permitted-numbers line is what has to say so.
     const prompt = ask("methodology");
-    expect(prompt).toContain("ESTABLISHED FACTS FROM OUR OWN DATA");
-    expect(prompt).toMatch(/no figures you may quote/i);
+    expect(prompt).toContain("ESTABLISHED FACTS");
     expect(prompt).toContain("NUMBERS YOU MAY USE: none");
+  });
+
+  it("does not ask a resource about an effective date it was never going to have", () => {
+    // The direct cause of the methodology post's opening sentence.
+    const prompt = ask("layoffs");
+    expect(prompt).toMatch(/not a dated change/i);
+    expect(prompt).not.toMatch(/No effective or implementation date is recorded/i);
   });
 });
 
-describe("the standing rotation", () => {
-  it("carries only assets that have something to say AND someone to say it to", () => {
-    // TWO GATES NOW, ASKING DIFFERENT QUESTIONS.
-    //
-    // assetsWithInsight() asks whether the page has anything grounded to say
-    // today — a WARN feed that failed to resolve has nothing, and the asset
-    // leaves. The reader-value floor asks the further question: given that it
-    // has something to say, would anyone care that it said it? A page whose
-    // only honest post is "here is how we label our own figures" clears the
-    // first gate and fails the second.
-    const publishable = publishableAssets(TODAY);
-    const expected = new Set(publishable.filter((a) => a.publishable).map((a) => a.id));
-
-    const inPool = new Set(
-      standingPool(TODAY)
-        .filter((c) => c.subjectId.startsWith("asset:"))
-        .map((c) => c.subjectId.slice("asset:".length))
-    );
-    expect(inPool).toEqual(expected);
-
-    // And the second gate is doing real work rather than being a no-op: some
-    // asset has an insight and is still not worth an evening.
-    expect(publishable.some((a) => a.hasInsight && !a.publishable)).toBe(true);
-  });
-
-  it("gives every rotating asset a fact set", () => {
-    for (const c of standingPool(TODAY)) {
-      expect(c.facts.subjectId).toBe(c.subjectId);
-      expect(c.facts.deepLink).toContain(c.deepLink);
+describe("standing assets are no longer a selection pool", () => {
+  it("never enter the queue as candidates, on any day", () => {
+    // The evergreen tier replaced them: data signals, explainers and tools with
+    // their own pages and cards. The self-referential pages — methodology,
+    // sources, following — therefore cannot post by construction, not merely
+    // by losing a ranking.
+    for (const date of [TODAY, "2026-09-17"]) {
+      const queue = candidatesFor([], date);
+      expect(queue.length, date).toBeGreaterThan(0);
+      expect(queue.some((c) => c.subjectId.startsWith("asset:")), date).toBe(false);
     }
   });
 
-  it("reaches every asset over a full turn of the rotation", () => {
-    // The rotation still reaches everything; what changed is that it no longer
-    // decides across KINDS. Assets now sit in category tiers — a dataset always
-    // outranks a reference page, which always outranks a page about
-    // ImmigrationClock itself — so the single top-scoring asset is always a
-    // dataset and asking whether every asset leads the whole pool would now be
-    // asking whether the tiers work, not whether the rotation turns.
-    //
-    // The property that matters is unchanged: no asset is stranded. Over one
-    // full turn every asset leads ITS OWN category exactly once.
-    const usable = publishableAssets(TODAY).filter((a) => a.publishable).length;
-    const leaders = new Set<string>();
-
-    for (let d = 0; d < usable; d++) {
-      const date = new Date(Date.parse(`${TODAY}T00:00:00Z`) + d * 86_400_000)
-        .toISOString()
-        .slice(0, 10);
-      const assets = standingPool(date).filter((c) => c.subjectId.startsWith("asset:"));
-      const bestPerCategory = new Map<string, string>();
-      for (const c of assets) {
-        // standingPool returns descending score, so the first of each category
-        // is that category's leader for the day.
-        if (!bestPerCategory.has(c.category)) bestPerCategory.set(c.category, c.subjectId);
-      }
-      for (const subjectId of bestPerCategory.values()) leaders.add(subjectId);
-    }
-
-    expect(leaders.size).toBe(usable);
-  });
-
-  it("never offers a page about ImmigrationClock at all", () => {
-    // The methodology post in one line. These two used to be one point apart;
-    // then a tier put six bands between them; now the self-referential page is
-    // not in the pool to be ranked, because there is no evening quiet enough to
-    // make a post about our own labelling practice worth a reader's attention.
-    const pool = standingPool(TODAY).filter((c) => c.subjectId.startsWith("asset:"));
-    expect(pool.filter((c) => c.category === "methodology")).toEqual([]);
-    expect(pool.length).toBeGreaterThan(0);
+  it("still name which assets have something grounded to say today", () => {
+    // assetsWithInsight() is what the preflight reads. It answers a narrower
+    // question than "may this post" — only whether the page has a grounded
+    // insight — and it still has to be true of the whole catalogue.
+    const ids = STANDING_ASSETS.map((a) => a.id);
+    expect(assetsWithInsight(ids, TODAY).length).toBeGreaterThan(0);
+    expect(assetsWithInsight(["not-a-real-asset"], TODAY)).toEqual([]);
   });
 });

@@ -38,7 +38,7 @@ import {
   isKnownProvider,
   resolveProvider,
 } from "@/lib/social/copy-engine";
-import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt } from "@/lib/social/prompt";
+import { SYSTEM_PROMPT, RESPONSE_SCHEMA, buildUserPrompt, responseSchemaFor } from "@/lib/social/prompt";
 import { buildEventFacts } from "@/lib/social/facts";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import type { IndexedEvent } from "@/lib/event-index";
@@ -116,18 +116,43 @@ describe("the prompt transfers unchanged", () => {
     const { impl, calls } = stub(ok());
     await engine(impl).generate(REQUEST);
     const sent = JSON.stringify(calls[0].body);
-    expect(sent).toContain("TIME DIMENSION");
-    expect(sent).toContain("TIMING — the part this account exists for");
+    expect(sent).toContain("THE VOICE");
+    expect(sent).toContain("TIMING IS THE POINT, AND TIMING IS NEVER INVENTED");
+    expect(sent).toContain("TIMING — the part this publication exists for");
     expect(sent).toContain("PERMITTED ATTRIBUTION");
+    expect(sent).toContain("CONTENT TYPE:");
+    expect(sent).toContain("SHAPES ON OFFER");
   });
 
-  it("constrains the response to the same schema, strictly", async () => {
+  it("constrains the response to the schema, strictly, with the shape narrowed per request", async () => {
     const { impl, calls } = stub(ok());
     await engine(impl).generate(REQUEST);
     const format = (calls[0].body.text as { format: Record<string, unknown> }).format;
     expect(format.type).toBe("json_schema");
     expect(format.strict).toBe(true);
-    expect(format.schema).toEqual(RESPONSE_SCHEMA);
+    // Not the bare RESPONSE_SCHEMA: `structure` is an enum of the shapes this
+    // request offered, so a shape the writer was not offered cannot be
+    // returned at all. A request that offers none gets the plain "direct" shape.
+    expect(format.schema).toEqual(responseSchemaFor(REQUEST));
+    const schema = format.schema as { properties: { structure: { enum: string[] } }; required: string[] };
+    expect(schema.properties.structure.enum).toEqual(["direct"]);
+    expect(schema.required).toEqual(RESPONSE_SCHEMA.required);
+  });
+
+  it("narrows the shape enum to exactly the shapes on offer", async () => {
+    const { impl, calls } = stub(ok());
+    await engine(impl).generate({ ...REQUEST, structures: ["news", "date_lede"] });
+    const format = (calls[0].body.text as { format: Record<string, unknown> }).format;
+    const schema = format.schema as { properties: { structure: { enum: string[] } } };
+    expect(schema.properties.structure.enum).toEqual(["news", "date_lede"]);
+  });
+
+  it("requires the writer to report its shape and a headline, and nothing else", () => {
+    // Strict mode needs every property required and no additional ones, and
+    // the ledger needs the shape reported to enforce structure variety.
+    expect(RESPONSE_SCHEMA.required).toEqual(["x", "linkedin", "deepLink", "structure", "headline"]);
+    expect(RESPONSE_SCHEMA.additionalProperties).toBe(false);
+    expect(Object.keys(RESPONSE_SCHEMA.properties).sort()).toEqual([...RESPONSE_SCHEMA.required].sort());
   });
 
   it("uses the Responses API and does not store drafts on the vendor", async () => {

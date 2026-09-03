@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -20,6 +21,7 @@ export const metadata = buildMetadata({
   description:
     "The employers filing the most H-1B petitions, with approvals, denials, approval rates, and average offered wages. Sortable and downloadable.",
   path: "/h1b/top-sponsors",
+  image: ogImagePath("page", "h1b-top-sponsors"),
   keywords: ["top H-1B sponsors", "H-1B employers", "visa sponsorship", "H-1B approval rate"],
 });
 

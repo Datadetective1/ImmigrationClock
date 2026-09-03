@@ -91,10 +91,11 @@ describe("the workflow resolves the copy engine deterministically", () => {
     }
   });
 
-  it("declares it at job level, so 'Publish this slot' inherits it", () => {
+  it("declares it at job level, so 'Publish this window' inherits it", () => {
     // The publish step has no `env:` of its own; it inherits the job's. If
     // SOCIAL_ENGINE ever moves under a single step — preflight, say — the
     // scheduled publish silently loses it again, which is exactly what happened.
+    expect(WORKFLOW).toContain("name: Publish this window");
     const jobEnvBlock = WORKFLOW.slice(
       WORKFLOW.indexOf("    env:"),
       WORKFLOW.indexOf("    steps:")
@@ -122,6 +123,54 @@ describe("the workflow resolves the copy engine deterministically", () => {
     // values, so it records SKIPPED_CREDENTIAL_EXPIRED and X is unaffected.
     expect(WORKFLOW).toMatch(/LINKEDIN_ACCESS_TOKEN:\s*\$\{\{\s*secrets\.LINKEDIN_ACCESS_TOKEN\s*\}\}/);
     expect(WORKFLOW).toMatch(/X_ACCESS_TOKEN:\s*\$\{\{\s*secrets\.X_ACCESS_TOKEN\s*\}\}/);
+  });
+});
+
+// =============================================================================
+// THE HOURLY GATE
+//
+// The cron fires every hour of the publishing day, so most firings are no-ops:
+// the hour is outside every window, or the open window already published. The
+// gate answers both from files already in the checkout, BEFORE `npm ci`, so an
+// idle firing costs seconds. Manual dispatches skip it: a human forcing a
+// window has already decided.
+// =============================================================================
+describe("the hourly gate keeps no-op firings cheap", () => {
+  const gateStart = WORKFLOW.indexOf("name: Is a window open, and unfilled?");
+  const installStart = WORKFLOW.indexOf("name: Install dependencies");
+  const gate = WORKFLOW.slice(gateStart, installStart);
+
+  it("runs the gate before installing dependencies, on scheduled firings only", () => {
+    expect(gateStart).toBeGreaterThan(-1);
+    expect(installStart).toBeGreaterThan(gateStart);
+    expect(gate).toContain("if: github.event_name == 'schedule'");
+    expect(gate).toContain("scripts/social-gate.ts");
+    expect(gate).toContain('echo "open=true"');
+    expect(gate).toContain('echo "open=false"');
+  });
+
+  it("installs, preflights and publishes only when the gate opened, or a human dispatched", () => {
+    for (const step of ["Install dependencies", "Preflight", "Publish this window"]) {
+      const start = WORKFLOW.indexOf(`name: ${step}`);
+      const body = WORKFLOW.slice(start, WORKFLOW.indexOf("- name:", start + 10));
+      expect(body, step).toContain("github.event_name == 'workflow_dispatch'");
+      expect(body, step).toContain("steps.gate.outputs.open == 'true'");
+    }
+  });
+
+  it("persists both the ledger and the editorial queue, even when an earlier step failed", () => {
+    const start = WORKFLOW.indexOf("name: Persist the post ledger and the editorial queue");
+    expect(start).toBeGreaterThan(-1);
+    const body = WORKFLOW.slice(start, WORKFLOW.indexOf("- name:", start + 10));
+    expect(body).toContain("always()");
+    expect(body).toContain("src/lib/generated/social-posted.json");
+    expect(body).toContain("src/lib/generated/social-queue.json");
+  });
+
+  it("fires at :07 every hour a window can be open, in either offset", () => {
+    expect(WORKFLOW).toContain('- cron: "7 13-23 * * *"');
+    expect(WORKFLOW).toContain('- cron: "7 0-2 * * *"');
+    expect((WORKFLOW.match(/^\s{4}- cron:/gm) ?? []).length).toBe(2);
   });
 });
 

@@ -1,10 +1,11 @@
 # Social publishing
 
-Three opportunities a day on X and LinkedIn, unattended, with an LLM writing the
-copy and deterministic code deciding everything else.
+One editorial engine, three windows a day, on X (LinkedIn is wired but not
+enabled). An LLM writes the wording; deterministic code decides everything
+else, and a validator refuses anything the fact set does not support.
 
-**Status: dry run.** Everything below is built and tested. Nothing publishes,
-because `SOCIAL_POST_ENABLED` is unset. See [Going live](#going-live).
+**Status: live.** `SOCIAL_POST_ENABLED` is `true` in the repository's
+variables and the schedule below is armed. See [Stopping it](#stopping-it).
 
 ---
 
@@ -16,595 +17,247 @@ because `SOCIAL_POST_ENABLED` is unset. See [Going live](#going-live).
 >
 > The schedule creates opportunities. The content earns publication.
 
-Every design decision below follows from that. In particular, **skipping is a
-normal outcome, not a failure**, and the system is built to skip cheaply — the
-gates that can reject a slot without an API call all run before the API call.
+A run that produces nothing is the system working. What changed in the second
+design is what "something useful" can be: not only a government document
+restated, but a development explained, its significance stated where the
+record supports it, a figure from the site's own data, a distinction readers
+get wrong, or a tool the site already holds.
 
 ---
 
-## The three slots
+## What the first design did, measured
 
-Three posts a day is not three news stories a day. The archive yields roughly
-six qualifying official developments in a *week*; twenty-one news slots a week
-would either starve or repeat. So each slot draws on a different pool, and only
-the first is news.
+The account published from 2026-08-10. The ledger and the GitHub Actions run
+log for the three weeks to 2026-09-01 show:
 
-| Slot | Local time | Pool | What it is for |
+| | |
+|---|---|
+| X posts | 22 (4, 11, 5 and 2 by week) |
+| Windows evaluated | 47 |
+| Windows spent on a subject that could not post on X | 17 — "This subject and angle are not available on x" |
+| Model calls those windows burned | 14 ($0.77 of $1.83 total) |
+| Days with no morning run at all after 08-26 | 6 — the 14:07Z cron fired hours late or not at all and the exact-hour gate discarded it |
+| Posts carrying the generic brand card | all of them — every deep link was a hub page |
+| Posts opening `[Subject]: [agency] [verb]…` | 9 of 22 |
+| Posts carrying "no implementation date is recorded/set/posted" | 8 of 22 |
+| Posts writing an agency in lowercase ("dhs's final rule") | 5 of 22 |
+| A major court order (2026-08-28) that never entered any pool | 1 — the ranking floor keyed on an obligation keyword its summary lacked |
+
+Four causes, none of them the model's taste: the schedule's gate, a platform
+ghost in eligibility, one destination per hub page, and a prompt whose
+mandatory elements plus a literal URL count left one shape and ~150 characters
+of prose.
+
+---
+
+## The editorial model
+
+### Content types
+
+| Type | Tier | What it is | Fact source |
 |---|---|---|---|
-| Morning | 09:00 CT | `news` | **What changed, and what it now requires.** A genuinely new qualifying development from the last two days, and the obligation it creates where there is one. Skips often, by design. |
-| Afternoon | 15:00 CT | `knowledge` | **Explain something.** The teaching slot: who an active rule reaches, what a document changed, what happens on a coming effective date. Written for someone with an application in progress. |
-| Evening | 18:00 CT | `standing` | **Look ahead, or hand someone a tool.** A window on the horizon, or a durable resource worth knowing about. Never manufactured urgency. |
+| `breaking_change` | news | A material official change ≤ 2 days old: a rule, a court order, a policy reversal | the archive record |
+| `what_changed` | news (≤ 2 days) / follow-up | A recent development explained in plain English: what changed, what we are watching | the archive record |
+| `why_it_matters` | follow-up | A verified development and its significance, drawn only from implications derived from the record's fields | the record + `implications.ts` |
+| `effective_date` | follow-up | A rule's start date in the next 30 days: what starts, what stays true until then | the archive record |
+| `key_date` | follow-up | A recurring window at a milestone (60/45/30/14/7/3/1 days) | `key-dates.ts` |
+| `data_signal` | evergreen | A factual observation computed from reported data or exact counts of the archive | `src/lib/editorial/signals.ts` |
+| `explainer` | evergreen | A source-backed explanation of a distinction readers get wrong | `src/lib/editorial/explainers.ts` |
+| `data_discovery` | evergreen | A verified capability of ImmigrationClock, offered to the reader who needs it | `src/lib/editorial/discovery.ts` |
 
-The pools do not overlap. The afternoon slot deliberately excludes the last two
-days, so it can never "explain" a rule the morning slot broke six hours earlier
-— which is the most recognisable tell of an automated account padding a
-schedule.
+Every type is a closed fact set (`facts.ts`) and every post is validated
+against it. A model never decides a fact.
+
+### Cadence (`cadence.ts`)
+
+| Target | Rule |
+|---|---|
+| Normal day | about one post |
+| Consequential day | two, occasionally three, when they are distinct developments |
+| Quiet day | one evergreen post, in the afternoon or evening |
+| Nothing worth saying | nothing |
+| A rule with a future date | the reminder — upcoming from 30 days out, imminent in the last fortnight — after what changed, never before |
+
+Enforced as ceilings, never floors: at most 3 posts a day, at least 3 hours
+apart; the news tier may publish in any window; follow-ups at most one a day
+and three a week; the evergreen tier only when the day has been quiet, only in
+the afternoon or evening, and at most five a week. Nothing here can promote a
+candidate or lower a quality gate.
+
+### Shapes (`content-types.ts`)
+
+Sixteen shapes — news, direct, address, date-first, what-changed, before/after,
+why-it-matters, context-first, the figure, question-then-figure, two figures,
+the distinction, short list, question-and-answer, need-first, the tool plainly.
+Each content type is offered the shapes that fit its facts; the writer is told
+which shapes the account used most recently, chooses one, and reports it. The
+ledger records it, and a third consecutive use of one shape is refused
+(`checkStructureVariety`). Chosen, never rotated.
+
+### Voice (`prompt.ts`, v9)
+
+Clear, curious, precise, calm, useful, human, data-literate. Not bureaucratic,
+sensational, political, salesy or a press release. Dates as words, agencies as
+a person writes them, two or three short paragraphs, "USCIS just changed…"
+over "USCIS announces the rescission and reinstatement of…". The mandatory
+"no implementation date" sentence is gone; the absence of a date may be
+mentioned, plainly, or left out.
+
+### Windows (`slots.ts`)
+
+| Window | Chicago hours | Cron (UTC, both offsets) |
+|---|---|---|
+| morning | 08:00–12:59 | 13–18 |
+| afternoon | 13:00–16:59 | 18–22 |
+| evening | 17:00–20:59 | 22–02 |
+
+The workflow fires at :07 every hour from 13:07 to 02:07 UTC. A firing that
+arrives two hours late still lands inside its window. `scripts/social-gate.ts`
+runs before `npm ci` and exits in seconds when no window is open or the open
+window already published today, so the no-op firings cost almost nothing.
 
 ---
 
 ## The pipeline
 
 ```
-window → pool → score → angle → subject dedupe → LLM → validate → wording dedupe → publish
-└──────────────── free, deterministic ────────────────┘   └── one API call ──┘
+gate → cadence → candidates (one queue) → queue refresh → rotation → subject/URL
+cooldown → stored ready copy, or LLM → validate → opening + shape variety →
+wording dedupe → publish → commit the ledger and the queue
 ```
 
-Each stage can end the slot, and each refusal is a named outcome in the ledger.
+Each stage can end the run, and each refusal is a named row in the ledger:
+`SKIPPED_CADENCE` · `SKIPPED_NO_QUALIFYING_CONTENT` · `SKIPPED_DUPLICATE` ·
+`SKIPPED_COOLDOWN` · `SKIPPED_VALIDATION_FAILED` · `SKIPPED_ENGINE_UNAVAILABLE`
+· `SKIPPED_ENGINE_MISCONFIGURED` · `SKIPPED_CREDENTIAL_EXPIRED` ·
+`SKIPPED_PUBLISH_FAILED` · `SKIPPED_NOT_ENABLED` · `POSTED` · `DRY_RUN`.
 
-### 1. Window (`slots.ts`)
+### Selection (`select.ts`)
 
-GitHub Actions cron is always UTC and has no `timezone` key. The workflow
-therefore schedules **both** US offsets:
+One ranked queue. A recorded change may become up to four candidates
+(breaking, what-changed, why-it-matters, effective-date), keyed by its own
+fields; recurring dates enter at milestones; every explainer, every signal
+today's snapshots support, and every discovery item enter as evergreen.
+Scoring is the category ladder (`categories.ts`) plus the ranking model plus
+reader value (`reader-value.ts`), minus recency inside the news tier. A court
+decision, an executive action or a major final rule qualifies as news on its
+kind, so a terse summary can no longer keep an injunction out of the queue.
 
-```yaml
-- cron: "0 14,20,23 * * *"   # CDT (UTC-5)
-- cron: "0 0,15,21 * * *"    # CST (UTC-6)
-```
+Records whose summary is the Federal Register's "No abstract was published"
+placeholder carry only a dated reminder; there is nothing to explain.
 
-Those hours come from `utcHoursFor()`, and `tests/social-slots.test.ts` parses
-the workflow file and asserts every slot has both offsets covered — commented
-out or not.
+### Eligibility is per platform this run can publish to (`run.ts`)
 
-Six firings a day; three are an hour wrong on any date. `currentSlot()` reads
-the real America/Chicago wall clock via `Intl.DateTimeFormat` and returns `null`
-unless the local hour is 9, 15 or 18. The wrong-offset firings exit in seconds.
+Live, that means platforms with a credential. A platform with no history
+cannot make a subject eligible that X cannot post — the ghost that spent
+seventeen windows. Dry runs and the simulator evaluate `["x"]`.
 
-Both DST transition days are covered by tests.
+### The queue (`queue.ts`)
 
-### 2. Selection and scoring (`select.ts`, `score.ts`)
+`src/lib/generated/social-queue.json`, committed by the workflow beside the
+ledger. Every candidate the selector produces is remembered with a status:
 
-Scoring **reuses the newsletter's ranking model** (`newsletter/ranking.ts`)
-rather than inventing a second one: breadth → obligation → magnitude →
-authority → recency, as positional weights where each strictly dominates the
-next. Two consequences, both intended: improving the newsletter's ranking
-improves social selection, and the two surfaces can never disagree about which
-change matters more.
+`candidate → verified → ready → scheduled → published`, or `rejected` (with
+the reason: expired, validation, cooldown) or `superseded` (a newer record
+with the same title stem — a final rule after its proposal).
 
-Thresholds are expressed against those weights:
+A `ready` item holds validated copy. A run that fails to publish it — X
+returned 503, or 402 credits depleted — leaves it ready, and the next window
+publishes the stored copy without a second model call, provided the fact set
+has not moved (the hash is checked; the run's clock is not part of it, so
+copy survives midnight). An item deferred to a later window (`scheduled`)
+returns to `verified` once that day has passed. The queue is a memory, not a
+lock: every rerun guard and cooldown reads the ledger, and a corrupt queue —
+including one with a half-written item — is rebuilt while a corrupt ledger
+halts everything.
 
-| Pool | Floor | Means |
+`npm run social:queue` prints it.
+
+### Rotation and dedupe (`rotation.ts`, `dedupe.ts`)
+
+Unchanged in spirit: subject × treatment × platform × cooldown, topic-family
+and destination penalties, the same-day topic rule, opening-construction
+variety, and word-trigram wording similarity. Changed in numbers: a recorded
+change is a story told in parts, so a DIFFERENT treatment of the same record
+waits two days (`EVENT_FOLLOW_UP_SPACING_DAYS`), the same treatment never
+repeats, and a change is never held by a destination cooldown because its
+page is its own; the effective-date reminder sits one band below the
+narrative follow-ups until the last fortnight before the date
+(`EFFECTIVE_DATE_NEAR_DAYS`), so what changed is said before the date is
+repeated; a follow-up after a
+follow-up is penalised two tier steps; the evergreen kinds rotate (a signal,
+then an explainer, then a tool) by a one-step penalty on the kind used last;
+the content mix is counted by content type. A copy that is too close to a
+recent post is fed back to the engine as a repairable problem, and if it fails
+again the treatment stands down for a day.
+
+### The fact set and the validator (`facts.ts`, `validate.ts` v8)
+
+The closed world is unchanged: title, summary, source, dates, entities, the
+figures the source used, the notes. Added: `implications` — lines derived from
+the record's fields (a proposal is a proposal; a final rule with a future date
+does not apply until then and the current rules stay in force; a rescission
+removes the rule it names and not the statute; what ImmigrationClock is
+watching) — as the only significance the writer may state. The validator
+grounds figures and quotations against them like any other field.
+
+The X length is now measured the way X measures it: every URL counts as 23
+characters. The hard limit (275) is unchanged; the prose budget went from
+about 150 characters to about 240.
+
+The 2026-09-03 review closed six ways a wrong fact could have passed:
+
+- The closed world is the record's full summary, not the index's
+  220-character excerpt, so an office or a figure the source names is
+  stateable and one it does not is not.
+- Whole numbers are grounded as tokens as well as digit runs ("28.1%" is not
+  in a fact set holding 28.7% and 15.1%), and quantities in words ("nearly a
+  million", "half of") must appear in the source in those words.
+- Agencies are alias groups: "the Department of Homeland Security", "the
+  Labor Department" and "the Trump administration" are judged like "DHS",
+  "DOL" and nothing, respectively.
+- A record with no effective date may not be given one in any wording
+  ("takes effect Sept. 30", "goes into effect", "effective", "in effect as
+  of"); a proposal may not be given a start date in the prompt's own date
+  style ("Starting Oct. 1"); and a stated date must match the recorded day as
+  a whole token ("Sept. 2" is not found inside "Sept. 20").
+- The stage checks read the prose, never the link: every NPRM's slug carries
+  the word "proposed", which would otherwise have satisfied the check for it.
+- A bare domain with a path, or "www.", is a link X will auto-link, so it is
+  whitelisted, counted and weighted like one.
+
+Implications are derived only from what the record says: a court decision
+"stops enforcement" only when the record uses the words (enjoin, injunction,
+stay, vacate); the word "extension" alone — a form name, a paperwork notice —
+no longer yields "moves a date"; and a newsroom item announcing a proposal is
+treated as the proposal it is.
+
+### Share pages and cards
+
+Every post links a record's own page, with its own card:
+
+| Record | Page | Card |
 |---|---|---|
-| news | 2100 | breadth ≥ 2 **and** at least one obligation step |
-| knowledge | 2000 | breadth ≥ 2 |
-
-`routine` severity is never posted, whatever it scores — that is form edition
-dates and information-collection notices, i.e. the filler the principle forbids.
-
-#### The graduated freshness model
-
-The news window was two days. Measured against the real archive — 513 events,
-the 120 days to 2026-08-10 — that left the morning slot silent on **55% of
-days**:
-
-| window | days with a candidate | morning silent | mean age of winner |
-|---|---|---|---|
-| 2d (old) | 54 / 120 | 55% | 0.9d |
-| **5d (now)** | **75 / 120** | **38%** | **2.1d** |
-| 7d | 87 / 120 | 28% | 2.9d |
-| 14d | 106 / 120 | 12% | 6.3d |
-
-Qualifying developments arrive about four times a month. Five days, not seven or
-fourteen: past a week the mean winner age passes three days and one item can
-hold the top of the pool for a fortnight, which is where "news" stops being an
-honest word.
-
-**Retention is not permission.** A wider window changes how long an item is
-available, never what may be said about it:
-
-| Age | Framing |
-|---|---|
-| 0–2 days | `breaking_change` is on the table, plus `what_it_requires` when the obligation factor earns it |
-| 3–5 days | `breaking_change` is **withdrawn**. The item must earn a treatment from its own data — what it requires, who it reaches, what it changed, when it starts — exactly as an archive item does. Earning none means it does not run. |
-
-Enforced twice, deliberately: `newsAnglesFor()` withholds the angle, and
-`validate.ts` rejects just-happened wording independently — because
-`what_it_requires` is a legitimate angle for a four-day-old rule and choosing it
-does nothing to stop a sentence beginning "USCIS just announced". The prompt
-states the item's age so the rejection is never a surprise.
-
-**The recency gradient** is `150 points per day of age`, applied inside the news
-pool only, subtracted after the tier and the ranking score:
-
-```
-score = CATEGORY_TIER[category] + rankingScore − (ageDays × 150)
-```
-
-Sized so it can never outrank consequence: five days is the oldest anything in
-this pool can be, so the largest swing is `5 × 150 = 750` — strictly less than
-one breadth step (1000). A broader development beats a fresher one at any age
-difference the pool can produce, while a one-day difference (150) still
-outweighs one obligation step (100), which is the intended "all else reasonably
-equal" behaviour. Not applied to the knowledge pool, which spans 6–180 days
-where a decay this size would cross tier boundaries.
-
-Scheduled-for-publication documents are excluded. The Federal Register puts
-items on public inspection days before publication; posting one forces
-"scheduled for publication on…" phrasing that is weaker and easier to get subtly
-wrong than simply waiting.
-
-### 2a. Content category — the tier that decides what beats what (`categories.ts`)
-
-The ranking model above says how consequential a document is. It does **not**
-say what KIND of thing a candidate is, and for a long time nothing did. The
-consequence reached production: the evening slot published a post about
-ImmigrationClock's own methodology page, having scored it 1015 against fourteen
-other candidates. That number was not a judgement. Every standing candidate
-scored `1000 + (poolSize − rotationPosition)` — a rotation index — so all
-fifteen sat within fourteen points of each other and the calendar broke the tie.
-
-Every candidate now carries a category, and the category sets the band:
-
-| Tier | Category | What it is |
-|---|---|---|
-| 70,000 | `development` | a new qualifying official development |
-| 60,000 | `deadline` | a filing window or an effective date that is coming |
-| 50,000 | `actionable` | an active rule that obliges someone to do or pay something |
-| 40,000 | `proposed` | a proposed rule — real news, nothing on any calendar yet |
-| 30,000 | `data_insight` | a figure from ImmigrationClock's own datasets |
-| 20,000 | `explainer` | durable explanation |
-| 10,000 | `methodology` | ImmigrationClock itself — methodology, sources, product |
-
-The step (10,000) is wider than the ranking model's entire range (~4,450 at
-absolute maximum), so a tier cannot be crossed by accumulating score. The
-model's output survives intact as the ordering **within** a band.
-
-### 2b. Slots may draw on more than one pool
-
-Each slot keeps its own pool as its primary job and may reach for another when
-that pool holds something material:
-
-| Slot | Primary | Fallback |
-|---|---|---|
-| morning | news | none — its silence is its standard |
-| afternoon | knowledge | news |
-| evening | standing | news |
-
-**A fallback changes what a slot posts, never whether it posts.** If a slot's
-own pool is empty it stays silent exactly as before, so the cadence is
-unchanged. The evening slot deliberately does *not* fall back to the knowledge
-archive: a 14-day selection simulation showed the archive's live effective-date
-items swamping the datasets, leaving no evening on which the account hands
-somebody a tool.
-
-### 2c. The content mix
-
-Targets over a 14-day window, measured from the ledger's `category` column:
-
-| Bucket | Categories | Target |
-|---|---|---|
-| news | development, proposed | 50% |
-| alerts | deadline, actionable | 20% |
-| data | data_insight | 15% |
-| evergreen | explainer | 10% |
-| product | methodology | 5% |
-
-**Targets, not quotas, and structurally so:** the only instrument is a penalty
-on a bucket that has already had its turn — one tier step if it posted today,
-another if it is over its share for the window. Nothing can be promoted, and no
-quality gate can be lowered to reach a percentage. A bucket with nothing to
-offer simply yields its share to whatever else qualifies.
-
-### 3. Angles
-
-An angle must be **earned by the data**, not chosen because the slot needs one:
-
-| Angle | Requires |
-|---|---|
-| `breaking_change` | published in the last 2 days |
-| `effective_date_reminder` | a real future `effectiveAt` within 90 days |
-| `who_is_affected` | a linked visa, country, or non-catch-all topic |
-| `what_changed_from_previous` | `updated_information`, or an amend/revise/supersede title |
-| `historical_context` | ≥ 2 other events sharing a distinctive entity |
-| `deadline_approaching` | a key date within 120 days |
-| `data_insight` | a standing asset **with a grounded insight** (see 5a) |
-| `what_it_requires` | the ranking model scores `obligation` ≥ 2 |
-| `preparation_window` | a key date 46–120 days out |
-
-**`what_it_requires` is the "what should I do" angle, reframed.** It states the
-requirement as a property of the rule — "the rule requires a fee at filing" —
-never as an instruction to the reader. `you should`, `make sure to` and `apply
-now` are all rejected by the validator's legal-advice checks, which are
-unchanged. The angle is written to live inside that constraint.
-
-**`preparation_window` exists so urgency is never manufactured.** Key dates split
-at 45 days: inside it the countdown is the news (`deadline_approaching`);
-outside it the honest framing is that a window is coming.
-
-### Same-day variety
-
-Cooldowns work over weeks and key on subject ids. They do not catch three posts
-that are one story to a reader: an H-1B fee rule (`event:`), the sponsor
-directory (`asset:`) and the registration window (`keydate:`) are three
-subjects, three destinations and three angles — every other gate passes them,
-and together they are a day of nothing but H-1B.
-
-So every candidate carries a **`topicKey`** (visa → country → non-catch-all
-topic → source), recorded in the ledger, and **one topic may be covered once per
-day per platform**. It runs first in `chooseCandidate()` because it is the
-cheapest check. It counts only `POSTED` rows, so a dry run does not consume the
-day's variety, and it **fails open** on an unknown topic rather than silencing a
-slot.
-
-### Visuals — `visuals.ts`
-
-Five card kinds, built in TypeScript from the same records the fact set comes
-from. No image model is asked to render immigration information and no card text
-is generated.
-
-**Most posts get no card.** Four angles are on an explicit deny-list because
-their value is prose (`who_is_affected`, `what_changed_from_previous`,
-`historical_context`, `effective_date_reminder`); events need `major` severity;
-assets need a reported figure. A test asserts fewer than half of all candidates
-carry one.
-
-`assertVisualGrounded()` runs every numeral on a card back through the
-validator's own `allowedDigitRuns()`, and an approximate date prints its caveat
-**on the card** — a card gets screenshotted without the post underneath it.
-
-**Rendering and upload are not built.** A `VisualSpec` is a description. See
-"Visuals: what upload would require" below.
-
-An angle the data cannot support is an invitation for the model to invent the
-supporting detail.
-
-### 4. Dedupe (`dedupe.ts`)
-
-Uniqueness is **subject × angle × platform × cooldown** — not subject alone. The
-same development legitimately supports several treatments over time: a rule when
-it lands, its effective date as it approaches, who it reaches.
-
-| Subject kind | Same angle again | Any angle again | Max angles |
-|---|---|---|---|
-| `event:` | never | after 14 days | 4 |
-| `keydate:` | after 300 days | after 21 days | ∞ |
-| `asset:` | after 120 days | after 21 days | ∞ |
-
-Plus:
-
-- **URL cooldown**, 7 days per platform. *News is exempt from cooldowns caused by
-  other pools* — a breaking rule must not be suppressed because the evening slot
-  linked the same page last week. News still cools down against other news.
-- **Validation cooldown**, 5 days. A treatment the validator rejected twice
-  stands down, so one unpublishable candidate cannot occupy a slot every day
-  forever.
-- **Wording similarity**, word-trigram Jaccard ≥ 0.55 against the last 60 posts
-  on that platform, computed after generation.
-
-### 5. The fact set (`facts.ts`) — the closed world
-
-The copy engine has **no web access, no retrieval and no tools.** Everything it
-knows about a subject is assembled deterministically from data the repository
-already holds: title, summary, source, dates, classification, linked entities,
-the permitted URLs, and the figures the source itself used.
-
-This is the first hallucination control and it is structural rather than
-instructional: a model cannot fabricate a statistic about an agency it was never
-told about.
-
-### 5a. Standing-asset insights (`asset-facts.ts`)
-
-A page has no "summary as published", so for the first version of this system the
-evening slot was given nothing but the page's own description — and produced
-exactly what that guarantees: true sentences that described a table of contents.
-
-`asset-facts.ts` computes, per asset, a set of **finished statements of fact**
-from datasets the repository already holds, and hands them over as
-`facts.dataPoints`. The arithmetic and the attribution both happen in TypeScript.
-**The model is never asked to calculate anything**, and the figure-grounding
-check is unchanged: a numeral that did not come from here is still unpublishable.
-
-Which assets get numbers follows the site's own provenance labels — `reported`
-only:
-
-| Asset | Figures | Source |
-|---|---|---|
-| `/h1b/employers` | export FY, employers in export, employers listed, approvals, denials, approval rate | USCIS H-1B Employer Data Hub (ingested) |
-| `/layoffs` | notices, employees, employers, state coverage, date range, last two complete months | State WARN feeds (ingested) |
-| `/layoffs-vs-h1b` | employers in both datasets, WARN employees, H-1B approvals | the join of the two above |
-| `/border/encounters` | current-FY YTD + reporting month, last three complete FY totals | CBP nationwide encounters (live file) |
-| `/what-changed` | records held, oldest, feeds, final vs proposed rules | our own archive |
-| `/sources` | sources registered, government vs third-party, machine-ingested, planned | our own registry |
-| `/key-dates` | deadlines tracked, how many have a live countdown | our own registry |
-
-And which assets deliberately get **none**, because their page figures are not
-reported:
-
-| Asset | Why not |
-|---|---|
-| `/h1b/top-sponsors` | ranks a curated sponsor set; the page labels its own totals `modeled` |
-| `/immigration/enforcement-trends` | current-year ICE values are curated round numbers; detention is a point-in-time snapshot past its own staleness window |
-| `/migration-map` | country splits are apportioned from a national total |
-| `/visa/f1-student-visas` | DOS tables are transcribed by hand and the recent years are rounded |
-| `/methodology`, `/timeline`, `/work-visas`, `/following` | nothing numeric to state |
-
-Those assets still post, on a **non-numeric insight** — almost always the
-methodological point a reader gets wrong (an encounter is an event not a person;
-arrests, removals and detention cannot be added; a DOS issuance is not a USCIS
-approval). Where there is no such point either, `assetInsights` returns `null`,
-the asset leaves the rotation, and the evening goes quiet. `tests/social-asset-facts`
-pins that list, so relaxing it is a visible decision rather than a quiet one.
-
-Each entry also carries the source's own `limitations` string from
-`src/lib/sources.ts`, which is what lets a WARN post state that WARN never
-identifies the immigration status of the workers affected.
-
-### 6. The validator (`validate.ts`)
-
-> **The prompt asks. The validator enforces. Anything only the prompt enforces
-> is not enforced.**
-
-| Check | What it stops |
-|---|---|
-| **URL whitelist** (exact set membership) | a plausible-looking wrong link |
-| **Figure grounding** (every digit-run must appear in the fact set) | an invented statistic |
-| **Quotation grounding** (double-quoted spans must be verbatim) | an invented quote, including paraphrase-in-quotes |
-| Attribution | crediting an agency the source never names |
-| Banned constructions | prediction, speculation, legal advice, unsupported superlatives, engagement bait, emoji |
-| Proposed-rule framing | a proposal reading as law |
-| Effective dates | asserting one the archive does not record |
-| Platform shape | length, link count, hashtags, the LinkedIn fold |
-
-Tuned toward rejecting. A false rejection costs one silent slot; a false
-publication costs the thing the site is for.
-
-On failure: **one regeneration**, with the specific failures fed back. Two
-strikes and the slot is silent.
-
-### 7. Publishing
-
-X and LinkedIn are evaluated independently at every stage after generation.
-One engine call produces both variants — they share a subject and angle — but
-from there X's outcome never depends on LinkedIn's.
-
----
-
-## The exact-copy approval path
-
-The unattended path generates and publishes in one process, which is right for a
-schedule and wrong for a controlled first post: the copy a human reads in a dry
-run is not the copy that ships, because `--live` calls the model again.
-
-`--approved` is the alternative. Three commands, three separate decisions:
-
-```bash
-npm run social:propose -- --slot=evening
-```
-
-```bash
-npm run social:show -- --file=approvals/2026-08-09-evening.json
-```
-
-```bash
-npm run social:approve -- --file=approvals/2026-08-09-evening.json --by="Name" --digest=<from show> --platforms=x
-```
-
-```bash
-npm run social:post -- --slot=evening --approved=approvals/2026-08-09-evening.json --live
-```
-
-**`propose` makes the only model call.** It runs the real pipeline — selection,
-scoring, angle, subject dedupe, generation, validation, wording dedupe — and
-writes the result to a file instead of publishing it. It does **not** write the
-ledger: proposing is not an attempt to publish, and recording it as one would
-burn cooldowns on a post that may never be approved.
-
-**`runApproved()` takes no `CopyEngine`.** Generation on this path is not skipped,
-it is unreachable — which is what makes "the text that was read is the text that
-ships" a property of the type signature rather than a promise.
-
-### What binds the approval to the copy
-
-`contentDigest` is a SHA-256 over the fields the publisher acts on: slot, date,
-subject, angle, destination, fact-set hash, validator version, and both post
-strings. `social:show` prints it; `social:approve` requires you to pass it back,
-so an approval is bound to a *specific reading of a specific file*. The approved
-digest is then stored, and publication requires the recomputed digest to equal it.
-
-This is **tamper evidence, not authentication** — anyone who can write the file
-can recompute the digest. What it rules out is the realistic failure: an edit, a
-partial write, a stale file, the wrong envelope, or a regeneration quietly
-replacing what was read. What it does not rule out is deliberate forgery by
-someone with repository write access, and no keyless file scheme can.
-
-The envelope also carries the full fact set, **for reading only**. The publisher
-recomputes the fact set from today's data, requires the hash to match, and
-validates against the recomputed facts — so editing the stored copy of the facts
-cannot make anything pass.
-
-### What is re-checked before sending
-
-Every gate, in this order, and any failure means nothing publishes:
-
-| | Check |
-|---|---|
-| 1 | envelope digest intact |
-| 2 | explicitly approved, by a named approver, at a sane time |
-| 3 | approved digest still matches the copy |
-| 4 | ≤ 24h old (`MAX_APPROVAL_AGE_HOURS`) |
-| 5 | same America/Chicago day it was written for |
-| 6 | validator version unchanged since approval |
-| 7 | not already published — an approval is single-use, keyed on `approvalId` in the ledger |
-| 8 | subject still in today's pool, still supports the angle, same destination |
-| 9 | **fact-set hash unchanged** — a refresh between approval and publication refuses rather than shipping stale figures |
-| 10 | destination still publishable |
-| 11 | full validator re-run, per platform, against the recomputed facts |
-| 12 | subject + URL cooldowns re-run against the current ledger |
-| 13 | wording similarity re-run against the current ledger |
-
-Platforms stay independent throughout: a cooldown that blocks X does not block
-LinkedIn. Both switches still apply — `--live` **and** `SOCIAL_POST_ENABLED=true`.
-
----
-
-## X and LinkedIn copy
-
-| | X | LinkedIn |
-|---|---|---|
-| Length | **target 240–260**, hard limit 275 incl. link | 300–1300 chars |
-| Critical zone | first ~40 chars | **first 140** — the "see more" fold |
-| Headline | must *not* restate the title (the preview shows it) | may restate |
-| Audience line | omitted for space | required, drawn from the fact set |
-| Hashtags | 0–1 | **0–3, no quota** — none is usually right |
-| Link | inline at end | own line at end |
-| Register | terse, wire-service | explanatory, still non-advisory |
-
-275 rather than 280: X counts a link as a fixed-width `t.co` token whose length
-has changed before, and losing the link off the end is worse than five spare
-characters.
-
-The prompt asks for **240–260**, not for "at most 275". A model writing to a
-stated maximum treats it as a target and lands past it — the first real proposal
-came back at 286 — so the limit is expressed to the model as a band with the
-cliff named separately.
-
-The hashtag rule is a floor-and-ceiling, not a target. Padding to three is what
-makes an account read like marketing rather than a reference source.
-
----
-
-## Provider abstraction
-
-`CopyEngine` has one method. Two implementations ship:
-
-| Engine | Use |
-|---|---|
-| `openai` | **production.** Responses API with strict structured output. `SOCIAL_MODEL`, default `gpt-5` |
-| `anthropic` | previous provider, kept wired. `SOCIAL_ENGINE=anthropic` restores it |
-| `transcript` | replays copy from a file, for offline dry runs and simulations |
-
-**The transcript engine is not a fallback.** If the real engine is unavailable
-during a live run, the slot skips — a second, rarely-exercised voice that ships
-only when nobody is watching is worse than silence. It is selected explicitly,
-by flag, and stamps its own id into every ledger row.
-
-### How the provider name resolves
-
-One function decides, `resolveProvider()` in `src/lib/social/copy-engine.ts`, and
-both the runner and the preflight call it:
-
-    --engine=<name>   →   SOCIAL_ENGINE   →   openai
-
-A **blank** SOCIAL_ENGINE counts as unset and resolves to `openai`. It never
-resolves to `anthropic` implicitly — that requires writing the value down.
-
-This mattered in production. The workflow mapped `SOCIAL_ENGINE: ${{
-vars.SOCIAL_ENGINE }}` from a repository variable that was never set, and an
-unset GitHub variable renders as the **empty string** rather than being absent.
-The old resolution used `??`, which falls back only on null/undefined, so `""`
-reached the provider switch and every scheduled live run died with
-`Unknown copy engine provider:` and nothing after the colon. Dry runs passed
-`--engine=openai` explicitly and the preflight used `||`, so both looked healthy
-while the one unattended path failed. The workflow now writes
-`${{ vars.SOCIAL_ENGINE || 'openai' }}`, at **job** level so the publish step
-inherits it, and the code is blank-safe independently of that.
-
-The preflight **blocks** — exit 1, before any API call — when SOCIAL_ENGINE names
-an unknown provider, or when the resolved provider's key is absent.
-
-Model choice: Opus at ~3 calls/day costs a few dollars a month more than a
-cheaper tier. The failure this system guards against is a plausible-sounding
-sentence that over-claims what a federal agency did, published unattended, on an
-account whose only asset is being believed. That is where capability pays.
-
----
-
-## The ledger
-
-`src/lib/generated/social-posted.json`, committed by the workflow, so git
-history is the audit trail.
-
-**It records attempts, not successes.** A system whose whole design is "skip
-unless the content earns publication" is one whose skips are the interesting
-data — they are how you tell a quiet archive from a selector that broke in March
-and nobody noticed because the feed still looked plausible.
-
-Each row: timestamps (UTC and Chicago), slot, pool, platform, decision, reason,
-subject, angle, score, the exact published text, destination, the platform's post
-id, model, prompt version, validator version, fact-set hash, tokens, cost — and,
-on the exact-copy path, the approval id and the name of the approver.
-
-**Never written:** credentials, tokens, or raw authenticated responses.
-
-A corrupt ledger **halts publishing** rather than reading as empty — the same
-fail-closed rule as the newsletter send ledger, for the same reason.
-
-### Decision codes
-
-`POSTED` · `DRY_RUN` · `SKIPPED_OUTSIDE_WINDOW` · `SKIPPED_NO_QUALIFYING_CONTENT`
-· `SKIPPED_DUPLICATE` · `SKIPPED_COOLDOWN` · `SKIPPED_VALIDATION_FAILED` ·
-`SKIPPED_ENGINE_UNAVAILABLE` · `SKIPPED_CREDENTIAL_EXPIRED` ·
-`SKIPPED_PUBLISH_FAILED` · `SKIPPED_NOT_ENABLED`
-
----
-
-## Configuration
-
-### Where the credentials have to live — and where they do nothing
-
-This system does **not** run on Vercel. Vercel builds and serves the site; the
-social publisher is a GitHub Actions cron job (`.github/workflows/social.yml`)
-plus the CLI scripts in `scripts/`. Nothing under `src/app` or `src/components`
-imports `src/lib/social`, and the only serverless route the app ships is
-`/api/subscribe`.
-
-So credentials set as **Vercel environment variables have no effect on
-publishing.** They are injected into Vercel's builds and functions, and nothing
-there reads them.
-
-| Where you need them | For what |
-|---|---|
-| **GitHub → Settings → Secrets and variables → Actions** | the scheduled workflow, and any manual `workflow_dispatch` |
-| **Your local shell**, for one command | a controlled first post via the approval path |
-
-Vercel is the wrong place for all four X values and for `ANTHROPIC_API_KEY`,
-`LINKEDIN_ACCESS_TOKEN` and `LINKEDIN_AUTHOR_URN`. Leaving them there is not
-harmful — nothing reads them — but it is not configuration either.
-
-All credentials live in **GitHub Secrets**. None is ever printed.
-
-| Name | Kind | Notes |
-|---|---|---|
-| `OPENAI_API_KEY` | secret | copy engine (production) |
-| `ANTHROPIC_API_KEY` | secret | copy engine, only when `SOCIAL_ENGINE=anthropic` |
-| `SOCIAL_ENGINE` | variable | optional; the workflow defaults it to `openai`, so leaving it unset is the production configuration. Set it only to override: `anthropic`, `transcript` |
-| `X_API_KEY` / `X_API_SECRET` | secret | X app |
-| `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET` | secret | OAuth 1.0a user tokens — **do not expire** |
-| `LINKEDIN_ACCESS_TOKEN` | secret | **expires ~60 days** |
-| `LINKEDIN_AUTHOR_URN` | variable | `urn:li:organization:…` |
-| `SOCIAL_POST_ENABLED` | variable | must be exactly `true` to publish |
-| `SOCIAL_MODEL` | variable | optional; defaults to `claude-opus-5` |
-
-### The LinkedIn token, honestly
-
-LinkedIn access tokens expire on a fixed cycle and programmatic refresh is gated
-behind an approved-partner product. Unless the account holds that access,
-LinkedIn publishing has a manual touchpoint roughly every two months and no
-architecture removes it.
-
-What the system does about it: detects the rejection specifically, records
-`SKIPPED_CREDENTIAL_EXPIRED` **for LinkedIn only**, and leaves X entirely
-unaffected. X's tokens do not expire, so X genuinely runs unattended, and it
-would be a poor trade to couple its reliability to a platform that cannot.
+| a change | `/what-changed/<slug>` | `/og/change/<slug>.png` |
+| an explainer | `/explained/<slug>` | `/og/explainer/<slug>.png` |
+| a data signal | `/insights/<slug>` | `/og/signal/<slug>.png` |
+| a tool | its hub page | `/og/page/<key>.png` |
+
+Slugs are `<title-slug>-<6-char hash of the id>` (`src/lib/share.ts`); the
+hash is the key, so a title correction never breaks a link: a change page
+answers an older slug for the same record with a permanent redirect to the
+current one, rendered once on demand and cached. Cards are static PNGs
+rendered at build time from the record's own fields — no runtime dependency
+for a crawler to hit; a crawler that follows an old link reads the redirected
+page's tags, which name the current card. Posted links carry `utm_source=x`,
+`utm_medium=social`, `utm_campaign=<content type>` and `utm_content=<story
+key>`; the landing page fires `social_post_click` once per story per session.
+See `docs/analytics-event-plan.md`.
+
+`npm run social:verify-og -- --base=https://immigrationclock.com` fetches a
+share page as X's crawler does and checks the tags and the image. Pointed at
+a local `next start`, it fetches the card from that origin at the tag's
+path, so the build in front of it is what gets checked, not production.
 
 ---
 
@@ -615,110 +268,113 @@ npm run social:preflight
 ```
 
 ```bash
-npm run social:verify-x
+npm run social:preview -- --windows=6
 ```
 
 ```bash
-npm run social:simulate -- --days=1 --engine=anthropic
+npm run social:simulate -- --days=7 --engine=stub --ledger=src/lib/generated/social-posted.json
 ```
 
 ```bash
-npm run social:post
+npm run social:simulate -- --days=7 --engine=openai --ledger=src/lib/generated/social-posted.json
 ```
 
 ```bash
-npm run social:post -- --slot=evening
+npm run social:queue -- --refresh
 ```
 
 ```bash
-npm run social:propose -- --slot=evening
+npm run social:post -- --slot=afternoon
 ```
 
 ```bash
-npm run social:simulate -- --from=2026-08-04 --days=7 --engine=transcript --transcript=fixtures/social-transcript.json
+npm run social:verify-og -- --base=https://immigrationclock.com
 ```
+
+```bash
+npm run social:examples
+```
+
+`social:examples` runs the seven example posts in
+`fixtures/social-examples-v9.json` — one per content type, written to the v9
+brief against records in the archive — through the validator, the opening and
+shape checks and the wording-similarity check against the committed ledger. It
+is how a reader can see what the brief asks for without an API key, and how the
+examples in the launch report were verified. The entries are authored, not
+model-generated, and nothing in that file is ever published.
+
+The stub engine (`providers/stub.ts`) writes copy from the fact set in the
+shape it is offered. It is a planning tool for exercising the deterministic
+layers on a machine with no API key — not the voice, and unreachable from the
+production entry point. The `openai` simulation is the real voice, with no
+publisher attached.
 
 ---
 
-## Going live
+## The exact-copy approval path
 
-Nothing publishes until every step below is done deliberately.
+Unchanged: `propose → show → approve → post --approved`, no model call at
+publication, the digest binds the approval to the bytes that were read, and
+every gate is re-run against today's data. Envelopes now carry the content
+type and the shape.
 
-1. **Confirm the X API tier** permits ~90 writes a month.
-2. **Add the secrets** above. X and LinkedIn are independent; either alone works.
-3. **Run the preflight.** It reports credentials, ledger health, what each slot
-   would do today, and whether any destination is unpublishable.
-4. **Dispatch manually with `live` unchecked.** Read the generated copy for all
-   three slots.
-5. **First live post should go through the approval path**, not the cron and not
-   `runSlot`. `propose` → `show` → `approve` → `post --approved`, so the bytes a
-   human read are the bytes that ship. The Anthropic call shape and both platform
-   adapters have never made a real request — they are written from current
-   documentation and unit-tested, but not verified against a live endpoint.
-6. **Set `SOCIAL_POST_ENABLED=true`** only after step 5 posts correctly. Note
-   that every scheduled firing passes `--live`, so setting it arms all three
-   daily slots at once — comment out the two `schedule:` crons until you want
-   that.
+---
 
-To stop everything: unset `SOCIAL_POST_ENABLED`. The workflow keeps running,
-selecting and validating; it just publishes nothing.
+## Configuration
+
+| Name | Kind | Notes |
+|---|---|---|
+| `OPENAI_API_KEY` | secret | copy engine (production) |
+| `ANTHROPIC_API_KEY` | secret | copy engine, only when `SOCIAL_ENGINE=anthropic` |
+| `SOCIAL_ENGINE` | variable | optional; the workflow defaults it to `openai` |
+| `SOCIAL_MODEL` | variable | optional; defaults to `gpt-5` |
+| `X_API_KEY` / `X_API_SECRET` | secret | X app |
+| `X_ACCESS_TOKEN` / `X_ACCESS_TOKEN_SECRET` | secret | OAuth 1.0a user tokens — do not expire |
+| `LINKEDIN_ACCESS_TOKEN` | secret | expires ~60 days; not enabled |
+| `LINKEDIN_AUTHOR_URN` | variable | `urn:li:organization:…` |
+| `SOCIAL_POST_ENABLED` | variable | must be exactly `true` to publish |
+| `SOCIAL_POST_LEDGER` | local only | test seam for the ledger path |
+| `SOCIAL_QUEUE_PATH` | local only | test seam for the queue path |
+
+All in **GitHub → Settings → Secrets and variables → Actions**. Vercel
+environment variables have no effect on publishing: nothing under `src/app`
+imports `src/lib/social`.
+
+**X is pay-per-use.** The API answered HTTP 402 "credits depleted" on
+2026-08-10. The publisher now names that case (`code: "credits"`), the ledger
+records it, and the validated copy stays in the queue for the next window; the
+balance itself has to be topped up in the X developer portal.
+
+---
+
+## Stopping it
+
+1. Set the repository variable `SOCIAL_POST_ENABLED` to anything other than
+   `true`. Runs continue, select, generate and validate; they publish nothing.
+2. Or comment out the two `- cron:` lines in `.github/workflows/social.yml`.
 
 ---
 
 ## What this deliberately does not do
 
-- **No template fallback.** If the model is unreachable, the slot is silent.
-- **No retry of a failed platform later.** A delayed duplicate is worse than a
-  missed post.
-- **No engagement optimisation.** Nothing in selection or scoring reads any
-  metric from either platform.
-- **No touching the newsletter.** Separate workflow, ledger, secrets and enable
-  flag. Nothing here reads or writes `PULSE_SEND_ENABLED`.
-
----
-
-## Visuals: what upload would require
-
-Not built, deliberately. Before any of it is written, three things need
-confirming — and the third is the one that decides whether it is possible at all.
-
-1. **A different endpoint.** `/2/tweets` takes JSON. Media upload is a separate
-   endpoint that takes `multipart/form-data` and returns a `media_id` you attach
-   to a second call. The current X adapter only speaks JSON.
-2. **A rasteriser.** A `VisualSpec` is a description, not pixels.
-   `scripts/build-brand-assets.mjs` already renders HTML to PNG with headless
-   Chrome, which is preinstalled on `ubuntu-latest`, so this needs no new npm
-   dependency — just wiring.
-3. **An access tier that includes media upload.** This has historically not been
-   part of X's free tier. Check the developer portal for the app, and confirm
-   the current endpoint and tier requirements against X's live documentation.
-
-The branded OG preview (below) covers much of the same ground for zero API
-surface, and is worth evaluating first.
+- **No template fallback.** If the model is unreachable and the queue holds
+  no ready copy, the window is silent.
+- **No engagement optimisation.** Nothing in selection reads any metric from
+  any platform. The analytics exist to be read by a person first.
+- **No touching the newsletter.** Separate workflow, ledger, secrets and
+  switch.
+- **No filler.** The evergreen tier is finite and cooled down (explainers 120
+  days, signals 45, tools 90); a quiet week ends with quiet days.
 
 ## Known limitations
 
-- **The attribution check is literal about abbreviations.** A fact set whose
-  source name reads "U.S. Dept. of State — DV Program" rejects copy that writes
-  "State Department", because the check compares against the fact-set text. The
-  first real Anthropic proposal failed on exactly this. The check is unchanged —
-  it is doing its job — but the prompt now computes and states the permitted
-  attributions per subject (`permittedAgencies()`, one list shared with the
-  validator), including the "none available, use neutral wording" case, so the
-  model is no longer guessing. A source name written in full would still be the
-  better fix at the registry level.
-- **The evening pool is 15 assets plus up to 6 key dates.** With a 21-day
-  subject cooldown that covers most days but not all. Adding assets raises the
-  hit rate.
-- **The evening pool now depends on the data refresh, not just the catalogue.**
-  An asset whose source fails to refresh can lose its insight and leave the
-  rotation — `/border/encounters` does exactly that if the live CBP fetch is
-  unavailable. That is the correct behaviour (no live figures, no post), but it
-  means a broken refresh shows up as quiet evenings. The preflight prints the
-  in-rotation count and names anything dropped.
-- **Standing-asset figures are only as fresh as the last committed snapshot.**
-  `dataPoints` are computed at run time from the generated JSON in the repo, so a
-  post says what the repo held when the workflow ran, not what the agency
-  published this morning. Every figure is stated with its period for that reason.
-- **Neither platform adapter nor the Anthropic call has run against a live
-  endpoint.** See step 5 above.
+- The evergreen registries are hand-written. Adding an explainer means
+  writing it from its source and citing it; the tests pin that every one has a
+  source and no advisory language, not that it is correct. Fourteen were
+  fact-checked against their sources on 2026-09-02.
+- The stub engine's copy is a planning artefact. The feed's voice is the
+  model's, under the v9 prompt; only a real-model dry run shows it.
+- Data signals are recomputed from the committed snapshots at run time, so a
+  figure is as fresh as the last refresh. Every signal states its period.
+- A share page exists for every recorded change, routine ones included; the
+  routine ones are `noindex`, shareable but not submitted for crawling.

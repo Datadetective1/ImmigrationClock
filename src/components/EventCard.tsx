@@ -38,6 +38,7 @@ import { SOURCE_BY_KEY } from "@/lib/sources";
 import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
 import { explainEvent } from "@/domains/graph/explain";
 import { labelForEntity } from "@/lib/entity-labels";
+import { changePath } from "@/lib/share";
 
 function entityName(entityId: string): string {
   const known = ENTITY_BY_ID.get(entityId as never);
@@ -216,7 +217,15 @@ export function EventCard({ event }: { event: ImmigrationEvent }) {
         ) : null}
       </div>
 
-      <h3 className="mt-2 text-base font-semibold leading-snug text-white sm:text-lg">{event.title}</h3>
+      {/* Every change has its own address now (see src/lib/share.ts), so the
+          title is the link to it. Same weight and colour as before; the hover
+          is the only hint, which is how every other card title on the site
+          behaves. */}
+      <h3 className="mt-2 text-base font-semibold leading-snug text-white sm:text-lg">
+        <Link href={changePath(event)} className="transition-colors hover:text-accent-soft">
+          {event.title}
+        </Link>
+      </h3>
 
       {/* INVARIANT 1. A proposal is not a rule, and the difference is the whole
           question for a reader wondering whether they have to do something. */}
@@ -273,6 +282,12 @@ export function EventCard({ event }: { event: ImmigrationEvent }) {
         </a>
         <Link href="/methodology" className="text-slate-500 underline-offset-2 hover:text-slate-300 hover:underline">
           Methodology
+        </Link>
+        <Link
+          href={changePath(event)}
+          className="text-slate-500 underline-offset-2 hover:text-slate-300 hover:underline"
+        >
+          Permalink
         </Link>
       </div>
     </article>

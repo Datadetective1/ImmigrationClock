@@ -4,7 +4,12 @@ import { companies, states, countries, UPDATED } from "@/lib/dataset";
 import { EMPLOYERS, EMPLOYERS_META } from "@/lib/employers";
 import { WARN_SUMMARY } from "@/lib/warn-summary";
 import { LAST_REFRESHED } from "@/lib/data";
+import { BUILD_DATE } from "@/lib/build-date";
 import { seoPages, SALARY_JOB_TITLES } from "@/lib/seo-pages";
+import { EVENTS } from "@/lib/event-store";
+import { EXPLAINERS } from "@/lib/editorial/explainers";
+import { SIGNAL_SLUGS, buildSignal } from "@/lib/editorial/signals";
+import { changePath, explainerPath, signalPath } from "@/lib/share";
 
 // Every entry carries a real lastModified: the date the DATA behind that page
 // last moved. Previously every URL reported `new Date()` at build time, which
@@ -95,6 +100,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // NOTE: /search is intentionally excluded — it is a navigation utility with no
   // standalone content, and /admin/* is excluded by robots.txt and noindex.
+
+  // ---- Editorial records ---------------------------------------------------
+  // One page per recorded change, dated by the document's own publication.
+  // Routine paperwork notices have pages (they are shareable) but are noindex,
+  // so submitting them would only ask a crawler to discover pages it is then
+  // told to ignore.
+  for (const e of EVENTS) {
+    if (e.severity === "routine") continue;
+    add(changePath(e), asDate(e.publishedAt, buildDate), "monthly", 0.6);
+  }
+  for (const x of EXPLAINERS) add(explainerPath(x.slug), asDate(x.verifiedAt, buildDate), "monthly", 0.6);
+  // A signal exists only when the build's data supports it — the same test its
+  // page and its card apply, on the same date.
+  for (const slug of SIGNAL_SLUGS) {
+    if (buildSignal(slug, BUILD_DATE)) add(signalPath(slug), buildDate, "weekly", 0.5);
+  }
 
   // ---- Programmatic routes ------------------------------------------------
   for (const c of companies) add(`/company/${c.slug}`, employerDate, "monthly", 0.6);

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { DashboardGrid } from "@/components/DashboardGrid";
 import { SearchBar } from "@/components/SearchBar";
@@ -13,6 +14,7 @@ export const metadata = buildMetadata({
   description:
     "U.S. work visas and the immigrant workforce: top H-1B sponsors, 2,600+ employers, offered wages, F-1 student visas and layoffs vs sponsorship.",
   path: "/work-visas",
+  image: ogImagePath("page", "work-visas"),
   keywords: [
     "H-1B sponsors",
     "H-1B salaries",

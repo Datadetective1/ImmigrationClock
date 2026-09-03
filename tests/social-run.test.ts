@@ -190,8 +190,11 @@ describe("platforms are independent", () => {
   });
 });
 
-describe("gates run before the engine, so a silent slot is free", () => {
-  it("makes no engine call when the pool is empty", async () => {
+describe("gates run before the engine, so a silent window is free", () => {
+  it("makes no engine call when the archive is empty", async () => {
+    // An empty archive is not an empty queue any more — the evergreen tier is
+    // always there — but the morning may not draw on it, so the window is
+    // silent by cadence rather than by an empty queue. Either way: no call.
     const engine = new StubEngine(goodCopy);
     const r = await runSlot({
       ...base,
@@ -202,7 +205,63 @@ describe("gates run before the engine, so a silent slot is free", () => {
       live: false,
     });
     expect(engine.calls).toBe(0);
-    expect(r.outcome.platforms[0].decision).toBe("SKIPPED_NO_QUALIFYING_CONTENT");
+    expect(["SKIPPED_NO_QUALIFYING_CONTENT", "SKIPPED_CADENCE"]).toContain(r.outcome.platforms[0].decision);
+    expect(r.outcome.subjectId).toBeNull();
+  });
+
+  it("makes no engine call when the cadence policy says nothing may publish", async () => {
+    // Three posts already today on X: the daily maximum. Selection never runs.
+    const rows: PostRecord[] = [1, 2, 3].map((n) => ({
+      category: "development",
+      localDate: "2026-08-10",
+      localTime: "06:05",
+      runAtUtc: `2026-08-10T0${n}:00:00.000Z`,
+      slot: "evening",
+      pool: "news",
+      readerValue: null,
+      readerValueExplain: null,
+      treatment: null,
+      platform: "x",
+      decision: "POSTED",
+      reason: "Published",
+      subjectId: `event:other-${n}`,
+      subjectLabel: "Other",
+      angle: "breaking_change",
+      contentType: "breaking_change",
+      tier: "news",
+      score: 1,
+      text: `prior ${n}`,
+      deepLink: `/what-changed/other-${n}`,
+      externalId: null,
+      externalUrl: null,
+      model: null,
+      promptVersion: null,
+      validatorVersion: null,
+      factsHash: null,
+      approvalId: null,
+      approvedBy: null,
+      topicKey: null,
+      topicFamily: null,
+      adjustedScore: null,
+      rotationExplain: null,
+      inputTokens: null,
+      outputTokens: null,
+      costUsd: null,
+      attempts: null,
+    }));
+    const engine = new StubEngine(goodCopy);
+    const r = await runSlot({
+      ...base,
+      ledger: appendRecords(EMPTY_POST_LEDGER, rows),
+      engine,
+      publishers: {},
+      live: false,
+      platforms: ["x"],
+    });
+    expect(engine.calls).toBe(0);
+    expect(r.outcome.platforms[0].decision).toBe("SKIPPED_CADENCE");
+    expect(r.outcome.platforms[0].reason).toMatch(/Daily maximum reached/);
+    expect(r.outcome.cadenceExplain).toMatch(/Daily maximum/);
   });
 
   it("makes no engine call when every candidate is on cooldown", async () => {
@@ -251,6 +310,111 @@ describe("gates run before the engine, so a silent slot is free", () => {
     const r = await runSlot({ ...base, ledger, engine, publishers: {}, live: false });
     expect(engine.calls).toBe(0);
     expect(["SKIPPED_DUPLICATE", "SKIPPED_COOLDOWN"]).toContain(r.outcome.platforms[0].decision);
+  });
+});
+
+// -----------------------------------------------------------------------------
+// ELIGIBILITY IS EVALUATED OVER THE PLATFORMS THIS RUN CAN PUBLISH TO
+//
+// The first design asked "is this subject available on ANY platform?", and
+// LinkedIn — never configured, so with no history — always answered yes.
+// Seventeen X windows were spent generating copy for a subject that was on
+// cooldown on X and "available" only on a platform that could not post. A
+// platform with no credential cannot make a subject eligible.
+// -----------------------------------------------------------------------------
+
+describe("a platform that cannot publish cannot make a subject eligible", () => {
+  /**
+   * Every treatment of the subject stood down on X by a recent validator
+   * rejection — rows that the rotation memory ignores (it reads only POSTED),
+   * so the per-platform eligibility check is the gate under test.
+   */
+  const standDownOnX = (): PostLedger => {
+    const angles = ["breaking_change", "what_changed", "why_it_matters"] as const;
+    const rows: PostRecord[] = angles.map((angle) => ({
+      category: null,
+      localDate: "2026-08-09",
+      localTime: "09:05",
+      runAtUtc: "2026-08-09T14:05:00.000Z",
+      slot: "morning",
+      pool: "news",
+      readerValue: null,
+      readerValueExplain: null,
+      treatment: null,
+      platform: "x",
+      decision: "SKIPPED_VALIDATION_FAILED",
+      reason: "rejected twice",
+      subjectId: "event:federal_register:x1",
+      subjectLabel: "Public Charge",
+      angle,
+      score: 1,
+      text: null,
+      deepLink: "/what-changed/public-charge-ground-of-inadmissibility-2qezk3",
+      externalId: null,
+      externalUrl: null,
+      model: null,
+      promptVersion: null,
+      validatorVersion: null,
+      factsHash: null,
+      approvalId: null,
+      approvedBy: null,
+      topicKey: null,
+      topicFamily: null,
+      adjustedScore: null,
+      rotationExplain: null,
+      inputTokens: null,
+      outputTokens: null,
+      costUsd: null,
+      attempts: null,
+    }));
+    return appendRecords(EMPTY_POST_LEDGER, rows);
+  };
+
+  it("LIVE with only an X publisher: a subject unavailable on X yields no post, not a LinkedIn ghost", async () => {
+    const engine = new StubEngine(goodCopy);
+    const x = new StubPublisher("x", OK);
+    const r = await runSlot({ ...base, ledger: standDownOnX(), engine, publishers: { x }, live: true });
+
+    expect(engine.calls).toBe(0);
+    expect(x.posts).toHaveLength(0);
+    expect(r.outcome.subjectId).toBeNull();
+    expect(["SKIPPED_DUPLICATE", "SKIPPED_COOLDOWN"]).toContain(
+      r.outcome.platforms.find((p) => p.platform === "x")!.decision
+    );
+    // Nothing "posted" or dry-ran on LinkedIn either — it was never a target.
+    expect(r.outcome.platforms.every((p) => p.decision !== "POSTED" && p.decision !== "DRY_RUN")).toBe(true);
+  });
+
+  it("DRY RUN over X alone: likewise, and for free", async () => {
+    const engine = new StubEngine(goodCopy);
+    const r = await runSlot({ ...base, ledger: standDownOnX(), engine, publishers: {}, live: false, platforms: ["x"] });
+
+    expect(engine.calls).toBe(0);
+    expect(r.outcome.subjectId).toBeNull();
+    expect(r.outcome.platforms.every((p) => p.decision !== "DRY_RUN")).toBe(true);
+  });
+
+  it("a dry run over BOTH platforms still exercises LinkedIn — which is why the simulator passes X alone", async () => {
+    // The contrast that explains the `platforms` option: asked to evaluate
+    // LinkedIn, a dry run evaluates LinkedIn, and LinkedIn's empty history
+    // makes the subject eligible there. Production is X, so production
+    // simulations pass ["x"].
+    const engine = new StubEngine(goodCopy);
+    const r = await runSlot({ ...base, ledger: standDownOnX(), engine, publishers: {}, live: false, platforms: ["x", "linkedin"] });
+
+    expect(engine.calls).toBe(1);
+    const byPlatform = Object.fromEntries(r.outcome.platforms.map((p) => [p.platform, p]));
+    expect(byPlatform.linkedin.decision).toBe("DRY_RUN");
+    expect(byPlatform.x.decision).toBe("SKIPPED_DUPLICATE");
+    expect(byPlatform.x.reason).toMatch(/not available on x/);
+  });
+
+  it("LIVE with no publisher at all skips before selection, and calls nothing", async () => {
+    const engine = new StubEngine(goodCopy);
+    const r = await runSlot({ ...base, ledger: EMPTY_POST_LEDGER, engine, publishers: {}, live: true });
+    expect(engine.calls).toBe(0);
+    expect(r.outcome.platforms.every((p) => p.decision === "SKIPPED_CREDENTIAL_EXPIRED")).toBe(true);
+    expect(r.outcome.poolSize).toBe(0);
   });
 });
 

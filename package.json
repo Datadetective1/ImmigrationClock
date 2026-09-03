@@ -34,6 +34,11 @@
     "social:verify-x": "tsx scripts/social-verify-x.ts",
     "social:simulate": "tsx scripts/social-simulate.ts",
     "social:preview": "tsx scripts/social-preview.ts",
+    "social:gate": "tsx scripts/social-gate.ts",
+    "social:queue": "tsx scripts/social-queue.ts",
+    "social:verify-og": "tsx scripts/social-verify-og.ts",
+    "check:sources": "tsx scripts/check-sources.ts",
+    "social:examples": "tsx scripts/social-examples.ts",
     "social:rotation": "tsx scripts/social-rotation-report.ts"
   },
   "dependencies": {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { MigrationMap } from "@/components/MigrationMap";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -12,6 +13,7 @@ export const metadata = buildMetadata({
   description:
     "An interactive map of the top origin countries for U.S. H-1B workers and F-1 students. Pick a visa type and explore each country. Not live tracking.",
   path: "/migration-map",
+  image: ogImagePath("page", "migration-map"),
   keywords: [
     "where do H-1B workers come from",
     "F-1 students by country",

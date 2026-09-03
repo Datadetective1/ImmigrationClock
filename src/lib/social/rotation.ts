@@ -36,11 +36,13 @@ import type { Angle, Platform } from "./types";
 import {
   MIX_PENALTY,
   MIX_WINDOW_DAYS,
+  TIER_STEP,
   isOverTarget,
-  mixBucketFor,
+  mixBucketForPost,
   type ContentCategory,
   type MixBucket,
 } from "./categories";
+import { TIER_FOR_TYPE, isContentType, type CadenceTier, type ContentType } from "./content-types";
 import { publishedPosts, type PostLedger, type PostRecord } from "./ledger";
 
 // -----------------------------------------------------------------------------
@@ -90,14 +92,54 @@ export const TOPIC_FAMILIES: TopicFamily[] = [
  * misfiled candidate produces a subtly repetitive feed, which is exactly the
  * failure that is hard to notice, so the rules are ones a human can check.
  */
+/**
+ * The evergreen registries name their own groups. Mapped here, once, so an
+ * explainer about the H-1B cap and an H-1B fee rule are one family and a week
+ * cannot carry both without the penalty noticing.
+ */
+const EDITORIAL_GROUP_FAMILY: Record<string, TopicFamily> = {
+  rulemaking: "filing-process",
+  "agency-process": "uscis-policy",
+  courts: "other",
+  "work-visas": "h1b",
+  students: "employment",
+  "green-cards": "green-card",
+  citizenship: "other",
+  "enforcement-data": "enforcement",
+  "workforce-data": "employment",
+  "how-we-work": "other",
+  workforce: "employment",
+  border: "enforcement",
+  deadlines: "deadlines",
+};
+
 export function topicFamilyFor(input: {
   subjectId: string;
   topicKey: string;
   event?: IndexedEvent | null;
   assetTags?: string[];
   keyDateCategory?: string;
+  /** The group an explainer, signal or discovery declares for itself. */
+  editorialGroup?: string;
 }): TopicFamily {
   const { subjectId, topicKey, event } = input;
+
+  // --- the evergreen registries: their own group, then the topic key ----------
+  if (
+    subjectId.startsWith("explainer:") ||
+    subjectId.startsWith("signal:") ||
+    subjectId.startsWith("discovery:")
+  ) {
+    if (input.editorialGroup && EDITORIAL_GROUP_FAMILY[input.editorialGroup]) {
+      return EDITORIAL_GROUP_FAMILY[input.editorialGroup];
+    }
+    if (topicKey.startsWith("visa:h-1b")) return "h1b";
+    if (topicKey === "topic:layoffs") return "employment";
+    if (topicKey === "topic:deadlines") return "deadlines";
+    if (topicKey === "topic:border" || topicKey === "topic:enforcement") return "enforcement";
+    if (topicKey === "topic:policy-changes") return "filing-process";
+    return "other";
+  }
 
   // --- key dates: their own category is already the right answer -------------
   if (subjectId.startsWith("keydate:")) {
@@ -175,8 +217,17 @@ export function topicFamilyFor(input: {
 // THE WINDOW AND THE WEIGHTS
 // -----------------------------------------------------------------------------
 
-/** Inside this many days, a subject is simply not available again. */
-export const SUBJECT_BLOCK_DAYS = 7;
+/**
+ * Inside this many days, a subject is simply not available again.
+ *
+ * Two days, not seven: a recorded change is a story told in parts, and the
+ * later parts (what changed, why it matters, the date) have to be reachable
+ * while the record is still fresh enough to carry them. Between here and
+ * SUBJECT_HEAVY_DAYS the subject competes at a penalty smaller than a tier
+ * step, so a follow-up still outranks an evergreen post and never outranks
+ * fresh news. See EVENT_FOLLOW_UP_SPACING_DAYS in dedupe.ts.
+ */
+export const SUBJECT_BLOCK_DAYS = 2;
 
 /** Between BLOCK and this, a subject is available but heavily penalised. */
 export const SUBJECT_HEAVY_DAYS = 14;
@@ -219,6 +270,24 @@ export const PENALTY = {
   sameDayFamily: 1200,
   destination: 400,
   angle: 200,
+  /**
+   * The evergreen tier must ROTATE ITS KINDS. Three explainers in a row is a
+   * course; a signal, an explainer and a tool across three quiet days is a
+   * publication. Sized at one tier step plus one so it crosses a band: a data
+   * signal (30,000) that repeats yesterday's kind lands below an explainer
+   * (20,000), which then wins, and lands below a tool (15,000) the day after —
+   * so the three kinds take turns on their own, with no rota anywhere.
+   */
+  sameEvergreenKind: TIER_STEP + 1,
+  /**
+   * A follow-up after a follow-up. Two tier steps plus one, so a why-it-matters
+   * on an old rule (actionable, 50,000) drops below a data signal (30,000)
+   * the day after the feed carried a follow-up — and an effective-date
+   * reminder (deadline, 60,000) drops to just below the signals too. The
+   * weekly follow-up ceiling in cadence.ts is the hard limit; this is what
+   * makes the interleaving happen before the ceiling is reached.
+   */
+  followUpAfterFollowUp: 2 * TIER_STEP + 1,
 } as const;
 
 /**
@@ -256,6 +325,13 @@ export interface RecentMemory {
   bucketsToday: Set<MixBucket>;
   /** Posts per bucket over MIX_WINDOW_DAYS, for the weekly share check. */
   bucketCounts: Record<MixBucket, number>;
+  /**
+   * The kind of the most recent EVERGREEN post, or null. The only memory the
+   * evergreen rotation needs: it is what stops two explainers in a row.
+   */
+  lastEvergreenKind: ContentType | null;
+  /** The cadence tier of the most recent post within the last two days, or null. */
+  lastTier: CadenceTier | null;
 }
 
 const EMPTY_BUCKET_COUNTS = (): Record<MixBucket, number> => ({
@@ -291,7 +367,33 @@ export function buildMemory(
     familiesToday: new Set(),
     bucketsToday: new Set(),
     bucketCounts: EMPTY_BUCKET_COUNTS(),
+    lastEvergreenKind: null,
+    lastTier: null,
   };
+
+  // The tier of the most recent post, if it was within two days: what decides
+  // whether a follow-up today would be the second follow-up in a row.
+  const lastPost = publishedPosts(ledger)
+    .filter((row) => row.platform === platform && row.contentType && isContentType(row.contentType))
+    .sort((a, b) => b.runAtUtc.localeCompare(a.runAtUtc))[0];
+  if (lastPost?.contentType && isContentType(lastPost.contentType) && daysAgo(lastPost, now) <= 2) {
+    memory.lastTier = TIER_FOR_TYPE[lastPost.contentType];
+  }
+
+  // The most recent evergreen post, whatever its age: a rotation among kinds
+  // only needs to know what came last.
+  const lastEvergreen = publishedPosts(ledger)
+    .filter(
+      (row) =>
+        row.platform === platform &&
+        row.contentType &&
+        isContentType(row.contentType) &&
+        TIER_FOR_TYPE[row.contentType] === "evergreen"
+    )
+    .sort((a, b) => b.runAtUtc.localeCompare(a.runAtUtc))[0];
+  if (lastEvergreen?.contentType && isContentType(lastEvergreen.contentType)) {
+    memory.lastEvergreenKind = lastEvergreen.contentType;
+  }
 
   // The mix window is longer than the diversity window and is counted first, so
   // a share means something over a fortnight rather than over three posts. Rows
@@ -302,7 +404,7 @@ export function buildMemory(
     if (!row.category) continue;
     const age = daysAgo(row, now);
     if (age > MIX_WINDOW_DAYS) continue;
-    const bucket = mixBucketFor(row.category as ContentCategory);
+    const bucket = mixBucketForPost(row.category as ContentCategory, row.contentType);
     memory.bucketCounts[bucket] += 1;
     if (row.localDate === localDate) memory.bucketsToday.add(bucket);
   }
@@ -353,6 +455,9 @@ export interface RotationInput {
   topicFamily: TopicFamily;
   /** What kind of content this is. Drives the mix penalties. */
   category: ContentCategory;
+  /** The editorial content type and its cadence tier. Drive the evergreen rotation. */
+  contentType?: ContentType;
+  tier?: CadenceTier;
   deepLink: string;
   angle: Angle;
   baseScore: number;
@@ -422,7 +527,7 @@ export function applyRotation(input: RotationInput, memory: RecentMemory): Rotat
   // development, it makes that development compete one band down, on its own
   // merits, against the deadline or the dataset it would otherwise have
   // displaced. A big second story still wins. A routine one gives way.
-  const bucket = mixBucketFor(input.category);
+  const bucket = mixBucketForPost(input.category, input.contentType);
   if (memory.bucketsToday.has(bucket)) {
     penalty += MIX_PENALTY.sameDayBucket;
     parts.push(`"${bucket}" already posted today −${MIX_PENALTY.sameDayBucket}`);
@@ -430,6 +535,22 @@ export function applyRotation(input: RotationInput, memory: RecentMemory): Rotat
   if (isOverTarget(bucket, memory.bucketCounts)) {
     penalty += MIX_PENALTY.weekOvershoot;
     parts.push(`"${bucket}" over its ${MIX_WINDOW_DAYS}d share −${MIX_PENALTY.weekOvershoot}`);
+  }
+
+  // --- the evergreen rotation ------------------------------------------------
+  if (
+    input.tier === "evergreen" &&
+    input.contentType &&
+    memory.lastEvergreenKind === input.contentType
+  ) {
+    penalty += PENALTY.sameEvergreenKind;
+    parts.push(`same evergreen kind as the last one (${input.contentType}) −${PENALTY.sameEvergreenKind}`);
+  }
+
+  // --- a follow-up after a follow-up -----------------------------------------
+  if (input.tier === "follow_up" && memory.lastTier === "follow_up") {
+    penalty += PENALTY.followUpAfterFollowUp;
+    parts.push(`follow-up after a follow-up −${PENALTY.followUpAfterFollowUp}`);
   }
 
   // --- destination and angle -------------------------------------------------

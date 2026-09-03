@@ -3,29 +3,44 @@
 //
 // Two things are load-bearing here and both are about honesty rather than taste:
 //
-//   • The three pools must not overlap, or the afternoon slot can "explain" a
-//     rule the morning slot broke six hours earlier — the single most
-//     recognisable tell of an automated account padding a schedule.
+//   • What a recorded change may BECOME is decided by its own data and its age.
+//     A change is breaking news for two days, a plain-English what-changed for
+//     five, a why-it-matters for seven, and a dated reminder for as long as its
+//     effective date is ahead. A record that has aged past every treatment is
+//     not padded into one.
 //
-//   • Every deep link must go somewhere the app actually serves. An earlier
-//     version emitted /what-changed?event=<id>, a parameter the explorer does
-//     not read, so the reader landed on an unfiltered archive. Those tests are
-//     written against the real route contract.
+//   • Every deep link must go somewhere the app actually serves. A candidate's
+//     deepLink is the record's own canonical page, site-relative, and the
+//     absolute tracked URL the post must carry lives on the fact set.
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
 import {
-  newsPool,
-  knowledgePool,
-  standingPool,
   candidatesFor,
+  eventCandidates,
+  keyDateCandidates,
+  explainerCandidates,
+  signalCandidates,
+  discoveryCandidates,
   anglesForArchiveEvent,
-  NEWS_LOOKBACK_DAYS,
-  KNOWLEDGE_MIN_AGE_DAYS,
+  qualifiesAsNews,
+  WHAT_CHANGED_MAX_AGE_DAYS,
+  WHY_IT_MATTERS_MAX_AGE_DAYS,
+  WHAT_CHANGED_NEWS_AGE_DAYS,
+  EFFECTIVE_DATE_HORIZON_DAYS,
+  EFFECTIVE_DATE_NEAR_DAYS,
 } from "@/lib/social/select";
-import { scoreEvent, obligationLevel, isPostableSeverity, isSubstantive, NEWS_SCORE_FLOOR } from "@/lib/social/score";
+import {
+  scoreEvent,
+  isPostableSeverity,
+  isSubstantive,
+  NEWS_SCORE_FLOOR,
+  KNOWLEDGE_SCORE_FLOOR,
+} from "@/lib/social/score";
 import { resolveDeepLink, queryFor, STANDING_ASSETS, isPublishableDestination } from "@/lib/social/links";
-import { SLOTS, SLOT_BY_ID } from "@/lib/social/slots";
+import { changePath } from "@/lib/share";
+import { TIER_FOR_TYPE } from "@/lib/social/content-types";
+import { BREAKING_MAX_AGE_DAYS } from "@/lib/social/validate";
 import { EVENT_INDEX } from "@/lib/event-index";
 import type { IndexedEvent } from "@/lib/event-index";
 
@@ -47,63 +62,32 @@ function event(over: Partial<IndexedEvent> = {}): IndexedEvent {
   };
 }
 
-describe("news pool", () => {
-  const today = "2026-08-10";
+const today = "2026-08-10";
 
-  it("takes an event published today", () => {
-    expect(newsPool([event()], today)).toHaveLength(1);
+/** ISO date N days before `today`. */
+const daysAgo = (n: number, from = today) =>
+  new Date(Date.parse(`${from}T00:00:00Z`) - n * 86_400_000).toISOString().slice(0, 10);
+
+const types = (events: IndexedEvent[], date = today) =>
+  eventCandidates(events, date).map((c) => c.contentType);
+
+describe("what a fresh consequential change becomes", () => {
+  it("yields a breaking_change candidate in the news tier", () => {
+    const fresh = eventCandidates([event()], today).find((c) => c.contentType === "breaking_change");
+    expect(fresh).toBeDefined();
+    expect(fresh!.tier).toBe("news");
+    expect(fresh!.category).toBe("development");
+    expect(fresh!.supportedAngles[0]).toBe("breaking_change");
   });
 
-  it("takes an event inside the lookback", () => {
-    const e = event({ publishedAt: "2026-08-08" });
-    expect(newsPool([e], today)).toHaveLength(1);
+  it("also yields a plain-English what-changed, still news at this age", () => {
+    const wc = eventCandidates([event()], today).find((c) => c.contentType === "what_changed");
+    expect(wc).toBeDefined();
+    expect(wc!.tier).toBe("news");
   });
 
-  it("drops an event older than the lookback", () => {
-    const e = event({ publishedAt: "2026-08-01" });
-    expect(newsPool([e], today)).toHaveLength(0);
-  });
-
-  it("drops routine severity whatever it scores", () => {
-    expect(newsPool([event({ severity: "routine" })], today)).toHaveLength(0);
-  });
-
-  it("drops a scheduled-for-publication document", () => {
-    // The Federal Register puts items on public inspection ahead of publication.
-    // Posting one would force "scheduled for publication on..." phrasing, which
-    // is weaker and much easier to get subtly wrong than simply waiting.
-    const e = event({ publishedAt: "2026-08-12", scheduled: true });
-    expect(newsPool([e], today)).toHaveLength(0);
-  });
-
-  it("drops anything below the score floor", () => {
-    const narrow = event({
-      title: "Notice about diplomatic officers",
-      summary: "A notice concerning certain aliens who are diplomatic officers.",
-      severity: "notable",
-      classification: "announcement",
-    });
-    const scored = scoreEvent(narrow, "2026-08-08", today);
-    expect(scored.score).toBeLessThan(NEWS_SCORE_FLOOR);
-    expect(newsPool([narrow], today)).toHaveLength(0);
-  });
-
-  it("always offers the breaking angle, and only ever morning angles", () => {
-    const morning = SLOT_BY_ID.get("morning")!;
-    for (const c of newsPool([event()], today)) {
-      expect(c.supportedAngles).toContain("breaking_change");
-      for (const a of c.supportedAngles) expect(morning.angles).toContain(a);
-    }
-  });
-
-  it("earns 'what it requires' from the obligation factor, not from wording", () => {
-    // The ranking model scores this document as changing an obligation, so the
-    // requirement angle is available. A document that changes nothing anyone
-    // must do does not get it, however emphatic its title.
-    const obliging = event();
-    const angles = newsPool([obliging], today)[0].supportedAngles;
-    expect(obligationLevel(obliging)).toBeGreaterThanOrEqual(2);
-    expect(angles).toContain("what_it_requires");
+  it("takes a change inside the breaking window", () => {
+    expect(types([event({ publishedAt: daysAgo(BREAKING_MAX_AGE_DAYS) })])).toContain("breaking_change");
   });
 
   it("orders by score, highest first", () => {
@@ -115,47 +99,177 @@ describe("news pool", () => {
       entityIds: ["country:haiti"],
       severity: "notable",
     });
-    const pool = newsPool([weak, strong], today);
-    expect(pool[0].subjectId).toContain("a:1");
+    const queue = candidatesFor([weak, strong], today);
+    expect(queue[0].subjectId).toBe("event:a:1");
+    for (let i = 1; i < queue.length; i++) {
+      expect(queue[i - 1].score).toBeGreaterThanOrEqual(queue[i].score);
+    }
   });
 });
 
-describe("knowledge pool does not overlap news", () => {
-  const today = "2026-08-10";
-
-  it("excludes anything the news pool could still claim", () => {
-    const fresh = event({ publishedAt: "2026-08-09" });
-    expect(knowledgePool([fresh], today, SLOT_BY_ID.get("afternoon")!)).toHaveLength(0);
+describe("what an older change becomes", () => {
+  it("a four-day-old change is a what-changed FOLLOW-UP, and no longer breaking", () => {
+    const cands = eventCandidates([event({ publishedAt: daysAgo(4) })], today);
+    const wc = cands.find((c) => c.contentType === "what_changed");
+    expect(wc).toBeDefined();
+    expect(wc!.tier).toBe("follow_up");
+    expect(cands.map((c) => c.contentType)).not.toContain("breaking_change");
   });
 
-  it("starts exactly where the news lookback stops", () => {
-    expect(KNOWLEDGE_MIN_AGE_DAYS).toBe(NEWS_LOOKBACK_DAYS + 1);
+  it("the news/follow-up boundary for what-changed is two days", () => {
+    expect(WHAT_CHANGED_NEWS_AGE_DAYS).toBe(2);
+    const atBoundary = eventCandidates([event({ publishedAt: daysAgo(2) })], today).find(
+      (c) => c.contentType === "what_changed"
+    );
+    expect(atBoundary?.tier).toBe("news");
+    const past = eventCandidates([event({ publishedAt: daysAgo(3) })], today).find(
+      (c) => c.contentType === "what_changed"
+    );
+    expect(past?.tier).toBe("follow_up");
   });
 
-  it("accepts an older event with a supported angle", () => {
-    const older = event({
-      publishedAt: "2026-07-01",
-      entityIds: ["agency:dhs", "visa:h-1b"],
+  it("stops offering what-changed past its window, and why-it-matters past its own", () => {
+    expect(WHAT_CHANGED_MAX_AGE_DAYS).toBe(5);
+    expect(WHY_IT_MATTERS_MAX_AGE_DAYS).toBe(7);
+    expect(types([event({ publishedAt: daysAgo(5) })])).toContain("what_changed");
+    expect(types([event({ publishedAt: daysAgo(6) })])).not.toContain("what_changed");
+    expect(types([event({ publishedAt: daysAgo(7) })])).toContain("why_it_matters");
+    expect(types([event({ publishedAt: daysAgo(8) })])).not.toContain("why_it_matters");
+  });
+
+  it("yields NOTHING for a change that has aged past every narrative treatment", () => {
+    // Not lost — its page is the record. But it is not padded into a post.
+    expect(eventCandidates([event({ publishedAt: daysAgo(8) })], today)).toEqual([]);
+  });
+
+  it("drops a scheduled-for-publication document", () => {
+    // The Federal Register puts items on public inspection ahead of publication.
+    // Posting one would force "scheduled for publication on..." phrasing, which
+    // is weaker and much easier to get subtly wrong than simply waiting.
+    const e = event({ publishedAt: "2026-08-12", scheduled: true });
+    expect(eventCandidates([e], today)).toHaveLength(0);
+  });
+});
+
+describe("the effective-date reminder", () => {
+  it("appears only inside the horizon", () => {
+    expect(EFFECTIVE_DATE_HORIZON_DAYS).toBe(30);
+    const inside = event({ publishedAt: daysAgo(10), effectiveAt: "2026-09-05" });
+    const outside = event({ publishedAt: daysAgo(10), effectiveAt: "2026-09-15" });
+    expect(types([inside])).toContain("effective_date");
+    expect(types([outside])).not.toContain("effective_date");
+  });
+
+  it("is a follow-up in the deadline band, ordered by how soon the date is", () => {
+    const soon = event({ id: "e:soon", publishedAt: daysAgo(10), effectiveAt: "2026-08-20" });
+    const later = event({ id: "e:later", publishedAt: daysAgo(10), effectiveAt: "2026-09-05" });
+    // candidatesFor() is the sorted view; eventCandidates() is in ranking order.
+    const cands = candidatesFor([soon, later], today).filter((c) => c.contentType === "effective_date");
+    expect(cands).toHaveLength(2);
+    for (const c of cands) {
+      expect(c.tier).toBe("follow_up");
+      // Imminent is the deadline band; upcoming sits one band below, so a
+      // record's "what changed" is said before its date is repeated.
+      const daysOut = (Date.parse(`${c.facts.effectiveAt}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000;
+      expect(c.category, c.subjectId).toBe(daysOut > EFFECTIVE_DATE_NEAR_DAYS ? "actionable" : "deadline");
+      expect(c.supportedAngles[0]).toBe("effective_date_reminder");
+    }
+    expect(cands[0].subjectId).toBe("event:e:soon");
+  });
+
+  it("is not offered to a change that is still breaking news", () => {
+    // A rule that published today AND starts on a known date is a development
+    // first; the validator's effective-date check keeps the date in the copy.
+    expect(types([event({ effectiveAt: "2026-09-05" })])).not.toContain("effective_date");
+  });
+
+  it("reaches further back than the narrative treatments", () => {
+    const old = event({ publishedAt: daysAgo(60), effectiveAt: "2026-09-05" });
+    expect(types([old])).toEqual(["effective_date"]);
+  });
+});
+
+describe("the floors", () => {
+  it("drops routine severity whatever it scores", () => {
+    expect(eventCandidates([event({ severity: "routine" })], today)).toHaveLength(0);
+  });
+
+  it("drops anything below the score floor", () => {
+    const narrow = event({
+      title: "Notice about diplomatic officers",
+      summary: "A notice concerning certain aliens who are diplomatic officers.",
+      severity: "notable",
+      classification: "announcement",
     });
-    const pool = knowledgePool([older], today, SLOT_BY_ID.get("afternoon")!);
-    expect(pool).toHaveLength(1);
-    expect(pool[0].supportedAngles).toContain("who_is_affected");
+    const scored = scoreEvent(narrow, "2026-08-08", today);
+    expect(scored.score).toBeLessThan(NEWS_SCORE_FLOOR);
+    expect(eventCandidates([narrow], today)).toHaveLength(0);
   });
 
-  it("drops an event whose data supports no angle this slot allows", () => {
-    const bare = event({
-      publishedAt: "2026-07-01",
-      classification: "final_rule",
-      entityIds: ["topic:policy-changes"],
-      title: "A rule",
+  it("gives a record with no abstract a dated reminder and nothing narrative", () => {
+    // A record with no summary can only be restated as its title. It is a real
+    // record and its page is real, but a post that "explains" it would be
+    // explaining nothing.
+    const noAbstract = event({ summary: "No abstract was published for this document." });
+    expect(eventCandidates([noAbstract], today)).toEqual([]);
+
+    const dated = event({
+      summary: "No abstract was published for this document.",
+      publishedAt: daysAgo(5),
+      effectiveAt: "2026-09-01",
     });
-    expect(knowledgePool([bare], today, SLOT_BY_ID.get("afternoon")!)).toHaveLength(0);
+    expect(types([dated])).toEqual(["effective_date"]);
+  });
+});
+
+describe("qualifiesAsNews — a court order qualifies on its kind", () => {
+  // The first design required breadth ≥ 2 AND one obligation step (2100), so a
+  // court order enjoining two policy memos scored 2,029 — its summary named no
+  // obligation — and never entered a pool. Kind now counts at the knowledge
+  // floor; reader value still has to clear the bar separately.
+  const court = (rank: number) =>
+    qualifiesAsNews(event({ classification: "court_decision", sourceKey: "federal_courts" }), rank);
+
+  it("accepts anything at or above the news floor", () => {
+    expect(qualifiesAsNews(event({ classification: "announcement" }), NEWS_SCORE_FLOOR)).toBe(true);
+  });
+
+  it("accepts a court decision at breadth 2 with no obligation step", () => {
+    expect(court(2029)).toBe(true);
+    expect(court(KNOWLEDGE_SCORE_FLOOR)).toBe(true);
+  });
+
+  it("accepts an executive action and a major final rule at the knowledge floor", () => {
+    expect(qualifiesAsNews(event({ classification: "executive_action" }), 2029)).toBe(true);
+    expect(qualifiesAsNews(event({ classification: "final_rule", severity: "major" }), 2029)).toBe(true);
+  });
+
+  it("does not extend the exception to an announcement or a notable final rule", () => {
+    expect(qualifiesAsNews(event({ classification: "announcement" }), 2029)).toBe(false);
+    expect(qualifiesAsNews(event({ classification: "final_rule", severity: "notable" }), 2029)).toBe(false);
+  });
+
+  it("never reaches below the knowledge floor, whatever the kind", () => {
+    expect(court(KNOWLEDGE_SCORE_FLOOR - 1)).toBe(false);
+  });
+
+  it("puts a real court order in the news tier end to end", () => {
+    const order = event({
+      id: "federal_courts:c1",
+      classification: "court_decision",
+      sourceKey: "federal_courts",
+      sourceUrl: "https://www.courtlistener.com/c1",
+      title: "Order Enjoining Two Policy Memoranda",
+      summary:
+        "The court enjoined enforcement of two policy memoranda nationwide. The order applies to all applicants and petitioners while the case proceeds.",
+    });
+    const breaking = eventCandidates([order], today).find((c) => c.contentType === "breaking_change");
+    expect(breaking).toBeDefined();
+    expect(breaking!.tier).toBe("news");
   });
 });
 
 describe("angles must be earned by the data", () => {
-  const today = "2026-08-10";
-
   it("offers an effective-date reminder only for a real future date", () => {
     const future = event({ effectiveAt: "2026-09-01" });
     expect(anglesForArchiveEvent(future, today, [])).toContain("effective_date_reminder");
@@ -183,60 +297,155 @@ describe("angles must be earned by the data", () => {
     const related = [e, event({ id: "b", entityIds: ["visa:h-1b"] }), event({ id: "c", entityIds: ["visa:h-1b"] })];
     expect(anglesForArchiveEvent(e, today, related)).toContain("historical_context");
   });
+
+  it("puts the content type's own angle first, with the earned ones behind it", () => {
+    const c = eventCandidates([event({ entityIds: ["visa:h-1b"] })], today).find(
+      (x) => x.contentType === "breaking_change"
+    )!;
+    expect(c.supportedAngles[0]).toBe("breaking_change");
+    expect(c.supportedAngles).toContain("who_is_affected");
+  });
 });
 
-describe("standing pool", () => {
-  it("is never empty — the evening slot always has something to offer", () => {
-    expect(standingPool("2026-08-10").length).toBeGreaterThan(0);
-  });
-
-  it("rotates deterministically: the same day gives the same order", () => {
-    const a = standingPool("2026-08-10").map((c) => c.subjectId);
-    const b = standingPool("2026-08-10").map((c) => c.subjectId);
-    expect(a).toEqual(b);
-  });
-
-  it("rotates: a different day leads with a different asset", () => {
-    const assetsOn = (d: string) =>
-      standingPool(d).filter((c) => c.subjectId.startsWith("asset:"))[0].subjectId;
-    expect(assetsOn("2026-08-10")).not.toBe(assetsOn("2026-08-11"));
-  });
-
-  it("puts a deadline ahead of every dataset — on a milestone day", () => {
-    // 2026-09-17 is exactly 14 days before the 1 October fiscal-year start, so
-    // the key date qualifies AND outranks the assets.
-    const top = standingPool("2026-09-17")[0];
-    expect(top.subjectId.startsWith("keydate:")).toBe(true);
+describe("recurring dates — at milestones only", () => {
+  it("offers a key date on a milestone day, in the deadline band", () => {
+    // 2026-09-17 is exactly 14 days before the 1 October fiscal-year start.
+    const cands = keyDateCandidates("2026-09-17");
+    expect(cands.length).toBeGreaterThan(0);
+    for (const c of cands) {
+      expect(c.subjectId.startsWith("keydate:")).toBe(true);
+      expect(c.contentType).toBe("key_date");
+      expect(c.tier).toBe("follow_up");
+      expect(c.category).toBe("deadline");
+      expect(c.deepLink).toBe("/key-dates");
+    }
   });
 
   it("offers no key date at all on a non-milestone day", () => {
     // 2026-09-10 is 21 days out — close, but not a threshold anyone crosses.
-    // Before rotation this still qualified, and a countdown that decrements by
-    // one was treated as new content every single day.
-    const keydates = standingPool("2026-09-10").filter((c) => c.subjectId.startsWith("keydate:"));
-    expect(keydates).toHaveLength(0);
+    // A countdown that decrements by one is not new content every single day.
+    expect(keyDateCandidates("2026-09-10")).toHaveLength(0);
   });
 
-  it("offers assets only the data-insight angle", () => {
-    const asset = standingPool("2026-08-10").find((c) => c.subjectId.startsWith("asset:"));
-    expect(asset?.supportedAngles).toEqual(["data_insight"]);
+  it("puts a live deadline ahead of every evergreen candidate", () => {
+    const queue = candidatesFor([], "2026-09-17");
+    expect(queue[0].subjectId.startsWith("keydate:")).toBe(true);
+    const deadline = queue[0];
+    for (const c of queue.filter((x) => x.tier === "evergreen")) {
+      expect(deadline.score, c.subjectId).toBeGreaterThan(c.score);
+    }
   });
 });
 
-describe("candidatesFor filters angles to the slot", () => {
-  it("never returns an angle the slot does not own", () => {
-    for (const slot of SLOTS) {
-      for (const c of candidatesFor(slot, EVENT_INDEX, "2026-08-10")) {
-        for (const angle of c.supportedAngles) {
-          expect(slot.angles).toContain(angle);
-        }
+describe("the evergreen tier is always present", () => {
+  it("offers explainers, signals and discovery on any day, all in the evergreen tier", () => {
+    for (const date of ["2026-08-10", "2026-01-15", "2026-11-01"]) {
+      const explainers = explainerCandidates([], date);
+      const signals = signalCandidates(date);
+      const discovery = discoveryCandidates(date);
+      expect(explainers.length, `${date} explainers`).toBeGreaterThan(0);
+      expect(signals.length, `${date} signals`).toBeGreaterThan(0);
+      expect(discovery.length, `${date} discovery`).toBeGreaterThan(0);
+      for (const c of [...explainers, ...signals, ...discovery]) {
+        expect(c.tier, c.subjectId).toBe("evergreen");
+        expect(c.pool, c.subjectId).toBe("editorial");
+        expect(TIER_FOR_TYPE[c.contentType], c.subjectId).toBe("evergreen");
       }
+    }
+  });
+
+  it("gives each evergreen kind its own subject prefix, content type and page", () => {
+    for (const c of explainerCandidates([], today)) {
+      expect(c.subjectId.startsWith("explainer:")).toBe(true);
+      expect(c.contentType).toBe("explainer");
+      expect(c.deepLink.startsWith("/explained/")).toBe(true);
+    }
+    for (const c of signalCandidates(today)) {
+      expect(c.subjectId.startsWith("signal:")).toBe(true);
+      expect(c.contentType).toBe("data_signal");
+      expect(c.deepLink.startsWith("/insights/")).toBe(true);
+    }
+    for (const c of discoveryCandidates(today)) {
+      expect(c.subjectId.startsWith("discovery:")).toBe(true);
+      expect(c.contentType).toBe("data_discovery");
+    }
+  });
+
+  it("rotates deterministically: the same day gives the same order", () => {
+    const a = candidatesFor([], today).map((c) => c.subjectId);
+    const b = candidatesFor([], today).map((c) => c.subjectId);
+    expect(a).toEqual(b);
+  });
+
+  it("rotates: a different day leads with a different explainer", () => {
+    const leader = (d: string) => explainerCandidates([], d).sort((x, y) => y.score - x.score)[0].subjectId;
+    expect(leader("2026-08-10")).not.toBe(leader("2026-08-11"));
+  });
+
+  it("never offers a standing asset — that pool is gone", () => {
+    for (const c of candidatesFor(EVENT_INDEX, today)) {
+      expect(c.subjectId.startsWith("asset:"), c.subjectId).toBe(false);
+    }
+  });
+});
+
+describe("the one queue", () => {
+  it("carries every kind of candidate, sorted by score, with a total order", () => {
+    const queue = candidatesFor([event({ publishedAt: "2026-09-17" })], "2026-09-17");
+    const kinds = new Set(queue.map((c) => c.subjectId.split(":")[0]));
+    expect([...kinds].sort()).toEqual(["discovery", "event", "explainer", "keydate", "signal"]);
+    for (let i = 1; i < queue.length; i++) {
+      expect(queue[i - 1].score).toBeGreaterThanOrEqual(queue[i].score);
+    }
+    const ids = queue.map((c) => `${c.subjectId}::${c.contentType}`);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("gives every candidate a tier that matches its content type", () => {
+    // what_changed is the one type whose tier moves with age: news for two
+    // days, a follow-up after. Every other type's tier is fixed by its kind.
+    for (const c of candidatesFor(EVENT_INDEX, today)) {
+      if (c.contentType === "what_changed") {
+        expect(["news", "follow_up"], c.subjectId).toContain(c.tier);
+      } else {
+        expect(c.tier, c.subjectId).toBe(TIER_FOR_TYPE[c.contentType]);
+      }
+      expect(c.structures.length, c.subjectId).toBeGreaterThan(0);
+      expect(c.storyKey, c.subjectId).toBeTruthy();
     }
   });
 });
 
 describe("deep links", () => {
-  it("never returns the homepage", () => {
+  it("gives every candidate a site-relative canonical path the app will serve", () => {
+    for (const c of candidatesFor(EVENT_INDEX, "2026-09-17")) {
+      expect(c.deepLink.startsWith("/"), c.subjectId).toBe(true);
+      expect(c.deepLink.startsWith("//"), c.subjectId).toBe(false);
+      expect(isPublishableDestination(c.deepLink), c.subjectId).toBe(true);
+    }
+  });
+
+  it("sends every recorded change to its own page under /what-changed/", () => {
+    for (const c of candidatesFor(EVENT_INDEX, today).filter((x) => x.event)) {
+      expect(c.deepLink.startsWith("/what-changed/"), c.subjectId).toBe(true);
+      expect(c.deepLink).toBe(changePath(c.event!));
+    }
+  });
+
+  it("puts the TRACKED absolute URL on the fact set, and both forms on the whitelist", () => {
+    const c = eventCandidates([event()], today)[0];
+    expect(c.facts.deepLink.startsWith("https://")).toBe(true);
+    expect(c.facts.deepLink).toContain(c.deepLink);
+    expect(c.facts.deepLink).toContain("utm_source=x");
+    expect(c.facts.deepLink).toContain(`utm_campaign=${c.contentType}`);
+    expect(c.facts.shareUrl).toBeDefined();
+    expect(c.facts.shareUrl!.endsWith(c.deepLink)).toBe(true);
+    expect(c.facts.allowedUrls).toContain(c.facts.deepLink);
+    expect(c.facts.allowedUrls).toContain(c.facts.shareUrl);
+    expect(c.facts.allowedUrls).toContain(c.sourceUrl);
+  });
+
+  it("resolveDeepLink never returns the homepage", () => {
     for (const e of EVENT_INDEX.slice(0, 120)) {
       const link = resolveDeepLink(e);
       expect(link).not.toBeNull();
@@ -245,7 +454,7 @@ describe("deep links", () => {
     }
   });
 
-  it("only ever uses query parameters the explorer actually reads", () => {
+  it("resolveDeepLink only ever uses query parameters the explorer actually reads", () => {
     // EventExplorer reads ?entity= and ?q= and nothing else. A parameter it
     // ignores produces a link that looks purposeful and does nothing.
     for (const e of EVENT_INDEX.slice(0, 200)) {
@@ -287,7 +496,7 @@ describe("deep links", () => {
   });
 });
 
-describe("standing assets", () => {
+describe("standing assets — retained for history, never selected", () => {
   it("all point at site-relative paths", () => {
     for (const a of STANDING_ASSETS) {
       expect(a.path.startsWith("/")).toBe(true);

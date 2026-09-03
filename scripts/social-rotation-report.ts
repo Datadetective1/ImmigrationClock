@@ -14,7 +14,7 @@
 // =============================================================================
 
 import { EVENT_INDEX } from "../src/lib/event-index";
-import { SLOTS } from "../src/lib/social/slots";
+import { SLOTS, instantInWindow } from "../src/lib/social/slots";
 import { candidatesFor } from "../src/lib/social/select";
 import { explainRotation } from "../src/lib/social/run";
 import { describeVisual } from "../src/lib/social/visuals";
@@ -56,8 +56,8 @@ for (let d = 0; d < DAYS; d++) {
     .slice(0, 10);
 
   for (const slot of SLOTS) {
-    const at = new Date(`${date}T${String(slot.hour + 5).padStart(2, "0")}:05:00Z`);
-    const candidates = candidatesFor(slot, EVENT_INDEX, date);
+    const at = instantInWindow(date, slot);
+    const candidates = candidatesFor(EVENT_INDEX, date);
     const { chosen, rejections } = explainRotation(candidates, ledger, at, date);
 
     for (const r of rejections.slice(0, 4)) {

@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -14,6 +15,7 @@ export const metadata = buildMetadata({
   description:
     "How U.S. immigration data moved this month — border encounters, layoffs, enforcement pace and visa lag, on one page. Every figure sourced and labelled.",
   path: "/pulse",
+  image: ogImagePath("page", "pulse"),
   keywords: [
     "immigration pulse",
     "what changed immigration",

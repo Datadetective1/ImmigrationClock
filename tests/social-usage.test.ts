@@ -386,7 +386,9 @@ describe("a re-run does not re-post", () => {
     expect(r.outcome.attempts).toEqual([]);
     expect(r.outcome.platforms.every((p) => p.decision === "SKIPPED_DUPLICATE")).toBe(true);
     expect(r.outcome.platforms[0].reason).toMatch(/already published/);
-    expect(r.outcome.platforms[0].reason).toMatch(/re-run/);
+    // With hourly crons a second firing inside the same window is the normal
+    // case, not only a manual re-run; the reason says so.
+    expect(r.outcome.platforms[0].reason).toMatch(/later firing in the same window/);
   });
 
   it("never re-posts to a platform that already published, even partially", async () => {
@@ -470,15 +472,16 @@ describe("at most one X post per date and slot, even when re-run", () => {
     expect(publisher.published).toHaveLength(1);
     expect(engine.calls).toBe(1);
 
-    // Re-run: same slot, same day, ledger carried forward exactly as the
-    // workflow commits it.
+    // Re-run: same window, same day, ledger carried forward exactly as the
+    // workflow commits it. Two hours later — a later cron firing landing
+    // inside the same window, which is exactly what hourly crons produce.
     const second = await runSlot({
       slot: SLOT_BY_ID.get("morning")!,
       events: EVENTS,
       ledger: first.ledger,
       engine,
       publishers: { x: publisher },
-      now: new Date(NOW.getTime() + 11 * 60_000), // 11 minutes later, same slot hour
+      now: new Date(NOW.getTime() + 2 * 3_600_000), // 11:05 America/Chicago, still the morning window
       live: true,
     });
 

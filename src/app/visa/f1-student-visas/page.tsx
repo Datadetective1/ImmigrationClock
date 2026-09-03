@@ -1,4 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
+import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -21,6 +22,7 @@ export const metadata = buildMetadata({
   description:
     "F-1 academic student, J-1 exchange, H-1B, employment-based, and family-based visa issuances by fiscal year and country.",
   path: "/visa/f1-student-visas",
+  image: ogImagePath("page", "f1-student-visas"),
   keywords: ["F-1 student visas", "J-1", "visa issuance", "international students"],
 });
 

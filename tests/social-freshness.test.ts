@@ -1,42 +1,34 @@
 // =============================================================================
 // THE GRADUATED FRESHNESS MODEL
 //
-// The news window was two days, and two days was measurably too strict. Walking
-// the real archive — 513 events, the 120 days to 2026-08-10 — the morning slot,
-// the only slot whose primary job is news, had nothing to say on 55% of days:
+// A DHS rule does not stop mattering after forty-eight hours, and the first
+// design's two-day news window discarded material that was still the most
+// useful thing this account held. But a wider window is only safe if RETENTION
+// IS NOT PERMISSION: a rule from Tuesday may be discussed on Friday; it may not
+// claim to have landed on Friday. So the model is graduated, in three parts:
 //
-//     window   days with a candidate   silent
-//       2d          54 / 120            55%
-//       5d          75 / 120            38%
-//      14d         106 / 120            12%
-//
-// Qualifying developments arrive roughly four times a month and clear a high bar
-// (breadth ≥ 2 AND an obligation step). A DHS rule does not stop mattering after
-// forty-eight hours, and the window was discarding material that was still the
-// most useful thing this account held.
-//
-// But a wider window is only safe if RETENTION IS NOT PERMISSION. A rule from
-// Tuesday may be discussed on Friday; it may not claim to have landed on Friday.
-// So the model is graduated rather than merely widened, and it has three parts,
-// each tested here:
-//
-//   1. THE WINDOW      five days, not two, and not six.
+//   1. THE WINDOW      what a change may BECOME, by age — breaking news for two
+//                      days, a plain-English what-changed for five, a
+//                      why-it-matters for seven, a dated reminder while its
+//                      effective date is ahead.
 //   2. THE FRAMING     breaking language is withdrawn after two days — by the
-//                      angle list, AND independently by the validator, because
-//                      "what it requires" is a legitimate angle for a four-day
-//                      -old rule and choosing it does not stop a sentence
-//                      beginning "USCIS just announced".
-//   3. THE GRADIENT    newer outranks older among comparable items, bounded so
-//                      it can never outrank a more consequential one.
+//                      content type on offer, AND independently by the
+//                      validator, because a what-changed on a four-day-old
+//                      rule is legitimate and nothing about choosing it stops
+//                      a sentence beginning "USCIS just announced".
+//   3. THE GRADIENT    inside the news tier, newer outranks older among
+//                      comparable items, bounded so it can never outrank a
+//                      more consequential one.
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
 import {
-  newsPool,
-  knowledgePool,
-  newsAnglesFor,
-  NEWS_LOOKBACK_DAYS,
-  KNOWLEDGE_MIN_AGE_DAYS,
+  candidatesFor,
+  eventCandidates,
+  WHAT_CHANGED_MAX_AGE_DAYS,
+  WHAT_CHANGED_NEWS_AGE_DAYS,
+  WHY_IT_MATTERS_MAX_AGE_DAYS,
+  EFFECTIVE_DATE_HORIZON_DAYS,
   RECENCY_DECAY_PER_DAY,
 } from "@/lib/social/select";
 import { BREAKING_MAX_AGE_DAYS, validatePost } from "@/lib/social/validate";
@@ -45,6 +37,7 @@ import { buildUserPrompt } from "@/lib/social/prompt";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { checkSubject } from "@/lib/social/dedupe";
 import { CATEGORY_TIER } from "@/lib/social/categories";
+import { TYPE_MAX_AGE_DAYS } from "@/lib/social/content-types";
 import { EMPTY_POST_LEDGER, appendRecords, type PostRecord } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
 
@@ -72,44 +65,55 @@ function event(over: Partial<IndexedEvent> = {}): IndexedEvent {
   };
 }
 
+/** The content types a change is offered at a given age. */
+const typesAt = (age: number, over: Partial<IndexedEvent> = {}) =>
+  eventCandidates([event({ publishedAt: daysAgo(age), ...over })], TODAY).map((c) => c.contentType);
+
+const candidateAt = (age: number, type: string) =>
+  eventCandidates([event({ publishedAt: daysAgo(age) })], TODAY).find((c) => c.contentType === type);
+
 // =============================================================================
 // 1. THE WINDOW
 // =============================================================================
 
-describe("the news window", () => {
-  it("reaches back five days", () => {
-    expect(NEWS_LOOKBACK_DAYS).toBe(5);
+describe("the windows", () => {
+  it("are graduated: two days breaking, five what-changed, seven why-it-matters", () => {
+    expect(BREAKING_MAX_AGE_DAYS).toBe(2);
+    expect(TYPE_MAX_AGE_DAYS.breaking_change).toBe(BREAKING_MAX_AGE_DAYS);
+    expect(WHAT_CHANGED_MAX_AGE_DAYS).toBe(5);
+    expect(WHY_IT_MATTERS_MAX_AGE_DAYS).toBe(7);
+    expect(BREAKING_MAX_AGE_DAYS).toBeLessThan(WHAT_CHANGED_MAX_AGE_DAYS);
+    expect(WHAT_CHANGED_MAX_AGE_DAYS).toBeLessThan(WHY_IT_MATTERS_MAX_AGE_DAYS);
   });
 
-  it("accepts a five-day-old story", () => {
-    const pool = newsPool([event({ publishedAt: daysAgo(5) })], TODAY);
-    expect(pool).toHaveLength(1);
+  it("accepts a five-day-old story as a what-changed", () => {
+    expect(typesAt(5)).toContain("what_changed");
   });
 
-  it("REFUSES a six-day-old story", () => {
-    // Six days is the knowledge pool's territory, and the boundary has to be a
-    // real edge or the two pools overlap and one subject gets two treatments.
-    expect(newsPool([event({ publishedAt: daysAgo(6) })], TODAY)).toHaveLength(0);
+  it("REFUSES a six-day-old story the what-changed treatment", () => {
+    // The boundary has to be a real edge, or a record wearing a news frame
+    // at ten days is an archive item pretending.
+    expect(typesAt(6)).not.toContain("what_changed");
+    expect(typesAt(6)).toContain("why_it_matters");
   });
 
-  it("keeps the pools non-overlapping by derivation, not by coincidence", () => {
-    expect(KNOWLEDGE_MIN_AGE_DAYS).toBe(NEWS_LOOKBACK_DAYS + 1);
+  it("refuses everything narrative past seven days", () => {
+    expect(typesAt(7)).toContain("why_it_matters");
+    expect(typesAt(8)).toEqual([]);
+  });
 
-    // The same event cannot be in both pools on the same day, at any age.
-    const afternoon = SLOT_BY_ID.get("afternoon")!;
-    for (let age = 0; age <= 10; age++) {
-      const e = event({ publishedAt: daysAgo(age) });
-      const inNews = newsPool([e], TODAY).length > 0;
-      const inKnowledge = knowledgePool([e], TODAY, afternoon).length > 0;
-      expect(inNews && inKnowledge, `age ${age} is in both pools`).toBe(false);
-    }
+  it("keeps the effective-date reminder open past the narrative windows, inside its horizon", () => {
+    const horizon = new Date(Date.parse(`${TODAY}T00:00:00Z`) + (EFFECTIVE_DATE_HORIZON_DAYS - 5) * 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    expect(typesAt(60, { effectiveAt: horizon })).toEqual(["effective_date"]);
   });
 
   it("still refuses anything published in the future", () => {
     // Federal Register public-inspection documents carry a future publication
     // date. Widening the window backwards must not open it forwards.
     const future = new Date(Date.parse(`${TODAY}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
-    expect(newsPool([event({ publishedAt: future })], TODAY)).toHaveLength(0);
+    expect(eventCandidates([event({ publishedAt: future })], TODAY)).toHaveLength(0);
   });
 });
 
@@ -119,17 +123,17 @@ describe("the news window", () => {
 
 describe("age-aware framing — 0 to 2 days", () => {
   it("offers breaking framing to a story from today", () => {
-    expect(newsAnglesFor(event(), 0, TODAY, [])).toContain("breaking_change");
+    expect(typesAt(0)).toContain("breaking_change");
   });
 
   it("still offers it at the boundary", () => {
-    expect(BREAKING_MAX_AGE_DAYS).toBe(2);
-    expect(newsAnglesFor(event(), 2, TODAY, [])).toContain("breaking_change");
+    expect(typesAt(BREAKING_MAX_AGE_DAYS)).toContain("breaking_change");
   });
 
-  it("earns 'what it requires' from the obligation factor, not from the title", () => {
-    const angles = newsAnglesFor(event(), 0, TODAY, []);
-    expect(angles).toContain("what_it_requires");
+  it("keeps the what-changed in the NEWS tier while the story is this fresh", () => {
+    expect(WHAT_CHANGED_NEWS_AGE_DAYS).toBe(BREAKING_MAX_AGE_DAYS);
+    expect(candidateAt(0, "what_changed")?.tier).toBe("news");
+    expect(candidateAt(2, "what_changed")?.tier).toBe("news");
   });
 
   it("lets the validator accept just-happened wording at that age", () => {
@@ -142,48 +146,44 @@ describe("age-aware framing — 0 to 2 days", () => {
 describe("age-aware framing — 3 to 5 days", () => {
   it("WITHDRAWS breaking framing entirely", () => {
     for (const age of [3, 4, 5]) {
-      expect(newsAnglesFor(event(), age, TODAY, []), `age ${age}`).not.toContain("breaking_change");
+      expect(typesAt(age), `age ${age}`).not.toContain("breaking_change");
     }
   });
 
-  it("offers development-oriented framing instead", () => {
-    const angles = newsAnglesFor(event({ publishedAt: daysAgo(4) }), 4, TODAY, []);
-    expect(angles.length).toBeGreaterThan(0);
-    // Earned from the data: an obligation change and a named population.
-    expect(angles).toContain("what_it_requires");
-    expect(angles).toContain("who_is_affected");
+  it("offers the what-changed as a FOLLOW-UP instead — real information, not what happened today", () => {
+    for (const age of [3, 4, 5]) {
+      const wc = candidateAt(age, "what_changed");
+      expect(wc, `age ${age}`).toBeDefined();
+      expect(wc!.tier, `age ${age}`).toBe("follow_up");
+    }
   });
 
-  it("offers the effective date when the document carries a future one", () => {
-    const e = event({ publishedAt: daysAgo(4), effectiveAt: "2026-09-15" });
-    expect(newsAnglesFor(e, 4, TODAY, [])).toContain("effective_date_reminder");
+  it("still earns the treatments the data supports, behind the type's own angle", () => {
+    const wc = candidateAt(4, "what_changed")!;
+    expect(wc.supportedAngles[0]).toBe("what_changed");
+    // An obligation change and a named population.
+    expect(wc.supportedAngles).toContain("who_is_affected");
   });
 
-  it("keeps historical_context with the afternoon slot that owns it", () => {
-    const e = event({ publishedAt: daysAgo(4) });
-    const related = [
-      event({ id: "a", entityIds: ["visa:h-1b"] }),
-      event({ id: "b", entityIds: ["visa:h-1b"] }),
-    ];
-    expect(newsAnglesFor(e, 4, TODAY, related)).not.toContain("historical_context");
+  it("offers the effective date when the document carries a near one", () => {
+    expect(typesAt(4, { effectiveAt: "2026-09-10" })).toContain("effective_date");
   });
 
   it("drops a retained story that can earn no honest treatment", () => {
-    // No obligation, no population, no effective date, nothing revised. At four
-    // days the only thing left to say is "this happened", which is the framing
-    // the graduated model exists to refuse. It is not lost — the knowledge pool
-    // picks it up at six days under the same earned-angle rules.
+    // No obligation, no population, no effective date, nothing revised, and
+    // reader value below the floor. At four days the only thing left to say is
+    // "this happened", which is the framing the graduated model exists to refuse.
     const bare = event({
       publishedAt: daysAgo(4),
       title: "Agency Information Collection Activities; Notice",
       summary: "A notice concerning the collection of information.",
       entityIds: ["topic:policy-changes"],
     });
-    expect(newsAnglesFor(bare, 4, TODAY, [])).toEqual([]);
+    expect(eventCandidates([bare], TODAY)).toEqual([]);
   });
 
-  it("REJECTS just-happened wording at three days, whatever angle was chosen", () => {
-    const facts = buildEventFacts(event({ publishedAt: daysAgo(3) }), "/what-changed?q=fee", TODAY);
+  it("REJECTS just-happened wording at three days, whatever type was chosen", () => {
+    const facts = buildEventFacts(event({ publishedAt: daysAgo(3) }), "/what-changed?q=fee", TODAY, "what_changed");
     const stale = [
       `DHS just published an amended fee schedule for benefit requests. ${facts.deepLink}`,
       `DHS announced today an amended fee schedule for benefit requests. ${facts.deepLink}`,
@@ -198,7 +198,7 @@ describe("age-aware framing — 3 to 5 days", () => {
   });
 
   it("ACCEPTS the same story framed as a development", () => {
-    const facts = buildEventFacts(event({ publishedAt: daysAgo(4) }), "/what-changed?q=fee", TODAY);
+    const facts = buildEventFacts(event({ publishedAt: daysAgo(4) }), "/what-changed?q=fee", TODAY, "what_changed");
     const good = `DHS has amended the fee schedule for immigration benefit requests, setting the fee at $500. No implementation date has been set. ${facts.deepLink}`;
     const r = validatePost(good, "x", facts);
     expect(r.failures).toEqual([]);
@@ -211,15 +211,19 @@ describe("age-aware framing — 3 to 5 days", () => {
   });
 
   it("tells the model the age, so the rejection is never a surprise", () => {
-    const facts = buildEventFacts(event({ publishedAt: daysAgo(4) }), "/what-changed?q=fee", TODAY);
+    const facts = buildEventFacts(event({ publishedAt: daysAgo(4) }), "/what-changed?q=fee", TODAY, "what_changed");
     const prompt = buildUserPrompt({
       facts,
-      slot: SLOT_BY_ID.get("morning")!,
-      angle: "what_it_requires",
+      slot: SLOT_BY_ID.get("afternoon")!,
+      angle: "what_changed",
+      contentType: "what_changed",
       avoidOpenings: [],
     });
     expect(prompt).toMatch(/4 day\(s\) before today/);
     expect(prompt).toMatch(/This is NOT breaking news/);
+    // And the content brief itself refuses the frame.
+    expect(prompt).toMatch(/CONTENT TYPE: WHAT CHANGED/);
+    expect(prompt).toMatch(/No breaking-news framing/);
   });
 
   it("says nothing about breaking news for a story from today", () => {
@@ -231,16 +235,7 @@ describe("age-aware framing — 3 to 5 days", () => {
       avoidOpenings: [],
     });
     expect(prompt).not.toMatch(/This is NOT breaking news/);
-  });
-
-  it("lets the morning slot actually use the older band's treatments", () => {
-    // Without these in the slot's angle list the graduated model would pick a
-    // treatment the slot then filtered out, and the wider window would buy
-    // nothing at all.
-    const morning = SLOT_BY_ID.get("morning")!;
-    for (const angle of ["what_it_requires", "who_is_affected", "effective_date_reminder"]) {
-      expect(morning.angles, angle).toContain(angle);
-    }
+    expect(prompt).toMatch(/This is recent/);
   });
 });
 
@@ -249,46 +244,44 @@ describe("age-aware framing — 3 to 5 days", () => {
 // =============================================================================
 
 describe("the recency gradient", () => {
-  it("gives a newer story a meaningful advantage over an older one", () => {
-    const fresh = event({ id: "federal_register:fresh", publishedAt: daysAgo(1) });
-    const old = event({ id: "federal_register:old", publishedAt: daysAgo(5) });
+  it("gives a newer story a meaningful advantage over an older one, inside the news tier", () => {
+    const fresh = event({ id: "federal_register:fresh", publishedAt: daysAgo(0) });
+    const old = event({ id: "federal_register:old", publishedAt: daysAgo(2) });
 
-    const pool = newsPool([fresh, old], TODAY);
-    expect(pool).toHaveLength(2);
+    const breaking = candidatesFor([fresh, old], TODAY).filter((c) => c.contentType === "breaking_change");
+    expect(breaking).toHaveLength(2);
 
-    const freshCandidate = pool.find((c) => c.subjectId.includes("fresh"))!;
-    const oldCandidate = pool.find((c) => c.subjectId.includes("old"))!;
+    const freshCandidate = breaking.find((c) => c.subjectId.includes("fresh"))!;
+    const oldCandidate = breaking.find((c) => c.subjectId.includes("old"))!;
 
     expect(freshCandidate.score).toBeGreaterThan(oldCandidate.score);
-    // Four days apart, at 150/day, is a 600-point gap — large enough to decide
-    // a slot rather than being lost in rounding.
+    // Two days apart, at 150/day, is a 300-point gap — large enough to decide
+    // a window rather than being lost in rounding.
     expect(freshCandidate.score - oldCandidate.score).toBeGreaterThanOrEqual(
-      4 * RECENCY_DECAY_PER_DAY - 50
+      2 * RECENCY_DECAY_PER_DAY - 50
     );
-    expect(pool[0].subjectId).toBe(freshCandidate.subjectId);
+    expect(breaking[0].subjectId).toBe(freshCandidate.subjectId);
   });
 
   it("records the decay in the explanation, so a selection can be audited", () => {
-    const pool = newsPool([event({ publishedAt: daysAgo(3) })], TODAY);
     // The DECAY marker specifically — the ranking model's own explain string
     // already contains the word "recency" for its 1-point tie-break, so a bare
     // /recency/ would pass whether or not the gradient existed.
-    expect(pool[0].scoreExplain).toMatch(/− 450 recency/);
+    expect(candidateAt(2, "breaking_change")!.scoreExplain).toMatch(/− 300 recency/);
+    expect(candidateAt(1, "what_changed")!.scoreExplain).toMatch(/− 150 recency/);
   });
 
   it("NEVER lets recency overturn a materially more consequential story", () => {
-    // The bound that makes the gradient safe: five days is the oldest anything
-    // in this pool can be, so the most recency can move a candidate is
-    // 5 × 150 = 750 — strictly less than one breadth step (1000).
-    expect(NEWS_LOOKBACK_DAYS * RECENCY_DECAY_PER_DAY).toBeLessThan(1000);
+    // The bound that makes the gradient safe: the news tier holds nothing older
+    // than two days, so the most recency can move a candidate is 2 × 150 = 300
+    // — strictly less than one breadth step (1000).
+    const oldestNews = Math.max(BREAKING_MAX_AGE_DAYS, WHAT_CHANGED_NEWS_AGE_DAYS);
+    expect(oldestNews * RECENCY_DECAY_PER_DAY).toBeLessThan(1000);
   });
 
   it("proves it on real candidates: broader-but-older beats narrower-but-newer", () => {
     // Broad: amends the fee schedule for ALL benefit requests, every applicant.
-    const broadOld = event({
-      id: "federal_register:broad",
-      publishedAt: daysAgo(5),
-    });
+    const broadOld = event({ id: "federal_register:broad", publishedAt: daysAgo(2) });
     // Narrow: one country, one programme. Genuinely newer, genuinely smaller.
     const narrowNew = event({
       id: "federal_register:narrow",
@@ -299,9 +292,9 @@ describe("the recency gradient", () => {
       entityIds: ["country:nepal"],
     });
 
-    const pool = newsPool([broadOld, narrowNew], TODAY);
-    const broad = pool.find((c) => c.subjectId.includes("broad"));
-    const narrow = pool.find((c) => c.subjectId.includes("narrow"));
+    const news = candidatesFor([broadOld, narrowNew], TODAY).filter((c) => c.tier === "news");
+    const broad = news.find((c) => c.subjectId.includes("broad"));
+    const narrow = news.find((c) => c.subjectId.includes("narrow"));
 
     // Only assert the comparison if both actually cleared the bar; the point is
     // the ordering, not the floor.
@@ -313,22 +306,23 @@ describe("the recency gradient", () => {
   });
 
   it("stays inside its own tier — decay can never demote a development", () => {
-    const oldest = newsPool([event({ publishedAt: daysAgo(5) })], TODAY)[0];
+    const oldest = candidateAt(BREAKING_MAX_AGE_DAYS, "breaking_change")!;
+    expect(oldest.category).toBe("development");
     expect(oldest.score).toBeGreaterThan(CATEGORY_TIER.deadline);
   });
 
-  it("does not apply the decay to the knowledge pool", () => {
-    // That pool spans 6–180 days. A per-day decay of this size there would cross
-    // tier boundaries and turn the category ladder back into an age ladder.
-    const afternoon = SLOT_BY_ID.get("afternoon")!;
-    const pool = knowledgePool(
-      [event({ publishedAt: daysAgo(60), effectiveAt: "2026-09-15" })],
-      TODAY,
-      afternoon
-    );
-    if (pool.length) {
-      expect(pool[0].scoreExplain).not.toMatch(/− \d+ recency/);
-      expect(pool[0].score).toBeGreaterThan(CATEGORY_TIER.data_insight);
+  it("does not apply the decay to a follow-up", () => {
+    // Follow-ups are ordered by how soon they matter, not by how new they are.
+    // A per-day decay there would cross tier boundaries and turn the category
+    // ladder back into an age ladder.
+    const followUps = eventCandidates(
+      [event({ publishedAt: daysAgo(4) }), event({ id: "federal_register:dated", publishedAt: daysAgo(60), effectiveAt: "2026-09-10" })],
+      TODAY
+    ).filter((c) => c.tier === "follow_up");
+    expect(followUps.length).toBeGreaterThan(0);
+    for (const c of followUps) {
+      expect(c.scoreExplain, c.contentType).not.toMatch(/− \d+ recency/);
+      expect(c.score, c.contentType).toBeGreaterThan(CATEGORY_TIER.data_insight);
     }
   });
 });
@@ -339,8 +333,9 @@ describe("the recency gradient", () => {
 
 describe("the safety layers are unchanged by the wider window", () => {
   it("keeps the 7-day subject cooldown, which now matters more", () => {
-    // A retained story sits in the pool for five days. The cooldown is what
-    // stops those five days becoming five posts about one document.
+    // A retained story sits in the queue for a week under different types. The
+    // cooldown is what stops those days becoming several posts about one
+    // document.
     const posted: PostRecord = {
       localDate: daysAgo(1),
       localTime: "09:07",
@@ -356,9 +351,11 @@ describe("the safety layers are unchanged by the wider window", () => {
       subjectId: "event:federal_register:fresh-1",
       subjectLabel: "Fee Adjustment",
       angle: "breaking_change",
+      contentType: "breaking_change",
+      tier: "news",
       score: 70_000,
       text: "A post about the fee adjustment.",
-      deepLink: "https://immigrationclock.com/what-changed?q=fee",
+      deepLink: "/what-changed/fee-adjustment-for-certain-immigration-benefit-requests-w0nl86",
       externalId: "1",
       externalUrl: null,
       model: null,
@@ -382,9 +379,9 @@ describe("the safety layers are unchanged by the wider window", () => {
     const check = checkSubject(
       ledger,
       "event:federal_register:fresh-1",
-      ["what_it_requires"],
+      ["what_changed"],
       "x",
-      "https://immigrationclock.com/what-changed?q=fee",
+      "/what-changed/fee-adjustment-for-certain-immigration-benefit-requests-w0nl86",
       new Date(`${TODAY}T14:07:00.000Z`),
       "news"
     );
@@ -442,6 +439,6 @@ describe("the safety layers are unchanged by the wider window", () => {
     // A wider window must not admit routine housekeeping that the two-day
     // window was also refusing.
     const routine = event({ publishedAt: daysAgo(4), severity: "routine" });
-    expect(newsPool([routine], TODAY)).toHaveLength(0);
+    expect(eventCandidates([routine], TODAY)).toHaveLength(0);
   });
 });
