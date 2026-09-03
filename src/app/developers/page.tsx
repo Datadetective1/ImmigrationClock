@@ -80,6 +80,68 @@ export default function DevelopersPage() {
         </section>
 
         <section className="panel panel-pad">
+          <h2 className="mb-1 text-base font-semibold text-white">Intelligence API (v1)</h2>
+          <p className="mb-4 text-sm text-slate-400">
+            The change archive and employer signals as data. Read-only, free, no key. Versioned from
+            the first release, and every response carries its source and a schema version so you can
+            pin against it.
+          </p>
+          <div className="space-y-3">
+            <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="font-mono text-sm text-accent-soft">GET /api/v1/changes</div>
+                <div className="text-xs text-slate-500">
+                  Recorded changes, newest first. Filter by <code>visa</code>, <code>country</code>,{" "}
+                  <code>agency</code>, <code>classification</code>, <code>status</code>,{" "}
+                  <code>since</code>, <code>until</code>.
+                </div>
+              </div>
+              <a href="/api/v1/changes?limit=3" className="link-accent whitespace-nowrap text-xs font-semibold">
+                Open JSON →
+              </a>
+            </div>
+            <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="font-mono text-sm text-accent-soft">GET /api/v1/changes/&#123;id&#125;</div>
+                <div className="text-xs text-slate-500">
+                  One change. The id is the six characters that end a /what-changed/ URL.
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="font-mono text-sm text-accent-soft">
+                  GET /api/v1/employers/&#123;slug&#125;/signals
+                </div>
+                <div className="text-xs text-slate-500">
+                  H-1B sponsorship, WARN layoff filings, and the overlap between them — each signal
+                  with its source fact, how the join was made, and the caveat that goes with it.
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="font-mono text-sm text-accent-soft">GET /api/v1</div>
+                <div className="text-xs text-slate-500">Endpoints, coverage counts and the boundary.</div>
+              </div>
+              <a href="/api/v1" className="link-accent whitespace-nowrap text-xs font-semibold">
+                Open JSON →
+              </a>
+            </div>
+          </div>
+
+          <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">Example</p>
+          <Code>{`curl -s "https://immigrationclock.com/api/v1/changes?visa=h-1b&since=2026-01-01&limit=3" | jq '.data[] | {title, status, effectiveDate, source: .source.url}'`}</Code>
+
+          <p className="mt-5 text-sm text-slate-400">
+            <strong className="text-white">What it will not do.</strong> It describes published
+            government material. It is not legal advice, it makes no determination about any
+            individual or case, and it returns no personal data because it holds none. An absent
+            field means the source did not state it — nothing is inferred to fill a gap.
+          </p>
+        </section>
+
+        <section className="panel panel-pad">
           <h2 className="mb-3 text-base font-semibold text-white">Quick start</h2>
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">curl</p>
           <Code>{`curl -s https://immigrationclock.com/api/warn.json | jq '.notices[0]'`}</Code>
