@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-03T17:49:11.223Z",
+  "updatedAt": "2026-09-03T20:58:52.913Z",
   "items": [
     {
       "id": "event:federal_register:2026-16290::effective_date",
@@ -88,51 +88,6 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4"
-        }
-      ]
-    },
-    {
-      "id": "event:federal_register:2026-17726::what_changed",
-      "subjectId": "event:federal_register:2026-17726",
-      "contentType": "what_changed",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Rescission of Coordinated Enforcement Regulations",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
-      "eventId": "federal_register:2026-17726",
-      "category": "deadline",
-      "topicKey": "topic:enforcement",
-      "priority": 67132.98333333334,
-      "readerValue": 98,
-      "factsHash": "68a6c76ee129f4d9",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 27 days from today. Until then the rules in force today stay in force.",
-        "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
-        "ImmigrationClock is watching the September 30, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6",
-      "ogImage": "/og/change/rescission-of-coordinated-enforcement-regulations-pu7qj6.png",
-      "freshness": {
-        "publishedAt": "2026-08-31",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-13"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 98/100 clears the floor; share page https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6"
         }
       ]
     },
@@ -2019,6 +1974,65 @@
         },
         {
           "at": "2026-09-03T17:48:42.349Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-17726::what_changed",
+      "subjectId": "event:federal_register:2026-17726",
+      "contentType": "what_changed",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Rescission of Coordinated Enforcement Regulations",
+      "suggestedHeadline": "Labor rescinds coordinated enforcement regs, effective Sept. 30, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
+      "eventId": "federal_register:2026-17726",
+      "category": "deadline",
+      "topicKey": "topic:enforcement",
+      "priority": 67132.98333333334,
+      "readerValue": 98,
+      "factsHash": "68a6c76ee129f4d9",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 30, 2026, 27 days from today. Until then the rules in force today stay in force.",
+        "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
+        "ImmigrationClock is watching the September 30, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Department of Labor final rule rescinds coordinated enforcement regulations. Effective Sept. 30, 2026.\n\nWhat changed: Ends WHD/OSHA/ETA procedures for migrant/seasonal farmworkers.\n\nWhat ImmigrationClock is watching: Sept. 30, 2026.\n\nhttps://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3Apu7qj6",
+        "linkedin": "",
+        "structure": "what_changed"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6",
+      "ogImage": "/og/change/rescission-of-coordinated-enforcement-regulations-pu7qj6.png",
+      "freshness": {
+        "publishedAt": "2026-08-31",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-03T20:57:05.655Z",
+      "externalUrl": "https://x.com/i/web/status/2095617547693355269",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 98/100 clears the floor; share page https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6"
+        },
+        {
+          "at": "2026-09-03T20:57:05.655Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-03T20:57:05.655Z",
           "status": "published",
           "reason": "published on x"
         }
