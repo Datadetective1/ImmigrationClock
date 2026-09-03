@@ -288,23 +288,14 @@ describe("a repair may not buy compliance with a fact", () => {
   });
 
   it("REJECTS a repair that changed the stage from proposed to settled", async () => {
-    // KNOWN TO FAIL AGAINST src/lib/social/validate.ts AS OF THE EDITORIAL ENGINE.
-    //
-    // The repair below is accepted, and it should not be. validatePost() runs
-    // the proposal-label test — PROPOSE_LANGUAGE.test(trimmed) — over the WHOLE
-    // post, URL included. Every recorded change now has its own page whose
-    // slug is built from its title, and this proposal's title begins
-    // "Proposed Rescission…", so the destination
+    // The stage check must read the PROSE, not the link. Every recorded change
+    // now has its own page whose slug is built from its title, and this
+    // proposal's title begins "Proposed Rescission…", so its destination
     // /what-changed/proposed-rescission-of-the-public-charge-…?utm_… contains
-    // the word the check is looking for. The prose "DHS rescinded the 2022
-    // public charge ground of inadmissibility regulations" therefore passes
-    // with no failure at all. The same prose against a destination with no
-    // "proposed" in it fails `proposed-not-labelled`, as it must.
-    //
-    // Nearly every NPRM's title carries "Proposed", so under the new slugs this
-    // defeats the stage protection for the exact class of record it exists
-    // for. The fix is in the validator (test the stage on stripUrls(trimmed),
-    // as the cold-reader and figure checks already do), not in this test.
+    // the very word the check looks for. Nearly every NPRM's title carries
+    // "Proposed"; a validator that tested the whole post would have let a
+    // repair drop the stage for exactly the class of record the check exists
+    // for. It once did (caught here, 2026-09-03); it now tests stripUrls(post).
     //
     // Published yesterday, so the proposal is in the queue as a proposal.
     const proposedEvent = event({
