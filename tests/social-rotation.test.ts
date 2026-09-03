@@ -33,7 +33,7 @@ import {
   SUBJECT_HEAVY_DAYS,
   type TopicFamily,
 } from "@/lib/social/rotation";
-import { standingPool } from "@/lib/social/select";
+import { keyDateCandidates } from "@/lib/social/select";
 import type { ContentCategory } from "@/lib/social/categories";
 import { EMPTY_POST_LEDGER, appendRecords, type PostLedger, type PostRecord } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
@@ -258,15 +258,15 @@ describe("4 — a countdown is not news", () => {
     }
   });
 
-  it("keeps the DV window out of the evening pool on non-milestone days", () => {
+  it("keeps the DV window out of the queue on non-milestone days", () => {
     // 2026-08-20 is 42 days from the 1 October window — not a milestone.
-    const pool = standingPool(TODAY).filter((c) => c.subjectId === "keydate:dv-lottery");
+    const pool = keyDateCandidates(TODAY).filter((c) => c.subjectId === "keydate:dv-lottery");
     expect(pool).toHaveLength(0);
   });
 
   it("lets it back on a milestone day", () => {
     // 2026-09-01 is 30 days out.
-    const pool = standingPool("2026-09-01").filter((c) => c.subjectId === "keydate:dv-lottery");
+    const pool = keyDateCandidates("2026-09-01").filter((c) => c.subjectId === "keydate:dv-lottery");
     expect(pool.length).toBeGreaterThan(0);
     expect(pool[0].label).toContain("30 days away");
   });
@@ -278,7 +278,7 @@ describe("4 — a countdown is not news", () => {
       const date = new Date(Date.parse("2026-08-15T00:00:00Z") + d * 86_400_000)
         .toISOString()
         .slice(0, 10);
-      if (standingPool(date).some((c) => c.subjectId === "keydate:dv-lottery")) qualifying++;
+      if (keyDateCandidates(date).some((c) => c.subjectId === "keydate:dv-lottery")) qualifying++;
     }
     expect(qualifying).toBeGreaterThan(0);
     expect(qualifying).toBeLessThanOrEqual(KEY_DATE_MILESTONES.length);

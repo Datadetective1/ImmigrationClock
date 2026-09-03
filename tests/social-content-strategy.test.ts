@@ -28,13 +28,20 @@
 //
 // So these tests are organised around the nine properties that would have caught
 // it, and the three that must not regress while fixing it.
+//
+// The second design removed the standing-asset pool altogether: there is one
+// queue, and the evergreen tier is explainers, data signals and tools, each with
+// its own page. The methodology page is not in the queue to be ranked. The
+// properties below are stated against that queue.
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
-import { newsPool, standingPool, candidatesFor } from "@/lib/social/select";
+import { candidatesFor, eventCandidates } from "@/lib/social/select";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { applyRotation, buildMemory } from "@/lib/social/rotation";
-import { validatePost, LIMITS, subjectAnchors, mentionsDate } from "@/lib/social/validate";
+import { decideCadence } from "@/lib/social/cadence";
+import { runSlot } from "@/lib/social/run";
+import { validatePost, LIMITS, subjectAnchors, mentionsDate, measuredLength } from "@/lib/social/validate";
 import { buildEventFacts, buildAssetFacts } from "@/lib/social/facts";
 import { buildUserPrompt } from "@/lib/social/prompt";
 import { checkSubject, checkWording } from "@/lib/social/dedupe";
@@ -43,16 +50,18 @@ import {
   MIX_PENALTY,
   MIX_TARGET,
   mixBucketFor,
+  mixBucketForPost,
   categoryForAsset,
   isOverTarget,
   type ContentCategory,
 } from "@/lib/social/categories";
+import { CONTENT_TYPES } from "@/lib/social/content-types";
 import { ASSET_BY_ID } from "@/lib/social/links";
 import { assetInsights } from "@/lib/social/asset-facts";
 import { READER_VALUE_FLOOR, readerValueForAsset } from "@/lib/social/reader-value";
 import { EMPTY_POST_LEDGER, appendRecords, type PostLedger, type PostRecord } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
-import type { FactSet } from "@/lib/social/types";
+import type { CopyEngine, EngineResult, FactSet } from "@/lib/social/types";
 
 const TODAY = "2026-08-15";
 
@@ -354,13 +363,16 @@ describe("4 — time-sensitive and actionable content outranks durable content",
     }
   });
 
-  it("puts every key-date deadline above every standing page", () => {
-    const pool = standingPool(TODAY);
-    const deadlines = pool.filter((c) => c.category === "deadline");
-    const pages = pool.filter((c) => c.subjectId.startsWith("asset:"));
-    expect(pages.length).toBeGreaterThan(0);
+  it("puts every key-date deadline above every evergreen candidate", () => {
+    // 2026-09-17 is a milestone day (14 days to the 1 October dates), so the
+    // queue holds live deadlines alongside the explainers, signals and tools.
+    const queue = candidatesFor([], "2026-09-17");
+    const deadlines = queue.filter((c) => c.category === "deadline");
+    const evergreen = queue.filter((c) => c.tier === "evergreen");
+    expect(deadlines.length).toBeGreaterThan(0);
+    expect(evergreen.length).toBeGreaterThan(0);
     for (const d of deadlines) {
-      for (const p of pages) {
+      for (const p of evergreen) {
         expect(d.score, `${d.subjectId} vs ${p.subjectId}`).toBeGreaterThan(p.score);
       }
     }
@@ -389,25 +401,25 @@ describe("5 — a page about ImmigrationClock never displaces a development", ()
     }
   });
 
-  it("lets the EVENING slot see a qualifying development at all", () => {
-    // The heart of the failure: this list used to contain fifteen pages and no
-    // events, so the slot could not have chosen news if it wanted to.
-    const evening = SLOT_BY_ID.get("evening")!;
-    const candidates = candidatesFor(evening, [event()], TODAY);
+  it("lets EVERY window see a qualifying development at all", () => {
+    // The heart of the failure: the evening's list used to contain fifteen
+    // pages and no events, so the slot could not have chosen news if it wanted
+    // to. There is one queue now, and a development is in it whatever the hour.
+    const candidates = candidatesFor([event()], TODAY);
     expect(candidates.some((c) => c.subjectId.startsWith("event:"))).toBe(true);
   });
 
-  it("ranks that development above every standing page that survives the floor", () => {
-    const evening = SLOT_BY_ID.get("evening")!;
-    const candidates = candidatesFor(evening, [event()], TODAY);
+  it("ranks that development above every evergreen candidate", () => {
+    const candidates = candidatesFor([event()], TODAY);
 
     const development = candidates.find((c) => c.subjectId.startsWith("event:"))!;
     expect(development).toBeDefined();
+    expect(development.category).toBe("development");
 
-    for (const c of candidates.filter((x) => x.subjectId.startsWith("asset:"))) {
+    for (const c of candidates.filter((x) => x.tier === "evergreen")) {
       expect(development.score, c.subjectId).toBeGreaterThan(c.score);
     }
-    // And it wins the slot outright, not merely on a tie-break.
+    // And it wins outright, not merely on a tie-break.
     expect(candidates[0].subjectId).toBe(development.subjectId);
   });
 
@@ -421,14 +433,13 @@ describe("5 — a page about ImmigrationClock never displaces a development", ()
     // worst place to explain provenance to somebody who has not yet decided the
     // account is worth reading.
     //
-    // Reader value settles it mechanically rather than by taste. A page whose
-    // subject is ImmigrationClock scores 0/100 — no reader-impact signal, and a
-    // 60-point penalty for being about us — so it cannot clear the floor however
-    // quiet the archive is. The evening slot goes silent instead, which is a
-    // first-class outcome this system was built to make cheap.
-    const evening = SLOT_BY_ID.get("evening")!;
-    const candidates = candidatesFor(evening, [], TODAY);
+    // Two layers now say so. The standing-asset pool is gone — no `asset:`
+    // subject is ever a candidate — and reader value still scores a page whose
+    // subject is ImmigrationClock at 0/100, so it could not clear the floor
+    // even if the pool came back.
+    const candidates = candidatesFor([], TODAY);
     expect(candidates.some((c) => c.subjectId === "asset:methodology")).toBe(false);
+    expect(candidates.some((c) => c.subjectId.startsWith("asset:"))).toBe(false);
 
     for (const id of ["methodology", "sources", "following"]) {
       const value = readerValueForAsset(ASSET_BY_ID.get(id)!, assetInsights(id, TODAY));
@@ -440,34 +451,83 @@ describe("5 — a page about ImmigrationClock never displaces a development", ()
   it("keeps the containers out too — a way of finding things is not a subject", () => {
     // The change feed and the timeline are indexes. What they hold is valuable;
     // a post ABOUT them is a generic dataset description, which is the shape
-    // this account was asked to stop publishing.
-    const inPool = standingPool(TODAY).map((c) => c.subjectId);
+    // this account was asked to stop publishing. A tool post about SEARCHING
+    // the archive is a different thing — it has the reader's need in it — and
+    // that is what the discovery tier carries instead.
+    const inQueue = candidatesFor([], TODAY).map((c) => c.subjectId);
     for (const id of ["what-changed", "timeline"]) {
-      expect(inPool, id).not.toContain(`asset:${id}`);
+      expect(inQueue, id).not.toContain(`asset:${id}`);
     }
   });
 
   it("does not let a rotation index decide anything across kinds any more", () => {
     // Every standing candidate used to sit within 14 points of every other. Now
-    // the spread across categories is at least one tier.
-    const assets = standingPool(TODAY).filter((c) => c.subjectId.startsWith("asset:"));
-    const scores = assets.map((c) => c.score);
+    // the evergreen tier is three kinds in three bands — data signals, then
+    // explainers, then tools — and the spread across them is at least a tier.
+    const evergreen = candidatesFor([], TODAY).filter((c) => c.tier === "evergreen");
+    const scores = evergreen.map((c) => c.score);
     expect(Math.max(...scores) - Math.min(...scores)).toBeGreaterThan(CATEGORY_TIER.methodology / 2);
+    expect(new Set(evergreen.map((c) => c.category)).size).toBeGreaterThanOrEqual(3);
   });
 
-  it("keeps the morning slot's silence intact — no fallback fills a quiet morning", () => {
+  it("keeps the morning window's silence intact — nothing evergreen fills a quiet morning", () => {
     // The cadence must not move. A morning with no qualifying development still
-    // posts nothing rather than reaching for a standing page.
+    // posts nothing rather than reaching for an explainer: the queue holds the
+    // evergreen tier, and the morning window is not allowed to draw on it.
     const morning = SLOT_BY_ID.get("morning")!;
-    expect(candidatesFor(morning, [], TODAY)).toEqual([]);
+    const now = new Date(`${TODAY}T14:05:00.000Z`); // 09:05 America/Chicago
+    const cadence = decideCadence({ ledger: EMPTY_POST_LEDGER, platform: "x", slot: morning, localDate: TODAY, now });
+    expect(cadence.allowedTiers).not.toContain("evergreen");
+
+    const quiet = candidatesFor([], TODAY);
+    expect(quiet.length).toBeGreaterThan(0);
+    expect(quiet.every((c) => !cadence.allowedTiers.includes(c.tier))).toBe(true);
   });
 
-  it("keeps a slot silent when its own pool is empty, whatever the fallback holds", () => {
-    // The afternoon slot has a news fallback. With an empty archive its primary
-    // pool is empty, so it stays silent exactly as it did before fallbacks
-    // existed — the fallback changes what a slot posts, never whether it posts.
+  it("makes that silence free — a quiet morning never calls the engine", async () => {
+    class CountingEngine implements CopyEngine {
+      readonly id = "test:counting";
+      calls = 0;
+      async generate(): Promise<EngineResult> {
+        this.calls++;
+        throw new Error("should not be called");
+      }
+    }
+    const engine = new CountingEngine();
+    const r = await runSlot({
+      slot: SLOT_BY_ID.get("morning")!,
+      events: [],
+      ledger: EMPTY_POST_LEDGER,
+      engine,
+      publishers: {},
+      now: new Date(`${TODAY}T14:05:00.000Z`),
+      live: false,
+      platforms: ["x"],
+    });
+    expect(engine.calls).toBe(0);
+    expect(r.outcome.platforms[0].decision).toBe("SKIPPED_CADENCE");
+    expect(r.outcome.platforms[0].reason).toMatch(/none in a tier this window may publish/);
+  });
+
+  it("lets the afternoon take the day's first evergreen post when the day is quiet", () => {
+    // The change from the first design, stated: a window with nothing new no
+    // longer stays silent by construction. The cadence opens the evergreen tier
+    // in the afternoon on a quiet day, and closes it again once anything has
+    // published.
     const afternoon = SLOT_BY_ID.get("afternoon")!;
-    expect(candidatesFor(afternoon, [event()], TODAY)).toEqual([]);
+    const now = new Date(`${TODAY}T20:05:00.000Z`); // 15:05 America/Chicago
+    const quiet = decideCadence({ ledger: EMPTY_POST_LEDGER, platform: "x", slot: afternoon, localDate: TODAY, now });
+    expect(quiet.allowedTiers).toContain("evergreen");
+
+    const busy = decideCadence({
+      ledger: appendRecords(EMPTY_POST_LEDGER, [record({ runAtUtc: `${TODAY}T14:07:00.000Z` })]),
+      platform: "x",
+      slot: afternoon,
+      localDate: TODAY,
+      now,
+    });
+    expect(busy.allowedTiers).not.toContain("evergreen");
+    expect(busy.allowedTiers).toContain("news");
   });
 });
 
@@ -536,18 +596,23 @@ describe("6 — the cold reader test", () => {
       angle: "data_insight",
       avoidOpenings: [],
     });
-    expect(prompt).not.toMatch(/NO effective or implementation date is recorded/);
-    expect(prompt).toMatch(/durable reference page/i);
+    expect(prompt).not.toMatch(/No effective or implementation date is recorded/i);
+    expect(prompt).toMatch(/not a dated change/i);
+    expect(prompt).toMatch(/none is missing/i);
   });
 
-  it("still asks a DOCUMENT about its missing date, because there the absence is news", () => {
+  it("still tells a DOCUMENT its date is missing, and never to open on the absence", () => {
+    // The absence is still information for a rule. What changed in the ninth
+    // prompt is the instruction: the writer MAY say so in plain words, and may
+    // not lead with it — which is the exact sentence that published.
     const prompt = buildUserPrompt({
       facts: buildEventFacts(event(), "/what-changed?q=fee", TODAY),
       slot: SLOT_BY_ID.get("morning")!,
       angle: "breaking_change",
       avoidOpenings: [],
     });
-    expect(prompt).toMatch(/NO effective or implementation date is recorded/);
+    expect(prompt).toMatch(/No effective or implementation date is recorded for this document/);
+    expect(prompt).toMatch(/never open on its absence/);
   });
 });
 
@@ -668,7 +733,9 @@ describe("9 — the X limit is unchanged", () => {
     const good =
       `DHS is amending the fee schedule for immigration benefit requests. The notice sets the ` +
       `fee at $500 and records no implementation date. ${facts.deepLink}`;
-    expect(good.length).toBeLessThanOrEqual(LIMITS.x.maxChars);
+    // Measured the way X measures: the tracked URL is long, and X charges a
+    // fixed t.co width for it.
+    expect(measuredLength(good, "x")).toBeLessThanOrEqual(LIMITS.x.maxChars);
     const r = validatePost(good, "x", facts);
     expect(r.failures).toEqual([]);
   });
@@ -680,20 +747,38 @@ describe("9 — the X limit is unchanged", () => {
 
 describe("the content mix", () => {
   it("targets the shares the brief asks for", () => {
-    expect(MIX_TARGET.news).toBe(0.5);
+    // News still leads; the evergreen and product shares grew when explainers
+    // and tools became content types with their own pages rather than filler.
+    expect(MIX_TARGET.news).toBe(0.45);
     expect(MIX_TARGET.alerts).toBe(0.2);
     expect(MIX_TARGET.data).toBe(0.15);
-    expect(MIX_TARGET.evergreen).toBe(0.1);
-    expect(MIX_TARGET.product).toBe(0.05);
+    expect(MIX_TARGET.evergreen).toBe(0.12);
+    expect(MIX_TARGET.product).toBe(0.08);
     expect(Object.values(MIX_TARGET).reduce((a, b) => a + b, 0)).toBeCloseTo(1);
   });
 
   it("maps every category into exactly one bucket", () => {
     const categories: ContentCategory[] = [
       "development", "deadline", "actionable", "proposed",
-      "data_insight", "explainer", "methodology",
+      "data_insight", "explainer", "discovery", "methodology",
     ];
     for (const c of categories) expect(MIX_TARGET[mixBucketFor(c)]).toBeGreaterThan(0);
+  });
+
+  it("counts a post by what KIND of post it was, falling back to its category", () => {
+    // A why-it-matters on a court order is news to a reader even though the
+    // order's archive category is "explainer". Counting it as evergreen put that
+    // bucket over its share and penalised every real explainer by a tier step.
+    for (const type of CONTENT_TYPES) expect(MIX_TARGET[mixBucketForPost("explainer", type)]).toBeGreaterThan(0);
+    expect(mixBucketForPost("explainer", "why_it_matters")).toBe("news");
+    expect(mixBucketForPost("explainer", "breaking_change")).toBe("news");
+    expect(mixBucketForPost("actionable", "effective_date")).toBe("alerts");
+    expect(mixBucketForPost("data_insight", "data_signal")).toBe("data");
+    expect(mixBucketForPost("explainer", "explainer")).toBe("evergreen");
+    expect(mixBucketForPost("discovery", "data_discovery")).toBe("product");
+    // Rows written before content types existed carry none, and fall back.
+    expect(mixBucketForPost("development", null)).toBe("news");
+    expect(mixBucketForPost("explainer", undefined)).toBe("evergreen");
   });
 
   it("moves a second same-day development down exactly one band, not out", () => {

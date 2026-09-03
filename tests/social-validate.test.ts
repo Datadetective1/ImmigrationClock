@@ -12,11 +12,23 @@
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
-import { validatePost, LIMITS, extractUrls, extractQuotations, allowedDigitRuns } from "@/lib/social/validate";
+import {
+  validatePost,
+  LIMITS,
+  VALIDATOR_VERSION,
+  X_URL_WEIGHT,
+  extractUrls,
+  extractQuotations,
+  allowedDigitRuns,
+  measuredLength,
+  xWeightedLength,
+} from "@/lib/social/validate";
 import type { FactSet } from "@/lib/social/types";
 
 const LINK = "https://immigrationclock.com/h1b/top-sponsors";
 const SOURCE = "https://www.federalregister.gov/documents/2026/08/10/2026-16231/fee";
+/** The shape every destination has now: the clean page plus attribution parameters. */
+const TRACKED = `${LINK}?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Aabc123`;
 
 function facts(over: Partial<FactSet> = {}): FactSet {
   return {
@@ -238,6 +250,97 @@ describe("effective dates must be real", () => {
     const bad = `The new H-1B and L-1 guidance takes effect on 9 September 2026 per DHS. ${LINK}`;
     const r = validatePost(bad, "x", f);
     expect(r.failures.some((f2) => f2.includes("archive records none"))).toBe(true);
+  });
+});
+
+describe("X counts a link as a fixed-width token", () => {
+  // Every URL on X is wrapped in a t.co token of one width, so a 130-character
+  // tracked deep link costs the same as a 36-character one. Counting the
+  // literal string was the single biggest reason the live account's posts read
+  // like telegrams.
+  it("weighs every URL at 23 characters, whatever its literal length", () => {
+    expect(X_URL_WEIGHT).toBe(23);
+    expect(xWeightedLength(`abc ${LINK}`)).toBe(4 + X_URL_WEIGHT);
+    expect(xWeightedLength(`abc ${TRACKED}`)).toBe(4 + X_URL_WEIGHT);
+    expect(xWeightedLength(`abc ${LINK} ${SOURCE}`)).toBe(5 + 2 * X_URL_WEIGHT);
+  });
+
+  it("weights only on X — LinkedIn measures the literal string", () => {
+    expect(measuredLength(`abc ${TRACKED}`, "x")).toBe(4 + X_URL_WEIGHT);
+    expect(measuredLength(`abc ${TRACKED}`, "linkedin")).toBe(`abc ${TRACKED}`.length);
+  });
+
+  it("accepts an X post that is literally over 275 and inside the limit as X counts it", () => {
+    const f = facts({ allowedUrls: [TRACKED, LINK, SOURCE], deepLink: TRACKED });
+    const prose =
+      "DHS is amending the fee regulations for certain H-1B and L-1 visas. The change takes effect on 9 September 2026. " +
+      "Until that date the existing regulations are the ones in force, and the fee stays at $500 for petitions filed before it.";
+    const post = `${prose}\n${TRACKED}`;
+    expect(post.length).toBeGreaterThan(LIMITS.x.maxChars);
+    expect(xWeightedLength(post)).toBeLessThanOrEqual(LIMITS.x.maxChars);
+    const r = validatePost(post, "x", f);
+    expect(r.codes).not.toContain("length-max");
+    expect(r.ok).toBe(true);
+  });
+
+  it("still rejects a post over the limit as X counts it, and says how it counted", () => {
+    const f = facts({ allowedUrls: [TRACKED, LINK, SOURCE], deepLink: TRACKED });
+    const post = `${"DHS amended the H-1B and L-1 visa fee regulations. ".repeat(6)}${TRACKED}`;
+    const measured = xWeightedLength(post);
+    expect(measured).toBeGreaterThan(LIMITS.x.maxChars);
+    expect(validatePost(post, "x", f).failures).toContain(
+      `Too long for x: ${measured} chars as x counts them (max ${LIMITS.x.maxChars}; each URL counts as ${X_URL_WEIGHT})`
+    );
+  });
+
+  it("is recorded as the eighth revision, so the arithmetic change is traceable", () => {
+    expect(VALIDATOR_VERSION).toBe("social-validator/8");
+  });
+});
+
+describe("the eighth revision's typography and bans", () => {
+  it("allows the single right arrow before a link", () => {
+    const ok = `DHS is amending the fee regulations for certain H-1B and L-1 visas. The change takes effect on 9 September 2026. Here's the source → ${LINK}`;
+    expect(validatePost(ok, "x", facts()).failures).toEqual([]);
+  });
+
+  it("still bans every other arrow and decorative glyph", () => {
+    for (const glyph of ["←", "⇒", "➡", "✅"]) {
+      const bad = `DHS is amending the fee regulations for certain H-1B and L-1 visas. ${glyph} ${LINK}`;
+      expect(validatePost(bad, "x", facts()).codes, glyph).toContain("emoji");
+    }
+  });
+
+  it('bans "did you know" as engagement bait', () => {
+    const bad = `Did you know DHS amended the H-1B and L-1 fee regulations? It takes effect on 9 September 2026. ${LINK}`;
+    const r = validatePost(bad, "x", facts());
+    expect(r.ok).toBe(false);
+    expect(r.failures.join(" ")).toMatch(/engagement bait: "Did you know"/);
+  });
+
+  it("does not mistake a slash date for thread numbering", () => {
+    // "09/09/2026" is how a Federal Register abstract writes a date, and the
+    // first design rejected a valid post for containing one. A thread number
+    // never has a leading zero and is never followed by a year.
+    const dated = `DHS amended the H-1B and L-1 fee rules; filings received on or after 09/09/2026 pay the $500 fee. ${LINK}`;
+    expect(validatePost(dated, "x", facts()).failures.join(" ")).not.toMatch(/thread numbering/);
+    const thread = `DHS amended the H-1B and L-1 fee regulations, effective 9 September 2026. 1/5 ${LINK}`;
+    expect(validatePost(thread, "x", facts()).failures.join(" ")).toMatch(/thread numbering/);
+  });
+
+  it("grounds figures and quotations in the derived implications too", () => {
+    // implications.ts restates the record's own fields — "30 days from today"
+    // is arithmetic deterministic code did — so a figure or a quotation from
+    // that list is as grounded as one from the summary.
+    const f = facts({
+      implications: ["The rule is final but does not apply until September 9, 2026, 30 days from today."],
+    });
+    const ok = `DHS is amending the H-1B and L-1 fee regulations. The rule is final but does not apply until September 9, 2026, 30 days from today. ${LINK}`;
+    expect(validatePost(ok, "x", f).failures).toEqual([]);
+    const quoted = `DHS says the H-1B and L-1 fee rule "does not apply until September 9, 2026". ${LINK}`;
+    expect(validatePost(quoted, "x", f).codes).not.toContain("quotation-ungrounded");
+    // Without the implication, the same day count is an invented figure.
+    expect(validatePost(ok, "x", facts()).codes).toContain("figure-ungrounded");
   });
 });
 
