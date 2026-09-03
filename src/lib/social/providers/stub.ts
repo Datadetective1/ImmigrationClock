@@ -192,8 +192,18 @@ export class StubCopyEngine implements CopyEngine {
             `ImmigrationClock records each change with its source, classification and dates, so the original document is one click away.\n\n${f.deepLink}`
           );
 
+    // Only the platforms the run asked for, so a stub run and a model run
+    // record the same thing: a platform that cannot publish carries no copy.
+    const wanted = req.platforms?.length ? req.platforms : (["x", "linkedin"] as const);
+
     return {
-      copy: { x, linkedin, deepLink: f.deepLink, structure, headline: fit(plainTitle(f), 88) },
+      copy: {
+        x: wanted.includes("x") ? x : "",
+        linkedin: wanted.includes("linkedin") ? linkedin : "",
+        deepLink: f.deepLink,
+        structure,
+        headline: fit(plainTitle(f), 88),
+      },
       usage: { model: this.id, inputTokens: 0, outputTokens: 0, cachedInputTokens: 0, reasoningTokens: 0, totalTokens: 0, costUsd: 0 },
     };
   }

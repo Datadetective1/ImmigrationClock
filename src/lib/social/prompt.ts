@@ -43,6 +43,7 @@ import {
   type Angle,
   type CopyRequest,
   type FactSet,
+  type Platform,
 } from "./types";
 import {
   CONTENT_TYPE_LABEL,
@@ -208,19 +209,37 @@ export const RESPONSE_SCHEMA = {
   additionalProperties: false,
 } as const;
 
-/** The base schema with `structure` narrowed to the shapes this request offers. */
-export function responseSchemaFor(req: Pick<CopyRequest, "structures">): Record<string, unknown> {
+const ALL_PLATFORMS: Platform[] = ["x", "linkedin"];
+
+/**
+ * The base schema, narrowed twice: `structure` to the shapes this request
+ * offers, and the platform variants to the platforms this run can publish to.
+ *
+ * Strict mode requires every property to be listed in `required` and
+ * `additionalProperties: false`, so dropping a platform means dropping it from
+ * both — which is exactly what makes the model stop writing it. A request that
+ * names no platforms keeps both, so a dry run over every platform is unchanged.
+ */
+export function responseSchemaFor(req: Pick<CopyRequest, "structures" | "platforms">): Record<string, unknown> {
   const structures = req.structures?.length ? req.structures : ["direct"];
+  const wanted = req.platforms?.length ? req.platforms : ALL_PLATFORMS;
+  const properties: Record<string, unknown> = {
+    ...RESPONSE_SCHEMA.properties,
+    structure: {
+      type: "string",
+      enum: [...structures],
+      description: "The id of the shape you wrote in, from the shapes on offer.",
+    },
+  };
+  for (const platform of ALL_PLATFORMS) {
+    if (!wanted.includes(platform)) delete properties[platform];
+  }
   return {
     ...RESPONSE_SCHEMA,
-    properties: {
-      ...RESPONSE_SCHEMA.properties,
-      structure: {
-        type: "string",
-        enum: [...structures],
-        description: "The id of the shape you wrote in, from the shapes on offer.",
-      },
-    },
+    required: RESPONSE_SCHEMA.required.filter(
+      (key) => !ALL_PLATFORMS.includes(key as Platform) || wanted.includes(key as Platform)
+    ),
+    properties,
   };
 }
 
@@ -431,9 +450,11 @@ function renderTreatment(treatment: EditorialTreatment, facts: FactSet): string 
 // PLATFORM BRIEFS
 // -----------------------------------------------------------------------------
 
-function platformBrief(facts: FactSet): string {
+function platformBrief(facts: FactSet, platforms: Platform[] = ALL_PLATFORMS): string {
   const b = xBudget(facts);
-  return `X — THE BUDGET, IN CHARACTERS AS X COUNTS THEM:
+  const briefs: string[] = [];
+  if (platforms.includes("x")) {
+    briefs.push(`X — THE BUDGET, IN CHARACTERS AS X COUNTS THEM:
 
     ${String(b.hardTotal).padStart(4)}   hard limit for the complete post. One over and the post is refused.
     ${String(b.reservedChars).padStart(4)}   the destination URL (X counts any link as ${b.linkChars} characters) plus the line break before it.
@@ -443,13 +464,16 @@ function platformBrief(facts: FactSet): string {
 - If the facts will not fit, say LESS — drop a subordinate clause, a restatement. Never drop the effective date, the stage word, the subject or the link.
 - Two or three short paragraphs separated by one blank line read well on X. A single dense sentence does not.
 - Do not restate the record's title verbatim — the link card shows it. Say the thing the title does not.
-- The link goes last, on its own line. At most one hashtag, and none is usually better.
-
-LinkedIn (${LIMITS.linkedin.minChars}–${LIMITS.linkedin.maxChars} characters):
+- The link goes last, on its own line. At most one hashtag, and none is usually better.`);
+  }
+  if (platforms.includes("linkedin")) {
+    briefs.push(`LinkedIn (${LIMITS.linkedin.minChars}–${LIMITS.linkedin.maxChars} characters):
 - The first 140 characters are all that shows before "see more". The substance goes there — the finding, not a label.
 - Two to four short paragraphs, separated by a blank line.
 - One sentence naming who this actually reaches, drawn from the fact set. If the facts do not identify a population, say what the record covers instead.
-- The link goes on its own line at the end. Zero to three hashtags, only ones a reader would follow; most posts need none.`;
+- The link goes on its own line at the end. Zero to three hashtags, only ones a reader would follow; most posts need none.`);
+  }
+  return briefs.join("\n\n");
 }
 
 // -----------------------------------------------------------------------------
@@ -468,14 +492,17 @@ function renderRepairBrief(req: CopyRequest): string {
   ];
 
   if (previous) {
-    lines.push(
-      "",
-      `Your previous X post (${previous.x.length} characters as written; X counts each URL as ${X_URL_WEIGHT}; limit ${b.hardTotal}):`,
-      previous.x,
-      "",
-      `Your previous LinkedIn post (${previous.linkedin.length} characters):`,
-      previous.linkedin
-    );
+    const wanted = req.platforms?.length ? req.platforms : ALL_PLATFORMS;
+    if (wanted.includes("x")) {
+      lines.push(
+        "",
+        `Your previous X post (${previous.x.length} characters as written; X counts each URL as ${X_URL_WEIGHT}; limit ${b.hardTotal}):`,
+        previous.x
+      );
+    }
+    if (wanted.includes("linkedin")) {
+      lines.push("", `Your previous LinkedIn post (${previous.linkedin.length} characters):`, previous.linkedin);
+    }
   }
 
   lines.push(
@@ -523,7 +550,7 @@ export function buildUserPrompt(req: CopyRequest): string {
 
   sections.push(`ANGLE: ${ANGLE_LABEL[req.angle as Angle] ?? req.angle}`);
   sections.push(`FACT SET:\n${renderFacts(req.facts)}`);
-  sections.push(`PLATFORM BRIEFS:\n${platformBrief(req.facts)}`);
+  sections.push(`PLATFORM BRIEFS:\n${platformBrief(req.facts, req.platforms?.length ? req.platforms : undefined)}`);
 
   if (req.bannedOpenings?.length) {
     sections.push(

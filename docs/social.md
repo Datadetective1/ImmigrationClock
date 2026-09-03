@@ -191,6 +191,37 @@ the content mix is counted by content type. A copy that is too close to a
 recent post is fed back to the engine as a repairable problem, and if it fails
 again the treatment stands down for a day.
 
+### The copy call (`providers/openai.ts`)
+
+One POST to the Responses API, structured output, strict schema. Three things
+about it are deliberate, and all three were set on 2026-09-03 after the first
+live window published nothing:
+
+| | |
+|---|---|
+| `reasoning.effort` | `low`, stated rather than defaulted (`SOCIAL_REASONING_EFFORT` overrides) |
+| Deadline | 90 s per attempt, up to 2 attempts, ~2 s of backoff with jitter between |
+| Written for | only the platforms this run can publish to |
+
+The ledger explains why. Across 34 successful calls the latency ran min 22.9 s,
+median 50.5 s, p90 90.7 s, max 109.1 s, and 91–96% of every call's output
+tokens were reasoning tokens — thousands of them, to write a post of at most
+275 characters, because no `reasoning` field was ever sent and the prompt is
+built to make a model deliberate. A p90 of 90 s against a single 120 s deadline
+with no retry loses a window now and then, and had already lost one on
+2026-08-18 before it lost the first live one.
+
+A retry is only ever attempted for a condition a second call could clear: a
+deadline reached, a 429, a 5xx, a dropped socket. A refusal, a bad key, a bad
+request, a token cap exhausted or a reply that did not parse all throw on the
+first attempt — the same answer twice is not worth its bill, and a
+misconfiguration must stay loud. The retry loop sits entirely before
+publication, so no number of attempts can post twice; the window guard refuses
+a second post regardless.
+
+Every attempt logs its number, its latency and its outcome. Prompts, keys and
+post bodies are never logged.
+
 ### The fact set and the validator (`facts.ts`, `validate.ts` v8)
 
 The closed world is unchanged: title, summary, source, dates, entities, the

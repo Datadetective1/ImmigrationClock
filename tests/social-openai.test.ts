@@ -227,9 +227,9 @@ describe("every failure ends the slot", () => {
     await expect(engine(impl).generate(REQUEST)).rejects.toThrow(/not valid JSON/);
   });
 
-  it("throws when a platform variant is missing", async () => {
+  it("throws when a platform variant is missing, naming the platform", async () => {
     const { impl } = stub(ok({ x: "only x", deepLink: "u" }));
-    await expect(engine(impl).generate(REQUEST)).rejects.toThrow(/missing a platform variant/);
+    await expect(engine(impl).generate(REQUEST)).rejects.toThrow(/missing the linkedin variant/);
   });
 
   it("never falls back to a template — there is no second voice", async () => {
