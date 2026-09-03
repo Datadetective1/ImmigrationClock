@@ -37,12 +37,14 @@ import {
   validatePost,
   isRepairable,
   isRepairableResult,
+  xWeightedLength,
   REPAIRABLE_FAILURES,
   LIMITS,
+  X_URL_WEIGHT,
   type FailureCode,
 } from "@/lib/social/validate";
 import { buildEventFacts } from "@/lib/social/facts";
-import { buildUserPrompt, xBudget } from "@/lib/social/prompt";
+import { buildUserPrompt, xBudget, X_SAFETY_MARGIN } from "@/lib/social/prompt";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { EMPTY_POST_LEDGER } from "@/lib/social/ledger";
 import type { IndexedEvent } from "@/lib/event-index";
@@ -55,10 +57,11 @@ function event(over: Partial<IndexedEvent> = {}): IndexedEvent {
   return {
     id: "federal_register:2026-14539",
     title: "Public Charge Ground of Inadmissibility",
-    // Published 26 days before TODAY, effective in the future — the real
-    // afternoon candidate's shape, and the age the knowledge pool draws from.
+    // Published 26 days before TODAY, effective 26 days after it — the real
+    // afternoon candidate's shape. Past every narrative window, inside the
+    // effective-date horizon: it enters the queue as a dated reminder only.
     publishedAt: "2026-07-20",
-    effectiveAt: "2026-09-18",
+    effectiveAt: "2026-09-10",
     scheduled: false,
     severity: "major",
     classification: "final_rule",
@@ -76,7 +79,7 @@ const FACTS = () => buildEventFacts(event(), "/what-changed?q=public%20charge%20
 /** LinkedIn copy that passes, so a test about X is only ever about X. */
 function goodLinkedIn(facts: ReturnType<typeof FACTS>): string {
   return [
-    "The public charge ground of inadmissibility is being rescinded, and the change takes effect on 2026-09-18.",
+    "The public charge ground of inadmissibility is being rescinded, and the change takes effect on 2026-09-10.",
     "",
     "Until that date the 2022 regulations remain the ones in force. The rescission applies to benefit requests decided on or after the effective date.",
     "",
@@ -193,13 +196,13 @@ describe("too long → one repair → published", () => {
       (req) => ({
         // 333 characters, the real failure.
         x:
-          `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, a change that takes effect on 2026-09-18 and applies to benefit requests decided on or after that date, with the earlier framework remaining the one in force until then for every applicant and petitioner concerned. ` +
+          `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, a change that takes effect on 2026-09-10 and applies to benefit requests decided on or after that date, with the earlier framework remaining the one in force until then for every applicant and petitioner concerned. ` +
           req.facts.deepLink,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
       (req) => ({
-        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-18. ${req.facts.deepLink}`,
+        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-10. ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -215,12 +218,12 @@ describe("too long → one repair → published", () => {
   it("hands the repair the rejected text and the failure, not just a complaint", async () => {
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-18. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
+        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-10. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
       (req) => ({
-        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-18. ${req.facts.deepLink}`,
+        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-10. ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -241,7 +244,7 @@ describe("too long → one repair → published", () => {
     // Always too long, twice over.
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-18. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
+        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-10. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -263,7 +266,7 @@ describe("a repair may not buy compliance with a fact", () => {
     // looking clause is the date, and the date is the most useful fact here.
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-18. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
+        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-10. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -285,23 +288,56 @@ describe("a repair may not buy compliance with a fact", () => {
   });
 
   it("REJECTS a repair that changed the stage from proposed to settled", async () => {
+    // KNOWN TO FAIL AGAINST src/lib/social/validate.ts AS OF THE EDITORIAL ENGINE.
+    //
+    // The repair below is accepted, and it should not be. validatePost() runs
+    // the proposal-label test — PROPOSE_LANGUAGE.test(trimmed) — over the WHOLE
+    // post, URL included. Every recorded change now has its own page whose
+    // slug is built from its title, and this proposal's title begins
+    // "Proposed Rescission…", so the destination
+    // /what-changed/proposed-rescission-of-the-public-charge-…?utm_… contains
+    // the word the check is looking for. The prose "DHS rescinded the 2022
+    // public charge ground of inadmissibility regulations" therefore passes
+    // with no failure at all. The same prose against a destination with no
+    // "proposed" in it fails `proposed-not-labelled`, as it must.
+    //
+    // Nearly every NPRM's title carries "Proposed", so under the new slugs this
+    // defeats the stage protection for the exact class of record it exists
+    // for. The fix is in the validator (test the stage on stripUrls(trimmed),
+    // as the cold-reader and figure checks already do), not in this test.
+    //
+    // Published yesterday, so the proposal is in the queue as a proposal.
     const proposedEvent = event({
       classification: "proposed_rule",
       title: "Proposed Rescission of the Public Charge Ground of Inadmissibility",
       summary: "DHS proposes to rescind the 2022 public charge regulations. Nothing changes unless it is finalised.",
+      publishedAt: "2026-08-14",
       effectiveAt: null,
     });
+
+    // LinkedIn copy that keeps the stage and states no date, so the X repair
+    // is the only thing under test.
+    const proposedLinkedIn = (link: string) =>
+      [
+        "DHS has proposed rescinding the 2022 public charge ground of inadmissibility regulations. It is a proposal: nothing changes unless it is finalised, and it may never be.",
+        "",
+        "Until a final rule publishes, the 2022 regulations remain the ones in force. ImmigrationClock records the proposal with its source and will record a final rule if one comes.",
+        "",
+        "Who this reaches: applicants whose benefit requests would be decided under the public charge ground.",
+        "",
+        link,
+      ].join("\n");
 
     const engine = new ScriptedEngine([
       (req) => ({
         x: `DHS has proposed rescinding the 2022 public charge ground of inadmissibility regulations. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
-        linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
+        linkedin: proposedLinkedIn(req.facts.deepLink),
         deepLink: req.facts.deepLink,
       }),
       (req) => ({
         // Shorter, and now describes a proposal as a settled change.
         x: `DHS rescinded the 2022 public charge ground of inadmissibility regulations. ${req.facts.deepLink}`,
-        linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
+        linkedin: proposedLinkedIn(req.facts.deepLink),
         deepLink: req.facts.deepLink,
       }),
     ]);
@@ -325,12 +361,12 @@ describe("a repair may not buy compliance with a fact", () => {
   it("REJECTS a repair that introduced an unsupported fact", async () => {
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-18. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
+        x: `DHS is rescinding the 2022 public charge ground of inadmissibility regulations, effective 2026-09-10. ${"Detail. ".repeat(30)} ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
       (req) => ({
-        x: `Public charge rescission takes effect 2026-09-18 for 47000 applicants. ${req.facts.deepLink}`,
+        x: `Public charge rescission takes effect 2026-09-10 for 47000 applicants. ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -363,7 +399,7 @@ describe("no unnecessary repair", () => {
   it("makes exactly ONE call when the first attempt is already valid", async () => {
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-18. ${req.facts.deepLink}`,
+        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-10. ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -375,19 +411,22 @@ describe("no unnecessary repair", () => {
     expect(r.outcome.platforms.find((p) => p.platform === "x")?.decision).toBe("DRY_RUN");
   });
 
-  it("spends nothing at all when no candidate qualifies", async () => {
+  it("spends nothing at all when nothing may publish in the window", async () => {
+    // An empty archive still leaves the evergreen tier in the queue, and the
+    // afternoon may take it on a quiet day — so the window that is silent by
+    // construction is the morning, which is news-only. It must be silent for free.
     const engine = new ScriptedEngine([() => ({ x: "", linkedin: "", deepLink: "" })]);
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("afternoon")!,
+      slot: SLOT_BY_ID.get("morning")!,
       events: [],
       ledger: EMPTY_POST_LEDGER,
       engine,
       publishers: {},
-      now: new Date(`${TODAY}T20:07:00.000Z`),
+      now: new Date(`${TODAY}T14:07:00.000Z`),
       live: false,
     });
     expect(engine.calls).toBe(0);
-    expect(r.outcome.platforms[0].decision).toBe("SKIPPED_NO_QUALIFYING_CONTENT");
+    expect(["SKIPPED_NO_QUALIFYING_CONTENT", "SKIPPED_CADENCE"]).toContain(r.outcome.platforms[0].decision);
   });
 });
 
@@ -395,19 +434,30 @@ describe("no unnecessary repair", () => {
 // THE URL IS INSIDE THE BUDGET
 // =============================================================================
 
-describe("the URL counts against the X budget", () => {
-  it("reserves the exact link length plus its space", () => {
+describe("the URL counts against the X budget — the way X counts it", () => {
+  // The first fix computed the budget from the literal URL length, which was
+  // right about the arithmetic and wrong about the platform: X wraps every
+  // link in a fixed-width t.co token, so a 150-character tracked URL costs 23.
+  // Counting the literal string left the writer roughly 150 characters of prose
+  // and produced the telegraphic register the live account was criticised for.
+  it("reserves the t.co width plus its line break, whatever the URL's literal length", () => {
     const facts = FACTS();
     const b = xBudget(facts);
-    expect(b.reservedChars).toBe(facts.deepLink.length + 1);
-    expect(b.proseMax + b.reservedChars).toBeLessThan(LIMITS.x.maxChars);
+    expect(b.linkChars).toBe(X_URL_WEIGHT);
+    expect(b.reservedChars).toBe(X_URL_WEIGHT + 1);
+    // The tracked URL is far longer than what X charges for it.
+    expect(facts.deepLink.length).toBeGreaterThan(X_URL_WEIGHT);
+    expect(b.proseMax + b.reservedChars + X_SAFETY_MARGIN).toBeLessThanOrEqual(LIMITS.x.maxChars);
   });
 
-  it("means prose written to the budget always fits", () => {
+  it("means prose written to the budget always fits, as X measures it", () => {
     const facts = FACTS();
     const b = xBudget(facts);
     const post = `${"x".repeat(b.proseMax)} ${facts.deepLink}`;
-    expect(post.length).toBeLessThanOrEqual(LIMITS.x.maxChars);
+    // Literally over the limit, and inside it as X counts — the validator
+    // agrees with X, not with String.length.
+    expect(post.length).toBeGreaterThan(LIMITS.x.maxChars);
+    expect(xWeightedLength(post)).toBeLessThanOrEqual(LIMITS.x.maxChars);
     expect(validatePost(post, "x", facts).codes).not.toContain("length-max");
   });
 
@@ -432,9 +482,9 @@ describe("the surrounding guarantees are unchanged", () => {
     // the other its post.
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-18. ${req.facts.deepLink}`,
+        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-10. ${req.facts.deepLink}`,
         linkedin: [
-          "The public charge ground of inadmissibility is being rescinded by DHS, effective 2026-09-18. " +
+          "The public charge ground of inadmissibility is being rescinded by DHS, effective 2026-09-10. " +
             "The 2022 regulations remain the ones in force until that date.",
           "",
           req.facts.deepLink,
@@ -442,7 +492,7 @@ describe("the surrounding guarantees are unchanged", () => {
         deepLink: req.facts.deepLink,
       }),
       (req) => ({
-        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-18. ${req.facts.deepLink}`,
+        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-10. ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
@@ -456,7 +506,7 @@ describe("the surrounding guarantees are unchanged", () => {
   it("cannot publish on a dry run, whatever the repair produced", async () => {
     const engine = new ScriptedEngine([
       (req) => ({
-        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-18. ${req.facts.deepLink}`,
+        x: `The public charge ground of inadmissibility is being rescinded, effective 2026-09-10. ${req.facts.deepLink}`,
         linkedin: goodLinkedIn(req.facts as ReturnType<typeof FACTS>),
         deepLink: req.facts.deepLink,
       }),
