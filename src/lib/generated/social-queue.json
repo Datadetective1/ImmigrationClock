@@ -1,7 +1,52 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-03T14:24:04.543Z",
+  "updatedAt": "2026-09-03T16:14:06.760Z",
   "items": [
+    {
+      "id": "event:dol_oflc:announcement-2026-09-02::breaking_change",
+      "subjectId": "event:dol_oflc:announcement-2026-09-02",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "verified",
+      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "suggestedHeadline": null,
+      "sourceName": "DOL Office of Foreign Labor Certification announcements",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
+      "eventId": "dol_oflc:announcement-2026-09-02",
+      "category": "development",
+      "topicKey": "visa:h-2a",
+      "priority": 74982.99444444444,
+      "readerValue": 42,
+      "factsHash": "5d5f4c953b5d1221",
+      "whyItMatters": [
+        "The document does not state an effective date, so when it applies has to be read from the original.",
+        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
+      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "freshness": {
+        "publishedAt": "2026-09-02",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-06"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
+        }
+      ]
+    },
     {
       "id": "event:federal_register:2026-16290::effective_date",
       "subjectId": "event:federal_register:2026-16290",
@@ -451,6 +496,129 @@
       ]
     },
     {
+      "id": "signal:effective-dates-ahead::data_signal",
+      "subjectId": "signal:effective-dates-ahead",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Immigration rules that take effect in the next 60 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:deadlines",
+      "priority": 30011,
+      "readerValue": 65,
+      "factsHash": "4d277c091762e37b",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
+      "ogImage": "/og/signal/effective-dates-ahead.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
+        }
+      ]
+    },
+    {
+      "id": "signal:proposed-rules-open::data_signal",
+      "subjectId": "signal:proposed-rules-open",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Proposed immigration rules that are not in force",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "d1af9aeca7c1021f",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
+      "ogImage": "/og/signal/proposed-rules-open.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
+        }
+      ]
+    },
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30009,
+      "readerValue": 65,
+      "factsHash": "83c52cb6442e2c87",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        }
+      ]
+    },
+    {
       "id": "signal:h1b-sponsor-concentration::data_signal",
       "subjectId": "signal:h1b-sponsor-concentration",
       "contentType": "data_signal",
@@ -463,7 +631,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
@@ -504,7 +672,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -545,7 +713,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -586,7 +754,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -627,9 +795,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
-      "factsHash": "82591589bc4ccb03",
+      "factsHash": "baebf0a180d10561",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/warn-latest-month",
@@ -668,9 +836,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
-      "factsHash": "69d92da2d4681355",
+      "factsHash": "d01427f965042f0b",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
@@ -709,7 +877,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -734,6 +902,137 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+        }
+      ]
+    },
+    {
+      "id": "signal:changes-last-30-days::data_signal",
+      "subjectId": "signal:changes-last-30-days",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "How much U.S. immigration policy changed in the last 30 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "38256b7a5a160686",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
+      "ogImage": "/og/signal/changes-last-30-days.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
+        }
+      ]
+    },
+    {
+      "id": "event:dol_oflc:announcement-2026-09-02::what_changed",
+      "subjectId": "event:dol_oflc:announcement-2026-09-02",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "suggestedHeadline": null,
+      "sourceName": "DOL Office of Foreign Labor Certification announcements",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
+      "eventId": "dol_oflc:announcement-2026-09-02",
+      "category": "explainer",
+      "topicKey": "visa:h-2a",
+      "priority": 24982.994444444445,
+      "readerValue": 42,
+      "factsHash": "79664ea9a60c7336",
+      "whyItMatters": [
+        "The document does not state an effective date, so when it applies has to be read from the original.",
+        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
+      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "freshness": {
+        "publishedAt": "2026-09-02",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
+        }
+      ]
+    },
+    {
+      "id": "event:dol_oflc:announcement-2026-09-02::why_it_matters",
+      "subjectId": "event:dol_oflc:announcement-2026-09-02",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "suggestedHeadline": null,
+      "sourceName": "DOL Office of Foreign Labor Certification announcements",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
+      "eventId": "dol_oflc:announcement-2026-09-02",
+      "category": "explainer",
+      "topicKey": "visa:h-2a",
+      "priority": 24132.994444444445,
+      "readerValue": 42,
+      "factsHash": "f482835a90e95547",
+      "whyItMatters": [
+        "The document does not state an effective date, so when it applies has to be read from the original.",
+        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
+      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "freshness": {
+        "publishedAt": "2026-09-02",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
         }
       ]
     },
@@ -868,6 +1167,49 @@
       ]
     },
     {
+      "id": "explainer:proposed-rule-vs-final-rule::explainer",
+      "subjectId": "explainer:proposed-rule-vs-final-rule",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Proposed rule vs. final rule",
+      "suggestedHeadline": null,
+      "sourceName": "Regulations.gov — Learn about the regulatory process; 5 U.S.C. § 553 — Rule making (Administrative Procedure Act)",
+      "sourceUrl": "https://www.regulations.gov/learn",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 22007,
+      "readerValue": 60,
+      "factsHash": "9fde5e6346395c6b",
+      "whyItMatters": [
+        "Planning around a proposed fee or eligibility test as though it were already law is a common way rulemaking news hurts a reader. The stage word is the whole story."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/proposed-rule-vs-final-rule",
+      "ogImage": "/og/explainer/proposed-rule-vs-final-rule.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/proposed-rule-vs-final-rule"
+        }
+      ]
+    },
+    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -907,6 +1249,49 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+        }
+      ]
+    },
+    {
+      "id": "explainer:interim-final-rule::explainer",
+      "subjectId": "explainer:interim-final-rule",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "What an interim final rule is",
+      "suggestedHeadline": null,
+      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 22005,
+      "readerValue": 60,
+      "factsHash": "9be7ed770182669c",
+      "whyItMatters": [
+        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
+      "ogImage": "/og/explainer/interim-final-rule.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
         }
       ]
     },
@@ -1255,92 +1640,6 @@
       ]
     },
     {
-      "id": "explainer:proposed-rule-vs-final-rule::explainer",
-      "subjectId": "explainer:proposed-rule-vs-final-rule",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Proposed rule vs. final rule",
-      "suggestedHeadline": null,
-      "sourceName": "Regulations.gov — Learn about the regulatory process; 5 U.S.C. § 553 — Rule making (Administrative Procedure Act)",
-      "sourceUrl": "https://www.regulations.gov/learn",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 20007,
-      "readerValue": 60,
-      "factsHash": "9fde5e6346395c6b",
-      "whyItMatters": [
-        "Planning around a proposed fee or eligibility test as though it were already law is a common way rulemaking news hurts a reader. The stage word is the whole story."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/proposed-rule-vs-final-rule",
-      "ogImage": "/og/explainer/proposed-rule-vs-final-rule.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/proposed-rule-vs-final-rule"
-        }
-      ]
-    },
-    {
-      "id": "explainer:interim-final-rule::explainer",
-      "subjectId": "explainer:interim-final-rule",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What an interim final rule is",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 20005,
-      "readerValue": 60,
-      "factsHash": "9be7ed770182669c",
-      "whyItMatters": [
-        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
-      "ogImage": "/og/explainer/interim-final-rule.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
-        }
-      ]
-    },
-    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -1398,7 +1697,7 @@
       "topicKey": "topic:policy-changes",
       "priority": 15008,
       "readerValue": 50,
-      "factsHash": "a743cc612a820717",
+      "factsHash": "04c5bbbd92701b0e",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1439,7 +1738,7 @@
       "topicKey": "topic:layoffs",
       "priority": 15007,
       "readerValue": 50,
-      "factsHash": "9f09a52f4af1f249",
+      "factsHash": "40ac7ec0b3a87ac1",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/developers",
