@@ -1,0 +1,37 @@
+# Are the authoritative links still there?
+#
+# The key dates and the explainers each cite an official page, and agencies
+# move pages without redirects: USCIS moved the H-1B registration page under
+# /temporary-workers/ in 2026 and left a 404 at the old address, which the site
+# and the social posts kept linking for weeks because nothing checked. This
+# job fetches every cited source once a week and fails when one is gone
+# (404, 410, no answer), so a dead link shows up as a red run instead of
+# persisting silently. Hosts that refuse automated clients (403, 429) and
+# transient 5xx answers are reported, not failed.
+#
+# Read-only: no data is written, nothing is committed.
+
+name: Check authoritative sources
+
+on:
+  schedule:
+    - cron: "0 12 * * 1" # Mondays 12:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Fetch every cited source
+        run: npm run check:sources
