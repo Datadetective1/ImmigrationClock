@@ -60,7 +60,16 @@ describe("/what-changed/[slug]", () => {
     const params = ChangePage.generateStaticParams();
     expect(params.length).toBe(EVENTS.length);
     expect(new Set(params.map((p) => p.slug))).toEqual(new Set(EVENTS.map(changeSlug)));
-    expect(ChangePage.dynamicParams).toBe(false);
+    // Prerendered in full, but an address the build did not see is still
+    // answered: an old slug redirects, a slug naming nothing is a 404.
+    expect(ChangePage.dynamicParams).toBe(true);
+  });
+
+  it("sends an old slug on to the current address with a permanent redirect", () => {
+    const stale = `some-old-wording-${shortHash(major.id)}`;
+    expect(() => ChangePage.default({ params: { slug: stale } })).toThrow(/NEXT_REDIRECT/);
+    expect(() => ChangePage.default({ params: { slug: changeSlug(major) } })).not.toThrow();
+    expect(() => ChangePage.default({ params: { slug: "names-nothing-zzzzzz" } })).toThrow(/NEXT_NOT_FOUND/);
   });
 
   it("keeps routine paperwork shareable but out of the index", () => {

@@ -10,8 +10,8 @@
 // change to someone had to send them a search.
 //
 // So each record has an address of its own (src/lib/share.ts), resolved by the
-// hash at the end of the slug rather than by the words, and this page is what
-// lives there: the full record, its source, its dates, its status, who the
+// hash at the end of the slug rather than by the words — an older slug for the
+// same record redirects to the current one — and this page is what lives there: the full record, its source, its dates, its status, who the
 // document says is affected, the explainers that help read it, and the other
 // records it is related to. Nothing is generated for the page; everything on it
 // is a field the pipeline already validated, rendered by the same EventCard the
@@ -27,7 +27,7 @@
 // =============================================================================
 
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { buildMetadata, jsonLd } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import { PageHeader } from "@/components/PageHeader";
@@ -45,7 +45,14 @@ import { formatDate } from "@/lib/format";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
 import { relatedChanges, relationTo, storyDescription, storyKey, storyTitle } from "@/lib/stories";
 
-export const dynamicParams = false;
+// Every record is prerendered. A slug the build did not see is still answered
+// on request, because the readable part of a slug can change when a title is
+// corrected upstream and a link shared before the correction must keep
+// working: the hash at its end still names the record, and the page sends the
+// reader on to the canonical address with a permanent redirect. A slug whose
+// hash names nothing is a 404. Both are rendered once and cached, so the
+// on-demand path costs one render per address, not one per visit.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return EVENTS.map((e) => ({ slug: changeSlug(e) }));
@@ -54,6 +61,11 @@ export function generateStaticParams() {
 /** By hash, so a link minted before a title correction still resolves. */
 function resolve(slug: string): ImmigrationEvent | null {
   return EVENTS.find((e) => matchesChangeSlug(e, slug)) ?? null;
+}
+
+/** An old slug for a record that still exists goes to the record's current address. */
+function canonicalise(event: ImmigrationEvent, slug: string): void {
+  if (slug !== changeSlug(event)) permanentRedirect(changePath(event));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }) {
@@ -90,6 +102,7 @@ function Fact({ label, value, emphasis = false }: { label: string; value: string
 export default function ChangePage({ params }: { params: { slug: string } }) {
   const event = resolve(params.slug);
   if (!event) notFound();
+  canonicalise(event, params.slug);
 
   const source = SOURCE_BY_KEY[event.sourceKey];
   const sourceName = source?.name ?? event.sourceKey;

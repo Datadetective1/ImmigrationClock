@@ -4,14 +4,30 @@
     {
       "name": "immigration-clock",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000
     },
     {
       "name": "brand-review",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["brand/serve.mjs"],
+      "runtimeArgs": [
+        "brand/serve.mjs"
+      ],
       "port": 4321
+    },
+    {
+      "name": "prod-start",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "next",
+        "start",
+        "-p",
+        "3123"
+      ],
+      "port": 3123
     }
   ]
 }

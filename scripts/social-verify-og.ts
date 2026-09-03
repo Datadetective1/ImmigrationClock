@@ -34,6 +34,25 @@ function meta(html: string, key: string): string | null {
   return m2 ? m2[1] : null;
 }
 
+/**
+ * Where to fetch the card from. The tag always carries the production URL,
+ * because that is what a crawler must be handed; but when the page itself
+ * came from somewhere else — a local `next start`, a preview deploy — the
+ * check must exercise the build in front of it, not whatever production is
+ * serving today. So the image is fetched from the page's own origin at the
+ * tag's path, and the report says so.
+ */
+function imageUrlFor(ogImage: string, base: string): { url: string; rehomed: boolean } {
+  try {
+    const img = new URL(ogImage);
+    const home = new URL(base);
+    if (img.origin === home.origin) return { url: ogImage, rehomed: false };
+    return { url: `${home.origin}${img.pathname}${img.search}`, rehomed: true };
+  } catch {
+    return { url: ogImage, rehomed: false };
+  }
+}
+
 async function check(base: string, path: string): Promise<boolean> {
   const url = `${base.replace(/\/$/, "")}${path}`;
   console.log(`\n── ${url}`);
@@ -65,7 +84,9 @@ async function check(base: string, path: string): Promise<boolean> {
   }
 
   if (ogImage) {
-    const img = await fetch(ogImage, { headers: { "User-Agent": UA }, redirect: "follow", signal: AbortSignal.timeout(30_000) });
+    const target = imageUrlFor(ogImage, base);
+    if (target.rehomed) console.log(`   fetching  : ${target.url} (the tag points at production; checking this origin's build)`);
+    const img = await fetch(target.url, { headers: { "User-Agent": UA }, redirect: "follow", signal: AbortSignal.timeout(30_000) });
     const type = img.headers.get("content-type") ?? "";
     const buf = new Uint8Array(await img.arrayBuffer());
     const isPng = buf.length > 24 && buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47;

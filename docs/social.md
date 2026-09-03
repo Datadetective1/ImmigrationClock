@@ -206,15 +206,20 @@ Every post links a record's own page, with its own card:
 | a tool | its hub page | `/og/page/<key>.png` |
 
 Slugs are `<title-slug>-<6-char hash of the id>` (`src/lib/share.ts`); the
-hash is the key, so a title correction never breaks a link. Cards are static
-PNGs rendered at build time from the record's own fields — no runtime
-dependency for a crawler to hit. Posted links carry `utm_source=x`,
+hash is the key, so a title correction never breaks a link: a change page
+answers an older slug for the same record with a permanent redirect to the
+current one, rendered once on demand and cached. Cards are static PNGs
+rendered at build time from the record's own fields — no runtime dependency
+for a crawler to hit; a crawler that follows an old link reads the redirected
+page's tags, which name the current card. Posted links carry `utm_source=x`,
 `utm_medium=social`, `utm_campaign=<content type>` and `utm_content=<story
 key>`; the landing page fires `social_post_click` once per story per session.
 See `docs/analytics-event-plan.md`.
 
 `npm run social:verify-og -- --base=https://immigrationclock.com` fetches a
-share page as X's crawler does and checks the tags and the image.
+share page as X's crawler does and checks the tags and the image. Pointed at
+a local `next start`, it fetches the card from that origin at the tag's
+path, so the build in front of it is what gets checked, not production.
 
 ---
 
