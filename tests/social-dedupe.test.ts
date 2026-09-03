@@ -20,6 +20,7 @@ import {
   normalizeForComparison,
   subjectKind,
   COOLDOWNS,
+  EVENT_FOLLOW_UP_SPACING_DAYS,
   STRUCTURE_RUN_LIMIT,
   URL_COOLDOWN_DAYS,
   SIMILARITY_LIMIT,
@@ -124,16 +125,24 @@ describe("a second angle on the same subject is legitimate", () => {
     expect(r.availableAngles).toEqual(["who_is_affected"]);
   });
 
-  it("blocks a different angle DURING the subject cooldown", () => {
+  it("spaces a different angle by the follow-up spacing, not by the week", () => {
+    // A change is a story told in parts; a different treatment waits only
+    // EVENT_FOLLOW_UP_SPACING_DAYS. A different destination is used so the URL
+    // cooldown — which would also block — is not what answers.
+    expect(EVENT_FOLLOW_UP_SPACING_DAYS).toBe(2);
     const l = ledgerWith(record());
-    // 3 days later; the event subject cooldown is 7. A different destination is
-    // used so the URL cooldown — which would also block — is not what answers.
-    const r = check(l, ["who_is_affected"], "2026-08-04T14:05:00Z", {
+    const nextDay = check(l, ["who_is_affected"], "2026-08-02T14:05:00Z", {
       pool: "knowledge",
       deepLink: "https://immigrationclock.com/other",
     });
-    expect(r.ok).toBe(false);
-    expect(r.reason).toContain("Subject cooldown");
+    expect(nextDay.ok).toBe(false);
+    expect(nextDay.reason).toContain("Subject cooldown");
+    const thirdDay = check(l, ["who_is_affected"], "2026-08-04T14:05:00Z", {
+      pool: "knowledge",
+      deepLink: "https://immigrationclock.com/other",
+    });
+    expect(thirdDay.ok).toBe(true);
+    expect(thirdDay.availableAngles).toEqual(["who_is_affected"]);
   });
 
   it("spaces an event's treatments a week apart, not a fortnight", () => {
@@ -261,9 +270,10 @@ describe("the evergreen tier cools down slowly, by kind", () => {
 
 describe("URL cooldown", () => {
   it("blocks a different subject that lands on the same page", () => {
-    const l = ledgerWith(record({ subjectId: "event:a", pool: "knowledge" }));
+    // Two recurring dates that both send the reader to /key-dates.
+    const l = ledgerWith(record({ subjectId: "keydate:a", pool: "knowledge" }));
     const r = check(l, ["who_is_affected"], "2026-08-03T14:05:00Z", {
-      subjectId: "event:b",
+      subjectId: "keydate:b",
       pool: "knowledge",
     });
     expect(r.ok).toBe(false);
@@ -292,13 +302,18 @@ describe("URL cooldown", () => {
     expect(r.ok).toBe(true);
   });
 
-  it("but news IS still blocked by other news on the same page", () => {
+  it("never holds a recorded change by its destination: its page is its own", () => {
+    // Every change links its own story page, so for a document the destination
+    // IS the subject. The follow-up spacing and the never-repeat-a-treatment
+    // rule govern it; a destination cooldown would only hold a story's later
+    // parts for a week after its first.
     const l = ledgerWith(record({ subjectId: "event:a", pool: "news" }));
-    const r = check(l, ["breaking_change"], "2026-08-03T14:05:00Z", {
-      subjectId: "event:b",
+    const r = check(l, ["why_it_matters"], "2026-08-04T14:05:00Z", {
+      subjectId: "event:a",
       pool: "news",
     });
-    expect(r.ok).toBe(false);
+    expect(r.ok).toBe(true);
+    expect(r.availableAngles).toEqual(["why_it_matters"]);
   });
 });
 

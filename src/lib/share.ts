@@ -35,6 +35,8 @@
  * a title correction upstream changes the readable part of the URL but never the
  * part the page is resolved by. See matchesChangeSlug().
  */
+import { isContentType } from "@/lib/social/content-types";
+
 export function shortHash(input: string): string {
   let h = 0x811c9dc5;
   for (let i = 0; i < input.length; i++) {
@@ -151,6 +153,9 @@ export function trackedUrl(absoluteUrl: string, t: ShareTracking): string {
   return url.toString();
 }
 
+/** change:<6-char hash>, or <kind>:<slug> for the editorial kinds. */
+const STORY_KEY = /^(?:change:[a-z0-9]{6}|(?:explainer|signal|discovery|keydate|page|asset):[a-z0-9][a-z0-9-]{0,78})$/;
+
 /** Read the attribution back off a landing URL's query string. */
 export function parseTracking(search: string): ShareTracking | null {
   const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
@@ -158,12 +163,14 @@ export function parseTracking(search: string): ShareTracking | null {
   if ((platform !== "x" && platform !== "linkedin") || params.get("utm_medium") !== "social") {
     return null;
   }
+  // A closed vocabulary, checked, not merely bounded: anyone can mint a link
+  // with these parameters, and whatever they carry lands in the analytics
+  // dataset as event properties. Only the content types the engine emits
+  // and the story-key shapes it mints are read back; anything else is not
+  // a social arrival of ours.
   const contentType = params.get("utm_campaign") ?? "";
   const story = params.get("utm_content") ?? "";
-  if (!contentType) return null;
-  return {
-    platform,
-    contentType: contentType.slice(0, 40),
-    story: story.slice(0, 80),
-  };
+  if (!isContentType(contentType)) return null;
+  if (story && !STORY_KEY.test(story)) return null;
+  return { platform, contentType, story };
 }

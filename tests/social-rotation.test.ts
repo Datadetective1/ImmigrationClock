@@ -141,12 +141,21 @@ function rank(
 // -----------------------------------------------------------------------------
 
 describe("1 — a subject cannot dominate consecutive days", () => {
-  it("blocks a subject posted inside the block window", () => {
-    for (const age of [0, 1, 3, 6]) {
+  it("blocks a subject posted inside the block window, and only there", () => {
+    // Two days, not seven: a story's later parts must be reachable while the
+    // record is fresh. Past the block the subject competes at a penalty.
+    expect(SUBJECT_BLOCK_DAYS).toBe(2);
+    for (const age of [0, 1]) {
       const ledger = ledgerOf(postedDaysAgo(age, { subjectId: "keydate:dv-lottery" }));
       const r = rank({ subjectId: "keydate:dv-lottery", topicFamily: "green-card", baseScore: 3000 }, ledger);
       expect(r.eligible, `${age}d`).toBe(false);
       expect(r.blockedBy).toMatch(/subject-recency/);
+    }
+    for (const age of [3, 6]) {
+      const ledger = ledgerOf(postedDaysAgo(age, { subjectId: "keydate:dv-lottery" }));
+      const r = rank({ subjectId: "keydate:dv-lottery", topicFamily: "green-card", baseScore: 3000 }, ledger);
+      expect(r.eligible, `${age}d`).toBe(true);
+      expect(r.penalty, `${age}d`).toBeGreaterThanOrEqual(PENALTY.subjectHeavy);
     }
   });
 

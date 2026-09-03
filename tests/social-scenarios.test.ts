@@ -290,30 +290,43 @@ describe("6. a duplicate development", () => {
 });
 
 describe("7. a follow-up development", () => {
-  it("carries a why-it-matters a week after the breaking post, and an effective-date reminder as the date nears", async () => {
+  it("tells one story in parts — breaking, a follow-up within the week, the date as it nears — and never repeats a part", async () => {
     let s = fresh();
-    const breaking = await window(s, "2026-09-01", "morning", [DOL_RULE]);
-    expect(breaking.outcome.contentType).toBe("breaking_change");
-    expect(xDecision(breaking.outcome)).toBe("DRY_RUN");
-    expect(xText(breaking.outcome)).toMatch(/September 30/);
-    s = breaking.state;
-
-    // Days 2–7: the subject is inside its block; nothing about it publishes.
-    for (const d of ["2026-09-02", "2026-09-03", "2026-09-04", "2026-09-05", "2026-09-06", "2026-09-07"]) {
-      const r = await window(s, d, "morning", [DOL_RULE]);
-      expect(r.outcome.subjectId === "event:federal_register:2026-17726" && xDecision(r.outcome) === "DRY_RUN").toBe(false);
-      s = r.state;
+    const story: { date: string; contentType: string | null; text: string }[] = [];
+    for (let d = 1; d <= 29; d++) {
+      const date = `2026-09-${String(d).padStart(2, "0")}`;
+      for (const slotId of ["morning", "afternoon", "evening"] as const) {
+        const r = await window(s, date, slotId, [DOL_RULE]);
+        if (r.outcome.subjectId === "event:federal_register:2026-17726" && xDecision(r.outcome) === "DRY_RUN") {
+          story.push({ date, contentType: r.outcome.contentType ?? null, text: xText(r.outcome) ?? "" });
+        }
+        s = r.state;
+      }
     }
+    const parts = story.map((x) => x.contentType);
 
-    // Day 8: the why-it-matters is open again (subject cooldown is 7 days).
-    const followUp = await window(s, "2026-09-08", "morning", [DOL_RULE]);
-    expect(xDecision(followUp.outcome)).toBe("DRY_RUN");
-    expect(followUp.outcome.subjectId).toBe("event:federal_register:2026-17726");
-    expect(followUp.outcome.contentType).toBe("effective_date");
-    expect(followUp.outcome.tier).toBe("follow_up");
-    const text = xText(followUp.outcome)!;
-    expect(text).toMatch(/September 30/);
-    expect(text).toContain("utm_campaign=effective_date");
+    // The breaking post leads, and no treatment is ever used twice.
+    expect(parts[0]).toBe("breaking_change");
+    expect(new Set(parts).size).toBe(parts.length);
+
+    // A narrative follow-up inside the week, while the record is still news
+    // enough to carry one.
+    const followUp = story.find((x) => x.contentType === "what_changed" || x.contentType === "why_it_matters");
+    expect(followUp, parts.join(" → ")).toBeDefined();
+    expect(followUp!.date <= "2026-09-07").toBe(true);
+
+    // The effective-date reminder comes AFTER the story has been told, never
+    // before "what changed", and it carries the date.
+    const reminder = story.find((x) => x.contentType === "effective_date");
+    expect(reminder, parts.join(" → ")).toBeDefined();
+    expect(reminder!.date > followUp!.date, parts.join(" → ")).toBe(true);
+    expect(reminder!.text).toMatch(/September 30/);
+    expect(reminder!.text).toContain("utm_campaign=effective_date");
+
+    // Parts are spaced: never two on consecutive days.
+    for (let i = 1; i < story.length; i++) {
+      expect(Date.parse(story[i].date) - Date.parse(story[i - 1].date), parts.join(" → ")).toBeGreaterThanOrEqual(2 * 86_400_000);
+    }
   });
 });
 
@@ -431,6 +444,12 @@ describe("the feed as a reader would scroll it", () => {
     expect(new Set(posts.map((p) => `${p.deepLink}::${p.contentType}`)).size).toBe(posts.length);
     const perSubject = new Map<string, number>();
     for (const p of posts) perSubject.set(p.subjectId!, (perSubject.get(p.subjectId!) ?? 0) + 1);
-    for (const n of perSubject.values()) expect(n).toBeLessThanOrEqual(2);
+    // A record may appear as breaking, then what changed, then why it matters,
+    // then its date: the parts of one story, each a different treatment —
+    // never the same one twice.
+    for (const n of perSubject.values()) expect(n).toBeLessThanOrEqual(4);
+    const treatments = new Map<string, Set<string>>();
+    for (const p of posts) treatments.set(p.subjectId!, new Set([...(treatments.get(p.subjectId!) ?? []), p.contentType ?? ""]));
+    for (const [subject, set] of treatments) expect(set.size, subject).toBe(perSubject.get(subject));
   });
 });

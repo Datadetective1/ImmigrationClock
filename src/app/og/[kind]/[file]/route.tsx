@@ -34,6 +34,7 @@ import { EXPLAINERS, EXPLAINER_BY_SLUG } from "@/lib/editorial/explainers";
 import { SIGNAL_SLUGS, buildSignal } from "@/lib/editorial/signals";
 import type { OgCardSpec } from "@/lib/og/card";
 import { serveCard } from "@/lib/og/serve";
+import { BUILD_DATE } from "@/lib/build-date";
 import {
   OG_PAGE_KEYS,
   ogSpecForChange,
@@ -45,17 +46,15 @@ import {
 export const dynamic = "force-static";
 export const dynamicParams = false;
 
-/**
- * The day the build ran, fixed once per process. Signals that depend on it
- * ("changes in the last 30 days") are computed against this date everywhere —
- * here, on their pages and in the sitemap — so the card and the page agree.
- */
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 const PNG = /\.png$/;
 
-/** Change records keyed by the hash their slugs end in. */
-const CHANGE_BY_HASH = new Map(EVENTS.map((e) => [shortHash(e.id), e] as const));
+/** Change records keyed by the hash their slugs end in — only where the hash names exactly one. */
+const CHANGE_BY_HASH = (() => {
+  const groups = new Map<string, typeof EVENTS>();
+  for (const e of EVENTS) groups.set(shortHash(e.id), [...(groups.get(shortHash(e.id)) ?? []), e]);
+  return new Map([...groups].filter(([, list]) => list.length === 1).map(([hash, list]) => [hash, list[0]] as const));
+})();
 
 export function generateStaticParams(): { kind: OgKind; file: string }[] {
   const params: { kind: OgKind; file: string }[] = [];

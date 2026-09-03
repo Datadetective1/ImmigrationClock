@@ -24,6 +24,8 @@ import { resolve } from "node:path";
 import { currentSlot, chicagoParts } from "../src/lib/social/slots";
 import { parsePostLedger, hasPostedInSlot } from "../src/lib/social/ledger";
 import { PLATFORMS } from "../src/lib/social/types";
+import { readXCredentials } from "../src/lib/social/platforms/x";
+import { readLinkedInCredentials } from "../src/lib/social/platforms/linkedin";
 
 const DEFAULT_LEDGER = "src/lib/generated/social-posted.json";
 
@@ -52,8 +54,15 @@ function main() {
     return;
   }
 
-  const posted = PLATFORMS.filter((platform) => hasPostedInSlot(ledger, p.date, slot.id, platform));
-  if (posted.length === PLATFORMS.length) {
+  // Only the platforms this deployment can publish to count. Waiting for a
+  // LinkedIn post that no credential will ever make kept the gate open all
+  // window long, and every later firing paid the install for nothing.
+  const configured = PLATFORMS.filter((platform) =>
+    platform === "x" ? readXCredentials() !== null : readLinkedInCredentials() !== null
+  );
+  const expected = configured.length ? configured : PLATFORMS.filter((platform) => platform === "x");
+  const posted = expected.filter((platform) => hasPostedInSlot(ledger, p.date, slot.id, platform));
+  if (posted.length === expected.length) {
     console.log(`Window ${slot.id} already published today (${p.date}) on ${posted.join(" and ")}. Nothing to do.`);
     process.exitCode = 1;
     return;

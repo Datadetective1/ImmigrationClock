@@ -173,6 +173,12 @@ export const AGENCY_DISPLAY: Record<string, string> = {
   "supreme court": "the Supreme Court",
   congress: "Congress",
   irs: "the IRS",
+  osha: "OSHA",
+  "wage and hour division": "the Wage and Hour Division",
+  "employment and training administration": "the Employment and Training Administration",
+  "social security administration": "the Social Security Administration",
+  "the white house": "the White House",
+  "the administration": "the administration",
 };
 
 // -----------------------------------------------------------------------------
@@ -482,6 +488,95 @@ export function opensWithSubject(text: string, facts: FactSet): boolean {
  */
 const PROPOSE_LANGUAGE = /\bpropos(e|es|ed|al|als|ing)\b/i;
 
+// -----------------------------------------------------------------------------
+// DATE-SHAPED TEXT
+//
+// The prompt asks for dates as people write them — "Sept. 30", "October 1" —
+// so every check that must recognise a date has to recognise the abbreviated
+// month as readily as the full one. One month token, one date shape, used by
+// the effective-date and proposal-stage checks below.
+// -----------------------------------------------------------------------------
+
+const MONTH =
+  "(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.?";
+
+/** Anything a reader would take as "when": a month and day, a day and month, a year, a slash date, a weekday, a relative day. */
+const DATE_LIKE = `(?:${MONTH}\\s+\\d{1,2}\\b|\\b\\d{1,2}(?:st|nd|rd|th)?\\s+(?:of\\s+)?${MONTH}|\\b\\d{4}\\b|\\b\\d{1,2}/\\d{1,2}\\b|\\b(?:mon|tues|wednes|thurs|fri|satur|sun)day\\b|\\btoday\\b|\\btomorrow\\b|\\bnext\\s+(?:week|month|year)\\b)`;
+
+/** "takes effect Sept. 30", "goes into effect October 1, 2026", "is effective 9/30", "became effective 2026". */
+const EFFECT_WITH_DATE = new RegExp(
+  `\\b(?:takes?|taking|took|goes|go|went|comes?|came|enters?|entered|is|are|becomes?|became|will be|was|were)\\s+(?:into\\s+)?effect(?:ive)?\\s+(?:on|from|as of|starting|beginning|until|through)?\\s*${DATE_LIKE}`,
+  "i"
+);
+/** "effective Sept. 30", "effective on October 1", "effective as of 2026". */
+const EFFECTIVE_DATE_LEAD = new RegExp(`\\beffective\\s+(?:on|from|as of)?\\s*${DATE_LIKE}`, "i");
+/** "in effect since Sept. 30", "in effect as of October 1". */
+const IN_EFFECT_SINCE = new RegExp(`\\bin effect\\s+(?:since|from|as of|starting)\\s+${DATE_LIKE}`, "i");
+
+/**
+ * A proposal described as a thing that takes effect. The conditional forms —
+ * "would take effect", "may take effect", "if finalised, takes effect" — are
+ * the honest way to describe a proposal's own text, and stay allowed.
+ */
+const PROPOSAL_IN_EFFECT =
+  /(?<!\b(?:would|could|might|may|should|if finali[sz]ed,?)\s)\b(?:takes|took|will take|goes|went|comes|enters|is now in|becomes|became)\s+(?:into\s+)?effect\b/i;
+
+/**
+ * Quantities written in words. "Nearly a million", "half of all employers",
+ * "one in seven" carry no digits, so the figure check never sees them; each
+ * must appear in the source material in the same words or it is invented.
+ */
+const NUMBER_WORDS =
+  /\b(?:hundreds?|thousands?|millions?|billions?|trillions?|dozens?|half of|a third of|two[- ]thirds|a quarter of|three[- ]quarters|one in (?:two|three|four|five|six|seven|eight|nine|ten|\d+)|\d+ in \d+|twice as|doubled?|tripled?|\w+fold)\b/gi;
+
+/**
+ * Whole numeric tokens, normalised: "$103,265" → "103265", "15.10%" → "15.1",
+ * "09" → "9". Digit runs alone would let "28.1%" through on the strength of a
+ * fact set holding 28.7% and 15.1% — every run present, the number invented.
+ */
+export function numericTokens(text: string): string[] {
+  return (text.match(/\d[\d,]*(?:\.\d+)?/g) ?? []).map((t) => {
+    const [int, frac] = t.replace(/,/g, "").split(".");
+    const i = int.replace(/^0+(?=\d)/, "");
+    const f = frac?.replace(/0+$/, "");
+    return f ? `${i}.${f}` : i;
+  });
+}
+
+/** The fact set as one lowercase string, for quantities written in words. */
+export function allowedNumericCorpus(facts: FactSet): string {
+  return [
+    facts.title,
+    facts.summary,
+    facts.sourceName,
+    ...facts.figures,
+    ...facts.entities,
+    ...(facts.dataPoints ?? []),
+    ...(facts.implications ?? []),
+    ...facts.notes,
+  ]
+    .join(" ")
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+/** Every whole number the fact set makes available, normalised the same way. */
+export function allowedNumericTokens(facts: FactSet): Set<string> {
+  const corpus = [
+    facts.title,
+    facts.summary,
+    facts.sourceName,
+    facts.publishedAt ?? "",
+    facts.effectiveAt ?? "",
+    ...facts.figures,
+    ...facts.entities,
+    ...(facts.dataPoints ?? []),
+    ...(facts.implications ?? []),
+    ...facts.notes,
+  ].join(" ");
+  return new Set(numericTokens(corpus));
+}
+
 export function describesAProposal(facts: FactSet): boolean {
   // Only a recorded change can be a proposal. An explainer ABOUT proposed
   // rules ("A proposed rule is not a rule") carries the word in its title and
@@ -513,28 +608,37 @@ export function mentionsDate(text: string, iso: string): boolean {
   const longAbbrev = month === "September" ? "sept" : abbrev.toLowerCase();
   const lower = text.toLowerCase();
 
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const day = `${d}(?:st|nd|rd|th)?`;
   const forms = [
-    iso,
-    `${month} ${d}`.toLowerCase(),
-    `${abbrev} ${d}`.toLowerCase(),
-    `${abbrev}. ${d}`.toLowerCase(),
-    `${longAbbrev} ${d}`,
-    `${longAbbrev}. ${d}`,
-    `${d} ${month}`.toLowerCase(),
-    `${d} ${abbrev}`.toLowerCase(),
+    esc(iso),
+    `${esc(month.toLowerCase())} ${day}`,
+    `${esc(abbrev.toLowerCase())}\\.? ${day}`,
+    `${esc(longAbbrev)}\\.? ${day}`,
+    `${day}(?: of)? ${esc(month.toLowerCase())}`,
+    `${day}(?: of)? ${esc(abbrev.toLowerCase())}\\.?`,
+    `${day}(?: of)? ${esc(longAbbrev)}\\.?`,
     `${m}/${d}/${y}`,
     `${m}/${d}`,
     `${String(m).padStart(2, "0")}/${String(d).padStart(2, "0")}`,
   ];
 
-  return forms.some((f) => lower.includes(f));
+  // A day is a whole token. "Sept. 2" is not found inside "Sept. 20", and
+  // "9/1" is not found inside "9/18" — a post that states the wrong day has
+  // not preserved the date.
+  return forms.some((f) => new RegExp(`(?<![\\d/])${f}(?![\\d/])`, "i").test(lower));
 }
 
 // -----------------------------------------------------------------------------
 // EXTRACTION HELPERS
 // -----------------------------------------------------------------------------
 
-const URL_RE = /https?:\/\/[^\s)<>"']+/g;
+// Schemes, "www." and a bare domain WITH A PATH alike: X auto-links all three,
+// so all three are destinations a reader can reach, and all three count 23
+// characters. A bare domain with no path is left alone: "Amazon.com Services"
+// is an employer's name in the H-1B data, not a link.
+const URL_RE =
+  /(?:https?:\/\/|www\.)[^\s)<>"']+|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:gov|com|org|net|edu|us|io)\/[^\s)<>"']+/gi;
 
 export function extractUrls(text: string): string[] {
   return (text.match(URL_RE) ?? []).map((u) => u.replace(/[.,;:]+$/, ""));
@@ -570,26 +674,55 @@ function normalizeRun(run: string): string {
  * rejected. One list, one regex, one corpus — the prompt and the check cannot
  * disagree about what "attributable" means because they read the same code.
  */
-export const ATTRIBUTABLE_AGENCIES = [
-  "uscis",
-  "dhs",
-  "cbp",
-  "ice",
-  "state department",
-  "department of state",
-  "department of labor",
-  "dol",
-  "eoir",
-  "justice department",
-  "department of justice",
-  "federal register",
-  "supreme court",
-  "congress",
-  "irs",
-] as const;
+/**
+ * Agency names the validator polices, as alias groups.
+ *
+ * A group is permitted when ANY of its spellings appears in the fact set, and a
+ * post may then use any of them; a group none of whose spellings appears is an
+ * attribution the source does not make, whichever spelling the post chose.
+ * A denylist of fifteen exact strings let "the Department of Homeland
+ * Security", "the Labor Department" and "the Trump administration" through
+ * unconditionally, which is the opposite of what the prompt promised.
+ *
+ * Exported so prompt.ts can tell the model which groups are actually available
+ * for a given subject, rather than leaving it to guess and be rejected. One
+ * table, one regex, one corpus — the prompt and the check cannot disagree
+ * about what "attributable" means because they read the same code.
+ */
+export const AGENCY_ALIASES: Record<string, readonly string[]> = {
+  uscis: ["uscis", "u.s. citizenship and immigration services", "citizenship and immigration services"],
+  dhs: ["dhs", "department of homeland security", "homeland security"],
+  cbp: ["cbp", "customs and border protection", "border patrol"],
+  ice: ["ice", "immigration and customs enforcement"],
+  // "U.S. Dept. of State — DV Program" is deliberately NOT an alias: the DV key
+  // date carries that source name, and the copy it invites ("the State
+  // Department runs the lottery") attributes a programme description the
+  // source does not make. That refusal is pinned by the 2026-08-09 regression.
+  "state department": ["state department", "department of state"],
+  "department of labor": ["department of labor", "dol", "labor department", "dept. of labor"],
+  eoir: ["eoir", "executive office for immigration review", "immigration courts?", "immigration judges?"],
+  "justice department": ["justice department", "department of justice", "doj", "attorney general"],
+  "federal register": ["federal register"],
+  "supreme court": ["supreme court"],
+  congress: ["congress", "the senate", "the house of representatives"],
+  irs: ["irs", "internal revenue service"],
+  osha: ["osha", "occupational safety and health administration"],
+  "wage and hour division": ["wage and hour division"],
+  "employment and training administration": ["employment and training administration"],
+  "social security administration": ["social security administration", "ssa"],
+  "the white house": ["white house", "the president", "president trump", "president biden"],
+  "the administration": ["the administration", "trump administration", "biden administration"],
+};
 
+export const ATTRIBUTABLE_AGENCIES: string[] = Object.keys(AGENCY_ALIASES);
+
+function aliasSource(alias: string): string {
+  return `\\b${alias.replace(/\./g, "\\.").replace(/\s+/g, "\\s+")}\\b`;
+}
+
+/** Every spelling in the group, as one pattern. */
 function agencyPattern(agency: string): RegExp {
-  return new RegExp(`\\b${agency.replace(/\s+/g, "\\s+")}\\b`, "i");
+  return new RegExp((AGENCY_ALIASES[agency] ?? [agency]).map(aliasSource).join("|"), "i");
 }
 
 /** The text an attribution must be supported by. */
@@ -806,6 +939,25 @@ export function validatePost(
     }
   }
 
+  // Whole numbers too, not only their digit runs. "28.1%" is not in a fact set
+  // that holds 28.7% and 15.1%, though every run in it is.
+  const permittedTokens = allowedNumericTokens(facts);
+  for (const token of numericTokens(stripUrls(trimmed))) {
+    if (!permittedTokens.has(token) && !permitted.has(token)) {
+      add("figure-ungrounded", `Figure "${token}" does not appear in the source material — it cannot be verified`);
+    }
+  }
+
+  // Quantities in words carry no digits and would otherwise never be checked.
+  checked.push("quantity-words");
+  const quantityCorpus = allowedNumericCorpus(facts);
+  for (const m of stripUrls(trimmed).matchAll(NUMBER_WORDS)) {
+    const phrase = m[0].toLowerCase().replace(/\s+/g, " ");
+    if (!quantityCorpus.includes(phrase)) {
+      add("figure-ungrounded", `Quantity "${m[0]}" does not appear in the source material — it cannot be verified`);
+    }
+  }
+
   // --- quotations: verbatim or not at all ------------------------------------
   checked.push("quotation-grounding");
   const corpus =
@@ -821,10 +973,11 @@ export function validatePost(
   const corpusForAttribution = attributionCorpus(facts);
   for (const agency of ATTRIBUTABLE_AGENCIES) {
     const re = agencyPattern(agency);
-    if (re.test(trimmed) && !re.test(corpusForAttribution)) {
+    const named = trimmed.match(re);
+    if (named && !re.test(corpusForAttribution)) {
       add(
         "attribution-unsupported",
-        `Attributes this to "${agency}", which does not appear in the source material`
+        `Attributes this to "${named[0].toLowerCase()}", which does not appear in the source material`
       );
     }
   }
@@ -940,7 +1093,7 @@ export function validatePost(
         "This is a proposed rule but the post never says so — a reader would take it as being in force"
       );
     }
-    if (/\b(takes|took|comes into|is now in) effect\b/i.test(withoutUrls)) {
+    if (PROPOSAL_IN_EFFECT.test(withoutUrls)) {
       add("proposed-in-effect", "Describes a proposed rule as being in effect");
     }
     // A PROPOSAL STATED IN THE PRESENT TENSE IS A FALSE STATEMENT OF LAW.
@@ -951,10 +1104,14 @@ export function validatePost(
     // that assert the proposal's contents as current or scheduled fact.
     const ASSERTED_AS_FACT: [RegExp, string][] = [
       [/\b(now|will) (require|requires|cost|costs|apply|applies|need|needs)\b/i, "states a proposal as settled"],
-      [/\bstarting\s+(on\s+)?(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal a start date"],
-      [/\bbeginning\s+(on\s+)?(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal a start date"],
-      [/\beffective\s+(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal an effective date"],
-      [/\bas of\s+(january|february|march|april|may|june|july|august|september|october|november|december|\d)/i, "gives a proposal a start date"],
+      [new RegExp(`\\bstarting\\s+(?:on\\s+)?(?:${MONTH}|\\d)`, "i"), "gives a proposal a start date"],
+      [new RegExp(`\\bbeginning\\s+(?:on\\s+)?(?:${MONTH}|\\d)`, "i"), "gives a proposal a start date"],
+      [new RegExp(`\\b(?:is\\s+)?effective\\s+(?:on\\s+|from\\s+|as of\\s+)?(?:${MONTH}|\\d)`, "i"), "gives a proposal an effective date"],
+      [new RegExp(`\\bas of\\s+(?:${MONTH}|\\d)`, "i"), "gives a proposal a start date"],
+      [
+        new RegExp(`\\bfiled\\s+(?:on\\s+or\\s+)?after\\s+(?:${MONTH}|\\d)[^.]{0,40}\\b(?:carry|carries|pay|pays|owe|owes|require|requires|must)\\b`, "i"),
+        "states a proposal as a future obligation",
+      ],
       [/\b(applicants|petitioners|employers|filers) (must|now)\b/i, "states a proposal as a current obligation"],
       [/\bis (a )?(new )?(requirement|rule|law)\b/i, "describes a proposal as an existing rule"],
     ];
@@ -969,8 +1126,20 @@ export function validatePost(
     checked.push("no-invented-effective-date");
     // "take" as well as "takes": "filings take effect on…" asserts a date just
     // as firmly as "the rule takes effect on…", and only the second was caught.
-    if (/\b(takes?|taking) effect (on|from)\b/i.test(withoutUrls)) {
-      add("invented-effective-date", "States an effective date, but the archive records none for this item");
+    // Any construction that hands the reader a date: "takes effect Sept. 30",
+    // "goes into effect October 1, 2026", "effective 9/30", "in effect as of
+    // 2026". Only "takes effect on|from" was refused before, and the prompt's
+    // own date style ("Sept. 30") never uses the preposition.
+    const dated =
+      withoutUrls.match(EFFECT_WITH_DATE) ??
+      withoutUrls.match(EFFECTIVE_DATE_LEAD) ??
+      withoutUrls.match(IN_EFFECT_SINCE) ??
+      withoutUrls.match(/\b(takes?|taking) effect (on|from)\b/i);
+    if (dated) {
+      add(
+        "invented-effective-date",
+        `States an effective date, but the archive records none for this item: "${dated[0]}"`
+      );
     }
   } else if (facts.effectiveAt > facts.today && !describesAProposal(facts)) {
     // THE DATE IS THE POINT. A post about a change that starts on a known future

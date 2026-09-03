@@ -106,6 +106,18 @@ export const URL_COOLDOWN_DAYS = 7;
  * attempt would probably succeed. What this prevents is the pathological case
  * where the failure is structural and the slot retries it daily forever.
  */
+/**
+ * Days between two DIFFERENT treatments of one recorded change.
+ *
+ * A change is a story told in parts — the breaking post, what changed, why it
+ * matters, the date — and the brief asks for the later parts, not for one
+ * post and a week of silence. The same treatment never repeats
+ * (treatmentCooldownDays is Infinity for a document); a different one waits
+ * only the spacing a reader wants between two posts on one story. The weekly
+ * follow-up ceilings in cadence.ts keep a single story from taking the feed.
+ */
+export const EVENT_FOLLOW_UP_SPACING_DAYS = 2;
+
 export const VALIDATION_COOLDOWN_DAYS = 5;
 
 /** How many recent posts the wording check compares against. */
@@ -178,7 +190,11 @@ export function checkSubject(
       ? { ...ledger, posts: ledger.posts.filter((p) => p.pool === "news") }
       : ledger;
 
-  const urlPost = lastPostForUrl(urlLedger, deepLink, platform);
+  // A recorded change links its own page, and only its own page, so for a
+  // document the destination IS the subject: the follow-up spacing below and
+  // the never-repeat-a-treatment rule govern it, and a destination cooldown
+  // would only hold the story's later parts for a week after its first.
+  const urlPost = kind === "event" ? null : lastPostForUrl(urlLedger, deepLink, platform);
   if (urlPost && daysBetween(urlPost.runAtUtc, nowIso) < URL_COOLDOWN_DAYS) {
     return {
       ok: false,
@@ -190,14 +206,16 @@ export function checkSubject(
   }
 
   const last = lastPostForSubject(ledger, subjectId, platform);
-  if (last && daysBetween(last.runAtUtc, nowIso) < policy.subjectCooldownDays) {
-    return {
-      ok: false,
-      reason: `Subject cooldown: last posted ${Math.round(
-        daysBetween(last.runAtUtc, nowIso)
-      )} days ago (limit ${policy.subjectCooldownDays} for ${kind})`,
-      availableAngles: [],
-    };
+  if (last) {
+    const age = daysBetween(last.runAtUtc, nowIso);
+    const limit = kind === "event" ? EVENT_FOLLOW_UP_SPACING_DAYS : policy.subjectCooldownDays;
+    if (age < limit) {
+      return {
+        ok: false,
+        reason: `Subject cooldown: last posted ${Math.round(age)} days ago (limit ${limit} for ${kind})`,
+        availableAngles: [],
+      };
+    }
   }
 
   if (treatmentCount(ledger, subjectId, platform) >= policy.maxTreatments) {

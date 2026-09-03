@@ -37,6 +37,7 @@
 // once and the subject cooldown spaces them.
 // =============================================================================
 
+import { BUILD_DATE as SITE_DATA_DATE } from "@/lib/build-date";
 import type { IndexedEvent } from "@/lib/event-index";
 import { KEY_DATES, nextOccurrence, daysUntil, type KeyDate } from "@/lib/key-dates";
 import { EXPLAINERS, type Explainer } from "@/lib/editorial/explainers";
@@ -103,6 +104,15 @@ export const WHAT_CHANGED_NEWS_AGE_DAYS = 2;
  * The explainer on effective dates covers the general point for everyone else.
  */
 export const EFFECTIVE_DATE_HORIZON_DAYS = 30;
+
+/**
+ * Inside this many days of the date a reminder is imminent — the deadline
+ * band. Further out it is upcoming — the actionable band, one step below —
+ * so a record's "what changed" is said before its date is repeated. A
+ * reminder four weeks out, posted first, told the reader when before it told
+ * them what.
+ */
+export const EFFECTIVE_DATE_NEAR_DAYS = 14;
 
 /** A key date closer than this leads the deadlines ahead of any dataset. */
 export const DEADLINE_URGENT_DAYS = 45;
@@ -338,7 +348,9 @@ function toEventCandidate(
     contentType === "breaking_change"
       ? "development"
       : contentType === "effective_date"
-        ? "deadline"
+        ? event.effectiveAt && daysBetweenIso(today, event.effectiveAt) > EFFECTIVE_DATE_NEAR_DAYS
+          ? "actionable"
+          : "deadline"
         : categoryForEvent({
             classification: event.classification,
             fresh: false,
@@ -358,7 +370,6 @@ function toEventCandidate(
     contentType === "effective_date" && event.effectiveAt
       ? Math.max(0, EFFECTIVE_DATE_HORIZON_DAYS - daysBetweenIso(today, event.effectiveAt)) * 10
       : 0;
-
   const score = CATEGORY_TIER[category] + rank + readerValueMerit(value) + proximityMerit + tierMerit - recencyPenalty;
 
   const supported = [angle, ...anglesForArchiveEvent(event, today, all).filter((a) => a !== angle)];
@@ -539,7 +550,12 @@ export function explainerCandidates(events: IndexedEvent[], today: string): Cand
 }
 
 export function signalCandidates(today: string): Candidate[] {
-  const signals = buildSignals(today);
+  // A day-relative signal is only postable on the day the site was built
+  // for: the page and the card were computed from SITE_DATA_DATE, and a post
+  // that said "30 days" over a card that says "37" would be a wrong number
+  // with a link to the proof. The other signals are fixed to a period and
+  // read the same on any day.
+  const signals = buildSignals(today).filter((s) => !s.dayRelative || SITE_DATA_DATE === today);
   const day = dayNumber(today);
   const category = categoryForEvergreen("data_signal");
   return signals.map((s: DataSignal, i) => {

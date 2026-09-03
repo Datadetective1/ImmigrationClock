@@ -44,6 +44,7 @@ import {
   X_URL_WEIGHT,
   permittedAgencies,
   attributionCorpus,
+  AGENCY_ALIASES,
   ATTRIBUTABLE_AGENCIES,
   validatePost,
   xWeightedLength,
@@ -346,10 +347,22 @@ describe("nothing else was relaxed", () => {
     expect(LIMITS.x.maxChars).toBe(275);
   });
 
-  it("the attribution list is unchanged", () => {
+  it("every attribution the old list policed is still policed, as an alias of a group", () => {
+    // The flat list became alias groups so that "the Department of Homeland
+    // Security" is judged like "DHS". Nothing the old list caught is released.
+    const aliases = Object.values(AGENCY_ALIASES).flat();
+    for (const old of [
+      "uscis", "dhs", "cbp", "ice", "state department", "department of state", "department of labor", "dol",
+      "eoir", "justice department", "department of justice", "federal register", "supreme court", "congress", "irs",
+    ]) {
+      expect(aliases, old).toContain(old);
+    }
     expect(ATTRIBUTABLE_AGENCIES).toContain("state department");
-    expect(ATTRIBUTABLE_AGENCIES).toContain("department of state");
-    expect(ATTRIBUTABLE_AGENCIES.length).toBe(15);
+    expect(ATTRIBUTABLE_AGENCIES).toEqual(Object.keys(AGENCY_ALIASES));
+    // The spelled-out forms the denylist let through are now judged too.
+    for (const spelled of ["department of homeland security", "labor department", "customs and border protection", "immigration and customs enforcement", "trump administration"]) {
+      expect(aliases, spelled).toContain(spelled);
+    }
   });
 
   it("every attributable agency has a display form", () => {

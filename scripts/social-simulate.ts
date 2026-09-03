@@ -110,8 +110,9 @@ async function main() {
 
     for (const slot of SLOTS) {
       for (let firing = 0; firing < firingsPerWindow; firing++) {
-        // Later firings land later in the window, the way a delayed cron does.
-        const at = instantInWindow(date, slot, 5 + firing * 40);
+        // Later firings land later in the window, the way a delayed cron does:
+        // one an hour, then the last hour repeating, minutes staggered.
+        const at = instantInWindow(date, slot, 5 + ((firing * 17) % 50), firing);
 
         const result = await runSlot({ slot, events, ledger, engine, publishers: {}, now: at, live: false, queue, platforms });
 

@@ -217,8 +217,17 @@ export function topicFamilyFor(input: {
 // THE WINDOW AND THE WEIGHTS
 // -----------------------------------------------------------------------------
 
-/** Inside this many days, a subject is simply not available again. */
-export const SUBJECT_BLOCK_DAYS = 7;
+/**
+ * Inside this many days, a subject is simply not available again.
+ *
+ * Two days, not seven: a recorded change is a story told in parts, and the
+ * later parts (what changed, why it matters, the date) have to be reachable
+ * while the record is still fresh enough to carry them. Between here and
+ * SUBJECT_HEAVY_DAYS the subject competes at a penalty smaller than a tier
+ * step, so a follow-up still outranks an evergreen post and never outranks
+ * fresh news. See EVENT_FOLLOW_UP_SPACING_DAYS in dedupe.ts.
+ */
+export const SUBJECT_BLOCK_DAYS = 2;
 
 /** Between BLOCK and this, a subject is available but heavily penalised. */
 export const SUBJECT_HEAVY_DAYS = 14;

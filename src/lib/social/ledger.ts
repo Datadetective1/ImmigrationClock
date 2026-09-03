@@ -346,15 +346,20 @@ export function recentValidationFailure(
   nowIso: string,
   withinDays: number
 ): PostRecord | null {
+  // A validation failure stands the treatment down for `withinDays`. A copy
+  // refused only for VARIETY — too similar to a recent post, the same opening
+  // a third time, the same shape a third time — stands down for one day: long
+  // enough that one candidate cannot fail identically in every window of a
+  // day and silence the rest, short enough that a fresh attempt comes
+  // tomorrow.
   return (
-    ledger.posts.find(
-      (p) =>
-        p.decision === "SKIPPED_VALIDATION_FAILED" &&
-        p.subjectId === subjectId &&
-        p.angle === angle &&
-        p.platform === platform &&
-        Math.abs(Date.parse(nowIso) - Date.parse(p.runAtUtc)) / 86_400_000 < withinDays
-    ) ?? null
+    ledger.posts.find((p) => {
+      if (p.subjectId !== subjectId || p.angle !== angle || p.platform !== platform) return false;
+      const age = Math.abs(Date.parse(nowIso) - Date.parse(p.runAtUtc)) / 86_400_000;
+      if (p.decision === "SKIPPED_VALIDATION_FAILED") return age < withinDays;
+      if (p.decision === "SKIPPED_DUPLICATE" && /too similar|opening variety|house sentence|shape|structure/i.test(p.reason)) return age < 1;
+      return false;
+    }) ?? null
   );
 }
 

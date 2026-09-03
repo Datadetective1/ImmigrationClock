@@ -34,6 +34,8 @@
 // than copied, and implications.ts explains why that is still restatement.
 // =============================================================================
 
+import { EVENTS } from "@/lib/event-store";
+import type { ImmigrationEvent } from "@/domains/graph/events";
 import type { IndexedEvent } from "@/lib/event-index";
 import type { KeyDate } from "@/lib/key-dates";
 import { SOURCE_BY_KEY } from "@/lib/sources";
@@ -143,6 +145,16 @@ function trackedFor(path: string, contentType: ContentType, storyKey: string): {
 // RECORDED CHANGES
 // -----------------------------------------------------------------------------
 
+// The index carries a 220-character excerpt of each summary, which is right
+// for selection and wrong for grounding: a figure or an office named in the
+// full summary but cut from the excerpt would make true copy unverifiable.
+// The full record is looked up once, by id.
+let fullById: Map<string, ImmigrationEvent> | null = null;
+function fullRecord(id: string): ImmigrationEvent | null {
+  if (!fullById) fullById = new Map(EVENTS.map((e) => [e.id, e] as const));
+  return fullById.get(id) ?? null;
+}
+
 export function buildEventFacts(
   event: IndexedEvent,
   /** Site-relative destination. The record's own page unless a caller says otherwise. */
@@ -179,7 +191,10 @@ export function buildEventFacts(
   const storyKey = storyKeyForEvent(event);
   const urls = trackedFor(deepLink, contentType, storyKey);
   const allowedUrls = [urls.deepLink, urls.shareUrl, event.sourceUrl].filter(Boolean);
-  const implications = implicationsFor(event, today);
+  const full = fullRecord(event.id);
+  const summary = full?.summary?.trim() ? full.summary : event.summary;
+  const record = summary === event.summary ? event : { ...event, summary };
+  const implications = implicationsFor(record, today);
 
   return {
     subjectId: `event:${event.id}`,
@@ -187,7 +202,7 @@ export function buildEventFacts(
     contentType,
     today,
     title: event.title,
-    summary: event.summary,
+    summary,
     sourceName,
     sourceKey: event.sourceKey,
     publishedAt: event.publishedAt,
@@ -204,7 +219,7 @@ export function buildEventFacts(
     shareUrl: urls.shareUrl,
     // Figures come from the source text AND from the derived implications, so a
     // day count computed there ("29 days from today") is stateable.
-    figures: extractFigures(`${event.title} ${event.summary} ${agency ?? ""} ${implications.join(" ")}`),
+    figures: extractFigures(`${event.title} ${summary} ${agency ?? ""} ${implications.join(" ")}`),
     notes,
   };
 }

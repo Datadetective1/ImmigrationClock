@@ -39,7 +39,16 @@ function daysBetween(a: string, b: string): number {
 
 const RESCIND = /\brescind(s|ed|ing)?\b|\brescission\b|\bwithdraw(s|n|ing)?\b/i;
 const RESTORE = /\breinstat(e|es|ed|ing)\b|\brestor(e|es|ed|ing)\b|\brevert(s|ed|ing)?\b/i;
-const EXTEND = /\bextend(s|ed|ing)?\b|\bextension\b/i;
+// The verb applied to a thing that has a date — not the noun "extension",
+// which names a form ("Extension of Stay"), a procedure and a class of
+// paperwork notice, none of which moves a date.
+const EXTEND =
+  /\bextend(s|ed|ing)?\s+(?:the\s+|its\s+|a\s+|an\s+)?(?:deadline|comment period|designation|tps|temporary protected status|parole|validity|registration|filing window|period|program|through|until|to\s+\w+\s+\d)/i;
+const NOT_AN_EXTENSION = /information collection|extension of stay|extend\/change|application to extend|extend or change/i;
+/** The record's own words for a court stopping something. Without them, "stops enforcement" is a guess. */
+const COURT_STOPS = /\b(enjoin(s|ed|ing)?|injunction|stay(s|ed)?|vacat(e|ed|es|ing)|blocked|halted|barred|restrain(s|ed|ing)?)\b/i;
+/** The same test validate.ts applies: a proposal by classification, or by its own title with no date. */
+const PROPOSE = /\bpropos(e|es|ed|al|als|ing)\b/i;
 const RAISE_FEE = /\b(increas|rais|adjust)\w*\b[^.]{0,60}\bfee/i;
 
 /** What a change means, as lines that each restate one field of the record. */
@@ -48,14 +57,17 @@ export function implicationsFor(e: IndexedEvent, today: string): string[] {
   const text = `${e.title} ${e.summary}`;
   const future = Boolean(e.effectiveAt && e.effectiveAt > today);
   const past = Boolean(e.effectiveAt && e.effectiveAt <= today);
+  const proposal = e.classification === "proposed_rule" || (!e.effectiveAt && PROPOSE.test(e.title));
 
   // --- stage: what kind of instrument this is, and whether it is in force -----
-  switch (e.classification) {
-    case "proposed_rule":
-      out.push(
-        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be."
-      );
-      break;
+  if (proposal) {
+    // A newsroom item announcing a proposal is a proposal, whatever its
+    // classification field says; it gets the proposal's lines, not an
+    // announcement's.
+    out.push(
+      "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be."
+    );
+  } else switch (e.classification) {
     case "final_rule":
       if (future) {
         out.push(
@@ -71,7 +83,9 @@ export function implicationsFor(e: IndexedEvent, today: string): string[] {
       break;
     case "court_decision":
       out.push(
-        "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text."
+        COURT_STOPS.test(text)
+          ? "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text."
+          : "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise."
       );
       break;
     case "executive_action":
@@ -111,12 +125,12 @@ export function implicationsFor(e: IndexedEvent, today: string): string[] {
     out.push(
       `A rescission removes the rule it names${future ? ` from ${longDate(e.effectiveAt!)}` : ""}. It does not by itself change the statute the rule was issued under, or the agency's other authorities.`
     );
-  } else if (EXTEND.test(text) && e.classification !== "proposed_rule") {
+  } else if (EXTEND.test(text) && !NOT_AN_EXTENSION.test(text) && !proposal) {
     out.push("An extension moves a date that already existed. What was true before the change stays true for longer.");
   }
 
   // --- money: the fee figure is the fact, not an inference ---------------------
-  if (RAISE_FEE.test(text) && e.classification !== "proposed_rule") {
+  if (RAISE_FEE.test(text) && !proposal) {
     out.push("The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.");
   }
 
@@ -129,7 +143,7 @@ export function implicationsFor(e: IndexedEvent, today: string): string[] {
   }
 
   // --- what ImmigrationClock is watching -----------------------------------------
-  if (e.classification === "proposed_rule") {
+  if (proposal) {
     out.push("ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal.");
   } else if (future) {
     out.push(`ImmigrationClock is watching the ${longDate(e.effectiveAt!)} effective date.`);

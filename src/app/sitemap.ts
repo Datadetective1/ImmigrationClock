@@ -4,6 +4,7 @@ import { companies, states, countries, UPDATED } from "@/lib/dataset";
 import { EMPLOYERS, EMPLOYERS_META } from "@/lib/employers";
 import { WARN_SUMMARY } from "@/lib/warn-summary";
 import { LAST_REFRESHED } from "@/lib/data";
+import { BUILD_DATE } from "@/lib/build-date";
 import { seoPages, SALARY_JOB_TITLES } from "@/lib/seo-pages";
 import { EVENTS } from "@/lib/event-store";
 import { EXPLAINERS } from "@/lib/editorial/explainers";
@@ -112,9 +113,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const x of EXPLAINERS) add(explainerPath(x.slug), asDate(x.verifiedAt, buildDate), "monthly", 0.6);
   // A signal exists only when the build's data supports it — the same test its
   // page and its card apply, on the same date.
-  const signalDate = new Date().toISOString().slice(0, 10);
   for (const slug of SIGNAL_SLUGS) {
-    if (buildSignal(slug, signalDate)) add(signalPath(slug), buildDate, "weekly", 0.5);
+    if (buildSignal(slug, BUILD_DATE)) add(signalPath(slug), buildDate, "weekly", 0.5);
   }
 
   // ---- Programmatic routes ------------------------------------------------

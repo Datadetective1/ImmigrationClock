@@ -201,3 +201,50 @@ describe("ogImageFor", () => {
     expect(kinds.has("page")).toBe(true);
   });
 });
+
+
+describe("the 2026-09-03 review's gaps, pinned", () => {
+  it("treats a half-written item as a corrupt file, not a crash", () => {
+    const halfWritten = JSON.stringify({
+      version: QUEUE_VERSION,
+      updatedAt: "2026-09-10T00:00:00Z",
+      items: [{ id: "event:x::what_changed", status: "verified" }],
+    });
+    expect(parseQueue(halfWritten)).toBeNull();
+    const unknownStatus = JSON.stringify({
+      version: QUEUE_VERSION,
+      updatedAt: "2026-09-10T00:00:00Z",
+      items: [
+        {
+          id: "a::what_changed",
+          subjectId: "a",
+          contentType: "what_changed",
+          status: "pending",
+          priority: 1,
+          history: [],
+          freshness: { expiresAt: "2026-10-01" },
+        },
+      ],
+    });
+    expect(parseQueue(unknownStatus)).toBeNull();
+  });
+
+  it("returns a deferred item to the pool once its window has passed", () => {
+    const candidates = candidatesFor([event()], TODAY);
+    const c = pick(candidates, "event:federal_register:q-1", "what_changed");
+    let q = refreshQueue(EMPTY_QUEUE, candidates, NOW, TODAY, hashFacts).queue;
+    q = markScheduled(q, c, "afternoon", "quiet morning; the best evergreen waits for the afternoon", NOW);
+    expect(q.items.find((i) => i.id === queueItemId(c.subjectId, c.contentType))?.status).toBe("scheduled");
+    const tomorrow = "2026-09-11";
+    const next = refreshQueue(q, candidatesFor([event()], tomorrow), new Date(`${tomorrow}T14:05:00Z`), tomorrow, hashFacts).queue;
+    const item = next.items.find((i) => i.id === queueItemId(c.subjectId, c.contentType))!;
+    expect(item.status).toBe("verified");
+    expect(item.scheduledFor).toBeNull();
+    expect(item.history[item.history.length - 1].reason).toBe("deferred window passed");
+  });
+
+  it("keeps stored copy across midnight: the clock is not a fact", () => {
+    const c = pick(candidatesFor([event()], TODAY), "event:federal_register:q-1", "what_changed");
+    expect(hashFacts({ ...c.facts, today: "2026-09-10" })).toBe(hashFacts({ ...c.facts, today: "2026-09-11" }));
+  });
+});

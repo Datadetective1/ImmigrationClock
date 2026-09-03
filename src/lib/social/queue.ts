@@ -34,7 +34,7 @@
 
 import { createHash } from "node:crypto";
 import { ogImagePath, type OgKind } from "@/lib/share";
-import { TIER_FOR_TYPE, type CadenceTier, type ContentType } from "./content-types";
+import { TIER_FOR_TYPE, isContentType, type CadenceTier, type ContentType } from "./content-types";
 import type { Candidate, GeneratedCopy, Platform, SlotId } from "./types";
 
 export const QUEUE_VERSION = 1 as const;
@@ -122,7 +122,9 @@ export function queueItemId(subjectId: string, contentType: ContentType): string
 }
 
 export function hashFactsForQueue(facts: unknown): string {
-  return createHash("sha256").update(JSON.stringify(facts)).digest("hex").slice(0, 16);
+  // `today` is the clock, not a fact; see hashFacts in run.ts.
+  const stable = facts && typeof facts === "object" ? { ...(facts as Record<string, unknown>), today: "" } : facts;
+  return createHash("sha256").update(JSON.stringify(stable)).digest("hex").slice(0, 16);
 }
 
 /**
@@ -136,13 +138,38 @@ export function parseQueue(raw: string | null): EditorialQueue | null {
   try {
     const parsed = JSON.parse(raw) as Partial<EditorialQueue>;
     if (parsed.version !== QUEUE_VERSION || !Array.isArray(parsed.items)) return null;
+    // Every field the refresh dereferences, or the file is corrupt as a whole.
+    // A half-written item that parsed would otherwise throw inside
+    // refreshQueue on every hourly run, and nothing would publish until a
+    // human repaired a file the run could simply have rebuilt.
     for (const item of parsed.items) {
-      if (typeof item?.id !== "string" || typeof item?.status !== "string") return null;
+      if (!isQueueItem(item)) return null;
     }
     return { version: QUEUE_VERSION, updatedAt: parsed.updatedAt ?? EMPTY_QUEUE.updatedAt, items: parsed.items as QueueItem[] };
   } catch {
     return null;
   }
+}
+
+const QUEUE_STATUSES: readonly QueueStatus[] = ["candidate", "verified", "ready", "scheduled", "published", "rejected", "superseded"];
+
+function isQueueItem(value: unknown): value is QueueItem {
+  const i = value as Partial<QueueItem> | null;
+  return (
+    !!i &&
+    typeof i === "object" &&
+    typeof i.id === "string" &&
+    typeof i.subjectId === "string" &&
+    typeof i.contentType === "string" &&
+    isContentType(i.contentType) &&
+    typeof i.status === "string" &&
+    QUEUE_STATUSES.includes(i.status as QueueStatus) &&
+    typeof i.priority === "number" &&
+    Array.isArray(i.history) &&
+    !!i.freshness &&
+    typeof i.freshness === "object" &&
+    typeof i.freshness.expiresAt === "string"
+  );
 }
 
 /** Stable on disk: by status group, then priority, so a diff reads as a change of state. */
@@ -352,6 +379,17 @@ export function refreshQueue(
     if (newest && newest.eventId !== item.eventId && (newest.freshness.publishedAt ?? "") > (item.freshness.publishedAt ?? "")) {
       superseded++;
       byId.set(item.id, transition(item, "superseded", `superseded by ${newest.eventId} (${newest.freshness.publishedAt})`, at));
+    }
+  }
+
+  // A deferral is for one window. Past that day the item competes again;
+  // without this, an explainer deferred on a quiet Monday morning read
+  // "scheduled: afternoon" for the rest of its year.
+  for (const item of byId.values()) {
+    if (item.status !== "scheduled") continue;
+    const lastAt = item.history[item.history.length - 1]?.at ?? "";
+    if (lastAt.slice(0, 10) < today) {
+      byId.set(item.id, transition({ ...item, scheduledFor: null }, "verified", "deferred window passed", at));
     }
   }
 

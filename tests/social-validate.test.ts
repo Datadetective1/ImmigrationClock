@@ -22,6 +22,8 @@ import {
   allowedDigitRuns,
   measuredLength,
   xWeightedLength,
+  mentionsDate,
+  describesAProposal,
 } from "@/lib/social/validate";
 import type { FactSet } from "@/lib/social/types";
 
@@ -399,5 +401,107 @@ describe("helpers", () => {
     expect(runs.has("9")).toBe(true); // effectiveAt month, leading zero stripped
     expect(runs.has("500")).toBe(true); // summary
     expect(runs.has("47")).toBe(false);
+  });
+});
+
+
+describe("the 2026-09-03 review's gaps, pinned", () => {
+  it("refuses an invented effective date however it is phrased", () => {
+    const f = facts({ effectiveAt: null, today: "2026-09-02" });
+    for (const phrase of [
+      "It takes effect Sept. 10, 2026.",
+      "The change goes into effect September 10, 2026.",
+      "It becomes effective Aug. 10.",
+      "It has been in effect since 2026.",
+      "Effective Aug. 10, the fee applies.",
+    ]) {
+      const r = validatePost(`DHS amended the fee rule. ${phrase} ${LINK}`, "x", f);
+      expect(r.codes, phrase).toContain("invented-effective-date");
+    }
+    const honest = validatePost(`DHS amended the fee rule. The archive records no separate effective date. ${LINK}`, "x", f);
+    expect(honest.codes).not.toContain("invented-effective-date");
+  });
+
+  it("refuses a proposal given a start date in the prompt's own date style", () => {
+    const f = facts({
+      classification: "proposed_rule",
+      effectiveAt: null,
+      today: "2026-08-12",
+      summary: "DHS proposes a $500 fee for certain H-1B and L-1 petitions.",
+    });
+    expect(
+      validatePost(`DHS has proposed a $500 fee. Starting Oct. 1, 2026, petitions carry the fee under the proposal. ${LINK}`, "x", f).codes
+    ).toContain("proposed-asserted-as-fact");
+    expect(validatePost(`DHS has proposed a $500 fee. The fee will take effect Oct. 1, 2026. ${LINK}`, "x", f).codes).toContain(
+      "proposed-in-effect"
+    );
+    const conditional = validatePost(
+      `DHS has proposed a $500 fee. If finalised, it would take effect on a date the final rule sets. ${LINK}`,
+      "x",
+      f
+    );
+    expect(conditional.codes).not.toContain("proposed-in-effect");
+    expect(conditional.codes).not.toContain("proposed-asserted-as-fact");
+  });
+
+  it("grounds whole numbers, not only their digit runs", () => {
+    const f = facts({
+      summary: "The 10 largest sponsors hold 15.1% of approvals; the 50 largest hold 28.7%.",
+      figures: ["10", "15.1%", "50", "28.7%"],
+    });
+    expect(validatePost(`The 10 largest sponsors hold 28.7% of approvals. ${LINK}`, "x", f).codes).not.toContain("figure-ungrounded");
+    expect(validatePost(`The 10 largest sponsors hold 28.1% of approvals. ${LINK}`, "x", f).codes).toContain("figure-ungrounded");
+    expect(validatePost(`The 10 largest sponsors hold 1.5% of approvals. ${LINK}`, "x", f).codes).toContain("figure-ungrounded");
+  });
+
+  it("refuses a quantity in words the source never uses", () => {
+    expect(validatePost(`The fee reaches nearly a million workers. ${LINK}`, "x", facts()).codes).toContain("figure-ungrounded");
+    expect(validatePost(`The fee reaches half of all petitions. ${LINK}`, "x", facts()).codes).toContain("figure-ungrounded");
+    const g = facts({ summary: "The fee applies to half of all petitions." });
+    expect(validatePost(`The fee applies to half of all petitions. ${LINK}`, "x", g).codes).not.toContain("figure-ungrounded");
+  });
+
+  it("judges a spelled-out agency like its abbreviation", () => {
+    // The fixture's entities name the Department of Homeland Security.
+    expect(validatePost(`The Department of Homeland Security amended the fee. ${LINK}`, "x", facts()).codes).not.toContain(
+      "attribution-unsupported"
+    );
+    const bare = facts({
+      entities: ["H-1B specialty occupation"],
+      summary: "The fee for certain H-1B and L-1 visas is amended. The fee is $500.",
+    });
+    for (const who of ["The Department of Homeland Security", "The Labor Department", "The Trump administration", "Customs and Border Protection"]) {
+      expect(validatePost(`${who} amended the fee. ${LINK}`, "x", bare).codes, who).toContain("attribution-unsupported");
+    }
+  });
+
+  it("sees a link X would auto-link, with or without a scheme", () => {
+    for (const bare of ["uscis.gov/newsroom/alerts", "www.uscis.gov/h-1b"]) {
+      const r = validatePost(`DHS amended the fee; see ${bare} for the notice. ${LINK}`, "x", facts());
+      expect(r.codes, bare).toContain("url-not-whitelisted");
+    }
+    // A name that happens to end in a top-level domain is not a link.
+    const named = facts({ summary: "Amazon.com Services LLC holds the most approvals." });
+    expect(validatePost(`Amazon.com Services holds the most approvals. ${LINK}`, "x", named).codes).not.toContain("url-not-whitelisted");
+  });
+
+  it("does not find one day inside another", () => {
+    expect(mentionsDate("takes effect Sept. 20, 2026", "2026-09-02")).toBe(false);
+    expect(mentionsDate("takes effect Sept. 2, 2026", "2026-09-02")).toBe(true);
+    expect(mentionsDate("takes effect on September 2nd", "2026-09-02")).toBe(true);
+    expect(mentionsDate("on 9/18", "2026-09-01")).toBe(false);
+    expect(mentionsDate("on 12 September", "2026-09-02")).toBe(false);
+    expect(mentionsDate("on 2 September 2026", "2026-09-02")).toBe(true);
+  });
+
+  it("holds only a recorded document to proposal-stage rules", () => {
+    expect(
+      describesAProposal(
+        facts({ subjectKind: "explainer", classification: null, effectiveAt: null, title: "A proposed rule is not a rule" })
+      )
+    ).toBe(false);
+    expect(
+      describesAProposal(facts({ classification: "announcement", effectiveAt: null, title: "DHS Proposes Additional H-1B Fee" }))
+    ).toBe(true);
   });
 });

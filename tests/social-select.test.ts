@@ -28,6 +28,7 @@ import {
   WHY_IT_MATTERS_MAX_AGE_DAYS,
   WHAT_CHANGED_NEWS_AGE_DAYS,
   EFFECTIVE_DATE_HORIZON_DAYS,
+  EFFECTIVE_DATE_NEAR_DAYS,
 } from "@/lib/social/select";
 import {
   scoreEvent,
@@ -167,7 +168,10 @@ describe("the effective-date reminder", () => {
     expect(cands).toHaveLength(2);
     for (const c of cands) {
       expect(c.tier).toBe("follow_up");
-      expect(c.category).toBe("deadline");
+      // Imminent is the deadline band; upcoming sits one band below, so a
+      // record's "what changed" is said before its date is repeated.
+      const daysOut = (Date.parse(`${c.facts.effectiveAt}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000;
+      expect(c.category, c.subjectId).toBe(daysOut > EFFECTIVE_DATE_NEAR_DAYS ? "actionable" : "deadline");
       expect(c.supportedAngles[0]).toBe("effective_date_reminder");
     }
     expect(cands[0].subjectId).toBe("event:e:soon");

@@ -546,6 +546,11 @@ function problemsFor(
     if (!opening.ok) all.push(`[${p}] ${opening.reason}`);
     const shape = checkStructureVariety(ledger, copy.structure, p);
     if (!shape.ok) all.push(`[${p}] ${shape.reason}`);
+    // Too close to a recent post is a problem the engine can fix on the
+    // second attempt — if it is told. Left to the publish gate alone it was
+    // a silent skip, and the same candidate failed the same way next window.
+    const wording = checkWording(ledger, copy[p], p);
+    if (!wording.ok) all.push(`[${p}] ${wording.reason} — say it differently: another opening, another order of facts.`);
   }
 
   return { failing, all };
@@ -634,9 +639,16 @@ function chooseCandidate(
   for (const { candidate, rotation } of ranked) {
     const angle = candidate.supportedAngles[0];
     const eligible: Platform[] = [];
+    // The specific gate that refused, so a ledger row says why and not "one of
+    // three things".
+    let refusedBy = "same-day variety or subject/URL cooldown";
 
     for (const platform of targets) {
-      if (!checkSameDayVariety(ledger, candidate.topicKey, localDate, platform).ok) continue;
+      const variety = checkSameDayVariety(ledger, candidate.topicKey, localDate, platform);
+      if (!variety.ok) {
+        refusedBy = `[${platform}] ${variety.reason}`;
+        continue;
+      }
       const check = checkSubject(
         ledger,
         candidate.subjectId,
@@ -647,6 +659,7 @@ function chooseCandidate(
         candidate.pool
       );
       if (check.ok && check.availableAngles.includes(angle)) eligible.push(platform);
+      else refusedBy = `[${platform}] ${check.ok ? `treatment "${angle}" already used` : check.reason}`;
     }
 
     if (eligible.length === 0) {
@@ -655,7 +668,7 @@ function chooseCandidate(
         label: candidate.label,
         topicFamily: candidate.topicFamily,
         baseScore: candidate.score,
-        reason: "same-day variety or subject/URL cooldown",
+        reason: refusedBy,
       });
       continue;
     }
@@ -905,7 +918,12 @@ export function factsHash(candidate: Candidate): string {
 
 /** The same hash, over a bare fact set. Used by the approval gate and the queue. */
 export function hashFacts(facts: FactSet): string {
-  return createHash("sha256").update(JSON.stringify(facts)).digest("hex").slice(0, 16);
+  // `today` is the run's clock, not a fact about the record. Hashing it made
+  // every stored copy stale at midnight, so a post that failed to publish in
+  // the evening was regenerated — paid for twice — the next morning. Strings
+  // derived from the date ("29 days from today") live in the implications
+  // and still change the hash, as they should.
+  return createHash("sha256").update(JSON.stringify({ ...facts, today: "" })).digest("hex").slice(0, 16);
 }
 
 // -----------------------------------------------------------------------------
@@ -999,12 +1017,23 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
 
   const approvedPlatforms = envelope.approval?.platforms ?? [];
   const outcomes: PlatformOutcome[] = [];
+  // The same gates a generated post faces. An approval is a judgment about
+  // the words, not a licence to post twice in a window or four times a day.
+  const cadence = decideCadence({ ledger, platform: approvedPlatforms[0] ?? "x", slot, localDate: parts.date, now });
 
   for (const platform of PLATFORMS) {
     const text = envelope.copy[platform];
 
     if (!approvedPlatforms.includes(platform)) {
       outcomes.push(skip(platform, "SKIPPED_NOT_ENABLED", `${platform} was not approved in this envelope`, null));
+      continue;
+    }
+    if (hasPostedInSlot(ledger, parts.date, envelope.slot, platform)) {
+      outcomes.push(skip(platform, "SKIPPED_DUPLICATE", `${platform} already published in the ${envelope.slot} window today`, text));
+      continue;
+    }
+    if (cadence.blocked) {
+      outcomes.push(skip(platform, "SKIPPED_CADENCE", cadence.explain, text));
       continue;
     }
     if (!check.eligible.includes(platform)) {
@@ -1052,6 +1081,7 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
     readerValueExplain: candidate.readerValue.reason,
     treatment: candidate.treatment,
     poolSize: 1,
+    cadenceExplain: cadence.explain,
     validator,
     dedupe: checkWording(ledger, envelope.copy.x, "x"),
     usage: envelope.usage,

@@ -171,10 +171,11 @@ export function inPublishingWindow(at: Date = new Date()): boolean {
  * first and falls back to CST, checking each against the real clock, so the
  * instant is right on both transition days too.
  */
-export function instantInWindow(localDate: string, slot: SlotDef, minute = 5): Date {
+export function instantInWindow(localDate: string, slot: SlotDef, minute = 5, hourOffset = 0): Date {
   // One hour past the window's opening hour, so "morning" is 09:05 local — the
-  // time a human would expect the first run of the day to land.
-  const targetHour = Math.min(slot.hours[0] + 1, slot.hours[1]);
+  // time a human would expect the first run of the day to land. `hourOffset`
+  // moves later firings into later hours, never past the window's last.
+  const targetHour = Math.min(slot.hours[0] + 1 + Math.max(0, hourOffset), slot.hours[1]);
   for (const offset of [5, 6]) {
     const utcHour = targetHour + offset;
     const dayShift = utcHour >= 24 ? 1 : 0;

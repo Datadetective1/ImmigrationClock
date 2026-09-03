@@ -27,12 +27,11 @@ import { SIGNAL_SLUGS, buildSignal } from "@/lib/editorial/signals";
 import { EVENTS } from "@/lib/event-store";
 import { matchesChangeSlug, ogImagePath, signalPath } from "@/lib/share";
 import { formatDate } from "@/lib/format";
+import { BUILD_DATE } from "@/lib/build-date";
 import { SIGNAL_GROUP_LABEL, pathLabel, storyDescription, storyTitle } from "@/lib/stories";
 
 export const dynamicParams = false;
 
-/** The build's date, fixed once: the signals, their cards and the sitemap agree on it. */
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 export function generateStaticParams() {
   return SIGNAL_SLUGS.filter((slug) => buildSignal(slug, BUILD_DATE) !== null).map((slug) => ({ slug }));
@@ -111,7 +110,19 @@ export default function SignalPage({ params }: { params: { slug: string } }) {
             provenance and period beside it rather than in a footnote. */}
         <div className="panel panel-pad">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <ProvenanceTag provenance="reported" />
+            {s.provenance === "reported" ? (
+              <ProvenanceTag provenance="reported" />
+            ) : (
+              <span
+                className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-accent"
+                title="Counted from ImmigrationClock's own archive of recorded changes — not a figure an agency published."
+              >
+                <span aria-hidden className="text-[11px] leading-none">
+                  ◆
+                </span>
+                Counted from our archive
+              </span>
+            )}
             <span className="rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] text-slate-400">
               {s.periodLabel}
             </span>

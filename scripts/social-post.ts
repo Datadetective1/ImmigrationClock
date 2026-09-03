@@ -138,7 +138,14 @@ async function main() {
       transcriptPath: arg("transcript") ? resolve(arg("transcript") as string) : undefined,
     });
     engineId = engine.id;
-    result = await runSlot({ slot, events: EVENT_INDEX, ledger, engine, publishers, now, live, queue });
+    // In a live run, run.ts restricts eligibility to the platforms with a
+    // publisher. A dry run has no publishers, so it is told the same set here:
+    // otherwise a subject X cannot post is "eligible" on a LinkedIn that has
+    // no credential, and a model call is spent on a post nobody can make.
+    const platforms: Platform[] = (Object.keys(publishers) as Platform[]).length
+      ? (Object.keys(publishers) as Platform[])
+      : ["x"];
+    result = await runSlot({ slot, events: EVENT_INDEX, ledger, engine, publishers, now, live, queue, platforms });
   }
 
   report(result.outcome, live, engineId);

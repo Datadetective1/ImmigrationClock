@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BUILD_DATE } from "@/lib/build-date";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
@@ -12,7 +13,6 @@ import { LAST_REFRESHED } from "@/lib/data";
 import { formatDate } from "@/lib/format";
 
 /** The build's date, fixed once, so the list agrees with the signal pages. */
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 export const metadata = buildMetadata({
   title: "Immigration Insights — What the Numbers Say",

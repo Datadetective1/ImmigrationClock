@@ -76,6 +76,7 @@ against it. A model never decides a fact.
 | Consequential day | two, occasionally three, when they are distinct developments |
 | Quiet day | one evergreen post, in the afternoon or evening |
 | Nothing worth saying | nothing |
+| A rule with a future date | the reminder — upcoming from 30 days out, imminent in the last fortnight — after what changed, never before |
 
 Enforced as ceilings, never floors: at most 3 posts a day, at least 3 hours
 apart; the news tier may publish in any window; follow-ups at most one a day
@@ -163,9 +164,12 @@ with the same title stem — a final rule after its proposal).
 A `ready` item holds validated copy. A run that fails to publish it — X
 returned 503, or 402 credits depleted — leaves it ready, and the next window
 publishes the stored copy without a second model call, provided the fact set
-has not moved (the hash is checked). The queue is a memory, not a lock: every
-rerun guard and cooldown reads the ledger, and a corrupt queue is rebuilt
-while a corrupt ledger halts everything.
+has not moved (the hash is checked; the run's clock is not part of it, so
+copy survives midnight). An item deferred to a later window (`scheduled`)
+returns to `verified` once that day has passed. The queue is a memory, not a
+lock: every rerun guard and cooldown reads the ledger, and a corrupt queue —
+including one with a half-written item — is rebuilt while a corrupt ledger
+halts everything.
 
 `npm run social:queue` prints it.
 
@@ -173,12 +177,19 @@ while a corrupt ledger halts everything.
 
 Unchanged in spirit: subject × treatment × platform × cooldown, topic-family
 and destination penalties, the same-day topic rule, opening-construction
-variety, and word-trigram wording similarity. Changed in numbers: an event's
-subject cooldown is 7 days (a breaking post, a why-it-matters a week later, a
-reminder as the date nears); a follow-up after a follow-up is penalised two
-tier steps; the evergreen kinds rotate (a signal, then an explainer, then a
-tool) by a one-step penalty on the kind used last; the content mix is counted
-by content type.
+variety, and word-trigram wording similarity. Changed in numbers: a recorded
+change is a story told in parts, so a DIFFERENT treatment of the same record
+waits two days (`EVENT_FOLLOW_UP_SPACING_DAYS`), the same treatment never
+repeats, and a change is never held by a destination cooldown because its
+page is its own; the effective-date reminder sits one band below the
+narrative follow-ups until the last fortnight before the date
+(`EFFECTIVE_DATE_NEAR_DAYS`), so what changed is said before the date is
+repeated; a follow-up after a
+follow-up is penalised two tier steps; the evergreen kinds rotate (a signal,
+then an explainer, then a tool) by a one-step penalty on the kind used last;
+the content mix is counted by content type. A copy that is too close to a
+recent post is fed back to the engine as a repairable problem, and if it fails
+again the treatment stands down for a day.
 
 ### The fact set and the validator (`facts.ts`, `validate.ts` v8)
 
@@ -193,6 +204,33 @@ grounds figures and quotations against them like any other field.
 The X length is now measured the way X measures it: every URL counts as 23
 characters. The hard limit (275) is unchanged; the prose budget went from
 about 150 characters to about 240.
+
+The 2026-09-03 review closed six ways a wrong fact could have passed:
+
+- The closed world is the record's full summary, not the index's
+  220-character excerpt, so an office or a figure the source names is
+  stateable and one it does not is not.
+- Whole numbers are grounded as tokens as well as digit runs ("28.1%" is not
+  in a fact set holding 28.7% and 15.1%), and quantities in words ("nearly a
+  million", "half of") must appear in the source in those words.
+- Agencies are alias groups: "the Department of Homeland Security", "the
+  Labor Department" and "the Trump administration" are judged like "DHS",
+  "DOL" and nothing, respectively.
+- A record with no effective date may not be given one in any wording
+  ("takes effect Sept. 30", "goes into effect", "effective", "in effect as
+  of"); a proposal may not be given a start date in the prompt's own date
+  style ("Starting Oct. 1"); and a stated date must match the recorded day as
+  a whole token ("Sept. 2" is not found inside "Sept. 20").
+- The stage checks read the prose, never the link: every NPRM's slug carries
+  the word "proposed", which would otherwise have satisfied the check for it.
+- A bare domain with a path, or "www.", is a link X will auto-link, so it is
+  whitelisted, counted and weighted like one.
+
+Implications are derived only from what the record says: a court decision
+"stops enforcement" only when the record uses the words (enjoin, injunction,
+stay, vacate); the word "extension" alone — a form name, a paperwork notice —
+no longer yields "moves a date"; and a newsroom item announcing a proposal is
+treated as the proposal it is.
 
 ### Share pages and cards
 

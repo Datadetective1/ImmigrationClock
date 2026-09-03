@@ -8,6 +8,7 @@
 // =============================================================================
 
 import { describe, it, expect } from "vitest";
+import { BUILD_DATE } from "@/lib/build-date";
 import {
   CONTENT_TYPES,
   STRUCTURES_FOR_TYPE,
@@ -167,7 +168,9 @@ describe("the evergreen tier", () => {
     const sg = signalCandidates(TODAY);
     const dc = discoveryCandidates(TODAY);
     expect(ex).toHaveLength(EXPLAINERS.length);
-    expect(sg).toHaveLength(buildSignals(TODAY).length);
+    // A day-relative signal is offered only on the day the site was built for,
+    // so the post and the page it links to show the same number.
+    expect(sg).toHaveLength(buildSignals(TODAY).filter((x) => !x.dayRelative || BUILD_DATE === TODAY).length);
     expect(dc).toHaveLength(buildDiscoveries().length);
     for (const c of [...ex, ...sg, ...dc]) {
       expect(c.tier).toBe("evergreen");

@@ -58,9 +58,18 @@ export function generateStaticParams() {
   return EVENTS.map((e) => ({ slug: changeSlug(e) }));
 }
 
-/** By hash, so a link minted before a title correction still resolves. */
+/**
+ * The exact slug first; otherwise by hash, so a link minted before a title
+ * correction still resolves — but only when the hash names exactly one
+ * record. Two records sharing a six-character hash is a build error the
+ * share tests refuse; if it ever slipped through, the answer is a 404, not
+ * a permanent redirect to the wrong record.
+ */
 function resolve(slug: string): ImmigrationEvent | null {
-  return EVENTS.find((e) => matchesChangeSlug(e, slug)) ?? null;
+  const exact = EVENTS.find((e) => changeSlug(e) === slug);
+  if (exact) return exact;
+  const byHash = EVENTS.filter((e) => matchesChangeSlug(e, slug));
+  return byHash.length === 1 ? byHash[0] : null;
 }
 
 /** An old slug for a record that still exists goes to the record's current address. */

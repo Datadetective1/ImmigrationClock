@@ -45,7 +45,11 @@ function dateWords(iso: string | null): string {
 
 function stageVerb(f: FactSet): string {
   if (f.classification === "proposed_rule") return "has proposed a change to";
-  if (f.classification === "court_decision") return "has been ordered to pause";
+  if (f.classification === "court_decision") {
+    return /\b(enjoin|injunction|stay(s|ed)?|vacat|blocked|halted|barred)\b/i.test(`${f.title} ${f.summary}`)
+      ? "has been ordered to pause"
+      : "has had a court rule on";
+  }
   if (/rescind|rescission/i.test(`${f.title} ${f.summary}`)) return "has withdrawn its rule on";
   return "has changed its rule on";
 }

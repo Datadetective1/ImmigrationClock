@@ -44,6 +44,13 @@ export type SignalProvenance = "reported" | "own-archive";
 export interface DataSignal {
   /** URL slug under /insights/. Stable. */
   slug: string;
+  /**
+   * True when the figure moves with the calendar ("days until", "the last
+   * 30 days"). The site computes such a signal once, at build, from the
+   * refresh date; the publisher must not post it on a day the site was not
+   * built for, or the post states one number and the page another.
+   */
+  dayRelative?: boolean;
   /** The headline, as an observation. */
   title: string;
   /** The single figure a card leads with, already formatted. */
@@ -364,6 +371,7 @@ const BUILDERS: Record<string, Builder> = {
     ].filter((p): p is string => p !== null);
     return {
       slug: "changes-last-30-days",
+      dayRelative: true,
       title: "How much U.S. immigration policy changed in the last 30 days",
       figure: formatNumber(recent.length),
       figureLabel: `official immigration changes recorded in the 30 days to ${formatDate(today)}, routine notices excluded`,
@@ -398,6 +406,7 @@ const BUILDERS: Record<string, Builder> = {
     const next = ahead.slice(0, 3);
     return {
       slug: "effective-dates-ahead",
+      dayRelative: true,
       title: "Immigration rules that take effect in the next 60 days",
       figure: formatNumber(ahead.length),
       figureLabel: `recorded change${ahead.length === 1 ? "" : "s"} with an effective date between now and ${formatDate(horizon)}`,
@@ -430,6 +439,7 @@ const BUILDERS: Record<string, Builder> = {
     const latest = proposed.slice(0, 3);
     return {
       slug: "proposed-rules-open",
+      dayRelative: true,
       title: "Proposed immigration rules that are not in force",
       figure: formatNumber(proposed.length),
       figureLabel: `proposed rule${proposed.length === 1 ? "" : "s"} recorded in the last 90 days, none of them in effect`,
@@ -464,6 +474,7 @@ const BUILDERS: Record<string, Builder> = {
     const first = dated[0];
     return {
       slug: "next-key-date",
+      dayRelative: true,
       title: "The next recurring immigration date on the calendar",
       figure: String(first.days),
       figureLabel: `days until the ${first.k.title.toLowerCase()}${first.k.approx ? " (approximate window)" : ""}`,
