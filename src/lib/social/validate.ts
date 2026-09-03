@@ -483,6 +483,10 @@ export function opensWithSubject(text: string, facts: FactSet): boolean {
 const PROPOSE_LANGUAGE = /\bpropos(e|es|ed|al|als|ing)\b/i;
 
 export function describesAProposal(facts: FactSet): boolean {
+  // Only a recorded change can be a proposal. An explainer ABOUT proposed
+  // rules ("A proposed rule is not a rule") carries the word in its title and
+  // is not one; nor is a data signal counting open proposals.
+  if (facts.subjectKind !== "document") return false;
   if (facts.classification === "proposed_rule") return true;
   if (facts.effectiveAt) return false;
   return PROPOSE_LANGUAGE.test(facts.title);
