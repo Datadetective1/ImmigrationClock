@@ -97,6 +97,7 @@ Chaque mise à jour renvoie directement à la source gouvernementale d'origine. 
 Les titres et résumés sont cités exactement tels que publiés par le gouvernement américain, en anglais. Nous ne traduisons pas les textes officiels : une citation traduite n'est plus une citation.
 
 Lire ce numéro en ligne: https://immigrationclock.com/newsletter/weekly-fr-2026-09-03/fr.html
+Contact: contact@immigrationclock.com
 Se désabonner: {{{RESEND_UNSUBSCRIBE_URL}}}
 
 ImmigrationClock publie des données publiques du gouvernement américain. Ce n'est pas un cabinet d'avocats et ne fournit aucun conseil juridique.
