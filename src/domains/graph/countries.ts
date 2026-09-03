@@ -54,6 +54,39 @@ export const AMBIGUOUS_COUNTRY_NAMES = new Set([
 ]);
 
 /**
+ * Place names that CONTAIN a country name and are not that country.
+ *
+ * A United States territory is not a foreign state, and the difference is not
+ * academic: a rule about who is a U.S. national by birth in AMERICAN SAMOA was
+ * classified `country:samoa`, which would send a subscriber monitoring the
+ * independent state of Samoa a rule that has nothing to do with it.
+ *
+ * These are matched first and their character ranges are claimed, so a country
+ * name inside one of them cannot also match. They are never themselves
+ * classified — a territory is not a country and this file does not pretend
+ * otherwise. Where a territory needs to be a first-class entity, it needs its
+ * own dimension rather than a wrong country edge.
+ */
+export const NOT_COUNTRIES = [
+  "american samoa",
+  "british virgin islands",
+  "u.s. virgin islands",
+  "us virgin islands",
+  "new mexico",
+  "northern mariana islands",
+  "puerto rico",
+  "guam",
+  "swains island",
+  "british indian ocean territory",
+  "french guiana",
+  "new jersey",
+  "new york",
+  "new hampshire",
+  "indiana",
+  "washington",
+];
+
+/**
  * Words that, appearing near a country name, indicate it is being used as a
  * country. Immigration documents are formulaic enough that this is reliable.
  */
@@ -292,6 +325,15 @@ export const COUNTRY_BY_ISO2 = new Map<string, CountryDef>(
 
 interface CountryMatcher {
   re: RegExp;
+  /**
+   * The same pattern, global, so every occurrence in a sentence can be walked.
+   *
+   * Needed because one country's name can sit inside another's: "Guinea"
+   * occurs twice in "Papua New Guinea and Guinea", and only the second one is
+   * a mention of Guinea. Testing the first occurrence alone would either
+   * accept the wrong one or reject the right one.
+   */
+  reAll: RegExp;
   slug: string;
   surface: string;
   ambiguous: boolean;
@@ -302,14 +344,21 @@ function escapeRe(s: string): string {
 }
 
 /** Longest surface form first, so "South Korea" wins over "Korea". */
+/** One global matcher per non-country place name, longest first. */
+const NOT_COUNTRY_MATCHERS: RegExp[] = [...NOT_COUNTRIES]
+  .sort((a, b) => b.length - a.length)
+  .map((name) => new RegExp(`(?<![a-z0-9])${escapeRe(name)}(?![a-z0-9])`, "gi"));
+
 const MATCHERS: CountryMatcher[] = (() => {
   const out: CountryMatcher[] = [];
   for (const c of COUNTRIES) {
     const slug = normalizeSlug(c.name);
     for (const surface of [c.name, ...(c.aliases ?? [])]) {
       const lower = surface.toLowerCase();
+      const pattern = `(?<![a-z0-9])${escapeRe(lower)}(?![a-z0-9])`;
       out.push({
-        re: new RegExp(`(?<![a-z0-9])${escapeRe(lower)}(?![a-z0-9])`, "i"),
+        re: new RegExp(pattern, "i"),
+        reAll: new RegExp(pattern, "gi"),
         slug,
         surface,
         ambiguous: AMBIGUOUS_COUNTRY_NAMES.has(lower),
@@ -365,10 +414,54 @@ export function findCountriesInText(text: string): CountryMatch[] {
     const lower = sentence.toLowerCase();
     const hasContext = COUNTRY_CONTEXT_TERMS.some((t) => lower.includes(t));
 
+    // Character ranges a longer country name has already claimed in THIS
+    // sentence.
+    //
+    // WHY: word boundaries are not enough when one country's name contains
+    // another's. A rule terminating Temporary Protected Status for SOUTH SUDAN
+    // was classified as both south-sudan and sudan, because "Sudan" sits
+    // inside "South Sudan" with a space before it and a boundary after it.
+    // Sudan holds a separate TPS designation, so that single character range
+    // sent a subscriber monitoring Sudan a rule about a different country —
+    // exactly the kind of push a monitoring product cannot survive making.
+    //
+    // MATCHERS is already sorted longest-surface-first, so claiming the range
+    // as each match is accepted is enough: the longer name always gets there
+    // first. Guinea/Papua New Guinea, Niger/Nigeria, China and Dominica are
+    // the same shape of problem and are covered by the same rule.
+    const claimed: [number, number][] = [];
+    const overlapsClaimed = (start: number, end: number) =>
+      claimed.some(([from, to]) => start < to && end > from);
+
+    // Claim the non-countries FIRST, before any country matcher runs. "American
+    // Samoa" is spoken for, so "Samoa" cannot match inside it.
+    for (const re of NOT_COUNTRY_MATCHERS) {
+      re.lastIndex = 0;
+      for (let x = re.exec(sentence); x !== null; x = re.exec(sentence)) {
+        claimed.push([x.index, x.index + x[0].length]);
+      }
+    }
+
     for (const m of MATCHERS) {
       if (found.has(m.slug)) continue;
-      if (!m.re.test(sentence)) continue;
       if (m.ambiguous && !hasContext) continue;
+
+      // Walk every occurrence and take the first that no longer name has
+      // already claimed. "Papua New Guinea and Guinea" names both countries;
+      // "South Sudan", however many times it is repeated, names only one.
+      m.reAll.lastIndex = 0;
+      const spans: [number, number][] = [];
+      for (let x = m.reAll.exec(sentence); x !== null; x = m.reAll.exec(sentence)) {
+        spans.push([x.index, x.index + x[0].length]);
+      }
+      const free = spans.find(([start, end]) => !overlapsClaimed(start, end));
+      if (!free) continue;
+
+      // Claim EVERY occurrence, not only the one accepted. The TPS termination
+      // for South Sudan writes the name three times; claiming one of them left
+      // the other two open for "Sudan" to match inside, which is the bug this
+      // whole guard exists to stop.
+      claimed.push(...spans);
 
       const def = COUNTRY_BY_SLUG.get(m.slug);
       if (!def) continue;

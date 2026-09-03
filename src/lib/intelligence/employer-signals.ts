@@ -38,6 +38,9 @@
 //   • Anything about a person. A signal is about a company and a filing.
 // =============================================================================
 
+import { normalizeEmployer } from "@/lib/format";
+import { describeMatch, type EmployerMatch } from "./employer-match";
+
 /**
  * How old the underlying filing is, and what that means for monitoring.
  *
@@ -48,6 +51,8 @@
  * implies recency; this field is what stops the implication being false.
  */
 export type SignalRecency = "recent" | "past_year" | "historical";
+
+export type { EmployerMatch, EmployerMatchKind } from "./employer-match";
 
 export function recencyOf(date: string, today: string): SignalRecency {
   const days = Math.round((Date.parse(today) - Date.parse(date)) / 86_400_000);
@@ -82,6 +87,14 @@ export interface EmployerSignal {
   fact: string;
   /** How records were matched, when this signal required a join. Null when none. */
   join: string | null;
+  /**
+   * The join, described per row rather than in a blanket paragraph.
+   *
+   * Present only on a signal that required a join. See employer-match.ts —
+   * these values describe how two government records came to be shown
+   * together. None of them describes the employer, and none is a score.
+   */
+  matchQuality?: EmployerMatch;
   /** Why this employer matched the query. */
   matched: string;
   /** The caveat that must travel with this fact. */
@@ -96,6 +109,12 @@ export interface WarnSide {
   employees: number;
   states: string[];
   latestNotice: string | null;
+  /**
+   * Every WARN employer name that normalizes to the same key, this one
+   * included. Supplied by the caller, which holds the index; without it the
+   * join cannot tell one company from a corporate family.
+   */
+  siblingNames?: string[];
 }
 
 export interface H1bSide {
@@ -106,6 +125,21 @@ export interface H1bSide {
   fiscalYear: string;
   sourceName: string;
   sourceUrl: string;
+  /**
+   * Filers sharing this key's first word but normalizing to a different key.
+   * They are never candidates for the join, so their approvals are missing
+   * from any figure it reports. See h1bFilersOnRelatedKeys().
+   */
+  relatedFilers?: { name: string; approvals: number }[];
+  /**
+   * Every H-1B filer name that normalizes to the same key, this one included.
+   *
+   * This matters more here than on the WARN side: the employer index keeps one
+   * record per normalized key, so on the 20 keys carrying several filers the
+   * approvals shown belong to a single entity. Passing the siblings is what
+   * lets the signal say so instead of quietly understating a group.
+   */
+  siblingNames?: string[];
 }
 
 const WARN_CAVEAT =
@@ -203,12 +237,16 @@ export function employerSignals(
       join:
         "The USCIS H-1B Employer Data Hub record and the state WARN notices were matched on a " +
         "normalized employer name (case, punctuation and legal suffixes removed). Matching is by " +
-        "name only, and an audit of the 162 overlapping employers found three ways it goes wrong: " +
-        "20 pairs of distinct H-1B filers collapse to one key (HCL AMERICA INC and HCL AMERICA " +
-        "SOLUTIONS INC both become HCL AMERICA); large employers file under several entities, so " +
-        "one side's figures can understate the group (Cognizant appears three times, Qualcomm four); " +
-        "and short keys are fragile (CA Technologies normalizes to the two characters 'CA'). " +
-        "Treat a match as a pointer to two source records, not as proof they are the same company.",
+        "name only. Treat a match as a pointer to two source records, not as proof they are the " +
+        "same company — and read matchQuality, which says how this particular row was joined.",
+      matchQuality: describeMatch({
+        key: normalizeEmployer(h1b.name),
+        h1bNames: h1b.siblingNames?.length ? h1b.siblingNames : [h1b.name],
+        warnNames: warn.siblingNames?.length ? warn.siblingNames : [warn.name],
+        relatedFilersOnOtherKeys: h1b.relatedFilers ?? [],
+        fiscalYear: h1b.fiscalYear,
+        today,
+      }),
       matched: matchedBecause,
       caveat: OVERLAP_CAVEAT,
       sources: [WARN_SOURCE, { name: h1b.sourceName, url: h1b.sourceUrl }],

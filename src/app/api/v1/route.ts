@@ -34,9 +34,17 @@ export async function GET(): Promise<Response> {
             until: "YYYY-MM-DD — published on or before this date",
             visa: "visa category, e.g. h-1b",
             country: "country, e.g. india",
+            form: "immigration form, e.g. i-129",
+            process:
+              "immigration process, e.g. labor-certification, employment-authorization, " +
+              "cap-registration, prevailing-wage, employment-eligibility-verification, " +
+              "premium-processing",
             agency: "issuing agency, e.g. uscis",
             classification: "final_rule | proposed_rule | court_decision | data_release | …",
             status: "proposed | scheduled | in_force | decided | superseded | informational",
+            include:
+              "weak — also return classifications drawn from citations, footnotes and historical " +
+              "asides. Omitted by default; each returned match carries the method that produced it.",
             limit: "1–100, default 25",
             offset: "0 or more",
           },
@@ -55,6 +63,50 @@ export async function GET(): Promise<Response> {
             "The slug matches the /employer/ URLs.",
         },
       ],
+
+      // WHAT THE CLASSIFICATION FIELDS MEAN, stated by the API rather than only
+      // in prose. A consumer filtering on visa or form is making a monitoring
+      // promise to someone; they need this before they make it, not after.
+      classification: {
+        methods: {
+          explicit_source: "The record's own title names the value.",
+          structured_source: "A structured field from the publisher names it.",
+          derived_high_confidence:
+            "The summary names it, or a body sentence states scope with no historical or citation markers.",
+          derived_weak:
+            "A citation, a footnote, or a historical aside. Excluded by default; request with ?include=weak.",
+        },
+        defaultEvidence: "strong only (explicit_source, structured_source, derived_high_confidence)",
+        state: {
+          known: "The dimension has entries, established from the document.",
+          not_applicable: "The document was examined on this dimension and names none.",
+          not_classified:
+            "Nobody has established a value. An empty list here is an absence of work, not an absence of relevance.",
+        },
+        measured: {
+          "visa:h-1b": {
+            groundTruth: "21 hand-labelled records, committed at fixtures/h1b-ground-truth.json",
+            precision: "100%",
+            recall: "100%",
+            note:
+              "On strong evidence, which is what this API returns by default. Including weak matches, " +
+              "precision is 90% and recall 100%.",
+          },
+          countries: {
+            groundTruth:
+              "31 hand-labelled record-and-country pairs, committed at fixtures/country-ground-truth.json",
+            precision: "74%",
+            recall: "not measured",
+            note:
+              "Every pair the classifier emits is labelled, so precision is a real measurement. Recall " +
+              "is not: finding the misses would mean reading every record for unstated country scope. " +
+              "At 74%, roughly one country match in four is a document that mentions the country " +
+              "rather than one whose scope is defined by it. Read the evidence quote.",
+          },
+        },
+        notBenchmarked: ["forms", "processes"],
+        reproduce: "npm run intelligence:quality",
+      },
 
       coverage: {
         changes: EVENTS.length,

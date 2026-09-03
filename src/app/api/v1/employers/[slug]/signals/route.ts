@@ -20,8 +20,14 @@
 // ships, so this is a static file rather than a function invocation.
 // =============================================================================
 
-import { EMPLOYERS, EMPLOYERS_META, employerBySlug } from "@/lib/employers";
-import { WARN_META, warnForEmployer } from "@/lib/warn";
+import {
+  EMPLOYERS,
+  EMPLOYERS_META,
+  employerBySlug,
+  h1bFilersOnRelatedKeys,
+  h1bFilersSharingKey,
+} from "@/lib/employers";
+import { WARN_META, warnEmployersSharingKey, warnForEmployer } from "@/lib/warn";
 import { ATTRIBUTION } from "@/lib/intelligence/change";
 import { employerSignals, type H1bSide, type WarnSide } from "@/lib/intelligence/employer-signals";
 
@@ -58,6 +64,11 @@ export async function GET(_request: Request, { params }: { params: { slug: strin
     fiscalYear: String(EMPLOYERS_META.fiscalYear),
     sourceName: EMPLOYERS_META.sourceName,
     sourceUrl: EMPLOYERS_META.sourceUrl,
+    // Passed so the overlap signal can say whether this key represents one
+    // company or several. Without it the join silently reports one entity's
+    // figures under a group's name.
+    siblingNames: h1bFilersSharingKey(employer.name),
+    relatedFilers: h1bFilersOnRelatedKeys(employer.name),
   };
 
   const warnSide: WarnSide | null = warn
@@ -68,6 +79,7 @@ export async function GET(_request: Request, { params }: { params: { slug: strin
         employees: warn.summary.employees,
         states: warn.summary.states,
         latestNotice: warn.summary.latestNotice ?? null,
+        siblingNames: warnEmployersSharingKey(employer.name),
       }
     : null;
 

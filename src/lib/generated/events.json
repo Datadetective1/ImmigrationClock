@@ -193,7 +193,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -205,7 +213,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -247,7 +264,8 @@
             "entityId": "visa:h-2a",
             "basis": "stated",
             "evidence": "For example, in 2025, ETA and WHD jointly proposed to amend the regulations governing the certification of agricultural labor or services performed by H-2A workers and the enforcement of the obligations applicable to employers of such nonimmigrant workers.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -364,7 +382,8 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Amend regulations to [cir] Aliens who are remove the requirement better prepared for the that a letter asylum process.. communicating the basis Government--.............. for referral of asylum Increased include an assessment of operational efficiency the alien's credibility.. and reduction in USCIS' Update to 8 CFR…",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -467,7 +486,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "30-Day Notice of Proposed Information Collection: Annual Report-J-NONIMMIGRANT Exchange Visitor Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -596,13 +623,15 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "Fee for Certain H-1B Petitions The Department of Homeland Security (DHS) proposes to establish a $103,265 fee, payable at the time of filing, for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption, which would be imposed in addition to all other applicable fees or payments.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:j-1",
             "basis": "stated",
             "evidence": "Table 5--ICE Cost Allocation ------------------------------------------------------------------------ Cost (in ICE activity millions) ------------------------------------------------------------------------ Vetting of Aliens Pending Adjudication................. $900.0 Vetting of Applicants for…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -620,7 +649,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "The proposed fee, when required, would be in addition to any other applicable fees or payments,\\3\\ including any separate payment obligation required under a Presidential Proclamation.\\4\\ Accordingly, to the extent a petitioner is subject both to a proclamation-required payment and to the additional H-1B fee proposed in this rule, the petitioner would be required to pay both amounts.…",
           "effectiveFrom": null
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (DHS) proposes to establish a $103,265 fee, payable at the time of filing, for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption, which would be imposed in addition to all other applicable fees or payments. This fee would…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -672,7 +710,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "DHS Proposes Additional H-1B Fee The Department of Homeland Security (DHS) is proposing to establish a $103,265 fee for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -685,7 +724,16 @@
         "employers": [],
         "universities": [],
         "states": [],
-        "completeness": "partial"
+        "completeness": "partial",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (DHS) is proposing to establish a $103,265 fee for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -897,7 +945,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-485",
+            "basis": "stated",
+            "evidence": "USCIS to Publish New Edition of Form I-485; Older Editions Will Be Rejected Starting Sept. 18",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -956,7 +1013,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-eligibility-verification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: E-Verify+",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -1012,7 +1078,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-eligibility-verification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: Employment Eligibility Verification",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -1350,7 +1425,32 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-539",
+            "basis": "stated",
+            "evidence": "USCIS to Publish New Editions of Form I-539 and Form I-765; Older Editions Will Be Rejected Starting Sept. 15",
+            "method": "explicit_source",
+            "confidence": 1
+          },
+          {
+            "entityId": "form:i-765",
+            "basis": "stated",
+            "evidence": "USCIS to Publish New Editions of Form I-539 and Form I-765; Older Editions Will Be Rejected Starting Sept. 15",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "On Sept. 15, 2026, U.S. Citizenship and Immigration Services will publish revised editions of Form I-539, Application to Extend/Change Nonimmigrant Status, and Form I-765, Application for Employment Authorization (edition date for both: 09/15/26). The forms have been revised to align with the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -1601,7 +1701,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "Petitioners seeking to file H-1B petitions subject to the regular cap, including those eligible for the advanced degree exemption, must first electronically register with USCIS during a designated registration period.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -1719,19 +1820,22 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "In other words, the 9-11 Biometric Fee should apply to all H- 1B or L-1 petitions filed by covered employers seeking initial classification of a beneficiary as an H-1B or L-1 nonimmigrant or an extension of status for those already in such status, irrespective of whether the extension of status request is for a…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:l-1",
             "basis": "stated",
             "evidence": "In other words, the 9-11 Biometric Fee should apply to all H- 1B or L-1 petitions filed by covered employers seeking initial classification of a beneficiary as an H-1B or L-1 nonimmigrant or an extension of status for those already in such status, irrespective of whether the extension of status request is for a…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:f-1",
             "basis": "stated",
             "evidence": "The F-1 nonimmigrant visa classification applies to foreign citizens wanting to study full-time in the United States; the F-1 visa category requires certain criteria to be met in order to be eligible.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -2284,7 +2388,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-736",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Revision; Guam-CNMI Visa Waiver Information (Form I-736)",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -2328,7 +2441,8 @@
             "entityId": "visa:b-1-b-2",
             "basis": "stated",
             "evidence": "An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond (\"visa bond\") to ensure that the alien maintains his or her nonimmigrant status and departs as required.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -2389,7 +2503,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "The Employment and Training Administration (ETA) of the Department of Labor (DOL) is issuing this notice to announce updates to the Adverse Effect Wage Rates (AEWR) for the employment of temporary or seasonal nonimmigrant foreign workers (H-2A workers) to perform agricultural labor or services in…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -2406,7 +2528,23 @@
           "evidence": "AEWRs are the minimum wage rates that must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment to ensure that the wages and working conditions of workers in the United States similarly employed are not adversely affected.",
           "effectiveFrom": "2026-08-03"
         },
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate Updates for Non-Range Occupations",
+            "method": "explicit_source",
+            "confidence": 1
+          },
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate Updates for Non-Range Occupations",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -2515,7 +2653,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "Exchange Visitor Program-Termination of Program Participation, Extension of Program and Reinstatement to Valid Program Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -2574,7 +2720,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Attestation for Employers Seeking To Employ H-2B Nonimmigrant Workers Under Section 105 of Division G, Title I of the Further Consolidated Appropriations Act, 2024, Public Law 118-47, as Extended by Public Law…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -2749,7 +2903,8 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Aliens Ineligible To Apply for Asylum E.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -2805,7 +2960,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "USCIS Announces Rule Change to Asylum System to Reduce Backlog",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -3058,7 +3221,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Application for Prevailing Wage Determination",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -3097,7 +3269,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "This document corrects the interim final rule (IFR) that published in the Federal Register on April 29, 2026. The IFR codified certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R. 1) and amended USCIS regulations governing asylum and annual asylum fees, the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -3109,7 +3289,32 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-94",
+            "basis": "stated",
+            "evidence": "This document corrects the interim final rule (IFR) that published in the Federal Register on April 29, 2026. The IFR codified certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R. 1) and amended USCIS regulations governing asylum and annual asylum fees, the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          },
+          {
+            "entityId": "form:i-589",
+            "basis": "stated",
+            "evidence": "This document corrects the interim final rule (IFR) that published in the Federal Register on April 29, 2026. The IFR codified certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R. 1) and amended USCIS regulations governing asylum and annual asylum fees, the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "This document corrects the interim final rule (IFR) that published in the Federal Register on April 29, 2026. The IFR codified certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R. 1) and amended USCIS regulations governing asylum and annual asylum fees, the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -3298,13 +3503,15 @@
             "entityId": "visa:f-1",
             "basis": "stated",
             "evidence": "…--------------------------------------------------------------------------- \\15\\ See INA sec. 101(a)(15)(F) and (J); 8 U.S.C. 1101(a)(15)(F) and (J). \\16\\ DHS has identified over 2,100 aliens who first entered as F-1 students between 2000 and 2010 and remain in active F-1 status as of Apr. 6, 2025.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:j-1",
             "basis": "stated",
             "evidence": "Section 101(a)(15)(J) of the INA, 8 U.S.C. 1101(a)(15)(J), established the J nonimmigrant classification for aliens who wish to come to the United States temporarily and have no intention of abandoning their residence in a foreign country, to participate in exchange visitor programs designated by the DoS, as well as…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -3360,7 +3567,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "USCIS Reaches Fiscal Year 2027 H-1B Cap",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -3372,7 +3587,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "USCIS Reaches Fiscal Year 2027 H-1B Cap",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -3793,7 +4017,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "30-Day Notice of Proposed Information Collection: Certificate of Eligibility for Exchange Visitor (J-1) Status",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -3945,7 +4177,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:eb-5",
+            "basis": "stated",
+            "evidence": "EB-5 Reform and Integrity Act of 2022; Ensuring the Integrity of the EB-5 Program; Automatic Revocation of Petitions for Immigrant Classification",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -4105,7 +4345,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services (USCIS) is opening an asylum office in Atlanta. Beginning July 8, 2026, the Atlanta Asylum Office will conduct interviews for affirmative asylum applicants at three locations.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -4254,13 +4502,15 @@
             "entityId": "country:canada",
             "basis": "stated",
             "evidence": "I-185, Nonresident Alien Canadian Border Crossing Card-- Citizens of Canada or British subjects residing in Canada.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:mexico",
             "basis": "stated",
             "evidence": "I-186, Nonresident Alien Mexican Border Crossing Card-- Citizens of Mexico residing in Mexico.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -4268,19 +4518,22 @@
             "entityId": "visa:b-1-b-2",
             "basis": "stated",
             "evidence": "…residence who have not been registered previously; aliens who are granted permission to depart without the institution of deportation proceedings or against whom deportation proceedings are being instituted. --------------------------------------------------------------------------- \\7\\ This includes aliens admitted…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "A commenter said that the population of refugees, asylum seekers, visa holders, and permanent residents they serve almost exclusively comprises aliens who have been persecuted in their home countries, adding that a new registration requirement gives them more reason to fear the place they have come to for refuge and…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:daca",
             "basis": "stated",
             "evidence": "Others indicated that the IFR would negatively impact individuals who contribute richly to our country and pose no threat to U.S. citizens, including DACA recipients and other individuals who arrived in the United States at a young age.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -4495,7 +4748,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; H-2B Application for Temporary Employment Certification",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -4551,7 +4812,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "T and U nonimmigrants; spouses of A, E-3, G, or H nonimmigrants who were battered or subject to extreme cruelty; applicants for VAWA cancellation of removal; and applicants for or aliens who possess temporary protected status (TPS).",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -4569,7 +4831,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "This could result in additional lawful permanent resident (LPR) requests in the future for renewal of their Permanent Resident Cards (``Green'' Card) which would be an added burden to applicants and USCIS. --------------------------------------------------------------------------- \\7\\ Form I-912, or a fee waiver request, must be submitted together with Form N-400 or with Form N-336.",
           "effectiveFrom": null
-        }
+        },
+        "forms": [
+          {
+            "entityId": "form:n-400",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (DHS) proposes to adjust the fees that U.S. Citizenship and Immigration Services (USCIS) charges for Form N-400, and Form N-336, to end both the reduced fee option for Form N-400, and the availability of fee waivers for both forms. Current and former armed forces…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -5104,19 +5375,22 @@
             "entityId": "visa:daca",
             "basis": "stated",
             "evidence": "The specific changes proposed to 8 CFR 274a.12(c)(14) do not apply to employment authorization based on a grant of DACA, which is authorized under 8 CFR 274a.12(c)(33), or to employment authorization based on a grant of deferred action to an applicant for T nonimmigrant status, and eligible family members, who have…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "In the proposed Asylum EAD Reform rule, 91 FR 8616, DHS seeks to amend 8 CFR 274a.13(a)(1) so that USCIS would have discretion to grant applications for employment authorization filed by aliens applying for asylum pursuant to 8 CFR 274a.12(c)(8) in keeping with its discretionary statutory authority under section…",
-            "confidence": 1
+            "confidence": 0.5,
+            "method": "derived_weak"
           },
           {
             "entityId": "visa:f-1",
             "basis": "stated",
             "evidence": "An alien who fails to establish that he or she is employed by or is seeking employment with a U.S. employer who is a participant in good standing in E-Verify would not be eligible for renewal of his or her employment authorization and an EAD. ---------------------------------------------------------------------------…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -5138,7 +5412,16 @@
         "scopeDefinedElsewhere": {
           "evidence": "It also created an expedited removal process for aliens who do not have proper documents or who make material misrepresentations and who are arriving in the United States, or, as designated by the Secretary, aliens who have not been inspected and admitted or paroled into the United States and cannot prove continuous presence in the United States for at least 2 years.\\113\\ By passing…",
           "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "Clarification of Discretionary Employment Authorization for Certain Aliens",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -5279,7 +5562,8 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Beginning May 28, 2026, aliens who filed for asylum with USCIS who reside in the jurisdiction of the Houston Asylum Office may be interviewed at either the Houston Asylum Office or the San Antonio Asylum Office.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -5458,7 +5742,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Extension of Lebanon Designation for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -5581,7 +5873,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Automatically Extends Temporary Protected Status for Lebanon",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -5641,7 +5941,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Reinstatement, With Change, of a Previously Approved Collection for Which Approval Has Expired: Petition for a Nonimmigrant Worker: H-2A Classification",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -5919,7 +6227,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-eligibility-verification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: Employment Eligibility Verification",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -5975,7 +6292,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-eligibility-verification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: E-Verify+",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -6076,7 +6402,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-eligibility-verification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Revision of a Currently Approved Collection: E-Verify Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -6120,7 +6455,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "Registration Requirement for Petitioners Seeking to File H-1B Petitions on Behalf of Aliens Subject to the Numerical Limitations, 76 FR 11686 (Mar. 3, 2011) (notice of proposed rulemaking) (discussing the USCIS resources required to reject and return to the petitioning employer petitions and associated fees that are…",
-            "confidence": 1
+            "confidence": 0.5,
+            "method": "derived_weak"
           }
         ],
         "agencies": [
@@ -6361,7 +6697,16 @@
           "evidence": "For instance, ICE may take into consideration circumstances such as if the alien has a serious medical condition, is a minor, is required to be present in U.S. court proceedings, or other such circumstances that may result in a determination that physical removal is not in the public interest.",
           "effectiveFrom": null
         },
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-246",
+            "basis": "stated",
+            "evidence": "Fee Adjustment for U.S. Immigration and Customs Enforcement Form I-246, Application for a Stay of Deportation or Removal",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -6666,13 +7011,15 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "…alien applying for SIJ status under section 101(a)(27)(J)); 8 U.S.C. 1808(a) (for each calendar year that an alien's asylum application remains pending); 8 U.S.C. 1809(a) (any parolee who seeks a renewal or extension of employment authorization based on a grant of parole); 8 U.S.C. 1810(a) (any alien who has applied…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "(3) If Board of Immigration Appeals denies an appeal of a denial or rejection of an asylum application, employment authorization shall terminate immediately. * * * * * PART 244--TEMPORARY PROTECTED STATUS FOR NATIONALS OF DESIGNATED STATES 0 8.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -6690,7 +7037,32 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "…--------------------------------------------------------------------------- The USCIS notice also provides that USCIS will issue personal, individualized notice to each asylum applicant with an application pending with USCIS from whom the AAF is required, and that the notice will include the amount of the fee, when and how the fee must be paid, and the consequences of failure to pay.\\6\\ For the…",
           "effectiveFrom": "2026-05-29"
-        }
+        },
+        "forms": [
+          {
+            "entityId": "form:i-94",
+            "basis": "stated",
+            "evidence": "The U.S. Department of Homeland Security (DHS) issues this interim final rule (IFR) to codify certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R.1). This IFR amends U.S. Citizenship and Immigration Services (USCIS) regulations to codify: the asylum and…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          },
+          {
+            "entityId": "form:i-589",
+            "basis": "stated",
+            "evidence": "The U.S. Department of Homeland Security (DHS) issues this interim final rule (IFR) to codify certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R.1). This IFR amends U.S. Citizenship and Immigration Services (USCIS) regulations to codify: the asylum and…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "The U.S. Department of Homeland Security (DHS) issues this interim final rule (IFR) to codify certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R.1). This IFR amends U.S. Citizenship and Immigration Services (USCIS) regulations to codify: the asylum and…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -6728,7 +7100,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Cap Reached for Second Allocation of Returning Worker H-2B Visas for Fiscal Year 2026",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -6740,7 +7120,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "Cap Reached for Second Allocation of Returning Worker H-2B Visas for Fiscal Year 2026",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -6781,7 +7170,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "DHS Announces Consequences for Unpaid Annual Asylum Fees, Unveils New H.R. 1 Requirements",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -7093,7 +7490,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "60-Day Notice of Proposed Information Collection: Annual Report-J-NONIMMIGRANT Exchange Visitor Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -7206,7 +7611,22 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of H-2A and H-2B Foreign Workers in the United States: Annual Update to Allowable Monetary Charges for Agricultural Workers' Meals and for Travel Subsistence Reimbursement, Including Lodging",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          },
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of H-2A and H-2B Foreign Workers in the United States: Annual Update to Allowable Monetary Charges for Agricultural Workers' Meals and for Travel Subsistence Reimbursement, Including Lodging",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -7218,7 +7638,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of H-2A and H-2B Foreign Workers in the United States: Annual Update to Allowable Monetary Charges for Agricultural Workers' Meals and for Travel Subsistence Reimbursement, Including Lodging",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -7402,7 +7831,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "FY 2027 H-1B Initial Registration Selection Process Completed",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -7414,7 +7851,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "FY 2027 H-1B Initial Registration Selection Process Completed",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -7588,25 +8034,29 @@
             "entityId": "visa:eb-3",
             "basis": "stated",
             "evidence": "The Department is not expressing a view on the substantive equivalence of these qualifications outside of that regulatory framework. \\22\\ Id. \\23\\ Id. --------------------------------------------------------------------------- The EB-3 program consists of three discrete classifications: ``skilled worker,'' defined as…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "The H-1B1 classification applies to alien workers in specialty occupations from Chile and Singapore,\\28\\ while the E-3 visa classification applies to alien workers in specialty occupations from Australia. --------------------------------------------------------------------------- \\27\\ See 8 U.S.C. 1184(i)(1)(A)-(B).…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:h-2b",
             "basis": "stated",
             "evidence": "…1182(p)(4). \\102\\ Wage Methodology for the Temporary Non-Agricultural Employment H-2B Program, 80 FR at 24159. \\103\\ 8 U.S.C. 1182(n)(4)(A). --------------------------------------------------------------------------- Because the wage methodology will, by statute, be used to establish the prevailing wage for the H-1B…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:eb-2",
             "basis": "stated",
             "evidence": "The same reasons for discounting a portion of the workers at the bottom of the OEWS wage distribution in order to compute appropriate entry-level wages, based on the fact that such workers are not similarly employed to even the least skilled H-1B workers, also applies to the wages for the EB-2 immigrant visa…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -7624,7 +8074,23 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "The INA provides for five ``preference'' categories, or immigrant visa classes, only two of which--the second and third preference employment categories (commonly called the EB-2 and EB-3 immigrant visa classifications)--generally require a labor certification.\\17\\ An employer seeking to sponsor an alien worker for an immigrant visa under the EB-2 or EB-3 preference categories generally must file…",
           "effectiveFrom": null
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "The Department of Labor (DOL or the Department) is issuing this Notice of Proposed Rulemaking (NPRM) to solicit comments and public input regarding its proposal to revise Employment and Training Administration (ETA) regulations governing the prevailing wages for employment opportunities that United…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          },
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "The Department of Labor (DOL or the Department) is issuing this Notice of Proposed Rulemaking (NPRM) to solicit comments and public input regarding its proposal to revise Employment and Training Administration (ETA) regulations governing the prevailing wages for employment opportunities that United…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -7770,7 +8236,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "The Department of Labor's (DOL) Employment and Training Administration (ETA) is soliciting comments concerning a proposed extension to the information collection request (ICR) titled \"Application for Prevailing Wage Determination,\" and related information collection and retention requirements (OMB…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -7782,7 +8256,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities for Application for Prevailing Wage Determination; Comment Request",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -7820,7 +8303,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "USCIS Reaches H-2B Cap for Second Half of FY 2026 and Filing Dates Now Available for Supplemental Visa Allocations",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -7832,7 +8323,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "USCIS Reaches H-2B Cap for Second Half of FY 2026 and Filing Dates Now Available for Supplemental Visa Allocations",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -7874,7 +8374,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities for H-2B Foreign Labor Certification Program; Comment Request",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -7886,7 +8394,23 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities for H-2B Foreign Labor Certification Program; Comment Request",
+            "method": "explicit_source",
+            "confidence": 1
+          },
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "The Department of Labor's (DOL) Employment and Training Administration (ETA) is soliciting comments concerning a proposed revision to the information collection request (ICR) titled \"H-2B Foreign Labor Certification Program,\" and related information collection and retention requirements (OMB…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -7980,7 +8504,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "The Office of Foreign Labor Certification invites interested stakeholders to participate in a webinar that provides technical assistance and helpful tips for preparing the CW-1 Application for Prevailing Wage Determination (Form ETA-9141C), the Application for Temporary Employment Certification ...",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -8295,7 +8828,8 @@
             "entityId": "country:yemen",
             "basis": "stated",
             "evidence": "After May 4, 2026, nationals of Yemen (and aliens having no nationality who last habitually resided in Yemen) who have been granted Temporary Protected Status under Yemen's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -8303,7 +8837,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After May 4, 2026, nationals of Yemen (and aliens having no nationality who last habitually resided in Yemen) who have been granted Temporary Protected Status under Yemen's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -8432,7 +8967,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates Temporary Protected Status for Yemen",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -8608,7 +9151,8 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "…--------------------------------------------------------------------------- \\1\\ For purposes of this rule, the term ``asylum applicant'' is generally used interchangeably with ``aliens who applied for asylum,'' and ``aliens with a pending asylum application.''…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -8626,7 +9170,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "Comments on this proposed rule, including the proposed information collections, must be received on or before April 24, 2026.",
           "effectiveFrom": null
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "Employment Authorization Reform for Asylum Applicants",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -8712,7 +9265,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "DHS Proposes Rule to Prioritize Americans' Safety by Strengthening Screening of Asylum Seekers",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -8811,7 +9372,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "60-Day Notice of Proposed Information Collection: Certificate of Eligibility for Exchange Visitor (J-1) Status",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -8906,7 +9475,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Cap Reached for First Allocation of Returning Worker H-2B Visas FY 2026",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -8918,7 +9495,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "Cap Reached for First Allocation of Returning Worker H-2B Visas FY 2026",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -8971,7 +9557,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates Temporary Protected Status for Yemen",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -9080,7 +9674,8 @@
             "entityId": "country:guatemala",
             "basis": "stated",
             "evidence": "Agreement Between the Government of the United States of America and the Government of the Republic of Guatemala Relating to the Transfer of Nationals of Central American Countries to Guatemala, 90 FR 31670 (July 15, 2025);",
-            "confidence": 1
+            "confidence": 0.5,
+            "method": "derived_weak"
           }
         ],
         "visaCategories": [
@@ -9088,7 +9683,8 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Those three subparagraphs bar an alien from applying for asylum where:",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -9160,43 +9756,36 @@
             "entityId": "country:el-salvador",
             "basis": "stated",
             "evidence": "The allocation of 22,000 additional H-2B visas under that rule consisted of 16,000 visas available only to H-2B returning workers from one of the last three fiscal years (FY 2018, 2019, or 2020) and 6,000 visas that were initially reserved for nationals of the Northern Central American countries of El Salvador,…",
-            "confidence": 1
-          },
-          {
-            "entityId": "country:guatemala",
-            "basis": "stated",
-            "evidence": "The allocation of 22,000 additional H-2B visas under that rule consisted of 16,000 visas available only to H-2B returning workers from one of the last three fiscal years (FY 2018, 2019, or 2020) and 6,000 visas that were initially reserved for nationals of the Northern Central American countries of El Salvador,…",
-            "confidence": 1
-          },
-          {
-            "entityId": "country:honduras",
-            "basis": "stated",
-            "evidence": "The allocation of 22,000 additional H-2B visas under that rule consisted of 16,000 visas available only to H-2B returning workers from one of the last three fiscal years (FY 2018, 2019, or 2020) and 6,000 visas that were initially reserved for nationals of the Northern Central American countries of El Salvador,…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:haiti",
             "basis": "stated",
             "evidence": "The remaining 20,000 visas were available for the entirety of FY 2023, and were set aside for nationals of El Salvador, Guatemala, Honduras, and Haiti, who were exempt from the returning worker requirement.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:costa-rica",
             "basis": "stated",
             "evidence": "The remaining 20,000 visas were available for the entirety of FY 2024, and were set aside for nationals of El Salvador, Guatemala, Honduras, Haiti, Colombia, Ecuador, [[Page 5046]] and Costa Rica, who were exempt from the returning worker requirement.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:colombia",
             "basis": "stated",
             "evidence": "The remaining 20,000 visas were available for the entirety of FY 2024, and were set aside for nationals of El Salvador, Guatemala, Honduras, Haiti, Colombia, Ecuador, [[Page 5046]] and Costa Rica, who were exempt from the returning worker requirement.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:ecuador",
             "basis": "stated",
             "evidence": "The remaining 20,000 visas were available for the entirety of FY 2024, and were set aside for nationals of El Salvador, Guatemala, Honduras, Haiti, Colombia, Ecuador, [[Page 5046]] and Costa Rica, who were exempt from the returning worker requirement.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -9204,7 +9793,8 @@
             "entityId": "visa:h-2b",
             "basis": "stated",
             "evidence": "(1) 18,490 immediately available visas limited to returning workers, that is, aliens who were issued an H-2B visa or otherwise granted H-2B status in FY 2023, 2024, or 2025, and who will be available for eligible employers with a need for workers to begin work between January 1, 2026 through March 31, 2026.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -9436,7 +10026,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "FY 2027 H-1B Cap Initial Registration Period Opens on March 4",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -9448,7 +10046,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "FY 2027 H-1B Cap Initial Registration Period Opens on March 4",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -9552,7 +10159,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Reinstatement, With Change, of a Previously Approved Collection for Which Approval Has Expired: Petition for a Nonimmigrant Worker: H-2A Classification",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -9938,7 +10553,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "The Employment and Training Administration of the Department of Labor (DOL) is issuing this notice to announce updates to the Adverse Effect Wage Rate (AEWR) for the employment of temporary or seasonal nonimmigrant foreign workers (H-2A workers) to perform herding or production of livestock on the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -9955,7 +10578,23 @@
           "evidence": "AEWRs are the minimum wage rates the DOL has determined must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment so that the wages and working conditions of workers in the United States (U.S.) similarly employed will not be adversely affected.",
           "effectiveFrom": null
         },
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate for Range Occupations",
+            "method": "explicit_source",
+            "confidence": 1
+          },
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate for Range Occupations",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -10119,7 +10758,8 @@
             "entityId": "country:somalia",
             "basis": "stated",
             "evidence": "After March 17, 2026, nationals of Somalia (and aliens having no nationality who last habitually resided in Somalia) who have been granted Temporary Protected Status under Somalia's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -10127,7 +10767,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After March 17, 2026, nationals of Somalia (and aliens having no nationality who last habitually resided in Somalia) who have been granted Temporary Protected Status under Somalia's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -10307,7 +10948,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Homeland Security Terminates Somalia’s Temporary Protected Status Designation",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -10366,25 +11015,29 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "The premium processing fee for Forms I-907 requesting H-2B or R-1 nonimmigrant classification will increase from $1,685 to $1,780, an increase of $95, which is the result of a 5.72 percent increase in the CPI-U from June 2023 to June 2025.\\13\\ The premium processing fee for all other eligible Form I-129…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:l-1",
             "basis": "stated",
             "evidence": "The premium processing fee for Forms I-907 requesting H-2B or R-1 nonimmigrant classification will increase from $1,685 to $1,780, an increase of $95, which is the result of a 5.72 percent increase in the CPI-U from June 2023 to June 2025.\\13\\ The premium processing fee for all other eligible Form I-129…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:h-2b",
             "basis": "stated",
             "evidence": "The premium processing fee for Forms I-907 requesting H-2B or R-1 nonimmigrant classification will increase from $1,685 to $1,780, an increase of $95, which is the result of a 5.72 percent increase in the CPI-U from June 2023 to June 2025.\\13\\ The premium processing fee for all other eligible Form I-129…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:o-1",
             "basis": "stated",
             "evidence": "The premium processing fee for Forms I-907 requesting H-2B or R-1 nonimmigrant classification will increase from $1,685 to $1,780, an increase of $95, which is the result of a 5.72 percent increase in the CPI-U from June 2023 to June 2025.\\13\\ The premium processing fee for all other eligible Form I-129…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -10402,7 +11055,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "A premium processing request must be submitted on USCIS Form I-907, Request for Premium Processing, and in the manner prescribed by USCIS in the form instructions.",
           "effectiveFrom": "2026-03-01"
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:premium-processing",
+            "basis": "stated",
+            "evidence": "Adjustment to Premium Processing Fees",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -10495,7 +11157,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:premium-processing",
+            "basis": "stated",
+            "evidence": "USCIS to Increase Premium Processing Fees",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -10762,16 +11433,11 @@
       "impact": {
         "countries": [
           {
-            "entityId": "country:guatemala",
-            "basis": "stated",
-            "evidence": "Additionally, the revisions explicitly exempt from operation of the Security Bars Final Rule those aliens returning from Canada under the Agreement Between the Government of the United States and the Government of Canada for Cooperation in the Examination of Refugee Status Claims from Nationals of Third Countries…",
-            "confidence": 1
-          },
-          {
             "entityId": "country:canada",
             "basis": "stated",
             "evidence": "Additionally, the revisions explicitly exempt from operation of the Security Bars Final Rule those aliens returning from Canada under the Agreement Between the Government of the United States and the Government of Canada for Cooperation in the Examination of Refugee Status Claims from Nationals of Third Countries…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -10779,13 +11445,15 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Partial Withdrawal In December 2020, DHS and DOJ (collectively, \"the Departments\") issued a final rule that clarified when an alien who poses a public health risk is ineligible for asylum and withholding of removal and revised their credible fear screening regulations.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:refugee",
             "basis": "stated",
             "evidence": "Additionally, the revisions explicitly exempt from operation of the Security Bars Final Rule those aliens returning from Canada under the Agreement Between the Government of the United States and the Government of Canada for Cooperation in the Examination of Refugee Status Claims from Nationals of Third Countries…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -10911,7 +11579,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "Further, this rule favors the allocation to higher- skilled aliens but does not alter the numerical limitations, such that higher-skilled aliens who are selected and ultimately granted H-1B status may still provide the general benefits that the commenter alludes to, while better protecting the wages, working…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -10933,7 +11602,16 @@
         "scopeDefinedElsewhere": {
           "evidence": "…in computer science and engineering in U.S. universities, fields that directly contribute to advances in AI, cybersecurity, biotechnology, and semiconductor design--all areas identified by the Departments of War and Commerce as critical to U.S. national security and economic resilience.",
           "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "Weighted Selection Process for Registrants and Petitioners Seeking To File Cap-Subject H-1B Petitions",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -10982,7 +11660,8 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "DHS, DOJ Announce Rule to Bar Asylum for Aliens Who Pose Security Threats and Public Health Risks The Department of Homeland Security (DHS) today announced a Federal Register notice that clarifies when aliens may be ineligible for asylum or withholding of removal because they pose a danger to the security of the…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -11042,7 +11721,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "DHS Changes Process for Awarding H-1B Work Visas to Better Protect American Workers",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -11453,7 +12140,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Application for Permanent Employment Certification",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -11682,7 +12378,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Policy alert: Labor Certification-Based Immigrant Petitions for Professional Athletes",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -11892,7 +12597,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Comment request; Revision of H-2A Temporary Agricultural Labor Certification Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -11904,7 +12617,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Comment request; Revision of H-2A Temporary Agricultural Labor Certification Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -12228,7 +12950,8 @@
             "entityId": "country:ethiopia",
             "basis": "stated",
             "evidence": "After February 13, 2026, nationals of Ethiopia (and aliens having no nationality who last habitually resided in Ethiopia) who have been granted Temporary Protected Status under Ethiopia's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -12236,7 +12959,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After February 13, 2026, nationals of Ethiopia (and aliens having no nationality who last habitually resided in Ethiopia) who have been granted Temporary Protected Status under Ethiopia's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -12352,7 +13076,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole processes for aliens from Colombia, Cuba, Ecuador, El Salvador, Guatemala, Haiti, and Honduras, and their immediate family members, under the Family Reunification Parole processes announced, or updated, by DHS in 2023…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -12497,7 +13230,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Announces the Termination of Temporary Protected Status for Ethiopia",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -12873,7 +13614,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-736",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Revision; Guam-CNMI Visa Waiver Information (Form I-736)",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -13207,7 +13957,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "Policy alert: Updating Certain Employment Authorization Document Validity Periods",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -13256,7 +14015,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services updated its Policy Manual to reduce the maximum validity period for Employment Authorization Documents (EAD) for certain categories of aliens.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -13367,7 +14135,8 @@
             "entityId": "country:haiti",
             "basis": "stated",
             "evidence": "After February 3, 2026, nationals of Haiti (and aliens having no nationality who last habitually resided in Haiti) who have been granted Temporary Protected Status under Haiti's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -13375,7 +14144,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After February 3, 2026, nationals of Haiti (and aliens having no nationality who last habitually resided in Haiti) who have been granted Temporary Protected Status under Haiti's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -13563,7 +14333,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates Temporary Protected Status for Haiti",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -13633,7 +14411,8 @@
             "entityId": "country:myanmar",
             "basis": "stated",
             "evidence": "After January 26, 2026, nationals of Burma (and aliens having no nationality who last habitually resided in Burma) who have been granted Temporary Protected Status under Burma's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -13641,7 +14420,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After January 26, 2026, nationals of Burma (and aliens having no nationality who last habitually resided in Burma) who have been granted Temporary Protected Status under Burma's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -13704,7 +14484,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: Form No. I-515A; Notice to Student or Exchange Visitor",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -13766,7 +14554,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Revision of a Currently Approved Collection: Student and Exchange Visitor Information System (SEVIS)",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -13878,7 +14674,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminating Temporary Protected Status for Burma",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -14327,7 +15131,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-94",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (DHS) is announcing Fiscal Year (FY) 2026 inflationary adjustments to certain immigration-related fees required by the One Big Beautiful Bill Act (HR-1). HR-1 requires that DHS annually adjust certain immigration-related fees for inflation. This notice sets the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -14506,7 +15319,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:eb-5",
+            "basis": "stated",
+            "evidence": "On Nov. 12, 2025, the United States District Court for the District of Colorado issued a decision in Moody v. Noem, No. 24-cv-00762-CNS (D. Colo.), staying certain EB-5 related fees that were codified by DHS in the 2024 Fee Rule, which became effective April 1, 2024.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -14729,13 +15550,8 @@
             "entityId": "country:south-sudan",
             "basis": "stated",
             "evidence": "After January 5, 2026, nationals of South Sudan (and aliens having no nationality who last habitually resided in South Sudan) who have been granted Temporary Protected Status under South Sudan's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
-          },
-          {
-            "entityId": "country:sudan",
-            "basis": "stated",
-            "evidence": "After January 5, 2026, nationals of South Sudan (and aliens having no nationality who last habitually resided in South Sudan) who have been granted Temporary Protected Status under South Sudan's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -14743,7 +15559,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After January 5, 2026, nationals of South Sudan (and aliens having no nationality who last habitually resided in South Sudan) who have been granted Temporary Protected Status under South Sudan's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -14817,7 +15634,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates Designation of South Sudan for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -14931,7 +15756,8 @@
             "entityId": "visa:refugee",
             "basis": "stated",
             "evidence": "The criminal and security-related grounds of inadmissibility found in INA secs. 212(a)(2) through (3), 8 U.S.C. 1182(a)(2) through (3), apply to many benefits, such as adjustment to lawful permanent resident status, refugee status, and TPS.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -15096,7 +15922,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "The Department of Labor has resumed processing of employer requests for prevailing wages and labor certification determinations for temporary and permanent employment in the United States. The Office of Foreign Labor Certification’s (OFLC) Foreign Labor Application Gateway (FLAG) system is now...",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -15188,19 +16023,15 @@
             "entityId": "country:micronesia",
             "basis": "stated",
             "evidence": "…--------------------------------------------------------------------------- \\34\\ See 8 CFR 274a.12(a)(7). --------------------------------------------------------------------------- Aliens admitted to the United States as citizens of the Federated States of Micronesia, the Republic of the Marshall Islands, or the…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:marshall-islands",
             "basis": "stated",
             "evidence": "…--------------------------------------------------------------------------- \\34\\ See 8 CFR 274a.12(a)(7). --------------------------------------------------------------------------- Aliens admitted to the United States as citizens of the Federated States of Micronesia, the Republic of the Marshall Islands, or the…",
-            "confidence": 1
-          },
-          {
-            "entityId": "country:palau",
-            "basis": "stated",
-            "evidence": "…--------------------------------------------------------------------------- \\34\\ See 8 CFR 274a.12(a)(7). --------------------------------------------------------------------------- Aliens admitted to the United States as citizens of the Federated States of Micronesia, the Republic of the Marshall Islands, or the…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -15208,13 +16039,15 @@
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Preap, 586 U.S. 392, 397 n.2 (2019). --------------------------------------------------------------------------- Section 208(d)(2) of the INA, 8 U.S.C. 1158(d)(2), which provides the Secretary with authority to grant employment authorization, in her discretion, to applicants for asylum if 180 days have passed since…",
-            "confidence": 1
+            "confidence": 0.5,
+            "method": "derived_weak"
           },
           {
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "Section 244(a)(1)(B) of the INA, 8 U.S.C. 1254a(a)(1)(B), which states that the Secretary shall authorize employment and provide evidence of employment authorization for aliens who have been granted Temporary Protected Status;",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -15232,7 +16065,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "…their employment-authorized status in the United States and in most cases do not file separate requests for evidence of employment authorization. --------------------------------------------------------------------------- \\7\\ See 8 CFR 274a.12(b). --------------------------------------------------------------------------- Aliens in the third class, described at 8 CFR 274a.12(c), are required to…",
           "effectiveFrom": "2025-10-30"
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "Removal of the Automatic Extension of Employment Authorization Documents",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -15282,7 +16124,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "DHS Ends Automatic Extension of Employment Authorization",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -15420,14 +16271,7 @@
         }
       ],
       "impact": {
-        "countries": [
-          {
-            "entityId": "country:samoa",
-            "basis": "stated",
-            "evidence": "Alien U.S. national status applies only to individuals who were born either in American Samoa or on Swains Island to parents who are not citizens of the United States.\\35\\ Dual nationals are individuals who owe allegiance to both the United States and a foreign country.",
-            "confidence": 1
-          }
-        ],
+        "countries": [],
         "visaCategories": [],
         "agencies": [
           {
@@ -15539,7 +16383,8 @@
             "entityId": "visa:eb-5",
             "basis": "stated",
             "evidence": "Fee-paying volume, on the other hand, is a projection of the number of customers that will pay a fee when filing requests for immigration benefits.\\32\\ Given that EB-5 immigration benefit request fees are not eligible for fee waivers or fee exemptions, the entire annual EB-5 workload volume was considered for the…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -15653,7 +16498,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "On September 19, 2025, the President issued a Proclamation, Restriction on Entry of Certain Nonimmigrant Workers, an important initial step to reform the H-1B nonimmigrant visa program.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -16333,13 +17186,15 @@
             "entityId": "visa:h-2a",
             "basis": "stated",
             "evidence": "For the vast majority of H-2A job opportunities, the Department will use OEWS survey data to establish AEWRs applicable to five Standard Occupational Classification (SOC) codes combining the most common field and livestock worker occupations previously measured by the U.S.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "…levels of wages commensurate with experience, education, and the level of supervision.'' Although this provision was enacted in the context of the H-1B temporary nonagricultural visa classification, and also applies to the PERM immigrant visa program, it is the only paragraph in Section 212(p) that does not…",
-            "confidence": 1
+            "confidence": 0.5,
+            "method": "derived_weak"
           }
         ],
         "agencies": [
@@ -16357,7 +17212,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "…seeking to import foreign nationals to work in various crop activities (in that case, under the Bracero program) were required to pay not less than a wage established by DOL.'' \\19\\ The AEWR as a formal concept in the H-2 program was introduced in 1963, at which point the AEWR initially was based on the Census of Agriculture's average earnings for each state, which was conducted by the U.S.",
           "effectiveFrom": "2025-10-02"
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "Adverse Effect Wage Rate Methodology for the Temporary Employment of H-2A Nonimmigrants in Non-Range Occupations in the United States",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -16407,7 +17271,8 @@
             "entityId": "visa:h-2a",
             "basis": "stated",
             "evidence": "DHS must approve this petition before the beneficiary can be considered eligible for an H-2A visa.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -16425,7 +17290,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "…see also, e.g., 6 U.S.C. 202(3)-(4), 236(b), 271(a)(3), (b); 8 U.S.C. 1184. --------------------------------------------------------------------------- Existing DHS regulations provide that an H-2A petition for temporary employment in the United States must be accompanied by a single valid temporary labor certification (TLC) from the U.S.",
           "effectiveFrom": "2025-10-02"
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "This final rule amends DHS regulations to modify the timing of when USCIS must receive a valid temporary labor certification when an H-2A petitioner electronically files a Petition for a Nonimmigrant Worker requesting unnamed beneficiaries.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -16470,7 +17344,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Application for Permanent Employment Certification",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -16982,7 +17865,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "…requiring ``experienced'' workers; and wage level IV, set at approximately the 67th percentile, applies to positions requiring ``fully competent'' workers.\\23\\ In other words, wage levels III and IV--the two wage levels that meet or exceed the median wage (50th percentile) of the OEWS wage distribution for a…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -17000,7 +17884,16 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "Written comments on the notice of proposed rulemaking (NPRM) must be submitted on or before October 24, 2025.",
           "effectiveFrom": null
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "Weighted Selection Process for Registrants and Petitioners Seeking To File Cap-Subject H-1B Petitions",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -17103,7 +17996,8 @@
             "entityId": "country:syria",
             "basis": "stated",
             "evidence": "After November 21, 2025, nationals of Syria (and aliens having no nationality who last habitually resided in Syria) who have been granted Temporary Protected Status under Syria's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -17111,7 +18005,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After November 21, 2025, nationals of Syria (and aliens having no nationality who last habitually resided in Syria) who have been granted Temporary Protected Status under Syria's designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -17215,7 +18110,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "H-1B FAQ",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -17267,7 +18170,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "The Secretary of State shall also issue guidance, as necessary and to the extent permitted by law, to prevent misuse of B visas by alien beneficiaries of approved H-1B petitions that have an employment start date beginning prior to October 1, 2026.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [],
@@ -17334,7 +18238,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Secretary Noem Announces the Termination of Temporary Protected Status for Syria",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -17510,7 +18422,8 @@
             "entityId": "country:hungary",
             "basis": "stated",
             "evidence": "Department of State, is normalizing Hungary's Electronic System for Travel Authorization (ESTA) travel authorization validity period, and changing the eligibility for citizens or nationals of Hungary traveling under the Visa Waiver Program (VWP) to the United States.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [],
@@ -17659,7 +18572,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "USCIS Reaches H-2B Cap for First Half of Fiscal Year 2026",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -17671,7 +18592,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "USCIS Reaches H-2B Cap for First Half of Fiscal Year 2026",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -17825,7 +18755,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Comment Request; Revision of H-2A Temporary Agricultural Labor Certification Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -17837,7 +18775,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Comment Request; Revision of H-2A Temporary Agricultural Labor Certification Program",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -18204,7 +19151,8 @@
             "entityId": "country:venezuela",
             "basis": "stated",
             "evidence": "After November 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted Temporary Protected Status under Venezuela's 2021 designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -18212,7 +19160,8 @@
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "After November 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted Temporary Protected Status under Venezuela's 2021 designation will no longer have Temporary Protected Status.",
-            "confidence": 1
+            "confidence": 1,
+            "method": "explicit_source"
           }
         ],
         "agencies": [
@@ -18336,7 +19285,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates 2021 Designation of Venezuela for Temporary Protected Status - Sept. 05, 2025",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -18383,7 +19340,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "Twelve People Charged for Their Roles in International Alien Smuggling, Asylum Fraud, and Money Laundering Conspiracies",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -18495,7 +19460,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates 2021 Designation of Venezuela for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -18555,7 +19528,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities: Student and Exchange Visitor Information System (SEVIS); Revision of a Currently Approved Collection",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -18617,7 +19598,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: Form No. I-515A; Notice to Student or Exchange Visitor",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -19269,19 +20258,22 @@
             "entityId": "visa:f-1",
             "basis": "stated",
             "evidence": "…--------------------------------------------------------------------------- \\15\\ See INA sec. 101(a)(15)(F) and (J); 8 U.S.C. 1101(a)(15)(F) and (J). \\16\\ DHS has identified over 2,100 aliens who first entered as F-1 students between 2000 and 2010 and remain in active F-1 status as of Apr. 6, 2025.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Rather, providing F, J, and I nonimmigrants a fixed time period of authorized stay that would require them to apply to extend their stay, change their nonimmigrant status, or otherwise obtain authorization to remain in the United States (e.g., a grant of asylum or adjustment of status) by the end of this specific…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:j-1",
             "basis": "stated",
             "evidence": "…101(a)(15)(F), 8 U.S.C. 1101(a)(15)(F). --------------------------------------------------------------------------- Section 101(a)(15)(J) of the INA, 8 U.S.C. 1101(a)(15)(J), established the J nonimmigrant classification for aliens who wish to come to the United States temporarily and have no intention of abandoning…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -19358,7 +20350,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-94",
+            "basis": "stated",
+            "evidence": "This notice advises the public that, pursuant to HR-1, U.S. Customs and Border Protection (CBP) will require aliens to pay a new fee to apply for a CBP Form I-94 Arrival/Departure Record, and to enroll in the Electronic Visa Update System. Additionally, pursuant to HR-1, the Electronic System for…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -19442,7 +20443,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "The Employment and Training Administration (ETA) of the Department of Labor (DOL or the Department) provides notice that it is rescinding a Frequently Asked Question (FAQ) issued by the Office of Foreign Labor Certification (OFLC) on July 22, 2011, prohibiting employers from filing a single…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -19454,7 +20463,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "The Employment and Training Administration (ETA) of the Department of Labor (DOL or the Department) provides notice that it is rescinding a Frequently Asked Question (FAQ) issued by the Office of Foreign Labor Certification (OFLC) on July 22, 2011, prohibiting employers from filing a single…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -19693,7 +20711,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "30-Day Notice of Proposed Information Collection: J-1 Visa Waiver Recommendation Application",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -20335,13 +21361,15 @@
             "entityId": "country:canada",
             "basis": "stated",
             "evidence": "The countries subject to the Pilot Program will be announced on https://www.travel.state.gov and may modified on a rolling basis. --------------------------------------------------------------------------- \\19\\ This analysis excluded nationals of Canada, Mexico, and countries that participate in the Visa Waiver…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:mexico",
             "basis": "stated",
             "evidence": "The countries subject to the Pilot Program will be announced on https://www.travel.state.gov and may modified on a rolling basis. --------------------------------------------------------------------------- \\19\\ This analysis excluded nationals of Canada, Mexico, and countries that participate in the Visa Waiver…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -20349,7 +21377,8 @@
             "entityId": "visa:b-1-b-2",
             "basis": "stated",
             "evidence": "Aliens applying for visas as temporary visitors for business or pleasure (B-1/B-2) and who are nationals of countries identified by the Department as having high visa overstay rates, where screening and vetting information is deemed deficient, or offering Citizenship by Investment, if the alien obtained citizenship…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -20638,7 +21667,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "Policy alert: Refugee and Asylee Adjustment of Status Interview Criteria",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -20754,7 +21791,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-485",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services is updating the USCIS Policy Manual to clarify the interview criteria for aliens who are asylees and refugees and their derivative family members filing Form I-485, Application to Register Permanent Residence or Adjust Status.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -20942,7 +21988,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Temporary Suspension of H-2A Certification Fees",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -20954,7 +22008,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "The Employment and Training Administration (ETA) of the Department of Labor (DOL or Department) is issuing this notice to announce that it is temporarily suspending the collection of H-2A labor certification fees. Implementing a temporary suspension period will allow ETA's Office of Foreign Labor…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -21355,7 +22418,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "USCIS Reaches Fiscal Year 2026 H-1B Cap",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -21367,7 +22438,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "USCIS Reaches Fiscal Year 2026 H-1B Cap",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -21706,7 +22786,8 @@
             "entityId": "visa:h-2a",
             "basis": "stated",
             "evidence": "The AEWRs established in this notice are applicable to H-2A job opportunities classified:",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -21724,7 +22805,23 @@
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
           "evidence": "AEWRs are the minimum wage rates DOL has determined must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment so that the wages and working conditions of workers in the United States (U.S.) similarly employed will not be adversely affected.",
           "effectiveFrom": "2025-07-11"
-        }
+        },
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate Updates for Non-Range Occupations",
+            "method": "explicit_source",
+            "confidence": 1
+          },
+          {
+            "entityId": "process:prevailing-wage",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture in the United States: Adverse Effect Wage Rate Updates for Non-Range Occupations",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -21824,10 +22921,19 @@
             "entityId": "country:nicaragua",
             "basis": "stated",
             "evidence": "After September 8, 2025, nationals of Nicaragua (and aliens having no nationality who last habitually resided in Nicaragua) who have been granted TPS under Nicaragua's designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Nicaragua for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -21943,10 +23049,19 @@
             "entityId": "country:honduras",
             "basis": "stated",
             "evidence": "After September 8, 2025, nationals of Honduras (and aliens having no nationality who last habitually resided in Honduras) who have been granted TPS under Honduras' designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Honduras for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -22012,7 +23127,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Secretary of Homeland Security Kristi Noem today announced the termination of Temporary Protected Status for Nicaragua, which will expire on July 5, 2025.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -22077,7 +23200,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "After finding improved country conditions in Honduras, Secretary of Homeland Security Kristi Noem today announced the termination of Temporary Protected Status, as required by the statute.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -22137,7 +23268,25 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:eta-9089",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Comment Request; Extension Package for Form ETA-9089, Application for Permanent Employment Certification, and Appendices",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Comment Request; Extension Package for Form ETA-9089, Application for Permanent Employment Certification, and Appendices",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -22273,7 +23422,8 @@
             "entityId": "visa:h-2a",
             "basis": "stated",
             "evidence": "Improving Protections for Workers in Temporary Agricultural Employment in the United States The Department of Labor (Department or DOL) is proposing to amend its regulations governing the certification of agricultural labor or services to be performed by temporary foreign workers in H-2A nonimmigrant status (H-2A…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -22453,10 +23603,19 @@
             "entityId": "country:haiti",
             "basis": "stated",
             "evidence": "After September 2, 2025, nationals of Haiti (and aliens having no nationality who last habitually resided in Haiti) who have been granted TPS under Haiti's designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Haiti for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -22704,7 +23863,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Secretary of Homeland Security Kristi Noem today announced the termination of Temporary Protected Status for Haiti. The TPS designation for the country expires on Aug. 3, 2025, and the termination will be effective on Tuesday, September 2, 2025.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -22757,7 +23924,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "Policy alert: Clarifying Refugee and Asylee Marriage Validity",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -22806,7 +23981,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "USCIS Updates Guidance on Validity of Alien Refugee and Asylee Marriages",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -22970,7 +24153,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:n-648",
+            "basis": "stated",
+            "evidence": "Policy alert: Revised Guidance for Form N-648 Submission and Review Process",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -23068,7 +24260,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:n-648",
+            "basis": "stated",
+            "evidence": "Under this guidance, USCIS is changing how we process Form N-648 by focusing greater attention on the veracity of medical certifications and identification and prevention of fraud, thereby enhancing the integrity of the process. Across the country and over the decades, there have been numerous…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -23350,7 +24551,23 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-485",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services (USCIS) is making a necessary change to its policy to reflect that the Report of Immigration Medical Examination and Vaccination Record ( Form I-693 ) is generally valid only for the immigration benefit application for which it was submitted, such as the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          },
+          {
+            "entityId": "form:i-693",
+            "basis": "stated",
+            "evidence": "Policy alert: Validity of Report of Immigration Medical Examination and Vaccination Record (Form I-693)",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -23399,7 +24616,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-693",
+            "basis": "stated",
+            "evidence": "USCIS Changes Validity Period for Any Form I-693 Signed on or after Nov. 1, 2023",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -23546,7 +24772,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to eliminate automatic consideration of deferred action (and related employment authorization) for aliens classified as Special Immigrant Juveniles (SIJs) who are ineligible to apply for…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -23606,10 +24841,19 @@
             "entityId": "country:nepal",
             "basis": "stated",
             "evidence": "After August 5, 2025, nationals of Nepal (and aliens having no nationality who last habitually resided in Nepal) who have been granted TPS under Nepal's designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Nepal for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -23675,7 +24919,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates Temporary Protected Status for Nepal",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -24028,10 +25280,19 @@
             "entityId": "country:cameroon",
             "basis": "stated",
             "evidence": "After August 4, 2025, nationals of Cameroon (and aliens having no nationality who last habitually resided in Cameroon) who have been granted TPS under Cameroon's designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Cameroon for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -24097,7 +25358,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates Temporary Protected Status for Cameroon",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -24811,7 +26080,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "The Department of Labor Announces Additional Guidance for the H-2A Program in Washington State for Non-Range Occupations; Compliance with District Court Order",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -24922,7 +26199,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:j-1",
+            "basis": "stated",
+            "evidence": "60-Day Notice of Proposed Information Collection: J-1 Visa Waiver Recommendation Application",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dos",
@@ -24989,10 +26274,19 @@
             "entityId": "country:afghanistan",
             "basis": "stated",
             "evidence": "After July 14, 2025, nationals of Afghanistan (and aliens having no nationality who last habitually resided in Afghanistan) who have been granted TPS under Afghanistan's designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Afghanistan for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -25114,7 +26408,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminating Temporary Protected Status for Afghanistan",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -25186,7 +26488,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Extension of South Sudan Designation for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -25490,7 +26800,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Cap Reached for Additional Returning Worker H-2B Visas for the Early Second Half of FY 2025",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -25502,7 +26820,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "Cap Reached for Additional Returning Worker H-2B Visas for the Early Second Half of FY 2025",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -25544,7 +26871,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Attestation for Employers Seeking To Employ H-2B Nonimmigrant Workers Under Section 105 of Division G, Title 1 of the Further Consolidated Appropriations Act, 2024, Public Law 118-47, as Extended",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -25920,7 +27255,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "Implementation of Employment Authorization for Individuals Covered by Deferred Enforced Departure for Hong Kong",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -25964,7 +27308,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "USCIS Announces Employment Authorization Document Application Procedures for Certain Hong Kong Residents Covered by Deferred Enforced Departure",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -26131,7 +27484,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "FY 2026 H-1B Initial Registration Selection Process Completed",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -26143,7 +27504,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "FY 2026 H-1B Initial Registration Selection Process Completed",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -26184,7 +27554,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "USCIS Reaches H-2B Cap for Second Half of FY 2025 and Filing Dates Now Available for Supplemental Visas",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -26196,7 +27574,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "USCIS Reaches H-2B Cap for Second Half of FY 2025 and Filing Dates Now Available for Supplemental Visas",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -26268,7 +27655,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole programs for inadmissible aliens from Cuba, Haiti, Nicaragua, and Venezuela and their immediate family members (hereinafter referred to as \"CHNV parole programs\") that DHS announced in 2022 and 2023. This Federal…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -26361,7 +27757,22 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of H-2A and H-2B Foreign Workers in the United States: Annual Update To Allowable Monetary Charges for Agricultural Workers' Meals and for Travel Subsistence Reimbursement, Including Lodging",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          },
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of H-2A and H-2B Foreign Workers in the United States: Annual Update To Allowable Monetary Charges for Agricultural Workers' Meals and for Travel Subsistence Reimbursement, Including Lodging",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -26373,7 +27784,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Labor Certification Process for the Temporary Employment of H-2A and H-2B Foreign Workers in the United States: Annual Update To Allowable Monetary Charges for Agricultural Workers' Meals and for Travel Subsistence Reimbursement, Including Lodging",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -26538,7 +27958,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-94",
+            "basis": "stated",
+            "evidence": "This notice announces that U.S. Customs and Border Protection (CBP) will conduct a Voluntary Self-Reported Exit (VSRE) Pilot to collect facial images from certain aliens, specifically aliens subject to Form I-94 (Arrival/Departure Record) requirements, exiting the United States from any location.…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -26767,13 +28196,15 @@
             "entityId": "country:canada",
             "basis": "stated",
             "evidence": "I-185, Nonresident Alien Canadian Border Crossing Card-- Citizens of Canada or British subjects residing in Canada.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "country:mexico",
             "basis": "stated",
             "evidence": "I-186, Nonresident Alien Mexican Border Crossing Card-- Citizens of Mexico residing in Mexico.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [
@@ -26781,19 +28212,22 @@
             "entityId": "visa:b-1-b-2",
             "basis": "stated",
             "evidence": "…residence who have not been registered previously; aliens who are granted permission to depart without the institution of deportation proceedings or against whom deportation proceedings are being instituted. --------------------------------------------------------------------------- \\4\\ This includes aliens admitted…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:tps",
             "basis": "stated",
             "evidence": "Even an alien who entered without inspection and who is later encountered by DHS, such as by applying for (or being granted) asylum or Temporary Protected Status (TPS), would not typically use the registration forms identified in Sec. 264.1(a) when applying for asylum or TPS.\\5\\…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           },
           {
             "entityId": "visa:asylum",
             "basis": "stated",
             "evidence": "Even an alien who entered without inspection and who is later encountered by DHS, such as by applying for (or being granted) asylum or Temporary Protected Status (TPS), would not typically use the registration forms identified in Sec. 264.1(a) when applying for asylum or TPS.\\5\\…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -26849,7 +28283,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "USCIS Assisted in the Investigation of a Broward Woman Charged in Scheme to Submit Fraudulent Asylum Applications",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -27411,7 +28853,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Agency Information Collection Activities; Submission for OMB Review; Comment Request; Criteria and Non-Criteria Agricultural Clearance Order Forms and H-2A Application for Temporary Employment Certification in States and by Employers Covered by Injunction of the Farmworker Protection Final Rule",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -27738,7 +29188,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Partial Vacatur of 2024 Temporary Protected Status Decision for Haiti",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -27805,7 +29263,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "On Feb. 20, 2025, Secretary of Homeland Security Kristi Noem partially vacated the July 1, 2024, notice that extended and redesignated Haiti for Temporary Protected Status (TPS).",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -27906,7 +29372,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "FY 2026 H-1B Cap Initial Registration Period Opens on March 7",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -27918,7 +29392,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "FY 2026 H-1B Cap Initial Registration Period Opens on March 7",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -27976,10 +29459,19 @@
             "entityId": "country:venezuela",
             "basis": "stated",
             "evidence": "After April 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted TPS under the 2023 Venezuela designation will no longer have TPS.",
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Termination of the October 3, 2023 Designation of Venezuela for Temporary Protected Status",
+            "method": "explicit_source",
             "confidence": 1
           }
         ],
-        "visaCategories": [],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -28131,7 +29623,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "DHS Terminates the 2023 Designation of Venezuela for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -28197,7 +29697,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Vacatur of 2025 Temporary Protected Status Decision for Venezuela",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -28214,7 +29722,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) has decided to vacate the January 10, 2025, decision of former Secretary of Homeland Security Alejandro Mayorkas regarding TPS for Venezuela. Former Secretary Mayorkas…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -28258,7 +29775,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Permanent Employment Certification (PERM) Online Filing Release Notes 02/03/2025",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -28590,7 +30116,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-693",
+            "basis": "stated",
+            "evidence": "Effective Jan. 22, 2025, USCIS is waiving any and all requirements that applicants for adjustment of status to that of a lawful permanent resident present documentation on their Form I-693, Report of Immigration Medical Examination and Vaccination Record, that they received the COVID-19 vaccination.",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -28824,7 +30359,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Extension of the Designation of Ukraine for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -28892,7 +30435,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Extension of the Designation of Sudan for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -28960,7 +30511,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Extension of the 2023 Designation of Venezuela for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -29028,7 +30587,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "Extension of the Designation of El Salvador for Temporary Protected Status",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -29135,7 +30702,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Adjudication of Temporary and Seasonal Need for Herding and Production of Livestock on the Range Applications Under the H-2A Program; Ratification of Department's Actions",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -29189,7 +30764,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Temporary Agricultural Employment of H-2A Foreign Workers in the Herding or Production of Livestock on the Range in the United States; Ratification of Department's Actions",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -29248,7 +30831,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-1b",
+            "basis": "stated",
+            "evidence": "H-1B Final Rule, H-2 Final Rule, and Revised Form I-129 Effective Jan. 17, 2025",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29260,7 +30851,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-129",
+            "basis": "stated",
+            "evidence": "H-1B Final Rule, H-2 Final Rule, and Revised Form I-129 Effective Jan. 17, 2025",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -29313,7 +30913,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:eb-2",
+            "basis": "stated",
+            "evidence": "Policy alert: Second Preference Eligibility for National Interest Waiver Petitions",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29368,7 +30976,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:eb-2",
+            "basis": "stated",
+            "evidence": "USCIS Updates Guidance on EB-2 National Interest Waiver Petitions",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29529,7 +31145,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:eb-2",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security, U.S. Citizenship and Immigration Services, is announcing updated procedures for submitting a Form I-140, Immigrant Petition for Alien Workers, accompanied by a permanent labor certification approval, application for Schedule A designation, or National Interest…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dhs",
@@ -29546,7 +31170,25 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-140",
+            "basis": "stated",
+            "evidence": "Notice of DHS's Requirement of the Permanent Labor Certification Final Determination for Form I-140 Petitions",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "Notice of DHS's Requirement of the Permanent Labor Certification Final Determination for Form I-140 Petitions",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto"
     },
@@ -29585,7 +31227,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Temporary Agricultural Employment of H-2A Nonimmigrants in the United States; Ratification of Department's Actions",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -29639,7 +31289,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2a",
+            "basis": "stated",
+            "evidence": "Temporary Agricultural Employment of H-2A Aliens in the United States; Ratification of Department's Actions",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:dol",
@@ -29692,7 +31350,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:eb-2",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services today announced a Federal Register notice (FRN) providing updated procedures for submitting a Form I-140, Immigrant Petition for Alien Workers, accompanied by a permanent labor certification, application for Schedule A designation, or national…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29704,7 +31370,25 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-140",
+            "basis": "stated",
+            "evidence": "USCIS Updates Filing Procedures for Form I-140",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ],
+        "processes": [
+          {
+            "entityId": "process:labor-certification",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services today announced a Federal Register notice (FRN) providing updated procedures for submitting a Form I-140, Immigrant Petition for Alien Workers, accompanied by a permanent labor certification, application for Schedule A designation, or national interest…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -29745,7 +31429,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:h-2b",
+            "basis": "stated",
+            "evidence": "Cap Reached for Additional Returning Worker H-2B Visas for the First Half of FY 2025",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29757,7 +31449,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:cap-registration",
+            "basis": "stated",
+            "evidence": "Cap Reached for Additional Returning Worker H-2B Visas for the First Half of FY 2025",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -29809,7 +31510,8 @@
             "entityId": "visa:eb-2",
             "basis": "stated",
             "evidence": "Job Portability for National Interest Waivers This technical update to Volume 7 more precisely aligns the guidance with the statutory language at INA 204(j) by clarifying that adjustment applicants whose immigrant petitions are based on a national interest waiver are eligible for portability under the American…",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "agencies": [
@@ -29822,7 +31524,16 @@
         "employers": [],
         "universities": [],
         "states": [],
-        "completeness": "partial"
+        "completeness": "partial",
+        "forms": [
+          {
+            "entityId": "form:i-485",
+            "basis": "stated",
+            "evidence": "This technical update to Volume 7 more precisely aligns the guidance with the statutory language at INA 204(j) by clarifying that adjustment applicants whose immigrant petitions are based on a national interest waiver are eligible for portability under the American Competitiveness in the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -29872,7 +31583,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:o-1",
+            "basis": "stated",
+            "evidence": "Policy alert: Evidentiary Requirements for O-1 Nonimmigrants",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29927,7 +31646,15 @@
       ],
       "impact": {
         "countries": [],
-        "visaCategories": [],
+        "visaCategories": [
+          {
+            "entityId": "visa:asylum",
+            "basis": "stated",
+            "evidence": "Policy alert: Customer Contact Options for Certain Asylum-Related and Other Protected Populations",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
         "agencies": [
           {
             "entityId": "agency:uscis",
@@ -29939,7 +31666,16 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:i-589",
+            "basis": "stated",
+            "evidence": "U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in the USCIS Policy Manual to clarify customer service options available to certain noncitizens whose applications or processes are subject to confidentiality protections. Such noncitizens include applicants of the…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ]
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -30090,7 +31826,8 @@
             "entityId": "country:china",
             "basis": "stated",
             "evidence": "The CNMI EVS-TAP is a restricted sub-program of the Guam-CNMI Visa Waiver Program and allows prescreened nationals of the People's Republic of China to travel to the CNMI without a visa under specified conditions.",
-            "confidence": 1
+            "confidence": 0.9,
+            "method": "derived_high_confidence"
           }
         ],
         "visaCategories": [],

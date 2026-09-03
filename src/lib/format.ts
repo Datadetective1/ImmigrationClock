@@ -62,8 +62,35 @@ export function slugify(s: string): string {
 // Standardize an employer legal name so the same company matches across datasets
 // (USCIS H-1B, DOL LCA, state WARN). Mirrors data_pipeline/common.normalize_employer
 // so the TS site and the Python pipeline produce the same join keys.
-const EMPLOYER_SUFFIXES =
-  /\b(inc|incorporated|llc|l l c|ltd|limited|corp|corporation|co|company|plc|llp|lp|technologies|technology|solutions|services|usa|us|na)\b/gi;
+//
+// THE LIST IS SPLIT IN TWO, AND THE SPLIT IS LOAD-BEARING.
+//
+// Removing "Inc" loses nothing: it is a legal form, and no two companies are
+// distinguished by it. Removing "Technologies" or "Services" is a different
+// act — those words are part of a name and they separate real, separately
+// filing entities. It is why QUALCOMM TECHNOLOGIES INC and QUALCOMM
+// INCORPORATED collapse to one key, why HCL AMERICA SOLUTIONS INC becomes HCL
+// AMERICA, and why the WARN feed's "CA Technologies" joins the H-1B export's
+// "CA INC" on the two characters "CA".
+//
+// The behaviour is kept as-is on purpose: the Python pipeline computes the same
+// key, and changing it here alone would silently split the join. What changes
+// is that the two categories are now nameable, so a consumer can be told which
+// kind of removal produced a given match instead of being handed a key and a
+// blanket warning. See lib/intelligence/employer-match.ts.
+export const EMPLOYER_LEGAL_FORMS = [
+  "inc", "incorporated", "llc", "l l c", "ltd", "limited",
+  "corp", "corporation", "co", "company", "plc", "llp", "lp",
+] as const;
+
+export const EMPLOYER_DESCRIPTIVE_WORDS = [
+  "technologies", "technology", "solutions", "services", "usa", "us", "na",
+] as const;
+
+const EMPLOYER_SUFFIXES = new RegExp(
+  `\\b(${[...EMPLOYER_LEGAL_FORMS, ...EMPLOYER_DESCRIPTIVE_WORDS].join("|")})\\b`,
+  "gi"
+);
 export function normalizeEmployer(name: string): string {
   if (!name || typeof name !== "string") return "";
   let s = name.toUpperCase();

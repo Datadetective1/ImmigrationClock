@@ -16,6 +16,7 @@ import {
   ATTRIBUTION,
   amendmentIndex,
   toPublicChange,
+  weakClassifications,
   type ChangeInput,
 } from "@/lib/intelligence/change";
 
@@ -45,9 +46,29 @@ export async function GET(_request: Request, { params }: { params: { id: string 
   }
 
   const today = new Date().toISOString().slice(0, 10);
+
+  // This route is prerendered, so it cannot honour ?include=weak the way the
+  // list endpoint does. Rather than quietly answering differently from the
+  // list, it returns the same strong classifications and reports the weak ones
+  // separately — visible, labelled, and not mixed in.
+  const weak = weakClassifications(event);
+  const weakCount =
+    weak.visaCategories.length + weak.countries.length + weak.forms.length + weak.processes.length;
+
   return Response.json(
     {
       data: toPublicChange(event, today, AMENDED_BY.get(event.id) ?? []),
+      ...(weakCount > 0
+        ? {
+            alsoMatched: {
+              note:
+                "Matched only in a citation, a footnote, or a historical aside, and therefore NOT " +
+                "included in the fields above or in a filtered list result. Read the evidence quote " +
+                "before treating any of these as this record's subject.",
+              ...weak,
+            },
+          }
+        : {}),
       attribution: ATTRIBUTION,
     },
     {

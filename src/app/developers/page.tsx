@@ -91,9 +91,10 @@ export default function DevelopersPage() {
               <div>
                 <div className="font-mono text-sm text-accent-soft">GET /api/v1/changes</div>
                 <div className="text-xs text-slate-500">
-                  Recorded changes, newest first. Filter by <code>visa</code>, <code>country</code>,{" "}
-                  <code>agency</code>, <code>classification</code>, <code>status</code>,{" "}
-                  <code>since</code>, <code>until</code>.
+                  Recorded changes, newest first. Filter by <code>visa</code>, <code>form</code>,{" "}
+                  <code>process</code>, <code>country</code>, <code>agency</code>,{" "}
+                  <code>classification</code>, <code>status</code>, <code>since</code>,{" "}
+                  <code>until</code>.
                 </div>
               </div>
               <a href="/api/v1/changes?limit=3" className="link-accent whitespace-nowrap text-xs font-semibold">
@@ -132,6 +133,29 @@ export default function DevelopersPage() {
 
           <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">Example</p>
           <Code>{`curl -s "https://immigrationclock.com/api/v1/changes?visa=h-1b&since=2026-01-01&limit=3" | jq '.data[] | {title, status, effectiveDate, source: .source.url}'`}</Code>
+
+          <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            How good is the classification?
+          </p>
+          <p className="text-sm text-slate-400">
+            Measured against hand-labelled records rather than asserted, and published per
+            dimension. Filtering <code>visa=h-1b</code> scores 100% precision and 100% recall
+            against 21 records labelled by hand. Country, form and process filters are not yet
+            benchmarked and should not be assumed to match.
+          </p>
+          <p className="mt-3 text-sm text-slate-400">
+            Every classification carries the verbatim quote it came from and the{" "}
+            <code>method</code> that established it — whether the value appeared in the
+            document&rsquo;s title, its summary, or only in a citation. Responses return the strong
+            methods by default. Add <code>include=weak</code> to also receive matches drawn from
+            footnotes and historical asides, each labelled as such.
+          </p>
+          <p className="mt-3 text-sm text-slate-400">
+            Coverage is a separate question and is deliberately partial: a record is classified only
+            where its own text names the value. An empty list therefore means the document did not
+            name one — never that we judged it irrelevant. Read{" "}
+            <code>classificationState</code> to tell that apart from a record nobody has examined.
+          </p>
 
           <p className="mt-5 text-sm text-slate-400">
             <strong className="text-white">What it will not do.</strong> It describes published

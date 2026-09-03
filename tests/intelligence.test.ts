@@ -180,12 +180,29 @@ describe("a classification carries the evidence for itself", () => {
     expect(unclassified / states.length).toBeGreaterThan(0.5);
   });
 
-  it("states its own measured recall rather than implying completeness", () => {
-    // A filter at 38% recall that presents itself as complete is worse than no
-    // filter, so the number travels in every response.
-    expect(ATTRIBUTION.classificationQuality).toMatch(/38%/);
-    expect(ATTRIBUTION.classificationQuality).toMatch(/not_classified/);
-    expect(ATTRIBUTION.classificationQuality).toMatch(/check the evidence/i);
+  it("states its own measured quality rather than implying completeness", () => {
+    // A filter that presents itself as complete is worse than no filter, so
+    // the measurement travels in every response. This assertion is about the
+    // SHAPE of the claim, not a particular number: it must name both precision
+    // and recall, say what they were measured against, and keep the number
+    // from being read as coverage.
+    const q: string = ATTRIBUTION.classificationQuality;
+    expect(q).toMatch(/precision \d+%/i);
+    expect(q).toMatch(/recall \d+%/i);
+    expect(q).toMatch(/hand-labelled/i);
+    expect(q).toMatch(/not yet benchmarked/i);
+    expect(q).toMatch(/classificationState/);
+    expect(q).toMatch(/evidence/i);
+  });
+
+  it("does not let the quality statement claim more than was measured", () => {
+    const q: string = ATTRIBUTION.classificationQuality;
+    // One dimension has ground truth. The statement must not imply the others do.
+    expect(q).toMatch(/visa:h-1b/);
+    expect(q).not.toMatch(/every dimension|all dimensions|fully classified|complete coverage/i);
+    // And it must not let a reader mistake partial coverage for a judgement of
+    // irrelevance — the failure mode that makes a monitoring product lie.
+    expect(q).toMatch(/empty list/i);
   });
 });
 
@@ -296,15 +313,51 @@ describe("employer signals show their working", () => {
   it("explains the join, and admits how it can be wrong", () => {
     const overlap = employerSignals(WARN_SIDE, H1B_SIDE, "why").find((s) => s.kind === "warn_h1b_overlap")!;
     expect(overlap.join).toMatch(/normalized employer name/i);
-    // The honest part, and it names the failure modes the audit measured
-    // rather than describing them in the abstract: 20 colliding pairs, the
-    // multi-entity filers, and the two-character key.
-    expect(overlap.join).toMatch(/20 pairs/i);
-    expect(overlap.join).toMatch(/HCL AMERICA/);
-    expect(overlap.join).toMatch(/Cognizant appears three times/i);
-    expect(overlap.join).toMatch(/two characters/i);
     expect(overlap.join).toMatch(/not as proof they are the same company/i);
     expect(overlap.caveat).toMatch(/does not imply that one caused the other/i);
+
+    // The failure modes used to be listed in this paragraph, identically for
+    // every employer. They now travel per row on matchQuality, which is what a
+    // consumer can actually act on, so the paragraph must point at it rather
+    // than repeat aggregate statistics that are true of other rows.
+    expect(overlap.join).toMatch(/matchQuality/);
+    expect(overlap.matchQuality).toBeTruthy();
+  });
+
+  it("describes THIS row's join rather than the average one", () => {
+    // Acme Corp is a clean one-to-one match on a distinctive key. Saying "20
+    // pairs of filers collide" here would be true of the dataset and false of
+    // this row, which is how a caveat becomes noise a consumer learns to skip.
+    const overlap = employerSignals(WARN_SIDE, H1B_SIDE, "why", TODAY).find(
+      (s) => s.kind === "warn_h1b_overlap"
+    )!;
+    const q = overlap.matchQuality!;
+    expect(q.kind).toBe("exact_normalized");
+    expect(q.key).toBe("ACME");
+    expect(q.h1bFilersNotShown).toBe(0);
+    expect(q.discardedWords).toEqual([]);
+    // The sponsorship figures are a fiscal-year export and they age. That must
+    // be said on an otherwise clean match, not hidden by it.
+    expect(q.staleSponsorEvidence).toBe(true);
+    expect(q.note).toMatch(/not sponsorship today/i);
+  });
+
+  it("reports the collision when the names actually collide", () => {
+    const overlap = employerSignals(
+      { ...WARN_SIDE, name: "HCL America", siblingNames: ["HCL America"] },
+      {
+        ...H1B_SIDE,
+        name: "HCL AMERICA INC",
+        siblingNames: ["HCL AMERICA INC", "HCL AMERICA SOLUTIONS INC"],
+      },
+      "why",
+      TODAY
+    ).find((s) => s.kind === "warn_h1b_overlap")!;
+    const q = overlap.matchQuality!;
+    expect(q.kind).toBe("possible_corporate_family");
+    expect(q.h1bNames).toContain("HCL AMERICA SOLUTIONS INC");
+    expect(q.h1bFilersNotShown).toBe(1);
+    expect(q.note).toMatch(/not counted in the approvals shown/i);
   });
 
   it("never claims a layoff touched a visa holder", () => {

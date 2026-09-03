@@ -72,7 +72,18 @@ export async function GET(request: Request): Promise<Response> {
   const offset = offsetRaw ? Number(offsetRaw) : 0;
   if (!Number.isInteger(offset) || offset < 0) return bad("offset must be zero or more.", "offset");
 
+  // Evidence strength is a query parameter rather than a fixed policy, because
+  // the right answer differs by consumer: a monitoring product wants only what
+  // it can defend, a researcher wants everything and will read the quotes.
+  const includeRaw = params.get("include");
+  if (includeRaw !== null && includeRaw !== "weak") {
+    return bad('include accepts only "weak".', "include");
+  }
+  const includeWeak = includeRaw === "weak";
+
   const visa = params.get("visa")?.toLowerCase() ?? null;
+  const form = params.get("form")?.toLowerCase() ?? null;
+  const process = params.get("process")?.toLowerCase() ?? null;
   const country = params.get("country")?.toLowerCase() ?? null;
   const agency = params.get("agency")?.toLowerCase() ?? null;
   const classification = params.get("classification")?.toLowerCase() ?? null;
@@ -82,12 +93,14 @@ export async function GET(request: Request): Promise<Response> {
   // Serialize first, then filter on the PUBLIC shape: a consumer filters on the
   // fields they can see, and doing it any other way is how a documented filter
   // quietly disagrees with the documented output.
-  let changes = ALL.map((e) => toPublicChange(e, today, AMENDED_BY.get(e.id) ?? []));
+  let changes = ALL.map((e) => toPublicChange(e, today, AMENDED_BY.get(e.id) ?? [], includeWeak));
 
   if (since) changes = changes.filter((c) => c.publishedDate >= since);
   if (until) changes = changes.filter((c) => c.publishedDate <= until);
   if (visa) changes = changes.filter((c) => c.visaCategories.some((v) => v.id.toLowerCase() === visa));
   if (country) changes = changes.filter((c) => c.countries.some((v) => v.id.toLowerCase() === country));
+  if (form) changes = changes.filter((c) => c.forms.some((f) => f.id.toLowerCase() === form));
+  if (process) changes = changes.filter((c) => c.processes.some((p) => p.id.toLowerCase() === process));
   if (agency) changes = changes.filter((c) => (c.agency ?? "").toLowerCase() === agency);
   if (classification) changes = changes.filter((c) => c.classification.toLowerCase() === classification);
   if (status) changes = changes.filter((c) => c.status.toLowerCase() === status);
@@ -112,13 +125,28 @@ export async function GET(request: Request): Promise<Response> {
       // Stated on the response that used the filter, not only in the docs: a
       // consumer who never reads /developers still learns that an empty result
       // is not the same as "nothing happened".
-      ...(visa || country
+      ...(visa || country || form || process
         ? {
             filterQuality: {
-              note:
-                "This filter matches only records that were classified on that dimension. About 90% of " +
-                "records are unclassified (classificationState: not_classified), so a filtered result is " +
-                "a floor, not a complete set. Each match carries the verbatim evidence it was derived from.",
+              evidence: includeWeak ? "strong and weak" : "strong only",
+              note: includeWeak
+                ? "Includes matches drawn from citations, footnotes and historical asides. Each carries " +
+                  "its method and its verbatim quote — read the evidence before acting on a " +
+                  "derived_weak match."
+                : "Matches established from the record's own title or summary, or from a body sentence " +
+                  "stating scope with no historical or citation markers. Matches drawn from citations " +
+                  "are excluded; pass ?include=weak to see them, labelled.",
+              coverage:
+                "A record is classified only where its own text names the value, so a filtered result " +
+                "is a floor rather than a complete set, and an empty classification list means the " +
+                "document did not name one. Read classificationState to tell that apart from a record " +
+                "nobody has examined.",
+              measured:
+                "Per dimension, against hand-labelled records. visa:h-1b scores precision 100% and " +
+                "recall 100% against 21 records on strong evidence. Country classification scores " +
+                "precision 74% against 31 hand-labelled record-and-country pairs, and its recall is " +
+                "not measured. Forms and processes are not yet benchmarked — do not assume they " +
+                "match either figure. See /api/v1 for what is measured and how to reproduce it.",
             },
           }
         : {}),

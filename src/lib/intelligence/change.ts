@@ -45,6 +45,7 @@
 // =============================================================================
 
 import type { ImmigrationEvent } from "@/domains/graph/events";
+import { isStrong } from "@/domains/graph/classification";
 import { isNotInForce } from "@/lib/event-labels";
 import { changeSlug, shortHash } from "@/lib/share";
 import { SOURCE_BY_KEY } from "@/lib/sources";
@@ -75,24 +76,27 @@ export type ChangeStatus =
 /**
  * One classification, with the evidence for it.
  *
- * MEASURED, NOT ASSUMED. Filtering `?visa=h-1b` against the committed archive
- * returns 11 records; 16 records name H-1B in their own title or summary; only
- * 6 are in both. Recall is 38%. Worse, reading the disagreements by hand found
- * an H-2A wage rule classified `visa:h-1b` because the rule's body cites
- * section 212(p) in a historical aside — at confidence 1.
+ * MEASURED, NOT ASSUMED, AND THE MEASUREMENT DROVE THE DESIGN.
  *
- * The classifier matches anywhere in the source document, including footnotes
- * and citations, and every classification already stores the verbatim quote
- * that produced it. Flattening that to `["h-1b"]` threw away the only thing
- * that lets a consumer tell a real H-1B rule from a footnote.
+ * Hand-labelling 21 H-1B records found the original classifier at precision
+ * 82% and recall 47%: it missed ten USCIS records whose own TITLE names H-1B,
+ * because headlines contain no "applies to" phrase, and it accepted an H-2A
+ * wage rule as H-1B because a sentence deep in that rule's body says section
+ * 212(p) "was enacted in the context of the H-1B ... classification". Both
+ * came out at confidence 1.
  *
- * So a classification carries its evidence. A monitoring product built on this
- * can show the quote, or refuse a match whose quote does not mention the
- * subject in its own words. That is a filter someone can trust; a bare list of
- * ids at 38% recall and imperfect precision is not.
+ * Two things fixed it, and both are visible in this type. `method` records
+ * WHERE the classification came from, so a title match and a footnote match
+ * stop being the same claim, and the default response carries only the strong
+ * methods. `evidence` carries the verbatim quote, so a consumer never has to
+ * take our word for it. The same corpus now scores precision 100% and recall
+ * 100% on strong classifications.
+ *
+ * A bare list of ids could not have expressed any of that, which is why this
+ * is an object.
  */
 export interface Classification {
-  /** The value: "h-1b", "india". */
+  /** The value: "h-1b", "india", "i-129". */
   id: string;
   /**
    * How it was established.
@@ -100,9 +104,22 @@ export interface Classification {
    *   derived — inferred by the ingestion pipeline from context.
    */
   basis: string;
+  /**
+   * WHERE in the document it was established, and therefore how far to trust it:
+   *
+   *   explicit_source         the record's own title names it
+   *   structured_source       a structured field on the source names it
+   *   derived_high_confidence the summary names it, or a body sentence states
+   *                           scope with no historical or citation markers
+   *   derived_weak            a citation, a footnote, or a historical aside
+   *
+   * Responses carry the strong three by default. `?include=weak` returns
+   * everything, each entry still labelled with the method that produced it.
+   */
+  method: string;
   /** Verbatim quote from the source. Present for every `stated` classification. */
   evidence: string | null;
-  /** 1 for stated, below 1 otherwise. Not a quality score — see `evidence`. */
+  /** Pinned to `method`: 1, 1, 0.9, 0.5 respectively. Not a quality score. */
   confidence: number;
 }
 
@@ -164,6 +181,23 @@ export interface PublicChange {
   topics: string[];
   visaCategories: Classification[];
   countries: Classification[];
+  /**
+   * Immigration forms the record names — "i-129", "i-765", "eta-9089".
+   *
+   * Naming a form is not the same as changing it. A match says the document
+   * names that form, with the quote; it does not say the form was revised.
+   */
+  forms: Classification[];
+  /**
+   * Immigration processes the record names — "labor-certification",
+   * "employment-authorization", "cap-registration".
+   *
+   * The dimension that makes employment developments retrievable. A rule
+   * ending automatic extension of employment authorization names no visa
+   * category, so a visa filter cannot find it and a professional monitoring
+   * employment would miss it entirely.
+   */
+  processes: Classification[];
 
   /**
    * Whether each dimension was classified at all, so an empty list is legible.
@@ -172,6 +206,8 @@ export interface PublicChange {
   classificationState: {
     visaCategories: ClassificationState;
     countries: ClassificationState;
+    forms: ClassificationState;
+    processes: ClassificationState;
   };
 
   /** What this record does NOT cover, in the source's or our own words. */
@@ -202,15 +238,22 @@ export interface PublicChange {
  */
 export type ChangeInput = ImmigrationEvent;
 
+type ImpactRow = { entityId: string; basis: string; evidence?: string; method?: string; confidence: number };
+
 function classificationsOf(
-  list: readonly { entityId: string; basis: string; evidence?: string; confidence: number }[] | undefined,
-  prefix: string
+  list: readonly ImpactRow[] | undefined,
+  prefix: string,
+  includeWeak: boolean
 ): Classification[] {
   return (list ?? [])
     .filter((x) => x.entityId.startsWith(`${prefix}:`))
+    .filter((x) => includeWeak || isStrong(x.method))
     .map((x) => ({
       id: x.entityId.slice(prefix.length + 1),
       basis: x.basis,
+      // An ungraded row predates the grader. It is reported as weak rather than
+      // quietly promoted: unknown provenance is not the same as good provenance.
+      method: x.method ?? "derived_weak",
       evidence: x.evidence ?? null,
       confidence: x.confidence,
     }));
@@ -255,11 +298,20 @@ export function statusFor(input: ChangeInput, today: string, supersededBy: strin
 export function toPublicChange(
   input: ChangeInput,
   today: string,
-  amendedBy: string[] = []
+  amendedBy: string[] = [],
+  /**
+   * Also return classifications drawn from citations and historical asides.
+   *
+   * Off by default. A weak match is often right, but presenting one as certain
+   * is exactly how an H-2A wage rule reached an H-1B filter.
+   */
+  includeWeak = false
 ): PublicChange {
   const source = SOURCE_BY_KEY[input.sourceKey];
-  const visas = classificationsOf(input.impact?.visaCategories, "visa");
-  const countries = classificationsOf(input.impact?.countries, "country");
+  const visas = classificationsOf(input.impact?.visaCategories, "visa", includeWeak);
+  const countries = classificationsOf(input.impact?.countries, "country", includeWeak);
+  const forms = classificationsOf(input.impact?.forms, "form", includeWeak);
+  const processes = classificationsOf(input.impact?.processes, "process", includeWeak);
   const topicsFromEntities = (input.entities ?? [])
     .filter((e) => e.entityId.startsWith("topic:"))
     .map((e) => e.entityId.slice("topic:".length));
@@ -292,10 +344,18 @@ export function toPublicChange(
     topics: [...new Set(topicsFromEntities)],
     visaCategories: visas,
     countries: countries,
+    forms,
+    processes,
 
     classificationState: {
       visaCategories: stateFor(input.impact?.completeness, visas),
       countries: stateFor(input.impact?.completeness, countries),
+      // A record predating the forms dimension has no list at all, which is
+      // not_classified — distinct from an empty list, which means we looked.
+      forms: input.impact?.forms ? stateFor(input.impact?.completeness, forms) : "not_classified",
+      processes: input.impact?.processes
+        ? stateFor(input.impact?.completeness, processes)
+        : "not_classified",
     },
 
     limitations: input.limitations ?? [],
@@ -305,6 +365,37 @@ export function toPublicChange(
 
     verification: input.reviewStatus ?? "auto",
     scopeCompleteness: input.impact?.completeness ?? "unspecified",
+  };
+}
+
+/**
+ * The classifications a default response LEAVES OUT, and why.
+ *
+ * The list endpoint hides weak matches behind `?include=weak`. The single-record
+ * endpoint is prerendered and cannot read a query parameter, so without this it
+ * would have to pick one behaviour and silently disagree with the list — the
+ * same record answering differently at two URLs.
+ *
+ * Instead it returns the same strong fields plus this block, so nothing is
+ * hidden and nothing is promoted. An empty result here means there was nothing
+ * weak to report, not that the question was not asked.
+ */
+export function weakClassifications(input: ChangeInput): {
+  visaCategories: Classification[];
+  countries: Classification[];
+  forms: Classification[];
+  processes: Classification[];
+} {
+  const weakOnly = (list: readonly ImpactRow[] | undefined, prefix: string) => {
+    const all = classificationsOf(list, prefix, true);
+    const strong = new Set(classificationsOf(list, prefix, false).map((c) => c.id));
+    return all.filter((c) => !strong.has(c.id));
+  };
+  return {
+    visaCategories: weakOnly(input.impact?.visaCategories, "visa"),
+    countries: weakOnly(input.impact?.countries, "country"),
+    forms: weakOnly(input.impact?.forms, "form"),
+    processes: weakOnly(input.impact?.processes, "process"),
   };
 }
 
@@ -340,16 +431,24 @@ export const ATTRIBUTION = {
   /**
    * The measured state of classification, stated in every response.
    *
-   * A consumer building monitoring on a filter needs to know its recall before
-   * they rely on it, not after a customer asks why a change was missed. These
-   * numbers came from comparing each filter against the records' own text; the
-   * method is in docs/intelligence-api.md so anyone can re-run it.
+   * A consumer building monitoring on a filter needs to know its precision and
+   * recall before they rely on it, not after a customer asks why a change was
+   * missed. The numbers below come from hand-labelled records committed at
+   * fixtures/h1b-ground-truth.json and are reproduced by
+   * `npm run intelligence:quality`, so anyone can re-run them and disagree.
+   *
+   * Coverage and quality are reported separately on purpose. Coverage is low
+   * and deliberately so: a record is classified only where its own text names
+   * the value. Quality is what a filter's user is actually exposed to.
    */
   classificationQuality:
-    "Classification is incomplete and its coverage is measured rather than assumed: 90% of records " +
-    "carry no visa or country classification at all (classificationState: not_classified), and a " +
-    "filter on visaCategories currently returns about 38% of the records whose own text names that " +
-    "visa. Every classification carries the verbatim quote it was derived from — check the evidence " +
-    "before relying on a match, and treat an empty list as unclassified rather than as 'not relevant'.",
+    "Measured, per dimension, against hand-labelled records rather than asserted. visa:h-1b scores " +
+    "precision 100% and recall 100% against 21 hand-labelled records using the strong evidence this " +
+    "API returns by default (90% precision when weak matches are included via ?include=weak). Other " +
+    "dimensions are not yet benchmarked and should not be assumed to match. Coverage is a separate " +
+    "question and is partial by design: a record is classified only where its own text names the " +
+    "value, so an empty list means the document did not name one — never that we judged it " +
+    "irrelevant, and never that nobody looked. Read classificationState to tell those apart, and " +
+    "read the evidence quote and method on every match before relying on it.",
   schemaVersion: CHANGE_SCHEMA_VERSION,
 } as const;

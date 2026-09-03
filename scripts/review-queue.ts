@@ -33,6 +33,7 @@
 // record is a commit to the store by a human who read the source.
 // =============================================================================
 
+import { isStrong } from "../src/domains/graph/classification";
 import { EVENTS } from "../src/lib/event-store";
 import type { ImmigrationEvent } from "../src/domains/graph/events";
 
@@ -57,18 +58,26 @@ function daysFromToday(date: string): number {
 }
 
 /**
- * A classification whose evidence quote does not appear in the record's own
- * title or summary was drawn from deeper in the source document — a footnote,
- * a citation, a historical aside. Those are where the false positives were
- * found, so they are worth a human's attention first.
+ * Classifications the grader marked weak — drawn from a citation, a footnote
+ * or a historical aside rather than from the document's own subject. Those are
+ * where the false positives were found, so they are worth a human's attention
+ * first.
+ *
+ * ONE DEFINITION OF WEAK. This function used to re-derive weakness by checking
+ * whether the value appeared in the title or summary, which was a second,
+ * slightly different classifier living in a review script. It now reads the
+ * `method` the grader recorded, so what the queue calls weak and what the API
+ * excludes from a default filter are the same set by construction.
  */
 function weakClassifications(e: ImmigrationEvent): string[] {
-  const visible = `${e.title} ${e.summary}`.toLowerCase();
   const weak: string[] = [];
-  for (const entry of e.impact?.visaCategories ?? []) {
-    const id = entry.entityId.replace(/^visa:/, "");
-    const namedInVisibleText = visible.includes(id.replace(/-/g, "-")) || visible.includes(id.replace(/-/g, ""));
-    if (!namedInVisibleText) weak.push(id);
+  for (const dimension of ["visaCategories", "countries", "forms"] as const) {
+    const list = (e.impact as Record<string, unknown> | undefined)?.[dimension] as
+      | { entityId: string; method?: string }[]
+      | undefined;
+    for (const entry of list ?? []) {
+      if (!isStrong(entry.method)) weak.push(entry.entityId);
+    }
   }
   return weak;
 }
@@ -98,7 +107,7 @@ function score(e: ImmigrationEvent): Scored {
   const weak = weakClassifications(e);
   if (weak.length) {
     score += 35;
-    reasons.push(`weak tag: ${weak.join(", ")} not named in title/summary`);
+    reasons.push(`weak tag: ${weak.join(", ")} — evidence reads as a citation or an aside`);
   }
   return { event: e, score, reasons };
 }
