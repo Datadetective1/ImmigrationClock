@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T13:59:04.359Z",
+  "generatedAt": "2026-09-03T14:48:45.468Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,17 +56,17 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 154,
-      "employeesTotal": 7841,
-      "latestNotice": "2026-08-24",
-      "withNoticeDate": 154,
+      "noticeCount": 184,
+      "employeesTotal": 9424,
+      "latestNotice": "2026-08-31",
+      "withNoticeDate": 184,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7427,
-  "employeesTotal": 962994,
-  "employerCount": 5806,
+  "noticeCount": 7457,
+  "employeesTotal": 964577,
+  "employerCount": 5834,
   "minNoticeDate": "2004-01-12",
   "maxNoticeDate": "2026-08-31",
   "byEmployer": [
@@ -1977,6 +1977,17 @@
         "NJ"
       ],
       "latestNotice": "2026-09-30"
+    },
+    {
+      "normalized": "24HR HOMECARE",
+      "name": "24Hr Homecare, LLC",
+      "slug": "24hr-homecare-llc",
+      "notices": 1,
+      "employees": 738,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "PRIME FLIGHT AVIATION",
@@ -11616,6 +11627,17 @@
       "latestNotice": "2007-03-26"
     },
     {
+      "normalized": "POWER SAFETY SERVICE",
+      "name": "Power Safety Service, LLC",
+      "slug": "power-safety-service-llc",
+      "notices": 1,
+      "employees": 189,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
       "normalized": "JC PENNEY",
       "name": "JC Penney",
       "slug": "jc-penney",
@@ -19405,6 +19427,17 @@
         "WA"
       ],
       "latestNotice": "2009-03-05"
+    },
+    {
+      "normalized": "SYNOPSYS",
+      "name": "Synopsys, Inc.",
+      "slug": "synopsys-inc",
+      "notices": 1,
+      "employees": 128,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "SOUTHWEST KEY PROGRAMS (CASA OASIS)",
@@ -30440,6 +30473,17 @@
       "latestNotice": "2005-09-05"
     },
     {
+      "normalized": "BLUE DIAMOND GROWERS",
+      "name": "Blue Diamond Growers",
+      "slug": "blue-diamond-growers",
+      "notices": 2,
+      "employees": 84,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
       "normalized": "VIRTEX ENTERPRISES",
       "name": "Virtex Enterprises LP",
       "slug": "virtex-enterprises-lp",
@@ -32543,6 +32587,17 @@
       "latestNotice": "2026-10-01"
     },
     {
+      "normalized": "STANFORD HEALTH CARE - 1830 EMBARCADERO RD",
+      "name": "Stanford Health Care - 1830 Embarcadero Rd.",
+      "slug": "stanford-health-care-1830-embarcadero-rd",
+      "notices": 1,
+      "employees": 79,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
       "normalized": "APPLE - CUPERTINO",
       "name": "Apple, Inc. - Cupertino",
       "slug": "apple-inc-cupertino",
@@ -32838,6 +32893,17 @@
         "WA"
       ],
       "latestNotice": "2008-01-11"
+    },
+    {
+      "normalized": "AMAZON - SF019",
+      "name": "Amazon - SF019",
+      "slug": "amazon-sf019",
+      "notices": 1,
+      "employees": 78,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "ZOLL MEDICAL",
@@ -35831,6 +35897,17 @@
         "NJ"
       ],
       "latestNotice": "2009-01-31"
+    },
+    {
+      "normalized": "AMAZON - SJC13",
+      "name": "Amazon - SJC13",
+      "slug": "amazon-sjc13",
+      "notices": 1,
+      "employees": 70,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "COTTONWOOD CREEK HEALTHCARE COMMUNITY",
@@ -44428,6 +44505,17 @@
       "latestNotice": "2004-05-12"
     },
     {
+      "normalized": "RALEY'S STORE NO 336",
+      "name": "Raley's Store No. 336",
+      "slug": "raley-s-store-no-336",
+      "notices": 1,
+      "employees": 51,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
       "normalized": "CRAFTFORCE (2330 CIRCADIAN WAY)",
       "name": "CraftForce Services, Inc. (2330 Circadian Way)",
       "slug": "craftforce-services-inc-2330-circadian-way",
@@ -49997,17 +50085,6 @@
       "latestNotice": "2026-07-14"
     },
     {
-      "normalized": "BLUE DIAMOND GROWERS",
-      "name": "Blue Diamond Growers",
-      "slug": "blue-diamond-growers",
-      "notices": 1,
-      "employees": 31,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-02"
-    },
-    {
       "normalized": "PESHASTIN PEAR PACKERS",
       "name": "Peshastin Pear Packers, LLC.",
       "slug": "peshastin-pear-packers-llc",
@@ -50677,6 +50754,17 @@
         "WA"
       ],
       "latestNotice": "2008-07-17"
+    },
+    {
+      "normalized": "ASTRION",
+      "name": "Astrion",
+      "slug": "astrion",
+      "notices": 1,
+      "employees": 28,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "OPTUM SELECT MANAGEMENT",
@@ -51856,6 +51944,28 @@
         "NJ"
       ],
       "latestNotice": "2005-09-06"
+    },
+    {
+      "normalized": "TELECARE - BRIGHTER TOMORROW PROGRAM 162",
+      "name": "Telecare Corporation - Brighter Tomorrow, Program 162",
+      "slug": "telecare-corporation-brighter-tomorrow-program-162",
+      "notices": 1,
+      "employees": 23,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - TREAT BLVD",
+      "name": "John Muir Health - Treat Blvd.",
+      "slug": "john-muir-health-treat-blvd",
+      "notices": 1,
+      "employees": 23,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
     },
     {
       "normalized": "CENTERRA (CONSTELLIS )",
@@ -53057,6 +53167,17 @@
       "latestNotice": "2008-04-25"
     },
     {
+      "normalized": "JOHN MUIR HEALTH - 2540 EAST STREET",
+      "name": "John Muir Health - 2540 East Street",
+      "slug": "john-muir-health-2540-east-street",
+      "notices": 2,
+      "employees": 18,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
       "normalized": "ECLIPSE ADVANTAGE",
       "name": "Eclipse Advantage, LLC",
       "slug": "eclipse-advantage-llc",
@@ -53597,6 +53718,39 @@
       "latestNotice": "2007-04-02"
     },
     {
+      "normalized": "STANFORD HEALTH CARE - 1840 EMBARCADERO RD",
+      "name": "Stanford Health Care - 1840 Embarcadero Rd.",
+      "slug": "stanford-health-care-1840-embarcadero-rd",
+      "notices": 1,
+      "employees": 16,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
+      "normalized": "TELECARE - HOUSE OF TRANSITIONS",
+      "name": "Telecare Corporation - House of Transitions",
+      "slug": "telecare-corporation-house-of-transitions",
+      "notices": 1,
+      "employees": 16,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
+      "normalized": "TELECARE - RECOVERY STARSHIP",
+      "name": "Telecare Corporation - Recovery Starship",
+      "slug": "telecare-corporation-recovery-starship",
+      "notices": 1,
+      "employees": 16,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
+    },
+    {
       "normalized": "EQUUS WORKFORCE -BUCKNER BLVD (ARBOR E T )",
       "name": "Equus Workforce Solutions-Buckner Blvd.(Arbor E&T, LLC)",
       "slug": "equus-workforce-solutions-buckner-blvd-arbor-e-t-llc",
@@ -53804,6 +53958,17 @@
         "NJ"
       ],
       "latestNotice": "2011-03-14"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - 1601 YGNACIO VALLEY ROAD",
+      "name": "John Muir Health - 1601 Ygnacio Valley Road",
+      "slug": "john-muir-health-1601-ygnacio-valley-road",
+      "notices": 1,
+      "employees": 15,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
     },
     {
       "normalized": "EQUUS WORKFORCE MCKINNEY (ARBOR E T )",
@@ -54433,6 +54598,17 @@
         "NJ"
       ],
       "latestNotice": "2005-07-29"
+    },
+    {
+      "normalized": "TELECARE - STONEHEDGE",
+      "name": "Telecare Corporation - Stonehedge",
+      "slug": "telecare-corporation-stonehedge",
+      "notices": 1,
+      "employees": 13,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "JOB1 (HOUSTON)",
@@ -57387,6 +57563,17 @@
       "latestNotice": "2005-11-29"
     },
     {
+      "normalized": "RTX",
+      "name": "RTX",
+      "slug": "rtx",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-25"
+    },
+    {
       "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MARY BIRCH HOSPITAL",
       "name": "Sharp Metropolitan Medical Campus - Sharp Mary Birch Hospital",
       "slug": "sharp-metropolitan-medical-campus-sharp-mary-birch-hospital",
@@ -58002,6 +58189,17 @@
         "NJ"
       ],
       "latestNotice": "2005-12-31"
+    },
+    {
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 1450 TREAT BLVD",
+      "name": "John Muir Physician Network - 1450 Treat Blvd.",
+      "slug": "john-muir-physician-network-1450-treat-blvd",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
     },
     {
       "normalized": "STONE BREWING - EXECUTIVE PLACE",
@@ -59733,6 +59931,17 @@
         "WA"
       ],
       "latestNotice": "2004-09-27"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - 1450 TREAT BLVD",
+      "name": "John Muir Health - 1450 Treat Blvd.",
+      "slug": "john-muir-health-1450-treat-blvd",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
     },
     {
       "normalized": "EBALDC (100 9TH STREET)",
@@ -61497,6 +61706,39 @@
       "latestNotice": "2010-09-21"
     },
     {
+      "normalized": "JOHN MUIR HEALTH - 177 LA CASA VIA",
+      "name": "John Muir Health - 177 La Casa Via",
+      "slug": "john-muir-health-177-la-casa-via",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - 2740 GRANT STREET",
+      "name": "John Muir Health - 2740 Grant Street",
+      "slug": "john-muir-health-2740-grant-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - 5003 COMMERCIAL CIRCLE",
+      "name": "John Muir Health - 5003 Commercial Circle",
+      "slug": "john-muir-health-5003-commercial-circle",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
       "normalized": "STONE BREWING - HARMONY GROVE",
       "name": "Stone Brewing Co., LLC - Harmony Grove",
       "slug": "stone-brewing-co-llc-harmony-grove",
@@ -62278,6 +62520,72 @@
         "NJ"
       ],
       "latestNotice": "2009-06-30"
+    },
+    {
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 5860 OWENS DRIVE",
+      "name": "John Muir Physician Network - 5860 Owens Drive",
+      "slug": "john-muir-physician-network-5860-owens-drive",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - 3480 BUSKIRK AVE",
+      "name": "John Muir Health - 3480 Buskirk Ave.",
+      "slug": "john-muir-health-3480-buskirk-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 1601 YGNACIO VALLEY ROAD",
+      "name": "John Muir Physician Network - 1601 Ygnacio Valley Road",
+      "slug": "john-muir-physician-network-1601-ygnacio-valley-road",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 2700 GRANT STREET",
+      "name": "John Muir Physician Network - 2700 Grant Street",
+      "slug": "john-muir-physician-network-2700-grant-street",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR BEHAVIORAL HEALTH - 2740 GRANT STREET",
+      "name": "John Muir Behavioral Health - 2740 Grant Street",
+      "slug": "john-muir-behavioral-health-2740-grant-street",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "JOHN MUIR HEALTH - 2700 GRANT STREET",
+      "name": "John Muir Health - 2700 Grant Street",
+      "slug": "john-muir-health-2700-grant-street",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
     },
     {
       "normalized": "BLUE SHIELD OF CALIFORNIA (BUILDING C)",
@@ -64484,6 +64792,30 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Synopsys, Inc.",
+      "normalized": "SYNOPSYS",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-12-16",
+      "employees": 128,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "24Hr Homecare, LLC",
+      "normalized": "24HR HOMECARE",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-09-15",
+      "employees": 738,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Amazon",
       "normalized": "AMAZON",
       "city": "Seattle, Bellevue, Sumner",
@@ -64520,6 +64852,138 @@
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
+      "employer": "Stanford Health Care - 1830 Embarcadero Rd.",
+      "normalized": "STANFORD HEALTH CARE - 1830 EMBARCADERO RD",
+      "city": "Palo Alto",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-11-02",
+      "employees": 79,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Stanford Health Care - 1840 Embarcadero Rd.",
+      "normalized": "STANFORD HEALTH CARE - 1840 EMBARCADERO RD",
+      "city": "Palo Alto",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-11-02",
+      "employees": 16,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Diamond Growers",
+      "normalized": "BLUE DIAMOND GROWERS",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-30",
+      "employees": 53,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Power Safety Service, LLC",
+      "normalized": "POWER SAFETY SERVICE",
+      "city": "Lodi",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-11-06",
+      "employees": 189,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Telecare Corporation - Brighter Tomorrow, Program 162",
+      "normalized": "TELECARE - BRIGHTER TOMORROW PROGRAM 162",
+      "city": "Camarillo",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-29",
+      "employees": 23,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Telecare Corporation - House of Transitions",
+      "normalized": "TELECARE - HOUSE OF TRANSITIONS",
+      "city": "Camarillo",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-29",
+      "employees": 16,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Telecare Corporation - Recovery Starship",
+      "normalized": "TELECARE - RECOVERY STARSHIP",
+      "city": "Camarillo",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-29",
+      "employees": 16,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Telecare Corporation - Stonehedge",
+      "normalized": "TELECARE - STONEHEDGE",
+      "city": "Camarillo",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-29",
+      "employees": 13,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Astrion",
+      "normalized": "ASTRION",
+      "city": "Edwards",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-09-30",
+      "employees": 28,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Amazon - SJC13",
+      "normalized": "AMAZON - SJC13",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-20",
+      "employees": 70,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Amazon - SF019",
+      "normalized": "AMAZON - SF019",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-20",
+      "employees": 78,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Crothall Healthcare",
       "normalized": "CROTHALL HEALTHCARE",
       "city": "Richmond VA",
@@ -64542,6 +65006,198 @@
       "employees": 86,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "John Muir Physician Network - 5860 Owens Drive",
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 5860 OWENS DRIVE",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - Treat Blvd.",
+      "normalized": "JOHN MUIR HEALTH - TREAT BLVD",
+      "city": "Walnut Creek",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 23,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 1450 Treat Blvd.",
+      "normalized": "JOHN MUIR HEALTH - 1450 TREAT BLVD",
+      "city": "Walnut Creek",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 1601 Ygnacio Valley Road",
+      "normalized": "JOHN MUIR HEALTH - 1601 YGNACIO VALLEY ROAD",
+      "city": "Walnut Creek",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 15,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 177 La Casa Via",
+      "normalized": "JOHN MUIR HEALTH - 177 LA CASA VIA",
+      "city": "Walnut Creek",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 2540 East Street",
+      "normalized": "JOHN MUIR HEALTH - 2540 EAST STREET",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 15,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 2540 East Street",
+      "normalized": "JOHN MUIR HEALTH - 2540 EAST STREET",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 2740 Grant Street",
+      "normalized": "JOHN MUIR HEALTH - 2740 GRANT STREET",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 3480 Buskirk Ave.",
+      "normalized": "JOHN MUIR HEALTH - 3480 BUSKIRK AVE",
+      "city": "Pleasant Hill",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 5003 Commercial Circle",
+      "normalized": "JOHN MUIR HEALTH - 5003 COMMERCIAL CIRCLE",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Physician Network - 1450 Treat Blvd.",
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 1450 TREAT BLVD",
+      "city": "Walnut Creek",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Physician Network - 1601 Ygnacio Valley Road",
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 1601 YGNACIO VALLEY ROAD",
+      "city": "Walnut Creek",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Physician Network - 2700 Grant Street",
+      "normalized": "JOHN MUIR PHYSICIAN NETWORK - 2700 GRANT STREET",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Behavioral Health - 2740 Grant Street",
+      "normalized": "JOHN MUIR BEHAVIORAL HEALTH - 2740 GRANT STREET",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "John Muir Health - 2700 Grant Street",
+      "normalized": "JOHN MUIR HEALTH - 2700 GRANT STREET",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-10-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Raley's Store No. 336",
+      "normalized": "RALEY'S STORE NO 336",
+      "city": "Brentwood",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-11-03",
+      "employees": 51,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Optum Select Management Inc.",
@@ -64602,6 +65258,18 @@
       "employees": 77,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "RTX",
+      "normalized": "RTX",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-25",
+      "effectiveDate": "2026-10-23",
+      "employees": 7,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "BFG Supply Co., LLC",
@@ -64912,7 +65580,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Layoff Permanent",
+      "layoffType": "Relocation Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
