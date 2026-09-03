@@ -84,7 +84,35 @@ export type AnalyticsEvent =
   | "briefing_request_submitted"
 
   // --- COMMERCIAL (resources page only) --------------------------------------
-  | "partner_click";
+  | "partner_click"
+
+  // --- THE MONETIZATION FUNNEL -----------------------------------------------
+  //
+  // Six steps, and the first two are the ones that actually decide whether a
+  // paid tier is worth building: a person has to WANT something before a price
+  // can be the obstacle. Every property below is a short fixed string — a plan
+  // id, an interval, a capability id, a placement. Never an email, never a
+  // search term, never an employer someone follows, never a Stripe id.
+  //
+  //   premium_interest   touched something Pro would unlock
+  //   pricing_view       reached the pricing page, and from where
+  //   checkout_started   pressed the button that creates a Stripe session
+  //   checkout_completed came back from Stripe with a paid session
+  //   subscription_active a Pro claim was minted (the first paid moment)
+  //   billing_portal_open went to manage or cancel
+
+  /** Touched a capability Pro would unlock. The demand signal, before any price. */
+  | "premium_interest"
+  /** The pricing page was viewed. `from` says which surface sent them. */
+  | "pricing_view"
+  /** Checkout was requested. Fired before the redirect, so drop-off is visible. */
+  | "checkout_started"
+  /** Stripe redirected back and the session was paid. */
+  | "checkout_completed"
+  /** An entitlement was minted — the first moment someone is genuinely a subscriber. */
+  | "subscription_active"
+  /** The customer portal was opened: manage, update a card, or cancel. */
+  | "billing_portal_open";
 
 /** Non-identifying context. Values must be short, low-cardinality, non-personal. */
 export type EventProps = Record<string, string | number | boolean | undefined>;
@@ -116,6 +144,12 @@ const PLAUSIBLE_NAME: Record<AnalyticsEvent, string> = {
   sample_report_view: "Sample Report View",
   briefing_request_submitted: "Briefing Request Submitted",
   partner_click: "Partner Click",
+  premium_interest: "Premium Interest",
+  pricing_view: "Pricing View",
+  checkout_started: "Checkout Started",
+  checkout_completed: "Checkout Completed",
+  subscription_active: "Subscription Active",
+  billing_portal_open: "Billing Portal Open",
 };
 
 /**
@@ -264,4 +298,50 @@ export function claimSocialArrival(search: string, store: OnceStore | null): Sha
     /* storage blocked — fire anyway, see above */
   }
   return t;
+}
+
+// -----------------------------------------------------------------------------
+// THE MONETIZATION FUNNEL
+//
+// Typed wrappers so a caller cannot invent a property. The rule these enforce:
+// a funnel event carries a capability id, a plan id, an interval or a
+// placement, and nothing a person typed or is. No email, no search text, no
+// followed entity, no Stripe identifier, no amount tied to a person.
+// -----------------------------------------------------------------------------
+
+/**
+ * Someone touched a capability Pro would unlock.
+ *
+ * The most valuable event here by a distance: it measures demand BEFORE a price
+ * is in the way, which is the only honest way to learn whether anyone wants the
+ * paid thing. `capability` is one of the fixed ids in billing/plans.ts and
+ * `placement` names the surface, e.g. "archive_filters" or "employer_page".
+ */
+export function trackPremiumInterest(capability: string, placement: string): void {
+  track("premium_interest", { capability, placement });
+}
+
+/** The pricing page. `from` is the surface that sent them, or "direct". */
+export function trackPricingView(from: string): void {
+  track("pricing_view", { from });
+}
+
+/** The upgrade button was pressed, before the redirect to Stripe. */
+export function trackCheckoutStarted(interval: string, placement: string): void {
+  track("checkout_started", { interval, placement });
+}
+
+/** Stripe sent them back and the session was paid. */
+export function trackCheckoutCompleted(): void {
+  track("checkout_completed", {});
+}
+
+/** An entitlement was minted. The first paid moment. */
+export function trackSubscriptionActive(plan: string): void {
+  track("subscription_active", { plan });
+}
+
+/** They went to manage or cancel. */
+export function trackBillingPortalOpen(): void {
+  track("billing_portal_open", {});
 }

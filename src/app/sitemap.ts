@@ -91,6 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ["/data-manifest", buildDate, "weekly", 0.4],
     ["/sources", buildDate, "monthly", 0.5],
     ["/about", buildDate, "yearly", 0.4],
+    ["/pricing", buildDate, "monthly", 0.5],
     // Policy pages — real, indexable, rarely change.
     ["/privacy", buildDate, "yearly", 0.3],
     ["/terms", buildDate, "yearly", 0.3],

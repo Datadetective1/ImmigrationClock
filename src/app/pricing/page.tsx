@@ -1,0 +1,211 @@
+// =============================================================================
+// /pricing — what Pro is, and what it deliberately is not
+//
+// The page has one editorial job before it has a commercial one: make it
+// obvious that nothing was taken away. The free column is not a stub designed
+// to look inadequate; it is the whole public platform, listed honestly, because
+// that is what it is. The founder directive's rule — "revenue is earned by
+// creating additional value, not by restricting essential public information"
+// — is a claim this page has to be able to survive a reader checking.
+//
+// Prerendered like every other page. The only client components are the upgrade
+// button (which calls the checkout route) and one analytics ping.
+// =============================================================================
+
+import Link from "next/link";
+import { buildMetadata } from "@/lib/seo";
+import { PageHeader } from "@/components/PageHeader";
+import { UpgradeButton } from "@/components/UpgradeButton";
+import { PricingAnalytics } from "@/components/PricingAnalytics";
+import { CAPABILITY_SPECS, PLAN_BY_ID, annualSavingUsd } from "@/lib/billing/plans";
+import { SITE } from "@/lib/site";
+
+export const metadata = buildMetadata({
+  title: "Pricing — ImmigrationClock Pro",
+  description:
+    "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro adds alerts on what you follow, bulk export and professional search.",
+  path: "/pricing",
+  keywords: ["immigration data subscription", "immigration monitoring", "H-1B data export"],
+});
+
+const free = PLAN_BY_ID.get("free")!;
+const pro = PLAN_BY_ID.get("pro")!;
+const saving = annualSavingUsd(pro);
+
+function Check({ on }: { on: boolean }) {
+  return (
+    <span aria-hidden className={on ? "text-status-green" : "text-slate-600"}>
+      {on ? "✓" : "—"}
+    </span>
+  );
+}
+
+export default function PricingPage() {
+  const freeFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "free");
+  const proFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "pro");
+
+  return (
+    <div>
+      <PricingAnalytics />
+      <PageHeader
+        eyebrow="Pricing"
+        title="The public platform is free. Pro is for watching it professionally."
+        description="Nothing that is free today becomes paid. Pro adds three things the site does not do at all yet: alerts on what you follow, bulk export, and search built for research rather than browsing."
+        crumbs={[
+          { href: "/", label: "Home" },
+          { href: "/pricing", label: "Pricing" },
+        ]}
+      />
+
+      <div className="container-page max-w-5xl space-y-10 py-10">
+        <div className="grid gap-5 md:grid-cols-2">
+          {/* FREE */}
+          <section className="panel panel-pad" aria-labelledby="plan-free">
+            <h2 id="plan-free" className="text-lg font-bold text-white">
+              {free.name}
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">{free.tagline}</p>
+            <p className="mt-4 font-mono text-3xl font-extrabold tabular-nums text-white">$0</p>
+            <p className="mt-1 text-xs text-slate-500">No account. No card. No limits.</p>
+
+            <ul className="mt-5 space-y-2.5 text-sm">
+              {freeFeatures.map((f) => (
+                <li key={f.id} className="flex gap-2.5">
+                  <Check on />
+                  <span>
+                    <span className="font-medium text-slate-200">{f.label}</span>
+                    <span className="block text-xs text-slate-400">{f.blurb}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-5 text-xs text-slate-500">
+              This is the whole public platform, and it stays that way.{" "}
+              <Link href="/methodology" className="text-accent hover:underline">
+                How we source it
+              </Link>
+              .
+            </p>
+          </section>
+
+          {/* PRO */}
+          <section className="panel panel-pad border-accent/25" aria-labelledby="plan-pro">
+            <h2 id="plan-pro" className="text-lg font-bold text-white">
+              {pro.name}
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">{pro.tagline}</p>
+
+            <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-mono text-3xl font-extrabold tabular-nums text-accent">
+                ${pro.monthlyUsd}
+              </span>
+              <span className="text-sm text-slate-400">per month</span>
+            </div>
+            <p className="mt-1 text-xs text-slate-500">
+              or ${pro.annualUsd} a year{saving ? ` — two months free` : ""}. Cancel any time, from your
+              own billing page.
+            </p>
+
+            <ul className="mt-5 space-y-2.5 text-sm">
+              {proFeatures.map((f) => (
+                <li key={f.id} className="flex gap-2.5">
+                  <Check on />
+                  <span>
+                    <span className="font-medium text-white">{f.label}</span>
+                    <span className="block text-xs text-slate-400">{f.blurb}</span>
+                  </span>
+                </li>
+              ))}
+              <li className="flex gap-2.5">
+                <Check on />
+                <span>
+                  <span className="font-medium text-white">Everything in Free</span>
+                  <span className="block text-xs text-slate-400">
+                    Pro adds to the public platform. It does not unlock any of it.
+                  </span>
+                </span>
+              </li>
+            </ul>
+
+            <div className="mt-6 space-y-3">
+              <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />
+              <UpgradeButton
+                interval="annual"
+                placement="pricing_page"
+                label={`Subscribe yearly — $${pro.annualUsd}`}
+                className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
+              />
+              <p className="text-center text-[11px] text-slate-500">
+                Payment is handled by Stripe. {SITE.name} never sees your card.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        {/* WHAT PRO IS NOT — the credibility section. */}
+        <section aria-labelledby="not-heading" className="panel panel-pad">
+          <h2 id="not-heading" className="section-title">
+            What Pro is not
+          </h2>
+          <ul className="mt-3 space-y-2 text-sm text-slate-300">
+            <li>
+              <strong className="text-white">It is not a paywall on public information.</strong> Every
+              recorded change, every employer page, the layoff feed, the API and the weekly newsletter
+              stay free and open to search engines. If that ever changes, this line goes with it.
+            </li>
+            <li>
+              <strong className="text-white">It is not legal advice</strong>, and a subscription does not
+              make it any. The disclaimers on every page apply identically.
+            </li>
+            <li>
+              <strong className="text-white">It does not change what we publish.</strong> No subscriber
+              influences which changes are recorded or how they are described.{" "}
+              <Link href="/methodology" className="text-accent hover:underline">
+                How we decide what to record
+              </Link>
+              .
+            </li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="faq-heading" className="space-y-4">
+          <h2 id="faq-heading" className="section-title">
+            Questions
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="panel panel-pad">
+              <h3 className="text-sm font-semibold text-white">Do I need an account to read the site?</h3>
+              <p className="mt-1.5 text-sm text-slate-400">
+                No. There are no accounts on the public platform and no plans for any. A Pro
+                subscription is a billing relationship with Stripe, not a login for reading.
+              </p>
+            </div>
+            <div className="panel panel-pad">
+              <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
+              <p className="mt-1.5 text-sm text-slate-400">
+                They stay in your browser exactly as they are now. Pro is what lets you receive email
+                when something changes for them, and keep them across devices.
+              </p>
+            </div>
+            <div className="panel panel-pad">
+              <h3 className="text-sm font-semibold text-white">Can I cancel?</h3>
+              <p className="mt-1.5 text-sm text-slate-400">
+                Yes, from your billing page, at any time. It runs to the end of the period you paid
+                for and does not renew.
+              </p>
+            </div>
+            <div className="panel panel-pad">
+              <h3 className="text-sm font-semibold text-white">Who is this for?</h3>
+              <p className="mt-1.5 text-sm text-slate-400">
+                People who track immigration policy as part of their work: legal and mobility teams,
+                HR, recruiters, researchers and journalists. If you are reading about your own case,
+                the free platform is the product.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}

@@ -39,9 +39,20 @@ export default function PrivacyPage() {
           <h2>Information we collect</h2>
           <ul className="list-inside list-disc space-y-1.5">
             <li>
-              <strong>No accounts, no personal submissions.</strong> We do not ask you to register, and we do
-              not collect names, emails, or payment details. The search box runs in your browser and is not
-              sent to us.
+              <strong>No accounts for reading.</strong> You never have to register to read anything
+              here, and the search box runs in your browser and is not sent to us.
+            </li>
+            <li>
+              <strong>Your email, only if you give it to us.</strong> If you subscribe to the
+              newsletter we store your address with our email provider (Resend) so that we can send
+              it to you. Nothing else about you is attached to it, and every issue carries an
+              unsubscribe link.
+            </li>
+            <li>
+              <strong>Payment details never reach us.</strong> If you subscribe to Pro, checkout and
+              billing are handled entirely by Stripe, who collect your name, email and card in order
+              to take the payment. We receive confirmation that a subscription is active, the billing
+              email address, and a Stripe customer reference. We never see or store your card.
             </li>
             <li>
               <strong>Standard server/usage logs.</strong> Our hosting provider (Vercel) may record technical
@@ -56,47 +67,31 @@ export default function PrivacyPage() {
         <section className="space-y-3">
           <h2>Advertising &amp; cookies</h2>
           <p>
-            We use <strong>Google AdSense</strong> to display ads. Third-party vendors, including Google, use
-            cookies to serve ads based on your prior visits to this and other websites.
+            <strong>We do not display advertising.</strong> There is no advertising code on this site
+            and no advertising network is loaded. If that ever changes, this section will say so
+            before it happens rather than after.
           </p>
-          <ul className="list-inside list-disc space-y-1.5">
-            <li>
-              Google&rsquo;s use of advertising cookies enables it and its partners to serve ads to you based on
-              your visits to this and/or other sites.
-            </li>
-            <li>
-              You may opt out of personalized advertising by visiting{" "}
-              <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">
-                Google Ads Settings
-              </a>
-              , or opt out of some third-party vendors&rsquo; use of cookies at{" "}
-              <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">
-                aboutads.info/choices
-              </a>
-              .
-            </li>
-            <li>
-              For more on how Google uses data from sites that use its services, see{" "}
-              <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">
-                Google&rsquo;s Partner Sites policy
-              </a>
-              .
-            </li>
-          </ul>
           <p>
-            Visitors in the EEA, UK, and Switzerland are shown a consent choice before personalized ads load.
-            You can change your choice at any time using the cookie controls on the site.
+            Some pages link to services a newcomer may need. Those links are labelled, marked{" "}
+            <code>rel=&quot;sponsored&quot;</code>, and explained on our{" "}
+            <a href="/disclosure">disclosure page</a>. They set no cookies here.
+          </p>
+          <p>
+            The only measurement we run is Plausible, which is cookieless and records no personal
+            data. If a Google Analytics id is ever configured for a deployment, it loads only after
+            you accept the cookie banner.
           </p>
         </section>
 
         <section className="space-y-3">
           <h2>Your choices &amp; rights</h2>
           <p>
-            Depending on where you live (e.g. under GDPR or CCPA/CPRA), you may have rights to access, delete,
-            or restrict use of personal data, and to opt out of the &ldquo;sale&rdquo; or &ldquo;sharing&rdquo;
-            of data for targeted advertising. Because we do not collect personal data directly, most requests
-            concern the advertising cookies described above, which you control through the links provided and
-            your browser settings.
+            Depending on where you live (e.g. under GDPR or CCPA/CPRA), you may have rights to access,
+            delete, or restrict the use of personal data. The only personal data we hold is a
+            newsletter address, if you gave us one, and the billing email and customer reference for
+            a subscription, if you have one. Unsubscribe from any issue to remove the first; cancel
+            and ask us to delete to remove the second. We do not sell or share personal data for
+            targeted advertising, and we have nothing to sell or share it with.
           </p>
         </section>
 

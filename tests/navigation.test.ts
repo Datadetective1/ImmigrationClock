@@ -239,6 +239,9 @@ describe("the navbar says which section you are in", () => {
     const unlit = SAMPLE_URLS.filter((u) => sectionsFor(u).length === 0).sort();
     expect(unlit).toEqual([
       "/about",
+      // Billing pages belong to no section on purpose: the paid tier gets one
+      // footer link, not a nav slot. See docs/monetization.md.
+      "/account",
       "/admin/pulse-email",
       "/admin/refresh-status",
       "/data",
@@ -246,6 +249,7 @@ describe("the navbar says which section you are in", () => {
       "/developers",
       "/disclosure",
       "/methodology",
+      "/pricing",
       "/privacy",
       "/search",
       "/sources",

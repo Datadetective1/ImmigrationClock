@@ -4,6 +4,10 @@ import { CookieSettingsButton } from "./ConsentBanner";
 
 const LEGAL_LINKS = [
   { href: "/about", label: "About" },
+  // The only site-wide entry point to the paid tier. A footer link, in the
+  // same weight as everything beside it: the public platform is the product,
+  // and a page of upgrade buttons would say otherwise.
+  { href: "/pricing", label: "Pricing" },
   { href: "/methodology", label: "Methodology" },
   { href: "/sources", label: "Sources" },
   { href: "/privacy", label: "Privacy" },
