@@ -1,52 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-03T16:14:06.760Z",
+  "updatedAt": "2026-09-03T17:49:11.223Z",
   "items": [
-    {
-      "id": "event:dol_oflc:announcement-2026-09-02::breaking_change",
-      "subjectId": "event:dol_oflc:announcement-2026-09-02",
-      "contentType": "breaking_change",
-      "tier": "news",
-      "status": "verified",
-      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
-      "suggestedHeadline": null,
-      "sourceName": "DOL Office of Foreign Labor Certification announcements",
-      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
-      "eventId": "dol_oflc:announcement-2026-09-02",
-      "category": "development",
-      "topicKey": "visa:h-2a",
-      "priority": 74982.99444444444,
-      "readerValue": 42,
-      "factsHash": "5d5f4c953b5d1221",
-      "whyItMatters": [
-        "The document does not state an effective date, so when it applies has to be read from the original.",
-        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
-      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
-      "freshness": {
-        "publishedAt": "2026-09-02",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-06"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-16290::effective_date",
       "subjectId": "event:federal_register:2026-16290",
@@ -2007,6 +1962,65 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "event:dol_oflc:announcement-2026-09-02::breaking_change",
+      "subjectId": "event:dol_oflc:announcement-2026-09-02",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "suggestedHeadline": "DOL updates OFLC’s H-2A AEWR implementation to comply with court order",
+      "sourceName": "DOL Office of Foreign Labor Certification announcements",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
+      "eventId": "dol_oflc:announcement-2026-09-02",
+      "category": "development",
+      "topicKey": "visa:h-2a",
+      "priority": 74982.99444444444,
+      "readerValue": 42,
+      "factsHash": "5d5f4c953b5d1221",
+      "whyItMatters": [
+        "The document does not state an effective date, so when it applies has to be read from the original.",
+        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "The Department of Labor announced updates to OFLC’s implementation of the H-2A Adverse Effect Wage Rate methodology for non-range occupations.\n\nThe notice aligns implementation with a district court order.\n\nNo separate effective date was posted.\n\nhttps://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3As9h5j2",
+        "linkedin": "",
+        "structure": "news"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
+      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "freshness": {
+        "publishedAt": "2026-09-02",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-06"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-03T17:48:42.349Z",
+      "externalUrl": "https://x.com/i/web/status/2095569808888664179",
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
+        },
+        {
+          "at": "2026-09-03T17:48:42.349Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-03T17:48:42.349Z",
+          "status": "published",
+          "reason": "published on x"
         }
       ]
     }
