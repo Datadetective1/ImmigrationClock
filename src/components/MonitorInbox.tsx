@@ -29,6 +29,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useFollows } from "@/hooks/useFollows";
+import { track } from "@/lib/analytics";
 
 interface BriefEvidence {
   dimension: string;
@@ -144,7 +145,19 @@ function ItemCard({ item }: { item: Item }) {
         <div className="mt-3">
           <button
             type="button"
-            onClick={() => setShowEvidence((v) => !v)}
+            onClick={() => {
+              // Opening the evidence is the strongest signal the trust layer is
+              // working: a reader checking a classification against the
+              // document's own words rather than taking it.
+              //
+              // The BUCKET is the only property sent, and it is one of six
+              // fixed values. What a reader follows, which record they opened
+              // and which dimension they were checking all stay here — a
+              // watchlist is the most sensitive thing this product touches, and
+              // it is not going into an analytics payload to satisfy curiosity.
+              if (!showEvidence) track("methodology_open", { surface: "monitor", bucket: item.bucket });
+              setShowEvidence((v) => !v);
+            }}
             className="text-xs font-semibold text-accent-soft hover:underline"
             aria-expanded={showEvidence}
           >

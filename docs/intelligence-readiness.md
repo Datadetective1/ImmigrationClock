@@ -1,6 +1,6 @@
 # Is this ready to push to another company's software?
 
-Assessed 2026-09-03 against the committed data, by dimension. Reproduce every
+Assessed 2026-09-04 against the committed data, by dimension. Reproduce every
 number with:
 
 ```bash
@@ -20,8 +20,8 @@ demand.**
 | H-1B (original 21) | 100% | 100% | 1.00 | 21 | none | Human-assisted monitoring |
 | H-1B (expanded) | 100% | 83% | 0.90 | 33 | none | Human-assisted monitoring |
 | Country | 98% | 61% | 0.75 | 249 | none | Human-assisted monitoring |
-| Forms | 90% | 30% | 0.45 | 185 | none | Human-assisted monitoring |
-| Employment / process | 100% | 60% | 0.75 | 72 | none | Human-assisted monitoring |
+| Forms | 93% | 58% | 0.71 | 185 | none | Human-assisted monitoring |
+| Employment / process | 100% | 64% | 0.78 | 72 | none | Human-assisted monitoring |
 | Employer signals | NOT MEASURED | NOT MEASURED | — | — | none | Pull API only |
 
 Holdout figures, which are the ones to believe where they differ:
@@ -30,8 +30,8 @@ Holdout figures, which are the ones to believe where they differ:
 |---|---|---|---|
 | H-1B (expanded) | 100% | 92% | 15 |
 | Country | 93% | 39% | 118 |
-| Forms | 95% | 47% | 61 |
-| Employment / process | 100% | 67% | 27 |
+| Forms | 95% | 49% | 61 |
+| Employment / process | 100% | 71% | 27 |
 
 **Nothing is ready for push delivery.** Every dimension clears the 90% precision
 bar and none clears the 85% recall bar. That is a coherent shape rather than a
@@ -112,8 +112,9 @@ cannot answer.
 
 ## Forms
 
-Precision 90%, recall 30%, and the recall figure has a structural cause worth
-stating plainly.
+Precision 93%, recall 58% — up from 90% and 30% once the pipeline began
+retaining document text. The recall figure had a structural cause worth stating
+plainly, and it is now half solved.
 
 **Of the 121 documents in the sample that are genuinely about a form — revising
 it, changing its fee or edition, changing how it is filed — 82 name that form
@@ -130,13 +131,29 @@ Two things followed from measuring that:
   the surrounding words show the document acting on it — "revision of", "fee
   for", "is being discontinued" — and weak otherwise.
 
-Recall rose from 20% to 30% and precision held at 90%. The remaining gap is real
-and would need the ingestion pipeline to retain bodies, or a second pass over
-them, to close further.
+The pipeline now retains the text (see below), so the body is read properly. Two
+general shapes did the work:
+
+- **An enumeration of affected collections covers every form in it.** Fee rules
+  and Paperwork Reduction Act notices publish the list of collections they touch
+  under a heading that says so — "Programs Affected, OMB Control Numbers  OMB No.
+  1615-0052--Form N-400, ...". That is a designation, not a passing mention.
+- **A document acting on a form needs the form beside the action.** An operative
+  passage is about one thing; a long section can be revising Form A while merely
+  naming Form B.
+
+Applying only the first without the second was measured: precision fell to 85%.
+Requiring proximity for both cost recall for no precision. The split above is the
+version that measured best — precision 93%, recall 58%.
+
+One more thing accounted for most of the remaining gap, and it was embarrassing:
+ICE and DOJ write "Form **No.** I-352", and the matcher required "Form" to sit
+immediately before the number. That single absent "No." hid most of the 115
+Paperwork Reduction Act notices in the archive.
 
 ## Employment and processes
 
-Precision 100%, recall 60%. The false negatives are mostly Temporary Protected
+Precision 100%, recall 64%. The false negatives are mostly Temporary Protected
 Status records, which the annotators judged employment-related because
 terminating TPS ends work authorization. That is defensible and arguable; the
 reasoning is recorded per record in the fixture so it can be argued with.
@@ -156,6 +173,63 @@ across normalization keys, holding 5,033 uncounted approvals, and the
 sponsorship export is three years old.
 
 There is no risk score and there will not be one.
+
+## The source-document architecture
+
+The pipeline had been fetching Federal Register full text, using it once for
+impact extraction, and dropping it. Every recall ceiling above traced back to
+that, and it was worse than it looked: body text was fetched only for documents
+provisionally scored above "routine", and **245 of the 348 Federal Register
+records are routine** — including every Paperwork Reduction Act notice, which
+are exactly the documents that are about a form.
+
+Three layers, kept apart on purpose:
+
+| Layer | Where it lives | Who sees it |
+|---|---|---|
+| Raw source evidence | `data/source-text/`, one file per document | Nobody. Classifiers and reviewers read it |
+| Normalized intelligence | `events.json` — the ImmigrationEvent records | The site and the API |
+| Public evidence excerpts | the quote on each classification | Everyone |
+
+Each record carries the receipt rather than the document: file, text URL, sha256
+of the **normalized** text (what was classified, not what arrived), character
+count, retrieval date, and the adapter version that read it. The API serves that
+receipt. It does not serve the document — the government publishes it in full at
+the URL every record already carries, and republishing it would make this a
+document host rather than an intelligence layer.
+
+The store lives outside `src/` deliberately: Next.js traces imports to decide
+what ships, and a stray import of a 15MB directory ends up inside a serverless
+bundle. One file per document rather than one bundle, because federal documents
+are immutable once published — a refresh writes only what it added, so git stores
+each blob once instead of a fresh 15MB blob per run.
+
+348 documents, 15.6M characters. 196 records legitimately have none: their
+sources publish a headline and a paragraph and no more, and the absent field is
+the honest record of that.
+
+A test verifies every stored file still hashes to the value the index records.
+A store whose contents have drifted from their hashes is worse than no store,
+because every quote drawn from it becomes a claim about a document nobody can
+identify.
+
+## Two experiments that failed
+
+Recorded because a measurement saying "this does not work" is the thing that
+stops it shipping.
+
+**Re-extracting visas from retained text.** Rebuilding the visa list from the
+retained body took precision from 100% to 85% and recall from 83% to 74% — the
+rewrite discarded classifications the original ingestion had found by reading the
+whole body at fetch time. Made additive instead: precision 91%, recall 87%, and
+holdout **unchanged** at 100%/92%. The entire apparent gain was two false
+positives on the development half. Reverted; H-1B keeps 100% precision.
+
+**Promoting body designations for countries.** Measured earlier at +3 recall for
+-13 holdout precision. A narrower rule was tried — promote only when the passage
+also reads as the document acting — and no body designation in the corpus
+qualifies. The rule was kept anyway, with a test, because it is the mechanism a
+future operative designation needs and dead code that is tested is not dead.
 
 ## What is missing across every dimension
 

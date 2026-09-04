@@ -119,6 +119,23 @@ export default function HomePage() {
                   </Link>
                 ))}
               </div>
+
+              {/* THE PROFESSIONAL DOOR.
+                  The three links above are written for someone navigating their
+                  own immigration. A law firm's knowledge lead is a different
+                  reader doing a different job, and until now the site gave them
+                  no entry point at all — /monitor, /developers and /pricing
+                  were reachable only by knowing they existed.
+                  One quiet line rather than a second hero: this is a public
+                  information site whose authority is the reason a professional
+                  would trust it, and a sales banner would spend that. */}
+              <p className="mt-4 text-sm text-slate-500">
+                Following this professionally?{" "}
+                <Link href="/monitor" className="link-accent font-medium">
+                  Monitor what changed for your caseload
+                </Link>{" "}
+                — free, sourced, with the evidence attached.
+              </p>
             </div>
 
             <div className="mx-auto mt-7 max-w-xl">
