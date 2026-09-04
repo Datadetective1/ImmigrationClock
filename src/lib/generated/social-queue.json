@@ -1,7 +1,61 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-03T20:58:52.913Z",
+  "updatedAt": "2026-09-04T16:50:23.666Z",
   "items": [
+    {
+      "id": "event:federal_register:2026-17146::effective_date",
+      "subjectId": "event:federal_register:2026-17146",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "ready",
+      "headline": "Inflation Adjustment for EOIR OBBBA Fees; Fiscal Year 2027",
+      "suggestedHeadline": "EOIR fee inflation adjustment starts Oct. 1, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/21/2026-17146/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027",
+      "eventId": "federal_register:2026-17146",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 55482.92222222222,
+      "readerValue": 62,
+      "factsHash": "b343bda9b23d2902",
+      "whyItMatters": [
+        "The rule is final but does not apply until October 1, 2026, 27 days from today. Until then the rules in force today stay in force.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 1, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Oct. 1, 2026: the Justice Department’s final inflation adjustment for EOIR OBBBA fees takes effect (27 days from today).\n\nUntil then, current EOIR filing fees stay in force.\n\nFederal Register record, final for FY 2027.\nhttps://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm?utm_source=x&utm_medium=social&utm_campaign=effective_date&utm_content=change%3Aq05bqm",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm",
+      "ogImage": "/og/change/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm.png",
+      "freshness": {
+        "publishedAt": "2026-08-21",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-01"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm"
+        },
+        {
+          "at": "2026-09-04T16:49:53.803Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        }
+      ]
+    },
     {
       "id": "event:federal_register:2026-16290::effective_date",
       "subjectId": "event:federal_register:2026-16290",
@@ -15,11 +69,11 @@
       "eventId": "federal_register:2026-16290",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 68062.87222222221,
+      "priority": 68072.86666666667,
       "readerValue": 94,
-      "factsHash": "d4f509a4cf4e806a",
+      "factsHash": "2c2bc4e90b367ccb",
       "whyItMatters": [
-        "The rule is final but does not apply until September 10, 2026, 7 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 10, 2026, 6 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 10, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -59,11 +113,11 @@
       "eventId": "federal_register:2026-16231",
       "category": "deadline",
       "topicKey": "visa:h-1b",
-      "priority": 67512.86666666667,
+      "priority": 67522.86111111111,
       "readerValue": 100,
-      "factsHash": "082ddcf5fc2bcc0a",
+      "factsHash": "df2a556952f44d35",
       "whyItMatters": [
-        "The rule is final but does not apply until September 9, 2026, 6 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 9, 2026, 5 days from today. Until then the rules in force today stay in force.",
         "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the September 9, 2026 effective date."
       ],
@@ -104,11 +158,11 @@
       "eventId": "federal_register:2026-17726",
       "category": "deadline",
       "topicKey": "topic:enforcement",
-      "priority": 67132.98333333334,
+      "priority": 67132.97777777778,
       "readerValue": 98,
-      "factsHash": "040a273fdb5e5663",
+      "factsHash": "2c417270d9e5a19f",
       "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 27 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 30, 2026, 26 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the September 30, 2026 effective date."
       ],
@@ -137,6 +191,51 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-14539::effective_date",
+      "subjectId": "event:federal_register:2026-14539",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Public Charge Ground of Inadmissibility",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility",
+      "eventId": "federal_register:2026-14539",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 66592.74444444444,
+      "readerValue": 82,
+      "factsHash": "c6bd5bd3b49fbe5e",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 18, 2026, 14 days from today. Until then the rules in force today stay in force.",
+        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
+        "ImmigrationClock is watching the September 18, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz",
+      "ogImage": "/og/change/public-charge-ground-of-inadmissibility-fzbwfz.png",
+      "freshness": {
+        "publishedAt": "2026-07-20",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 82/100 clears the floor; share page https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-14439::effective_date",
       "subjectId": "event:federal_register:2026-14439",
       "contentType": "effective_date",
@@ -149,11 +248,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65012.73333333333,
+      "priority": 65022.72777777778,
       "readerValue": 54,
-      "factsHash": "a9816e0b48e8e83b",
+      "factsHash": "4ebdbc0100866b43",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 12 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 11 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -193,11 +292,11 @@
       "eventId": "federal_register:2026-17726",
       "category": "actionable",
       "topicKey": "topic:enforcement",
-      "priority": 57162.98333333333,
+      "priority": 57172.97777777778,
       "readerValue": 98,
-      "factsHash": "2ae1ddef682e9c25",
+      "factsHash": "d8e181eca200c7c1",
       "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 27 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 30, 2026, 26 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the September 30, 2026 effective date."
       ],
@@ -226,96 +325,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-14539::effective_date",
-      "subjectId": "event:federal_register:2026-14539",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Public Charge Ground of Inadmissibility",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility",
-      "eventId": "federal_register:2026-14539",
-      "category": "actionable",
-      "topicKey": "source:federal_register",
-      "priority": 56582.75,
-      "readerValue": 82,
-      "factsHash": "503a766eaec57dc0",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 15 days from today. Until then the rules in force today stay in force.",
-        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
-        "ImmigrationClock is watching the September 18, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz",
-      "ogImage": "/og/change/public-charge-ground-of-inadmissibility-fzbwfz.png",
-      "freshness": {
-        "publishedAt": "2026-07-20",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 82/100 clears the floor; share page https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz"
-        }
-      ]
-    },
-    {
-      "id": "event:federal_register:2026-17146::effective_date",
-      "subjectId": "event:federal_register:2026-17146",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Inflation Adjustment for EOIR OBBBA Fees; Fiscal Year 2027",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/21/2026-17146/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027",
-      "eventId": "federal_register:2026-17146",
-      "category": "actionable",
-      "topicKey": "source:federal_register",
-      "priority": 55472.927777777775,
-      "readerValue": 62,
-      "factsHash": "f4e4a1a12abb2748",
-      "whyItMatters": [
-        "The rule is final but does not apply until October 1, 2026, 28 days from today. Until then the rules in force today stay in force.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "ImmigrationClock is watching the October 1, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm",
-      "ogImage": "/og/change/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm.png",
-      "freshness": {
-        "publishedAt": "2026-08-21",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-01"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::what_changed",
       "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
       "contentType": "what_changed",
@@ -328,7 +337,7 @@
       "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
       "category": "actionable",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.98333333333,
+      "priority": 54928.97777777778,
       "readerValue": 54,
       "factsHash": "ad31274d32814fb5",
       "whyItMatters": [
@@ -373,7 +382,7 @@
       "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
       "category": "actionable",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.98333333333,
+      "priority": 54928.97777777778,
       "readerValue": 54,
       "factsHash": "549a25fc673d165a",
       "whyItMatters": [
@@ -406,47 +415,6 @@
       ]
     },
     {
-      "id": "signal:effective-dates-ahead::data_signal",
-      "subjectId": "signal:effective-dates-ahead",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Immigration rules that take effect in the next 60 days",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:deadlines",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "4d277c091762e37b",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
-      "ogImage": "/og/signal/effective-dates-ahead.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
-        }
-      ]
-    },
-    {
       "id": "signal:proposed-rules-open::data_signal",
       "subjectId": "signal:proposed-rules-open",
       "contentType": "data_signal",
@@ -459,9 +427,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
-      "factsHash": "d1af9aeca7c1021f",
+      "factsHash": "badc4c6cbc88ae88",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
@@ -500,9 +468,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
-      "factsHash": "83c52cb6442e2c87",
+      "factsHash": "76114b942db77c03",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -541,7 +509,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
@@ -582,7 +550,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -623,7 +591,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -664,7 +632,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -705,9 +673,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
-      "factsHash": "baebf0a180d10561",
+      "factsHash": "7236d3363a418fd9",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/warn-latest-month",
@@ -746,9 +714,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
-      "factsHash": "d01427f965042f0b",
+      "factsHash": "4409405f8e2494d6",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
@@ -787,7 +755,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -828,9 +796,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
-      "factsHash": "38256b7a5a160686",
+      "factsHash": "4e1e0843247b105f",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
@@ -857,6 +825,47 @@
       ]
     },
     {
+      "id": "signal:effective-dates-ahead::data_signal",
+      "subjectId": "signal:effective-dates-ahead",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Immigration rules that take effect in the next 60 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:deadlines",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "218c3d705b56631c",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
+      "ogImage": "/og/signal/effective-dates-ahead.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
+        }
+      ]
+    },
+    {
       "id": "event:dol_oflc:announcement-2026-09-02::what_changed",
       "subjectId": "event:dol_oflc:announcement-2026-09-02",
       "contentType": "what_changed",
@@ -869,7 +878,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24982.994444444445,
+      "priority": 24832.98888888889,
       "readerValue": 42,
       "factsHash": "79664ea9a60c7336",
       "whyItMatters": [
@@ -914,7 +923,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24132.994444444445,
+      "priority": 24132.98888888889,
       "readerValue": 42,
       "factsHash": "f482835a90e95547",
       "whyItMatters": [
@@ -959,7 +968,7 @@
       "eventId": "uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 24028.966666666667,
+      "priority": 24028.96111111111,
       "readerValue": 40,
       "factsHash": "c4e39f3c5031a465",
       "whyItMatters": [
@@ -1003,7 +1012,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22013,
+      "priority": 22014,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -1046,7 +1055,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22009,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -1089,7 +1098,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "9fde5e6346395c6b",
       "whyItMatters": [
@@ -1132,7 +1141,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22006,
+      "priority": 22007,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -1175,7 +1184,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -1218,7 +1227,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -1261,7 +1270,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -1304,7 +1313,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22002,
+      "priority": 22003,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -1335,49 +1344,6 @@
       ]
     },
     {
-      "id": "explainer:visa-bulletin-priority-dates::explainer",
-      "subjectId": "explainer:visa-bulletin-priority-dates",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How to read the Visa Bulletin",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:green-cards",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "73bd2eafafb2a189",
-      "whyItMatters": [
-        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
-      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
-        }
-      ]
-    },
-    {
       "id": "explainer:border-encounters-are-events::explainer",
       "subjectId": "explainer:border-encounters-are-events",
       "contentType": "explainer",
@@ -1390,7 +1356,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -1433,7 +1399,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -1476,7 +1442,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -1519,7 +1485,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1562,7 +1528,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -1593,25 +1559,27 @@
       ]
     },
     {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
+      "id": "explainer:visa-bulletin-priority-dates::explainer",
+      "subjectId": "explainer:visa-bulletin-priority-dates",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Search the change archive",
+      "headline": "How to read the Visa Bulletin",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "04c5bbbd92701b0e",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:green-cards",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "73bd2eafafb2a189",
+      "whyItMatters": [
+        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
+      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
+      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1629,7 +1597,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
         }
       ]
     },
@@ -1646,9 +1614,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
-      "factsHash": "40ac7ec0b3a87ac1",
+      "factsHash": "20ec27f0f0e507b6",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/developers",
@@ -1687,7 +1655,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1728,7 +1696,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1769,7 +1737,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1810,7 +1778,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1851,7 +1819,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1892,7 +1860,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1917,6 +1885,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "80fe61f557fffdbc",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
