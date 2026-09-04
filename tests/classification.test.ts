@@ -45,6 +45,9 @@ import { findCountriesInText } from "@/domains/graph/countries";
 import { allImpacted, validateImpact } from "@/domains/graph/impact";
 import { toPublicChange, weakClassifications, type ChangeInput } from "@/lib/intelligence/change";
 import { EVENTS } from "@/lib/event-store";
+import { measureAll } from "@/lib/intelligence/benchmarks";
+import { readinessOf } from "@/lib/intelligence/readiness";
+import type { ImmigrationEvent } from "@/domains/graph/events";
 
 const TODAY = "2026-09-03";
 const ALL = EVENTS as unknown as ChangeInput[];
@@ -314,8 +317,19 @@ describe("forms are matched from evidence, not from a wish list", () => {
     expect(formsFor("Changes to Form I-941", "").map((f) => f.entityId)).not.toContain("form:i-94");
   });
 
-  it("does not invent a form from an unrecognised identifier", () => {
-    expect(formsFor("Notice regarding Form I-9999", "")).toEqual([]);
+  it("accepts an unknown identifier only when the document calls it a form", () => {
+    // The registry cannot keep up with the long tail — hand-labelling found
+    // I-352, G-1650, I-901, N-336, ETA-9142B and more, none of them listed —
+    // and a longer list is not the answer. When a document writes "Form I-352"
+    // it has told us the token is a form, which is better evidence than our
+    // own list membership.
+    expect(formsFor("Revision of Form I-352", "").map((f) => f.entityId)).toContain("form:i-352");
+
+    // A BARE unknown identifier is still refused. "I-352" alone could be a
+    // section, a paragraph or a docket number.
+    expect(formsFor("Provisions of I-352 apply", "").map((f) => f.entityId)).not.toContain(
+      "form:i-352"
+    );
   });
 
   it("carries a quote on every match", () => {
@@ -327,11 +341,15 @@ describe("forms are matched from evidence, not from a wish list", () => {
     }
   });
 
-  it("classifies only forms it knows", () => {
+  it("classifies only well-formed form identifiers", () => {
+    // Either from the registry, or an identifier the document itself called a
+    // form. Nothing else, and never a shape that is not a form number.
     const known = new Set(FORMS.map((f) => `form:${f.id}`));
+    const WELL_FORMED = /^form:(?:i|n|g|ds|eta|ar|eoir)-\d{1,4}[a-z]?$/;
     for (const e of ALL) {
       for (const f of e.impact?.forms ?? []) {
-        expect(known.has(f.entityId), `${f.entityId} is a declared form`).toBe(true);
+        const ok = known.has(f.entityId) || WELL_FORMED.test(f.entityId);
+        expect(ok, `${f.entityId} is a declared form or a well-formed identifier`).toBe(true);
       }
     }
   });
@@ -585,47 +603,137 @@ describe("a stated country is supported by the quote stored with it", () => {
 // THE COUNTRY BENCHMARK
 // -----------------------------------------------------------------------------
 
-describe("country precision is measured, and its recall is not claimed", () => {
-  interface CountryTruth {
-    recallMeasured: boolean;
-    pairs: { id: string; country: string; correct: boolean; failureClass?: string; why: string }[];
-  }
-  const truth = JSON.parse(
-    readFileSync(resolve("fixtures/country-ground-truth.json"), "utf8")
-  ) as CountryTruth;
+describe("the benchmarks, scored the way the API answers", () => {
+  const scores = measureAll(ALL as unknown as ImmigrationEvent[]);
+  const by = (name: string) => scores.find((s) => s.dimension === name)!;
 
-  const emitted = ALL.flatMap((e) =>
-    toPublicChange(e, TODAY).countries.map((c) => ({ id: e.id, country: c.id }))
-  );
-
-  it("labels every pair the classifier emits", () => {
-    // Precision stops being a measurement the moment an emitted pair has no
-    // label, so this is the assertion that keeps the number honest.
-    const labelled = new Set(truth.pairs.map((p) => `${p.id}|${p.country}`));
-    const unlabelled = emitted.filter((p) => !labelled.has(`${p.id}|${p.country}`));
-    expect(unlabelled).toEqual([]);
+  it("scores every dimension that has a committed ground truth", () => {
+    expect(scores.map((s) => s.dimension)).toEqual([
+      "H-1B (original 21)",
+      "H-1B (expanded)",
+      "Country",
+      "Forms",
+      "Employment / process",
+    ]);
+    for (const s of scores) expect(s.combined.n).toBeGreaterThan(15);
   });
 
-  it("does not claim a recall it did not measure", () => {
-    expect(truth.recallMeasured).toBe(false);
+  it("keeps the original H-1B benchmark passing, unreplaced", () => {
+    // A benchmark that gets quietly retired when a bigger one flatters the
+    // classifier is not a benchmark. This one still has to hold.
+    const original = by("H-1B (original 21)");
+    expect(original.combined.precision).toBe(1);
+    expect(original.combined.recall).toBe(1);
   });
 
-  it("names a failure class and a reason on every wrong label", () => {
-    for (const p of truth.pairs.filter((x) => !x.correct)) {
-      expect(p.failureClass, `${p.id} ${p.country}`).toBeTruthy();
-      expect(p.why.length, `${p.id} ${p.country}`).toBeGreaterThan(40);
+  it("holds each dimension at or above the level this work reached", () => {
+    // Floors, not targets. They exist so a later change cannot make a dimension
+    // worse while every other number still looks fine. They are deliberately
+    // below today's figures, because a floor set at today's exact value fails
+    // on noise and gets deleted.
+    const floors: Record<string, [number, number]> = {
+      "H-1B (expanded)": [0.95, 0.75],
+      Country: [0.9, 0.5],
+      Forms: [0.85, 0.25],
+      "Employment / process": [0.9, 0.5],
+    };
+    for (const [name, [p, r]] of Object.entries(floors)) {
+      const s = by(name);
+      expect(s.combined.precision ?? 0, `${name} precision`).toBeGreaterThanOrEqual(p);
+      expect(s.combined.recall ?? 0, `${name} recall`).toBeGreaterThanOrEqual(r);
     }
   });
 
-  it("holds precision at or above the level this work reached", () => {
-    // A floor, not a target. It exists so a later change cannot quietly make
-    // country classification worse than it is today while every other number
-    // still looks fine.
-    const labels = new Map(truth.pairs.map((p) => [`${p.id}|${p.country}`, p] as const));
-    const judged = emitted.filter((p) => labels.has(`${p.id}|${p.country}`));
-    const right = judged.filter((p) => labels.get(`${p.id}|${p.country}`)!.correct).length;
-    expect(judged.length).toBeGreaterThan(20);
-    expect(right / judged.length).toBeGreaterThanOrEqual(0.7);
+  it("reports a holdout separately, and does not average it away", () => {
+    // The holdout informed nothing. Where it diverges from development, it is
+    // the number to believe, so it has to be reported rather than folded in.
+    for (const name of ["H-1B (expanded)", "Country", "Forms"]) {
+      const s = by(name);
+      expect(s.holdout.n, `${name} has a holdout`).toBeGreaterThan(10);
+      expect(s.dev.n, `${name} has a development half`).toBeGreaterThan(10);
+      expect(s.dev.n + s.holdout.n).toBe(s.combined.n);
+    }
+  });
+
+  it("says which dimensions were not independently reviewed", () => {
+    // Single-annotator labels are a weaker basis than checked ones, and the
+    // difference has to travel with the number.
+    expect(by("Forms").independentlyReviewed).toBe(false);
+    expect(by("Employment / process").independentlyReviewed).toBe(false);
+    expect(by("Country").independentlyReviewed).toBe(true);
+    expect(by("H-1B (expanded)").independentlyReviewed).toBe(true);
+  });
+
+  it("excludes contested labels rather than resolving them by rule", () => {
+    // A disputed label is not ground truth. Deciding it by procedure — the
+    // reviewer always wins, or positives always lose — would settle a factual
+    // question with a convention.
+    expect(by("Country").contested).toBeGreaterThan(0);
+  });
+});
+
+describe("readiness follows from the measurements", () => {
+  const scores = measureAll(ALL as unknown as ImmigrationEvent[]);
+
+  it("never calls an unmeasured dimension ready to push", () => {
+    const unmeasured = readinessOf({
+      dimension: "hypothetical",
+      precision: null,
+      recall: null,
+      benchmarkN: null,
+      humanReviewed: 0,
+      evidenceComplete: true,
+      note: "",
+    });
+    expect(unmeasured.tier).toBe("READY FOR PULL API");
+    expect(unmeasured.precision).toBeNull();
+    expect(unmeasured.f1).toBeNull();
+  });
+
+  it("reports an unmeasured metric as null, never as zero", () => {
+    const r = readinessOf({
+      dimension: "hypothetical",
+      precision: 0.99,
+      recall: null,
+      benchmarkN: 40,
+      humanReviewed: 0,
+      evidenceComplete: true,
+      note: "",
+    });
+    expect(r.recall).toBeNull();
+    expect(r.tier).toBe("READY FOR HUMAN-ASSISTED MONITORING");
+  });
+
+  it("refuses to push on a small benchmark even when both bars are cleared", () => {
+    const r = readinessOf({
+      dimension: "hypothetical",
+      precision: 1,
+      recall: 1,
+      benchmarkN: 12,
+      humanReviewed: 0,
+      evidenceComplete: true,
+      note: "",
+    });
+    expect(r.tier).toBe("READY FOR HUMAN-ASSISTED MONITORING");
+    expect(r.because).toMatch(/too few/i);
+  });
+
+  it("holds nothing to be push-ready today, and says so from the numbers", () => {
+    // Not an aspiration and not a policy: it falls out of the measured recall.
+    // If a later change earns it, this test is the thing that has to be updated
+    // deliberately.
+    for (const s of scores) {
+      const r = readinessOf({
+        dimension: s.dimension,
+        precision: s.combined.precision,
+        recall: s.combined.recall,
+        benchmarkN: s.combined.n,
+        humanReviewed: 0,
+        evidenceComplete: true,
+        note: "",
+      });
+      expect(r.tier, `${s.dimension}`).not.toBe("READY FOR PUSH/WEBHOOK");
+    }
   });
 });
 
@@ -665,5 +773,100 @@ describe("evidence reads as the document reads", () => {
         }
       }
     }
+  });
+});
+
+// -----------------------------------------------------------------------------
+// THE COUNTRY RELATION MODEL
+// -----------------------------------------------------------------------------
+
+describe("a country classification says what the country is doing", () => {
+  const relationsIn = (text: string, isTitle = false) =>
+    Object.fromEntries(findCountriesInText(text, { isTitle }).map((m) => [m.name, m.relation]));
+
+  it("reads a headline as a statement of subject", () => {
+    // Titles do not speak in scope grammar. "TPS for Yemen" contains no
+    // designation phrase at all, and a cue-based reading dropped it — the same
+    // failure that dropped ten USCIS records from the H-1B classifier.
+    expect(relationsIn("DHS Terminates Temporary Protected Status for Yemen", true).Yemen).toBe(
+      "title_subject"
+    );
+    // The same words in prose are not a title and get no free pass.
+    expect(relationsIn("This continues TPS for Yemen").Yemen).toBe("contextual");
+  });
+
+  it("refuses a cited agreement's title even when it says 'Nationals of'", () => {
+    const quote =
+      "Agreement Between the Government of the United States of America and the Government of the " +
+      "Republic of Guatemala Relating to the Transfer of Nationals of Central American Countries to " +
+      "Guatemala, 90 FR 31670 (July 15, 2025).";
+    expect(relationsIn(quote).Guatemala).toBe("agreement_party");
+    // And it holds even when that citation is the document's own title.
+    expect(relationsIn(quote, true).Guatemala).toBe("agreement_party");
+  });
+
+  it("refuses a named agreement whose name is its parties", () => {
+    // "United States-Mexico-Canada Agreement" is one noun. A policy alert about
+    // TN professionals under it is about the visa category, not about Mexico.
+    const r = relationsIn("Policy alert: Professionals under the United States-Mexico-Canada Agreement", true);
+    expect(r.Mexico).toBe("agreement_party");
+    expect(r.Canada).toBe("agreement_party");
+  });
+
+  it("refuses a document inventory that names who holds the document", () => {
+    expect(
+      relationsIn("I-185, Nonresident Alien Canadian Border Crossing Card-- Citizens of Canada.").Canada
+    ).toBe("document_population");
+  });
+
+  it("distinguishes a US post abroad from a foreign mission here", () => {
+    expect(relationsIn("The U.S. Embassy in Nigeria will resume interviews.").Nigeria).toBe(
+      "post_location"
+    );
+    // "Embassy OF Micronesia" is a commenter, not a place we operate.
+    expect(
+      relationsIn("DHS thanks the Embassy of the Federated States of Micronesia for their comment.")
+        .Micronesia
+    ).toBe("contextual");
+  });
+
+  it("treats a country name inside a larger place as not a country at all", () => {
+    for (const text of [
+      "the intersection of Palm Boulevard and Mexico Boulevard near Brownsville, Texas",
+      "operations in the Gulf of Mexico",
+      "authorizing the Colombia Solidarity Bridge at Laredo",
+      "residents of New Mexico",
+    ]) {
+      expect(findCountriesInText(text), text).toEqual([]);
+    }
+  });
+
+  it("only lets the scope-bearing relations reach a default filter", () => {
+    for (const e of ALL) {
+      const strongCountries = toPublicChange(e, TODAY).countries;
+      for (const c of strongCountries) {
+        expect(
+          ["title_subject", "nationals_of", "present_in", "designated_list"],
+          `${e.id} ${c.id} relation ${c.relation}`
+        ).toContain(c.relation);
+      }
+    }
+  });
+
+  it("carries the relation through to the public shape", () => {
+    const withCountry = ALL.find((e) => toPublicChange(e, TODAY).countries.length > 0);
+    expect(withCountry).toBeTruthy();
+    const c = toPublicChange(withCountry as ChangeInput, TODAY).countries[0];
+    expect(c.relation).toBeTruthy();
+    expect(c.evidence).toBeTruthy();
+  });
+
+  it("keeps the strongest relation when a country appears many times", () => {
+    // A rule recites background before it states its own scope, so the first
+    // mention is rarely the best one. Taking the first cost every TPS record
+    // its designation.
+    const text =
+      "In 2019 processing times in Syria were longer. This rule applies to nationals of Syria.";
+    expect(relationsIn(text).Syria).toBe("nationals_of");
   });
 });

@@ -1,169 +1,175 @@
 # Is this ready to push to another company's software?
 
-Assessed 2026-09-03, against the committed data, by dimension rather than as a
-single yes or no. The earlier assessment answered **NOT READY** for everything.
-That was right then and it is too coarse now: one dimension has become
-defensible and the others have not, and shipping them under one promise would
-hide that.
+Assessed 2026-09-03 against the committed data, by dimension. Reproduce every
+number with:
+
+```bash
+npm run intelligence:benchmarks    # the detailed report
+npm run intelligence:quality       # the scorecard and readiness matrix
+```
 
 The standard being applied: **if ImmigrationClock tells another company's
 software that a change affects H-1B, Form I-129, a country, an employer or any
 other monitored dimension, we must be able to explain why, from evidence, on
 demand.**
 
-Reproduce every number below with:
+## The matrix
 
-```bash
-npm run intelligence:quality
-```
+| Dimension | Precision | Recall | F1 | Benchmark N | Human review | Readiness |
+|---|---|---|---|---|---|---|
+| H-1B (original 21) | 100% | 100% | 1.00 | 21 | none | Human-assisted monitoring |
+| H-1B (expanded) | 100% | 83% | 0.90 | 33 | none | Human-assisted monitoring |
+| Country | 98% | 61% | 0.75 | 249 | none | Human-assisted monitoring |
+| Forms | 90% | 30% | 0.45 | 185 | none | Human-assisted monitoring |
+| Employment / process | 100% | 60% | 0.75 | 72 | none | Human-assisted monitoring |
+| Employer signals | NOT MEASURED | NOT MEASURED | — | — | none | Pull API only |
 
-## The verdict, by dimension
+Holdout figures, which are the ones to believe where they differ:
 
-| Dimension | Ready to push? | Measured against | Result |
+| Dimension | Holdout precision | Holdout recall | n |
 |---|---|---|---|
-| **visa:h-1b** | **Yes** | 21 hand-labelled records | precision 100%, recall 100% |
-| Other visa categories | No | nothing | unmeasured |
-| Effective dates | Qualified yes | the store's own validation | never guessed; only 6 records have a future date |
-| Processes | No | nothing | 64 records, precision spot-checked only |
-| Forms | No | nothing | 23 records, precision untested |
-| Countries | No | 31 hand-labelled pairs | precision 74%, recall not measured |
-| Employer signals | No | the join is now self-describing | 3 of 162 rows ambiguous, 38 understate a group |
+| H-1B (expanded) | 100% | 92% | 15 |
+| Country | 93% | 39% | 118 |
+| Forms | 95% | 47% | 61 |
+| Employment / process | 100% | 67% | 27 |
 
-### visa:h-1b — ready
+**Nothing is ready for push delivery.** Every dimension clears the 90% precision
+bar and none clears the 85% recall bar. That is a coherent shape rather than a
+disappointment: this classifier is built to refuse what it cannot defend, so
+what it returns is dependable and what it omits is not.
 
-This is the one dimension a monitoring promise could be built on today.
+Forms and employment labels were **not independently reviewed** — the second
+reader did not run to completion — so those two rows rest on one judgement each
+rather than two.
 
-- Precision 100% and recall 100% on strong evidence, against 21 records
-  labelled by hand at `fixtures/h1b-ground-truth.json`. Before this work:
-  precision 82%, recall 47%.
-- Both original false positives are named failure classes with regression
-  tests: `historical_statutory_reference` and `footnote_citation`.
-- Every match carries the verbatim quote and the method that produced it.
-- The benchmark is enforced in CI, so a regression is a red build.
+## How the benchmarks were built
 
-**The caveat that must ship with it.** Recall is recall against what is
-knowable from the archive. The store does not keep document bodies, so a record
-that concerns H-1B without naming it in its title, summary or stored evidence
-quote is invisible to the ground truth and to us. That class cannot be measured
-here, and a subscriber must be told the promise is "we will not send you
-rubbish" rather than "we will send you everything".
+Candidates come from the **documents**, not from the classifier's output. Full
+Federal Register text was fetched for all 348 records that have one, and every
+record whose title, abstract or body names the value became a candidate. Scoring
+against your own output can only measure precision, and it measures it against
+the thing being tested.
 
-### Effective dates — qualified yes
+Each record carries a `holdout` flag derived from a hash of its id, so the split
+is stable and independent of both content and classifier answer. **The H-1B
+classifier was not changed after this measurement.** The country and form
+classifiers were rebuilt, using the development half only; their holdout numbers
+above are genuinely out of sample, and the gap between development and holdout
+recall on country (82% against 39%) is the honest cost of that rebuild being
+fitted to cases it could see.
 
-An effective date is either what the document states or `null`. It is never
-inferred, and validation rejects a proposed rule carrying one. That is a
-defensible push signal.
+## H-1B
 
-The qualification is volume, not quality: 126 records carry an effective date
-and only 6 are in the future. A product promising "we will tell you before it
-takes effect" would have delivered six notifications over the whole archive.
+The original 21-record benchmark still scores 100%/100% and is still run. The
+expanded set is the complete population of records in the archive whose text
+names H-1B anywhere: 33 records, every label independently reviewed, none
+overturned.
 
-### Processes and forms — not ready, and the reason is the same for both
+- **Precision 100%.** No false positives at all, including on the two records
+  that started this work: an H-2A wage rule whose body says a statute "was
+  enacted in the context of the H-1B classification", and a signatures rule that
+  cites a 2011 H-1B notice.
+- **Recall 83%.** Four false negatives, all the same shape: a document changing
+  several programmes at once that names H-1B only in the body. They are returned
+  under `?include=weak`.
 
-Both are precise by construction: a match requires the document to name the
-value in its own title or summary, and both refuse the inferences that would
-inflate them. Two real false-positive classes were found and fixed in the
-process matcher while building it — an agency's own name being read as a
-subject, and "registration" matching Temporary Protected Status re-registration
-periods.
+The 100%/100% on 21 records was not wrong, it was small. Twenty-one judgements
+cannot distinguish 100% recall from 83% recall, and the larger set can.
 
-The process dimension does the retrieval job it was added for. Of the USCIS
-records whose text concerns employment, a visa-or-form filter reached 21 of 25;
-adding processes reaches 24. The one that remains says "temporary agricultural
-worker petitions" and never says H-2A, and it stays unclassified on purpose.
+## Country
 
-Neither dimension has a hand-labelled ground truth. Spot-checking is not
-measurement, and until each has its own labelled set with published precision,
-they should be offered for retrieval and not for push.
+Rebuilt around what a country is **doing** in a document rather than whether it
+appears. Every mention gets one relation:
 
-### Countries — not ready, and now with a number
+| Relation | Scope? | Example |
+|---|---|---|
+| `title_subject` | yes | "DHS Terminates Temporary Protected Status for Yemen" |
+| `nationals_of` | yes | "nationals of South Sudan" |
+| `present_in` | yes | "aliens arriving from Mexico" |
+| `designated_list` | yes | "The following countries are designated: …" |
+| `post_location` | no | "the U.S. Embassy in Nigeria" |
+| `document_population` | no | "I-185, … Border Crossing Card — Citizens of Canada" |
+| `agreement_party` | no | "Agreement Between … Guatemala, 90 FR 31670" |
+| `contextual` | no | history, comparison, statistics |
 
-Every record-and-country pair the classifier emits has been labelled by hand at
-`fixtures/country-ground-truth.json`. **Precision is 74%.** Recall is not
-measured and is reported as not measured: finding the false negatives would
-mean reading 544 documents for unstated country scope, and there is no honest
-shortcut.
+Two further guards sit above the relations: a country name inside a larger place
+is not a country reference at all (`Mexico Boulevard`, `New Mexico`, `American
+Samoa`, `Colombia Solidarity Bridge`), and a document that states universal
+application keeps no country it did not explicitly designate.
 
-74% is well under any bar worth pushing on. Roughly one country notification in
-four would be about a document that merely mentions the country.
+Precision went 74% → 98%. Recall went 26% → 61%.
 
-Three defects were found and fixed on the way to that number, each with a
-regression test:
+The remaining recall gap is a deliberate policy. A scope-bearing designation
+found **only** deep in a document body is returned as weak, not strong, because
+rules routinely recite another programme's country scope in their background.
+Promoting those was measured: recall rose 3 points and holdout precision fell 13.
+That is the wrong trade for a filter someone builds a monitoring promise on.
 
-- **A country's name inside another country's.** A rule terminating Temporary
-  Protected Status for South Sudan was also classified as Sudan. Sudan holds
-  its own separate designation, so a subscriber monitoring Sudan would have
-  received a rule about a different country.
-- **A United States territory read as a foreign state.** A passage about who is
-  a U.S. national by birth in American Samoa was classified as Samoa.
-- **A claim its own quote does not support.** Five stored pairs had evidence
-  quotes that did not contain the country. A stated claim whose quote does not
-  show it cannot be defended to anyone who reads it, so they were removed and
-  the invariant is now a test over the whole store.
+One false positive survives: a notice imposing duties on products of Canada. The
+title names Canada and the document is about Canada, but it is a trade action
+rather than an immigration one — a document-relevance question the country model
+cannot answer.
 
-Three classes remain, and they are the hard ones, because each needs to know
-what a sentence is doing rather than what words it contains:
+## Forms
 
-| Class | Example |
-|---|---|
-| `document_list_entry` | Canada, from a list describing Form I-185, the Canadian border crossing card, in a rule about alien registration generally |
-| `agreement_title_cited` | Guatemala, from the quoted title of a US-Guatemala transfer agreement, in a rule about appellate procedure |
-| `scope_defined_elsewhere` | Canada and Mexico on the visa bond pilot, whose country list the document explicitly delegates to the State Department |
+Precision 90%, recall 30%, and the recall figure has a structural cause worth
+stating plainly.
 
-The last is the structural problem rather than a matcher bug. Rules routinely
-define their scope by reference to a list held elsewhere. The record already
-says so, and a country classification sitting beside that statement contradicts
-it. A country-based push cannot be honest until those references are resolved
-to the designations that actually name the countries.
+**Of the 121 documents in the sample that are genuinely about a form — revising
+it, changing its fee or edition, changing how it is filed — 82 name that form
+only in the document body.** Most are Paperwork Reduction Act notices whose
+titles say nothing but "Agency Information Collection Activities; Extension,
+Without Change, of a Currently Approved Collection".
 
-### Employer signals — not ready, but no longer opaque
+Two things followed from measuring that:
 
-The join is the asset nobody else publishes, and it is now the honest version
-of itself. Every overlap row says how it was made:
+- The registry of known forms is no longer the limit. When a document writes
+  "Form I-352" it has told us the token is a form, which is better evidence than
+  our own list membership. A bare `I-352` is still refused.
+- Bodies are now read. A form found only in the body is strong **only** where
+  the surrounding words show the document acting on it — "revision of", "fee
+  for", "is being discontinued" — and weak otherwise.
 
-| Match kind | Rows |
-|---|---|
-| exact_normalized | 154 |
-| possible_corporate_family | 5 |
-| ambiguous_normalization | 3 |
+Recall rose from 20% to 30% and precision held at 90%. The remaining gap is real
+and would need the ingestion pipeline to retain bodies, or a second pass over
+them, to close further.
 
-The three ambiguous rows are named in the scorecard output rather than hidden
-in an average. Two further facts now travel with each row:
+## Employment and processes
 
-- 38 rows understate a corporate group, because filers sharing a first word
-  normalize to different keys and were never candidates for the join. Those
-  filers hold 5,033 H-1B approvals the matched row does not count.
-- The sponsorship figures are the FY2023 export, about three years old, and 65%
-  of the WARN filings in the overlap are more than two years old.
+Precision 100%, recall 60%. The false negatives are mostly Temporary Protected
+Status records, which the annotators judged employment-related because
+terminating TPS ends work authorization. That is defensible and arguable; the
+reasoning is recorded per record in the fixture so it can be argued with.
 
-What blocks a push promise is recency, not honesty. A monitoring product
-implies "something just happened". The median newest filing in the overlap is
-1,136 days old, and WARN coverage is five states. A webhook firing on this data
-would mostly be reporting history.
+Retrieval on the USCIS sample — can a mobility team find what they monitor —
+sits at 24 of 25. The one miss says "temporary agricultural worker petitions"
+and never says H-2A. Inferring the visa from the description would be
+classifying by belief, so it stays unclassified and is reported as a gap.
+
+## Employer signals
+
+Unchanged and deliberately unscored: it is a name-based join, not a classifier,
+and no ground truth exists for it. What it does instead is describe itself per
+row — 154 exact, 5 possible corporate family, 3 ambiguous — and carry the two
+facts that were previously invisible: 38 rows understate a corporate group split
+across normalization keys, holding 5,033 uncounted approvals, and the
+sponsorship export is three years old.
+
+There is no risk score and there will not be one.
 
 ## What is missing across every dimension
 
-**Nobody has read any of it.** All 544 records are `reviewStatus: "auto"`.
-Human review exists as a workflow (`npm run review:queue`, and
-[the review guide](intelligence-review.md)) and has not been exercised. A push
-product should not send an unreviewed record as though a person stood behind
-it, and the API is explicit that `verification: "auto"` means exactly that.
+**Nobody has read any of it.** All 544 records are `reviewStatus: "auto"`. The
+review workflow now exists as three commands and is documented in
+[the review guide](intelligence-review.md); it has not been exercised.
 
 **There is no delivery ledger.** Nothing records what was sent, to whom, or
-whether it arrived. That is a webhook concern rather than a classification one,
-and it does not exist yet.
+whether it arrived. That is a webhook concern and webhooks do not exist.
 
-## What would change the answer
+## What would move a dimension to push-ready
 
-For a dimension to move to ready:
-
-1. A hand-labelled ground truth for it, committed, with a reason on every
-   label and a `failureClass` on every negative.
-2. Published precision and recall against that set, reproduced by
-   `npm run intelligence:quality`.
-3. A regression test per failure class found.
-4. A CI gate on the measured floor.
-
-That is the path H-1B took, and it took hand-labelling 21 records to walk it.
-Countries took the same path and came out at 74%, which is the point: the
-method does not flatter the data, it just tells you where you are.
+Recall. Every dimension already clears the precision bar; none clears 85%
+recall. For H-1B — the closest, at 83% — that means finding the multi-programme
+rules that name it only in the body, which is the same body-retention problem
+the form dimension has. That is one piece of infrastructure, and it would move
+three dimensions at once.

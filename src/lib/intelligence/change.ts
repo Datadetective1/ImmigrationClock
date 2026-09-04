@@ -117,6 +117,23 @@ export interface Classification {
    * everything, each entry still labelled with the method that produced it.
    */
   method: string;
+  /**
+   * COUNTRIES ONLY: what the country is doing in this document.
+   *
+   *   nationals_of        coverage is defined by nationality or citizenship
+   *   present_in          coverage is defined by presence in, or travel from
+   *   designated_list     an item in an enumerated list of affected countries
+   *   post_location       a US consular post is located there
+   *   document_population the population of a document the rule merely lists
+   *   agreement_party     named inside the title of a cited agreement
+   *   contextual          history, comparison, background
+   *
+   * The first three mean the document's own coverage is defined by that
+   * country, and they are the only ones a default country filter returns. The
+   * rest are true observations that are not scope, and are why a rule about
+   * appellate procedure no longer appears in a Guatemala feed.
+   */
+  relation: string | null;
   /** Verbatim quote from the source. Present for every `stated` classification. */
   evidence: string | null;
   /** Pinned to `method`: 1, 1, 0.9, 0.5 respectively. Not a quality score. */
@@ -238,7 +255,14 @@ export interface PublicChange {
  */
 export type ChangeInput = ImmigrationEvent;
 
-type ImpactRow = { entityId: string; basis: string; evidence?: string; method?: string; confidence: number };
+type ImpactRow = {
+  entityId: string;
+  basis: string;
+  evidence?: string;
+  method?: string;
+  relation?: string;
+  confidence: number;
+};
 
 function classificationsOf(
   list: readonly ImpactRow[] | undefined,
@@ -254,6 +278,7 @@ function classificationsOf(
       // An ungraded row predates the grader. It is reported as weak rather than
       // quietly promoted: unknown provenance is not the same as good provenance.
       method: x.method ?? "derived_weak",
+      relation: x.relation ?? null,
       evidence: x.evidence ?? null,
       confidence: x.confidence,
     }));
@@ -442,13 +467,15 @@ export const ATTRIBUTION = {
    * the value. Quality is what a filter's user is actually exposed to.
    */
   classificationQuality:
-    "Measured, per dimension, against hand-labelled records rather than asserted. visa:h-1b scores " +
-    "precision 100% and recall 100% against 21 hand-labelled records using the strong evidence this " +
-    "API returns by default (90% precision when weak matches are included via ?include=weak). Other " +
-    "dimensions are not yet benchmarked and should not be assumed to match. Coverage is a separate " +
-    "question and is partial by design: a record is classified only where its own text names the " +
-    "value, so an empty list means the document did not name one — never that we judged it " +
-    "irrelevant, and never that nobody looked. Read classificationState to tell those apart, and " +
-    "read the evidence quote and method on every match before relying on it.",
+    "Measured per dimension against hand-labelled records, and the labels are drawn from the source " +
+    "documents rather than from this classifier's own output. visa:h-1b: precision 100%, recall 83% " +
+    "on 33 records. Countries: precision 98%, recall 61% on 249 record-and-country pairs. Forms: " +
+    "precision 90%, recall 30% on 185 pairs, single-annotator. Employment processes: precision 100%, " +
+    "recall 60% on 72 records, single-annotator. Read that as: what a filter returns is dependable, " +
+    "what it omits is not — no dimension yet clears the recall bar a push notification would need. " +
+    "Coverage is a separate question and is partial by design: a record is classified only where its " +
+    "own text names the value, so an empty list means the document did not name one, never that we " +
+    "judged it irrelevant and never that nobody looked. Read classificationState to tell those " +
+    "apart, and read the evidence quote and method on every match before relying on it.",
   schemaVersion: CHANGE_SCHEMA_VERSION,
 } as const;

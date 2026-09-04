@@ -190,16 +190,25 @@ describe("a classification carries the evidence for itself", () => {
     expect(q).toMatch(/precision \d+%/i);
     expect(q).toMatch(/recall \d+%/i);
     expect(q).toMatch(/hand-labelled/i);
-    expect(q).toMatch(/not yet benchmarked/i);
     expect(q).toMatch(/classificationState/);
     expect(q).toMatch(/evidence/i);
+    // Every dimension now has a benchmark, so the statement must name several
+    // rather than one. A single figure standing for the whole layer is how a
+    // consumer comes to assume a country filter is as good as an H-1B one.
+    expect(q).toMatch(/visa:h-1b/i);
+    expect(q).toMatch(/countr(y|ies)/i);
+    expect(q).toMatch(/forms/i);
+    // And it must say which labels rest on one reader rather than two.
+    expect(q).toMatch(/single-annotator/i);
+    // The shape of the result is what a consumer needs, not just the digits.
+    expect(q).toMatch(/what a filter returns is dependable/i);
   });
 
   it("does not let the quality statement claim more than was measured", () => {
     const q: string = ATTRIBUTION.classificationQuality;
     // One dimension has ground truth. The statement must not imply the others do.
     expect(q).toMatch(/visa:h-1b/);
-    expect(q).not.toMatch(/every dimension|all dimensions|fully classified|complete coverage/i);
+    expect(q).not.toMatch(/all dimensions|fully classified|complete coverage/i);
     // And it must not let a reader mistake partial coverage for a judgement of
     // irrelevance — the failure mode that makes a monitoring product lie.
     expect(q).toMatch(/empty list/i);

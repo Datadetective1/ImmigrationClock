@@ -127,10 +127,17 @@ describe("a filtered response states what it does and does not mean", () => {
     expect(weak.body.filterQuality.evidence).toBe("strong and weak");
   });
 
-  it("publishes the measured quality of the dimension it benchmarked", async () => {
+  it("publishes the measured quality of every dimension it filters on", async () => {
     const { body } = await changes("?visa=h-1b");
-    expect(body.filterQuality.measured).toMatch(/precision 100%/);
-    expect(body.filterQuality.measured).toMatch(/not yet benchmarked/i);
+    const m: string = body.filterQuality.measured;
+    expect(m).toMatch(/visa:h-1b: precision \d+%, recall \d+%/i);
+    expect(m).toMatch(/countries: precision \d+%, recall \d+%/i);
+    expect(m).toMatch(/forms: precision \d+%, recall \d+%/i);
+    // Every figure carries the size of the set behind it. A percentage with no
+    // n is a claim the reader cannot weigh.
+    expect((m.match(/\(n=\d+\)/g) ?? []).length).toBeGreaterThanOrEqual(4);
+    // And the honest summary of the shape, which is the part a consumer acts on.
+    expect(m).toMatch(/none clears the recall bar/i);
   });
 
   it("omits the note when no classification filter was used", async () => {
@@ -294,10 +301,21 @@ describe("the API index states the boundary and the measurement", () => {
     }
   });
 
-  it("publishes what was measured and what was not", async () => {
+  it("publishes what was measured, with the ground truth it was measured against", async () => {
     const body = await (await getIndex()).json();
-    expect(body.classification.measured["visa:h-1b"].precision).toBe("100%");
-    expect(body.classification.notBenchmarked).toContain("processes");
+    const measured = body.classification.measured;
+    for (const key of ["visa:h-1b", "countries", "forms", "employment/process"]) {
+      expect(Object.keys(measured), `${key} is published`).toContain(key);
+      expect(measured[key].groundTruth, `${key} names its fixture`).toMatch(/fixtures\//);
+      expect(measured[key].precision).toMatch(/^\d+%$/);
+      expect(measured[key].recall).toMatch(/^\d+%$/);
+    }
+    // The holdout travels with the headline figure, so a consumer can see where
+    // development and out-of-sample disagree.
+    expect(measured["visa:h-1b"].holdout).toMatch(/precision/i);
+    // Single-annotator dimensions say so where a reader will see it.
+    expect(measured.forms.note).toMatch(/single-annotator/i);
+    expect(body.classification.readiness).toMatch(/not ready for push/i);
     expect(body.classification.reproduce).toMatch(/intelligence:quality/);
   });
 

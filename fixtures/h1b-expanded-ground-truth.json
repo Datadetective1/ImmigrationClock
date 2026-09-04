@@ -1,0 +1,340 @@
+{
+  "_readme": [
+    "HAND-LABELLED GROUND TRUTH FOR H-1B RELEVANCE — the expanded set.",
+    "",
+    "The question asked of each record: should a professional monitoring the H-1B",
+    "programme receive this in their feed? Not 'does it mention H-1B'.",
+    "",
+    "HOW THE POOL WAS DRAWN, AND WHY IT IS NOT THE CLASSIFIER'S OUTPUT.",
+    "",
+    "Candidates come from the DOCUMENTS, not from what the classifier claimed.",
+    "Full Federal Register texts were fetched for all 348 records that have one,",
+    "and every record whose title, abstract or body names the value became a",
+    "candidate. Scoring against your own output can only measure precision, and",
+    "it measures it against the thing being tested.",
+    "",
+    "Each judgement was made from the document's own words — title, abstract, and",
+    "the body passages containing the mention — with the deciding span quoted. The",
+    "annotator was not shown what the classifier decided.",
+    "",
+    "THE HOLDOUT. Every record carries a `holdout` flag, set by hashing its id, so",
+    "the split is stable and independent of both content and classifier answer.",
+    "Nothing may be tuned against the holdout half. It exists to catch the",
+    "overfitting that fixing a classifier against its own benchmark produces.",
+    "",
+    "This is the COMPLETE population of records in the corpus whose text names",
+    "H-1B anywhere, so recall here is recall over everything knowable, not an",
+    "estimate. Every label was independently reviewed by a second reader whose",
+    "instruction was to refute it; none was overturned.",
+    "",
+    "It supersedes nothing: fixtures/h1b-ground-truth.json holds the original",
+    "21-record set and is still scored separately, because a benchmark that gets",
+    "quietly replaced when it stops flattering the classifier is not a benchmark.",
+    "",
+    "`mentionKind` records HOW H-1B appears, so the failure classes stay visible:",
+    "subject_of_document, one_of_several_programmes, affects_h1b_indirectly,",
+    "statutory_citation, historical_reference, comparison_with_other_programme,",
+    "background_only."
+  ],
+  "labelledOn": "2026-09-03",
+  "records": [
+    {
+      "id": "federal_register:2026-14827",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "The Form ETA-9141 is used in the H-2B, H-1B, H-1B1, E-3, and PERM programs administered by the Department.",
+      "why": "The subject of the collection, Form ETA-9141 (Application for Prevailing Wage Determination), is named by the document itself as an instrument used in the H-1B programme. This is not a passing reference to an unrelated classification: the prevailing wage determination is a step H-1B employers actually perform, and the ICR governs the burden, content and OMB approval of that very form. An H-1B practitioner has a real stake in comment periods and renewals on ETA-9141.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-14439",
+      "relevant": false,
+      "mentionKind": "affects_h1b_indirectly",
+      "quote": "This rule does not make any substantive changes to OPT and CPT other than in the context of admission and extensions and does not make any changes to the H-1B cap gap rule.",
+      "why": "The rule governs admission periods for F, J and I classifications. Every H-1B mention is either a parenthetical listing of other classifications' existing admission provisions, or commenters worrying about the F-to-H-1B pipeline (cap limits, cap-gap, OPT-to-H-1B cycles). DHS's own response disclaims any change to H-1B. Nothing here alters what an H-1B filer must do. Genuinely torn, because the student-to-H-1B pipeline and cap-gap are commercially central to H-1B employers and the rule plainly perturbs that pipeline in practice — but the text disclaims H-1B changes, and on a strict reading a monitoring product should not page an H-1B subscriber for an F/J/I admission rule.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19702",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "Certain alien spouses (H-4) of H-1B nonimmigrants with an unexpired Form I-94 showing H-4 nonimmigrant status (C26);",
+      "why": "The rule ends automatic extension of EAD validity for enumerated employment authorization categories, and the document enumerates by name the H-4 spouses of H-1B nonimmigrants (C26). The body also explains that 'the spouse of an H-1B worker may file an EAD application at the same time as his or her Form I-539'. This is a concrete change to work authorization held by the dependent family of an H-1B worker, which changes filing timing and creates authorization gaps H-1B employers and families must plan for. Torn: the passage is a bullet in a list and the surrounding text is truncated, so from the text alone I cannot be fully certain whether C26 sits in the list of categories losing the automatic extension or in a list being described for contrast; and the rule does not touch the H-1B petition itself. I resolve it positive because the category is defined by reference to H-1B status and the rule is squarely about the extension of these categories' EADs.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-16313",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "USCIS Registration Requirement for Petitioners Seeking To File H-1B Petitions on Behalf of Cap-Subject Aliens",
+      "why": "The rule lets USCIS mandate electronic filing of benefit requests, and the body carries a dedicated numbered section on the H-1B cap registration requirement, describing that petitioners 'must first electronically register with USCIS during a designated registration period'. H-1B Registration is also listed among the forms in the e-filing inventory. This directly bears on the mechanics of how H-1B petitioners must submit, and includes the possibility of a waiver for those unable to file electronically. Squarely in scope.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "A commenter said that USCIS has a history of adding fees without justification, stating that H-1B petitioners must pay an asylum fee even though the beneficiaries of H-1B petitions are not seeking asylum.",
+      "why": "The rule concerns the alien registration form and evidence of registration. H-1B surfaces exactly once, inside a commenter's rhetorical complaint about USCIS fee-setting generally, used as an example of unjustified fees. The rule sets no H-1B fee, changes no H-1B form, and imposes no H-1B filing step in the text provided. Paging an H-1B subscriber on the strength of a commenter's aside would be a false positive.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-14539",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "Further, this rule does not apply to the adjudication of H-1B nonimmigrant visa petitions by USCIS.",
+      "why": "The rule rescinds the 2022 public charge regulations. H-1B appears in responses to comments about students and about medical professionals and researchers, and the document expressly excludes H-1B petition adjudication from its reach. There is a passage noting public charge findings carry to 'adjudication of H-1B nonimmigrant visa applications and subsequent applications for admission', which is why this was close — public charge inadmissibility can touch an H-1B beneficiary at the consulate or the port of entry. But the rule's own words carve H-1B petitions out, and the H-1B references are contextual responses rather than obligations, so I resolve it negative.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-19642",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "The H-1B Nonimmigrant Petitioner Account (INA secs. 214(c)(9) and (11), 286(s); 8 U.S.C. 1184(c)(9) and (11), 1356(s)); and",
+      "why": "This is an EB-5 fee rule. H-1B appears only in the description of USCIS's funding architecture — the H-1B Nonimmigrant Petitioner Account and the Fraud Prevention and Detection Account listed among USCIS revenue sources, with their statutory citations. The document states these fee amounts are set by statute and that 'DHS has no authority to adjust the fees for these accounts'. No H-1B fee, form or deadline changes. Background and statutory citation only.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16554",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "For example, DHS provides a 10-day period following the end of the alien's admission period as stated on his or her I-94 for individuals in the E- 1, E-2, E-3, H-1B, L-1, and TN classifications in a 2016 rulemaking.",
+      "why": "This is the proposed-rule version of the F/J/I fixed-admission-period rulemaking. H-1B appears three ways, none of them operative: a parenthetical listing of existing admission provisions for other classifications, a comparison of grace periods already granted to E, H-1B, L and TN holders, and an extended background explanation of the H-1B cap and filing timetable used to set up the discussion of what happens to F-1 students. The proposed amendments run to the F, J and I classifications, not to H-1B. Torn for the same reason as the final rule: the student-to-H-1B transition genuinely matters to H-1B employers, and this document explains the H-1B cap at length. But explaining a programme in order to justify a rule about a different programme is exactly the background pattern that should not be treated as a match.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-18601",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "The H-1B nonimmigrant visa program was created to bring temporary workers into the United States to perform additive, high-skilled functions",
+      "why": "Proclamation 10973 restricting entry of certain nonimmigrant workers is about the H-1B programme from its opening sentence onward. Every passage concerns alleged abuse of the H-1B statute, H-1B wage suppression, the composition of the H-1B population and the conduct of H-1B-reliant employers. There is no ambiguity: this is the document itself, not a mention within it.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-12023",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "labor condition applications (LCA) or labor attestations for the E-3, H-1B, and H-1B1 visa classifications, is currently addressed to the National Processing Center (NPC) located in Chicago, IL.",
+      "why": "OFLC is changing the physical mailing address used for, among other things, labor condition applications for the H-1B classification. The LCA is a mandatory H-1B step, and the notice changes where H-1B filers must physically send correspondence. This is a small change, but it is a change to something H-1B filers must actually do, and it names H-1B explicitly as one of the classifications covered rather than as background.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-00321",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "The premium processing fee for all other eligible Form I-129 classifications (E-1, E-2, E-3, H-1B, H-3, L-1A, L-1B, LZ, O-1, O-2, P- 1, P-1S, P-2, P-2S, P-3, P-3S, Q-1, TN-1, and TN-2) will increase from $2,805 to $2,965, an increase of $160.",
+      "why": "The rule raises the premium processing fee and names H-1B among the Form I-129 classifications whose fee moves from $2,805 to $2,965. Premium processing is requested against the H-1B petition, so this changes the amount an H-1B filer must actually pay. H-1B is absent from the title and abstract, but the body makes the obligation explicit.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:8d0937a2-6564-412c-8b12-7db83e9fbb39",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "U.S. Citizenship and Immigration Services has received enough petitions to reach the congressionally mandated 65,000 H-1B visa regular cap and the 20,000 H-1B visa U.S. advanced degree exemption, known as the master’s cap, for fiscal year 2027.",
+      "why": "The entire document is the H-1B cap-reached announcement for FY 2027. Title and abstract are about nothing else, and cap exhaustion directly governs whether an H-1B filer can still file. Core feed item.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:74cd9c1d-ceb5-4810-88a2-b454b15655ce",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "U.S. Citizenship and Immigration Services has received enough electronic registrations for unique beneficiaries during the initial registration period to reach the fiscal year (FY) 2026 H-1B numerical allocations (H-1B cap), including the advanced degree exemption (master’s cap).",
+      "why": "Announcement that the FY 2026 H-1B initial registration selection is complete. This is the H-1B registration process itself — it tells registrants whether selection has occurred. Squarely on-programme.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:46d66277-ca68-4424-bc39-12ef2b0c859b",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "U.S. Citizenship and Immigration Services has received enough petitions to reach the congressionally mandated 65,000 H-1B visa regular cap and the 20,000 H-1B visa U.S. advanced degree exemption, known as the master’s cap, for fiscal year 2026.",
+      "why": "FY 2026 H-1B cap-reached notice. The document's only subject is the H-1B numerical cap and master's cap, which controls H-1B filing directly.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-18473",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "DHS proposes to implement a weighted selection process that would generally favor the allocation of H-1B visas to higher skilled and higher paid aliens, while maintaining the opportunity for employers to secure H-1B workers at all wage levels, to better serve the Congressional intent for the H-1B program.",
+      "why": "Notice of proposed rulemaking that would rewrite how USCIS selects H-1B registrations for cap-subject petitions, with a comment deadline of October 24, 2025. H-1B is the whole rule, in the title, the abstract, and the body's regulatory text heading (8 CFR Part 214).",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-23853",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "Through this rule, DHS is implementing a weighted selection process that will generally favor the allocation of H-1B visas to higher-skilled and higher-paid aliens, while maintaining the opportunity for employers to secure H-1B workers at all wage levels, to better serve the congressional intent for the H-1B program. This rule will be effective in time for the FY 2027 registration season.",
+      "why": "Final rule changing the H-1B cap selection mechanism, effective February 27, 2026 and applying to the FY 2027 registration season. It changes what every cap-subject H-1B registrant faces. Highest-priority feed item.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:5092e7a7-95e1-428b-aa22-741961ef963c",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "The Department of Homeland Security is amending regulations governing the H-1B work visa selection process to prioritize the allocation of visas to higher-skilled and higher-paid aliens",
+      "why": "USCIS newsroom announcement of the amendment to the H-1B selection process. H-1B is named in both title and abstract as the programme being amended; nothing else is at issue.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:0d24d479-4dee-40b4-b398-4425ec01d1f0",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "On September 19, 2025, the President issued a Proclamation, Restriction on Entry of Certain Nonimmigrant Workers, an important initial step to reform the H-1B nonimmigrant visa program.",
+      "why": "H-1B is absent from the title but the abstract states in the document's own words that the Proclamation is a step to reform the H-1B programme and restricts entry of the nonimmigrant workers concerned. That is a change H-1B beneficiaries and petitioners must act on, so the title's silence does not make it a footnote mention.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:1c4cde66-9018-44d7-ab56-805da55fa3dc",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "The Department of Homeland Security’s H-1B final rule and H-2 final rule take effect on Friday, January 17, 2025, modernizing and improving requirements for the H-1B nonimmigrant and H-2 nonimmigrant visa programs.",
+      "why": "Two programmes are covered, but the text says the H-1B final rule itself takes effect and modernizes requirements for the H-1B programme, and the revised Form I-129 named in the title is the H-1B petition form. H-1B is a genuine co-subject with a hard effective date, not a comparison or a background mention.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:023fcea4-8e08-4512-b5c4-33033db19e0f",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "the initial registration period for the fiscal year (FY) 2027 H-1B cap will open at noon Eastern on March 4 and run through noon Eastern on March 19, 2026",
+      "why": "Announces the opening and closing of the FY 2027 H-1B cap registration window. It is a dated action item for every prospective H-1B registrant.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-19365",
+      "relevant": false,
+      "mentionKind": "historical_reference",
+      "quote": "Although this provision was enacted in the context of the H-1B temporary nonagricultural visa classification, and also applies to the PERM immigrant visa program, it is the only paragraph in Section 212(p) that does not re",
+      "why": "This is the archetypal trap the benchmark exists to catch. The rule amends 20 CFR H-2A adverse effect wage rate methodology for agricultural workers; the abstract never mentions H-1B. Every H-1B appearance in the body is DOL explaining where the four-level skill-based wage concept came from and citing 20 CFR 655.731 and 8 U.S.C. 1182(n)(1) as statutory context for applying Section 212(p) to H-2A. Nothing in the text amends an H-1B requirement or changes what an H-1B filer must do. Paging an H-1B subscriber on an H-2A wage rule is exactly the false positive to avoid.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-05683",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "Employers seeking to employ foreign workers under the H-1B, H-1B1, and E-3 programs are not required to obtain a [[Page 14043]] PWD from the NPWC but may choose to do so.",
+      "why": "Genuinely close, so I default negative. The pull toward yes is that ETA-9141 is a form some H-1B employers do file. The document's own words defeat it twice over: it says of itself that 'This action seeks to extend the forms without changes,' so nothing an H-1B filer does changes; and the quoted body span says H-1B employers 'are not required to obtain' a PWD at all. The named form that is actually programme-specific here is ETA-9165, which the abstract ties to H-2B. H-1B otherwise appears only inside recitals listing 'the PERM, H-2B, H-1B, H-1B1, and E-3 programs' as the scope of OFLC's statutory authority — background, not an obligation this notice creates. Unlike the premium-processing example in the instructions, there is no fee, deadline, or requirement moving.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19747",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "The estimated total number of respondents for the information collection H-1B and H-1B1 Data Collection and Filing Fee Exemption Supplement (paper filing) is 353,936 and the estimated hour burden per response is 1 hour.",
+      "why": "The abstract sets a sweeping scope: DHS proposes to \"require submission of biometrics by any individual, regardless of age, filing or associated with an immigration benefit request, other request, or collection of information, unless exempted.\" The body then names Form I-129 filings \"under the following nonimmigrant classifications: H-1B, H-2A, H-2B, H-3, L-1...\" and gives revised respondent/burden figures for the H-1B and H-1B1 Data Collection and Filing Fee Exemption Supplement itself. That is the rule's own accounting of collections it changes, not a passing list, so H-1B petitioners and beneficiaries are among the parties the proposal would newly obligate. Torn: in the passages provided H-1B surfaces only inside enumerations and PRA burden tables, and no span says in terms that an H-1B beneficiary must appear for biometrics; I resolved it yes because the abstract's universal scope plus the H-1B-specific burden line together make the H-1B supplement a collection this rule revises.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "relevant": false,
+      "mentionKind": "historical_reference",
+      "quote": "Registration Requirement for Petitioners Seeking to File H-1B Petitions on Behalf of Aliens Subject to the Numerical Limitations, 76 FR 11686 (Mar. 3, 2011) (notice of proposed rulemaking)",
+      "why": "Every H-1B appearance is a footnote citation used to explain the history of USCIS rejection and fee-recovery policy: the 2011 registration NPRM cited \"(discussing the USCIS resources required to reject and return to the petitioning employer petitions and associated fees that are not randomly selected as eligible for an H-1B cap number)\", the INA 286(m) fee-authority footnote, and \"See, e.g., USCIS Update, INFORMATION TO HELP COMPLETE AND SUBMIT I-129 PETITIONS TO USCIS SERVICES CENTERS FOR FY 2008 H-1B CAP CASES (March 27, 2007)\" offered as an example of earlier per-form guidance. Nothing in the title, abstract, or quoted body directs any requirement at H-1B. Torn: the operative change (USCIS \"may, in its discretion, reject or deny\" an unsigned benefit request) would reach Form I-129 like any other form, so the effect is arguably real; but the document never says so, and a label that cannot be quoted is not supported. Preferring the negative per the strictness rule.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-12542",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "The H-1B Nonimmigrant Petitioner Account (INA secs. 214(c)(9) and (11), 286(s); 8 U.S.C. 1184(c)(9) and (11), 1356(s))",
+      "why": "The rule adjusts fees for Form N-400 and Form N-336 and ends the reduced fee and fee waivers for naturalization. H-1B appears only while describing where USCIS money comes from: the H-1B Nonimmigrant Petitioner Account and the Fraud Prevention and Detection Account are listed among funding accounts, and the document expressly disclaims any change to them, noting these are \"fees for which the dollar amount is set by statute. DHS has no authority to adjust the fees for these a...\". Nothing an H-1B filer does changes. Not torn.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19655",
+      "relevant": false,
+      "mentionKind": "background_only",
+      "quote": "In FY 2016, Congress authorized the funding of the original, biometric entry-exit program through up to $1B in fees, collected by USCIS, on H-1B/L-1 applications, through FY 2027.",
+      "why": "The rule's operative content is photographing and biometrically screening aliens at entry and departure: DHS \"may require all aliens to be photographed when entering or exiting the United States\" and removes pilot-program and port limitations. The single H-1B mention is a footnoted funding-history aside explaining how the original entry-exit program was paid for; it imposes nothing on H-1B petitioners and changes no H-1B fee. Any H-1B beneficiary is affected only as a traveling alien, exactly like every other nonimmigrant, which is not an H-1B programme change.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-06017",
+      "relevant": true,
+      "mentionKind": "one_of_several_programmes",
+      "quote": "the Permanent Labor Certification (PERM) program or through H-1B, H-1B1, or E-3 nonimmigrant visas",
+      "why": "H-1B is a named covered programme of the operative proposal, not background. DOL proposes to amend \"its regulations governing the PERM program and Labor Condition Applications (LCAs) to incorporate changes to the computation of wage levels,\" and the body confirms the scope: \"This NPRM concerns the calculation of the prevailing wage levels for job opportunities in the PERM, E-3, H-1B, and H-1B1 programs,\" adding that \"The labor condition application (LCA) is a requirement for the H- 1B, H-1B1, and E-3 nonimmigrant visa classifications.\" A changed prevailing wage tier changes what an H-1B employer must attest and pay. Clear yes.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-16231",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "The regulatory changes correct DHS's interpretation of statutory language to require that covered employers submit the 9-11 Biometric Fee for all extension of status petitions, regardless of whether the related fraud prevention and detection fee applies",
+      "why": "H-1B is in the title, the abstract, and the operative provision. The rule expands when the 9-11 Response and Biometric Entry-Exit Fee must be paid on H-1B petitions, reaching extensions that do not involve a change of employer. That is a direct change to money an H-1B petitioner must remit at filing.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:3f480495-b1a7-4ef9-b61a-f604d3d0923c",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "U.S. Citizenship and Immigration Services has received enough electronic registrations for unique beneficiaries during the initial registration period to reach the fiscal year 2027 H-1B numerical allocations (known as the H-1B cap)",
+      "why": "The whole announcement is the FY 2027 H-1B cap selection outcome, which tells registrants whether they may file a cap-subject petition. Core H-1B programme news.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:19a8da9e-15b0-455f-a4f4-8a616f0e178f",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "The Department of Homeland Security (DHS) is proposing to establish a $103,265 fee for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption.",
+      "why": "A proposed fee applying to every H-1B cap-subject petition. H-1B is the sole subject and the change goes straight to what filers would pay.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:d5d1776c-571e-453a-9a67-952d0542ca92",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "that took an important, initial, and incremental step to reform the H-1B visa program to curb abuses and protect American workers",
+      "why": "Titled \"H-1B FAQ\" and devoted to USCIS guidance on a Proclamation restricting entry of certain nonimmigrant workers as it applies to the H-1B programme. Directly about H-1B status and entry, so an H-1B monitor needs it.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-17324",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "The Department of Homeland Security (DHS) proposes to establish a $103,265 fee, payable at the time of filing, for all H-1B cap-subject petitions",
+      "why": "Title, abstract, and operative text are all the H-1B fee: \"DHS has decided to establish an additional fee on all H-1B cap-subject petitions, payable at the time of filing.\" This changes exactly what an H-1B filer must pay and when.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:811dbd7d-7e86-4e5d-91ad-afbf96c4347e",
+      "relevant": true,
+      "mentionKind": "subject_of_document",
+      "quote": "the initial registration period for the fiscal year 2026 H-1B cap will open at noon Eastern on March 7 and run through noon Eastern on March 24, 2025.",
+      "why": "A dated H-1B cap registration window. This is the canonical action item an H-1B practitioner must diary; nothing about it is incidental.",
+      "reviewed": false,
+      "holdout": true
+    }
+  ],
+  "contested": []
+}

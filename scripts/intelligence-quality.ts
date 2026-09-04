@@ -28,6 +28,8 @@ import {
 import { WARN_META, warnEmployersSharingKey, warnH1bCrossLink } from "../src/lib/warn";
 import { normalizeEmployer } from "../src/lib/format";
 import { describeMatch } from "../src/lib/intelligence/employer-match";
+import { measureAll } from "../src/lib/intelligence/benchmarks";
+import { readinessOf, renderMatrix, type DimensionReadiness } from "../src/lib/intelligence/readiness";
 import { isStrong } from "../src/domains/graph/classification";
 import type { ImmigrationEvent } from "../src/domains/graph/events";
 
@@ -43,13 +45,6 @@ interface Labelled {
 const truth = JSON.parse(
   readFileSync(resolve("fixtures/h1b-ground-truth.json"), "utf8")
 ) as Labelled;
-
-interface CountryTruth {
-  pairs: { id: string; country: string; correct: boolean; failureClass?: string; debatable?: boolean }[];
-}
-const countryTruth = JSON.parse(
-  readFileSync(resolve("fixtures/country-ground-truth.json"), "utf8")
-) as CountryTruth;
 
 interface Score {
   tp: number;
@@ -160,37 +155,84 @@ function main() {
   console.log(`  including weak (?include=weak)`);
   console.log(`    precision ${pct(includingWeak.precision)}  recall ${pct(includingWeak.recall)}  F1 ${includingWeak.f1.toFixed(2)}`);
 
-  // ---- country precision --------------------------------------------------
+  // ---- the readiness matrix -----------------------------------------------
   //
-  // PRECISION ONLY, AND SAID SO. Every pair the classifier emits is labelled by
-  // hand, so precision is a real measurement. Recall is not: finding the false
-  // negatives would mean reading 544 documents for unstated country scope, and
-  // there is no honest shortcut. Unknown is reported as unknown.
-  const countryLabels = new Map(
-    countryTruth.pairs.map((p) => [`${p.id}|${p.country}`, p] as const)
+  // The headline. One row per dimension, every figure measured or explicitly
+  // NOT MEASURED, and a readiness tier that follows from the numbers rather
+  // than from anybody's confidence. See lib/intelligence/readiness.ts.
+  const approvedByDimension = (dimension: string) =>
+    ALL.filter(
+      (e) =>
+        e.reviewStatus === "approved" &&
+        (((e.impact as Record<string, unknown> | undefined)?.[dimension] as unknown[]) ?? []).length > 0
+    ).length;
+
+  const evidenceComplete = (dimension: string) =>
+    ALL.every((e) =>
+      (
+        (((e.impact as Record<string, unknown> | undefined)?.[dimension] as {
+          basis: string;
+          evidence?: string;
+        }[]) ?? [])
+      ).every((x) => x.basis !== "stated" || Boolean(x.evidence?.trim()))
+    );
+
+  const scores = measureAll(ALL);
+  const dimensionField: Record<string, string> = {
+    "H-1B (original 21)": "visaCategories",
+    "H-1B (expanded)": "visaCategories",
+    Country: "countries",
+    Forms: "forms",
+    "Employment / process": "processes",
+  };
+
+  const rows: DimensionReadiness[] = scores.map((d) => {
+    const field = dimensionField[d.dimension] ?? "visaCategories";
+    return readinessOf({
+      dimension: d.dimension,
+      // The COMBINED figure is reported, and the holdout is printed beneath so
+      // a divergence cannot hide inside an average.
+      precision: d.combined.precision,
+      recall: d.combined.recall,
+      benchmarkN: d.combined.n > 0 ? d.combined.n : null,
+      humanReviewed: approvedByDimension(field),
+      evidenceComplete: evidenceComplete(field),
+      note: d.note,
+    });
+  });
+
+  // Employer signals are not classification and have no ground truth. They are
+  // in the matrix because leaving them out would let a reader assume they were
+  // covered by a neighbouring row.
+  rows.push(
+    readinessOf({
+      dimension: "Employer signals",
+      precision: null,
+      recall: null,
+      benchmarkN: null,
+      humanReviewed: 0,
+      evidenceComplete: true,
+      note: "a name-based join, described per row rather than scored; no ground truth exists",
+    })
   );
-  const emittedPairs: { id: string; country: string }[] = [];
-  for (const e of ALL) {
-    for (const c of (e.impact as { countries?: { entityId: string; method?: string }[] } | undefined)
-      ?.countries ?? []) {
-      if (!isStrong(c.method)) continue;
-      emittedPairs.push({ id: e.id, country: c.entityId.replace("country:", "") });
+
+  console.log(`\nREADINESS MATRIX`);
+  console.log(renderMatrix(rows));
+  console.log(`\n  Holdout figures, which are the ones to believe where they differ:`);
+  for (const d of scores) {
+    if (d.holdout.n === 0) continue;
+    console.log(
+      `    ${d.dimension.padEnd(22)} precision ${d.holdout.precision === null ? "NOT MEASURED" : `${(d.holdout.precision * 100).toFixed(0)}%`.padEnd(4)}  recall ${
+        d.holdout.recall === null ? "NOT MEASURED" : `${(d.holdout.recall * 100).toFixed(0)}%`
+      }   n ${d.holdout.n}`
+    );
+  }
+  for (const d of scores) {
+    if (!d.independentlyReviewed) {
+      console.log(`    ⚠ ${d.dimension}: single-annotator labels, not independently reviewed.`);
     }
   }
-  const labelled = emittedPairs.filter((p) => countryLabels.has(`${p.id}|${p.country}`));
-  const wrong = labelled.filter((p) => countryLabels.get(`${p.id}|${p.country}`)!.correct === false);
-  const unlabelled = emittedPairs.length - labelled.length;
-  const countryPrecision = labelled.length > 0 ? (labelled.length - wrong.length) / labelled.length : 0;
-
-  console.log(`\nCOUNTRY PRECISION — every emitted pair labelled by hand`);
-  console.log(`  record+country pairs emitted   ${emittedPairs.length}`);
-  console.log(`  labelled                       ${labelled.length}${unlabelled ? `  (${unlabelled} NOT labelled — label them)` : ""}`);
-  console.log(`  precision                      ${pct(countryPrecision)}`);
-  console.log(`  recall                         not measured (see the fixture's readme for why)`);
-  for (const p of wrong) {
-    const label = countryLabels.get(`${p.id}|${p.country}`)!;
-    console.log(`    WRONG ${p.country} on ${p.id} — ${label.failureClass}`);
-  }
+  for (const r of rows) console.log(`    ${r.dimension.padEnd(22)} ${r.because}`);
 
   // ---- retrieval ----------------------------------------------------------
   //
@@ -298,8 +340,25 @@ function main() {
   // every commit. What IS gated is that the measurement keeps being made: an
   // emitted pair nobody has labelled means the number stopped being a
   // measurement and became an estimate.
-  if (unlabelled > 0) {
-    problems.push(`${unlabelled} country pair(s) emitted but never hand-labelled`);
+  // Per-dimension floors, from the measurements rather than from a coverage
+  // quota. A dimension may sit anywhere in the matrix; what it may not do is
+  // get worse than it is today without the build saying so.
+  const floors: Record<string, { precision: number; recall: number }> = {
+    "H-1B (original 21)": { precision: 0.9, recall: 0.85 },
+    "H-1B (expanded)": { precision: 0.95, recall: 0.75 },
+    Country: { precision: 0.9, recall: 0.5 },
+    Forms: { precision: 0.85, recall: 0.25 },
+    "Employment / process": { precision: 0.9, recall: 0.5 },
+  };
+  for (const d of scores) {
+    const floor = floors[d.dimension];
+    if (!floor) continue;
+    if ((d.combined.precision ?? 0) < floor.precision) {
+      problems.push(`${d.dimension} precision ${pct(d.combined.precision ?? 0)} is below its floor of ${pct(floor.precision)}`);
+    }
+    if ((d.combined.recall ?? 0) < floor.recall) {
+      problems.push(`${d.dimension} recall ${pct(d.combined.recall ?? 0)} is below its floor of ${pct(floor.recall)}`);
+    }
   }
   // Not a coverage quota: this is the retrieval promise the process dimension
   // was built to make, and losing it would mean employment monitoring silently

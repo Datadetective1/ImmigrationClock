@@ -59,6 +59,16 @@ export interface ImpactedEntity {
    */
   method?: ClassificationMethod;
   /**
+   * For a country: what the country is DOING in the document — defining its
+   * coverage, hosting a consular post, sitting inside a cited agreement's
+   * title. See country-relations.ts.
+   *
+   * Only the scope-bearing relations mean the document is about that country,
+   * and only those are returned by a default country filter. Absent on the
+   * dimensions where the question does not arise.
+   */
+  relation?: string;
+  /**
    * Verbatim quote from the source establishing this. REQUIRED when
    * basis is "stated" — a stated fact with no quote is just an assertion.
    */

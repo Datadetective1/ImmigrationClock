@@ -1,0 +1,1912 @@
+{
+  "_readme": [
+    "HAND-LABELLED GROUND TRUTH FOR FORM CLASSIFICATION.",
+    "",
+    "The question for each (record, form) pair: is the document ABOUT this form —",
+    "revising it, changing its fee or edition, changing how it is filed — or does",
+    "it merely name it? A filter that returns every document containing the string",
+    "'I-129' is not a filter anyone can monitor on.",
+    "",
+    "HOW THE POOL WAS DRAWN, AND WHY IT IS NOT THE CLASSIFIER'S OUTPUT.",
+    "",
+    "Candidates come from the DOCUMENTS, not from what the classifier claimed.",
+    "Full Federal Register texts were fetched for all 348 records that have one,",
+    "and every record whose title, abstract or body names the value became a",
+    "candidate. Scoring against your own output can only measure precision, and",
+    "it measures it against the thing being tested.",
+    "",
+    "Each judgement was made from the document's own words — title, abstract, and",
+    "the body passages containing the mention — with the deciding span quoted. The",
+    "annotator was not shown what the classifier decided.",
+    "",
+    "THE HOLDOUT. Every record carries a `holdout` flag, set by hashing its id, so",
+    "the split is stable and independent of both content and classifier answer.",
+    "Nothing may be tuned against the holdout half. It exists to catch the",
+    "overfitting that fixing a classifier against its own benchmark produces.",
+    "",
+    "NOT INDEPENDENTLY REVIEWED. The reviewers for this dimension did not run to",
+    "completion, so all but one of these labels carry a single annotator's",
+    "judgement rather than two. That is a weaker basis than the H-1B and country",
+    "sets and it is stated here rather than left for someone to discover.",
+    "",
+    "`onlyInBody` is the field that answers a specific question: can an archive",
+    "that keeps only titles and abstracts see this at all? For 82 of the 121",
+    "documents genuinely about a form, the answer is no."
+  ],
+  "labelledOn": "2026-09-03",
+  "pairs": [
+    {
+      "id": "federal_register:2025-20481",
+      "form": "I-352",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Extension, Without Change, of a Currently Approved Collection: Form No. I-352; Immigration Bond",
+      "why": "The title is the PRA collection notice for this form, and the body identifies it as the collection at issue: '(3) Agency form number, if any ...: I-352; U.S. Immigration and Customs Enforcement.' A PRA notice about a form is about that form. The body also describes the filing mechanics — bonds submitted 'electronically through ICE's eBonds system which encompasses the I-352, while individuals are still required to complete the bond form manually.'",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:f25b7303-258b-4e36-84eb-c3d38c700999",
+      "form": "I-693",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "USCIS Changes Validity Period for Any Form I-693 Signed on or after Nov. 1, 2023",
+      "why": "The document changes the validity rule for the form itself: 'a Form I-693 ... signed by a civil surgeon on or after Nov. 1, 2023, is only valid while the application the Form I-693 was submitted with is pending.' That governs when the form may be submitted and when a resubmission is required.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:0ee7378b-5894-4038-aeda-fbe0d1d0f141",
+      "form": "N-648",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "USCIS is changing how we process Form N-648 by focusing greater attention on the veracity of medical certifications",
+      "why": "The abstract states the guidance changes the processing and review of this specific form, which is a change to how the form is adjudicated and what scrutiny its certification must survive — not a passing reference.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:f87c4f39-7088-49f4-b7b4-875dc6b2f6ea",
+      "form": "I-693",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "USCIS is waiving any and all requirements that applicants for adjustment of status ... present documentation on their Form I-693, Report of Immigration Medical Examination and Vaccination Record, that they received the COVID-19 vaccination",
+      "why": "The waiver changes what must be documented on the form, which is squarely 'changes what must be submitted with it' — the content of the I-693 itself is altered for these applicants.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_policy_manual:20250829-electronicpayments",
+      "form": "G-1650",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "the transition from accepting paper-based forms of payment to accepting only credit or debit cards and the new Authorization for ACH Transactions (Form G-1650)",
+      "why": "The guidance introduces this form as new and makes it the vehicle for ACH fee payment effective October 28, 2025. Creating a form and setting when it is used is as direct a subject relationship as revising one.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-14571",
+      "form": "I-901",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Extension, Without Change, of a Currently Approved Collection: Form No. I-901; Fee Remittance for Certain F, J and M Nonimmigrants",
+      "why": "A Paperwork Reduction Act extension notice for this collection; the body names it as the agency form number for the collection — 'Form I-901; U.S. Immigration and Customs Enforcement' — and describes its function, 'SEVP used the Form I-901 ... to provide a receipt to the F, J, or M nonimmigrant upon payment.'",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_policy_manual:20250613-n-648medicalcertification",
+      "form": "N-648",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Revised Guidance for Form N-648 Submission and Review Process",
+      "why": "The title states the guidance revises the submission and review process for this form, and the abstract confirms USCIS 'is changing how the Medical Certification for Disability Exceptions ( Form N-648 ) is processed.' That changes how the form is filed and reviewed.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_policy_manual:2025-10-28-transition-to-electronic-payments",
+      "form": "G-1650",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "This update involves the publication of two new forms, the Authorization for ACH Transactions ( Form G-1650 ) and Exemption for Paper Fee Payment ( Form G-1651 )",
+      "why": "The update publishes this form as one of two new forms and puts it into effect October 28, 2025. Publishing a form is a change to the form, not a mention of it.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "uscis_policy_manual:2025-10-28-transition-to-electronic-payments",
+      "form": "G-1651",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "the publication of two new forms, the Authorization for ACH Transactions ( Form G-1650 ) and Exemption for Paper Fee Payment ( Form G-1651 )",
+      "why": "Same sentence establishes this form as newly published by this update and effective October 28, 2025 — the document creates it rather than citing it.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20304",
+      "form": "I-94",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "In accordance with HR-1, the existing fee for Form I-94 Arrival/Departure Record applications will not change for FY 2026.",
+      "why": "The I-94 fee is one of the fees this notice adjusts for inflation, not background: the body devotes section II.B to it — 'Section II.B. explains the inflation adjustment formula for the HR-1 I-94 fee and details why, upon applying the inflation adjustment formula and rounding down to the nearest dollar, the fee amount will not increase in FY 2026' — and the published fee table carries a line for 'Application for CBP Form I-94 at land border ports of entry.' The document sets the FY 2026 amount for this form's fee; the outcome happening to be zero change does not make the mention incidental.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:1c4cde66-9018-44d7-ab56-805da55fa3dc",
+      "form": "I-129",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "H-1B Final Rule, H-2 Final Rule, and Revised Form I-129 Effective Jan. 17, 2025",
+      "why": "The title announces a revised edition of the form taking effect on a stated date. A revision with an effective date is a change to the form itself, not a passing reference.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-18848",
+      "form": "I-775",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Form Number: I-775. Current Actions: Revision. Type of Review: Revision.",
+      "why": "PRA notice revising this collection, and the body states a substantive change to how it is submitted: 'The requirement to submit original documents bearing original signatures of company representatives, was modified to include electronic transfer of CBP Form I-775'.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-12542",
+      "form": "N-400",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "DHS proposes to adjust the fees that U.S. Citizenship and Immigration Services (USCIS) charges for Form N-400, and Form N-336, to end both the reduced fee option for Form N-400",
+      "why": "The rule adjusts this form's fee, removes its reduced fee option, and ends fee waiver eligibility for it. A direct fee change.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-12542",
+      "form": "N-336",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "the availability of fee waivers for both forms",
+      "why": "Named alongside N-400 throughout as a form whose fee is adjusted and whose fee waiver eligibility ends; body confirms 'A. Full Cost Recovery for Form N-400 and Form N-336 Fees'.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-12542",
+      "form": "G-1055",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "See USCIS, Form G-1055, ``Fee Schedule,''",
+      "why": "Appears once inside a footnote citation supporting the current fee figures. Background reference; the rule does not change G-1055.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-12542",
+      "form": "I-912",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I. Paperwork Reduction Act 1. USCIS Form I-912 2. USCIS Form N-336 3. USCIS Form N-400",
+      "why": "The rule's Paperwork Reduction Act section carries a dedicated subsection for this form, in parallel with the two forms that are indisputably the rule's subject, which indicates its information collection is addressed by the rule. TORN: the only supporting text is a table-of-contents heading; no supplied passage states what changes for I-912, so this label rests on document structure rather than on an operative sentence.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-05204",
+      "form": "ETA-9142B",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "which covers Forms ETA-9142B, Appendices A, B, C, and D, ETA-9142B, Final Determination, H-2B Seafood Industry Attestation, and related form instructions. This action seeks to renew these forms.",
+      "why": "A PRA information collection request that renews this form and its appendices and instructions. A PRA notice about a form is about that form.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-05204",
+      "form": "ETA-9155",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "The Department also proposes to eliminate the Form ETA-9155, H-2B Registration and pertinent instructions, as employers are not required to complete and submit this form.",
+      "why": "The document proposes to eliminate this form, its instructions, and its burden estimates. Eliminating a form is the strongest possible form of concerning it.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_policy_manual:20250611-i-693validity",
+      "form": "I-693",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "the Report of Immigration Medical Examination and Vaccination Record ( Form I-693 ) is generally valid only for the immigration benefit application for which it was submitted",
+      "why": "The alert changes the policy governing this form's validity and reuse, which changes when it must be resubmitted. The form is the named subject of both title and abstract.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_policy_manual:20250611-i-693validity",
+      "form": "I-485",
+      "isSubject": false,
+      "onlyInBody": false,
+      "quote": "such as the Application to Register Permanent Residence or Adjust Status ( Form I-485 )",
+      "why": "Introduced by 'such as' as one example of a benefit application to which an I-693 may be tied. The alert's operative change is to I-693 validity, not to I-485. TORN: a reader could argue the policy changes what must accompany an I-485; I resolved against the match because the only quotable span frames I-485 as an example.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:23aeb49d-e8e0-40e0-b0d0-8f2183ddc40f",
+      "form": "I-539",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "will publish revised editions of Form I-539, Application to Extend/Change Nonimmigrant Status",
+      "why": "New edition published, older editions rejected starting a stated date. An edition change is squarely a change to the form.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:23aeb49d-e8e0-40e0-b0d0-8f2183ddc40f",
+      "form": "I-765",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "and Form I-765, Application for Employment Authorization (edition date for both: 09/15/26)",
+      "why": "Same announcement gives this form a new edition date and rejects older editions; the abstract states both were 'revised to align with' a final rule.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:d63145e3-0dce-4528-8ade-7bf442fbc12d",
+      "form": "I-140",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "providing updated procedures for submitting a Form I-140, Immigrant Petition for Alien Workers, accompanied by a permanent labor certification",
+      "why": "Updates the procedures for submitting the form and what must accompany it. Both are explicit isSubject criteria.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08333",
+      "form": "I-94",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "the new Form I-94 fee requirement",
+      "why": "The IFR codifies a new minimum fee for applications for this record and specifies it cannot be waived or reduced. A direct fee change.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08333",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "the retention of the Form I-589 filing fee for every application",
+      "why": "Codifies that the asylum filing fee is retained by USCIS if the form is rejected, and codifies the asylum and annual asylum fees. A change to the form's fee treatment.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08333",
+      "form": "I-102",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Establishes a fee requirement that, for USCIS, is applicable to the filing of Form I-102, Application for Replacement/Initial No",
+      "why": "The new statutory fee is stated to attach to the filing of this specific form, which changes the cost of filing it. Not a passing example; it is how the rule operationalizes the I-94 fee at USCIS.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-22463",
+      "form": "I-736",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Form Number: I-736. Current Actions: Revision.",
+      "why": "PRA revision of this collection that changes how it is filed: 'CBP intends to migrate from paper I-736 to a mandatory automated environment; therefore, the collection of a paper form will no longer be acceptable.'",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00582",
+      "form": "I-140",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "is announcing updated procedures for submitting a Form I-140, Immigrant Petition for Alien Workers, accompanied by a permanent labor certification approval",
+      "why": "Changes how the petition is filed and what documentation must be submitted with it. Named in title and abstract as the notice's subject.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-00582",
+      "form": "ETA-9089",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "DOL sent an original approved Form ETA-9089, Application for Permanent Employment Certification, and final determination and letter to the employer",
+      "why": "Every supplied mention is past-tense background describing the pre-FLAG process ('DOL sent...', 'the employer was required to sign and retain...'). The notice changes the I-140 submission requirement, not the ETA-9089 form. TORN: the title's 'Permanent Labor Certification Final Determination' is the ETA-9089 output, so a reader could argue this touches ETA-9089 filings; I resolved against the match because no supplied span states a change to that form.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-00582",
+      "form": "ETA-750B",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "had to submit an uncertified Form ETA-750B (now discontinued)",
+      "why": "Named once, in the past tense, and expressly identified as discontinued. Pure background about superseded practice.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_policy_manual:20251204-employmentauthorizationvalidity",
+      "form": "I-766",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "update the maximum validity periods for Employment Authorization Documents (EADs, Form I-766) for certain EAD categories",
+      "why": "The guidance acts directly on this form: it sets how long the document USCIS issues on Form I-766 remains valid, with a stated effective date. The form is the thing being changed, not an example or citation.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:8a104019-2730-4751-95dc-60944a4d8732",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "USCIS will publish a revised edition of Form I-485, Application to Register Permanent Residence or Adjust Status (edition date: 09/18/26)",
+      "why": "The document's entire purpose is a new edition of this form and the rejection of older editions. That is squarely an edition change to Form I-485.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16453",
+      "form": "I-94",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "U.S. Customs and Border Protection (CBP) will require aliens to pay a new fee to apply for a CBP Form I-94 Arrival/Departure Record",
+      "why": "The notice sets the fee that must be paid to apply for the form, and the body states the resulting total: 'the total fee for aliens who apply for a CBP Form I-94 (i.e., aliens arriving at a land border port of entry) will be $30'. A fee change for the form is squarely isSubject.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:bab8c865-a145-44b0-9a7d-1dceaff8e259",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "clarify the interview criteria for aliens who are asylees and refugees and their derivative family members filing Form I-485, Application to Register Permanent Residence or Adjust Status",
+      "why": "The form is the object of the policy change, not a passing example: the update defines who among I-485 filers must be interviewed, which changes what an I-485 applicant must go through on that application. I note the tension that an interview-criteria change is not literally one of the enumerated triggers (revision, edition, fee, filing mechanics, required evidence); I still call it isSubject because the form is the document's stated subject rather than background.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-15773",
+      "form": "I-736",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Title: Guam-CNMI Visa Waiver Information (Form I-736). OMB Number: 1651-0109. Form Number: I-736. Current Actions: Revision.",
+      "why": "A Paperwork Reduction Act notice about the form, explicitly a 'Revision', and the body also changes how it is filed: 'CBP intends to migrate from paper I-736 to a mandatory automated environment; therefore, the collection of a paper form will no longer be acceptable.'",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-09007",
+      "form": "I-246",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "DHS proposes to increase the fee for adjudicating Form I-246, Application for a Stay of Deportation or Removal, from $155 to $755.",
+      "why": "An explicit fee change for the named form; the form is in the title, abstract, and throughout the body.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-08973",
+      "form": "I-775",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Title: Visa Waiver Signatory Carrier Program (Form I-775). OMB Number: 1651-0110. Form Number: I-775. Current Actions: Revision.",
+      "why": "A PRA notice revising this collection, and the body changes how the form may be submitted: 'CBP would like to make the electronic submission and approval of this information permanent.'",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-09867",
+      "form": "I-901",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: Form No. I-901; Fee Remittance for Certain F, J and M Nonimmigrants",
+      "why": "A Paperwork Reduction Act notice whose collection is this form; the body confirms 'Agency form number, if any... Form I-901'. An extension without change is still a PRA action about the form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19702",
+      "form": "I-766",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "This IFR amends DHS regulations to end the practice of automatically extending the validity of employment authorization documents (Forms I-766 or EADs)",
+      "why": "The rule changes the validity period of the I-766 document itself — that is the operative action of the rule, and the form is named in the abstract.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19702",
+      "form": "I-765",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "There are several employment-eligible categories that are not included in DHS regulations but instead are described in the form instructions to Form I-765, Application for Employment Authorization (EAD application).",
+      "why": "Genuinely torn. The rule plainly affects people who file an I-765 renewal, since the automatic extension that attached to a timely-filed renewal is being removed. But every span that actually names I-765 is background or a footnote citation to the form instructions ('which they do by filing a Form I-765 Application for Employment Authorization, in order to receive a Form I-766 EAD'); nothing in the text given revises I-765, changes its fee, or changes how it is filed. Following the rule to prefer negative when torn, and because I cannot quote a span where the document acts on I-765, I label it false.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19702",
+      "form": "I-94",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "These aliens are issued an Arrival-Departure Record (Form I-94) indicating their employment-authorized status in the United States",
+      "why": "Pure background, explaining a class of aliens who do not file separate employment-authorization requests. The rule does nothing to Form I-94.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19702",
+      "form": "I-9",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "4. I-9 Employment Eligibility Verification",
+      "why": "Appears only as a background section heading in the rule's table of contents. Mildly torn on whether this string is even a form reference rather than a topic heading; either way the document takes no action on Form I-9, so false.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-12553",
+      "form": "ETA-9089",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Extension Package for Form ETA-9089, Application for Permanent Employment Certification, and Appendices",
+      "why": "A PRA information collection request covering this form and its appendices: 'DOL seeks to extend, without changes, the validity of Form ETA-9089, Application for Permanent Employment Certification'. A PRA notice about a form is about that form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-05683",
+      "form": "ETA-9141",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "which covers Forms ETA-9141, Application for Prevailing Wage Determination; Form ETA-9141, General Instructions; Form ETA-9141, Appendix A, Request for Additional Worksite(s)",
+      "why": "A PRA extension request whose collection is this form: 'This action seeks to extend the forms without changes.' A PRA notice about a form is about that form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-05683",
+      "form": "ETA-9165",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Form ETA 9165, Employer-Provided Survey Attestations to Accompany H-2B Prevailing Wage Determination Request Based on a Non-OEWS Survey; and Form ETA-9165, General Instructions. This action seeks to extend the forms without changes.",
+      "why": "The same PRA extension covers this form as a named component of OMB Control Number 1205-0508, not as a passing example.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_policy_manual:2025-01-10-job-portability-for-national-interest-waivers",
+      "form": "I-485 Supplement J",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "such applicants do not need to file a Confirmation of Valid Job Offer or Request for Job Portability Under INA Section 204(j) ( Form I-485, Supplement J ) if they change jobs",
+      "why": "The update changes whether this form must be filed at all for a class of applicants. That is a direct change to what must be submitted.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_policy_manual:2025-01-10-job-portability-for-national-interest-waivers",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "adjustment applicants whose immigrant petitions are based on a national interest waiver are eligible for portability under the American Competitiveness in the Twenty-First Century Act of 2000 (AC21)",
+      "why": "Somewhat torn. The literal string 'I-485' occurs only inside the name 'Form I-485, Supplement J', so one could argue the base form is never independently mentioned. I still label it true because Supplement J is a supplement to Form I-485, the population addressed is adjustment (I-485) applicants, and the update changes what those applicants must file with their adjustment application.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-14698",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "Because the IFR provides that failure to pay the Annual Asylum Fee (AAF) results in rejection of the pending Form I-589, DHS is adding ``rejected'' to the 8 CFR 208.7(a)(1)(v) language so that the regulation expressly covers both denials and rejections of asylum applications.",
+      "why": "This is the correction's own operative change, and it is framed around the consequence for a pending Form I-589. The abstract independently ties the corrected IFR to 'the retention of the Form I-589 filing fee for every application'.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-14698",
+      "form": "I-94",
+      "isSubject": false,
+      "onlyInBody": false,
+      "quote": "The IFR codified certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R. 1) and amended USCIS regulations governing asylum and annual asylum fees, the new Form I-94 fee requirement",
+      "why": "Torn. Form I-94 is named in the abstract, not merely the body, and the rule being corrected did change the I-94 fee. But this document is only a correction, and every I-94 mention describes the earlier IFR's scope as background; the sole change it makes, quotable in the body, is the asylum 'rejected' language in 8 CFR 208.7(a)(1)(v). Nothing in the text given shows this correction touching the I-94 provisions, so following the prefer-negative rule I label it false.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08131",
+      "form": "I-9",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "unfair documentary practices during the employment eligibility verification process (Form I-9 and E-Verify)",
+      "why": "Named only to describe the category of discrimination IER handles. The collection being revised is the IER charge form; nothing in the text revises Form I-9, its edition, its fee, or how it is filed.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-16863",
+      "form": "I-9",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "E-Verify+ was developed as a demonstration project to further integrate the Form I-9, Employment Eligibility Verification, process with the E-Verify electronic employment eligibility confirmation process",
+      "why": "The collection being extended is E-Verify+, not the I-9 collection. I was genuinely torn because E-Verify+ absorbs the I-9 process, so an I-9 watcher might want it — but the text says the extension is 'Without Change' and never states that Form I-9, its edition, or its filing changes. Going negative per the tie-break rule.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-12315",
+      "form": "I-129",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "Specifically, the Form I-129 requires the employer to provide the names and addresses of all agents, facilitators, staff, recruiters",
+      "why": "Cited as an existing USCIS requirement, used as background justification for rescinding DOL's own recruiter-disclosure provision. DOL is not amending Form I-129 and nothing here changes how it is filed. This is exactly the 'names I-129 in passing' case the filter must exclude.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-12315",
+      "form": "ETA-790/790A",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "unless a specific exemption applies, a copy of Form ETA-790/790A, submitted as set forth in Sec. 655.121(a)",
+      "why": "Appears inside recited filing requirements for the Application for Temporary Employment Certification. I was torn: this is regulatory filing text in a rule that amends those sections, so it could be amendatory rather than merely restated — but the quoted words alone do not show any change to the ETA-790/790A requirement, so I cannot defend a positive from the document's own words.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "N-400",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Programs Affected, OMB Control Numbers <bullet> OMB No. 1615-0052--Form N-400, Application for Naturalization",
+      "why": "Listed as a program affected by the new collection, with its own burden estimate ('the information collection N-400 is 909,700'). A PRA collection that adds identifiers to this form is about this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0013--Form I-131, Application for Travel Document",
+      "why": "Named in the 'Programs Affected' list and given its own respondent/burden estimate, so the new identifier collection changes what this form gathers.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-192",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0017--Form I-192, Application for Advance Permission to Enter as a Nonimmigrant",
+      "why": "Listed as affected, with an explicit burden estimate ('the information collection I-192 is 68,050').",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0023--Form I-485, Application to Register Permanent Residence or Adjust Status",
+      "why": "Listed as affected by the new generic clearance, with a respondent count of 1,060,585 in the burden section.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0067--Form I-589, Application for Asylum and for Withholding of Removal",
+      "why": "Listed as affected, with an explicit burden estimate ('the information collection I-589 is 203,379').",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-590",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0068--Form I-590, Registration for Classification as Refugee",
+      "why": "Listed as affected, with a burden estimate ('I-590 is 53,100').",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-730",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0037--Form I-730, Refugee/Asylee Relative Petition",
+      "why": "Listed as affected, with a burden estimate ('the information collection I-730 is 13,000').",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-751",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0038--Form I-751, Petition to Remove Conditions on Residence",
+      "why": "Listed as affected, and named again in the burden section ('the information collection I-751').",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19117",
+      "form": "I-829",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0045--Form I-829, Petition by Investor to Remove Conditions on Permanent Resident Status",
+      "why": "Listed under 'Programs Affected' for the new collection. No burden estimate appears in the supplied passages, but the affected-programs listing alone shows the collection reaches this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-11359",
+      "form": "N-648",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the DHS sponsoring the collection: N-648; USCIS",
+      "why": "This is the form being revised: it is the designated agency form number for the collection, and the notice gives N-648 respondent counts and hour burdens for both the medical professional and the applicant.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-11359",
+      "form": "N-400",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "the doctor states that an applicant filing an Application for Naturalization, Form N-400, is unable to complete the English",
+      "why": "Named only to identify whose naturalization application the N-648 certification supports. The revision is to N-648; nothing here changes Form N-400, its edition, its fee, or its filing.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-94",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "In 8 CFR 264.1(a) and (b), DHS is adding Form I-94A/94W to the item for the Form I-94",
+      "why": "The rule updates the I-94 entry itself — the section heading is 'Updating Form I-94 as Evidence of Registration' and the rule revises the classes of aliens for whom an I-94 constitutes evidence of registration.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-94A/94W",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "DHS is adding Form I-94A/94W to the item for the Form I-94",
+      "why": "Added by this rule to the 8 CFR 264.1(a) and (b) tables as evidence of registration — a direct change to the form's regulatory status.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "G-325R",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "the table of 8 CFR 264.1(b) the USCIS Proof of Alien G-325R Registration",
+      "why": "Added by this rule to the 8 CFR 264.1(b) table; the rule's whole subject is designating the registration form and its evidence.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-67",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Revising the table in 8 CFR 264.1(a) by removing the entries related to the I-67, Inspection Record--Hungarian refugees",
+      "why": "The rule removes this form's entry from the registration table — an action on the form, not a mention of it.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-691",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "removing the entries related to the I-67, Inspection Record--Hungarian refugees (Act of July 25, 1958), I-691, Notice of Approval for Status as a Temporary Resident",
+      "why": "Its entry is being removed from 8 CFR 264.1(a) by this rule, ending its status as prescribed evidence of registration.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-700",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-691, Notice of Approval for Status as a Temporary Resident, and I-700, Application for Status",
+      "why": "Named in the same amendatory bullet removing entries from the 8 CFR 264.1(a) table.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-181",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Revising the table in 8 CFR 264.1(a) by updating the entry relating to Form I-181, Memorandum of Creation of Record of Lawful Permanent Residence",
+      "why": "The rule revises this form's table entry and the class of aliens it covers.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Revising the table in 8 CFR 264.1(a) by updating the entry relating to Form I-485 and the Adjustment of Status Form Title",
+      "why": "The rule revises the form title carried for I-485 in 8 CFR 264.1(a) — a direct change to how the form is described in regulation.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-590",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "DHS is revising the form title and class of alien of Form I-590",
+      "why": "Explicit amendatory action on this form's title and covered class.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13057",
+      "form": "I-817",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "updating the entry relating to Form I-817, Application for Voluntary Departure under the Family Unity Program",
+      "why": "The rule revises the form title of I-817 in 8 CFR 264.1(a).",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "form": "I-821",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "$500 fee for first-time applicants filing Form I-821, Application for Temporary Protected Status, not including the $30 biometric services fee",
+      "why": "The notice adjusts this fee — the table carries an 'I-821 TPS Fee' row with the pre- and post-adjustment amounts (500 to 510).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "form": "I-360",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "$250 fee for any alien who files Form I-360",
+      "why": "Its fee is adjusted here; the table includes an 'I-360 Special Immigrant Juvenile (SIJ) Fee' row with the adjustment computation.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-589 Asylum Fee (Initial fee for aliens $100 2.70 $2.70 $102.70",
+      "why": "Two I-589 fee rows (initial asylum fee and annual pending asylum application fee) are given adjusted amounts in the notice's fee table.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "form": "I-765",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-765 Initial Asylum Applicant Employment 550 2.70 14.88 564.88 560",
+      "why": "Six I-765 EAD fee rows (asylum, parole, TPS; initial and renewal) receive adjusted amounts in the table.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-131 EAD upon new period of Parole (Re- 275 2.70 7.44 282.44 280",
+      "why": "The table sets an adjusted fee for the I-131 re-parole EAD, so this notice changes an I-131 fee.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "form": "I-94",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "by section 100008 from any alien who submits an application for a Form I-94 Arrival/ Departure Record, will be adjusted for inflation as required by the law in a subsequent notice in the Federal Register",
+      "why": "The notice expressly says the I-94 fee will be adjusted in a SUBSEQUENT notice, so this document does not change it. I was torn because the same statutory fee regime covers I-94 and a fee watcher would find it relevant, but the text affirmatively excludes I-94 from this adjustment.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-08426",
+      "form": "DS-3035",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Type of Request: Revision of a Currently Approved Collection. Originating Office: Bureau of Consular Affairs, Visa Office. Form Number: DS-3035",
+      "why": "DS-3035 is the form number of the collection being revised; the notice describes its content, respondents, and the electronic submission method ('Applicants will complete and submit the DS-3035 electronically at the J Visa Waiver Online portal').",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-22744",
+      "form": "I-485",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "the alien filed a Form I-485, Application to Register Permanent Residence or Adjust Status, that is postmarked or electronically filed as of December 15, 2025 that is still pending",
+      "why": "Named as a condition under which an individual's parole is spared from termination. I was somewhat torn because a filing date cutoff matters to I-485 filers, but the notice does not change Form I-485, its fee, its contents, or how or where it is filed.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-22744",
+      "form": "I-130",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "The modernized FRP programs were available by invitation only to certain petitioners with approved Forms I-130, Petition for Alien Relative",
+      "why": "Background describing how the terminated programs selected participants, plus discussion of the limits of relying on an approved I-130 during vetting. Nothing changes the form itself.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-22744",
+      "form": "I-134A",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "the process was changed for new filings in August 2023 to adopt use of the online Form I-134A",
+      "why": "Appears in footnoted historical background on the terminated programs' mechanics. I was torn because ending those programs ends a use of the I-134A, but the text never says the form, its filing, or its contents change.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-22744",
+      "form": "I-131",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "The FRP programs created in 2007, for Cuba, and 2014, for Haiti, utilized Form I-131, Application for Travel Documents, Parole Documents, and Arrival/Departure Records, to request parole from USCIS",
+      "why": "Purely historical description of how the legacy CFRP and HFRP programs were once filed; the notice makes no change to Form I-131.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-01789",
+      "form": "G-1592",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the DHS sponsoring the collection: G-1592; USCIS",
+      "why": "G-1592 is the agency form number for the collection this PRA notice extends, so the notice is about that form even though the extension is without change.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-14965",
+      "form": "I-912",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the DHS sponsoring the collection: I-912; USCIS",
+      "why": "I-912 is the designated form for the collection being extended; the notice describes its function and gives I-912 respondent counts and hour burdens.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-05903",
+      "form": "I-765",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "When filing Form I-765, you must: <bullet> Indicate that you are eligible for DED by entering ``(a)(11)'' in response to Question 27 on Form I-765",
+      "why": "The notice changes how this population files I-765: it mandates the (a)(11) eligibility code in Question 27, the fee or fee-waiver requirement, and the supporting documentation, and states 'If an individual covered by DED wants to apply for an EAD, they must file Form I-765.'",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-05903",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "if an individual covered by DED wants to apply for advance travel authorization, they must file Form I-131",
+      "why": "Operative filing direction, not background: the abstract frames the notice as explaining how eligible individuals apply for EADs 'as well as for travel authorization', and the body designates I-131 as the vehicle for DED-based advance travel authorization.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-05903",
+      "form": "I-912",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "which you may submit on Form I-912, Request for Fee Waiver",
+      "why": "A parenthetical pointer to the existing fee-waiver route, with a footnote to the USCIS fee-waiver page. Nothing about Form I-912 changes here.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-05903",
+      "form": "G-1055",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "See Fee Schedule (Form G-",
+      "why": "A citation to the USCIS fee schedule, telling readers where to find the I-765 fee. The identifier itself is split across two truncated passages ('See Fee Schedule (Form G-' … 'orm G-1055)'), and no change to G-1055 is described.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "form": "I-90",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "See, e.g., USCIS Form I- 90, Application to Replace Permanent Resident Card (Green Card)",
+      "why": "Introduced with 'See, e.g.' purely to illustrate the penalty-of-perjury certification language that already appears on forms. Nothing in the excerpt changes I-90.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "form": "I-589",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "amending 8 CFR 106.2(c) to provide that the fee for Form I-589 will be retained and not returned or refunded when a filed asylum application is rejected",
+      "why": "This sits inside a citation to a different document (91 FR 22952). The fee change belongs to that other rule, not to this one.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "form": "I-129",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "the authorized signatory signed a blank sheet of paper and had their subordinate copy that signature onto at least 20 Petitions for Nonimmigrant Worker (Form I-129)",
+      "why": "An anecdote about past signature fraud, plus a footnote citing a 2007 USCIS update on I-129 filings. Background only; this rule states no I-129-specific change. This is exactly the mention that would make an 'anything touching I-129' filter useless.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "form": "N-400",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "See, e.g., USCIS, Form N-400 Instructions, Instructions for Application for Naturalization",
+      "why": "Cited with 'See, e.g.' as an example of instructions that already say USCIS 'will deny' a deficiently signed request. Illustration of existing text, not a revision of N-400.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "form": "I-140",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "a consulting firm completed and filed approximately 3,000 Petitions for Immigrant Worker (Form I-140) where the signature was pasted on the Form I-140",
+      "why": "Second enforcement anecdote supporting the need for the general signature rule. No I-140-specific action taken.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "form": "I-693",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "submitting a vaccination assessment for a refugee adjusting status on the Report of Medical Examination and Vaccination Record (Form I-693) may provide an original (handwritten) or stamped signature",
+      "why": "Genuinely torn: this is the one form-specific signature statement in the excerpt. But it is written as a description of what the existing I-693 instructions already allow, with a 'See USCIS, Form I-693 Instructions ... (last updated Jan. 20, 2025)' citation. Nothing says this rule changes it, so I take the negative.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-13839",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the DHS sponsoring the collection: Form I-131; USCIS.",
+      "why": "PRA notice proposing revision of this exact collection; it also states a substantive change in use ('U.S. citizens and lawful permanent residents will no longer utilize Form I-131 to request an initial grant of parole') and gives its respondent and burden figures.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-67",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-67, Inspection Record--Hungarian refugees (Act of July 25, 1958)",
+      "why": "Item in the recitation of forms that current regulations already identify as registration forms. Background, not an action on I-67.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-94",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-94, Arrival-Departure Record--Aliens admitted as nonimmigrants",
+      "why": "Torn: I-94 appears in both the registration-form list and the evidence-of-registration list of 8 CFR 264.1, the section this IFR amends. But the text quotes those lists descriptively ('DHS regulations identify the following forms as registration forms'), and no passage shows I-94 itself being changed. Negative on the words given.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-94W",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "nonimmigrants through the Visa Waiver Program who were issued Form I-94W",
+      "why": "Appears in a footnote qualifying the I-94 entry. Pure background.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-95",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-95, Crewmen's Landing Permit--Crewmen arriving by vessel or aircraft",
+      "why": "Torn for the same reason as I-94 — it is listed both as a registration form and as evidence of registration — but again only as a recitation of the existing regulation.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-181",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-181, Memorandum of Creation of Record of Lawful Permanent Residence--Aliens presumed to be lawfully admitted",
+      "why": "Item in the existing regulatory list. No change asserted.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-485",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-485, Application for Status as Permanent Resident-- Applicants under sections 245 and 249 of the Immigration and Nationality Act",
+      "why": "Item in the existing regulatory list of registration forms. The document does not act on I-485.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-590",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-590, Registration for Classification as Refugee-- Escapee--Refugee-escapees paroled pursuant to section 1 of the Act of July 14, 1960",
+      "why": "Item in the existing regulatory list. Background only.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-687",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-687, Application for Status as a Temporary Resident-- Applicants under section 245A of the Immigration and Nationality Act",
+      "why": "Item in the existing regulatory list. Background only.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-691",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-691, Notice of Approval for Status as a Temporary Resident--Aliens adjusted to lawful temporary residence under 8 CFR 210.2 and 245A.2",
+      "why": "Item in the existing regulatory list. Background only.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-700",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-700, Application for Status as a Temporary Resident-- Applicants under section 210 of the Immigration and Nationality Act",
+      "why": "Item in the existing regulatory list. Background only.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-817",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-817, Application",
+      "why": "Last bullet of the registration-form list; the passage is truncated after 'Application' but the identifier itself is complete. Same descriptive list, so negative.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03944",
+      "form": "I-184",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "I-184, Alien Crewman Landing Permit and Identification Card--Crewmen arriving by ve",
+      "why": "Item in the second recitation, of forms 'constituting evidence of registration' under the current regulation. Background only.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-00569",
+      "form": "I-914",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the DHS sponsoring the collection: I-914; USCIS.",
+      "why": "PRA notice extending this exact collection, with its respondent count and hour burden. A PRA notice about a form is about that form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-00569",
+      "form": "I-914A",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "the estimated total number of annual respondents for the information collection I-914A is 1,",
+      "why": "Torn, because I-914A surfaces only inside a burden sentence. But it is a component of the very collection being extended and its burden is separately accounted for, so the notice does concern it.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-04716",
+      "form": "DS-1648",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Form Number: DS-1648.",
+      "why": "The notice is the 60-day PRA notice for this collection — 'Renewal of Currently Approved Collection, with Revision' — and describes its purpose and electronic submission methodology.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "N-400",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0052--Form N-400, Application for Naturalization",
+      "why": "Named under 'Programs Affected' for the new generic clearance and given its own burden line: 'the information collection N-400 is 909,700 and the estimated hour burden per response is 3.77 hours'. The notice changes what is collected via this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0013--Form I-131, Application for Travel Document",
+      "why": "Listed as a program affected by the new collection, so the added data elements attach to this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-192",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0017--Form I-192, Application for Advance Permission to Enter as a Nonimmigrant",
+      "why": "Listed as affected and separately burdened: 'the information collection I-192 is 68,050 and the estimated hour burden per response is 3.78 hours'.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0023--Form I-485, Application to Register Permanent Residence or Adjust Status",
+      "why": "Listed among the programs affected by the new generic clearance.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0067--Form I-589, Application for Asylum and for Withholding of Removal",
+      "why": "Listed as affected and separately burdened: 'the information collection I-589 is 203,379 and the estimated hour burden per response is 3.93 hours'.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-590",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0068--Form I-590, Registration for Classification as Refugee",
+      "why": "Listed among the programs affected by the new collection.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-730",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0037--Form I-730, Refugee/Asylee Relative Petition",
+      "why": "Listed as affected and separately burdened: 'the information collection I-730 is 13,000 and the estimated hour burden per response is 4.27 hours'.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-751",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0038 -Form I-751, Petition to Remove Conditions on Residence",
+      "why": "Listed among the programs affected by the new generic clearance. Slightly weaker than the others because the excerpt shows no separate burden line for it, but the 'Programs Affected' heading is explicit.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16824",
+      "form": "I-829",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0045--Form I-829, Petition by Entrepreneur to Remove Conditions on Permanent Resident Status",
+      "why": "Listed among the programs affected by the new generic clearance; same caveat as I-751 about no separate burden line in the excerpt.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19655",
+      "form": "I-94",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "Canadian citizens under section 101(a)(15)(B) of the INA who are not otherwise required to present a visa or be issued a form I-94 or Form I-95",
+      "why": "Used only to describe a class of aliens exempt from photographing and biometrics. The rule amends biometric collection regulations, not the I-94 itself.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19655",
+      "form": "I-95",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "who are not otherwise required to present a visa or be issued Form I-94 (see Sec. 1.4 of this chapter) or Form I-95 for admission or parole into the United States",
+      "why": "Same exemption criterion; the form is a condition in the regulatory text, not the object of the change.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "While DHS is adjusting the Form I-485 to account for the proposed removal of the regulatory provisions",
+      "why": "The document states it is adjusting this form, and it is one of the information collections comments must reference. That is a direct change to the form.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-945",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "all comments on the information collections must include the following OMB Control Numbers: Form I-485 (1615-0023), Form I-945 (1615-0143), and Form I-356 (1615-0141)",
+      "why": "Torn, because this is I-945's only appearance and the excerpt never describes a substantive change to it. But naming it as one of the information collections open for comment in this rulemaking is PRA treatment of the form, which counts.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-356",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Under the proposed 8 CFR 103.6(c)(1), if an alien files Form I-356, Request for Cancellation of Public Charge Bond, USCIS may cancel the bond if USCIS determines that the alien did not breach the bond",
+      "why": "The proposed regulation governs the effect of filing this form, and I-356 is also listed among the information collections for comment. The document changes how the form operates.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-864",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "When required, the applicant must submit an Affidavit of Support Under Section 213A of the INA (Form I-864 or Form I-864EZ)",
+      "why": "Background description of the existing statutory affidavit-of-support requirement. No change proposed to I-864 in the text given.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-864EZ",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "(Form I-864 or Form I-864EZ)",
+      "why": "Named in the same background parenthetical as I-864. Passing mention.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-944",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "DHS created a new Declaration of Self Sufficiency, Form I-944, which collected information from aliens applying for adjustment of status relevant to the 2019 Final Rule's approach",
+      "why": "Historical narrative about what the 2019 rule did. The verb is past tense and attributes the form to an earlier rulemaking, not this one.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-234",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "The proof in these cases usually consists of what is known as a Form I-234 (formerly 534), `Proof that alien has become a public charge,'",
+      "why": "A quotation from a 1946 INS article, used as historical background on public charge practice.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "form": "I-693",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "information pertaining to the health factor will continue to be obtained from Report of Immigration Medical Examination and Vaccination Record, Form I-693",
+      "why": "The document expressly says this collection 'will continue' unchanged. Explicit statement of no change is the clearest possible negative.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-15190",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "the revised Form I-589 filing instructions informing aliens that USCIS may adjudicate the application without conducting an interview or issuing a request for further evidence",
+      "why": "The rule changes what the I-589 instructions tell applicants and what they must submit at filing ('the application and any supporting documentation provided at the time of filing may be the only opportunity to meet his or her burden'). That is a change to how the form is filed and what accompanies it.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-09891",
+      "form": "I-983",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the Department of Homeland Security sponsoring the collection: Form I-983; U.S. Immigration and Customs Enforcement.",
+      "why": "PRA notice for this exact collection, and the document states 'ICE is reformatting the Form I-983 to improve the collection of school officials' contact information'.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09082",
+      "form": "G-884",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Agency form number, if any, and the applicable component of the DHS sponsoring the collection: G-884; USCIS.",
+      "why": "PRA extension notice for this collection, with its respondent count and hour burden.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-07377",
+      "form": "G-1499",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "(3) Agency form number, if any, and the applicable component of the DHS sponsoring the collection: G-1499; USCIS.",
+      "why": "The notice identifies G-1499 as the agency form number of the collection whose approval is being extended, and gives its respondent count and hour burden. A PRA notice about a collection is about that collection's form.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "N-400",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "The estimated total number of respondents for the information collection N-400 is 909,700 and the estimated hour burden per response is 0.08 hour.",
+      "why": "The notice assigns this collection an added 0.08-hour burden for the new social media identifier questions, i.e. it changes what respondents on N-400 must submit.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "The estimated total number of respondents for the information collection I-131 is",
+      "why": "Listed with its own respondent count in the burden section of a notice whose stated purpose is collecting social media identifiers on immigration forms; the added burden falls on this collection.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-192",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "The estimated total number of respondents for the information collection I-192 is 68,050 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection with an added per-response burden for the new social media identifier questions.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-485 is 1,060,585 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection carrying the new collection's added per-response burden.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "The estimated total number of respondents for the information collection I-589 is 203,379 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection carrying the new collection's added per-response burden.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-590",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-590 is 106,200 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection carrying the new collection's added per-response burden.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-730",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "The estimated total number of respondents for the information collection I-730 is 13,000 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection carrying the new collection's added per-response burden.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-751",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "I-751 is 140,000 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection carrying the new collection's added per-response burden.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03492",
+      "form": "I-829",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "The estimated total number of respondents for the information collection I-829 is 1,010 and the estimated hour burden per response is 0.08 hour.",
+      "why": "Named as an affected collection carrying the new collection's added per-response burden.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23695",
+      "form": "DS-2054",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "From Number(s): DS-2054, DS-3025, DS-3026, and DS-3030.",
+      "why": "Listed as a form number of the collection submitted to OMB. The notice also discusses its content directly: \"While the proposed DS-2054 does not contain an HIV status field\".",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23695",
+      "form": "DS-3025",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "From Number(s): DS-2054, DS-3025, DS-3026, and DS-3030.",
+      "why": "Listed as a form number of the collection being submitted to OMB for approval; a PRA notice about a collection is about its forms.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23695",
+      "form": "DS-3026",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "the Department acknowledges the proposed DS-3026 does contain an HIV blood test field",
+      "why": "Named as a form number of the collection and its proposed content is discussed directly in the Department's response to comments.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23695",
+      "form": "DS-3030",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "the DS-3030 contains a field to",
+      "why": "Named as a form number of the collection under review and its field content is discussed directly.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23695",
+      "form": "I-601",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "Applicants who wish to overcome medical ineligibility must file Form I-601 or I-602. These waiver forms are submitted to DHS on an individual basis.",
+      "why": "Background about a separate DHS waiver process, offered while answering a comment. Nothing in the text revises I-601, changes its fee, or changes how it is filed.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23695",
+      "form": "I-602",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "Applicants who wish to overcome medical ineligibility must file Form I-601 or I-602. These waiver forms are submitted to DHS on an individual basis.",
+      "why": "Same passing background reference as I-601; the notice concerns the DS medical examination forms, not this waiver form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-16252",
+      "form": "I-352",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "In paragraph (d)(1), remove the text ``Forms I-352'' and add in its place the text ``a form designated by DHS''",
+      "why": "Genuinely torn. The rule deletes the form's number from the regulation, which is an action aimed at that form's citation, but the document states it is \"non-substantive\", \"editorial in nature\" and \"does not impose any new regulatory requirements\": it does not revise the form, change its edition, its fee, or how it is filed. Preferring negative when torn.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-05942",
+      "form": "I-905",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "following its review of the Form I-905, Application for Authorization to Issue Certification for Health Care Workers, submitted by The Evaluation Company",
+      "why": "The document announces that one organization's filing was approved. It describes the existing adjudicatory framework as background; no text revises Form I-905, changes its fee, or changes how or where it is filed.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-13258",
+      "form": "G-1566",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "USCIS will use the information collected on Form G-1566 to determine whether any immigration records about the subject of record listed on the form exist.",
+      "why": "Identified as the agency form number of the collection whose approval is being extended (\"the applicable component of the DHS sponsoring the collection: G-1566; USCIS\") and described by function. A PRA notice about a collection is about that form.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13258",
+      "form": "I-910",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "The estimated total number of annual respondents for the information collection I-910 is 470 and the estimated hour burden per response is 2 hours.",
+      "why": "Genuinely torn. The burden paragraph is normally where a PRA notice names its affected collection, which would argue for subject. But this notice's title, item (2) title of the form/collection, and item (3) agency form number all say Request for a Certificate of Non-Existence / G-1566, so this number is inconsistent with the collection the document identifies. Preferring negative when torn.",
+      "reviewed": true,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "N-400",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "Programs Affected, OMB Control Numbers <bullet> OMB No. 1615-0052--Form N-400, Application for Naturalization",
+      "why": "Named under the notice's own \"Programs Affected\" heading and assigned an added per-response burden (0.77 hour), i.e. the new data collection changes what N-400 respondents must provide.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-131",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0013--Form I-131, Application for Travel Document",
+      "why": "Listed under \"Programs Affected\" and given its own added burden estimate (0.77 hour per response).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-192",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0017--Form I-192, Application for Advance Permission to Enter as a Nonimmigrant",
+      "why": "Listed under \"Programs Affected\" and given its own added burden estimate (0.78 hour per response).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-485",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0023--Form I-485, Application to Register Permanent Residence or Adjust status",
+      "why": "Listed under \"Programs Affected\" and given its own added burden estimate (0.73 hour per response).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-589",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0067--Form I-589, Application for Asylum and for Withholding of Removal",
+      "why": "Listed under \"Programs Affected\" and given its own added burden estimate (0.93 hour per response).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-590",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0068--Form I-590, Registration for Classification as Refugee",
+      "why": "Listed under \"Programs Affected\" and given its own added burden estimate (0.77 hour per response).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-730",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0037--Form I-730, Refugee/Asylee Relative Petition",
+      "why": "Listed under \"Programs Affected\" and given its own added burden estimate (1.27 hour per response).",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-751",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0038 -Form I-751, Petition to Remove Conditions on Residence",
+      "why": "Listed under \"Programs Affected\" and also appears in the per-collection burden estimates.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03436",
+      "form": "I-829",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "OMB No. 1615-0045--Form I-829, Petition by Entrepreneur to Remove Conditions on Permanent Resident Status",
+      "why": "Listed under the notice's own \"Programs Affected\" heading as a collection the new information collection applies to.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-924",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "Prior to the RIA, entities seeking designation as a regional center had to file Form I-924, Application for Regional Center Designation under the Immigrant Investor Program.",
+      "why": "Historical background describing the pre-RIA filing regime. Nothing in the text changes this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-956",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "entities seeking designation as a regional center must file Form I-956, Application for Regional Center Designation. USCIS published Form I-956 on May 13, 2022, under an exemption from the Paperwork Reduction Act (PRA) provided by",
+      "why": "Background recounting the form's publication and PRA history, plus a pointer to where the current version lives. The passages do not revise the form or change how it is filed.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-956F",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "see links for USCIS Forms I-526, I-526E, I-956, I-956F, I-956G, I-956H, I-956K available at",
+      "why": "Appears only inside a footnote list of forms whose edits OIRA approved in 2023: a citation, not an action on the form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-956G",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "see links for USCIS Forms I-526, I-526E, I-956, I-956F, I-956G, I-956H, I-956K available at",
+      "why": "Named only in a footnote list of previously approved forms; the document takes no action on it.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-956H",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "see links for USCIS Forms I-526, I-526E, I-956, I-956F, I-956G, I-956H, I-956K available at",
+      "why": "Named only in a footnote list of previously approved forms; the document takes no action on it.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-956K",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "see links for USCIS Forms I-526, I-526E, I-956, I-956F, I-956G, I-956H, I-956K available at",
+      "why": "Named only in a footnote list of previously approved forms; the document takes no action on it.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-526",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "The alien must first file an EB-5 immigrant visa petition with USCIS, either as a standalone investor by filing a Form I-526, Immigrant Petition by Standalone Investor",
+      "why": "Genuinely torn. The rule's title is about automatic revocation of immigrant classification petitions, which are these petitions, so the subject matter is close. But the only quotable text is background describing the existing multi-step process, and no supplied passage revises the form, its edition, its fee, or its filing. Preferring negative when torn.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-526E",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "or as a regional center investor by filing a Form I-526E, Immigrant Petition by Regional Center Investor.",
+      "why": "Genuinely torn for the same reason as I-526: the rule governs revocation of these petitions, but the only quotable mention is background on how EB-5 petitioners file today. Preferring negative when torn.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-13392",
+      "form": "I-485",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "A petitioner does so by filing a Form I-485, Application to Register Permanent Residence or Adjust Status, with USCIS, which the petitioner may file concurrently with",
+      "why": "Background explaining the downstream adjustment-of-status step in the EB-5 process. The rule takes no action on I-485.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03485",
+      "form": "ETA-9142A",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "This information collection request (ICR) seeks an extension without change to reinstate previous versions of Forms ETA-9142A, ETA-790, ETA-790A, and ETA-790B.",
+      "why": "The ICR reinstates a previous version of this form and states \"Employers will use the forms that were used before the effective date of the Farmworker Protection Final Rule\": a change of which edition must be filed.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-03485",
+      "form": "ETA-790",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "This information collection request (ICR) seeks an extension without change to reinstate previous versions of Forms ETA-9142A, ETA-790, ETA-790A, and ETA-790B.",
+      "why": "Named as a form whose previous version is being reinstated for employer use, which changes the edition employers must file.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-03485",
+      "form": "ETA-790A",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "This information collection request (ICR) seeks an extension without change to reinstate previous versions of Forms ETA-9142A, ETA-790, ETA-790A, and ETA-790B.",
+      "why": "Named as a form whose previous version is being reinstated for employer use, which changes the edition employers must file.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-03485",
+      "form": "ETA-790B",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "This information collection request (ICR) seeks an extension without change to reinstate previous versions of Forms ETA-9142A, ETA-790, ETA-790A, and ETA-790B.",
+      "why": "Named as a form whose previous version is being reinstated for employer use, which changes the edition employers must file.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-00771",
+      "form": "I-821",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "To re-register for TPS based on the designation of Ukraine, you must submit Form I-821. When filing an application to re-register for TPS, you do not need to pay the application fee; however, you are required to pay the biometric services fee.",
+      "why": "The notice sets the re-registration filing requirement for this form, defines the 60-day window, states the fee treatment, and tells applicants with pending filings not to file again. That is a direct change to how and when this form must be filed.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00771",
+      "form": "I-765",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "You are not required to submit Form I-765 or have an EAD to be granted TPS, but see below for more information if you want an EAD to use as proof that you can work in the United States.",
+      "why": "The notice governs whether and how TPS applicants file this form, states that pending TPS-related I-765s need not be refiled, and addresses its fees: it changes filing requirements for this form for the covered population.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00771",
+      "form": "I-9",
+      "isSubject": true,
+      "onlyInBody": true,
+      "quote": "This notice explains how TPS beneficiaries and their employers may determine if an EAD is automatically extended and how this affects the Form I-9, Employment Eligibility Verification, E-Verify, and USCIS Systematic Alien Verification for Entitlements (SAVE) processes.",
+      "why": "The notice states that explaining the effect on Form I-9 is part of what it does. Automatic EAD extension changes which documents employers may accept and what expiration date they record, i.e. what must be submitted and entered for I-9 purposes. This is a substantive, form-specific instruction, not a passing mention in a list.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00771",
+      "form": "G-1055",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "In addition, USCIS Form G-1055, Fee Schedule, provides the current fees required for the Form I-821 and Form I-765 for existing TPS beneficiaries who are re-registering.",
+      "why": "Cited as a reference source where the reader can look up fees. The notice does not revise the fee schedule form itself, change its edition, or change how it is filed.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-02882",
+      "form": "I-862",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "ROPs generally contain the Notice to Appear (Form I-862), hearing notices, a practitioner of record's entry of appearance form (Forms EOIR-27 or EOIR-28) (if any), any change of address forms (Form EOIR-33)",
+      "why": "Named in a descriptive list of documents a Record of Proceeding holds, as background for a Privacy Act exemption. The rule takes no action on this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-02882",
+      "form": "EOIR-27",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "ROPs generally contain the Notice to Appear (Form I-862), hearing notices, a practitioner of record's entry of appearance form (Forms EOIR-27 or EOIR-28) (if any), any change of address forms (Form EOIR-33)",
+      "why": "Named only as an example of a record type held in the system of records; the rule concerns Privacy Act exemptions, not this form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-02882",
+      "form": "EOIR-28",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "ROPs generally contain the Notice to Appear (Form I-862), hearing notices, a practitioner of record's entry of appearance form (Forms EOIR-27 or EOIR-28) (if any), any change of address forms (Form EOIR-33)",
+      "why": "Named only as an example of a record type held in the system of records; the rule takes no action on the form.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-02882",
+      "form": "EOIR-33",
+      "isSubject": false,
+      "onlyInBody": true,
+      "quote": "ROPs generally contain the Notice to Appear (Form I-862), hearing notices, a practitioner of record's entry of appearance form (Forms EOIR-27 or EOIR-28) (if any), any change of address forms (Form EOIR-33)",
+      "why": "Named only as an example of a record type held in the system of records; the rule takes no action on the form.",
+      "reviewed": false,
+      "holdout": false
+    }
+  ],
+  "contested": [
+    {
+      "id": "federal_register:2025-04731",
+      "form": "I-94",
+      "isSubject": true,
+      "onlyInBody": false,
+      "quote": "aliens subject to Form I-94 (Arrival/Departure Record) requirements, exiting the United States from any location ... as well as to further automate the I-94 process for these aliens",
+      "why": "The abstract states the pilot's purpose partly in terms of the I-94 process itself, and scopes participation to aliens subject to Form I-94 requirements; the body adds 'CBP is also now working to fully automate all I- 94 processes' and 'CBP has already automated the I-94 process for air and sea travel'. That is a change to how the departure side of the I-94 record is produced for these aliens, not a passing citation. Torn because the notice amends no I-94 requirement and the form itself is untouched.",
+      "reviewed": true,
+      "holdout": false,
+      "reviewerSays": "The quote shows the document scoping and motivating itself with the I-94, not acting on it. Half one, \"aliens subject to Form I-94 (Arrival/Departure Record) requirements,\" uses the existing and unchanged I-94 requirement to define who may participate — a population definition, the archetypal scoping citation, where the form identifies the class rather than being the object acted upon. Half two, \"to further automate the I-94 process,\" is a purpose clause about a program broader than this pilot, and the body the annotator cites confirms it: \"CBP is also now working to fully automate all I-94 processes. CBP has already automated the I-94 process for air and sea travel with a commercial carrier.\" The word \"further\" and the phrase \"already automated\" mark that as a status report on a continuing multi-year initiative that predates and outlives this notice — the same background-prose pattern docs/who-is-affected.md rules out for countries. Everything the notice actually does is biometric: collect facial images, test the technology's effectiveness, feed the entry-exit system, address privacy. The I-94's content, issuance, requirements, exemptions (8 CFR 235.1(h)), and filing are all untouched, and participation is voluntary and time-limited, so a person holding an I-94 who does nothing is in exactly the position they were in before. The annotator concedes this (\"the notice amends no I-94 requirement and the form itself is untouched\"), which under the stated standard is the answer. The nearest thing to action on the form is an added voluntary channel for reporting departure alongside the existing practice of returning a printed I-94 to CBSA at the northern border — and the notice describes that practice as pre-existing background as well. Contrast the codebase's own benchmark in forms.ts: a PRA notice is by definition about a specific form; this is a pilot-program notice in which the I-94 is the record system the pilot's data feeds, which is a relationship of context, not of subject. Recurrence alone (eight body passages) is frequency, not aboutness."
+    }
+  ],
+  "recordsWithNoForm": [
+    {
+      "id": "federal_register:2025-11848",
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-12910",
+      "holdout": true
+    }
+  ]
+}

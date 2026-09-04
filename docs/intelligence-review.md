@@ -14,131 +14,124 @@ honest answer to "is this human-verified?" until it changes.
 | State | Meaning | Visible to the public? |
 |---|---|---|
 | `auto` | Extracted by the pipeline. No person has checked it. | Yes |
-| `draft` | Held back. Something is wrong or unresolved. | **No** — filtered out of every list |
+| `draft` | Held back. Something is wrong or unresolved. | **No** — filtered out everywhere |
 | `approved` | A person read this record against its source and stands behind it. | Yes |
 
-`draft` is the useful one to remember: it is the only state that removes a
-record from the site, so it is what to reach for when something is wrong and
-you cannot fix it immediately.
+`draft` is filtered once, in `event-store.ts`, so a drafted record disappears
+from the site, the API, the RSS feed and the newsletter together. It is what to
+reach for when something is wrong and you cannot fix it immediately.
 
-Nothing sets `approved` automatically, and nothing ever should. An approval
-that a script can grant is not an approval.
+Nothing sets `approved` automatically, and nothing ever should. An approval a
+script can grant is not an approval.
 
-## Finding what to review
+## The three commands
 
 ```bash
 npm run review:queue
 ```
 
-The queue scores every record and prints the highest-value ones first. The
-score is stated in the `why:` line of each entry, so you can disagree with the
-ranking rather than trust it. Roughly, a record scores for:
+Ranks every record and prints the highest-value ones first. The score is spelled
+out in each entry's `why:` line, so the ranking can be argued with rather than
+trusted.
 
-- an effective date that has not yet arrived (the highest weight, because a
-  wrong record about a rule taking effect next month is the most expensive kind)
-- being marked `major`
-- being recent
-- being a final rule rather than a notice
-- carrying a **weak** classification — a tag derived from a citation or an
-  aside rather than from the document's own subject
+```bash
+npm run review:record -- <record-id>
+```
 
-That last one is the direct link between review and classification quality. A
-weak tag is the classifier saying "I found this, but only in a footnote". Those
-are exactly the rows worth a person's time.
+Prints the review sheet for one record: title, summary, the dates and instrument
+type it claims, and every classification with the evidence quote and the method
+beside it. Read-only. It ends by printing the exact command for each possible
+decision.
+
+```bash
+npm run review:set -- <record-id> --status approved --verified 2026-09-03
+```
+
+Records the decision. One record at a time — there is no `--all` and no file of
+ids, because approving is a person saying they read it, and that cannot be said
+in bulk. It refuses to write if the record fails the store's own validation,
+since a human approval on top of malformed data launders the defect.
 
 ## Reviewing one record
 
-1. **Read the record.** The queue prints its title, source, dates and the
-   source URL. Open the source URL.
+The sheet is organised around the four things that can be wrong.
 
-2. **Check the four things that can be wrong.**
+1. **Dates.** Open the source URL. Does the document state the effective date
+   the record claims? If the document states none, the record must say `null`.
+2. **Instrument.** Is it a final rule, a proposal, a notice, a court decision? A
+   proposal recorded as a final rule tells a reader they have an obligation they
+   do not have.
+3. **Classifications.** For each one, read the quote and ask a single question:
+   *is the document about this, or does it merely mention it?* A quote that
+   names the value inside a citation, a parenthetical, an agreement's title or a
+   sentence about older law is a mention. Entries marked `weak` are the ones
+   most worth your attention — the classifier is telling you it found the value
+   somewhere it does not fully trust.
+4. **Limitations.** Does the record say what it does not cover?
 
-   - **Dates.** Does the document state the effective date the record claims?
-     If the document states none, the record must say `null`, never a guess.
-   - **Classification.** Is it a final rule, a proposed rule, a notice, a court
-     decision? A proposal recorded as a final rule tells a reader they have an
-     obligation they do not have.
-   - **Tags.** For each visa, country or form on the record, read the evidence
-     quote. Ask one question: *is the document about this, or does it merely
-     mention it?* A quote that names the value in a citation, a parenthetical
-     or a sentence about older law is a mention.
-   - **Limitations.** Does the record say what it does not cover?
+Then choose:
 
-3. **Decide.** Three outcomes, and the third is common:
+- Everything checks out → `--status approved --verified <today>`
+- Wrong, and you can fix it → fix the data, then approve
+- Wrong, and the fix is not obvious → `--status draft --note "what is wrong"`
+- You looked but will not stand behind it → `--status auto --verified <today>`
 
-   - Everything checks out → approve it.
-   - Something is wrong and you can fix it → fix the data, then approve.
-   - Something is wrong and the fix is not obvious → set `draft` and leave a
-     note. A record nobody can defend should not be in front of a reader while
-     it is being worked out.
+The last one is a real option and an underused one. It records that a person
+looked without claiming they endorsed it.
 
-## Approving one record, exactly
-
-Records live in `src/lib/generated/events.json`. Find the record by its `id`
-and change one field:
-
-```json
-{
-  "id": "federal_register:2026-17324",
-  "reviewStatus": "approved",
-  "lastVerifiedAt": "2026-09-03"
-}
-```
-
-Set `lastVerifiedAt` to the date you actually checked it. That field is
-published in the API as `lastVerified`, so a stale date is a false claim about
-when a person last looked.
-
-Then confirm you have not broken the store:
+After a decision, confirm you have not broken the store:
 
 ```bash
 npx vitest run tests/classification.test.ts
 ```
 
-That run includes the whole-store validation, so a malformed edit fails here
-rather than at the next build.
+That run includes whole-store validation, so a malformed edit fails there rather
+than at the next build.
 
-To hold a record back instead, set `"reviewStatus": "draft"` and add a line to
-`limitations` saying why. Draft records are filtered out by
-`publishableEvents()` and will not appear on the site, in the API, in the RSS
-feed or in the newsletter.
-
-### A caution about regenerated data
+### A caution about regeneration
 
 `events.json` is written by `scripts/build-events.ts`, which fetches the
-government sources. A rebuild can overwrite a hand edit. Until review status is
-stored separately from the generated file, treat an approval as something to
-re-check after any run of the build, and prefer fixing a systematic problem in
-the extractor over hand-editing many records.
+government sources. A rebuild can overwrite a decision recorded here — the
+command prints this reminder itself. Until review state lives outside the
+generated file, re-check approvals after any pipeline run.
+
+## A first batch, from the queue
+
+These are the six highest-priority records as of 2026-09-03. Each takes a few
+minutes: open the source, check four things, run one command.
+
+| # | Record | Why it is near the top |
+|---|---|---|
+| 1 | `federal_register:2026-17146` | Takes effect 2026-10-01, major, six weak form tags |
+| 2 | `federal_register:2026-16231` | Takes effect 2026-09-09 — five days — major, H-1B and L-1 fee |
+| 3 | `federal_register:2026-14539` | Takes effect 2026-09-18, major, weak country and form tags |
+| 4 | `federal_register:2026-14439` | Takes effect 2026-09-15, major, four weak tags |
+| 5 | `federal_register:2026-17726` | Takes effect 2026-09-30, major, published four days ago |
+| 6 | `federal_register:2026-16290` | Takes effect 2026-09-10, major |
+
+Start with number 2. It has the nearest effective date, it is about H-1B and
+L-1 fees, and it is exactly the kind of record a paying customer would expect a
+person to have read.
 
 ## Fixing a classification properly
 
-If review turns up a wrong tag, the question to ask is whether it is one
-record's problem or a rule's problem.
+If review turns up a wrong tag, ask whether it is one record's problem or a
+rule's problem.
 
 - **One record.** Edit its entry in `events.json`.
-- **A rule.** Fix `src/domains/graph/classification.ts` or
-  `src/domains/graph/extract-impact.ts`, then re-run the offline pass:
+- **A rule.** Fix the extractor, then re-run the offline passes and re-measure:
 
   ```bash
   npm run intelligence:reclassify -- --write
+  npm run intelligence:benchmarks
   ```
 
-  and re-measure:
-
-  ```bash
-  npm run intelligence:quality
-  ```
-
-If the fix concerns H-1B, add the record to
-`fixtures/h1b-ground-truth.json` with the reason you judged it as you did, and
-give any new false positive a `failureClass`. The two classes found so far are
-`historical_statutory_reference` and `footnote_citation`, and both have named
-regression tests in `tests/classification.test.ts`.
-
-Do not remove records from the ground truth to make a number look better. The
-pool is deliberately larger than the classifier's own output, and shrinking it
-is the one change that would make the benchmark meaningless.
+If the fix concerns a benchmarked dimension, add the record to the matching
+fixture with the reason you judged it as you did, and give any new false
+positive a failure class. Do not remove records from a ground truth to make a
+number look better — the pools are deliberately larger than the classifier's own
+output, and shrinking one is the single change that would make the benchmark
+meaningless.
 
 ## What approval does not mean
 

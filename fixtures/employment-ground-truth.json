@@ -1,0 +1,839 @@
+{
+  "_readme": [
+    "HAND-LABELLED GROUND TRUTH FOR EMPLOYMENT RELEVANCE.",
+    "",
+    "The question: would a corporate immigration or global mobility team act on",
+    "this record? Employment visas, labor certification, employment authorization,",
+    "prevailing wage, E-Verify and I-9, the caps, premium processing — yes. Asylum,",
+    "naturalization, family immigration, enforcement and statistics — no, unless",
+    "the document also changes something an employer or a work-authorized person",
+    "must do.",
+    "",
+    "HOW THE POOL WAS DRAWN, AND WHY IT IS NOT THE CLASSIFIER'S OUTPUT.",
+    "",
+    "Candidates come from the DOCUMENTS, not from what the classifier claimed.",
+    "Full Federal Register texts were fetched for all 348 records that have one,",
+    "and every record whose title, abstract or body names the value became a",
+    "candidate. Scoring against your own output can only measure precision, and",
+    "it measures it against the thing being tested.",
+    "",
+    "Each judgement was made from the document's own words — title, abstract, and",
+    "the body passages containing the mention — with the deciding span quoted. The",
+    "annotator was not shown what the classifier decided.",
+    "",
+    "THE HOLDOUT. Every record carries a `holdout` flag, set by hashing its id, so",
+    "the split is stable and independent of both content and classifier answer.",
+    "Nothing may be tuned against the holdout half. It exists to catch the",
+    "overfitting that fixing a classifier against its own benchmark produces.",
+    "",
+    "NOT INDEPENDENTLY REVIEWED. As with the form set, the reviewers did not run",
+    "to completion. These are single-annotator labels.",
+    "",
+    "Note that several Temporary Protected Status records are labelled",
+    "employment-related, because terminating TPS ends work authorization. That is",
+    "a defensible reading and an arguable one; the reasons are recorded per record",
+    "so it can be argued with."
+  ],
+  "labelledOn": "2026-09-03",
+  "records": [
+    {
+      "id": "uscis_newsroom:7af4ec07-4eb6-4217-abce-186ab658312c",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "U.S. Citizenship and Immigration Services received enough petitions to reach the cap for the additional 18,490 H-2B visas made available for the first allocation of returning workers of fiscal year 2026",
+      "why": "An H-2B cap allocation is exhausted for a defined start-date window (Jan. 1 to March 31, 2026) under the FY 2026 supplemental cap temporary final rule. Employers filing H-2B petitions for those start dates must stop or redirect filings, so a mobility team acts on this directly. Labelled cap-registration because the document is entirely about a numerical cap allocation being reached; no labor certification or wage step is described in the text.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-01785",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "This form is used by an employer to petition USCIS for an alien to come temporarily to the United States as a nonimmigrant to perform agricultural services or labor in the H-2A classification.",
+      "why": "The collection is the employer-filed H-2A petition form (I-129H2A), with a 60-day comment window on the form and its burden. Employers petitioning for agricultural workers are the respondents, so a mobility team would review the proposed changes to a form it files. Processes marked none-of-these: the document is employment-related through the H-2A category and its petition form. Temporary labor certification appears only as the reference point for period of stay (\"the period specified in the temporary labor certification that supports the requested employment\"), not as a process this notice changes, so I did not claim labor-certification. I was torn on that process call.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:07aa92ed-d173-4032-8305-a17b4f4505d9",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "clarify how we evaluate eligibility for the second preference employment-based (EB-2) classification for immigrant petitions filed with a request for a national interest waiver (NIW)",
+      "why": "Policy Manual guidance changing how EB-2 NIW eligibility is evaluated directly affects how employers and sponsored workers build and time green card petitions. Employment-based by the document's own words. Processes are none-of-these: it is employment-related through the EB-2 immigrant category, and the text never mentions labor certification, wages, or any other named process.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "dol_oflc:announcement-2025-10-31",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification",
+        "prevailing-wage"
+      ],
+      "quote": "The Department of Labor has resumed processing of employer requests for prevailing wages and labor certification determinations for temporary and permanent employment in the United States.",
+      "why": "Processing of employer prevailing wage and labor certification requests has resumed and the FLAG system is back up. This changes what employers can file and when, for both temporary and permanent programmes. Both named processes are quoted verbatim in the abstract.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:f080060e-648e-4665-b72e-bd48a5bbf88a",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "updated its Policy Manual to reduce the maximum validity period for Employment Authorization Documents (EAD) for certain categories of aliens",
+      "why": "A reduced maximum EAD validity period shortens the work-authorization horizon for affected employees and forces earlier renewal filings and I-9 reverification planning. A mobility team must recalculate expiry tracking on this. The EAD is named in the abstract, so employment-authorization is supported by the text.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:19a8da9e-15b0-455f-a4f4-8a616f0e178f",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "proposing to establish a $103,265 fee for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption",
+      "why": "A proposed six-figure fee on every H-1B cap-subject petition changes the cost of sponsoring cap H-1B workers and would reshape a company's cap strategy and budget. Marked cap-registration because the fee is scoped by the document to cap-subject petitions and the advanced degree (master's cap) exemption, which is the H-1B cap process.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-09846",
+      "employmentRelated": true,
+      "processes": [
+        "employment-eligibility-verification"
+      ],
+      "quote": "(2) Title of the Form/Collection: Employment Eligibility Verification. (3) Agency form number, if any, and the applicable component of the DHS sponsoring the collection: I-9; USCIS.",
+      "why": "This is the PRA extension of the Form I-9 collection, the verification every US employer must complete for every hire. The text ties it to \"Section 274A of the Immigration and Nationality Act, as amended by the Immigration Reform and Control Act of 1986, making employment of unauthorized aliens unlawful\". An employer compliance team monitors and comments on changes to the I-9 collection.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-15424",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "a new form, Attestation for Employers Seeking to Employ H-2B Nonimmigrant Workers under Section 105 of Division G, Title I of the Further Consolidated Appropriations Act, 2024",
+      "why": "A new attestation form that employers must file to use the FY 2026 H-2B supplemental visas, supporting the TFR \"Exercise of Time-Limited Authority to Increase the Numerical Limitation for Fiscal Year 2026 for H-2B Temporary Nonagricultural Worker Program and Portability Flexibility for H-2B Workers Seeking To Change Employers\". It adds a filing obligation for petitioning employers. Marked cap-registration because the quoted subject is the increase to the H-2B numerical limitation; I did not claim labor-certification since the text names only the attestation form and 8 CFR 214 / 20 CFR 655 codification, not a labor certification step.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:3f480495-b1a7-4ef9-b61a-f604d3d0923c",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "has received enough electronic registrations for unique beneficiaries during the initial registration period to reach the fiscal year 2027 H-1B numerical allocations (known as the H-1B cap), including the advanced degree exemption (master's cap)",
+      "why": "Completion of the FY 2027 H-1B initial registration selection tells employers whether their registered candidates were selected and starts the petition-filing planning. This is the H-1B cap registration process named explicitly in the abstract.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-10220",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "Affected Public are individuals who wish to file a complaint alleging unfair immigration-related employment practices under INA section 274B.",
+      "why": "NO, though I was genuinely torn. The subject matter touches employer conduct during I-9 checks - \"``document abuse'' or over-documentation by the employer, which occurs when the employer asks an applicant or employee for more or different documents than required for employment eligibility verification\". But the document itself is only a PRA extension/revision of the EOIR-58 complaint form, whose respondents are individuals filing discrimination complaints, and the text states \"using this form is voluntary\". Nothing in the text changes what an employer must do to petition for or verify a worker, so a mobility team has nothing to act on. Prefer negative when torn.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-00525",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "Temporary Agricultural Employment of H-2A Aliens in the United States; Ratification of Department's Actions",
+      "why": "A DOL final rule action on the H-2A temporary agricultural employment programme, ratifying the February 10, 2010 rule that agricultural employers operate under. The text places it at \"20 CFR Parts 653 and 655\" and \"29 CFR Part 501\" and directs 20 CFR 655 questions to the \"Administrator, Office of Foreign Labor Certification\", which is what supports the labor-certification process label. The ratification is procedural rather than substantive, but it goes to the validity of the rule governing employer H-2A filings.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:0b0eb6e4-c973-4711-8723-60fd27fc7da6",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "USCIS received enough petitions to meet the H-2B statutory cap for the second half of fiscal year 2025. The filing dates for supplemental H-2B visas for the remainder of FY 2025 are now available.",
+      "why": "The H-2B statutory cap for the second half of FY 2025 is exhausted and supplemental visa filing dates are published. Employers must stop filing against the exhausted cap and calendar the supplemental filing dates. Cap-registration covers the cap allocation and filing-window mechanics described in the text.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:b034865c-140b-4946-97ab-b156b2d747ca",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "establishing procedures for certain Hong Kong residents covered by Deferred Enforced Departure (DED) to apply for Employment Authorization Documents (EADs) that will be valid through Feb. 5, 2027",
+      "why": "The document's own words establish an application procedure for EADs with a stated validity date. Although the underlying status (DED) is humanitarian rather than employment-based, the operative content is employment authorization: a mobility or HR team with DED-covered employees must act on the filing procedure and diary the Feb. 5, 2027 expiry for work-authorization purposes.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-15131",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "The Department proposes to extend its information collection without change to existing requirements.",
+      "why": "I was torn. The text is about agricultural worker housing occupancy certificates under MSPA, a domestic labor-standards statute; nothing in the title, abstract, or passages mentions a nonimmigrant category, a visa, labor certification, or foreign workers, and the passage that is present says 'MSPA protects migrant and seasonal agricultural workers by establishing employment standards related to wages'. It is also an extension 'without change to existing requirements'. Because I cannot quote anything tying it to employment-based immigration, and a corporate mobility team would have nothing to act on, I labelled it negative per the prefer-negative rule.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-00526",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "ratification of the rule published October 12, 2022, titled Temporary Agricultural Employment of H-2A Nonimmigrants in the United States",
+      "why": "The document is a Department of Labor action on the rule governing H-2A nonimmigrant employment, an employment visa programme squarely within scope. I was mildly torn because a ratification confirms the validity of prior action rather than changing what an employer must do; the text says only that the officials ratified the 2022 rule. Still, an employer's H-2A obligations rest on that rule, so a mobility team would want the record. I listed 'none-of-these' because the text reaches employment through the H-2A category and the quoted spans never use the words labor certification or prevailing wage.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_newsroom:fa81e3e0-3f24-4a48-84f0-c24bb0d475aa",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "a final rule, effective Oct. 2, 2025, to streamline the filing process for certain temporary agricultural worker petitions",
+      "why": "By its own words this is a final rule with a stated effective date that changes how employers file petitions for temporary agricultural workers. That is a direct change to the employer petition process, which a mobility team would act on before Oct. 2, 2025. The text describes DHS petition filing and names none of the listed processes, so the process list is 'none-of-these' (employment-related through the temporary agricultural worker petition category).",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-15673",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification",
+        "prevailing-wage"
+      ],
+      "quote": "AEWRs are the minimum wage rates that must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment",
+      "why": "The text imposes a wage floor employers must offer, advertise, and pay to H-2A workers, with an effective date, so an employer must act. Labor certification is supported by the title's own words, 'Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture', and by the passage naming the 'Office of Foreign Labor Certification'. I included prevailing-wage because the notice is a wage-rate determination setting the required wage in that programme, while noting the text calls it an Adverse Effect Wage Rate rather than a prevailing wage.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-17390",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "The Department is seeking comments regarding its proposal to replace the existing information collection tools (e.g., forms and instructions) covered under OMB Control Number 1205-0466",
+      "why": "The collection being revised is named in the text as the 'H-2A Temporary Agricultural Labor Certification Program', and the proposal would replace the forms and instructions employers use, tied to an NPRM rescinding provisions of the April 29, 2024 final rule. Changed labor certification forms are something an employer files, so a mobility team would act.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00828",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "amend its regulations regarding the certification of temporary employment of nonimmigrant workers in temporary or seasonal agricultural employment in herding or the production of livestock on the range",
+      "why": "The passages describe certification of temporary employment of H-2A nonimmigrant workers and route questions to the 'Office of Foreign Labor Certification', which supports the labor-certification label from the text itself. I was mildly torn for the same reason as the other ratification: the action ratifies a 2015 rule rather than altering obligations. It still concerns the rule governing H-2A range employment, so it belongs in an H-2A monitor's feed.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-16862",
+      "employmentRelated": true,
+      "processes": [
+        "employment-eligibility-verification"
+      ],
+      "quote": "Title of the Form/Collection: Employment Eligibility Verification. (3) Agency form number, if any, and the applicable component of the DHS sponsoring the collection: I-9; USCIS.",
+      "why": "The text names the I-9 Employment Eligibility Verification collection and ties it to 'Section 274A of the Immigration and Nationality Act, as amended by the Immigration Reform and Control Act of 1986'. I-9 verification is an explicit in-scope process and every employer performs it; the 30-day comment window is also actionable, even though this instance is an extension without change.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:d5d1776c-571e-453a-9a67-952d0542ca92",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "President Donald J. Trump signed a Proclamation, \"Restriction on Entry of Certain Nonimmigrant Workers,\" that took an important, initial, and incremental step to reform the H-1B visa program",
+      "why": "The text states a Proclamation restricting entry of certain nonimmigrant workers and reforming the H-1B visa program, and the document is agency FAQ guidance on it. H-1B is a named employment visa programme and an entry restriction directly affects employer sponsorship and employee travel, so a mobility team would act immediately. The available text does not mention cap registration, premium processing, or any other listed process, so 'none-of-these' by visa category.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "dol_oflc:announcement-2025-05-16",
+      "employmentRelated": true,
+      "processes": [
+        "prevailing-wage"
+      ],
+      "quote": "all relevant employers employing workers in a specific crop or agricultural activity must offer and pay the applicable active prevailing piece rate wage",
+      "why": "The abstract states an obligation on employers to offer and pay a prevailing piece rate wage under a district court order, and the title identifies it as guidance for the H-2A program. Prevailing-wage is quoted directly in the text. I did not add labor-certification because the available words state a wage-payment obligation rather than a change to the certification filing itself.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-09530",
+      "employmentRelated": true,
+      "processes": [
+        "employment-eligibility-verification"
+      ],
+      "quote": "E- Verify is a web-based system which allows employers to electronically confirm the employment eligibility of newly hired employees.",
+      "why": "The text is a revision of the currently approved E-Verify collection, with respondent counts for 'Employer Enrollment' and user training burden, and describes E-Verify as the employer's tool for confirming employment eligibility of new hires. E-Verify is an explicitly in-scope process and a revision to enrolment and training requirements is something employers act on.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-23555",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "information requirements are necessary to the collection of information from U.S. employers wishing to sponsor foreign labor for permanent residency through the Labor Certification process",
+      "why": "The document's own words describe the Application for Permanent Employment Certification, the PERM filing employers submit to sponsor foreign workers for permanent residency, and the passage names the Labor Certification process explicitly. A reinstatement of that collection affects the form employers must file, so a mobility team would act.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00769",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "…sary for nationals of Venezuela (or individuals having no nationality who last habitually resided in Venezuela) to re-register for TPS and apply to renew their EAD with USCIS.",
+      "why": "The notice's own text tells beneficiaries to \"apply to renew their EAD with USCIS\" and warns that \"delaying re-registration could result in gaps in their employment authorization documentation.\" A mobility team with Venezuelan TPS employees must act on the re-registration window to avoid a lapse in the employee's work authorization. This is employment authorization directly, not a passing mention. I did not label employment-eligibility-verification: Form I-9 appears only in the abbreviations table, and nothing in the passages given states a changed I-9 or reverification obligation.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-14539",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…most aliens seeking family-based immigrant visas and adjustment of status, and certain aliens seeking employment-based immigrant visas or adjustment of status, must submit a sufficient Form I-864 in order to avoid being found inadmissible…",
+      "why": "Torn. The rule is an inadmissibility ground, and every employment reference in the passages given is either the EAD abbreviation line, background about who files Form I-864, the statutory public-charge factors (\"past record of employment, current employment, offer of employment\"), or commenter argument about benefits and self-sufficiency. None of it states a changed obligation for an employer or a work-authorized person. The one employment-based sentence merely describes existing I-864 practice, and describes it as applying to \"certain\" employment-based cases. I could not quote a span in which this rescission changes what an employment-based petitioner or beneficiary must do, so under the prefer-negative rule the label is NO.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-05942",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "Notice of Approval of New Credentialing Organization for Health Care Workers for Certain Immigration Purposes … guidance on certificates for health care workers at https://www.uscis.gov/working-in-the-united-states/temporary-workers/health-care-worker-certification. In accordance with 8 CFR 212.15(e)…",
+      "why": "The document approves an additional organization that may issue the health care worker certificate required under 8 CFR 212.15, and its own words point to USCIS's \"working-in-the-united-states/temporary-workers\" health care worker certification guidance. An employer sponsoring nurses or allied health workers acts on this: it changes which credentialing body can produce a certificate their petition depends on. Employment-related through a work-visa requirement rather than through any of the named processes, so processes is none-of-these (this is not PERM, prevailing wage, or I-9/E-Verify).",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-05846",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…names, email addresses, employment addresses, and dates of birth for individuals seeking or who have sought accreditation and Authorized Officers…",
+      "why": "A Privacy Act system-of-records notice for EOIR's roster of recognized organizations and accredited representatives. The word employment appears only as a data field (\"employment addresses\" of accreditation applicants) and in a routine use about law-enforcement agencies' own \"hiring or continued employment\" of staff. Neither concerns employment-based immigration, and nothing here changes an obligation for an employer or a work-authorized worker.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-04737",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…a major increase in costs or prices; or significant adverse effects on competition, employment, investment, productivity, innovation…",
+      "why": "A Diversity Visa Program integrity rule requiring passport data from DV entrants. The sole employment reference is the boilerplate E.O. 12866 significance test language. The DV lottery is not an employment-based category and the rule imposes nothing on employers or work-authorized workers.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08653",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…solicits information from aliens claiming employment-based immigrant visa preference under section 203(b)(4) of the Immigration and Nationality Act based on qualification as a special immigrant described in secti…",
+      "why": "Torn, and I say so. The document self-describes as collecting information from aliens \"claiming employment-based immigrant visa preference under section 203(b)(4)\" — an employment-based (EB-4) immigrant preference by the text's own words, and the named criteria include EB-1 through EB-5. Against that: the petitioning employer here is the U.S. Government abroad, so a corporate mobility team has no caseload in this category and would likely dismiss it after reading. I landed YES because the employment-based classification is quotable from the document itself rather than inferred, but the actionability for a corporate team is genuinely thin. Employment-related via the visa preference category, not via a named process.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-10664",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "Form I-140G is used by an individual (self- petitioner) or corporation or similar entity (corporate petitioner) to request an employment-based immigrant visa under the Gold Card program established by Executive Order 14351, The Gold Card (Sep. 19, 2025).",
+      "why": "The text names a corporate petitioner filing Form I-140G for an \"employment-based immigrant visa.\" This is an employer-filed immigrant petition form whose collection is being revised — squarely within what a corporate immigration team monitors and acts on. Employment-related through the immigrant petition category rather than through labor certification, prevailing wage, or verification, so none-of-these.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-16290",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…This IFR applies OCAHO's existing hearing procedures for employment- and document fraud-related proceedings in 28 CFR part 68 to IMBRA cases.",
+      "why": "Torn. OCAHO is the forum that hears I-9 and unlawful-employment penalty cases, so anything touching 28 CFR part 68 catches the eye. But the text says the opposite of a change for employers: it takes OCAHO's existing employment-case procedures and extends them to international marriage broker cases. Every employment reference is background describing OCAHO's current jurisdiction, plus the boilerplate significance test. I cannot quote a span altering an employer's I-9 or penalty exposure, so the label is NO.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09107",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…will also report information on any receipt of means-tested public benefits, as well as information related to their employment or schooling, when notifying USCIS of their change of address.",
+      "why": "Torn, and I say so. Change of address under INA 265 is a general alien-registration duty, not an employment programme, which argues for NO. But the collection is being revised so that the filer must now report \"information related to their employment or schooling\" — a new reporting obligation falling on every foreign national, including the work-authorized employees a mobility team advises on address-change compliance. That satisfies the carve-out that a general-immigration document counts when it changes something a work-authorized person must do, and the change is quotable rather than inferred, so I labeled YES. None of the named processes applies: this is not I-9/E-Verify verification, only a data field on an address notice.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-00596",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "…Temporary Protected Status beneficiaries are authorized to work and obtain an Employment Authorization Document (EAD), if requested.",
+      "why": "The notice terminates Somalia's TPS designation effective March 17, 2026, after which beneficiaries \"will no longer have Temporary Protected Status,\" and the body states that TPS status is what makes those beneficiaries \"authorized to work and obtain an Employment Authorization Document (EAD).\" An employer with Somali TPS staff loses the basis for their work authorization on a dated deadline — a mobility team acts on this. Labeled employment-authorization; I did not add employment-eligibility-verification because no passage given states an I-9 or reverification instruction.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20278",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…some aliens seeking employment-based immigrant visas or adjustment of status, must submit a sufficient Affidavit of Support Under Section 213A of the INA in order to avoid being found inadmi…",
+      "why": "Torn, same reasoning as the companion final rule (2026-14539), and labeled consistently with it. This is the proposed-rule stage of the public charge rescission. The employment spans are background: who files an affidavit of support (\"to a lesser extent, some aliens\" in employment-based cases), historical IRCA self-support discussion, and a statutory quotation about a nonimmigrant \"whose visa for entry is related to such employment.\" None states a changed requirement for an employer or a work-authorized person, so the label is NO.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-16875",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "…information to indicate whether a student is engaging in online education, on-campus employment, and whether any employment or training is being conducted on-site or remotely.",
+      "why": "Torn. The record is not a student matter with zero work component — the collection expressly covers \"on-campus employment\" and whether \"employment or training is being conducted on-site or remotely,\" which touches practical training. But the respondents to this SEVIS collection are schools and their DSOs, and nothing in the passage given imposes or changes anything an employer or the work-authorized worker must do; the employer-facing training reporting instrument is never mentioned. The employer action is inferred rather than quotable, so under prefer-negative the label is NO.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-10704",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "This extension automatically extends the validity of Employment Authorization Documents (EADs) previously issued under the TPS designation of Lebanon for six months, from May 28, 2026, through November 27, 2026.",
+      "why": "TPS itself is humanitarian, but this notice does the thing the exception covers: it automatically extends EAD validity beyond the date printed on the card. A mobility team with Lebanese TPS employees must re-date their work-authorization tracking and reverification calendar. Employment authorization is changed by operation of the notice, quotably. I did not count employment-eligibility-verification: Form I-9 appears only in the abbreviations table in the passages given, with no employer instruction quotable.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-17087",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "as proof of continued employment authorization through November 7, 2025, TPS beneficiaries can show their EADs that have the notation A-12 or C-19 under Category",
+      "why": "Terminating the 2021 Venezuela designation ends work authorization for a defined population on a date certain, and the notice itself sets the interim rule for proving work authorization: 'DHS automatically extends the validity of certain EADs previously issued under the 2021 Temporary Protected Status designation of Venezuela through November 7, 2025.' An employer of these workers must act on both the extension and the hard stop. Employment authorization only; the text tells beneficiaries what to show but states no I-9 obligation on employers in the passages given.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16554",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "such as when applying for employment authorization for optional practical training (OPT) or for reinstatement if they have failed to maintain status",
+      "why": "Genuinely torn, and I want that on the record. Read narrowly this is a student/exchange-visitor admission-period rule, which the negative list would exclude. But the F population it re-dates is not work-free: the document names 'employment authorization for optional practical training (OPT)' as one of the few points of DHS interaction, and describes I status as running with 'the duration of his or her foreign employment duties in the United States.' Replacing duration of status with 'a Fixed Time Period of Admission and an Extension of Stay Procedure' gives every OPT and STEM OPT employee a hard admission expiry and a new EOS filing an employer must track. That is an action, so I landed YES. The H-1B/H-2A/H-2B mention in the passages is a cross-reference to existing periods of stay, not a change, so I did not treat it as an H-1B hook. No named process is the subject of the rule.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-01517",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "including the use of those characteristics as a selection criterion or preference for, or basis for exclusion from, employment, contracting, program participation, resource allocation, or similar activities",
+      "why": "The word 'employment' appears only inside the definition of discriminatory conduct in a State Department foreign-assistance award term binding grantees and NGOs. Nothing in the text touches visas, petitions, work authorization, or verification, and no immigration process is mentioned at all. A mobility team has nothing to do here.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2026-15190",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "may have their applications dismissed or may be sanctioned; as well as to clarify implications for employment authorization",
+      "why": "Torn, and resolved negative per the tie-break rule. The rule's operative change is procedural asylum adjudication: referring affirmative asylum applications to EOIR without interview and dropping the credibility assessment from referral letters. The employment language is either background rationale ('wanted to use the affirmative asylum process as a vehicle to obtain employment authorization') or a downstream side effect ('could also result in earlier work authorization for aliens who are approvable'). The one concrete hook, 'clarify implications for employment authorization,' is a passing clause with no quotable requirement attached, and asylum-based EADs are not employment-based immigration. Nothing here tells an employer or a work-authorized person to do anything different.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19800",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "The Secretary may determine the appropriate effective date of the termination and expiration of any Temporary Protected Status-related documentation, such as Employment Authorization Documents.",
+      "why": "Termination of South Sudan TPS sets an expiration date for the work authorization of a defined workforce: beneficiaries 'are authorized to work and obtain an Employment Authorization Document (EAD)' only while designated, and the notice fixes the transition period after which that documentation expires. An employer of South Sudanese TPS holders has a dated action. Employment authorization is squarely the mechanism; no I-9 or E-Verify instruction is quotable in the passages given.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "employmentRelated": true,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "In one case, the authorized signatory signed a blank sheet of paper and had their subordinate copy that signature onto at least 20 Petitions for Nonimmigrant Worker (Form I-129). In another case, a consulting firm completed and filed approximately 3,000 Petitions for Immigrant Worker (Form I-140)",
+      "why": "This changes how employers petition: USCIS 'may, in its discretion, reject or deny the request' when a signature is later found invalid, and the record's own examples are employer filings, Form I-129 and Form I-140, plus 'an employer's failure to explain inconsistent signatures.' A mobility team must revisit who holds signature authority and how petitions are executed, because a defective signature now risks denial rather than a fixable rejection. I listed no named process: the H-1B cap-registration text is a 2011 citation offered as background on rejection costs, not a change to cap registration, and the rule reaches benefit requests generally.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-03990",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "Automotive production is a major source of United States employment and innovation and is integral to United States economic and national security.",
+      "why": "A tariff order amending duties tied to the northern border. The sole employment reference is a macroeconomic statement about the automotive sector. No visa classification, petition, work authorization, or verification requirement appears in the text.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-12542",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "The Department of Homeland Security (DHS) proposes to adjust the fees that U.S. Citizenship and Immigration Services (USCIS) charges for Form N-400, and Form N-336, to end both the reduced fee option for Form N-400, and the availability of fee waivers for both forms.",
+      "why": "The operative change is confined to naturalization fees, which the negative list excludes, and nothing in it alters an employer obligation. The employment-adjacent passages are descriptions of the fee accounts USCIS manages, not adjustments to them, and the document says so: 'The Fraud Prevention and Detection fees charged to certain employers petitioning for nonimmigrant workers in the H-1B, H-2B, and L-1 visa classifications are set by statute' and 'DHS has no authority to adjust the fees for these a…'. Premium processing appears only as a named revenue stream in that same list, so it is not a process this document concerns.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2024-31358",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "ICE Form I-220B (Order of Supervision) <bullet> Form I-765--Employment Authorization Document (EAD) ICE continues to allow obligors to post a bond in person",
+      "why": "Electronic service of immigration bond notices on obligors. The EAD appears only as one acceptable identity document in a list for people posting bonds, and the other hits are an incidental example about a work email address and Section 508 boilerplate about 'applicants for employment.' Nothing changes for an employer or a work-authorized person in their capacity as such.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-02970",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization",
+        "employment-eligibility-verification"
+      ],
+      "quote": "Employers and Federal, State, and local government agencies (such as Departments of Motor Vehicles) that previously accepted or are presented with an EAD with the TPS category code of A-12 or C-19 that expires on February 3, 2026, must update their records to note that the validity date of the document is throug",
+      "why": "The clearest employer obligation in the batch: the notice cuts the Haiti designation period short and tells employers in terms that they 'must update their records' for EADs they already accepted. It also re-dates pending EAD applications, since applications 'for employment authorization filed pursuant to the July 1, 2024, notice that remain pending with USCIS will, if approved, receive an expiration date of August 3, 2025.' I included employment-eligibility-verification because the duty runs to employers about documents already accepted for a worker, which is the verification record itself, even though the passages do not name Form I-9.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-20622",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "$550 fee for an alien who files an initial employment authorization application under Temporary Protected Status (TPS). Sec. 100003(c). <bullet> $275 fee for renewals and extensions of employment authorization for aliens granted TPS.",
+      "why": "The adjusted fees are, on their face, employment authorization application fees: initial and renewal EAD filings for TPS, parole, and pending asylum, including '$275 fee for renewals and extensions of employment authorization for asylum applicants.' The filing populations are humanitarian, but the priced action is the I-765, and a mobility team that files or reimburses EAD renewals for these employees has a concrete number to update before the effective date. Employment authorization is the only named process the document reaches.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-16863",
+      "employmentRelated": true,
+      "processes": [
+        "employment-eligibility-verification"
+      ],
+      "quote": "the E-Verify electronic employment eligibility confirmation process to create a more secure and less burdensome employment eligibility verification process overall for employees and employers",
+      "why": "The collection is E-Verify+, an integration of Form I-9 employment eligibility verification with E-Verify, and the named respondents are 'E- Verify+ Employers, Recruiters and Referrers for a fee, and State Employment Agencies'. Employer-facing I-9/E-Verify machinery is squarely in scope. I was somewhat torn because this is a Paperwork Reduction Act 30-day notice for an 'Extension, Without Change, of a Currently Approved Collection' - nothing an employer must newly do changes - but the document is about the E-Verify/I-9 system itself and employers are the respondents, so a mobility team tracking E-Verify+ would want it and could comment.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-00906",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification",
+        "prevailing-wage"
+      ],
+      "quote": "AEWRs are the minimum wage rates the DOL has determined must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment",
+      "why": "Directly sets a wage floor H-2A employers must offer, advertise and pay, announced under the 'Labor Certification Process for the Temporary Employment of Foreign Workers in Agriculture'. An employer of range herding H-2A workers must change its offered wage. Labor certification is explicit in the title; I also list prevailing-wage because the document's own words describe a DOL-determined wage rate binding on the employer's recruitment and pay, though the AEWR is technically distinct from an ETA-9141 prevailing wage determination.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-05204",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "The Department also proposes to eliminate the Form ETA-9155, H-2B Registration and pertinent instructions, as employers are not required to complete and submit this form.",
+      "why": "Concerns the forms employers file in the H-2B Foreign Labor Certification Program (ETA-9142B and appendices, Final Determination, H-2B Seafood Industry Attestation) and proposes eliminating a form. Filing mechanics for an employment programme are exactly what a mobility team tracks. I did not tag cap-registration: the ETA-9155 'H-2B Registration' named here is a DOL labor-certification form, and nothing in the text ties it to the H-2B cap.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:811dbd7d-7e86-4e5d-91ad-afbf96c4347e",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "the initial registration period for the fiscal year 2026 H-1B cap will open at noon Eastern on March 7 and run through noon Eastern on March 24, 2025",
+      "why": "A hard filing window for the H-1B cap registration that employers must meet or lose the year. This is the archetypal mobility-team deadline.",
+      "reviewed": true,
+      "holdout": true
+    },
+    {
+      "id": "uscis_newsroom:d63145e3-0dce-4528-8ade-7bf442fbc12d",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "updated procedures for submitting a Form I-140, Immigrant Petition for Alien Workers, accompanied by a permanent labor certification, application for Schedule A designation, or national interest waiver (NIW) request",
+      "why": "Changes how employers file the employment-based immigrant petition and how the permanent labor certification is submitted with it. Petition filing procedure changes are acted on immediately by the team preparing the filings. Tagged labor-certification because the document's own words name the permanent labor certification and Schedule A designation as part of what is being submitted; the EB-1/EB-2/EB-3 and NIW aspects are visa-category rather than one of the named processes.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-12023",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "This address will be used both to receive documentary evidence for applications and to receive payments for H-2A certification invoices.",
+      "why": "The Office of Foreign Labor Certification changes where employers must send documentary evidence for temporary labor certification applications and where H-2A certification invoice payments go, effective a stated date. Administrative, but it changes an employer's filing action and misdirected evidence or payment has consequences.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-14510",
+      "employmentRelated": true,
+      "processes": [
+        "labor-certification"
+      ],
+      "quote": "Any employer that is issued an H-2A certification fee invoice prior to the effective date of the temporary suspension of collections must pay the invoice by the due date.",
+      "why": "Suspends collection of H-2A labor certification fees from a stated date and states what employers with pre-existing invoices must still do. Direct cost and payment-obligation change in the H-2A certification process.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08333",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "codification of the H.R.1 limits on the validity of Temporary Protected Status (TPS) employment authorization required by 8 U.S.C. 1803(c) and 8 U.S.C. 1811(a)",
+      "why": "Much of this interim final rule is asylum and I-94 fee material, which alone would be out of scope, but it also codifies 'the validity period for certain types of employment authorization' and the H.R.1 limits on TPS employment authorization validity. Shortened EAD validity changes the expiry dates a work-authorized person and their employer must track, which meets the stated exception for documents that change something an employer or work-authorized person must do.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "uscis_policy_manual:20251204-employmentauthorizationvalidity",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "update the maximum validity periods for Employment Authorization Documents (EADs, Form I-766) for certain EAD categories. This guidance becomes effective December 5, 2025.",
+      "why": "Changes maximum EAD validity periods with a stated effective date. A mobility team must re-plan renewal timing and expiry tracking for affected employees.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "dol_oflc:announcement-2026-03-12",
+      "employmentRelated": true,
+      "processes": [
+        "prevailing-wage",
+        "labor-certification"
+      ],
+      "quote": "preparing the CW-1 Application for Prevailing Wage Determination (Form ETA-9141C), the Application for Temporary Employment Certification",
+      "why": "Technical assistance on filing the CW-1 prevailing wage determination and temporary employment certification applications for employment in the CNMI - both the prevailing wage and labor certification steps of an employment-based work permit programme. An employer or agent filing CW-1 cases would attend. It is an event notice rather than a rule change, which lowers its urgency, but the process it concerns is unambiguously employment-based.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23853",
+      "employmentRelated": true,
+      "processes": [
+        "cap-registration"
+      ],
+      "quote": "DHS is implementing a weighted selection process that will generally favor the allocation of H-1B visas to higher-skilled and higher-paid aliens, while maintaining the opportunity for employers to secure H-1B workers at all wage levels",
+      "why": "A final rule rewriting how USCIS selects H-1B cap registrations, effective in time for the FY 2027 registration season. It changes an employer's odds and its filing strategy for cap-subject petitions - the single most consequential kind of record for a mobility team. I listed only cap-registration: the wage weighting is described in the text as favouring higher-paid beneficiaries, but nothing quoted concerns an ETA-9141 prevailing wage determination process.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-09845",
+      "employmentRelated": true,
+      "processes": [
+        "employment-eligibility-verification"
+      ],
+      "quote": "the E-Verify electronic employment eligibility confirmation process to create a more secure and less burdensome employment eligibility verification process overall for employees and employers",
+      "why": "The 60-day PRA counterpart to the E-Verify+ collection notice: the subject is the Form I-9 / E-Verify employment eligibility verification system and the respondents are 'E- Verify+ Employers, Recruiters and Referrers for a fee, and State Employment Agencies'. Same reservation as the 30-day notice - it is an 'Extension, Without Change' with no new employer obligation - so I was torn, but I-9/E-Verify is explicitly in scope and this is the comment window employers would use.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-13609",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "Employment history; <bullet> Business information, including occupation and place of business",
+      "why": "A Privacy Act system-of-records notice for ICE's Search, Arrest, and Seizure Records. The only employment text is an item in the list of record categories ICE may hold about a person. Nothing in the text changes how an employer petitions for, verifies, or authorizes a worker; the subject is law-enforcement recordkeeping. Not employment-based immigration.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-00553",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "List of Subjects in 8 CFR Part 214 Administrative practice and procedure, Aliens, Cultural exchange program, Employment, Foreign officials, Health professions, Reporting and recordkeeping requirements, Students.",
+      "why": "A technical correction to the T nonimmigrant status rule for victims of trafficking. The single employment span is the boilerplate CFR 'List of Subjects' index heading for 8 CFR part 214, not substantive content. The text describes only restoring language 'unintentionally removed as a result of the prior correction' to a humanitarian status; no employer or work-authorization obligation is stated in the words given.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-15726",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "including the condition that the alien not accept unauthorized employment, and departs from the United States through a commercial airport on or before the date to which he or she is authorized to remain",
+      "why": "A visa bond program for B-1/B-2 temporary visitors for business or pleasure. Every employment mention is either a restatement of the existing prohibition on unauthorized employment, the applicant's own job as one input to a bond or waiver decision ('purpose of travel and possibly employment'), or E.O. 12866 boilerplate ('significant adverse effects on competition, employment, investment'). Nothing grants, changes, or verifies work authorization. I was torn because B-1 business travel is administered by many mobility teams, but B-1/B-2 is a visitor category and the text creates no employer obligation, so I went negative.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-19655",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "In FY 2016, Congress authorized the funding of the original, biometric entry-exit program through up to $1B in fees, collected by USCIS, on H-1B/L-1 applications, through FY 2027.",
+      "why": "A final rule on photographing and collecting biometrics from aliens at entry and exit. The H-1B/L-1 reference is a historical statement about how the entry-exit program was funded, not a change to H-1B or L-1 petitioning, fees, or status. The operative change applies to all aliens crossing the border regardless of work authorization. I was torn because the passage names H-1B/L-1 outright, but the words attach no new employer or petitioner obligation, so negative.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-16573",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "In selecting TIJs, the Department will continue to look for the most qualified individuals overall with primary weight given to an applicant's education and employment history.",
+      "why": "A DOJ rule on the qualifications for appointing Temporary Immigration Judges. The employment language refers to hiring U.S. government adjudicators ('pre-employment processing requirements', candidates' 'employment history'), i.e. federal personnel selection. It concerns the immigration court system, not employment-based immigration benefits or employer obligations.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-04179",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "Temporary Protected Status beneficiaries are authorized to work and obtain an Employment Authorization Document (EAD), if requested.",
+      "why": "DHS is terminating Yemen's TPS designation, and the document states TPS is what makes these beneficiaries work-authorized and EAD-eligible. The abstract states that after May 4, 2026 nationals of Yemen granted TPS 'will no longer have Temporary Protected Status', so the work authorization the document describes ends on a dated schedule. An employer with Yemeni TPS staff must act on that date, which makes it employment-authorization. No labor certification, cap, wage, or E-Verify content appears in the text.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-00626",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization",
+        "employment-eligibility-verification"
+      ],
+      "quote": "It is important for re-registrants to timely re-register during the re-registration period and not to wait until their Employment Authorization Documents (EADs) expire, as delaying re-registration could result in gaps in their employment authorization documentation.",
+      "why": "An 18-month TPS extension for El Salvador that runs an EAD re-registration and renewal cycle and states that 'DHS automatically extends through March 9, 2026, the validity of certain E[ADs]'. That is a dated employment-authorization action a mobility team must diary. I also list employment-eligibility-verification because the document's own abbreviation table names the I-9 and an E-Verify term it uses: 'Form I-9--Employment Eligibility Verification' and 'FNC--Final Nonconfirmation'; that evidence is an abbreviation list rather than operative text, so it is the weaker of the two process labels.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-22746",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "The Secretary may determine the appropriate effective date of the termination and expiration of any Temporary Protected Status-related documentation, such as Employment Authorization Documents",
+      "why": "Termination of Ethiopia's TPS designation. The text ties the termination directly to the expiry of EADs and states that beneficiaries 'are authorized to work and obtain an Employment Authorization Document (EAD)' under the status being ended, with a 60-day transition period. Employees lose work authorization on a stated date, which a corporate immigration team must track and act on.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2026-08131",
+      "employmentRelated": true,
+      "processes": [
+        "employment-eligibility-verification"
+      ],
+      "quote": "unfair documentary practices during the employment eligibility verification process (Form I-9 and E-Verify)",
+      "why": "A DOJ information collection revision for the Immigrant and Employee Rights Section charge form, which the text says covers citizenship-status and national-origin discrimination in hiring and firing and unfair documentary practices in the I-9 and E-Verify process. That is squarely the employer verification compliance area. I was torn because this is a Paperwork Reduction Act notice about a form, not a substantive change to what employers must do, so the action for a mobility team is limited to awareness or comment; the subject matter still sits inside employment-based immigration, so I went positive.",
+      "reviewed": false,
+      "holdout": true
+    },
+    {
+      "id": "federal_register:2025-08201",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "as proof of continued employment authorization through July 14, 2025, TPS beneficiaries can show their EADs that have the notation A-12 or C-19 under Category",
+      "why": "Termination of Afghanistan's TPS designation, with an automatic extension of certain EADs to a fixed date and explicit instructions on which EAD category codes evidence continued work authorization. The text states beneficiaries 'continue to be employment authorized during the 60-day transition period', then lose it. That is a dated work-authorization change affecting employees on staff.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-23970",
+      "employmentRelated": false,
+      "processes": [
+        "none-of-these"
+      ],
+      "quote": "significant adverse effects on competition, employment, investment, productivity, innovation, or on the ability of United States-based enterprises to compete",
+      "why": "A rule on public-health-related asylum and withholding of removal bars and credible fear screening. The only employment span is standard E.O. 12866 / Congressional Review Act significance boilerplate that appears in essentially every rule. The subject is asylum eligibility, which is on the exclusion list, and no employer or work-authorization obligation appears in the text.",
+      "reviewed": false,
+      "holdout": false
+    },
+    {
+      "id": "federal_register:2025-12224",
+      "employmentRelated": true,
+      "processes": [
+        "employment-authorization"
+      ],
+      "quote": "extends the validity of certain EADs previously issued under the TPS designation of Haiti through September 2, 2025. Therefore, as proof of continued employment authorization through September 2, 2025, TPS beneficiaries can show their EADs",
+      "why": "Termination of Haiti's TPS designation with an automatic EAD extension to a stated date and guidance on which EADs evidence work authorization during the transition. The text says beneficiaries 'continue to be employment authorized during the 60-day transition period' under the status being terminated, so employers of Haitian TPS holders face a dated loss of work authorization.",
+      "reviewed": false,
+      "holdout": false
+    }
+  ],
+  "contested": []
+}

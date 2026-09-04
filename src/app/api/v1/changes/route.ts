@@ -142,11 +142,12 @@ export async function GET(request: Request): Promise<Response> {
                 "document did not name one. Read classificationState to tell that apart from a record " +
                 "nobody has examined.",
               measured:
-                "Per dimension, against hand-labelled records. visa:h-1b scores precision 100% and " +
-                "recall 100% against 21 records on strong evidence. Country classification scores " +
-                "precision 74% against 31 hand-labelled record-and-country pairs, and its recall is " +
-                "not measured. Forms and processes are not yet benchmarked — do not assume they " +
-                "match either figure. See /api/v1 for what is measured and how to reproduce it.",
+                "Per dimension, against hand-labelled records drawn from the documents rather than " +
+                "from this classifier's output. visa:h-1b: precision 100%, recall 83% (n=33). " +
+                "Countries: precision 98%, recall 61% (n=249). Forms: precision 90%, recall 30% " +
+                "(n=185). Employment processes: precision 100%, recall 60% (n=72). Every dimension " +
+                "clears the precision bar and none clears the recall bar, so a filtered result is " +
+                "reliable about what it contains and not about what it leaves out. See /api/v1.",
             },
           }
         : {}),

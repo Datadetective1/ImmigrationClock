@@ -21,6 +21,12 @@
 // =============================================================================
 
 import { entityId, normalizeSlug, type EntityId } from "./entities";
+import {
+  relationFor,
+  strongerRelation,
+  isScopeRelation,
+  type CountryRelation,
+} from "./country-relations";
 
 export interface CountryDef {
   /** Canonical display name. */
@@ -375,6 +381,19 @@ export interface CountryMatch {
   surface: string;
   /** Verbatim sentence containing the mention, used as impact evidence. */
   evidence: string;
+  /**
+   * What the country is DOING in this document. See country-relations.ts.
+   *
+   * The strongest relation any mention of this country supported. A rule that
+   * designates Yemen in its operative text and also cites an older Yemen
+   * notice is a rule about Yemen, not a citation.
+   */
+  relation: CountryRelation;
+  /**
+   * Whether that relation means the document's own coverage is defined by this
+   * country. Only three of the seven relations do.
+   */
+  isScope: boolean;
 }
 
 /**
@@ -384,7 +403,12 @@ export interface CountryMatch {
 function sentences(text: string): string[] {
   return text
     .replace(/\s+/g, " ")
-    .split(/(?<=[.;:])\s+(?=[A-Z(])/)
+    // Split on a full stop or a semicolon, NOT on a colon. A colon introduces
+    // the list its own clause describes - "The following countries are
+    // designated: El Salvador, Guatemala, and Honduras" - and splitting there
+    // separates the cue from the countries it governs, which turned a
+    // designation into three bare mentions.
+    .split(/(?<=[.;])\s+(?=[A-Z(])/)
     .map((s) => s.trim())
     .filter(Boolean);
 }
@@ -406,7 +430,14 @@ function clipOnWord(s: string, max: number): string {
  * "the State of Georgia" and "nationals of Georgia" would produce the same edge
  * — and a reader from Tbilisi would be told a U.S. state law affects them.
  */
-export function findCountriesInText(text: string): CountryMatch[] {
+/**
+ * Every country named in this text, with what each one is doing there.
+ *
+ * A country appearing many times keeps the STRONGEST relation any of its
+ * mentions supports, and the evidence quote of that mention — so the quote a
+ * consumer reads is the one that justifies the claim, not whichever came first.
+ */
+export function findCountriesInText(text: string, options: { isTitle?: boolean } = {}): CountryMatch[] {
   if (!text?.trim()) return [];
   const found = new Map<string, CountryMatch>();
 
@@ -443,7 +474,9 @@ export function findCountriesInText(text: string): CountryMatch[] {
     }
 
     for (const m of MATCHERS) {
-      if (found.has(m.slug)) continue;
+      // NOT skipped when already found. The relation model needs every mention,
+      // because the strongest one wins and the strongest is rarely the first:
+      // a rule usually recites background before it states its own scope.
       if (m.ambiguous && !hasContext) continue;
 
       // Walk every occurrence and take the first that no longer name has
@@ -454,8 +487,8 @@ export function findCountriesInText(text: string): CountryMatch[] {
       for (let x = m.reAll.exec(sentence); x !== null; x = m.reAll.exec(sentence)) {
         spans.push([x.index, x.index + x[0].length]);
       }
-      const free = spans.find(([start, end]) => !overlapsClaimed(start, end));
-      if (!free) continue;
+      const unclaimed = spans.filter(([start, end]) => !overlapsClaimed(start, end));
+      if (unclaimed.length === 0) continue;
 
       // Claim EVERY occurrence, not only the one accepted. The TPS termination
       // for South Sudan writes the name three times; claiming one of them left
@@ -465,11 +498,49 @@ export function findCountriesInText(text: string): CountryMatch[] {
 
       const def = COUNTRY_BY_SLUG.get(m.slug);
       if (!def) continue;
+
+      // ASK WHAT THE MENTION IS DOING, not merely whether it happened.
+      //
+      // Each unclaimed occurrence is judged on its immediate surroundings, and
+      // the best relation wins. relationFor() returns null when the name turns
+      // out to be part of a larger place — "Mexico Boulevard" — in which case
+      // that occurrence is not a country reference at all.
+      let best: CountryRelation | null = null;
+      let bestAt = -1;
+      for (const [start, end] of unclaimed) {
+        const relation = relationFor({
+          span: sentence,
+          before: sentence.slice(Math.max(0, start - 80), start),
+          after: sentence.slice(end, Math.min(sentence.length, end + 60)),
+          inTitle: options.isTitle === true,
+        });
+        if (!relation) continue;
+        if (best === null) {
+          best = relation;
+          bestAt = start;
+        } else {
+          const merged = strongerRelation(best, relation);
+          if (merged !== best) {
+            best = merged;
+            bestAt = start;
+          }
+        }
+      }
+      if (best === null) continue;
+
+      const existing = found.get(m.slug);
+      const relation = existing ? strongerRelation(existing.relation, best) : best;
+      // Keep the quote belonging to the winning relation, so the evidence a
+      // consumer reads is the evidence that earned the claim.
+      const keepExistingQuote = existing !== undefined && relation === existing.relation && relation !== best;
+
       found.set(m.slug, {
         entityId: entityId("country", def.name),
         name: def.name,
         iso2: def.iso2,
         surface: m.surface,
+        relation,
+        isScope: isScopeRelation(relation),
         // Trim very long sentences so the evidence quote stays readable while
         // still showing the reader exactly where the claim comes from.
         //
@@ -477,9 +548,74 @@ export function findCountriesInText(text: string): CountryMatch[] {
         // hands the reader "…required from certain juris" as verbatim source
         // text — the same defect extract-impact.ts fixed in its own chunker, and
         // the same reason it matters: a mangled quote is worse than no quote.
-        evidence: clipOnWord(sentence, 320),
+        // THE QUOTE MUST RE-DERIVE THE CLAIM. A window cut from a long span can
+        // drop the context that justified the match — "China" is only read as a
+        // country when a nationality or presence word is nearby, and clipping
+        // can leave the name without one. Where that happens the whole sentence
+        // is quoted instead, because a quote that does not support its own
+        // claim is not evidence.
+        evidence: keepExistingQuote
+          ? existing.evidence
+          : selfSupporting(
+              clipOnWord(quoteAround(sentence, bestAt), 320),
+              m,
+              m.ambiguous,
+              sentence
+            ),
       });
     }
   }
   return [...found.values()];
+}
+
+/**
+ * The passage worth quoting for a mention at this position.
+ *
+ * Federal Register spans run long, and a quote clipped from the start of a
+ * 400-character span can end before the country it is supposed to evidence.
+ * Centring on the mention keeps the quote and the claim in the same sentence.
+ */
+/**
+ * The quote, if re-reading it still finds this country. Otherwise the sentence.
+ *
+ * Enforced here rather than checked later, so no path can store a country whose
+ * own evidence does not show it.
+ */
+function selfSupporting(
+  quote: string,
+  matcher: CountryMatcher,
+  ambiguousNeedsContext: boolean,
+  fallback: string
+): string {
+  // Checked directly rather than by re-entering findCountriesInText, which
+  // would recurse without end. The two conditions are exactly the ones that
+  // admitted the match in the first place: the name is present, and where the
+  // name is ambiguous a disambiguating word is present with it.
+  if (!matcher.re.test(quote)) return fallback;
+  if (ambiguousNeedsContext) {
+    const lower = quote.toLowerCase();
+    if (!COUNTRY_CONTEXT_TERMS.some((t) => lower.includes(t))) return fallback;
+  }
+  return quote;
+}
+
+function quoteAround(sentence: string, at: number, width = 320): string {
+  if (sentence.length <= width || at < 0) return sentence;
+
+  let start = Math.max(0, at - Math.floor(width / 2));
+  let end = Math.min(sentence.length, start + width);
+
+  // Move both edges out to whitespace, so the quote never opens or closes
+  // inside a word. A mangled quote is worse than no quote: it is the one field
+  // a reader is asked to check the claim against.
+  while (start > 0 && !/\s/.test(sentence[start - 1])) start--;
+  while (end < sentence.length && !/\s/.test(sentence[end])) end++;
+
+  // The mention must survive the trim. If the window somehow excluded it, quote
+  // the whole sentence rather than evidence that does not show the claim.
+  if (at < start || at > end) return sentence;
+
+  const prefix = start > 0 ? "…" : "";
+  const suffix = end < sentence.length ? "…" : "";
+  return `${prefix}${sentence.slice(start, end).trim()}${suffix}`;
 }

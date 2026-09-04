@@ -1,0 +1,242 @@
+// =============================================================================
+// scripts/reextract-countries.ts — country classification, from the documents
+//
+//   npx tsx scripts/reextract-countries.ts <bodiesDir> [--write]
+//
+// WHY IT RE-EXTRACTS RATHER THAN RE-GRADES
+// ----------------------------------------
+// The previous correction pass could only re-read the evidence quote the
+// original extraction had stored. That is enough to remove a claim its own
+// quote cannot support, and it is not enough to find a country the original
+// extraction missed, because the sentence that names it was never kept.
+//
+// With the document bodies fetched for validation, the whole text is available
+// again, so this runs the CURRENT extractor over the ORIGINAL documents. It is
+// the same findCountriesInText() the ingestion pipeline uses, so there is one
+// classifier rather than two that drift.
+//
+// WHAT IT STORES, AND WHAT IT REFUSES TO STORE
+// --------------------------------------------
+// Only a country whose relation to the document is one the product is willing
+// to defend:
+//
+//   nationals_of · present_in · designated_list   stored, strong. The document's
+//                                                 own coverage is defined by
+//                                                 this country.
+//   post_location                                 stored, weak. A consular post
+//                                                 is there. True and useful, and
+//                                                 not a statement about that
+//                                                 country's nationals.
+//   agreement_party · document_population ·
+//   contextual                                    NOT STORED.
+//
+// The last three are real observations and they are not classifications. A
+// country named inside a cited agreement's title is a fact about the citation,
+// and persisting it as a country edge is how a rule about appellate procedure
+// ended up in a Guatemala feed. Where they matter, they are in the ground-truth
+// fixture with a reason, which is where a rejected candidate belongs.
+//
+// TWO DOCUMENT-LEVEL REFUSALS
+//   A rule that states universal application keeps no country it did not
+//   explicitly designate.
+//   A rule that says its country list is published elsewhere keeps none at all.
+// =============================================================================
+
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { findCountriesInText } from "../src/domains/graph/countries";
+import { delegatesCountryScope, statesGlobalScope } from "../src/domains/graph/country-relations";
+import { confidenceFor } from "../src/domains/graph/classification";
+import { richText } from "../src/domains/graph/text";
+
+const BODIES = process.argv[2];
+const WRITE = process.argv.includes("--write");
+if (!BODIES) {
+  console.error("usage: tsx scripts/reextract-countries.ts <bodiesDir> [--write]");
+  process.exit(1);
+}
+
+const PATH = resolve("src/lib/generated/events.json");
+
+interface Impacted {
+  entityId: string;
+  basis: string;
+  evidence?: string;
+  method?: string;
+  relation?: string;
+  confidence: number;
+}
+
+interface Rec {
+  id: string;
+  title: string;
+  summary: string;
+  sourceKey: string;
+  impact?: { countries?: Impacted[]; [k: string]: unknown };
+  [k: string]: unknown;
+}
+
+function bodyOf(id: string): string {
+  const f = join(BODIES, `${id.replace(/[^A-Za-z0-9._-]/g, "_")}.txt`);
+  return existsSync(f) ? readFileSync(f, "utf8") : "";
+}
+
+function main() {
+  const file = JSON.parse(readFileSync(PATH, "utf8")) as { events: Rec[]; [k: string]: unknown };
+
+  let withBody = 0;
+  let withoutBody = 0;
+  let added = 0;
+  let removed = 0;
+  let suppressedGlobal = 0;
+  let suppressedDelegated = 0;
+  const additions: string[] = [];
+  const removals: string[] = [];
+
+  for (const e of file.events) {
+    const body = bodyOf(e.id);
+    const title = richText(e.title ?? "");
+    const abstract = richText(e.summary ?? "");
+
+    // A RECORD WITH NO BODY IS STILL RE-EXTRACTED, from its title and abstract.
+    //
+    // An earlier version skipped these entirely, and the benchmark caught it:
+    // "DHS Terminates Temporary Protected Status for Yemen" is a USCIS newsroom
+    // record with the country in its own headline, and it was scored a false
+    // negative because no Federal Register body exists to fetch. Skipping the
+    // records we have less text for is the opposite of what less text calls
+    // for. Title and abstract are exactly where a strong classification comes
+    // from anyway.
+    if (body) withBody++;
+    else withoutBody++;
+
+    const before = new Set((e.impact?.countries ?? []).map((c) => c.entityId));
+
+    // Delegated scope is a refusal, not a downgrade: the document says the list
+    // lives somewhere else, and the record already says so.
+    if (delegatesCountryScope(richText(body)) || delegatesCountryScope(abstract)) {
+      if ((e.impact?.countries ?? []).length > 0) {
+        removed += e.impact!.countries!.length;
+        for (const c of e.impact!.countries!) {
+          removals.push(`${c.entityId} from "${e.title.slice(0, 52)}" (scope delegated elsewhere)`);
+        }
+      }
+      if (e.impact) e.impact.countries = [];
+      suppressedDelegated++;
+      continue;
+    }
+
+    const global = statesGlobalScope(abstract) || statesGlobalScope(richText(body.slice(0, 6000)));
+
+    // The title is read AS a title, so a country named there is the document's
+    // declared subject rather than a mention that has to prove itself.
+    const titleHits = new Map(
+      findCountriesInText(title, { isTitle: true }).map((h) => [h.entityId, h] as const)
+    );
+
+    const kept: Impacted[] = [];
+    const prose = findCountriesInText(`${abstract}. ${richText(body)}`);
+    const merged = new Map(prose.map((h) => [h.entityId, h] as const));
+    for (const [id, h] of titleHits) {
+      const existing = merged.get(id);
+      // A title subject outranks every prose relation, so the title wins on the
+      // relation while a prose mention may still supply a fuller quote.
+      merged.set(id, existing && existing.isScope && !h.isScope ? existing : h);
+    }
+
+    for (const hit of merged.values()) {
+      const usable = hit.isScope || hit.relation === "post_location";
+      if (!usable) continue;
+
+      // A global rule keeps only a country it designated in so many words.
+      if (global && hit.relation !== "nationals_of" && hit.relation !== "designated_list") {
+        suppressedGlobal++;
+        continue;
+      }
+
+      // WHERE THE EVIDENCE SITS DECIDES HOW FAR IT IS TRUSTED, exactly as it
+      // does for every other dimension — and here it is what stops full-text
+      // extraction from trading a precision problem for a recall one.
+      //
+      // A 300KB rule contains designation sentences about programmes it is not
+      // about. The Ethiopia TPS termination recites Liberia's Deferred Enforced
+      // Departure in its background, in a perfectly well-formed "nationals of
+      // Liberia" sentence. The relation model is right that the sentence
+      // designates Liberia; it is the document that is not about Liberia.
+      //
+      // The title and the abstract are the document's own statement of what it
+      // does, so a country there is strong. A designation found only in the body
+      // is kept and labelled weak: real, visible under ?include=weak, and not
+      // sold to a subscriber as this document's subject.
+      const inTitle = titleHits.has(hit.entityId);
+      const inAbstract = findCountriesInText(abstract).some((t) => t.entityId === hit.entityId);
+      const method = !hit.isScope
+        ? "derived_weak"
+        : inTitle
+          ? "explicit_source"
+          : inAbstract
+            ? "derived_high_confidence"
+            : "derived_weak";
+
+      kept.push({
+        entityId: hit.entityId,
+        basis: "stated",
+        evidence: hit.evidence,
+        method,
+        relation: hit.relation,
+        confidence: confidenceFor(method as never),
+      });
+    }
+
+    const after = new Set(kept.map((c) => c.entityId));
+    for (const id of after) {
+      if (!before.has(id)) {
+        added++;
+        if (additions.length < 25) {
+          const k = kept.find((c) => c.entityId === id)!;
+          additions.push(`${id} on "${e.title.slice(0, 50)}" (${k.relation})`);
+        }
+      }
+    }
+    for (const id of before) {
+      if (!after.has(id)) {
+        removed++;
+        if (removals.length < 25) removals.push(`${id} from "${e.title.slice(0, 50)}"`);
+      }
+    }
+
+    (e.impact ??= {}).countries = kept;
+  }
+
+  const total = file.events.reduce((n, e) => n + (e.impact?.countries ?? []).length, 0);
+  const records = file.events.filter((e) => (e.impact?.countries ?? []).length > 0).length;
+  const byRelation: Record<string, number> = {};
+  for (const e of file.events) {
+    for (const c of e.impact?.countries ?? []) {
+      byRelation[c.relation ?? "(none)"] = (byRelation[c.relation ?? "(none)"] ?? 0) + 1;
+    }
+  }
+
+  console.log("RE-EXTRACT COUNTRIES");
+  console.log(`  records with a document body   ${withBody}`);
+  console.log(`  records from title/abstract    ${withoutBody}`);
+  console.log(`  classifications added          ${added}`);
+  console.log(`  classifications removed        ${removed}`);
+  console.log(`  suppressed as global scope     ${suppressedGlobal}`);
+  console.log(`  records refused (delegated)    ${suppressedDelegated}`);
+  console.log(`  country classifications now    ${total} across ${records} records`);
+  console.log(`  by relation                    ${Object.entries(byRelation).map(([k, v]) => `${k} ${v}`).join(" · ")}`);
+  console.log("\nADDED");
+  for (const a of additions) console.log(`  ${a}`);
+  console.log("\nREMOVED");
+  for (const r of removals) console.log(`  ${r}`);
+
+  if (WRITE) {
+    writeFileSync(PATH, `${JSON.stringify(file, null, 2)}\n`);
+    console.log(`\nWROTE ${PATH}`);
+  } else {
+    console.log("\nDRY RUN — nothing written. Pass --write to apply.");
+  }
+}
+
+main();

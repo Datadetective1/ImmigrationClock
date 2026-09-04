@@ -85,26 +85,61 @@ export async function GET(): Promise<Response> {
         },
         measured: {
           "visa:h-1b": {
-            groundTruth: "21 hand-labelled records, committed at fixtures/h1b-ground-truth.json",
+            groundTruth:
+              "33 hand-labelled records — every record in the archive whose text names H-1B anywhere — " +
+              "committed at fixtures/h1b-expanded-ground-truth.json. The original 21-record set is kept " +
+              "and still scored separately at fixtures/h1b-ground-truth.json, where it remains 100%/100%.",
             precision: "100%",
-            recall: "100%",
+            recall: "83%",
+            f1: "0.90",
+            holdout: "precision 100%, recall 92% on the 15 records that informed nothing",
             note:
-              "On strong evidence, which is what this API returns by default. Including weak matches, " +
-              "precision is 90% and recall 100%.",
+              "Recall is below 100% because four documents change several programmes at once and name " +
+              "H-1B only in the body. They are returned under ?include=weak. No false positives at all.",
           },
           countries: {
             groundTruth:
-              "31 hand-labelled record-and-country pairs, committed at fixtures/country-ground-truth.json",
-            precision: "74%",
-            recall: "not measured",
+              "249 hand-labelled record-and-country pairs across 110 records, committed at " +
+              "fixtures/country-expanded-ground-truth.json",
+            precision: "98%",
+            recall: "61%",
+            f1: "0.75",
+            holdout: "precision 93%, recall 39%",
             note:
-              "Every pair the classifier emits is labelled, so precision is a real measurement. Recall " +
-              "is not: finding the misses would mean reading every record for unstated country scope. " +
-              "At 74%, roughly one country match in four is a document that mentions the country " +
-              "rather than one whose scope is defined by it. Read the evidence quote.",
+              "Each pair carries a RELATION saying what the country is doing in the document. Only " +
+              "nationals_of, present_in, designated_list and title_subject mean the document's own " +
+              "coverage is defined by that country, and only those are returned here. Recall is limited " +
+              "on purpose: a designation found only deep in a body is returned as weak, because a rule " +
+              "reciting another programme's country scope is not about that country.",
+          },
+          forms: {
+            groundTruth:
+              "185 hand-labelled record-and-form pairs, committed at fixtures/form-ground-truth.json",
+            precision: "90%",
+            recall: "30%",
+            f1: "0.45",
+            holdout: "precision 95%, recall 47%",
+            note:
+              "SINGLE-ANNOTATOR LABELS — these were not independently reviewed. Recall is low for a " +
+              "structural reason worth knowing: of the documents genuinely about a form, 82 of 121 name " +
+              "it only in the body, and most of those are Paperwork Reduction Act notices whose titles " +
+              "say nothing but 'Agency Information Collection Activities'.",
+          },
+          "employment/process": {
+            groundTruth:
+              "72 hand-labelled records, committed at fixtures/employment-ground-truth.json",
+            precision: "100%",
+            recall: "60%",
+            f1: "0.75",
+            holdout: "precision 100%, recall 67%",
+            note: "SINGLE-ANNOTATOR LABELS — these were not independently reviewed.",
           },
         },
-        notBenchmarked: ["forms", "processes"],
+        notBenchmarked: ["employer signals — a name-based join, described per row rather than scored"],
+        readiness:
+          "NOT READY FOR PUSH on any dimension. Every one clears the precision bar and none clears " +
+          "the recall bar, so a filter here is reliable about what it returns and not about what it " +
+          "omits. Reproduce with: npm run intelligence:benchmarks",
         reproduce: "npm run intelligence:quality",
       },
 
