@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T17:22:49.482Z",
+  "generatedAt": "2026-09-04T13:07:28.121Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2303,
-      "employeesTotal": 371399,
+      "noticeCount": 2304,
+      "employeesTotal": 371440,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2292
+      "withEffectiveOnly": 2293
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1495,
-      "employeesTotal": 236738,
-      "latestNotice": "2026-08-31",
-      "withNoticeDate": 1495,
+      "noticeCount": 1500,
+      "employeesTotal": 237829,
+      "latestNotice": "2026-09-03",
+      "withNoticeDate": 1500,
       "withEffectiveOnly": 0
     },
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 184,
-      "employeesTotal": 9424,
-      "latestNotice": "2026-08-31",
-      "withNoticeDate": 184,
+      "noticeCount": 191,
+      "employeesTotal": 10303,
+      "latestNotice": "2026-09-02",
+      "withNoticeDate": 191,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7457,
-  "employeesTotal": 964577,
-  "employerCount": 5834,
+  "noticeCount": 7470,
+  "employeesTotal": 966588,
+  "employerCount": 5842,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-31",
+  "maxNoticeDate": "2026-09-03",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -1070,6 +1070,17 @@
         "NJ"
       ],
       "latestNotice": "2025-06-04"
+    },
+    {
+      "normalized": "GILBERT ORCHARDS",
+      "name": "Gilbert Orchards, Inc.",
+      "slug": "gilbert-orchards-inc",
+      "notices": 2,
+      "employees": 1117,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-03"
     },
     {
       "normalized": "WOODBRIDGE LOGISTICS",
@@ -2305,6 +2316,17 @@
       "latestNotice": "2020-03-19"
     },
     {
+      "normalized": "SUNDQUIST FRUIT",
+      "name": "Sundquist Fruit, LLC",
+      "slug": "sundquist-fruit-llc",
+      "notices": 2,
+      "employees": 667,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "SOUTHWEST KEY PROGRAM (CASA TRAIL HOUSE)",
       "name": "Southwest Key Program (Casa Trail House)",
       "slug": "southwest-key-program-casa-trail-house",
@@ -2636,17 +2658,6 @@
         "WA"
       ],
       "latestNotice": "2008-08-13"
-    },
-    {
-      "normalized": "GILBERT ORCHARDS",
-      "name": "Gilbert Orchards, Inc.",
-      "slug": "gilbert-orchards-inc",
-      "notices": 1,
-      "employees": 599,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-09-23"
     },
     {
       "normalized": "FOOTSTAR",
@@ -4114,17 +4125,6 @@
       "latestNotice": "2026-08-15"
     },
     {
-      "normalized": "SUNDQUIST FRUIT",
-      "name": "Sundquist Fruit, LLC",
-      "slug": "sundquist-fruit-llc",
-      "notices": 1,
-      "employees": 424,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-09-19"
-    },
-    {
       "normalized": "SUNNY GLEN CHILDREN'S HOME",
       "name": "Sunny Glen Children's Home",
       "slug": "sunny-glen-children-s-home",
@@ -4789,6 +4789,17 @@
         "NJ"
       ],
       "latestNotice": "2020-02-09"
+    },
+    {
+      "normalized": "UBS",
+      "name": "UBS",
+      "slug": "ubs",
+      "notices": 7,
+      "employees": 382,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-11-25"
     },
     {
       "normalized": "LIBERTY HEALTH SYSTEM",
@@ -5631,17 +5642,6 @@
         "VA"
       ],
       "latestNotice": "2010-08-11"
-    },
-    {
-      "normalized": "UBS",
-      "name": "UBS",
-      "slug": "ubs",
-      "notices": 6,
-      "employees": 341,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2026-11-04"
     },
     {
       "normalized": "BENCHMARK ELECTRONICS",
@@ -6959,6 +6959,17 @@
       "latestNotice": "2005-11-14"
     },
     {
+      "normalized": "RENEWAL BY ANDERSEN",
+      "name": "Renewal by Andersen LLC",
+      "slug": "renewal-by-andersen-llc",
+      "notices": 3,
+      "employees": 284,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-01"
+    },
+    {
       "normalized": "STAPLES",
       "name": "Staples",
       "slug": "staples",
@@ -7976,6 +7987,17 @@
         "NJ"
       ],
       "latestNotice": "2007-11-06"
+    },
+    {
+      "normalized": "PAYPAL",
+      "name": "PayPal",
+      "slug": "paypal",
+      "notices": 1,
+      "employees": 251,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "ZILLOW GROUP",
@@ -12694,6 +12716,17 @@
         "NJ"
       ],
       "latestNotice": "2005-05-27"
+    },
+    {
+      "normalized": "FOUNDATION FOR CALIFORNIA COMMUNITY COLLEGES",
+      "name": "Foundation for California Community Colleges",
+      "slug": "foundation-for-california-community-colleges",
+      "notices": 1,
+      "employees": 178,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "VROOM-SAM HOUSTON PARKWAY",
@@ -20931,6 +20964,17 @@
       "latestNotice": "2008-10-31"
     },
     {
+      "normalized": "GEORGIA-PACIFIC GYPSUM",
+      "name": "Georgia-Pacific Gypsum LLC",
+      "slug": "georgia-pacific-gypsum-llc",
+      "notices": 1,
+      "employees": 120,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-01"
+    },
+    {
       "normalized": "INDUS",
       "name": "INDUS Technology, Inc.",
       "slug": "indus-technology-inc",
@@ -21557,6 +21601,17 @@
         "NJ"
       ],
       "latestNotice": "2007-06-15"
+    },
+    {
+      "normalized": "QUALTRICS",
+      "name": "Qualtrics LLC",
+      "slug": "qualtrics-llc",
+      "notices": 1,
+      "employees": 117,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "GENIE INDUSTRIES / TEREX",
@@ -23655,6 +23710,17 @@
         "WA"
       ],
       "latestNotice": "2007-04-30"
+    },
+    {
+      "normalized": "CLARMIL MANUFACTURING",
+      "name": "Clarmil Manufacturing Corporation",
+      "slug": "clarmil-manufacturing-corporation",
+      "notices": 1,
+      "employees": 108,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "PIXAR",
@@ -27642,6 +27708,17 @@
         "NJ"
       ],
       "latestNotice": "2010-07-10"
+    },
+    {
+      "normalized": "UBER",
+      "name": "Uber Technologies Inc",
+      "slug": "uber-technologies-inc",
+      "notices": 1,
+      "employees": 93,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "VOLUME (SODEXO)",
@@ -41333,6 +41410,17 @@
         "NJ"
       ],
       "latestNotice": "2007-01-26"
+    },
+    {
+      "normalized": "ARSENAL BIOSCIENCES",
+      "name": "Arsenal Biosciences, Inc.",
+      "slug": "arsenal-biosciences-inc",
+      "notices": 1,
+      "employees": 58,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "AMICUS THERAPEUTICS",
@@ -64528,6 +64616,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "UBS",
+      "normalized": "UBS",
+      "city": "Weehawken",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-11-25",
+      "employees": 41,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Cellares Corporation",
       "normalized": "CELLARES",
       "city": "Bridgewater",
@@ -64780,6 +64880,102 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Gilbert Orchards, Inc.",
+      "normalized": "GILBERT ORCHARDS",
+      "city": "Yakima, Franklin and Grant Counties",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-03",
+      "effectiveDate": "2026-11-22",
+      "employees": 518,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Foundation for California Community Colleges",
+      "normalized": "FOUNDATION FOR CALIFORNIA COMMUNITY COLLEGES",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-10-30",
+      "employees": 178,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualtrics LLC",
+      "normalized": "QUALTRICS",
+      "city": "Seattle",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-10-18",
+      "employees": 117,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Uber Technologies Inc",
+      "normalized": "UBER",
+      "city": "Seattle",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-02",
+      "employees": 93,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Sundquist Fruit, LLC",
+      "normalized": "SUNDQUIST FRUIT",
+      "city": "Yakima and Franklin Counties",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-15",
+      "employees": 243,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Renewal by Andersen LLC",
+      "normalized": "RENEWAL BY ANDERSEN",
+      "city": "Torrance",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-11-02",
+      "employees": 153,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Renewal by Andersen LLC",
+      "normalized": "RENEWAL BY ANDERSEN",
+      "city": "Orange",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-11-02",
+      "employees": 79,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Renewal by Andersen LLC",
+      "normalized": "RENEWAL BY ANDERSEN",
+      "city": "Laguna Hills",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-11-02",
+      "employees": 52,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Gerresheimer",
       "normalized": "GERRESHEIMER",
       "city": "Vineland",
@@ -64790,6 +64986,18 @@
       "employees": 139,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Georgia-Pacific Gypsum LLC",
+      "normalized": "GEORGIA-PACIFIC GYPSUM",
+      "city": "Tacoma",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-10-30",
+      "employees": 120,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "Synopsys, Inc.",
@@ -64812,6 +65020,30 @@
       "noticeDate": "2026-08-31",
       "effectiveDate": "2026-09-15",
       "employees": 738,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Arsenal Biosciences, Inc.",
+      "normalized": "ARSENAL BIOSCIENCES",
+      "city": "South San Francisco",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-10-29",
+      "employees": 58,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "PayPal",
+      "normalized": "PAYPAL",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-08-31",
+      "effectiveDate": "2026-10-30",
+      "employees": 251,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -64981,6 +65213,18 @@
       "effectiveDate": "2026-10-20",
       "employees": 78,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Clarmil Manufacturing Corporation",
+      "normalized": "CLARMIL MANUFACTURING",
+      "city": "Hayward",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-08-28",
+      "effectiveDate": "2026-10-30",
+      "employees": 108,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {

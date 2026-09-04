@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T17:22:49.482Z",
+  "generatedAt": "2026-09-04T13:07:28.121Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "sourceName": "State WARN Act notices (state open-data portals)",
   "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
@@ -10,11 +10,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2303,
-      "employeesTotal": 371399,
+      "noticeCount": 2304,
+      "employeesTotal": 371440,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2292
+      "withEffectiveOnly": 2293
     },
     {
       "code": "WA",
@@ -22,10 +22,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1495,
-      "employeesTotal": 236738,
-      "latestNotice": "2026-08-31",
-      "withNoticeDate": 1495,
+      "noticeCount": 1500,
+      "employeesTotal": 237829,
+      "latestNotice": "2026-09-03",
+      "withNoticeDate": 1500,
       "withEffectiveOnly": 0
     },
     {
@@ -58,10 +58,10 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 184,
-      "employeesTotal": 9424,
-      "latestNotice": "2026-08-31",
-      "withNoticeDate": 184,
+      "noticeCount": 191,
+      "employeesTotal": 10303,
+      "latestNotice": "2026-09-02",
+      "withNoticeDate": 191,
       "withEffectiveOnly": 0
     }
   ],
@@ -73,14 +73,14 @@
     "VA",
     "WA"
   ],
-  "noticeCount": 7457,
-  "employeesTotal": 964577,
-  "employerCount": 5834,
+  "noticeCount": 7470,
+  "employeesTotal": 966588,
+  "employerCount": 5842,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-08-31",
+  "maxNoticeDate": "2026-09-03",
   "yearBasisNote": "Yearly totals date each notice by the state-published notice/received date where available, and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). Notices with neither date are excluded from yearly totals but included in the overall counts.",
-  "datedByNoticeDate": 5154,
-  "datedByEffectiveDate": 2292,
+  "datedByNoticeDate": 5166,
+  "datedByEffectiveDate": 2293,
   "noticesWithoutDate": 11,
   "byYear": [
     {
@@ -195,8 +195,8 @@
     },
     {
       "year": 2026,
-      "employees": 57293,
-      "notices": 510
+      "employees": 59304,
+      "notices": 523
     }
   ],
   "byMonth": [
@@ -357,13 +357,13 @@
     },
     {
       "month": "2026-08",
-      "employees": 8989,
-      "notices": 136
+      "employees": 9406,
+      "notices": 139
     },
     {
       "month": "2026-09",
-      "employees": 1499,
-      "notices": 9
+      "employees": 3052,
+      "notices": 18
     },
     {
       "month": "2026-10",
@@ -372,8 +372,8 @@
     },
     {
       "month": "2026-11",
-      "employees": 562,
-      "notices": 4
+      "employees": 603,
+      "notices": 5
     },
     {
       "month": "2026-12",
@@ -495,15 +495,8 @@
       },
       {
         "year": 2026,
-        "employees": 15822,
-        "notices": 124
-      }
-    ],
-    "CA": [
-      {
-        "year": 2026,
-        "employees": 9424,
-        "notices": 184
+        "employees": 15863,
+        "notices": 125
       }
     ],
     "WA": [
@@ -619,8 +612,15 @@
       },
       {
         "year": 2026,
-        "employees": 13347,
-        "notices": 84
+        "employees": 14438,
+        "notices": 89
+      }
+    ],
+    "CA": [
+      {
+        "year": 2026,
+        "employees": 10303,
+        "notices": 191
       }
     ],
     "VA": [
