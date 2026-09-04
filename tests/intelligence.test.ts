@@ -140,6 +140,81 @@ describe("a change, serialized", () => {
   });
 });
 
+describe("a classification carries the evidence for itself", () => {
+  const serialized = ALL.map((e) => toPublicChange(e, TODAY, []));
+
+  it("attaches the verbatim quote to every classification", () => {
+    // The reason this matters, found by hand: an H-2A wage rule is classified
+    // visa:h-1b because the rule body cites section 212(p) in a historical
+    // aside. Flattened to ["h-1b"], that is indistinguishable from a real H-1B
+    // rule. With the quote attached, a consumer can see it and refuse it.
+    const classified = serialized.flatMap((c) => c.visaCategories);
+    expect(classified.length).toBeGreaterThan(0);
+    for (const entry of classified) {
+      expect(entry.id.length).toBeGreaterThan(0);
+      expect(entry.basis.length).toBeGreaterThan(0);
+      expect(typeof entry.confidence).toBe("number");
+      // Every visa classification in the committed store is basis "stated",
+      // and a stated fact without its quote is just an assertion.
+      if (entry.basis === "stated") expect(entry.evidence, entry.id).toBeTruthy();
+    }
+  });
+
+  it("distinguishes not-classified from not-applicable from known", () => {
+    // Three different meanings behind one empty array. A consumer that cannot
+    // tell them apart reads every one as "not relevant", which is wrong for
+    // the 90% of records nobody has classified.
+    const states = serialized.map((c) => c.classificationState.visaCategories);
+    expect(new Set(states).size).toBeGreaterThan(1);
+    for (const c of serialized) {
+      if (c.visaCategories.length > 0) {
+        expect(c.classificationState.visaCategories, c.recordId).toBe("known");
+      } else if (c.scopeCompleteness === "unspecified") {
+        expect(c.classificationState.visaCategories, c.recordId).toBe("not_classified");
+      } else {
+        expect(c.classificationState.visaCategories, c.recordId).toBe("not_applicable");
+      }
+    }
+    // The measured shape of the archive: most records are simply unclassified.
+    const unclassified = states.filter((s) => s === "not_classified").length;
+    expect(unclassified / states.length).toBeGreaterThan(0.5);
+  });
+
+  it("states its own measured quality rather than implying completeness", () => {
+    // A filter that presents itself as complete is worse than no filter, so
+    // the measurement travels in every response. This assertion is about the
+    // SHAPE of the claim, not a particular number: it must name both precision
+    // and recall, say what they were measured against, and keep the number
+    // from being read as coverage.
+    const q: string = ATTRIBUTION.classificationQuality;
+    expect(q).toMatch(/precision \d+%/i);
+    expect(q).toMatch(/recall \d+%/i);
+    expect(q).toMatch(/hand-labelled/i);
+    expect(q).toMatch(/classificationState/);
+    expect(q).toMatch(/evidence/i);
+    // Every dimension now has a benchmark, so the statement must name several
+    // rather than one. A single figure standing for the whole layer is how a
+    // consumer comes to assume a country filter is as good as an H-1B one.
+    expect(q).toMatch(/visa:h-1b/i);
+    expect(q).toMatch(/countr(y|ies)/i);
+    expect(q).toMatch(/forms/i);
+    // And it must say which labels rest on one reader rather than two.
+    expect(q).toMatch(/single-annotator/i);
+    // The shape of the result is what a consumer needs, not just the digits.
+    expect(q).toMatch(/what a filter returns is dependable/i);
+  });
+
+  it("does not let the quality statement claim more than was measured", () => {
+    const q: string = ATTRIBUTION.classificationQuality;
+    // One dimension has ground truth. The statement must not imply the others do.
+    expect(q).toMatch(/visa:h-1b/);
+    expect(q).not.toMatch(/all dimensions|fully classified|complete coverage/i);
+    // And it must not let a reader mistake partial coverage for a judgement of
+    // irrelevance — the failure mode that makes a monitoring product lie.
+    expect(q).toMatch(/empty list/i);
+  });
+});
+
 describe("status is derived by a stated rule", () => {
   function change(over: Partial<ChangeInput>): ChangeInput {
     return { ...ALL[0], ...over } as ChangeInput;
@@ -247,11 +322,51 @@ describe("employer signals show their working", () => {
   it("explains the join, and admits how it can be wrong", () => {
     const overlap = employerSignals(WARN_SIDE, H1B_SIDE, "why").find((s) => s.kind === "warn_h1b_overlap")!;
     expect(overlap.join).toMatch(/normalized employer name/i);
-    // The honest part: name matching misses subsidiaries and can join
-    // unrelated companies. A consumer must be told before they act on it.
-    expect(overlap.join).toMatch(/miss a subsidiary/i);
-    expect(overlap.join).toMatch(/unrelated companies/i);
+    expect(overlap.join).toMatch(/not as proof they are the same company/i);
     expect(overlap.caveat).toMatch(/does not imply that one caused the other/i);
+
+    // The failure modes used to be listed in this paragraph, identically for
+    // every employer. They now travel per row on matchQuality, which is what a
+    // consumer can actually act on, so the paragraph must point at it rather
+    // than repeat aggregate statistics that are true of other rows.
+    expect(overlap.join).toMatch(/matchQuality/);
+    expect(overlap.matchQuality).toBeTruthy();
+  });
+
+  it("describes THIS row's join rather than the average one", () => {
+    // Acme Corp is a clean one-to-one match on a distinctive key. Saying "20
+    // pairs of filers collide" here would be true of the dataset and false of
+    // this row, which is how a caveat becomes noise a consumer learns to skip.
+    const overlap = employerSignals(WARN_SIDE, H1B_SIDE, "why", TODAY).find(
+      (s) => s.kind === "warn_h1b_overlap"
+    )!;
+    const q = overlap.matchQuality!;
+    expect(q.kind).toBe("exact_normalized");
+    expect(q.key).toBe("ACME");
+    expect(q.h1bFilersNotShown).toBe(0);
+    expect(q.discardedWords).toEqual([]);
+    // The sponsorship figures are a fiscal-year export and they age. That must
+    // be said on an otherwise clean match, not hidden by it.
+    expect(q.staleSponsorEvidence).toBe(true);
+    expect(q.note).toMatch(/not sponsorship today/i);
+  });
+
+  it("reports the collision when the names actually collide", () => {
+    const overlap = employerSignals(
+      { ...WARN_SIDE, name: "HCL America", siblingNames: ["HCL America"] },
+      {
+        ...H1B_SIDE,
+        name: "HCL AMERICA INC",
+        siblingNames: ["HCL AMERICA INC", "HCL AMERICA SOLUTIONS INC"],
+      },
+      "why",
+      TODAY
+    ).find((s) => s.kind === "warn_h1b_overlap")!;
+    const q = overlap.matchQuality!;
+    expect(q.kind).toBe("possible_corporate_family");
+    expect(q.h1bNames).toContain("HCL AMERICA SOLUTIONS INC");
+    expect(q.h1bFilersNotShown).toBe(1);
+    expect(q.note).toMatch(/not counted in the approvals shown/i);
   });
 
   it("never claims a layoff touched a visa holder", () => {
@@ -263,6 +378,26 @@ describe("employer signals show their working", () => {
     const warnSignal = all.find((s) => s.kind === "warn_notice")!;
     expect(warnSignal.caveat).toMatch(/does not indicate whether or how those roles relate to visa sponsorship/i);
     expect(warnSignal.caveat).toMatch(/nothing about any individual worker/i);
+  });
+
+  it("says how old a filing is, and what its date actually means", () => {
+    // Measured: the median most-recent filing across the 162 overlap employers
+    // is 1,136 days old. An alert that said only "WARN notice detected" would
+    // be reporting three-year-old news for most of them.
+    const [warnSignal] = employerSignals(WARN_SIDE, null, "why", "2026-09-03");
+    expect(warnSignal.recency).toBe("recent");
+    expect(warnSignal.ageDays).toBe(2);
+    expect(warnSignal.dateMeaning).toBe("filing_or_effective_date");
+    // 2,292 of 7,457 notices carry only a layoff date, so the wording cannot
+    // claim the date is when the notice was filed.
+    expect(warnSignal.fact).toMatch(/either the date the notice was filed or the date the layoff takes effect/i);
+
+    const old = employerSignals({ ...WARN_SIDE, latestNotice: "2021-01-01" }, null, "why", "2026-09-03")[0];
+    expect(old.recency).toBe("historical");
+    expect(old.ageDays).toBeGreaterThan(1_000);
+
+    const h1bSignal = employerSignals(null, H1B_SIDE, "why", "2026-09-03")[0];
+    expect(h1bSignal.dateMeaning).toBe("fiscal_year_start");
   });
 
   it("labels H-1B numbers as petitions rather than people", () => {

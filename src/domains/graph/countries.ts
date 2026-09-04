@@ -21,6 +21,12 @@
 // =============================================================================
 
 import { entityId, normalizeSlug, type EntityId } from "./entities";
+import {
+  relationFor,
+  strongerRelation,
+  isScopeRelation,
+  type CountryRelation,
+} from "./country-relations";
 
 export interface CountryDef {
   /** Canonical display name. */
@@ -52,6 +58,39 @@ export const AMBIGUOUS_COUNTRY_NAMES = new Set([
   "china", // "china" as a material; rare but real in trade-adjacent notices
   "india", // "india ink"; rare, but the cost of a wrong edge is high
 ]);
+
+/**
+ * Place names that CONTAIN a country name and are not that country.
+ *
+ * A United States territory is not a foreign state, and the difference is not
+ * academic: a rule about who is a U.S. national by birth in AMERICAN SAMOA was
+ * classified `country:samoa`, which would send a subscriber monitoring the
+ * independent state of Samoa a rule that has nothing to do with it.
+ *
+ * These are matched first and their character ranges are claimed, so a country
+ * name inside one of them cannot also match. They are never themselves
+ * classified — a territory is not a country and this file does not pretend
+ * otherwise. Where a territory needs to be a first-class entity, it needs its
+ * own dimension rather than a wrong country edge.
+ */
+export const NOT_COUNTRIES = [
+  "american samoa",
+  "british virgin islands",
+  "u.s. virgin islands",
+  "us virgin islands",
+  "new mexico",
+  "northern mariana islands",
+  "puerto rico",
+  "guam",
+  "swains island",
+  "british indian ocean territory",
+  "french guiana",
+  "new jersey",
+  "new york",
+  "new hampshire",
+  "indiana",
+  "washington",
+];
 
 /**
  * Words that, appearing near a country name, indicate it is being used as a
@@ -292,6 +331,15 @@ export const COUNTRY_BY_ISO2 = new Map<string, CountryDef>(
 
 interface CountryMatcher {
   re: RegExp;
+  /**
+   * The same pattern, global, so every occurrence in a sentence can be walked.
+   *
+   * Needed because one country's name can sit inside another's: "Guinea"
+   * occurs twice in "Papua New Guinea and Guinea", and only the second one is
+   * a mention of Guinea. Testing the first occurrence alone would either
+   * accept the wrong one or reject the right one.
+   */
+  reAll: RegExp;
   slug: string;
   surface: string;
   ambiguous: boolean;
@@ -302,14 +350,21 @@ function escapeRe(s: string): string {
 }
 
 /** Longest surface form first, so "South Korea" wins over "Korea". */
+/** One global matcher per non-country place name, longest first. */
+const NOT_COUNTRY_MATCHERS: RegExp[] = [...NOT_COUNTRIES]
+  .sort((a, b) => b.length - a.length)
+  .map((name) => new RegExp(`(?<![a-z0-9])${escapeRe(name)}(?![a-z0-9])`, "gi"));
+
 const MATCHERS: CountryMatcher[] = (() => {
   const out: CountryMatcher[] = [];
   for (const c of COUNTRIES) {
     const slug = normalizeSlug(c.name);
     for (const surface of [c.name, ...(c.aliases ?? [])]) {
       const lower = surface.toLowerCase();
+      const pattern = `(?<![a-z0-9])${escapeRe(lower)}(?![a-z0-9])`;
       out.push({
-        re: new RegExp(`(?<![a-z0-9])${escapeRe(lower)}(?![a-z0-9])`, "i"),
+        re: new RegExp(pattern, "i"),
+        reAll: new RegExp(pattern, "gi"),
         slug,
         surface,
         ambiguous: AMBIGUOUS_COUNTRY_NAMES.has(lower),
@@ -326,6 +381,19 @@ export interface CountryMatch {
   surface: string;
   /** Verbatim sentence containing the mention, used as impact evidence. */
   evidence: string;
+  /**
+   * What the country is DOING in this document. See country-relations.ts.
+   *
+   * The strongest relation any mention of this country supported. A rule that
+   * designates Yemen in its operative text and also cites an older Yemen
+   * notice is a rule about Yemen, not a citation.
+   */
+  relation: CountryRelation;
+  /**
+   * Whether that relation means the document's own coverage is defined by this
+   * country. Only three of the seven relations do.
+   */
+  isScope: boolean;
 }
 
 /**
@@ -335,7 +403,12 @@ export interface CountryMatch {
 function sentences(text: string): string[] {
   return text
     .replace(/\s+/g, " ")
-    .split(/(?<=[.;:])\s+(?=[A-Z(])/)
+    // Split on a full stop or a semicolon, NOT on a colon. A colon introduces
+    // the list its own clause describes - "The following countries are
+    // designated: El Salvador, Guatemala, and Honduras" - and splitting there
+    // separates the cue from the countries it governs, which turned a
+    // designation into three bare mentions.
+    .split(/(?<=[.;])\s+(?=[A-Z(])/)
     .map((s) => s.trim())
     .filter(Boolean);
 }
@@ -357,7 +430,14 @@ function clipOnWord(s: string, max: number): string {
  * "the State of Georgia" and "nationals of Georgia" would produce the same edge
  * — and a reader from Tbilisi would be told a U.S. state law affects them.
  */
-export function findCountriesInText(text: string): CountryMatch[] {
+/**
+ * Every country named in this text, with what each one is doing there.
+ *
+ * A country appearing many times keeps the STRONGEST relation any of its
+ * mentions supports, and the evidence quote of that mention — so the quote a
+ * consumer reads is the one that justifies the claim, not whichever came first.
+ */
+export function findCountriesInText(text: string, options: { isTitle?: boolean } = {}): CountryMatch[] {
   if (!text?.trim()) return [];
   const found = new Map<string, CountryMatch>();
 
@@ -365,18 +445,102 @@ export function findCountriesInText(text: string): CountryMatch[] {
     const lower = sentence.toLowerCase();
     const hasContext = COUNTRY_CONTEXT_TERMS.some((t) => lower.includes(t));
 
+    // Character ranges a longer country name has already claimed in THIS
+    // sentence.
+    //
+    // WHY: word boundaries are not enough when one country's name contains
+    // another's. A rule terminating Temporary Protected Status for SOUTH SUDAN
+    // was classified as both south-sudan and sudan, because "Sudan" sits
+    // inside "South Sudan" with a space before it and a boundary after it.
+    // Sudan holds a separate TPS designation, so that single character range
+    // sent a subscriber monitoring Sudan a rule about a different country —
+    // exactly the kind of push a monitoring product cannot survive making.
+    //
+    // MATCHERS is already sorted longest-surface-first, so claiming the range
+    // as each match is accepted is enough: the longer name always gets there
+    // first. Guinea/Papua New Guinea, Niger/Nigeria, China and Dominica are
+    // the same shape of problem and are covered by the same rule.
+    const claimed: [number, number][] = [];
+    const overlapsClaimed = (start: number, end: number) =>
+      claimed.some(([from, to]) => start < to && end > from);
+
+    // Claim the non-countries FIRST, before any country matcher runs. "American
+    // Samoa" is spoken for, so "Samoa" cannot match inside it.
+    for (const re of NOT_COUNTRY_MATCHERS) {
+      re.lastIndex = 0;
+      for (let x = re.exec(sentence); x !== null; x = re.exec(sentence)) {
+        claimed.push([x.index, x.index + x[0].length]);
+      }
+    }
+
     for (const m of MATCHERS) {
-      if (found.has(m.slug)) continue;
-      if (!m.re.test(sentence)) continue;
+      // NOT skipped when already found. The relation model needs every mention,
+      // because the strongest one wins and the strongest is rarely the first:
+      // a rule usually recites background before it states its own scope.
       if (m.ambiguous && !hasContext) continue;
+
+      // Walk every occurrence and take the first that no longer name has
+      // already claimed. "Papua New Guinea and Guinea" names both countries;
+      // "South Sudan", however many times it is repeated, names only one.
+      m.reAll.lastIndex = 0;
+      const spans: [number, number][] = [];
+      for (let x = m.reAll.exec(sentence); x !== null; x = m.reAll.exec(sentence)) {
+        spans.push([x.index, x.index + x[0].length]);
+      }
+      const unclaimed = spans.filter(([start, end]) => !overlapsClaimed(start, end));
+      if (unclaimed.length === 0) continue;
+
+      // Claim EVERY occurrence, not only the one accepted. The TPS termination
+      // for South Sudan writes the name three times; claiming one of them left
+      // the other two open for "Sudan" to match inside, which is the bug this
+      // whole guard exists to stop.
+      claimed.push(...spans);
 
       const def = COUNTRY_BY_SLUG.get(m.slug);
       if (!def) continue;
+
+      // ASK WHAT THE MENTION IS DOING, not merely whether it happened.
+      //
+      // Each unclaimed occurrence is judged on its immediate surroundings, and
+      // the best relation wins. relationFor() returns null when the name turns
+      // out to be part of a larger place — "Mexico Boulevard" — in which case
+      // that occurrence is not a country reference at all.
+      let best: CountryRelation | null = null;
+      let bestAt = -1;
+      for (const [start, end] of unclaimed) {
+        const relation = relationFor({
+          span: sentence,
+          before: sentence.slice(Math.max(0, start - 80), start),
+          after: sentence.slice(end, Math.min(sentence.length, end + 60)),
+          inTitle: options.isTitle === true,
+        });
+        if (!relation) continue;
+        if (best === null) {
+          best = relation;
+          bestAt = start;
+        } else {
+          const merged = strongerRelation(best, relation);
+          if (merged !== best) {
+            best = merged;
+            bestAt = start;
+          }
+        }
+      }
+      if (best === null) continue;
+
+      const existing = found.get(m.slug);
+      const relation = existing ? strongerRelation(existing.relation, best) : best;
+      // Keep the quote belonging to the winning relation, so the evidence a
+      // consumer reads is the evidence that earned the claim.
+      const keepExistingQuote = existing !== undefined && relation === existing.relation && relation !== best;
+
       found.set(m.slug, {
         entityId: entityId("country", def.name),
         name: def.name,
         iso2: def.iso2,
         surface: m.surface,
+        relation,
+        isScope: isScopeRelation(relation),
         // Trim very long sentences so the evidence quote stays readable while
         // still showing the reader exactly where the claim comes from.
         //
@@ -384,9 +548,74 @@ export function findCountriesInText(text: string): CountryMatch[] {
         // hands the reader "…required from certain juris" as verbatim source
         // text — the same defect extract-impact.ts fixed in its own chunker, and
         // the same reason it matters: a mangled quote is worse than no quote.
-        evidence: clipOnWord(sentence, 320),
+        // THE QUOTE MUST RE-DERIVE THE CLAIM. A window cut from a long span can
+        // drop the context that justified the match — "China" is only read as a
+        // country when a nationality or presence word is nearby, and clipping
+        // can leave the name without one. Where that happens the whole sentence
+        // is quoted instead, because a quote that does not support its own
+        // claim is not evidence.
+        evidence: keepExistingQuote
+          ? existing.evidence
+          : selfSupporting(
+              clipOnWord(quoteAround(sentence, bestAt), 320),
+              m,
+              m.ambiguous,
+              sentence
+            ),
       });
     }
   }
   return [...found.values()];
+}
+
+/**
+ * The passage worth quoting for a mention at this position.
+ *
+ * Federal Register spans run long, and a quote clipped from the start of a
+ * 400-character span can end before the country it is supposed to evidence.
+ * Centring on the mention keeps the quote and the claim in the same sentence.
+ */
+/**
+ * The quote, if re-reading it still finds this country. Otherwise the sentence.
+ *
+ * Enforced here rather than checked later, so no path can store a country whose
+ * own evidence does not show it.
+ */
+function selfSupporting(
+  quote: string,
+  matcher: CountryMatcher,
+  ambiguousNeedsContext: boolean,
+  fallback: string
+): string {
+  // Checked directly rather than by re-entering findCountriesInText, which
+  // would recurse without end. The two conditions are exactly the ones that
+  // admitted the match in the first place: the name is present, and where the
+  // name is ambiguous a disambiguating word is present with it.
+  if (!matcher.re.test(quote)) return fallback;
+  if (ambiguousNeedsContext) {
+    const lower = quote.toLowerCase();
+    if (!COUNTRY_CONTEXT_TERMS.some((t) => lower.includes(t))) return fallback;
+  }
+  return quote;
+}
+
+function quoteAround(sentence: string, at: number, width = 320): string {
+  if (sentence.length <= width || at < 0) return sentence;
+
+  let start = Math.max(0, at - Math.floor(width / 2));
+  let end = Math.min(sentence.length, start + width);
+
+  // Move both edges out to whitespace, so the quote never opens or closes
+  // inside a word. A mangled quote is worse than no quote: it is the one field
+  // a reader is asked to check the claim against.
+  while (start > 0 && !/\s/.test(sentence[start - 1])) start--;
+  while (end < sentence.length && !/\s/.test(sentence[end])) end++;
+
+  // The mention must survive the trim. If the window somehow excluded it, quote
+  // the whole sentence rather than evidence that does not show the claim.
+  if (at < start || at > end) return sentence;
+
+  const prefix = start > 0 ? "…" : "";
+  const suffix = end < sentence.length ? "…" : "";
+  return `${prefix}${sentence.slice(start, end).trim()}${suffix}`;
 }

@@ -2,7 +2,7 @@
   "name": "immigration-clock",
   "version": "1.0.0",
   "private": true,
-  "description": "The Immigration Clock \u2014 live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
+  "description": "The Immigration Clock — live and latest available public data on U.S. immigration enforcement, visas, border activity, and workforce impact.",
   "scripts": {
     "dev": "next dev",
     "refresh": "node scripts/refresh-data.mjs",
@@ -38,8 +38,19 @@
     "social:queue": "tsx scripts/social-queue.ts",
     "social:verify-og": "tsx scripts/social-verify-og.ts",
     "check:sources": "tsx scripts/check-sources.ts",
+    "review:queue": "tsx scripts/review-queue.ts",
+    "intelligence:reclassify": "tsx scripts/reclassify-events.ts",
+    "intelligence:quality": "tsx scripts/intelligence-quality.ts",
     "social:examples": "tsx scripts/social-examples.ts",
-    "social:rotation": "tsx scripts/social-rotation-report.ts"
+    "social:rotation": "tsx scripts/social-rotation-report.ts",
+    "intelligence:recheck-countries": "tsx scripts/recheck-countries.ts",
+    "review:record": "tsx scripts/review-record.ts",
+    "review:set": "tsx scripts/review-set.ts",
+    "intelligence:reextract-countries": "tsx scripts/reextract-countries.ts",
+    "intelligence:benchmarks": "tsx scripts/measure-benchmarks.ts",
+    "intelligence:reextract-forms": "tsx scripts/reextract-forms.ts",
+    "intelligence:backfill-text": "tsx scripts/backfill-source-text.ts",
+    "billing:verify": "tsx scripts/verify-billing.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",

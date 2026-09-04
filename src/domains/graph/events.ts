@@ -163,6 +163,32 @@ export interface ImmigrationEvent {
   /** Optional machine-readable form of the same document. */
   sourceDataUrl?: string;
 
+  /**
+   * Provenance for the retained full text of this document, when we have it.
+   *
+   * The text itself lives in data/source-text/, deliberately outside the
+   * application's import graph — see lib/source-text.ts. This field is the
+   * pointer and the receipt: which file, from which URL, retrieved when, hashed
+   * to what, by which adapter.
+   *
+   * Absent means we never retained the body, which is true of every source that
+   * publishes only a headline and an abstract. Absent is a fact about our
+   * coverage and is never filled in with a guess.
+   */
+  sourceDocument?: {
+    /** Filename within the source-text store. */
+    file: string;
+    /** The URL the TEXT came from, which is not always the page URL. */
+    textUrl: string;
+    /** sha256 of the normalized text — what was classified, not what arrived. */
+    contentHash: string;
+    characters: number;
+    /** ISO date we retrieved it. Not the date we last ran. */
+    retrievedAt: string;
+    /** Adapter and extraction version that produced it. */
+    adapter: string;
+  };
+
   /** Typed edges into the graph. */
   entities: EventEntityLink[];
 

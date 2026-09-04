@@ -17,6 +17,9 @@ import type { EntityId } from "./entities";
 import { entityId, VISA_CATEGORIES } from "./entities";
 import { findCountriesInText } from "./countries";
 import { richText } from "./text";
+import { confidenceFor, gradeClassification } from "./classification";
+import { formsFor } from "./forms";
+import { processesFor } from "./processes";
 import {
   EMPTY_IMPACT,
   type ActionRequired,
@@ -364,25 +367,90 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
   }
 
   // ---- Visa categories -----------------------------------------------------
+  //
+  // REWRITTEN AFTER MEASURING. The previous rule was "a visa counts only inside
+  // a scope sentence", applied to the whole body. Hand-labelling the H-1B
+  // corpus showed it failing in both directions at once:
+  //
+  //   • It dropped ten USCIS records whose TITLE names the visa — "USCIS
+  //     Reaches Fiscal Year 2027 H-1B Cap" contains no "applies to", because
+  //     headlines do not talk that way. Recall 47%.
+  //   • It accepted an H-2A wage rule as H-1B because a sentence deep in the
+  //     body says a statutory provision "was enacted in the context of the
+  //     H-1B ... classification, and also applies to the PERM immigrant visa
+  //     program". "applies to" made a footnote look like scope. Precision 82%.
+  //
+  // So the title and the abstract are read first and directly — they are the
+  // document's own statement of subject — and the body still requires a scope
+  // sentence but is now graded, so a citation or a historical aside is marked
+  // weak rather than sold as certain. See classification.ts.
   const visaCategories: ImpactedEntity[] = [];
   const seenVisa = new Set<EntityId>();
-  for (const sentence of allSentences) {
-    const scoped = isScopeSentence(sentence);
-    for (const m of VISA_MATCHERS) {
-      if (seenVisa.has(m.entityId)) continue;
-      if (!m.re.test(sentence)) continue;
-      // A visa named anywhere in a rule about that visa is meaningful, but a
-      // scope sentence is stronger evidence. Only scope sentences are `stated`.
-      if (!scoped) continue;
-      seenVisa.add(m.entityId);
-      visaCategories.push({
-        entityId: m.entityId,
-        basis: "stated",
-        evidence: clip(sentence),
-        confidence: 1,
-      });
-    }
+  const titleText = richText(src.title);
+  const summaryText = richText(src.abstract ?? "");
+
+  for (const m of VISA_MATCHERS) {
+    if (seenVisa.has(m.entityId)) continue;
+
+    // Where does this visa appear, and in what kind of sentence?
+    const inTitle = m.re.test(titleText);
+    const inSummary = m.re.test(summaryText);
+    const bodyScopeSentence = inTitle || inSummary
+      ? null
+      : allSentences.find((sentence) => m.re.test(sentence) && isScopeSentence(sentence));
+
+    if (!inTitle && !inSummary && !bodyScopeSentence) continue;
+
+    const evidence = inTitle
+      ? clip(titleText)
+      : inSummary
+        ? clip(windowAround(summaryText, m.surface) ?? summaryText)
+        : clip(bodyScopeSentence as string);
+
+    const method = gradeClassification({
+      title: titleText,
+      summary: summaryText,
+      evidence,
+      matches: (text) => m.re.test(text),
+    });
+
+    seenVisa.add(m.entityId);
+    visaCategories.push({
+      entityId: m.entityId,
+      basis: "stated",
+      evidence,
+      method,
+      confidence: confidenceFor(method),
+    });
   }
+
+  // ---- Forms and processes -------------------------------------------------
+  //
+  // Both read the title and the abstract only, never the body. That is not a
+  // shortcut, it is the same rule the archive already lives under: it does not
+  // store document bodies, so a form or process derived from body text could
+  // never be re-read by anyone checking the claim. A dimension whose evidence
+  // cannot be verified is worse than one that is merely incomplete.
+  //
+  // Done HERE, at ingestion, rather than as an API patch — the offline
+  // reclassify pass exists only to upgrade the 544 records that predate this,
+  // and calls these same two functions, so there is one classifier rather than
+  // two that will drift.
+  const forms: ImpactedEntity[] = formsFor(titleText, summaryText).map((f) => ({
+    entityId: f.entityId as EntityId,
+    basis: "stated" as const,
+    evidence: f.evidence,
+    method: f.method as never,
+    confidence: f.confidence,
+  }));
+
+  const processes: ImpactedEntity[] = processesFor(titleText, summaryText).map((p) => ({
+    entityId: p.entityId as EntityId,
+    basis: "stated" as const,
+    evidence: p.evidence,
+    method: p.method as never,
+    confidence: p.confidence,
+  }));
 
   // ---- Agencies ------------------------------------------------------------
   // The adapter already established these as explicit links from structured
@@ -414,6 +482,8 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
   const impact: EventImpact = {
     countries,
     visaCategories,
+    forms,
+    processes,
     agencies,
     employers: [],
     universities: [],
@@ -426,6 +496,8 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
   if (
     countries.length === 0 &&
     visaCategories.length === 0 &&
+    forms.length === 0 &&
+    processes.length === 0 &&
     agencies.length === 0
   ) {
     impact.undetermined =

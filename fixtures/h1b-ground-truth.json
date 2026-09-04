@@ -1,0 +1,72 @@
+{
+  "_readme": [
+    "HAND-LABELLED GROUND TRUTH FOR H-1B CLASSIFICATION.",
+    "",
+    "Every record below was read individually and judged against one question:",
+    "should a professional monitoring H-1B receive this record? The judgement is",
+    "recorded with the reason, so it can be argued with rather than trusted.",
+    "",
+    "The candidate pool was every record whose title or summary names H-1B (16),",
+    "plus every record the extractor classified as H-1B without such a mention",
+    "(5). That is 21 records judged, of which 19 are relevant and 2 are not.",
+    "",
+    "The pool is deliberately NOT the set the classifier returns — scoring against",
+    "your own output is how a metric gets gamed. It is the set a reader could",
+    "identify from the archive text plus everything the classifier claimed.",
+    "",
+    "Known limitation: a record that concerns H-1B without naming it anywhere in",
+    "its title, summary, or the extractor's evidence quote is invisible to this",
+    "pool and to us. The archive does not store document bodies, so that class",
+    "cannot be measured here and recall below is recall against what is knowable."
+  ],
+  "labelledOn": "2026-09-03",
+  "dimension": "visa:h-1b",
+  "relevant": [
+    { "id": "federal_register:2026-17324", "why": "Proposes a fee on H-1B cap-subject petitions. Title names it." },
+    { "id": "uscis_newsroom:19a8da9e-15b0-455f-a4f4-8a616f0e178f", "why": "DHS proposes an additional H-1B fee." },
+    { "id": "federal_register:2026-16231", "why": "Fee applying to H-1B and L-1 visas." },
+    { "id": "uscis_newsroom:8d0937a2-6564-412c-8b12-7db83e9fbb39", "why": "FY2027 H-1B cap reached — operational fact an employer acts on." },
+    { "id": "uscis_newsroom:3f480495-b1a7-4ef9-b61a-f604d3d0923c", "why": "FY2027 H-1B registration selection completed." },
+    { "id": "federal_register:2026-06017", "why": "DOL wage-protection NPRM covering H-1B among other programmes." },
+    { "id": "uscis_newsroom:023fcea4-8e08-4512-b5c4-33033db19e0f", "why": "FY2027 H-1B registration period opens." },
+    { "id": "federal_register:2025-23853", "why": "Weighted selection for cap-subject H-1B petitions." },
+    { "id": "uscis_newsroom:5092e7a7-95e1-428b-aa22-741961ef963c", "why": "Changes the process for awarding H-1B visas." },
+    { "id": "uscis_newsroom:0d24d479-4dee-40b4-b398-4425ec01d1f0", "why": "Proclamation restricting entry, summary names H-1B petitions." },
+    { "id": "federal_register:2025-18473", "why": "Weighted selection for cap-subject H-1B petitions (earlier stage)." },
+    {
+      "id": "uscis_newsroom:d5d1776c-571e-453a-9a67-952d0542ca92",
+      "why": "USCIS guidance answering questions about the September 2025 proclamation restricting entry of certain nonimmigrant workers. It is titled H-1B FAQ and its summary is entirely about the H-1B program, so an employer monitoring H-1B needs it."
+    },
+    { "id": "uscis_newsroom:46d66277-ca68-4424-bc39-12ef2b0c859b", "why": "FY2026 H-1B cap reached." },
+    { "id": "uscis_newsroom:74cd9c1d-ceb5-4810-88a2-b454b15655ce", "why": "FY2026 H-1B selection completed." },
+    { "id": "uscis_newsroom:811dbd7d-7e86-4e5d-91ad-afbf96c4347e", "why": "FY2026 H-1B registration period opens." },
+    { "id": "uscis_newsroom:1c4cde66-9018-44d7-ab56-805da55fa3dc", "why": "H-1B final rule and revised Form I-129 effective date." },
+    {
+      "id": "federal_register:2026-16313",
+      "why": "Mandatory e-filing. The evidence quote is specifically about H-1B cap registration having to be filed electronically, which is an operational change for every H-1B filer.",
+      "note": "Body-only evidence, but the quote is about H-1B itself rather than a citation."
+    },
+    {
+      "id": "federal_register:2026-00321",
+      "why": "Premium processing fee increase. Premium processing is requested on Form I-907 against Form I-129, which is the H-1B petition, so H-1B filers pay this.",
+      "note": "Weakest of the relevant set: the quoted evidence names H-2B and R-1 rather than H-1B. Correct match, poor quote."
+    },
+    {
+      "id": "federal_register:2025-18601",
+      "why": "Proclamation restricting entry of certain nonimmigrant workers; evidence quotes a direction about beneficiaries of approved H-1B petitions.",
+      "note": "Body-only evidence, directly about H-1B."
+    }
+  ],
+  "notRelevant": [
+    {
+      "id": "federal_register:2025-19365",
+      "why": "An H-2A adverse-effect wage rate rule. It was classified H-1B because its body says the statutory provision 'was enacted in the context of the H-1B ... classification'. That is a historical aside about section 212(p), not this rule's scope.",
+      "failureClass": "historical_statutory_reference"
+    },
+    {
+      "id": "federal_register:2026-09289",
+      "why": "A rule about signatures on benefit requests generally. It was classified H-1B from a footnote citing a 2011 H-1B registration NPRM (76 FR 11686).",
+      "failureClass": "footnote_citation"
+    }
+  ]
+}

@@ -137,6 +137,26 @@ for (const n of WARN_NOTICES) {
 }
 const EMPLOYER_BY_NORM = new Map(WARN_EMPLOYERS.map((e) => [e.normalized, e]));
 
+/**
+ * Every WARN employer whose name normalizes to the same key as this one.
+ *
+ * The mirror of h1bFilersSharingKey(). A single normalized key can gather
+ * several state filings under slightly different names, and a consumer
+ * deciding whether a match is one company or a corporate family needs to see
+ * them rather than be told a count.
+ */
+const WARN_NAMES_BY_KEY = new Map<string, string[]>();
+for (const e of WARN_EMPLOYERS) {
+  if (!e.normalized) continue;
+  const existing = WARN_NAMES_BY_KEY.get(e.normalized);
+  if (existing) existing.push(e.name);
+  else WARN_NAMES_BY_KEY.set(e.normalized, [e.name]);
+}
+
+export function warnEmployersSharingKey(name: string): string[] {
+  return WARN_NAMES_BY_KEY.get(normalizeEmployer(name)) ?? [];
+}
+
 export interface EmployerWarn {
   summary: WarnEmployer;
   notices: WarnNotice[]; // date-desc

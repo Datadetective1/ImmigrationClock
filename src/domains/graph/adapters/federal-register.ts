@@ -29,6 +29,8 @@ import type {
 import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
+import { richText } from "../text";
+import { putSourceText } from "@/lib/source-text";
 import {
   BODY_FETCH_CONCURRENCY,
   FR_UA as UA,
@@ -233,6 +235,9 @@ async function fetchBody(url: string | null | undefined): Promise<string | null>
   }
 }
 
+/** Version of the extraction rules that read a body. Bumped when they change. */
+const ADAPTER_VERSION = "federal-register@2";
+
 function toEvent(doc: FrDocument, verifiedAt: string, body?: string | null): ImmigrationEvent {
   const classification = classify(doc);
   // The Federal Register places documents on public inspection several days
@@ -352,15 +357,52 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   const capped = capEvents(relevant, ctx.limit);
   warnings.push(...capped.warnings);
 
-  // Two passes: classify from metadata first, then fetch full text only for the
-  // documents whose scope actually matters to a reader.
+  // FULL TEXT IS FETCHED FOR EVERY RELEVANT DOCUMENT, AND RETAINED.
+  //
+  // This used to skip anything provisionally scored "routine", on the reasoning
+  // that a routine document's scope does not matter much to a reader. Measuring
+  // the archive showed how expensive that reasoning was: 245 of 348 Federal
+  // Register records are routine, and 120 of them turned out to name a form
+  // that a professional would monitor. Paperwork Reduction Act notices — the
+  // documents that most often ARE about a form — are exactly the ones scored
+  // routine, because their titles say nothing but "Agency Information
+  // Collection Activities".
+  //
+  // The text is also now kept. It was previously read once, used for impact
+  // extraction, and dropped, so nothing afterwards could re-read it: not a
+  // better classifier, not a reviewer checking a claim, not a customer asking
+  // why a record says what it says. See lib/source-text.ts for where it goes
+  // and why that is outside the application's import graph.
   const events = await mapWithConcurrency(capped.events, BODY_FETCH_CONCURRENCY, async (d) => {
-    const provisional = severity(d, classify(d));
-    const body = provisional === "routine" ? null : await fetchBody(d.raw_text_url);
-    if (provisional !== "routine" && !body) {
+    const body = await fetchBody(d.raw_text_url);
+    if (!body) {
       warnings.push(`could not fetch full text for ${d.document_number}; impact from abstract only`);
     }
-    return toEvent(d, verifiedAt, body);
+
+    const event = toEvent(d, verifiedAt, body);
+
+    if (body) {
+      const normalized = richText(body);
+      if (normalized.trim()) {
+        const ref = putSourceText({
+          id: event.id,
+          normalized,
+          textUrl: d.raw_text_url ?? `${d.html_url}`,
+          retrievedAt: verifiedAt,
+          adapter: ADAPTER_VERSION,
+        });
+        event.sourceDocument = {
+          file: ref.file,
+          textUrl: ref.textUrl,
+          contentHash: ref.contentHash,
+          characters: ref.characters,
+          retrievedAt: ref.retrievedAt,
+          adapter: ref.adapter,
+        };
+      }
+    }
+
+    return event;
   });
 
   return { adapterKey: "federal-register", events, warnings, failed: false };

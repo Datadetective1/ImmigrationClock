@@ -12,3 +12,9 @@
 # a one-line data change into a 40,000-line diff.
 *.json text eol=lf
 *.csv text eol=lf
+
+# Retained source documents are hashed, so their bytes must survive checkout
+# unchanged. Without this, autocrlf rewrites every line ending and every content
+# hash in data/source-text/_index.json stops matching the file it names — which
+# would turn the store's integrity check into a permanent false alarm.
+data/source-text/** -text

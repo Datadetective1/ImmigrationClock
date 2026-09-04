@@ -3,6 +3,7 @@
 // directory and the /search page — not by the always-loaded global search bar,
 // so its weight only loads on those routes.
 import data from "./generated/employers.json";
+import { normalizeEmployer } from "./format";
 
 export interface DirectoryEmployer {
   slug: string;
@@ -38,6 +39,61 @@ export const AVG_APPROVAL_RATE =
 const BY_SLUG = new Map<string, { employer: DirectoryEmployer; rank: number }>(
   EMPLOYERS.map((employer, i) => [employer.slug, { employer, rank: i + 1 }])
 );
+/**
+ * Every H-1B filer whose name normalizes to the same key as this one.
+ *
+ * WHY THIS IS NEEDED, MEASURED. 20 normalized keys in the FY export carry more
+ * than one filer — HCL AMERICA INC and HCL AMERICA SOLUTIONS INC both become
+ * HCL AMERICA — and the WARN cross-link keeps ONE record per key, so 21 filers
+ * are dropped from it. A row for such a key shows one entity's approvals under
+ * a name that reads like the group's. This is what lets a consumer be told.
+ *
+ * Returns the names in directory order, the queried one included.
+ */
+const H1B_NAMES_BY_KEY = new Map<string, string[]>();
+for (const e of EMPLOYERS) {
+  const key = normalizeEmployer(e.name);
+  if (!key) continue;
+  const existing = H1B_NAMES_BY_KEY.get(key);
+  if (existing) existing.push(e.name);
+  else H1B_NAMES_BY_KEY.set(key, [e.name]);
+}
+
+export function h1bFilersSharingKey(name: string): string[] {
+  return H1B_NAMES_BY_KEY.get(normalizeEmployer(name)) ?? [];
+}
+
+/**
+ * Filers whose normalized key begins with the same word but is not the same key.
+ *
+ * The join can only ever match one key, so a group that files under several
+ * names is understated by it in a way nothing inside the join reveals. Amazon
+ * files under five entities producing four keys; Deloitte under six.
+ *
+ * A NAME OBSERVATION, NOT A CORPORATE-STRUCTURE CLAIM. Two companies can share
+ * a first word and have nothing to do with each other, which is why the first
+ * word must be distinctive — five characters or more — and why the caller is
+ * handed the names rather than a merged total.
+ */
+const MIN_DISTINCTIVE_WORD = 5;
+const H1B_BY_FIRST_WORD = new Map<string, DirectoryEmployer[]>();
+for (const e of EMPLOYERS) {
+  const first = normalizeEmployer(e.name).split(" ")[0];
+  if (!first || first.length < MIN_DISTINCTIVE_WORD) continue;
+  const existing = H1B_BY_FIRST_WORD.get(first);
+  if (existing) existing.push(e);
+  else H1B_BY_FIRST_WORD.set(first, [e]);
+}
+
+export function h1bFilersOnRelatedKeys(name: string): { name: string; approvals: number }[] {
+  const key = normalizeEmployer(name);
+  const first = key.split(" ")[0];
+  if (!first || first.length < MIN_DISTINCTIVE_WORD) return [];
+  return (H1B_BY_FIRST_WORD.get(first) ?? [])
+    .filter((e) => normalizeEmployer(e.name) !== key)
+    .map((e) => ({ name: e.name, approvals: e.approvals }));
+}
+
 export function employerBySlug(slug: string): { employer: DirectoryEmployer; rank: number } | null {
   return BY_SLUG.get(slug) ?? null;
 }

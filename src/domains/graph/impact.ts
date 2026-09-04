@@ -34,6 +34,7 @@
 // =============================================================================
 
 import type { EntityId } from "./entities";
+import { confidenceFor, type ClassificationMethod } from "./classification";
 
 /** How we know a group is affected. Never collapse these. */
 export type ImpactBasis =
@@ -49,11 +50,35 @@ export interface ImpactedEntity {
   entityId: EntityId;
   basis: ImpactBasis;
   /**
+   * How the classification was established, and therefore how far to trust it.
+   * See classification.ts — a title match and a footnote match are both
+   * "stated" under `basis`, and they are not the same thing.
+   *
+   * Optional so records written before the grader existed still parse; the
+   * reclassify pass fills it in.
+   */
+  method?: ClassificationMethod;
+  /**
+   * For a country: what the country is DOING in the document — defining its
+   * coverage, hosting a consular post, sitting inside a cited agreement's
+   * title. See country-relations.ts.
+   *
+   * Only the scope-bearing relations mean the document is about that country,
+   * and only those are returned by a default country filter. Absent on the
+   * dimensions where the question does not arise.
+   */
+  relation?: string;
+  /**
    * Verbatim quote from the source establishing this. REQUIRED when
    * basis is "stated" — a stated fact with no quote is just an assertion.
    */
   evidence?: string;
-  /** 1 for stated, <1 otherwise. */
+  /**
+   * How far to trust this entry, pinned to `method` where one is present and
+   * enforced in validateImpact(). It is not a free-text score: 1 means the
+   * title or a structured field named it, 0.9 a summary or a clean scope
+   * sentence, 0.5 a citation or an aside.
+   */
   confidence: number;
 }
 
@@ -103,6 +128,24 @@ export interface EventImpact {
   universities: ImpactedEntity[];
   /** U.S. states, for state-level or geographically scoped actions. */
   states: ImpactedEntity[];
+  /**
+   * Immigration forms the document names — I-129, I-765, ETA-9089.
+   *
+   * Optional because it was added after the archive was built, and a record
+   * written before it existed has no forms list rather than an empty one. The
+   * difference matters: see ClassificationState.
+   */
+  forms?: ImpactedEntity[];
+  /**
+   * Immigration processes the document names — labor certification, employment
+   * authorization, cap registration.
+   *
+   * The dimension a professional actually administers. A visa filter misses a
+   * rule that changes how employment authorization is granted, because such a
+   * rule names no visa; see domains/graph/processes.ts for the measurement
+   * that produced this list.
+   */
+  processes?: ImpactedEntity[];
 
   completeness: ImpactCompleteness;
 
@@ -145,6 +188,8 @@ export const EMPTY_IMPACT: EventImpact = {
   employers: [],
   universities: [],
   states: [],
+  forms: [],
+  processes: [],
   completeness: "unspecified",
   undetermined:
     "This document does not identify in structured terms who is affected. Read the original for scope.",
@@ -159,6 +204,8 @@ export function allImpacted(impact: EventImpact): ImpactedEntity[] {
     ...impact.employers,
     ...impact.universities,
     ...impact.states,
+    ...(impact.forms ?? []),
+    ...(impact.processes ?? []),
   ];
 }
 
@@ -217,8 +264,23 @@ export function validateImpact(impact: EventImpact, eventId: string): string[] {
       if (!i.evidence?.trim()) {
         errors.push(`${eventId}: ${i.entityId} is marked stated but carries no evidence quote`);
       }
-      if (i.confidence !== 1) {
-        errors.push(`${eventId}: ${i.entityId} is marked stated but confidence is not 1`);
+      // CONFIDENCE MUST MATCH THE METHOD THAT EARNED IT.
+      //
+      // This rule used to read "stated implies confidence 1", written when
+      // there was only one kind of stated. There are now four: a document
+      // whose TITLE names H-1B and a document that mentions H-1B once in a
+      // footnote both say it, and selling the second at confidence 1 is
+      // exactly the failure that put an H-2A wage rule in front of H-1B
+      // subscribers. So a graded classification must carry the confidence its
+      // grade implies, and an ungraded one must still be a full 1 — the old
+      // rule, preserved for records written before grading existed.
+      const expected = i.method ? confidenceFor(i.method) : 1;
+      if (i.confidence !== expected) {
+        errors.push(
+          i.method
+            ? `${eventId}: ${i.entityId} is ${i.method} so confidence must be ${expected}, not ${i.confidence}`
+            : `${eventId}: ${i.entityId} is marked stated but confidence is not 1`
+        );
       }
     }
     if (i.basis === "inferred" && i.confidence >= 1) {

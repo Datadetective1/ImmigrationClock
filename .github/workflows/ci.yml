@@ -65,6 +65,18 @@ jobs:
       - name: Test
         run: npm test
 
+      # The classification benchmark, gated.
+      #
+      # This checks QUALITY, not coverage. It fails when precision on the
+      # hand-labelled H-1B set drops below 90%, when recall drops below 85%,
+      # when employment retrieval falls under 90%, or when visa classification
+      # collapses outright. It deliberately does NOT fail on a coverage target:
+      # there is no number of classified records that is correct, and a quota
+      # would be a standing incentive to invent classifications — which is the
+      # one failure this whole layer exists to prevent.
+      - name: Intelligence quality
+        run: npm run intelligence:quality -- --strict
+
       # `--ignore-scripts` keeps the `prebuild` hook from firing, so this
       # compiles the committed data rather than re-fetching from eight agencies.
       - name: Production build
