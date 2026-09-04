@@ -236,6 +236,11 @@ describe("the navbar says which section you are in", () => {
   it("leaves only utility pages unlit", () => {
     // Legal, transparency and admin pages genuinely belong to no section.
     // Anything else appearing here is a page that fell out of the navigation.
+    //
+    // /developers and /pricing left this list when "For Professionals" was
+    // added. They had been unlit because the professional product did not have
+    // a section to belong to; now it does, and a firm arriving on the API page
+    // should be able to see the monitoring surface beside it.
     const unlit = SAMPLE_URLS.filter((u) => sectionsFor(u).length === 0).sort();
     expect(unlit).toEqual([
       "/about",
@@ -246,10 +251,8 @@ describe("the navbar says which section you are in", () => {
       "/admin/refresh-status",
       "/data",
       "/data-manifest",
-      "/developers",
       "/disclosure",
       "/methodology",
-      "/pricing",
       "/privacy",
       "/search",
       "/sources",

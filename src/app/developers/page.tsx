@@ -103,6 +103,23 @@ export default function DevelopersPage() {
             </div>
             <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
+                <div className="font-mono text-sm text-accent-soft">GET /api/v1/monitor</div>
+                <div className="text-xs text-slate-500">
+                  The intelligence inbox. Pass the visas, countries, forms, processes, agencies or
+                  topics a customer follows and get back what needs attention, what takes effect
+                  soon, and the evidence behind each classification. The watchlist travels in the
+                  query string and is never stored.
+                </div>
+              </div>
+              <a
+                href="/api/v1/monitor?follow=visa:h-1b&follow=form:i-129&limit=3"
+                className="link-accent whitespace-nowrap text-xs font-semibold"
+              >
+                Open JSON →
+              </a>
+            </div>
+            <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
                 <div className="font-mono text-sm text-accent-soft">GET /api/v1/changes/&#123;id&#125;</div>
                 <div className="text-xs text-slate-500">
                   One change. The id is the six characters that end a /what-changed/ URL.
@@ -133,6 +150,26 @@ export default function DevelopersPage() {
 
           <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">Example</p>
           <Code>{`curl -s "https://immigrationclock.com/api/v1/changes?visa=h-1b&since=2026-01-01&limit=3" | jq '.data[] | {title, status, effectiveDate, source: .source.url}'`}</Code>
+
+          <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Three ways to integrate
+          </p>
+          <p className="text-sm text-slate-400">
+            <strong className="text-white">1. Pull.</strong> Call{" "}
+            <code>/api/v1/monitor</code> on a schedule with the dimensions your customer follows.
+            Available today, free, no key.
+          </p>
+          <p className="mt-3 text-sm text-slate-400">
+            <strong className="text-white">2. Embedded intelligence.</strong> Render our change
+            records inside your own workflow. Every record carries its source URL, its effective
+            date, its evidence quotes and its limitations, so it can be shown without you having to
+            vouch for anything we have not measured.
+          </p>
+          <p className="mt-3 text-sm text-slate-400">
+            <strong className="text-white">3. Push.</strong> Not offered. A webhook implies we will
+            tell you about everything, and no dimension&rsquo;s measured recall supports that claim
+            yet. When one does, it will say so here with the number beside it.
+          </p>
 
           <p className="mb-2 mt-5 text-xs font-semibold uppercase tracking-wide text-slate-500">
             How good is the classification?

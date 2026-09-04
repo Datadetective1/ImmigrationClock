@@ -56,6 +56,30 @@ export async function GET(): Promise<Response> {
             "One change. The id is the six characters that end a /what-changed/ URL; the internal record id also works.",
         },
         {
+          path: "/api/v1/monitor",
+          method: "GET",
+          description:
+            "The intelligence inbox: of everything recorded, what touches a given watchlist and how " +
+            "soon it matters. Bucketed by urgency, with a brief and the evidence on every item. " +
+            "This is the endpoint to integrate against if you want to show immigration change " +
+            "inside your own product.",
+          parameters: {
+            follow:
+              "Repeatable. An entity id to watch: visa:h-1b, country:india, form:i-129, " +
+              "process:labor-certification, topic:enforcement, agency:uscis. Up to 60.",
+            follows: "The same, as one comma-separated list.",
+            horizonDays: "How far ahead 'effective soon' reaches. 1–365, default 30.",
+            recentDays: "How far back 'recently changed' reaches. 1–365, default 14.",
+            bucket:
+              "needs_attention | effective_soon | recently_changed | potentially_relevant | reviewed | superseded",
+            limit: "1–100, default 100",
+          },
+          notes:
+            "The watchlist travels in the query string and is never stored. We do not hold a record " +
+            "of what any firm is watching, which for an immigration platform is a property worth " +
+            "keeping.",
+        },
+        {
           path: "/api/v1/employers/{slug}/signals",
           method: "GET",
           description:

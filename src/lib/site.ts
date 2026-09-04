@@ -117,6 +117,24 @@ export const NAV: NavItem[] = [
       { href: "/explained", label: "Explained", desc: "Plain-English definitions" },
     ],
   },
+  {
+    label: "For Professionals",
+    href: "/monitor",
+    match: ["/monitor", "/developers", "/pricing"],
+    children: [
+      {
+        href: "/monitor",
+        label: "Monitor",
+        desc: "What changed that matters to your work, with the evidence",
+      },
+      {
+        href: "/developers",
+        label: "API & integration",
+        desc: "The same intelligence as JSON. Free, no key",
+      },
+      { href: "/pricing", label: "Pricing", desc: "What Pro adds, and what stays free" },
+    ],
+  },
   { href: "/insights", label: "Insights" },
   { href: "/pulse", label: "Pulse" },
 ];
