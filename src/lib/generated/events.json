@@ -1,45 +1,45 @@
 {
-  "generatedAt": "2026-09-03T17:23:28.563Z",
-  "since": "2026-06-05",
+  "generatedAt": "2026-09-04T14:37:27.987Z",
+  "since": "2026-06-06",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:22:51.238Z",
+      "lastRunAt": "2026-09-04T14:37:17.704Z",
       "ok": true,
-      "eventCount": 58,
+      "eventCount": 57,
       "warnings": [
-        "732 of 790 document(s) from tracked agencies were not immigration-related"
+        "725 of 782 document(s) from tracked agencies were not immigration-related"
       ]
     },
     {
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:22:53.723Z",
+      "lastRunAt": "2026-09-04T14:37:20.307Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
-        "63 of 64 presidential document(s) were not immigration-related"
+        "62 of 63 presidential document(s) were not immigration-related"
       ]
     },
     {
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:22:53.814Z",
+      "lastRunAt": "2026-09-04T14:37:20.343Z",
       "ok": true,
       "eventCount": 15,
       "warnings": [
-        "16 individual criminal-case press release(s) excluded by editorial policy (see adapter header)"
+        "17 individual criminal-case press release(s) excluded by editorial policy (see adapter header)"
       ]
     },
     {
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:22:53.885Z",
+      "lastRunAt": "2026-09-04T14:37:20.493Z",
       "ok": true,
       "eventCount": 10,
       "warnings": []
@@ -48,18 +48,18 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:23:27.854Z",
+      "lastRunAt": "2026-09-04T14:37:27.745Z",
       "ok": true,
-      "eventCount": 4,
+      "eventCount": 5,
       "warnings": [
-        "16 decision(s) naming private individuals excluded by editorial policy (see adapter header)"
+        "15 decision(s) naming private individuals excluded by editorial policy (see adapter header)"
       ]
     },
     {
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:23:27.854Z",
+      "lastRunAt": "2026-09-04T14:37:27.745Z",
       "ok": true,
       "eventCount": 0,
       "warnings": [
@@ -70,7 +70,7 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-09-03T17:23:27.888Z",
+      "lastRunAt": "2026-09-04T14:37:27.781Z",
       "ok": true,
       "eventCount": 1,
       "warnings": [
@@ -81,25 +81,25 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-09-03T17:23:28.545Z",
+      "lastRunAt": "2026-09-04T14:37:27.970Z",
       "ok": true,
       "eventCount": 2,
       "warnings": []
     }
   ],
   "counts": {
-    "total": 544,
+    "total": 548,
     "bySeverity": {
-      "routine": 267,
-      "major": 156,
-      "notable": 121
+      "routine": 270,
+      "notable": 122,
+      "major": 156
     },
     "byClassification": {
+      "announcement": 338,
       "data_release": 8,
+      "court_decision": 13,
       "final_rule": 59,
       "updated_information": 68,
-      "court_decision": 12,
-      "announcement": 335,
       "proposed_rule": 21,
       "executive_action": 28,
       "deadline": 11,
@@ -108,6 +108,107 @@
   },
   "events": [
     {
+      "id": "federal_register:2026-18174",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Intent To Request Extension From OMB of One Current Public Collection of Information: Flight Training Security Program",
+      "summary": "The Transportation Security Administration (TSA) invites public comment on one currently approved Information Collection Request (ICR), Office of Management and Budget (OMB) control number 1652-0021, abstracted below, that we will submit to OMB for an extension, in compliance with the Paperwork Reduction Act (PRA). The ICR describes the nature of the information collection and its expected burden. The collection supports security threat assessments for aliens (candidates) seeking flight training from FAA-certified providers, ensuring they do not pose a threat to aviation or national security. Flight training providers must also conduct and maintain records of security awareness training for their employees.",
+      "publishedAt": "2026-09-04",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-09-04",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/04/2026-18174/intent-to-request-extension-from-omb-of-one-current-public-collection-of-information-flight-training",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-18174?publication_date=2026-09-04",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
+      "id": "federal_register:2026-18099",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Extension, Without Change, of a Currently Approved Collection: e-Request Tool",
+      "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
+      "publishedAt": "2026-09-04",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-09-04",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/04/2026-18099/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-18099?publication_date=2026-09-04",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto"
+    },
+    {
       "id": "cbp_encounters:fy2026-jul",
       "sourceKey": "cbp_encounters",
       "issuingAgencyId": "agency:cbp",
@@ -115,10 +216,10 @@
       "severity": "routine",
       "title": "CBP nationwide encounters: data through July 2026",
       "summary": "CBP published nationwide encounter figures covering fiscal year 2026 through July 2026. The cumulative year-to-date total is 314,440 encounters. An encounter is an enforcement action, not a person: one individual can be encountered more than once, so encounters and people are different counts.",
-      "publishedAt": "2026-09-03",
+      "publishedAt": "2026-09-04",
       "dataThrough": "2026-07-31",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
       "sourceDataUrl": "https://www.cbp.gov/sites/default/files/2026-08/nationwide-encounters-fy23-fy26-jul-aor.csv",
       "entities": [
@@ -160,6 +261,102 @@
       ]
     },
     {
+      "id": "federal_courts:10966153",
+      "sourceKey": "federal_courts",
+      "classification": "court_decision",
+      "severity": "notable",
+      "title": "Advocates for Human Rights v. Bondi",
+      "summary": "District Court, District of Columbia issued a decision in Advocates for Human Rights v. Bondi, filed 2026-09-03, docket Civil Action No. 2026-0865. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "publishedAt": "2026-09-03",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-09-04",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10966153/advocates-for-human-rights-v-bondi/",
+      "entities": [
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "court_case:dcd-10966153",
+          "relation": "affects",
+          "basis": "explicit",
+          "confidence": 1
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "This document does not state in structured terms who is affected. Read the original for scope."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
+        "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+      ]
+    },
+    {
+      "id": "uscis_newsroom:9434478f-8c10-4daf-9dbd-f02e86787679",
+      "sourceKey": "uscis_newsroom",
+      "issuingAgencyId": "agency:uscis",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "USCIS Opens New International Field Office in Ethiopia to Support Fraud Prevention",
+      "summary": "U.S. Citizenship and Immigration Services (USCIS) is opening a new international field office in Addis Ababa, Ethiopia. The office will begin operations on September 9, 2026, and will handle USCIS immigration matters in Ethiopia.",
+      "publishedAt": "2026-09-03",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-09-04",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-opens-new-international-field-office-in-ethiopia-to-support-fraud-prevention",
+      "entities": [
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.7
+        },
+        {
+          "entityId": "country:ethiopia",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "limitations": [
+        "A USCIS announcement describes the agency's own action. Legal effect, and the detail of how it applies, usually arrives separately in the Federal Register or the USCIS Policy Manual."
+      ]
+    },
+    {
       "id": "dol_oflc:announcement-2026-09-02",
       "sourceKey": "dol_oflc",
       "issuingAgencyId": "agency:dol",
@@ -169,7 +366,7 @@
       "summary": "This notice is provided to comply with the August 26, 2026 Order of the United States District Court for the Eastern District of California entered in United Farm Workers, et al. v. DOL, et al. , No. 25-cv-01614-KES-EGC (“Order”), requiring the U.S. Department of Labor (the “Department”) to provide...",
       "publishedAt": "2026-09-02",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
       "entities": [
         {
@@ -223,7 +420,7 @@
       "summary": "The Department of Labor (Department) is rescinding the regulations that established formal procedures for coordination of enforcement activities among the Wage and Hour Division (WHD), Occupational Safety and Health Administration (OSHA), and Employment and Training Administration (ETA) with respect to migrant and seasonal farmworkers. The Department is rescinding these regulations because they are obsolete, no longer reflect the Department's organizational structure or operational practices, and are not needed for effective coordination among the relevant component agencies. This action will remove unnecessary regulatory burden and align the Department's enforcement strategy with modern, effective, and flexible coordination models already in use.",
       "publishedAt": "2026-08-31",
       "effectiveAt": "2026-09-30",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-17726?publication_date=2026-08-31",
       "entities": [
@@ -279,7 +476,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is rescinding the August 29, 2025 policy, Voter Registration at Administrative Naturalization Ceremonies , PA-2025-21, and reinstating policy guidance in the USCIS Policy Manual to permit nonprofit and nonpartisan non-governmental organizations to participate in administrative naturalization ceremonies. Such organizations may participate by distributing and collecting voter registration applications and officially registering new citizens to vote immediately following the ceremony, when state and local election offices are not available to do so.",
       "publishedAt": "2026-08-31",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf",
       "entities": [
         {
@@ -334,7 +531,7 @@
       "summary": "No abstract was published with this document.",
       "publishedAt": "2026-08-31",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/C3-2026-15190/affirmative-asylum-referrals-without-interview",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/C3-2026-15190?publication_date=2026-08-31",
       "entities": [
@@ -395,7 +592,7 @@
       "summary": "On Aug. 24, 2026, the U.S. District Court for the Northern District of California issued an order in&nbsp;Red Eagle Law, L.C., et al., v. Joseph B. Edlow, 26-cv-04850-CRB (NDCA), enjoining PM 602-0192, and PM 602-0194.",
       "publishedAt": "2026-08-28",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/recent-court-order-on-hold-policies",
       "entities": [
         {
@@ -442,7 +639,7 @@
       "summary": "The Department of State has submitted the information collection described below to the Office of Management and Budget (OMB) for approval. In accordance with the Paperwork Reduction Act of 1995 we are requesting comments on this collection from all interested individuals and organizations. The purpose of this Notice is to allow 30 days for public comment.",
       "publishedAt": "2026-08-28",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/28/2026-17578/30-day-notice-of-proposed-information-collection-annual-report-j-nonimmigrant-exchange-visitor",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-17578?publication_date=2026-08-28",
       "entities": [
@@ -493,7 +690,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to further assess and corroborate the eligibility of aliens applying for naturalization. The guidance reintroduces personal investigations, also known as neighborhood investigations, under section 335(a) of the Immigration and Nationality Act (INA) and reinforces the need to validate the alien’s information and documentation as part of the naturalization examination under INA 335(b).",
       "publishedAt": "2026-08-25",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260825-InvestigationsForNatzEligibility.pdf",
       "entities": [
         {
@@ -548,7 +745,7 @@
       "summary": "The Department of Homeland Security (DHS) proposes to establish a $103,265 fee, payable at the time of filing, for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption, which would be imposed in addition to all other applicable fees or payments. This fee would serve as a dedicated revenue mechanism to help recover a portion of the federal government's costs of administering the lawful immigration system, including activities carried out by DHS, the U.S. Department of Justice (DOJ), the U.S. Department of State (DOS), and the U.S. Department of Labor (DOL).",
       "publishedAt": "2026-08-25",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/25/2026-17324/fee-for-certain-h-1b-petitions",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-17324?publication_date=2026-08-25",
       "entities": [
@@ -637,7 +834,7 @@
       "summary": "The Department of Homeland Security (DHS) is proposing to establish a $103,265 fee for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption.",
       "publishedAt": "2026-08-24",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/dhs-proposes-additional-h-1b-fee",
       "entities": [
         {
@@ -702,7 +899,7 @@
       "summary": "The Department of Justice (\"Department\") is making inflationary adjustments to immigration-related fees for filings with the Executive Office for Immigration Review (\"EOIR\") as required by the One Big Beautiful Bill Act for Fiscal Year (\"FY\") 2027.",
       "publishedAt": "2026-08-21",
       "effectiveAt": "2026-10-01",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/21/2026-17146/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-17146?publication_date=2026-08-21",
       "entities": [
@@ -763,7 +960,7 @@
       "summary": "The U.S. Department of Homeland Security (DHS) proposes to amend its regulation governing genealogy program related records requests to revise its genealogy program regulations to clarify the impact of statutory and regulatory federal records requirements. This is necessary for individuals who request immigration records through the agency's genealogy program to better understand which records may be requested.",
       "publishedAt": "2026-08-21",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/21/2026-17119/genealogy-program-regulations-to-clarify-the-impact-of-federal-records-requirements",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-17119?publication_date=2026-08-21",
       "entities": [
@@ -816,7 +1013,7 @@
       "summary": "The Executive Office for Immigration Review (EOIR), Department of Justice (DOJ), will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995.",
       "publishedAt": "2026-08-20",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/20/2026-17010/agency-information-collection-activities-proposed-collection-ecomments-requested-revision-of-a",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-17010?publication_date=2026-08-20",
       "entities": [
@@ -867,7 +1064,7 @@
       "summary": "On Sept. 18, 2026, USCIS will publish a revised edition of&nbsp;Form I-485, Application to Register Permanent Residence or Adjust Status (edition date: 09/18/26).",
       "publishedAt": "2026-08-19",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-to-publish-new-edition-of-form-i-485-older-editions-will-be-rejected-starting-sept-18",
       "entities": [
         {
@@ -914,7 +1111,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-08-19",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/19/2026-16863/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16863?publication_date=2026-08-19",
       "entities": [
@@ -970,7 +1167,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-08-19",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/19/2026-16862/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16862?publication_date=2026-08-19",
       "entities": [
@@ -1026,7 +1223,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to address the public charge ground of inadmissibility under section 212(a)(4) of the Immigration and Nationality Act (INA). This revised guidance stems from the rescission of the Public Charge Ground of Inadmissibility (“2022 Final Rule”). This guidance becomes effective September 18, 2026.",
       "publishedAt": "2026-08-18",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260818-PublicChargeFinalRule.pdf",
       "entities": [
         {
@@ -1080,7 +1277,7 @@
       "summary": "Court of Appeals for the Fourth Circuit issued a decision in Yearly Meeting of the Religious Society of Friends v. United States Department of Homeland Security, filed 2026-08-18, docket 25-1512. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-18",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.courtlistener.com/opinion/10953442/yearly-meeting-of-the-religious-society-of-friends-v-united-states/",
       "entities": [
         {
@@ -1130,7 +1327,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing updated guidance in the&nbsp;USCIS Policy Manual explaining how the agency will determine whether an alien applying for adjustment of status to that of a lawful permanent resident is likely at any time to become a public charge.",
       "publishedAt": "2026-08-18",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-issues-guidance-on-making-public-charge-inadmissibility-determination",
       "entities": [
         {
@@ -1177,7 +1374,7 @@
       "summary": "The Criminal Division, Department of Justice (DOJ), will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995.",
       "publishedAt": "2026-08-17",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/17/2026-16747/agency-information-collection-activities-proposed-ecollection-ecomments-requested-new-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16747?publication_date=2026-08-17",
       "entities": [
@@ -1221,7 +1418,7 @@
       "summary": "Court of Appeals for the First Circuit issued a decision in Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services, filed 2026-08-14, docket 26-1703. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-14",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.courtlistener.com/opinion/10948750/dorcas-international-institute-of-rhode-island-v-united-states-citizenship/",
       "entities": [
         {
@@ -1270,7 +1467,7 @@
       "summary": "Court of Appeals for the First Circuit issued a decision in Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services, filed 2026-08-14, docket 26-1703. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-14",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.courtlistener.com/opinion/10948749/dorcas-international-institute-of-rhode-island-v-united-states-citizenship/",
       "entities": [
         {
@@ -1320,7 +1517,7 @@
       "summary": "On Sept. 15, 2026, U.S. Citizenship and Immigration Services will publish revised editions of&nbsp;Form I-539, Application to Extend/Change Nonimmigrant Status, and Form I-765, Application for Employment Authorization (edition date for both: 09/15/26). The forms have been revised to align with the recently published&nbsp;Establishing a Fixed Time Period of Admission and an Extension of Stay Procedure for Nonimmigrant Academic Students, Exchange Visitors, and Representatives of Foreign Information Media&nbsp;final rule.",
       "publishedAt": "2026-08-14",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-to-publish-new-editions-of-form-i-539-and-form-i-765-older-editions-will-be-rejected-starting",
       "entities": [
         {
@@ -1419,7 +1616,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is temporarily reverting to the June 28, 2017 policy guidance on non-governmental organization participation in administrative naturalization ceremonies, consistent with the court order in League of Women Voters v. USCIS , No. 25-cv-3777 (D. Md. Aug. 3, 2025). Pending final resolution of the litigation, this guidance permits nonprofit and nonpartisan non-governmental organizations to participate in administrative naturalization ceremonies by distributing and collecting voter registration applications and officially registering new citizens to vote following the ceremony, when state and local election offices are not available to do so. As of August 31, 2026, U.S. Citizenship and Immigration Services (USCIS) is rescinding PA-2025-21, Voter Registration at Administrative Naturalization Ceremonies, and the related provisions. The USCIS Policy Manual version effective June 28, 2017, found in Volume 12, Part J, Chapter 5, Sections F and H, is reinstated.",
       "publishedAt": "2026-08-12",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260812-VoterRegNatzCeremonies.pdf",
       "entities": [
         {
@@ -1474,7 +1671,7 @@
       "summary": "U.S. Citizenship and Immigration Services played a key role in the&nbsp;indictment unsealed today&nbsp;charging 11 individuals with conspiring, over the course of more than a decade, to orchestrate more than 1,000 sham marriages.&nbsp;",
       "publishedAt": "2026-08-12",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-plays-key-role-in-takedown-of-decade-long-marriage-fraud-ring",
       "entities": [
         {
@@ -1521,7 +1718,7 @@
       "summary": "The Energy Security and Lightering Independence Act of 2022 amended the nonimmigrant classifications for aliens in transit (C) and for aliens serving as crewmen (D) to include individuals who perform ship-to-ship liquid cargo transfer operations to or from another vessel engaged in foreign trade (lightering). The statute authorizes qualifying aliens to seek admission to the United States or request temporary landing permits for a period not to exceed 180 days. This rule amends Department of Homeland Security (DHS) regulations to conform to these statutory changes and make related technical amendments.",
       "publishedAt": "2026-08-11",
       "effectiveAt": "2026-08-11",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/11/2026-16319/regulatory-changes-required-by-the-energy-security-and-lightering-independence-act-of-2022",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16319?publication_date=2026-08-11",
       "entities": [
@@ -1571,7 +1768,7 @@
       "summary": "This interim final rule (IFR) amends U.S. Department of Homeland Security (DHS) regulations to provide: USCIS may require mandatory electronic filing (e-filing) of certain benefit requests; the process USCIS will follow to require a benefit request to be e-filed; and how a waiver of the e-filing requirement for those individuals unable to file electronically may be requested. This rule is intended to increase digital intake and processing to move USCIS and requestors from a mostly paper process to an electronic process and further enhance the integrity of the immigration system and the security of the United States.",
       "publishedAt": "2026-08-11",
       "effectiveAt": "2026-08-11",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/11/2026-16313/mandatory-electronic-filing-e-filing",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16313?publication_date=2026-08-11",
       "entities": [
@@ -1633,7 +1830,7 @@
       "summary": "This interim final rule (\"IFR\") amends Department of Justice (\"Department\") regulations to specify the procedures for adjudicating alleged violations of the International Marriage Broker Regulation Act of 2005 (\"IMBRA\") by international marriage brokers (\"IMBs\") doing business in the United States that fail to provide required information to persons recruited for matchmaking services or that improperly disclose prohibited information. This IFR is necessary to deter fraudulent marriages and the exploitation of immigrants recruited by IMBs.",
       "publishedAt": "2026-08-11",
       "effectiveAt": "2026-09-10",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/11/2026-16290/adjudication-of-civil-penalties-against-international-marriage-brokers",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16290?publication_date=2026-08-11",
       "entities": [
@@ -1683,7 +1880,7 @@
       "summary": "The Department of Homeland Security (DHS) is amending the regulations concerning the 9-11 Response and Biometric Entry-Exit Fee for certain H-1B and L-1 Visas (9-11 Biometric Fee). The regulatory changes correct DHS's interpretation of statutory language to require that covered employers submit the 9-11 Biometric Fee for all extension of status petitions, regardless of whether the related fraud prevention and detection fee applies, which includes extension of status petitions that do not involve a change of employer. The 9-11 Biometric Fee continues to apply unchanged to petitions seeking an initial grant of status. The changes also help DHS comply with its congressional mandate to implement a biometric entry-exit system.",
       "publishedAt": "2026-08-10",
       "effectiveAt": "2026-09-09",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/10/2026-16231/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16231?publication_date=2026-08-10",
       "entities": [
@@ -1810,7 +2007,7 @@
       "summary": "The Department of Homeland Security (DHS) is introducing an interim final rule (IFR) that allows U.S. Citizenship and Immigration Services (USCIS) to mandate electronic filing, or e-filing, for certain immigration forms.",
       "publishedAt": "2026-08-10",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-to-require-electronic-filing-of-forms-strengthening-national-security",
       "entities": [
         {
@@ -1863,7 +2060,7 @@
       "summary": "The Department of Homeland Security (DHS) is making non- substantive technical revisions to its immigration bond regulation to remove form numbers and legacy job titles from its provisions. It also makes other non-substantive revisions to this regulation to improve the clarity of the CFR. This action is editorial in nature and does not impose any new regulatory requirements on affected parties.",
       "publishedAt": "2026-08-10",
       "effectiveAt": "2026-08-06",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/10/2026-16252/immigration-bonds-technical-amendment",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16252?publication_date=2026-08-10",
       "entities": [
@@ -1907,7 +2104,7 @@
       "summary": "District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-07",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.courtlistener.com/opinion/10942439/louise-trauma-center-llc-v-united-states-immigration-and-customs/",
       "entities": [
         {
@@ -1950,7 +2147,7 @@
       "summary": "No abstract was published with this document.",
       "publishedAt": "2026-08-06",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/11/2026-16403/continuing-to-protect-the-meaning-and-value-of-american-citizenship",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-16403?publication_date=2026-08-11",
       "entities": [
@@ -1994,7 +2191,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual that removes references to the Diplomatic List (also known as the “Blue List”), which is no longer published by the U.S. Department of State (DOS).",
       "publishedAt": "2026-08-06",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260806-ChildrenBornToForeignDiplomaticOfficer.pdf",
       "entities": [
         {
@@ -2061,7 +2258,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to require officers to suggest Deoxyribonucleic Acid (DNA) testing as an optional form of evidence to establish a claimed genetic relationship in cases where primary evidence is unavailable, unreliable, or insufficient to establish a claimed genetic relationship, in situations where an officer determines additional evidence is necessary.",
       "publishedAt": "2026-08-05",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-DNAEvidence.pdf",
       "entities": [
         {
@@ -2140,7 +2337,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is clarifying that benefit requestors should establish eligibility for an immigration benefit at the time they file a benefit request.",
       "publishedAt": "2026-08-05",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-to-reduce-frivolous-immigration-benefits-requests-by-reinforcing-evidence-standards",
       "entities": [
         {
@@ -2187,7 +2384,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is updating policy guidance in the USCIS Policy Manual regarding evidentiary standards, Requests for Evidence (RFEs), and Notices of Intent to Deny (NOIDs).",
       "publishedAt": "2026-08-05",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260805-EvidentiaryStandards.pdf",
       "entities": [
         {
@@ -2242,7 +2439,7 @@
       "summary": "The Department of Homeland Security, U.S. Customs and Border Protection (CBP) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). The information collection is published in the Federal Register to obtain comments from the public and affected agencies.",
       "publishedAt": "2026-08-04",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/04/2026-15773/agency-information-collection-activities-revision-guam-cnmi-visa-waiver-information-form-i-736",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15773?publication_date=2026-08-04",
       "entities": [
@@ -2298,7 +2495,7 @@
       "summary": "This rule finalizes the temporary final rule that went into effect on August 20, 2025, which launched a 12-month long Visa Bond Pilot Program (Pilot Program), and establishes a permanent visa bond program. An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond (\"visa bond\") to ensure that the alien maintains his or her nonimmigrant status and departs as required. Consular officers may require covered nonimmigrant visa applicants to post a bond of up to $20,000 as a condition of visa issuance, as determined by the consular officers.",
       "publishedAt": "2026-08-03",
       "effectiveAt": "2026-08-03",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15726/visas-visa-bond-program",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15726?publication_date=2026-08-03",
       "entities": [
@@ -2364,7 +2561,7 @@
       "summary": "The Employment and Training Administration (ETA) of the Department of Labor (DOL) is issuing this notice to announce updates to the Adverse Effect Wage Rates (AEWR) for the employment of temporary or seasonal nonimmigrant foreign workers (H-2A workers) to perform agricultural labor or services in non-range occupations. AEWRs are the minimum wage rates that must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment to ensure that the wages and working conditions of workers in the United States similarly employed are not adversely affected.",
       "publishedAt": "2026-08-03",
       "effectiveAt": "2026-08-03",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/08/03/2026-15673/labor-certification-process-for-the-temporary-employment-of-foreign-workers-in-agriculture-in-the",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15673?publication_date=2026-08-03",
       "entities": [
@@ -2420,7 +2617,7 @@
       "summary": "This notice of proposed rulemaking (\"NPRM\") would implement a provision of the Immigration and Nationality Act (\"INA\" or \"the Act\") that authorizes Immigration Judges, under regulations prescribed by the Attorney General, to sanction by civil money penalty any action (or inaction) in contempt of the proper exercise of their authority by certain individuals. The rule would: define the scope of the contempt authority; provide procedures for contempt findings, penalty determinations, and penalty payment; establish an appellate process; and implement oversight of the use of contempt authority. The rule would also make conforming changes to the grounds for practitioner discipline.",
       "publishedAt": "2026-07-30",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15458/civil-money-penalty-for-actions-in-contempt-of-an-immigration-judges-proper-exercise-of-authority",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15458?publication_date=2026-07-30",
       "entities": [
@@ -2484,7 +2681,7 @@
       "summary": "The Department of State's (Department's) Bureau of Educational and Cultural Affairs administers the Exchange Visitor Program, as set forth at 22 CFR part 62, wherein exchange visitors on educational and cultural exchange programs travel to the United States in the J visa category. The Department tracks the status and geographic location of exchange visitors through the Student and Exchange Visitor Information System (SEVIS), a database administered by the Department of Homeland Security. This Notice of Proposed Rulemaking (Proposed Rule) seeks to clarify the conditions under which a sponsor must terminate an exchange visitor's program and authorizes the Department, in its discretion, to terminate an exchange visitor's program in limited circumstances; modifies Extension of Program and Reinstatement to valid program status in their entirety by eliminating outdated requirements and introducing updated procedures that make use of current SEVIS functionality; amends Definitions to include definitions for \"Unauthorized Employment\" and \"Valid Program Status\"; and rescinds the separate extension of program provision for au pairs.",
       "publishedAt": "2026-07-30",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15450/exchange-visitor-program-termination-of-program-participation-extension-of-program-and-reinstatement",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15450?publication_date=2026-07-30",
       "entities": [
@@ -2549,7 +2746,7 @@
       "summary": "The Department of Labor (DOL) is submitting this Employment and Training Administration (ETA)-sponsored information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). Public comments on the ICR are invited.",
       "publishedAt": "2026-07-30",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/30/2026-15424/agency-information-collection-activities-submission-for-omb-review-comment-request-attestation-for",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15424?publication_date=2026-07-30",
       "entities": [
@@ -2600,7 +2797,7 @@
       "summary": "This notice announces that U.S. Customs and Border Protection (CBP) is extending the Air Declaration Zone Test for an additional two years. Current CBP regulations require each traveler to provide a CBP officer with an oral or written declaration of all articles brought into the United States. The Air Declaration Zone Test streamlines the processing of travelers who enter the United States at air ports of entry by allowing a demonstrative initial declaration to separate travelers who do not have items to declare from those who have items to declare and, in some cases, replace the provision of oral or written declarations.",
       "publishedAt": "2026-07-29",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/29/2026-15310/air-declaration-zone-test-extension",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15310?publication_date=2026-07-29",
       "entities": [
@@ -2656,7 +2853,7 @@
       "summary": "The Department of State has submitted the information collection described below to the Office of Management and Budget (OMB) for approval. In accordance with the Paperwork Reduction Act of 1995, we are requesting comments on this collection from all interested individuals and organizations. The purpose of this Notice is to allow 30 days for public comment.",
       "publishedAt": "2026-07-29",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/29/2026-15268/30-day-notice-of-proposed-information-collection-petition-to-classify-special-immigrant-under-ina",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15268?publication_date=2026-07-29",
       "entities": [
@@ -2701,7 +2898,7 @@
       "summary": "The Department of Homeland Security (DHS) is amending its regulations to permit U.S. Citizenship and Immigration Services (USCIS) to refer certain affirmative asylum applications to the Department of Justice (DOJ) Executive Office for Immigration Review (EOIR) without interview. USCIS still offers an interview prior to a grant or denial of asylum. DHS is also removing the requirement that a letter communicating the basis for referral of asylum include an assessment of the alien's credibility.",
       "publishedAt": "2026-07-28",
       "effectiveAt": "2026-07-28",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/28/2026-15190/affirmative-asylum-referrals-without-interview",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15190?publication_date=2026-07-28",
       "entities": [
@@ -2781,7 +2978,7 @@
       "summary": "The United States Department of Homeland Security (DHS) released the following statement after U.S. Citizenship and Immigration Services (USCIS) announced a rule change designed to reduce the backlog in the asylum system.",
       "publishedAt": "2026-07-27",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-announces-rule-change-to-asylum-system-to-reduce-backlog",
       "entities": [
         {
@@ -2834,7 +3031,7 @@
       "summary": "The Department of Labor (Department) is soliciting comments concerning a proposed extension of the information collection request (ICR) titled, \"Housing Occupancy Certificates Under the Migrant and Seasonal Agricultural Worker Protection Act.\" This comment request is part of continuing Departmental efforts to reduce paperwork and respondent burden in accordance with the Paperwork Reduction Act of 1995. The Department proposes to extend its information collection without change to existing requirements. This program helps to ensure that requested data can be provided in the desired format, reporting burden (time and financial resources) is minimized, collection instruments are clearly understood, and the impact of collection requirements on respondents can be properly assessed. A copy of the proposed information request can be obtained by contacting the office listed below in the FOR FURTHER INFORMATION CONTACT section of this Notice.",
       "publishedAt": "2026-07-27",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/27/2026-15131/agency-information-collection-activities-comment-request-information-collection-housing-occupancy",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15131?publication_date=2026-07-27",
       "entities": [
@@ -2879,7 +3076,7 @@
       "summary": "The Secretary of Homeland Security has determined, pursuant to law, that it is necessary to waive certain laws, regulations, and other legal requirements in order to ensure the expeditious construction of barriers and roads in the vicinity of the international land border in the state of Texas.",
       "publishedAt": "2026-07-27",
       "effectiveAt": "2026-07-27",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/27/2026-15096/determination-pursuant-to-section-102-of-the-illegal-immigration-reform-and-immigrant-responsibility",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-15096?publication_date=2026-07-27",
       "entities": [
@@ -2924,7 +3121,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-07-24",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/24/2026-14965/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14965?publication_date=2026-07-24",
       "entities": [
@@ -3027,7 +3224,7 @@
       "summary": "The Department of Labor (DOL) is submitting this Employment and Training Administration (ETA)-sponsored information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). Public comments on the ICR are invited.",
       "publishedAt": "2026-07-23",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/23/2026-14827/agency-information-collection-activities-submission-for-omb-review-comment-request-application-for",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14827?publication_date=2026-07-23",
       "entities": [
@@ -3072,7 +3269,7 @@
       "summary": "This document corrects the interim final rule (IFR) that published in the Federal Register on April 29, 2026. The IFR codified certain immigration fees and other provisions required by the One Big Beautiful Bill Act (H.R. 1) and amended USCIS regulations governing asylum and annual asylum fees, the new Form I-94 fee requirement, the validity period for certain types of employment authorization, and the retention of the Form I-589 filing fee for every application. This document will restore regulatory language that was unintentionally removed in the April 29, 2026 IFR.",
       "publishedAt": "2026-07-21",
       "effectiveAt": "2026-07-21",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/21/2026-14698/uscis-immigration-fees-and-related-procedures-required-by-hr1-reconciliation-bill-correction",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14698?publication_date=2026-07-21",
       "entities": [
@@ -3123,7 +3320,7 @@
       "summary": "The Secretary of Homeland Security has determined, pursuant to law, that it is necessary to waive certain laws, regulations, and other legal requirements in order to ensure the expeditious construction of barriers and roads in the vicinity of the international land border in the state of Arizona.",
       "publishedAt": "2026-07-21",
       "effectiveAt": "2026-07-21",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/21/2026-14604/determination-pursuant-to-section-102-of-the-illegal-immigration-reform-and-immigrant-responsibility",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14604?publication_date=2026-07-21",
       "entities": [
@@ -3168,7 +3365,7 @@
       "summary": "DHS is rescinding the 2022 public charge ground of inadmissibility regulations (\"2022 Final Rule\"). The 2022 Final Rule was not the best implementation of the statute. It was inconsistent with congressional intent, unduly restrictive, and hampered DHS's ability to make accurate, precise, and reliable determinations of whether certain aliens are likely at any time to become a public charge. Rescission restores broader discretion for DHS officers to evaluate all pertinent facts and aligns with long-standing policy that aliens in the United States should be self-reliant and government benefits should not incentivize immigration. This rule also revises the breach and cancellation of public charge bonds regulations.",
       "publishedAt": "2026-07-20",
       "effectiveAt": "2026-09-18",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14539?publication_date=2026-07-20",
       "entities": [
@@ -3218,7 +3415,7 @@
       "summary": "In accordance with the Paperwork Reduction Act (PRA) of 1995 the Department of Homeland Security (DHS), U.S. Immigration and Customs Enforcement (ICE) will submit the following Information Collection Request (ICR) to the Office of Management and Budget (OMB) for review and clearance. This information collection was previously published in the Federal Register on December 17, 2025, allowing for a 60-day comment period. ICE received several comments which have been addressed in the supporting statement available on www.reginfo.gov/public/do/ PRAMain. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-07-20",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/20/2026-14560/flight-manifestbilling-agreement",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14560?publication_date=2026-07-20",
       "entities": [
@@ -3274,7 +3471,7 @@
       "summary": "The Department of Homeland Security (DHS) is amending its regulations to change the admission period in the F, J, and I classifications from duration of status to an admission for a fixed time period, and additional changes to admission and extension requirements. This final rule will provide additional protections and oversight of these nonimmigrant categories and will allow DHS to better evaluate whether these nonimmigrants are maintaining status while temporarily in the United States. This final rule provides amendments to the proposed rule covering this topic that was published in the Federal Register on August 28, 2025.",
       "publishedAt": "2026-07-17",
       "effectiveAt": "2026-09-15",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/17/2026-14439/establishing-a-fixed-time-period-of-admission-and-an-extension-of-stay-procedure-for-nonimmigrant",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14439?publication_date=2026-07-17",
       "entities": [
@@ -3336,7 +3533,7 @@
       "summary": "U.S. Citizenship and Immigration Services has received enough petitions to reach the congressionally mandated 65,000 H-1B visa regular cap and the 20,000 H-1B visa U.S. advanced degree exemption, known as the master’s cap, for fiscal year 2027.",
       "publishedAt": "2026-07-17",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-reaches-fiscal-year-2027-h-1b-cap",
       "entities": [
         {
@@ -3389,7 +3586,7 @@
       "summary": "The Department of Homeland Security (DHS) has issued a final rule rescinding the 2022 Biden-era regulation regarding public charge determinations, further aligning immigration law with Congressional intent that aliens in the United States be self-reliant and not dependent on taxpayer-funded government benefits.",
       "publishedAt": "2026-07-16",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/us-citizenship-and-immigration-services-rescinds-2022-public-charge-regulation",
       "entities": [
         {
@@ -3442,7 +3639,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) invites the general public and other Federal agencies to comment upon this proposed revision of a currently approved collection of information. In accordance with the Paperwork Reduction Act (PRA) of 1995, the information collection notice is published in the Federal Register to obtain comments regarding the nature of the information collection, the categories of respondents, the estimated burden (i.e. the time, effort, and resources used by the respondents to respond), the estimated cost to the respondent, and the actual information collection instruments.",
       "publishedAt": "2026-07-16",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/16/2026-14384/agency-information-collection-activities-revision-of-a-currently-approved-collection-petition-for",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14384?publication_date=2026-07-16",
       "entities": [
@@ -3498,7 +3695,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-07-14",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/14/2026-14139/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-14139?publication_date=2026-07-14",
       "entities": [
@@ -3554,7 +3751,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual regarding attorneys and representatives, consolidating and updating guidance that was previously contained in the Adjudicator’s Field Manual (AFM).",
       "publishedAt": "2026-07-13",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260713-AttorneysAndRepresentatives.pdf",
       "entities": [
         {
@@ -3609,7 +3806,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to clarify the signature requirements that apply when submitting immigration benefit requests.",
       "publishedAt": "2026-07-10",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260710-SignatureRequirements.pdf",
       "entities": [
         {
@@ -3670,7 +3867,7 @@
       "summary": "No abstract was published with this document.",
       "publishedAt": "2026-07-08",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/08/C1-2026-12542/naturalization-application-fee-adjustments",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/C1-2026-12542?publication_date=2026-07-08",
       "entities": [
@@ -3768,7 +3965,7 @@
       "summary": "The Department of State has submitted the information collection described below to the Office of Management and Budget (OMB) for approval. In accordance with the Paperwork Reduction Act of 1995 we are requesting comments on this collection from all interested individuals and organizations. The purpose of this Notice is to allow 30 days for public comment.",
       "publishedAt": "2026-07-08",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/08/2026-13736/30-day-notice-of-proposed-information-collection-certificate-of-eligibility-for-exchange-visitor-j-1",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13736?publication_date=2026-07-08",
       "entities": [
@@ -3819,7 +4016,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-07-07",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/07/2026-13640/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13640?publication_date=2026-07-07",
       "entities": [
@@ -3875,7 +4072,7 @@
       "summary": "The Secretary of Homeland Security has determined, pursuant to law, that it is necessary to waive certain laws, regulations, and other legal requirements in order to ensure the expeditious construction of barriers and roads in the vicinity of the international land border in the state of Texas. The notice of determination was published in the Federal Register on February 17, 2026. This document amends the February 17, 2026, notice of determination by including additional legal requirements that are being waived.",
       "publishedAt": "2026-07-02",
       "effectiveAt": "2026-07-02",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/02/2026-13419/determination-pursuant-to-section-102-of-the-illegal-immigration-reform-and-immigrant-responsibility",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13419?publication_date=2026-07-02",
       "entities": [
@@ -3920,7 +4117,7 @@
       "summary": "This proposed rule would implement the EB-5 Reform and Integrity Act of 2022 (RIA), which the President signed on March 15, 2022. The RIA substantially reforms and adds significant integrity provisions to the employment-based, fifth preference (EB-5) visa category for alien investors and the associated Regional Center Program. In general, under the EB-5 program, aliens are eligible to apply for lawful permanent resident status in the United States if they make the necessary investment in a new commercial enterprise in the United States and create 10 permanent full-time jobs for qualified U.S. workers.",
       "publishedAt": "2026-07-02",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/02/2026-13392/eb-5-reform-and-integrity-act-of-2022-ensuring-the-integrity-of-the-eb-5-program-automatic",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13392?publication_date=2026-07-02",
       "entities": [
@@ -3974,7 +4171,7 @@
       "summary": "The Executive Office for Immigration Review (EOIR) at the Department of Justice (DOJ) will be submitting the following information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995.",
       "publishedAt": "2026-07-01",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/01/2026-13290/agency-information-collection-activities-proposed-collection-ecomments-requested-revision-and",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13290?publication_date=2026-07-01",
       "entities": [
@@ -4025,7 +4222,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-07-01",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/07/01/2026-13258/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13258?publication_date=2026-07-01",
       "entities": [
@@ -4081,7 +4278,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is opening an asylum office in Atlanta. Beginning July 8, 2026, the Atlanta Asylum Office will conduct interviews for affirmative asylum applicants at three locations.",
       "publishedAt": "2026-07-01",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-opens-asylum-office-in-atlanta",
       "entities": [
         {
@@ -4134,7 +4331,7 @@
       "summary": "No abstract was published with this document.",
       "publishedAt": "2026-06-30",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/30/C1-2026-09289/signatures-on-immigration-benefit-requests",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/C1-2026-09289?publication_date=2026-06-30",
       "entities": [
@@ -4183,7 +4380,7 @@
       "summary": "PW filers can now respond to multiple RFIs on a single case; the RFI response case action, which was previously disabled after the first response, will now be available for any subsequent RFIs sent to the filer. CW-1 filers can now request deadline extensions for their Recruitment Report and Notice...",
       "publishedAt": "2026-06-30",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://flag.dol.gov/announcement/2026-06-30",
       "entities": [
         {
@@ -4231,7 +4428,7 @@
       "summary": "On March 12, 2025, DHS issued an interim final rule (IFR) with request for comments amending DHS regulations to designate a new registration form for aliens to comply with statutory alien registration and fingerprinting provisions. Unregistered aliens may use this general registration form to satisfy their statutory obligations. This final rule responds to public comments, amends DHS regulations to adjust the lists of forms and processes that may serve as registration forms and evidence of alien registration, and seeks comments on other potential changes to the regulations relating to alien registration and fingerprinting.",
       "publishedAt": "2026-06-29",
       "effectiveAt": "2026-06-29",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/29/2026-13057/alien-registration-form-and-evidence-of-registration",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-13057?publication_date=2026-06-29",
       "entities": [
@@ -4312,7 +4509,7 @@
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is issuing policy guidance in the USCIS Policy Manual to implement the regulatory change to the requirement on how long a nonimmigrant religious worker (R-1) must remain outside the United States after reaching the 5-year statutory maximum period of stay.",
       "publishedAt": "2026-06-26",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260626-ReligiousWorkersPeriodOfStay.pdf",
       "entities": [
         {
@@ -4367,7 +4564,7 @@
       "summary": "On May 26, 2026, Alexandra Lozano resigned from the State Bar of Washington in lieu of discipline and is permanently barred from practicing law in Washington.",
       "publishedAt": "2026-06-26",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/important-notice-for-clients-of-former-immigration-attorney-alexandra-lozano",
       "entities": [
         {
@@ -4414,7 +4611,7 @@
       "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and clearance in accordance with the Paperwork Reduction Act of 1995. The purpose of this notice is to allow an additional 30 days for public comments.",
       "publishedAt": "2026-06-26",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/26/2026-12869/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-12869?publication_date=2026-06-26",
       "entities": [
@@ -4470,7 +4667,7 @@
       "summary": "The Department of Labor (DOL) is submitting this Employment and Training Administration (ETA)-sponsored information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995 (PRA). Public comments on the ICR are invited.",
       "publishedAt": "2026-06-25",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/25/2026-12759/agency-information-collection-activities-submission-for-omb-review-comment-request-h-2b-application",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-12759?publication_date=2026-06-25",
       "entities": [
@@ -4521,7 +4718,7 @@
       "summary": "The Department of Homeland Security (DHS) proposes to adjust the fees that U.S. Citizenship and Immigration Services (USCIS) charges for Form N-400, and Form N-336, to end both the reduced fee option for Form N-400, and the availability of fee waivers for both forms. Current and former armed forces service members would remain exempt from paying the fees when filing for naturalization under statutes for members of the armed forces. The proposed rule is intended to align these fees with the relative costs to adjudicate these forms.",
       "publishedAt": "2026-06-23",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/23/2026-12542/naturalization-application-fee-adjustments",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-12542?publication_date=2026-06-23",
       "entities": [
@@ -4586,7 +4783,7 @@
       "summary": "In accordance with the Paperwork Reduction of 1995 (\"PRA\"), the Executive Office for Immigration Review (\"EOIR\"), Department of Justice (\"DOJ\"), requested the Office of Management and Budget (\"OMB\") conduct an emergency review and approval of a revision to a currently approved collection of information. EOIR requested and OMB granted emergency approval on March 2, 2026, authorizing the revised collection through July 31, 2026. EOIR is seeking PRA authorization for three years. The information collection was previously published in the Federal Register on March 5, 2026, allowing a 60-day comment period. This notice responds to several comments received by EOIR during the 60-day comment period.",
       "publishedAt": "2026-06-23",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/23/2026-12552/agency-information-collection-activities-proposed-collection-ecomments-requested-change-of",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-12552?publication_date=2026-06-23",
       "entities": [
@@ -4686,7 +4883,7 @@
       "summary": "Notice is hereby given of the following determinations: I hereby determine that certain objects being imported from abroad pursuant to agreements with their foreign owners or custodians for temporary display in the exhibition \"Nguni: Migrant Nations of Southeast Africa\" at the Yale University Art Gallery, New Haven, Connecticut, and at possible additional exhibitions or venues yet to be determined, are of cultural significance, and, further, that their temporary exhibition or display within the United States as aforementioned is in the national interest. I have ordered that Public Notice of these determinations be published in the Federal Register.",
       "publishedAt": "2026-06-16",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/16/2026-12081/notice-of-determinations-culturally-significant-objects-being-imported-for-exhibition-determinations",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-12081?publication_date=2026-06-16",
       "entities": [
@@ -4731,7 +4928,7 @@
       "summary": "The Office of Justice Programs, Department of Justice (DOJ), will be submitting the following information collection request to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995.",
       "publishedAt": "2026-06-16",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/16/2026-12065/agency-information-collection-activities-proposed-ecollection-ecomments-requested-new-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-12065?publication_date=2026-06-16",
       "entities": [
@@ -4776,7 +4973,7 @@
       "summary": "On June 5, 2026, the U.S. District Court for the District of Rhode Island issued an order in Dorcas International Institute of Rhode Island, et al. v. United States Citizenship and Immigration Services, et al., 26-cv-00132-JJM-PAS (D.RI.), vacating PM 602-0192, PM 602-0194, and PA 2025-26.",
       "publishedAt": "2026-06-12",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.uscis.gov/newsroom/alerts/court-order-on-hold-policies",
       "entities": [
         {
@@ -4823,7 +5020,7 @@
       "summary": "In this interim final rule (\"IFR\"), the Department of Justice (\"Department\") is updating its fee regulations for filings with the Executive Office for Immigration Review (\"EOIR\") to comply with a recent statutory enactment.",
       "publishedAt": "2026-06-11",
       "effectiveAt": "2026-06-11",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/11/2026-11692/eoir-fees",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-11692?publication_date=2026-06-11",
       "entities": [
@@ -4884,7 +5081,7 @@
       "summary": "U.S. Immigration and Customs Enforcement (ICE) of the U.S. Department of Homeland Security (DHS) invite the general public and other Federal agencies to comment on this proposed extension of a currently approved collection of information. In accordance with the Paperwork Reduction Act (PRA) of 1995, this information collection notice is published in the Federal Register to obtain comments regarding the nature of the information collection, the categories of respondents, the estimated burden (i.e., the time, effort, and resources used by the respondents to respond), the estimated cost to the respondent, and the actual information collection instruments.",
       "publishedAt": "2026-06-11",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/11/2026-11774/agency-information-collection-activities-extension-without-change-of-a-currently-approved-collection",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-11774?publication_date=2026-06-11",
       "entities": [
@@ -4940,7 +5137,7 @@
       "summary": "This temporary final rule (TFR) temporarily amends the Schedule of Fees for Consular Services (Schedule) to create a $750 fee for an expedited B1/B2, business and tourism, nonimmigrant visa (NIV) interview appointment. This new fee will allow B1/B2 visa applicants who pay the fee to secure an interview appointment at selected posts within ten business days. This service will be an optional premium addition to the standard NIV application fee and will be offered only to applicants at limited posts as published on travel.state.gov and in limited quantities.",
       "publishedAt": "2026-06-09",
       "effectiveAt": "2026-07-01",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/09/2026-11513/schedule-of-fees-for-consular-services-department-of-state-and-overseas-embassies-and",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-11513?publication_date=2026-06-09",
       "entities": [
@@ -4990,7 +5187,7 @@
       "summary": "The Department of State is seeking Office of Management and Budget (OMB) approval for the information collection described below. In accordance with the Paperwork Reduction Act of 1995, we are requesting comments on this collection from all interested individuals and organizations. The purpose of this notice is to allow 60 days for public comment preceding submission of the collection to OMB.",
       "publishedAt": "2026-06-09",
       "effectiveAt": null,
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/09/2026-11499/60-day-notice-of-proposed-information-collection-medical-examination-for-visa-or-immigration-benefit",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-11499?publication_date=2026-06-09",
       "entities": [
@@ -5035,7 +5232,7 @@
       "summary": "The Secretary of Homeland Security has determined, pursuant to law, that it is necessary to waive certain laws, regulations, and other legal requirements in order to ensure the expeditious construction of barriers and roads in the vicinity of the international land border in the state of Texas. The notice of determination was published in the Federal Register on May 15, 2026. The project area description in the May 15, 2026, notice of determination was incorrect. This document is a republication of the May 15, 2026, document with the correct project area description.",
       "publishedAt": "2026-06-09",
       "effectiveAt": "2026-06-09",
-      "lastVerifiedAt": "2026-09-03",
+      "lastVerifiedAt": "2026-09-04",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/06/09/2026-11473/determination-pursuant-to-section-102-of-the-illegal-immigration-reform-and-immigrant-responsibility",
       "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-11473?publication_date=2026-06-09",
       "entities": [
