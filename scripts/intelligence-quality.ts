@@ -347,8 +347,8 @@ function main() {
     "H-1B (original 21)": { precision: 0.9, recall: 0.85 },
     "H-1B (expanded)": { precision: 0.95, recall: 0.75 },
     Country: { precision: 0.9, recall: 0.5 },
-    Forms: { precision: 0.85, recall: 0.25 },
-    "Employment / process": { precision: 0.9, recall: 0.5 },
+    Forms: { precision: 0.9, recall: 0.5 },
+    "Employment / process": { precision: 0.9, recall: 0.55 },
   };
   for (const d of scores) {
     const floor = floors[d.dimension];

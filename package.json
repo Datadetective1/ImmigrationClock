@@ -48,7 +48,8 @@
     "review:set": "tsx scripts/review-set.ts",
     "intelligence:reextract-countries": "tsx scripts/reextract-countries.ts",
     "intelligence:benchmarks": "tsx scripts/measure-benchmarks.ts",
-    "intelligence:reextract-forms": "tsx scripts/reextract-forms.ts"
+    "intelligence:reextract-forms": "tsx scripts/reextract-forms.ts",
+    "intelligence:backfill-text": "tsx scripts/backfill-source-text.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.116.0",

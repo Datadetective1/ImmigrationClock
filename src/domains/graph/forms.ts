@@ -30,6 +30,7 @@
 // =============================================================================
 
 import { confidenceFor, gradeClassification } from "./classification";
+import { evidenceKindOf, isStrongEvidence } from "./evidence-strength";
 
 export interface FormSpec {
   /** Normalized id, lowercased: "i-129". */
@@ -122,7 +123,13 @@ function clip(text: string, max = 300): string {
  * section number — so nothing is invented, and a registry entry still matches
  * bare because those identifiers are unambiguous.
  */
-const EXPLICIT_FORM = /\bForms?\s+((?:I|N|G|DS|ETA|AR|EOIR)-\d{1,4}[A-Z]?)\b/gi;
+// "Form No. I-352" is how ICE and DOJ write it, and requiring "Form" to sit
+// immediately before the number missed every one of them. That single absent
+// "No." accounted for most of the form recall gap: Paperwork Reduction Act
+// notices name their form in their own title, in exactly this shape, and there
+// are 115 such notices in the archive.
+const EXPLICIT_FORM =
+  /\bForms?\s+(?:No\.?|Number|#)?\s*((?:I|N|G|DS|ETA|AR|EOIR)-\d{1,4}[A-Z]?)\b/gi;
 
 /**
  * The document is ACTING on the form, not merely naming it.
@@ -154,6 +161,53 @@ const ACTED_ON_AFTER =
  */
 function actsOnForm(before: string, after: string): boolean {
   return ACTED_ON_BEFORE.test(before) || ACTED_ON_AFTER.test(after);
+}
+
+/**
+ * How strong is a form named only in the body?
+ *
+ * Two independent readings have to agree before a body mention is treated as
+ * the document's subject: the words immediately around the identifier must show
+ * it being acted on, OR the passage as a whole must read as the document acting
+ * (see evidence-strength.ts). Either alone was measurably too loose — the
+ * proximity test on its own put form precision at 88%, and the passage test on
+ * its own promotes any sentence in a rule that happens to be operative about
+ * something else.
+ *
+ * Requiring the passage NOT to be a citation or a comment response is the part
+ * that does most of the work: Federal Register comment sections quote a
+ * commenter naming a form and then answer them, and both halves look like
+ * activity.
+ */
+function bodyFormMethod(passage: string, before: string, after: string): string {
+  const kind = evidenceKindOf({ passage });
+
+  // A citation or a comment response is disqualifying whatever else it says.
+  // Rules quote commenters naming forms and then answer them, and both halves
+  // read as activity if you only look for activity.
+  if (kind === "citation_reference" || kind === "historical_mention") return "derived_weak";
+
+  // TWO INDEPENDENT ROUTES TO STRONG, because the evidence takes two shapes.
+  //
+  // The passage can carry the argument on its own — the document acting
+  // ("USCIS is revising"), stating its scope, or publishing the enumeration of
+  // collections it affects ("Programs Affected, OMB Control Numbers  OMB No.
+  // 1615-0052--Form N-400, ..."). None of those put an action word next to the
+  // form number, and requiring one there is what kept 71 correctly-labelled
+  // forms out.
+  //
+  // Or the words immediately around the identifier can carry it — "revision of
+  // Form X", "Form X is being discontinued" — which is the case in a long
+  // passage that is doing several things at once.
+  // A DESIGNATION LIST COVERS EVERY FORM IN IT — that is what a list of
+  // affected collections is — so no proximity is required.
+  if (kind === "designation" || kind === "explicit_scope") return "derived_high_confidence";
+
+  // AN OPERATIVE SENTENCE IS ABOUT ONE THING. A long passage can be the
+  // document acting on form A while merely naming form B, so here the form must
+  // sit next to the action.
+  if (actsOnForm(before, after)) return "derived_high_confidence";
+  return "derived_weak";
 }
 
 /**
@@ -196,8 +250,8 @@ export function formsFor(title: string, summary: string, body = ""): FormClassif
           evidence,
           matches: (text) => re.test(text),
         })
-      : bodyContext && actsOnForm(bodyContext.before, bodyContext.after)
-        ? "derived_high_confidence"
+      : bodyContext
+        ? bodyFormMethod(bodyContext.span, bodyContext.before, bodyContext.after)
         : "derived_weak";
 
     push(form.id, evidence, method);
@@ -220,12 +274,11 @@ export function formsFor(title: string, summary: string, body = ""): FormClassif
         ? text === title
           ? "explicit_source"
           : "derived_high_confidence"
-        : actsOnForm(
-              flat.slice(Math.max(0, m.index - 90), m.index),
-              flat.slice(m.index + m[0].length, m.index + m[0].length + 90)
-            )
-          ? "derived_high_confidence"
-          : "derived_weak";
+        : bodyFormMethod(
+            span,
+            flat.slice(Math.max(0, m.index - 90), m.index),
+            flat.slice(m.index + m[0].length, m.index + m[0].length + 90)
+          );
       push(id, span, method);
     }
   }
@@ -241,13 +294,26 @@ function contextNaming(
   if (!text) return null;
   const flat = text.replace(/\s+/g, " ");
   const global = new RegExp(re.source, "gi");
-  const m = global.exec(flat);
-  if (!m) return null;
-  return {
-    span: spanAround(flat, m.index),
-    before: flat.slice(Math.max(0, m.index - 90), m.index),
-    after: flat.slice(m.index + m[0].length, m.index + m[0].length + 90),
-  };
+
+  // EVERY occurrence, and the strongest wins. Taking the first meant a rule that
+  // lists a form in its table of contents before acting on it was scored on the
+  // table of contents — the same "first mention wins" defect that cost every
+  // Temporary Protected Status record its country designation.
+  let best: { span: string; before: string; after: string } | null = null;
+  for (let m = global.exec(flat); m !== null; m = global.exec(flat)) {
+    const candidate = {
+      span: spanAround(flat, m.index),
+      before: flat.slice(Math.max(0, m.index - 90), m.index),
+      after: flat.slice(m.index + m[0].length, m.index + m[0].length + 90),
+    };
+    if (!best) best = candidate;
+    if (
+      bodyFormMethod(candidate.span, candidate.before, candidate.after) === "derived_high_confidence"
+    ) {
+      return candidate;
+    }
+  }
+  return best;
 }
 
 /** A quotable window around a position, trimmed to sentence-ish boundaries. */

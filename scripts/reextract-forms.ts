@@ -1,7 +1,7 @@
 // =============================================================================
 // scripts/reextract-forms.ts — form classification, from the documents
 //
-//   npx tsx scripts/reextract-forms.ts <bodiesDir> [--write]
+//   npm run intelligence:reextract-forms -- --write
 //
 // WHY
 // ---
@@ -25,18 +25,14 @@
 // bodies fetched for validation. Same code as ingestion, one classifier.
 // =============================================================================
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { formsFor } from "../src/domains/graph/forms";
 import { isStrong } from "../src/domains/graph/classification";
 import { richText } from "../src/domains/graph/text";
+import { sourceTextFor } from "../src/lib/source-text";
 
-const BODIES = process.argv[2];
 const WRITE = process.argv.includes("--write");
-if (!BODIES) {
-  console.error("usage: tsx scripts/reextract-forms.ts <bodiesDir> [--write]");
-  process.exit(1);
-}
 
 const PATH = resolve("src/lib/generated/events.json");
 
@@ -56,9 +52,9 @@ interface Rec {
   [k: string]: unknown;
 }
 
+/** The retained document text, from the durable store. */
 function bodyOf(id: string): string {
-  const f = join(BODIES, `${id.replace(/[^A-Za-z0-9._-]/g, "_")}.txt`);
-  return existsSync(f) ? readFileSync(f, "utf8") : "";
+  return sourceTextFor(id) ?? "";
 }
 
 function main() {

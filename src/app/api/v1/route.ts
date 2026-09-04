@@ -115,23 +115,25 @@ export async function GET(): Promise<Response> {
           forms: {
             groundTruth:
               "185 hand-labelled record-and-form pairs, committed at fixtures/form-ground-truth.json",
-            precision: "90%",
-            recall: "30%",
-            f1: "0.45",
-            holdout: "precision 95%, recall 47%",
+            precision: "93%",
+            recall: "58%",
+            f1: "0.71",
+            holdout: "precision 95%, recall 49%",
             note:
-              "SINGLE-ANNOTATOR LABELS — these were not independently reviewed. Recall is low for a " +
-              "structural reason worth knowing: of the documents genuinely about a form, 82 of 121 name " +
-              "it only in the body, and most of those are Paperwork Reduction Act notices whose titles " +
-              "say nothing but 'Agency Information Collection Activities'.",
+              "SINGLE-ANNOTATOR LABELS — these were not independently reviewed. Recall nearly doubled " +
+              "once the pipeline began retaining document text: of the documents genuinely about a " +
+              "form, 82 of 121 name it only in the body, and most are Paperwork Reduction Act notices " +
+              "whose titles say nothing but 'Agency Information Collection Activities'. A form found " +
+              "only in a body counts when the passage enumerates affected collections or the document " +
+              "is acting on it, and is returned as weak otherwise.",
           },
           "employment/process": {
             groundTruth:
               "72 hand-labelled records, committed at fixtures/employment-ground-truth.json",
             precision: "100%",
-            recall: "60%",
-            f1: "0.75",
-            holdout: "precision 100%, recall 67%",
+            recall: "64%",
+            f1: "0.78",
+            holdout: "precision 100%, recall 71%",
             note: "SINGLE-ANNOTATOR LABELS — these were not independently reviewed.",
           },
         },

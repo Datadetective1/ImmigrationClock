@@ -634,7 +634,7 @@ describe("the benchmarks, scored the way the API answers", () => {
     const floors: Record<string, [number, number]> = {
       "H-1B (expanded)": [0.95, 0.75],
       Country: [0.9, 0.5],
-      Forms: [0.85, 0.25],
+      Forms: [0.9, 0.5],
       "Employment / process": [0.9, 0.5],
     };
     for (const [name, [p, r]] of Object.entries(floors)) {

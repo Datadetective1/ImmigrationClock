@@ -26,6 +26,8 @@ import type { EventClassification, EventEntityLink, EventSeverity, ImmigrationEv
 import { entityId } from "../entities";
 import { resolveEntityMentions } from "../resolve";
 import { extractImpact } from "../extract-impact";
+import { richText } from "../text";
+import { putSourceText } from "@/lib/source-text";
 import {
   BODY_FETCH_CONCURRENCY,
   FR_UA as UA,
@@ -239,7 +241,35 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   const events = await mapWithConcurrency(capped.events, BODY_FETCH_CONCURRENCY, async (d) => {
     const text = await fetchBody(d.raw_text_url);
     if (!text) warnings.push(`could not fetch full text for ${d.document_number}`);
-    return toEvent(d, verifiedAt, text);
+
+    const event = toEvent(d, verifiedAt, text);
+
+    // Retained rather than read once and dropped. A proclamation that names its
+    // countries inline is the single most consequential kind of document this
+    // archive holds, and it was the kind whose evidence we were least able to
+    // re-examine. See lib/source-text.ts.
+    if (text) {
+      const normalized = richText(text);
+      if (normalized.trim()) {
+        const ref = putSourceText({
+          id: event.id,
+          normalized,
+          textUrl: d.raw_text_url ?? d.html_url,
+          retrievedAt: verifiedAt,
+          adapter: "executive-actions@2",
+        });
+        event.sourceDocument = {
+          file: ref.file,
+          textUrl: ref.textUrl,
+          contentHash: ref.contentHash,
+          characters: ref.characters,
+          retrievedAt: ref.retrievedAt,
+          adapter: ref.adapter,
+        };
+      }
+    }
+
+    return event;
   });
 
   return { adapterKey: "executive-actions", events, warnings, failed: false };

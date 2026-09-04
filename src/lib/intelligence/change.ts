@@ -164,6 +164,27 @@ export interface PublicSource {
   url: string;
   /** The underlying data file, when the record came from one. */
   dataUrl: string | null;
+  /**
+   * Provenance for the full text this record was classified from, when we
+   * retained it.
+   *
+   * The text itself is NOT served here. It is a public government work,
+   * available in full at `textUrl`, and republishing it would make this a
+   * document host rather than an intelligence layer. What is served is the
+   * receipt: which URL the text came from, when we fetched it, how long it was,
+   * the hash of exactly what we classified, and which adapter version read it.
+   *
+   * Null means we never retained a body — true of every source that publishes
+   * only a headline and an abstract. It is a fact about our coverage, not a
+   * gap to be filled with a guess.
+   */
+  document: {
+    textUrl: string;
+    contentHash: string;
+    characters: number;
+    retrievedAt: string;
+    adapter: string;
+  } | null;
 }
 
 export interface PublicChange {
@@ -359,6 +380,15 @@ export function toPublicChange(
       name: source?.name ?? input.sourceKey,
       url: input.sourceUrl,
       dataUrl: input.sourceDataUrl ?? null,
+      document: input.sourceDocument
+        ? {
+            textUrl: input.sourceDocument.textUrl,
+            contentHash: input.sourceDocument.contentHash,
+            characters: input.sourceDocument.characters,
+            retrievedAt: input.sourceDocument.retrievedAt,
+            adapter: input.sourceDocument.adapter,
+          }
+        : null,
     },
 
     publishedDate: input.publishedAt,
@@ -470,8 +500,8 @@ export const ATTRIBUTION = {
     "Measured per dimension against hand-labelled records, and the labels are drawn from the source " +
     "documents rather than from this classifier's own output. visa:h-1b: precision 100%, recall 83% " +
     "on 33 records. Countries: precision 98%, recall 61% on 249 record-and-country pairs. Forms: " +
-    "precision 90%, recall 30% on 185 pairs, single-annotator. Employment processes: precision 100%, " +
-    "recall 60% on 72 records, single-annotator. Read that as: what a filter returns is dependable, " +
+    "precision 93%, recall 58% on 185 pairs, single-annotator. Employment processes: precision 100%, " +
+    "recall 64% on 72 records, single-annotator. Read that as: what a filter returns is dependable, " +
     "what it omits is not — no dimension yet clears the recall bar a push notification would need. " +
     "Coverage is a separate question and is partial by design: a record is classified only where its " +
     "own text names the value, so an empty list means the document did not name one, never that we " +

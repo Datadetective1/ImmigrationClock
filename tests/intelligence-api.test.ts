@@ -334,7 +334,20 @@ describe("nothing internal reaches a consumer", () => {
     const json = JSON.stringify(body);
     expect(json).not.toMatch(/[A-Za-z]:\\\\|\/src\/|\.ts"|node_modules/);
     expect(json).not.toMatch(/sk_live|sk_test|Bearer |api[_-]?key/i);
-    expect(json).not.toMatch(/adapter|reviewQueue|scratchpad/i);
+    // "adapter" was on this list, and it no longer belongs there. The source
+    // provenance now publishes which extraction version read a document —
+    // "federal-register@2" — because a consumer reproducing our classification
+    // needs to know it, and the source itself is already public. What must
+    // still never appear is an internal module path, a queue name, or a
+    // scratch location.
+    expect(json).not.toMatch(/reviewQueue|scratchpad|node_modules/i);
+    for (const c of body.data) {
+      const adapter = c.source?.document?.adapter;
+      if (adapter) {
+        // A version identifier, not a module name: source key, then a version.
+        expect(adapter, c.recordId).toMatch(/^[a-z-]+@[A-Za-z0-9.-]+$/);
+      }
+    }
   });
 
   it("never serves a draft record", async () => {
