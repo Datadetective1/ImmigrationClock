@@ -71,6 +71,28 @@ export async function POST(req: Request): Promise<Response> {
     const customerId = typeof session.customer === "string" ? session.customer : "";
     const email = session.customer_details?.email || session.customer_email || "";
 
+
+
+    // The claim expires with the subscription period when we can read one, so
+    // a monthly subscriber's cookie never outlives the month they paid for.
+    let exp = now + MAX_TTL_DAYS * 86_400;
+    if (typeof session.subscription === "string" && session.subscription) {
+      try {
+        const subscription = await stripe.getSubscription(session.subscription);
+        if (!grantsAccess(subscription.status)) {
+          return json(
+            { error: "subscription_inactive", message: `The subscription is ${subscription.status}.` },
+            402
+          );
+        }
+        if (subscription.current_period_end > now) exp = subscription.current_period_end;
+      } catch (err) {
+        // A readable paid session with an unreadable subscription still earns
+        // the default window; the alternative is refusing someone who has paid.
+        console.error(`[billing] subscription lookup failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    }
+
     // A CHECKOUT SESSION IS SPENDABLE ONCE.
     //
     // This route is unauthenticated on purpose: someone arriving back from
@@ -80,9 +102,11 @@ export async function POST(req: Request): Promise<Response> {
     // pasted success URL, a leaked referrer, a shared screenshot. The id proves
     // that ONE person paid once, and it now buys exactly one cookie.
     //
-    // Claimed AFTER the payment checks so an unpaid or inactive session is not
-    // burned, and BEFORE the cookie is minted so nothing is issued twice. The
-    // claim outlives the longest cookie we grant.
+    // Claimed AFTER every check that can return a 4xx, so a session is never
+    // burned by a failure the customer can fix, and BEFORE anything is written
+    // or minted so nothing is issued twice. Placing it before the
+    // subscription-status check spent the session on a 402 and locked the
+    // customer out permanently. The claim outlives the longest cookie we grant.
     const claimStore = resolveStore();
     if (claimStore) {
       let claimed = false;
@@ -106,26 +130,6 @@ export async function POST(req: Request): Promise<Response> {
           },
           409
         );
-      }
-    }
-
-    // The claim expires with the subscription period when we can read one, so
-    // a monthly subscriber's cookie never outlives the month they paid for.
-    let exp = now + MAX_TTL_DAYS * 86_400;
-    if (typeof session.subscription === "string" && session.subscription) {
-      try {
-        const subscription = await stripe.getSubscription(session.subscription);
-        if (!grantsAccess(subscription.status)) {
-          return json(
-            { error: "subscription_inactive", message: `The subscription is ${subscription.status}.` },
-            402
-          );
-        }
-        if (subscription.current_period_end > now) exp = subscription.current_period_end;
-      } catch (err) {
-        // A readable paid session with an unreadable subscription still earns
-        // the default window; the alternative is refusing someone who has paid.
-        console.error(`[billing] subscription lookup failed: ${err instanceof Error ? err.message : String(err)}`);
       }
     }
 

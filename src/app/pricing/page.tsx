@@ -147,7 +147,25 @@ export default function PricingPage() {
               </li>
             </ul>
 
-            {pending.length > 0 ? (
+            {/* THE ZERO-AVAILABLE STATE IS REACHABLE AND HAS TO READ HONESTLY.
+                The paragraph below used to say "subscribe now only if the ones
+                marked available are already worth it to you", which pointed at
+                an empty set the moment watchlist_sync was corrected from
+                "available" to "building" — every Pro row renders a dash, and
+                there is no "rest" either. A reader cannot follow an instruction
+                about a set with nothing in it, and asking for $19 against a
+                column of dashes without saying so plainly is the one thing this
+                paragraph exists to prevent. */}
+            {pending.length > 0 && pending.length === proFeatures.length ? (
+              <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
+                <strong className="text-white">Being straight with you: none of this is
+                finished yet.</strong>{" "}
+                All {proFeatures.length} capabilities above are still in build —{" "}
+                {pending.map((f) => f.label.toLowerCase()).join(", ")}. There is nothing here to buy
+                today that you do not already get free, so please do not subscribe expecting one of
+                them. Everything on the free plan stays free and stays complete.
+              </p>
+            ) : pending.length > 0 ? (
               <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
                 <strong className="text-white">Being straight with you:</strong>{" "}
                 {pending.length} of the {proFeatures.length} capabilities above{" "}

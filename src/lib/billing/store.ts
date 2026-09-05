@@ -51,16 +51,30 @@ export interface SubscriberRecord {
   /** Unix seconds, when this record was last written. */
   updatedAt: number;
   /**
-   * The `created` timestamp of the most recent Stripe event applied to this
-   * record. Unix seconds. Absent on records written before ordering was
+   * The `created` timestamp of the most recent SUBSCRIPTION event applied to
+   * this record. Unix seconds. Absent on records written before ordering was
    * enforced, which is treated as "older than anything".
    *
    * Stripe does not guarantee delivery order, and it retries. Without this, a
    * `customer.subscription.updated` carrying status active — redelivered or
    * merely late — lands after `customer.subscription.deleted` and silently
    * restores a cancelled subscriber's access.
+   *
+   * SUBSCRIPTION EVENTS ONLY, and the name says so because the first version of
+   * this did not. It was a single watermark shared with checkout sessions,
+   * which are a separate object stream: in subscription-mode Checkout the
+   * subscription is created as part of completing the session, so
+   * `customer.subscription.created` carries an EARLIER timestamp than
+   * `checkout.session.completed`. Checkout arriving first stamped the record,
+   * and the subscription event — the only one that carries current_period_end —
+   * was then dropped as stale, leaving a paying customer at
+   * `status: "active", currentPeriodEnd: 0` and no access at all.
+   *
+   * Ordering is only needed WITHIN the subscription stream, which is where the
+   * cancel/reactivate race lives. A stale checkout redelivery grants nothing on
+   * its own: it writes no period end, and access is gated on the period.
    */
-  lastEventAt?: number;
+  lastSubscriptionEventAt?: number;
 }
 
 /** One person's watchlist. Entity ids only — the same strings /following uses. */

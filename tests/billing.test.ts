@@ -23,7 +23,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import { FOLLOWABLE_TYPES } from "@/lib/follows";
-import { accessFor, mergeSubscriber, shouldApplyEvent } from "@/lib/billing/subscription";
+import { accessFor, mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
 import { MemoryStore, RedisStore, type SubscriberRecord } from "@/lib/billing/store";
 import {
   CAPABILITY_SPECS,
@@ -559,38 +559,38 @@ describe("event ordering", () => {
   });
 
   it("applies an event newer than the last one applied", () => {
-    expect(shouldApplyEvent(record({ lastEventAt: 100 }), 200)).toBe(true);
+    expect(shouldApplySubscriptionEvent(record({ lastSubscriptionEventAt: 100 }), 200)).toBe(true);
   });
 
   it("refuses an event older than the last one applied", () => {
     // THE CANCELLATION-UNDO CASE, in one line.
-    expect(shouldApplyEvent(record({ lastEventAt: 500 }), 200)).toBe(false);
+    expect(shouldApplySubscriptionEvent(record({ lastSubscriptionEventAt: 500 }), 200)).toBe(false);
   });
 
   it("applies an event with the same timestamp", () => {
     // Stripe emits several events for one state change within the same second.
     // Refusing equal timestamps would drop the one that matters, and equal
     // events describe the same state, so applying them is idempotent in effect.
-    expect(shouldApplyEvent(record({ lastEventAt: 300 }), 300)).toBe(true);
+    expect(shouldApplySubscriptionEvent(record({ lastSubscriptionEventAt: 300 }), 300)).toBe(true);
   });
 
   it("applies anything to a record written before ordering existed", () => {
     // No stamp means older than everything, so the first stamped event heals it.
-    expect(shouldApplyEvent(record(), 200)).toBe(true);
+    expect(shouldApplySubscriptionEvent(record(), 200)).toBe(true);
   });
 
   it("applies anything to a subscriber we have never seen", () => {
-    expect(shouldApplyEvent(null, 200)).toBe(true);
+    expect(shouldApplySubscriptionEvent(null, 200)).toBe(true);
   });
 
   it("carries the stamp forward when an event does not supply one", () => {
-    const merged = mergeSubscriber(record({ lastEventAt: 400 }), { status: "active" }, 9_999);
-    expect(merged.lastEventAt).toBe(400);
+    const merged = mergeSubscriber(record({ lastSubscriptionEventAt: 400 }), { status: "active" }, 9_999);
+    expect(merged.lastSubscriptionEventAt).toBe(400);
   });
 
   it("stamps the record with the event that wrote it", () => {
-    const merged = mergeSubscriber(record({ lastEventAt: 400 }), { lastEventAt: 900 }, 9_999);
-    expect(merged.lastEventAt).toBe(900);
+    const merged = mergeSubscriber(record({ lastSubscriptionEventAt: 400 }), { lastSubscriptionEventAt: 900 }, 9_999);
+    expect(merged.lastSubscriptionEventAt).toBe(900);
   });
 });
 
@@ -692,5 +692,57 @@ describe("claiming a checkout session", () => {
       fetchImpl: (async () => ({ ok: true, json: async () => ({ result: null }) })) as unknown as typeof fetch,
     });
     expect(await store.claimCheckoutSession("cs_test_1", TTL)).toBe(false);
+  });
+});
+
+
+// =============================================================================
+// THE SIGNUP RACE THE FIRST ORDERING GUARD BROKE
+//
+// The guard was written as one watermark over every event. But a checkout
+// session and the subscription it creates are separate object streams, and in
+// subscription-mode Checkout the subscription is created as PART of completing
+// the session — so `customer.subscription.created` carries the EARLIER
+// timestamp. Checkout arriving first stamped the record, the subscription event
+// was then dropped as stale, and it is the only handled event that carries
+// current_period_end. The subscriber settled at status "active",
+// currentPeriodEnd 0, and accessFor() denied a customer who had just paid.
+//
+// Ordering is only needed WITHIN the subscription stream, which is where the
+// cancel/reactivate race lives.
+// =============================================================================
+describe("a checkout session and its subscription are different streams", () => {
+  const base: SubscriberRecord = {
+    email: "a@example.com",
+    customerId: "cus_1",
+    status: "active",
+    currentPeriodEnd: 0,
+    updatedAt: 1_000,
+  };
+
+  it("does not let a checkout timestamp block the subscription event", () => {
+    // Checkout was processed first at t=1000 but must not have stamped the
+    // subscription watermark, so the subscription event at t=999 still applies.
+    const afterCheckout: SubscriberRecord = { ...base }; // no lastSubscriptionEventAt
+    expect(shouldApplySubscriptionEvent(afterCheckout, 999)).toBe(true);
+
+    const settled = mergeSubscriber(
+      afterCheckout,
+      { currentPeriodEnd: 5_000, lastSubscriptionEventAt: 999 },
+      1_001
+    );
+    expect(settled.currentPeriodEnd).toBe(5_000);
+    expect(accessFor(settled, 1_001).pro).toBe(true);
+  });
+
+  it("still refuses a stale event within the subscription stream", () => {
+    // The protection the guard was written for, unchanged.
+    const cancelled = mergeSubscriber(
+      base,
+      { status: "canceled", currentPeriodEnd: 1_000, lastSubscriptionEventAt: 2_000 },
+      2_000
+    );
+    expect(shouldApplySubscriptionEvent(cancelled, 1_500)).toBe(false);
+    expect(accessFor(cancelled, 2_001).pro).toBe(false);
   });
 });

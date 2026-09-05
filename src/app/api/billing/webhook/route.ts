@@ -35,7 +35,7 @@
 import { billingStatus } from "@/lib/billing/config";
 import { grantsAccess, isHandledEvent, verifyWebhookSignature } from "@/lib/billing/stripe";
 import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
-import { mergeSubscriber, shouldApplyEvent } from "@/lib/billing/subscription";
+import { mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
 import { json } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
@@ -91,7 +91,7 @@ export async function POST(req: Request): Promise<Response> {
 
   const object = event.data?.object ?? {};
   // Stripe's own clock, not ours: a slow delivery must still be applied in the
-  // order Stripe generated it. See shouldApplyEvent().
+  // order Stripe generated it. See shouldApplySubscriptionEvent().
   const eventCreatedAt = typeof event.created === "number" ? event.created : undefined;
   const subscriptionStatus = typeof object.status === "string" ? object.status : null;
   const access = type === "customer.subscription.deleted" ? false : grantsAccess(subscriptionStatus ?? "active");
@@ -153,7 +153,13 @@ async function persist(
     const key = emailKey(email, secret);
     await store.linkCustomer(customer, key);
     const existing = await store.getSubscriber(key);
-    if (!shouldApplyEvent(existing, eventCreatedAt)) return false;
+
+    // NO ORDERING GUARD HERE, deliberately. A checkout session and the
+    // subscription it creates are separate object streams, and the subscription
+    // carries the EARLIER timestamp. Ordering checkout against the subscription
+    // watermark dropped the only event carrying current_period_end and left a
+    // paying customer with no access. A stale checkout redelivery is harmless on
+    // its own: it writes no period end, and access is gated on the period.
 
     // A LAPSED SUBSCRIBER WHO COMES BACK MUST NOT INHERIT THEIR DEAD PERIOD.
     //
@@ -173,7 +179,6 @@ async function persist(
           customerId: customer,
           status: "active",
           ...(expired ? { currentPeriodEnd: 0 } : {}),
-          lastEventAt: eventCreatedAt,
         },
         now
       )
@@ -193,7 +198,7 @@ async function persist(
   // ORDER, NOT ARRIVAL. Without this a redelivered "updated · active" landing
   // after "deleted" restores a cancelled subscriber's access, silently and for
   // a full billing period.
-  if (!shouldApplyEvent(existing, eventCreatedAt)) return false;
+  if (!shouldApplySubscriptionEvent(existing, eventCreatedAt)) return false;
 
   await store.putSubscriber(
     key,
@@ -204,7 +209,7 @@ async function persist(
         status: access ? status ?? "active" : status ?? "canceled",
         // A deletion ends access now rather than at the period end it carries.
         currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
-        lastEventAt: eventCreatedAt,
+        lastSubscriptionEventAt: eventCreatedAt,
       },
       now
     )

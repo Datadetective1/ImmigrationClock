@@ -213,6 +213,22 @@ describe("analytics never carry a reader's selection", () => {
     }
   });
 
+  it("is what the follow hook actually sends, not merely what a test hand-writes", () => {
+    // THIS ASSERTION EXISTS BECAUSE THE ONES ABOVE DO NOT COVER THE HOOK.
+    //
+    // They construct a payload and check it is clean, which is true of any
+    // payload a test writes. Reverting src/hooks/useFollows.ts to send
+    // `entity: entityId` would leave every one of them green. The hook is a
+    // React hook and this suite runs in node, so it is read as source — the
+    // same pattern this file already uses for the component guarantees below.
+    const hook = read("src/hooks/useFollows.ts");
+    const call = hook.slice(hook.indexOf('track("entity_follow"'), hook.indexOf("commit(next)"));
+    expect(call, "the hook no longer fires entity_follow").toContain("entity_type");
+    expect(call, "the hook sends the entity id itself").not.toMatch(/entity:\s/);
+    expect(call, "the hook sends an unbucketed count").toContain("watchlistSizeBucket");
+    expect(call).not.toMatch(/total:\s*next\.length/);
+  });
+
   it("buckets a watchlist size rather than sending the count", () => {
     // An exact count narrows a browser to a small group beside anything else,
     // and no product question needs it.

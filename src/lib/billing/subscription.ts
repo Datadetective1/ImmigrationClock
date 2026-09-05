@@ -85,12 +85,17 @@ export function mergeSubscriber(
     status: incoming.status || existing?.status || "incomplete",
     currentPeriodEnd: incoming.currentPeriodEnd ?? existing?.currentPeriodEnd ?? 0,
     updatedAt: nowSeconds,
-    lastEventAt: incoming.lastEventAt ?? existing?.lastEventAt,
+    lastSubscriptionEventAt: incoming.lastSubscriptionEventAt ?? existing?.lastSubscriptionEventAt,
   };
 }
 
 /**
- * Should an event be applied to the record we already hold?
+ * Should a SUBSCRIPTION event be applied to the record we already hold?
+ *
+ * Checkout sessions are deliberately not ordered against this watermark. They
+ * are a separate object stream whose events carry a LATER timestamp than the
+ * subscription they create, so sharing one watermark dropped the only event
+ * carrying current_period_end and denied a customer who had just paid.
  *
  * STRIPE DOES NOT GUARANTEE ORDER, AND IT RETRIES. The failure this prevents is
  * specific and expensive: `customer.subscription.deleted` arrives and access
@@ -107,14 +112,14 @@ export function mergeSubscriber(
  * drop the one that matters. Equal-timestamp events describe the same state, so
  * applying them is idempotent in effect.
  */
-export function shouldApplyEvent(
+export function shouldApplySubscriptionEvent(
   existing: SubscriberRecord | null,
   eventCreatedAt: number | undefined
 ): boolean {
   if (!existing) return true;
   // A record written before ordering existed has no stamp. Treat it as older
   // than anything, so the first stamped event wins and the record heals.
-  if (existing.lastEventAt === undefined) return true;
+  if (existing.lastSubscriptionEventAt === undefined) return true;
   if (eventCreatedAt === undefined) return true;
-  return eventCreatedAt >= existing.lastEventAt;
+  return eventCreatedAt >= existing.lastSubscriptionEventAt;
 }
