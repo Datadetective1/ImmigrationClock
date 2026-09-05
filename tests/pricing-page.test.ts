@@ -80,6 +80,22 @@ describe("the pricing page cannot sell what does not exist", () => {
   });
 });
 
+describe("a test deployment says so where the money is", () => {
+  it("shows a test-mode notice beside the Subscribe buttons", () => {
+    // /account already carried this. /pricing is where somebody actually
+    // clicks, and it is the first page the activation walkthrough opens, so a
+    // test deployment that looks live is a real hazard during activation.
+    expect(source).toContain("billingStatus().testMode");
+    expect(source).toMatch(/Test mode\. No real card is charged/);
+  });
+
+  it("drives it from the configured key, not a hand-set flag", () => {
+    // isTestKey(STRIPE_SECRET_KEY) — so it cannot be left switched on when
+    // live keys arrive, and cannot be switched off while test keys are in use.
+    expect(source).not.toMatch(/testMode\s*=\s*(true|false)/);
+  });
+});
+
 describe("the honesty paragraph is accurate", () => {
   it("does not claim every unfinished capability is in build", () => {
     // Two of the five are "planned", not "building".

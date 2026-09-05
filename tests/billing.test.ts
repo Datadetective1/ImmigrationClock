@@ -22,6 +22,9 @@
 // =============================================================================
 
 import { describe, it, expect, vi } from "vitest";
+import { readFileSync } from "node:fs";
+import { HANDLED_EVENTS } from "@/lib/billing/stripe";
+import { fileURLToPath } from "node:url";
 import { FOLLOWABLE_TYPES } from "@/lib/follows";
 import { accessFor, mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
 import { MemoryStore, RedisStore, type SubscriberRecord } from "@/lib/billing/store";
@@ -765,5 +768,41 @@ describe("a checkout session and its subscription are different streams", () => 
     );
     expect(shouldApplySubscriptionEvent(cancelled, 1_500)).toBe(false);
     expect(accessFor(cancelled, 2_001).pro).toBe(false);
+  });
+});
+
+
+// =============================================================================
+// THE ACTIVATION GUIDE MUST NAME EVERY EVENT THE CODE HANDLES
+//
+// The guide told an operator to select three events in Stripe. The code handles
+// four. The missing one, customer.subscription.created, is the only event that
+// carries current_period_end at signup — so a buyer who closed the tab before
+// the success redirect finished would be stored with currentPeriodEnd 0 and
+// denied until their first renewal. A paying customer, locked out, by following
+// our own instructions correctly.
+//
+// Prose drifts from code silently. This makes it fail loudly instead.
+// =============================================================================
+describe("docs/stripe-activation.md", () => {
+  const guide = readFileSync(
+    fileURLToPath(new URL("../docs/stripe-activation.md", import.meta.url)),
+    "utf8"
+  );
+
+  it("lists every event the webhook actually handles", () => {
+    for (const event of HANDLED_EVENTS) {
+      expect(guide, `the activation guide never mentions ${event}`).toContain(event);
+    }
+  });
+
+  it("states the count that matches the code", () => {
+    // "choose exactly these four" — a number an operator counts against.
+    expect(guide).toMatch(new RegExp(`choose exactly these ${["", "one", "two", "three", "four", "five"][HANDLED_EVENTS.length]}`, "i"));
+  });
+
+  it("still tells the operator to stay in test mode", () => {
+    expect(guide).toMatch(/test mode/i);
+    expect(guide).toMatch(/sk_test_/);
   });
 });
