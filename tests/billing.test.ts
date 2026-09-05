@@ -74,21 +74,40 @@ import { createHmac } from "node:crypto";
 // -----------------------------------------------------------------------------
 
 describe("the free/paid boundary", () => {
-  it("keeps every capability the site has today free", () => {
-    // The rule, as a test: if the site does it today, it is free. A future
-    // change that moves an existing capability behind Pro fails here, which is
-    // the point — it should require deleting this test and explaining why.
+  it("never moves a capability from free to paid", () => {
+    // THE ANTI-PAYWALL RULE, and the only one of the two originals worth
+    // keeping. It used to read "if the site does it today, it is free", which
+    // was a true statement about a product with nothing to sell and stopped
+    // being one the moment watchlist sync shipped. The promise on /pricing is
+    // "nothing that is free today becomes paid" — that is about the FREE set
+    // not shrinking, not about the paid set staying empty.
+    //
+    // The free pillars are pinned by name in the test below, so moving one to
+    // Pro fails there. Here we assert the shape that guarantees it: everything
+    // the free plan lists actually works, so "free" is never a promise either.
     for (const c of CAPABILITY_SPECS) {
-      if (c.existsToday) expect(c.plan, `${c.id} exists today and must stay free`).toBe("free");
+      if (c.plan === "free") {
+        expect(c.existsToday, `${c.id} is free but does not exist`).toBe(true);
+        expect(c.status, `${c.id} is free but not available`).toBe("available");
+      }
     }
   });
 
-  it("only sells capabilities the site does not have yet", () => {
+  it("sells only capabilities that ADD to the free platform", () => {
+    // A paid capability may exist today — watchlist sync does — but it must be
+    // additive rather than a restriction of something free. Local following is
+    // the control: it stays free and complete, and sync is a separate
+    // capability layered on top rather than a lock placed on it.
     const paid = CAPABILITY_SPECS.filter((c) => c.plan !== "free");
     expect(paid.length).toBeGreaterThan(0);
-    for (const c of paid) {
-      expect(c.existsToday, `${c.id} is sold, so it must be new`).toBe(false);
-    }
+
+    const localFollows = CAPABILITY_SPECS.find((c) => c.id === "browser_follows")!;
+    expect(localFollows.plan).toBe("free");
+    expect(localFollows.existsToday).toBe(true);
+
+    // Anything paid that already works must be one we have deliberately shipped.
+    const shipped = paid.filter((c) => c.existsToday).map((c) => c.id);
+    expect(shipped).toEqual(["watchlist_sync"]);
   });
 
   it("names the free platform's pillars explicitly", () => {
@@ -121,10 +140,12 @@ describe("the free/paid boundary", () => {
       if (c.plan === "free") expect(c.status, c.id).toBe("available");
       expect(c.status === "available" && !c.existsToday, `${c.id} is sold as working but does not exist`).toBe(false);
     }
-    // PRO CURRENTLY HAS NO WORKING CAPABILITY, and saying so here is the point:
-    // this assertion is what will fail, loudly, on the day one is finished — at
-    // which moment the pricing page becomes true rather than aspirational.
-    expect(availableNow("pro").map((c) => c.id)).toEqual([]);
+    // This asserted an EMPTY list, so that it would fail loudly on the day a Pro
+    // capability was finished. That day arrived: watchlist sync works end to
+    // end. The assertion is kept in the same shape rather than deleted, so the
+    // next capability cannot be marked available without someone updating it
+    // here and saying why.
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
     expect(notYetAvailable("pro").length).toBeGreaterThan(0);
     for (const c of notYetAvailable("pro")) expect(["building", "planned"]).toContain(c.status);
   });

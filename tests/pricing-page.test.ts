@@ -29,18 +29,28 @@ const source = readFileSync(join(root, "src/app/pricing/page.tsx"), "utf8");
 
 describe("the pricing page cannot sell what does not exist", () => {
   it("gates the Subscribe buttons on a capability actually being available", () => {
-    // Derived from the specs, not from a flag someone has to remember to flip:
-    // the day a Pro capability is marked available, the buttons return on their
-    // own and this test starts asserting the other branch.
-    expect(source).toContain('const purchasable = availableNow("pro").length > 0;');
+    // Derived from the specs, not from a flag someone has to remember to flip.
+    expect(source).toContain('const hasSomethingToSell = availableNow("pro").length > 0;');
     expect(source).toMatch(/\{purchasable \?/);
   });
 
-  it("renders no purchase path while Pro has nothing available", () => {
-    // The state the site is in today.
-    expect(availableNow("pro")).toEqual([]);
+  it("requires BOTH a working capability and billing being on", () => {
+    // Watchlist sync now works, so the capability half is satisfied — but
+    // BILLING_ENABLED is deliberately unset, and a Subscribe button that
+    // answers "subscriptions are not open yet" is the same contradiction this
+    // branch exists to remove, one click later. Both halves are required.
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
+    expect(source).toContain('const hasSomethingToSell = availableNow("pro").length > 0;');
+    expect(source).toContain("hasSomethingToSell && billingStatus().checkoutReady");
     expect(source).toContain('data-testid="pro-not-for-sale"');
-    expect(source).toMatch(/Not for sale yet/);
+  });
+
+  it("says which of the two reasons applies, rather than one catch-all", () => {
+    // "None of it works yet" would now be false. The panel branches on
+    // hasSomethingToSell so a reader is told the true reason.
+    expect(source).toMatch(/\{hasSomethingToSell \? \(/);
+    expect(source).toMatch(/subscriptions are not open yet/i);
+    expect(source).toMatch(/none of it works yet/i);
   });
 
   it("keeps the intended price visible and the Stripe wiring intact", () => {
@@ -109,6 +119,15 @@ describe("a visitor is never shown configuration", () => {
   });
 
   it("does not render an internal switch name anywhere on the page", () => {
-    expect(source).not.toMatch(/BILLING_ENABLED|STRIPE_SECRET_KEY|KV_REST_API/);
+    // COMMENTS ARE NOT RENDERED, and the guard is about what a visitor can see.
+    // This grepped raw source and began failing when a comment explained WHY
+    // the purchase path is gated on BILLING_ENABLED — documentation the next
+    // reader of this file needs. Stripping comments keeps the guard pointed at
+    // the thing it was written to protect: the strings that reach the browser.
+    const withoutComments = source
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+      .replace(/^\s*\/\/.*$/gm, "");
+    expect(withoutComments).not.toMatch(/BILLING_ENABLED|STRIPE_SECRET_KEY|KV_REST_API/);
   });
 });

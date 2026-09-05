@@ -13,7 +13,7 @@
 import { billingStatus } from "@/lib/billing/config";
 import { resolveStore, tokenHash } from "@/lib/billing/store";
 import { accessForKey } from "@/lib/billing/subscription";
-import { MAX_TTL_DAYS, cookieFor, sign, type Entitlement } from "@/lib/billing/entitlement";
+import { MAX_TTL_DAYS, cookieFor, sessionHintCookie, sign, type Entitlement } from "@/lib/billing/entitlement";
 import { clientIp, json, rateLimited, serializeCookie } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
@@ -79,7 +79,11 @@ export async function POST(req: Request): Promise<Response> {
 
   console.log(`[billing] signed in · customer ${access.record.customerId || "unknown"}`);
 
-  return json({ plan: "pro", expiresAt: new Date(entitlement.exp * 1000).toISOString() }, 200, {
-    "Set-Cookie": serializeCookie(cookie),
-  });
+  const secure = !(process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("http://");
+  const res = json({ plan: "pro", expiresAt: new Date(entitlement.exp * 1000).toISOString() }, 200);
+  res.headers.append("Set-Cookie", serializeCookie(cookie));
+  // A readable "a session exists here", so the browser knows whether asking
+  // about a subscription is worth a request. Carries no identity.
+  res.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(entitlement.exp, now, secure)));
+  return res;
 }

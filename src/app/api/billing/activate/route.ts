@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { BILLING_UNAVAILABLE_MESSAGE, billingStatus } from "@/lib/billing/config";
-import { MAX_TTL_DAYS, cookieFor, sign, type Entitlement } from "@/lib/billing/entitlement";
+import { MAX_TTL_DAYS, cookieFor, sessionHintCookie, sign, type Entitlement } from "@/lib/billing/entitlement";
 import { StripeClient, StripeError, grantsAccess } from "@/lib/billing/stripe";
 import { emailKey, resolveStore } from "@/lib/billing/store";
 import { mergeSubscriber } from "@/lib/billing/subscription";
@@ -161,9 +161,10 @@ export async function POST(req: Request): Promise<Response> {
 
     console.log(`[billing] activated · customer ${customerId || "unknown"} · expires ${new Date(exp * 1000).toISOString()}`);
 
-    return json({ plan: "pro", expiresAt: new Date(exp * 1000).toISOString() }, 200, {
-      "Set-Cookie": serializeCookie(cookie),
-    });
+    const res = json({ plan: "pro", expiresAt: new Date(exp * 1000).toISOString() }, 200);
+    res.headers.append("Set-Cookie", serializeCookie(cookie));
+    res.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(exp, now, billingOriginIsHttps())));
+    return res;
   } catch (err) {
     const detail = err instanceof StripeError ? `HTTP ${err.status}` : "network error";
     console.error(`[billing] activate failed: ${err instanceof Error ? err.message : String(err)}`);

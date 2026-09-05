@@ -20,6 +20,7 @@ import { PricingAnalytics } from "@/components/PricingAnalytics";
 import { CAPABILITY_SPECS, PLAN_BY_ID, STATUS_LABEL, annualSavingUsd, availableNow, notYetAvailable } from "@/lib/billing/plans";
 import type { CapabilityStatus } from "@/lib/billing/plans";
 import { SITE } from "@/lib/site";
+import { billingStatus } from "@/lib/billing/config";
 
 export const metadata = buildMetadata({
   title: "Pricing — ImmigrationClock Pro",
@@ -64,10 +65,19 @@ export default function PricingPage() {
   const inBuild = pending.filter((c) => c.status === "building").length;
   const planned = pending.filter((c) => c.status === "planned").length;
 
-  // NOTHING WORKING MEANS NOTHING TO SELL. Derived from the capability specs
-  // rather than a flag someone has to remember to flip: the day a Pro
-  // capability is marked available, the buttons come back on their own.
-  const purchasable = availableNow("pro").length > 0;
+  // TWO SEPARATE REASONS A PURCHASE CANNOT HAPPEN, and they are not the same
+  // sentence to a reader.
+  //
+  //   hasSomethingToSell  a Pro capability actually works. Derived from the
+  //                       specs rather than a flag someone has to flip.
+  //   checkoutReady       billing is switched on and configured.
+  //
+  // Both must hold. Watchlist sync now works, so the first is true — but
+  // BILLING_ENABLED is deliberately unset, and rendering a Subscribe button
+  // that answers "subscriptions are not open yet" would be the same
+  // contradiction this branch was written to remove, just one click later.
+  const hasSomethingToSell = availableNow("pro").length > 0;
+  const purchasable = hasSomethingToSell && billingStatus().checkoutReady;
 
   return (
     <div>
@@ -163,6 +173,10 @@ export default function PricingPage() {
                 about a set with nothing in it, and asking for $19 against a
                 column of dashes without saying so plainly is the one thing this
                 paragraph exists to prevent. */}
+            {/* Three states now, not two: nothing finished, some finished, all
+                finished. The first branch stopped being reachable the moment
+                watchlist sync shipped, and leaving it as the only "unfinished"
+                wording would have called a working capability unfinished. */}
             {pending.length > 0 && pending.length === proFeatures.length ? (
               <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
                 <strong className="text-white">Being straight with you: none of this is
@@ -229,11 +243,19 @@ export default function PricingPage() {
                   className="rounded-lg border border-dashed border-white/15 bg-white/[0.02] px-4 py-3 text-center"
                 >
                   <p className="text-sm font-semibold text-slate-200">Not for sale yet</p>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-400">
-                    Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year. You cannot
-                    subscribe today, because none of it works yet and we are not taking money for
-                    something that does not.
-                  </p>
+                  {hasSomethingToSell ? (
+                    <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                      Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year.{" "}
+                      {availableNow("pro")[0].label} works today; subscriptions are not open yet,
+                      so there is nothing to pay for while we finish the rest.
+                    </p>
+                  ) : (
+                    <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                      Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year. You cannot
+                      subscribe today, because none of it works yet and we are not taking money for
+                      something that does not.
+                    </p>
+                  )}
                 </div>
                 <p className="text-center text-[11px] text-slate-500">
                   The{" "}

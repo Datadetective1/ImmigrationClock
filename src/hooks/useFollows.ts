@@ -27,6 +27,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track, watchlistSizeBucket } from "@/lib/analytics";
+import { fetchServerWatchlist, hasSessionHint, saveServerWatchlist, type SyncStatus } from "@/lib/billing/watchlist-client";
+import { readSyncState, resolveLoad, writeSyncState } from "@/lib/billing/watchlist-sync";
 import {
   readStoredFollows,
   writeStoredFollows,
@@ -41,6 +43,17 @@ const SYNC_EVENT = "immigrationclock:follows-changed";
 export function useFollows(knownIds?: ReadonlySet<string>) {
   const [follows, setFollows] = useState<string[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  /**
+   * Whether this browser's list is being kept on the account.
+   *
+   * "off" until the server says otherwise, so a reader who is not paying — or
+   * not signed in, or offline — sees exactly the experience they had before
+   * any of this existed. Nothing here decides what is ALLOWED; the route
+   * re-reads the subscription from the store on every write.
+   */
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>("off");
+  /** Read synchronously by commit(), which cannot wait for a re-render. */
+  const syncing = useRef(false);
   /**
    * The list as of the last write, readable synchronously.
    *
@@ -88,10 +101,103 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * Push the list to the account, and adopt whatever the server stored.
+   *
+   * The server is allowed to return something different from what it was sent —
+   * it applies the same follow vocabulary and the same cap — and taking its
+   * answer back is what keeps the browser from believing in an id the account
+   * does not actually hold.
+   *
+   * Failure is deliberately silent. Following is an enhancement; a reader who
+   * has just clicked a chip should not be shown a network error about a feature
+   * whose whole promise is that they do not have to think about it. The local
+   * write has already happened, and the next load reconciles.
+   */
+  const push = useCallback(
+    async (next: string[]) => {
+      if (!syncing.current) return;
+      const result = await saveServerWatchlist(next);
+      if (result.status === "on") {
+        const stored = sanitizeFollows(result.entityIds, knownIds);
+        if (stored.join("\u0000") !== next.join("\u0000")) adopt(stored);
+      } else if (result.status === "off") {
+        // Entitlement ended between load and click — a cancellation, a sign-out
+        // in another tab. Stop claiming to sync rather than retrying forever.
+        syncing.current = false;
+        setSyncStatus("off");
+      }
+      // "unknown" keeps syncing on: a dropped request is not a lost subscription.
+    },
+    // knownIds is a stable set built once from the index.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [adopt]
+  );
+
+  // --- THE FIRST SIGN-IN MERGE, AND EVERY LOAD AFTER IT ---------------------
+  //
+  // Runs once per mount, after local state has hydrated so there is something
+  // to merge. Three outcomes:
+  //
+  //   not entitled  -> nothing happens, local storage is untouched
+  //   first time    -> server UNION local, pushed, and the device is marked
+  //   thereafter    -> the server's list wins, so an unfollow on another
+  //                    device is an unfollow here
+  //
+  // See watchlist-sync.ts for why the union runs once and not on every load.
+  useEffect(() => {
+    if (!hydrated) return;
+    // AN ANONYMOUS READER ASKS NOTHING. Without this the probe ran on every
+    // page load for everybody, and a visitor with no account collected a 503
+    // in their console for a feature they do not have.
+    if (!hasSessionHint()) return;
+    const controller = new AbortController();
+
+    (async () => {
+      const server = await fetchServerWatchlist(controller.signal);
+      if (controller.signal.aborted) return;
+      if (server.status !== "on") {
+        setSyncStatus(server.status === "unknown" ? "off" : "off");
+        return;
+      }
+
+      syncing.current = true;
+      setSyncStatus("on");
+
+      // The decision itself is a pure function so it can be tested; see
+      // resolveLoad() for why the account wins after the first merge.
+      const alreadyMerged = readSyncState()?.merged === true;
+      const merged = resolveLoad({
+        merged: alreadyMerged,
+        server: server.entityIds,
+        local: latest.current,
+        knownIds,
+      });
+      adopt(merged.entityIds);
+      writeStoredFollows(merged.entityIds);
+      if (alreadyMerged) return;
+      writeSyncState(Math.floor(Date.now() / 1000));
+
+      // Only write back when the browser actually contributed something.
+      if (merged.changed) {
+        const saved = await saveServerWatchlist(merged.entityIds, controller.signal);
+        if (!controller.signal.aborted && saved.status === "on") {
+          const stored = sanitizeFollows(saved.entityIds, knownIds);
+          adopt(stored);
+          writeStoredFollows(stored);
+        }
+      }
+    })();
+
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated]);
+
   const commit = useCallback(
     (next: string[]) => {
       adopt(next);
       writeStoredFollows(next);
+      void push(next);
       try {
         window.dispatchEvent(new CustomEvent(SYNC_EVENT, { detail: next }));
       } catch {
@@ -99,7 +205,7 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
         // catch up on the next render or reload.
       }
     },
-    [adopt]
+    [adopt, push]
   );
 
   const toggle = useCallback(
@@ -130,5 +236,5 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
 
   const clear = useCallback(() => commit([]), [commit]);
 
-  return { follows, toggle, clear, hydrated };
+  return { follows, toggle, clear, hydrated, syncStatus };
 }

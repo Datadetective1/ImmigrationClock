@@ -164,7 +164,7 @@ export function FollowingPanel({
   showChanges?: boolean;
   openWhenEmpty?: boolean;
 } = {}) {
-  const { follows, toggle, clear, hydrated } = useFollows(KNOWN_IDS);
+  const { follows, toggle, clear, hydrated, syncStatus } = useFollows(KNOWN_IDS);
   const [picking, setPicking] = useState(false);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<FollowableType | null>(null);
@@ -237,6 +237,21 @@ export function FollowingPanel({
             <p className="mt-1 text-sm leading-relaxed text-slate-400">
               Pick a country, visa, agency or topic and this becomes a feed of only the changes that
               touch it.
+            </p>
+          ) : null}
+          {/* QUIET, AND ONLY WHEN TRUE.
+              This appears for a signed-in subscriber and for nobody else. It is
+              a statement of fact about where the list lives, not an
+              advertisement: a free reader sees no upsell here, no lock icon and
+              no greyed-out promise, because the free experience is not a
+              demonstration of what they are missing. Anyone not syncing simply
+              sees what they saw before any of this existed. */}
+          {syncStatus === "on" ? (
+            <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500">
+              <span aria-hidden className="text-status-green">
+                &#10003;
+              </span>
+              Synced &mdash; saved to your account and available on your devices.
             </p>
           ) : null}
         </div>

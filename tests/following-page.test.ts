@@ -195,7 +195,10 @@ describe("adding, removing and clearing follows", () => {
   it("adds a follow from the picker and from the suggestions", () => {
     // Both rows call the same toggle from useFollows — there is no second path
     // into storage. toggleFollow's own behaviour is covered in follows.test.ts.
-    expect(PANEL_CODE).toMatch(/const \{ follows, toggle, clear, hydrated \} = useFollows\(KNOWN_IDS\)/);
+    // syncStatus was added to the same destructure when watchlist sync shipped;
+    // the assertion is about there being ONE path into storage, not about the
+    // exact field list, so it pins the call rather than the shape.
+    expect(PANEL_CODE).toMatch(/const \{ follows, toggle, clear, hydrated.*\} = useFollows\(KNOWN_IDS\)/);
     expect(PANEL_CODE).toMatch(/onClick=\{\(\) => toggle\(item\.entityId\)\}/);
   });
 
