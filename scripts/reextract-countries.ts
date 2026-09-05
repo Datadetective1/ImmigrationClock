@@ -44,11 +44,9 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { findCountriesInText } from "../src/domains/graph/countries";
-import { delegatesCountryScope, statesGlobalScope } from "../src/domains/graph/country-relations";
-import { confidenceFor } from "../src/domains/graph/classification";
+import { countriesFor } from "../src/domains/graph/countries";
+import { delegatesCountryScope } from "../src/domains/graph/country-relations";
 import { richText } from "../src/domains/graph/text";
-import { evidenceKindOf } from "../src/domains/graph/evidence-strength";
 import { sourceTextFor } from "../src/lib/source-text";
 
 const WRITE = process.argv.includes("--write");
@@ -92,7 +90,6 @@ function main() {
   let withoutBody = 0;
   let added = 0;
   let removed = 0;
-  let suppressedGlobal = 0;
   let suppressedDelegated = 0;
   const additions: string[] = [];
   const removals: string[] = [];
@@ -130,85 +127,13 @@ function main() {
       continue;
     }
 
-    const global = statesGlobalScope(abstract) || statesGlobalScope(richText(body.slice(0, 6000)));
-
-    // The title is read AS a title, so a country named there is the document's
-    // declared subject rather than a mention that has to prove itself.
-    const titleHits = new Map(
-      findCountriesInText(title, { isTitle: true }).map((h) => [h.entityId, h] as const)
-    );
-
-    const kept: Impacted[] = [];
-    const prose = findCountriesInText(`${abstract}. ${richText(body)}`);
-    const merged = new Map(prose.map((h) => [h.entityId, h] as const));
-    for (const [id, h] of titleHits) {
-      const existing = merged.get(id);
-      // A title subject outranks every prose relation, so the title wins on the
-      // relation while a prose mention may still supply a fuller quote.
-      merged.set(id, existing && existing.isScope && !h.isScope ? existing : h);
-    }
-
-    for (const hit of merged.values()) {
-      const usable = hit.isScope || hit.relation === "post_location";
-      if (!usable) continue;
-
-      // A global rule keeps only a country it designated in so many words.
-      if (global && hit.relation !== "nationals_of" && hit.relation !== "designated_list") {
-        suppressedGlobal++;
-        continue;
-      }
-
-      // WHERE THE EVIDENCE SITS DECIDES HOW FAR IT IS TRUSTED, exactly as it
-      // does for every other dimension — and here it is what stops full-text
-      // extraction from trading a precision problem for a recall one.
-      //
-      // A 300KB rule contains designation sentences about programmes it is not
-      // about. The Ethiopia TPS termination recites Liberia's Deferred Enforced
-      // Departure in its background, in a perfectly well-formed "nationals of
-      // Liberia" sentence. The relation model is right that the sentence
-      // designates Liberia; it is the document that is not about Liberia.
-      //
-      // The title and the abstract are the document's own statement of what it
-      // does, so a country there is strong. A designation found only in the body
-      // is kept and labelled weak: real, visible under ?include=weak, and not
-      // sold to a subscriber as this document's subject.
-      const inTitle = titleHits.has(hit.entityId);
-      const inAbstract = findCountriesInText(abstract).some((t) => t.entityId === hit.entityId);
-
-      // A BODY DESIGNATION COUNTS ONLY WHEN THE DOCUMENT IS ALSO ACTING.
-      //
-      // Marking every body designation strong was tried and measured: recall
-      // rose 3 points and holdout precision fell 13, because rules recite other
-      // programmes' country scope in their background. The Ethiopia Temporary
-      // Protected Status termination contains a perfectly well-formed
-      // "nationals of Liberia" sentence about Liberia's Deferred Enforced
-      // Departure.
-      //
-      // Requiring the passage to ALSO read as the document's own act — "the
-      // Secretary is terminating", "this notice designates" — is the narrower
-      // claim, and it is the one a subscriber can be told.
-      const bodyKind = evidenceKindOf({ passage: hit.evidence });
-      const bodyIsOperative = bodyKind === "operative_language" || bodyKind === "explicit_scope";
-
-      const method = !hit.isScope
-        ? "derived_weak"
-        : inTitle
-          ? "explicit_source"
-          : inAbstract
-            ? "derived_high_confidence"
-            : bodyIsOperative
-              ? "derived_high_confidence"
-              : "derived_weak";
-
-      kept.push({
-        entityId: hit.entityId,
-        basis: "stated",
-        evidence: hit.evidence,
-        method,
-        relation: hit.relation,
-        confidence: confidenceFor(method as never),
-      });
-    }
+    // THE CLASSIFIER LIVES IN countries.ts, and this pass is one of its two
+    // callers. It used to be its own implementation of the same rules, sitting
+    // beside a second one inside extractImpact() that produced entries with no
+    // method at all. Two implementations of one contract is how the archive and
+    // the ingestion path came to disagree about what a country classification
+    // even looks like.
+    const kept = countriesFor(title, abstract, body) as unknown as Impacted[];
 
     const after = new Set(kept.map((c) => c.entityId));
     for (const id of after) {
@@ -244,7 +169,6 @@ function main() {
   console.log(`  records from title/abstract    ${withoutBody}`);
   console.log(`  classifications added          ${added}`);
   console.log(`  classifications removed        ${removed}`);
-  console.log(`  suppressed as global scope     ${suppressedGlobal}`);
   console.log(`  records refused (delegated)    ${suppressedDelegated}`);
   console.log(`  country classifications now    ${total} across ${records} records`);
   console.log(`  by relation                    ${Object.entries(byRelation).map(([k, v]) => `${k} ${v}`).join(" · ")}`);

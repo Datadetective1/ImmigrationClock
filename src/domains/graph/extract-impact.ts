@@ -15,7 +15,7 @@
 
 import type { EntityId } from "./entities";
 import { entityId, VISA_CATEGORIES } from "./entities";
-import { findCountriesInText } from "./countries";
+import { countriesFor } from "./countries";
 import { richText } from "./text";
 import { confidenceFor, gradeClassification } from "./classification";
 import { formsFor } from "./forms";
@@ -247,39 +247,14 @@ function isScopeSentence(sentence: string): boolean {
 }
 
 /**
- * Country extraction uses a MUCH tighter filter than visa extraction, and this
- * is the most important restriction in the module.
+ * Country classification lives in countries.ts, not here.
  *
- * A rule's full text runs to tens of thousands of words, and its regulatory
- * impact analysis, background section, and footnotes name other countries
- * constantly. Live testing proved the danger: the Visa Bond Program rule
- * discusses a DHS overstay report that mentions Canada and Mexico, and a
- * general scope filter happily concluded the rule covered Canadian and Mexican
- * travellers. It does not.
- *
- * Telling someone a rule affects them when it does not — or the reverse — is
- * the single worst thing this platform can do. So a country is only extracted
- * from a sentence that explicitly DESIGNATES countries. Background prose that
- * merely names a country never qualifies, and we accept missing real lists as
- * the price.
+ * This module used to carry its own designation-phrase filter and build country
+ * entries inline. It produced entries with no `method`, which the default public
+ * view silently discards — see the Countries section of extractImpact(). The
+ * rule that replaced it is countriesFor(), which grades a country by where its
+ * evidence sits and records the relation it holds to the document.
  */
-const COUNTRY_DESIGNATION_PHRASES = [
-  "nationals of",
-  "citizens of",
-  "country of nationality",
-  "countries whose nationals",
-  "designated countries",
-  "designated country",
-  "listed countries",
-  "the following countries",
-  "covered countries",
-  "affected countries",
-  "eligible countries",
-  "ineligible countries",
-  "country of chargeability",
-  "applies to nationals",
-  "shall apply to nationals",
-];
 
 /**
  * Phrases showing the document delegates its scope to a list maintained
@@ -326,11 +301,6 @@ function findDelegatedScope(allSentences: string[]): { evidence: string; note: s
   };
 }
 
-function isCountryDesignationSentence(sentence: string): boolean {
-  const l = sentence.toLowerCase();
-  return COUNTRY_DESIGNATION_PHRASES.some((p) => l.includes(p));
-}
-
 /**
  * Extract who is affected, using only what the document says.
  *
@@ -353,18 +323,26 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
   const scopeSentences = allSentences.filter(isScopeSentence);
 
   // ---- Countries -----------------------------------------------------------
-  // Only from sentences that explicitly DESIGNATE countries. See the comment on
-  // COUNTRY_DESIGNATION_PHRASES for why this is far stricter than visa matching.
-  const countries: ImpactedEntity[] = [];
-  const designationText = allSentences.filter(isCountryDesignationSentence).join(" ");
-  for (const hit of findCountriesInText(designationText)) {
-    countries.push({
-      entityId: hit.entityId,
-      basis: "stated",
-      evidence: hit.evidence,
-      confidence: 1,
-    });
-  }
+  //
+  // Delegated to countriesFor(), which is the ONLY country classifier. This
+  // used to be its own implementation: designation sentences in, entries out,
+  // every one of them carrying confidence 1 and NO `method`.
+  //
+  // That last omission was the whole defect. isStrong() rejects an undefined
+  // method, and the default public view shows only strong classifications, so
+  // every country this path produced was invisible the moment it was stored.
+  // Nothing failed and nothing warned — the offline pass happened to rewrite
+  // the same records with a real grade, and no document in the refetch window
+  // designated a country, so the two never visibly disagreed.
+  //
+  // A producer and a consumer that disagree about the schema is not a bug in
+  // either one; it is a missing contract. The contract now lives in
+  // countries.ts and both callers use it.
+  const countries: ImpactedEntity[] = countriesFor(
+    src.title,
+    src.abstract ?? "",
+    src.body ?? ""
+  );
 
   // ---- Visa categories -----------------------------------------------------
   //
@@ -395,22 +373,54 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
     // Where does this visa appear, and in what kind of sentence?
     const inTitle = m.re.test(titleText);
     const inSummary = m.re.test(summaryText);
+    // A MEASURED NEGATIVE RESULT, RECORDED SO IT IS NOT RETRIED BLIND.
+    //
+    // First-match-wins looks like the defect that cost this codebase its TPS
+    // country designations and scored a fee rule's forms against a table of
+    // contents, so ranking candidate sentences by the shared evidence model was
+    // the obvious next move. Measured on the ingest path it made things worse:
+    // H-1B precision fell 95% -> 90% (a second false positive) and recall did
+    // not move, because the record it was meant to rescue — "Adjustment to
+    // Premium Processing Fees" — has no better sentence to find. Its only H-1B
+    // passage is fee-table prose that reads as contextual however it is ranked.
+    //
+    // Reverted rather than kept. The span rule stays first-match.
     const bodyScopeSentence = inTitle || inSummary
       ? null
       : allSentences.find((sentence) => m.re.test(sentence) && isScopeSentence(sentence));
 
     if (!inTitle && !inSummary && !bodyScopeSentence) continue;
 
+    // A QUOTE MUST CONTAIN THE THING IT IS A QUOTE FOR.
+    //
+    // A span runs to 400 characters and clip() trims at 320, so when the visa
+    // was named in the last eighty the stored quote did not contain it at all.
+    // One record claimed H-1B on the strength of a quote about 8 CFR 214.2(j),
+    // which is J-1. A reader checking that quote finds nothing — worse than a
+    // missing classification, because it is one that cannot be checked.
+    //
+    // Only the quote is re-centred, and only when the plain clip actually lost
+    // the term. Grading still reads the whole sentence. Centring the window
+    // BEFORE grading was tried and measured: it strips the operative context
+    // that earns a strong grade, and cost two true positives for no precision
+    // (H-1B recall 95% -> 89%). countries.ts calls this property
+    // selfSupporting; the visa branch simply never had it.
+    const bodySpan = bodyScopeSentence as string;
+    const plainClip = inTitle || inSummary ? "" : clip(bodySpan);
     const evidence = inTitle
       ? clip(titleText)
       : inSummary
         ? clip(windowAround(summaryText, m.surface) ?? summaryText)
-        : clip(bodyScopeSentence as string);
+        : m.re.test(plainClip)
+          ? plainClip
+          : clip(windowAround(bodySpan, m.surface) ?? bodySpan);
 
     const method = gradeClassification({
       title: titleText,
       summary: summaryText,
-      evidence,
+      // The whole sentence, not the stored quote: the quote may have been
+      // re-centred on the term and lost the words that establish the grade.
+      evidence: inTitle || inSummary ? evidence : bodySpan,
       matches: (text) => m.re.test(text),
     });
 
@@ -426,17 +436,27 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
 
   // ---- Forms and processes -------------------------------------------------
   //
-  // Both read the title and the abstract only, never the body. That is not a
-  // shortcut, it is the same rule the archive already lives under: it does not
-  // store document bodies, so a form or process derived from body text could
-  // never be re-read by anyone checking the claim. A dimension whose evidence
-  // cannot be verified is worse than one that is merely incomplete.
+  // FORMS READ THE BODY. The old rule here was that they must not, because the
+  // archive did not retain document bodies and evidence nobody can re-read is
+  // worse than evidence that is merely incomplete. That reasoning was sound and
+  // is now obsolete: the source-text store retains the body, and every form
+  // classification drawn from one carries the quote plus the content hash of
+  // the document it was cut from.
   //
-  // Done HERE, at ingestion, rather than as an API patch — the offline
-  // reclassify pass exists only to upgrade the 544 records that predate this,
-  // and calls these same two functions, so there is one classifier rather than
-  // two that will drift.
-  const forms: ImpactedEntity[] = formsFor(titleText, summaryText).map((f) => ({
+  // Leaving the call at title+abstract after the store landed had a measured
+  // cost. The published forms recall of 58% was earned by the offline
+  // re-extraction pass, which does pass a body; this path, which is the one
+  // that actually runs on every deploy, scored 31% on the same ground truth.
+  // Every newly ingested document was getting the weaker classifier while the
+  // API advertised the stronger one's number.
+  //
+  // PROCESSES STILL DO NOT read the body: processesFor has never taken one, and
+  // giving it one is a change to a measured dimension, not a bug fix.
+  const forms: ImpactedEntity[] = formsFor(
+    titleText,
+    summaryText,
+    richText(src.body ?? "")
+  ).map((f) => ({
     entityId: f.entityId as EntityId,
     basis: "stated" as const,
     evidence: f.evidence,

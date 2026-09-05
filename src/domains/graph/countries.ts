@@ -22,11 +22,16 @@
 
 import { entityId, normalizeSlug, type EntityId } from "./entities";
 import {
+  delegatesCountryScope,
   relationFor,
+  statesGlobalScope,
   strongerRelation,
   isScopeRelation,
   type CountryRelation,
 } from "./country-relations";
+import { confidenceFor, type ClassificationMethod } from "./classification";
+import { evidenceKindOf } from "./evidence-strength";
+import { richText } from "./text";
 
 export interface CountryDef {
   /** Canonical display name. */
@@ -511,6 +516,7 @@ export function findCountriesInText(text: string, options: { isTitle?: boolean }
         const relation = relationFor({
           span: sentence,
           before: sentence.slice(Math.max(0, start - 80), start),
+          leading: sentence.slice(0, start),
           after: sentence.slice(end, Math.min(sentence.length, end + 60)),
           inTitle: options.isTitle === true,
         });
@@ -618,4 +624,120 @@ function quoteAround(sentence: string, at: number, width = 320): string {
   const prefix = start > 0 ? "…" : "";
   const suffix = end < sentence.length ? "…" : "";
   return `${prefix}${sentence.slice(start, end).trim()}${suffix}`;
+}
+
+// =============================================================================
+// COUNTRY CLASSIFICATION — one contract, used by ingestion and by maintenance
+//
+// WHY THIS FUNCTION EXISTS
+// ------------------------
+// It did not, and that was a defect. findCountriesInText() answers "which
+// countries does this text mention, and in what relation", which is a question
+// about text. Deciding which of those mentions become CLASSIFICATIONS — and how
+// far each may be trusted — is a different question, and it was answered twice:
+// once inside extractImpact() at ingestion, and once, much more carefully, in
+// scripts/reextract-countries.ts.
+//
+// The two answers did not agree. Ingestion pushed entries with no `method` at
+// all, so isStrong() rejected every one of them and the default API view showed
+// nothing. Every country classification the product serves was in fact produced
+// by the offline pass; ingestion's were invisible. Because no document in the
+// 90-day refetch window designated a country, nothing ever surfaced the gap.
+//
+// So the rule lives here now, once, and both callers use it. That is the same
+// correction made for forms: a producer and a consumer that disagree about the
+// schema is not a bug in either one, it is a missing contract.
+//
+// WHAT IT DECIDES, AND WHY EACH RULE IS THERE
+// -------------------------------------------
+//   DELEGATED SCOPE IS A REFUSAL. A document that says its country list is
+//   published elsewhere gets no countries — not a guess at the list.
+//   A GLOBAL RULE KEEPS ONLY WHAT IT NAMED. A rule stating universal
+//   application keeps a country only where it designated it in so many words.
+//   WHERE THE EVIDENCE SITS DECIDES THE GRADE. Title is the document's own
+//   statement of subject; the abstract nearly so; a designation found only in
+//   the body counts only when that passage is also the document ACTING.
+//
+// That last rule was measured, not assumed: marking every body designation
+// strong raised recall 3 points and cost 13 points of holdout precision,
+// because rules recite other programmes' country scope in their background.
+// =============================================================================
+
+/** How far into a body to look for a statement of universal application. */
+const GLOBAL_SCOPE_SCAN = 6_000;
+
+export interface CountryClassification {
+  entityId: EntityId;
+  basis: "stated";
+  evidence: string;
+  method: ClassificationMethod;
+  relation: CountryRelation;
+  confidence: number;
+}
+
+/**
+ * Which countries define this document's coverage, and how far to trust each.
+ *
+ * Takes the document's own text. Normalization happens here so a caller cannot
+ * forget it — richText() is idempotent, so passing already-normalized text (as
+ * the maintenance pass does, reading the source-text store) is a no-op.
+ */
+export function countriesFor(title: string, abstract: string, body = ""): CountryClassification[] {
+  const t = richText(title ?? "");
+  const a = richText(abstract ?? "");
+  const b = richText(body ?? "");
+
+  // Delegated scope is a refusal, not a downgrade: the document has said the
+  // list lives somewhere else, and inventing one here would be the single most
+  // damaging thing this module could do.
+  if (delegatesCountryScope(b) || delegatesCountryScope(a)) return [];
+
+  const global = statesGlobalScope(a) || statesGlobalScope(b.slice(0, GLOBAL_SCOPE_SCAN));
+
+  // The title is read AS a title, so a country named there is the document's
+  // declared subject rather than a mention that has to prove itself.
+  const titleHits = new Map(
+    findCountriesInText(t, { isTitle: true }).map((h) => [h.entityId, h] as const)
+  );
+
+  const merged = new Map(findCountriesInText(`${a}. ${b}`).map((h) => [h.entityId, h] as const));
+  for (const [id, h] of titleHits) {
+    const existing = merged.get(id);
+    // A title subject outranks every prose relation, so the title wins on the
+    // relation while a prose mention may still supply a fuller quote.
+    merged.set(id, existing && existing.isScope && !h.isScope ? existing : h);
+  }
+
+  const out: CountryClassification[] = [];
+  for (const hit of merged.values()) {
+    if (!hit.isScope && hit.relation !== "post_location") continue;
+
+    // A global rule keeps only a country it designated in so many words.
+    if (global && hit.relation !== "nationals_of" && hit.relation !== "designated_list") continue;
+
+    const inTitle = titleHits.has(hit.entityId);
+    const inAbstract = findCountriesInText(a).some((x) => x.entityId === hit.entityId);
+    const bodyKind = evidenceKindOf({ passage: hit.evidence });
+    const bodyIsOperative = bodyKind === "operative_language" || bodyKind === "explicit_scope";
+
+    const method: ClassificationMethod = !hit.isScope
+      ? "derived_weak"
+      : inTitle
+        ? "explicit_source"
+        : inAbstract
+          ? "derived_high_confidence"
+          : bodyIsOperative
+            ? "derived_high_confidence"
+            : "derived_weak";
+
+    out.push({
+      entityId: hit.entityId,
+      basis: "stated",
+      evidence: hit.evidence,
+      method,
+      relation: hit.relation,
+      confidence: confidenceFor(method),
+    });
+  }
+  return out;
 }

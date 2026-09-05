@@ -211,6 +211,32 @@ function bodyFormMethod(passage: string, before: string, after: string): string 
 }
 
 /**
+ * How much of a document body is scanned for form names.
+ *
+ * Exported so the number is quotable in a benchmark note rather than being an
+ * unexplained literal in two places.
+ */
+export const BODY_SCAN_LIMIT = 60_000;
+
+/**
+ * The leading window of a body, cut on a word boundary.
+ *
+ * The boundary matters more than it looks. Slicing at a fixed offset can land
+ * inside a form identifier and leave "I-94" where the document wrote "I-941" —
+ * a different form that really exists, so nothing downstream could tell the
+ * difference between a classification and an invention. There is already a test
+ * pinning that "I-941" never reads as "I-94"; truncation must not reopen it.
+ */
+function scanWindow(body: string): string {
+  if (body.length <= BODY_SCAN_LIMIT) return body;
+  const cut = body.slice(0, BODY_SCAN_LIMIT);
+  // Whitespace immediately after the cut means the last token is already whole.
+  if (/\s/.test(body[BODY_SCAN_LIMIT])) return cut;
+  const partial = /\s\S*$/.exec(cut);
+  return partial ? cut.slice(0, partial.index) : cut;
+}
+
+/**
  * Which forms does this record name, and on what evidence?
  *
  * The title and the abstract are the document's own statement of subject, so a
@@ -219,6 +245,17 @@ function bodyFormMethod(passage: string, before: string, after: string): string 
  * before it counts as more than a mention.
  */
 export function formsFor(title: string, summary: string, body = ""): FormClassification[] {
+  // Truncated before scanning: a form named 200,000 characters into a rule is a
+  // citation, not a subject, and reading the whole of a 670KB document buys
+  // noise. The operative and collection sections are at the front.
+  //
+  // Applied HERE rather than at each call site deliberately. The offline
+  // re-extraction pass truncated and the ingestion path did not even pass a
+  // body, so the two disagreed about what they read — and the measured recall
+  // belonged to the pass nobody deployed. Owning the rule inside the classifier
+  // is what stops that from recurring.
+  const scanned = scanWindow(body);
+
   const out: FormClassification[] = [];
   const seen = new Set<string>();
 
@@ -238,7 +275,7 @@ export function formsFor(title: string, summary: string, body = ""): FormClassif
   for (const { form, re } of FORM_MATCHERS) {
     const inTitle = re.test(title);
     const inSummary = re.test(summary);
-    const bodyContext = inTitle || inSummary ? null : contextNaming(body, re);
+    const bodyContext = inTitle || inSummary ? null : contextNaming(scanned, re);
     const bodySpan = bodyContext?.span ?? null;
     if (!inTitle && !inSummary && !bodySpan) continue;
 
@@ -261,7 +298,7 @@ export function formsFor(title: string, summary: string, body = ""): FormClassif
   for (const [text, isSurface] of [
     [title, true],
     [summary, true],
-    [body, false],
+    [scanned, false],
   ] as const) {
     if (!text) continue;
     EXPLICIT_FORM.lastIndex = 0;

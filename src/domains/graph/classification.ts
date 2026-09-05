@@ -44,6 +44,8 @@
 // appear in the document. The model only decides how strong the appearance is.
 // =============================================================================
 
+import { evidenceKindOf, excludesScope, isStrongEvidence } from "./evidence-strength";
+
 export const CLASSIFICATION_METHODS = [
   "explicit_source",
   "structured_source",
@@ -121,7 +123,38 @@ export function gradeClassification(input: GradeInput): ClassificationMethod {
   // Body-only. The evidence quote is all we have, so it decides.
   const evidence = input.evidence ?? "";
   if (!evidence) return "derived_weak";
-  return looksHistorical(evidence) ? "derived_weak" : "derived_high_confidence";
+
+  // AN EXCLUSION IS NOT SCOPE. Checked first and separately from everything
+  // else, because a passage that disclaims reach reads as perfectly operative
+  // prose — actor, action, the term itself — and every other test here would
+  // promote it. Measured on the corpus, this alone was three of the strong
+  // false positives on the ingestion path, including "this rule does not apply
+  // to the adjudication of H-1B nonimmigrant visa petitions" being served as an
+  // H-1B change.
+  if (excludesScope(evidence, input.matches)) return "derived_weak";
+
+  // THE SHARED EVIDENCE MODEL DECIDES, not a private list.
+  //
+  // This branch used to read `looksHistorical(evidence) ? weak : strong`,
+  // against HISTORICAL_MARKERS below — an older, weaker duplicate of the list
+  // in evidence-strength.ts. It was missing every comment-response pattern, so
+  // "A commenter said that USCIS has a history of adding fees" and "Some
+  // commenters specifically recommended that DHS give priority" both graded
+  // strong; and its date pattern only matched a bare "(2025)", so the footnote
+  // "(last visited May 27, 2025). \229\ See Office of Performance and Quality"
+  // graded strong too.
+  //
+  // Two implementations of one rule is the defect that produced the forms and
+  // country failures as well. There is now one.
+  //
+  // body_scope_sentence stays strong: it is scope-shaped prose the document
+  // wrote about itself, and demoting it costs real recall for no measured
+  // precision. What is demoted is what the model already calls a citation, a
+  // recycled history, or an aside.
+  const kind = evidenceKindOf({ passage: evidence });
+  return isStrongEvidence(kind) || kind === "body_scope_sentence"
+    ? "derived_high_confidence"
+    : "derived_weak";
 }
 
 /** Confidence that follows from the method. Never invented separately. */

@@ -39,7 +39,8 @@ import {
   isStrong,
   looksHistorical,
 } from "@/domains/graph/classification";
-import { FORMS, formsFor } from "@/domains/graph/forms";
+import { BODY_SCAN_LIMIT, FORMS, formsFor } from "@/domains/graph/forms";
+import { excludesScope } from "@/domains/graph/evidence-strength";
 import { PROCESSES, processesFor } from "@/domains/graph/processes";
 import { findCountriesInText } from "@/domains/graph/countries";
 import { allImpacted, validateImpact } from "@/domains/graph/impact";
@@ -301,6 +302,113 @@ describe("the h-1b benchmark, against hand-labelled records", () => {
 });
 
 // -----------------------------------------------------------------------------
+// FAILURE CLASS: exclusion_read_as_scope
+//
+// The worst thing this classifier can do, and until now nothing looked for it.
+// Every other failure mode yields a match that is merely weak. An exclusion
+// yields a match that is BACKWARDS: the document says it does not reach a
+// programme, and the reader is told it does.
+//
+// All three passages below are verbatim from the corpus and all three were
+// graded derived_high_confidence on the ingestion path.
+// -----------------------------------------------------------------------------
+
+describe("a document disclaiming reach is not evidence of reach", () => {
+  const h1bMatch = (t: string) => h1b(t);
+  const daca = (t: string) => /DACA/i.test(t);
+
+  it("catches the three exclusions that were being served as changes", () => {
+    expect(
+      excludesScope("Further, this rule does not apply to the adjudication of H-1B nonimmigrant visa petitions by USCIS.", h1bMatch)
+    ).toBe(true);
+    expect(
+      excludesScope("The H-1B cap-gap provisions are not changing due to this rulemaking; therefore, the H-1B cycle should not be affected by this rule.", h1bMatch)
+    ).toBe(true);
+    expect(
+      excludesScope("The rule does not apply to DACA recipients, who are not in any lawful immigration status.", daca)
+    ).toBe(true);
+  });
+
+  it("grades an exclusion weak, however operative the sentence reads", () => {
+    // Actor, action and the term itself are all present. Every promoter in the
+    // evidence model fires. Only the exclusion test saves it.
+    const method = gradeClassification({
+      title: "Public Charge Ground of Inadmissibility",
+      summary: "DHS is revising the public charge ground of inadmissibility.",
+      evidence: "Further, this rule does not apply to the adjudication of H-1B nonimmigrant visa petitions by USCIS.",
+      matches: h1bMatch,
+    });
+    expect(method).toBe("derived_weak");
+    expect(isStrong(method)).toBe(false);
+  });
+
+  it("does not demote a real scope sentence that merely contains the word not", () => {
+    // THE RECALL GUARD. An exclusion test that fires on any negation would
+    // quietly empty the archive; this sentence covers H-1B and says so.
+    const method = gradeClassification({
+      title: "Registration Requirement",
+      summary: "A rule about registration.",
+      evidence:
+        "This rule applies to petitioners filing H-1B petitions who have not previously registered, and such petitioners must submit a registration.",
+      matches: h1bMatch,
+    });
+    expect(isStrong(method)).toBe(true);
+  });
+
+  it("does not let an exclusion of one programme demote another in the same passage", () => {
+    // Proximity is the whole reason the window exists. Whole-passage matching
+    // was tried first and demoted both programmes.
+    const passage =
+      "The rule does not apply to DACA recipients. Separately, this rule applies to petitioners filing H-1B petitions and they must submit a registration.";
+    expect(excludesScope(passage, daca)).toBe(true);
+    expect(excludesScope(passage, h1bMatch)).toBe(false);
+  });
+});
+
+// -----------------------------------------------------------------------------
+// FAILURE CLASS: two_lists_one_rule
+//
+// classification.ts carried its own HISTORICAL_MARKERS, an older and weaker
+// copy of the list in evidence-strength.ts. It had no comment-response patterns
+// at all and its date pattern matched only a bare "(2025)". So a rule quoting a
+// commenter, and a footnote carrying a "last visited" date, both graded strong.
+//
+// This is the same defect shape as the forms and country failures: one rule,
+// two implementations, drifting apart in the dark.
+// -----------------------------------------------------------------------------
+
+describe("the grader uses the shared evidence model, not a private copy", () => {
+  const cases: [label: string, passage: string][] = [
+    ["a commenter's words", "A commenter said that USCIS has a history of adding fees without justification, stating that H-1B petitioners must pay an asylum fee."],
+    ["a commenter's recommendation", "Some commenters specifically recommended that DHS give priority to individuals who have completed OPT or who are in H-1B status."],
+    ["an agency reply to a comment", "DHS disagrees with the assertion that H-1B petitioners are treated inconsistently under this part."],
+    ["a footnote with a visited date", "(last visited May 27, 2025). See Office of Performance and Quality, USCIS, DHS, Count of Active H-1B Recipients."],
+  ];
+
+  it.each(cases)("grades %s weak", (_label, passage) => {
+    const method = gradeClassification({
+      title: "Employment Authorization Reform",
+      summary: "A rule about employment authorization.",
+      evidence: passage,
+      matches: h1b,
+    });
+    expect(method).toBe("derived_weak");
+  });
+
+  it("still grades a plain body scope sentence strong", () => {
+    // The recall this fix deliberately does not spend. body_scope_sentence is
+    // scope-shaped prose the document wrote about itself.
+    const method = gradeClassification({
+      title: "Registration Requirement",
+      summary: "A rule about registration.",
+      evidence: "This part applies to aliens who are beneficiaries of H-1B petitions filed by a petitioner.",
+      matches: h1b,
+    });
+    expect(isStrong(method)).toBe(true);
+  });
+});
+
+// -----------------------------------------------------------------------------
 // THE FORMS DIMENSION
 // -----------------------------------------------------------------------------
 
@@ -315,6 +423,23 @@ describe("forms are matched from evidence, not from a wish list", () => {
   it("does not match a longer number that merely starts the same way", () => {
     // I-94 must not fire inside I-941, which is a different form entirely.
     expect(formsFor("Changes to Form I-941", "").map((f) => f.entityId)).not.toContain("form:i-94");
+  });
+
+  it("does not invent that form by cutting the body at the scan limit", () => {
+    // The body is truncated to BODY_SCAN_LIMIT before scanning. A cut at a
+    // fixed offset can land inside an identifier and leave "I-94" where the
+    // document wrote "I-941" — a real form, so nothing downstream could tell an
+    // invention from a classification. The window closes on a word boundary
+    // for exactly this reason; this pins it at every offset that could split
+    // the token.
+    for (let pad = 0; pad <= 6; pad++) {
+      const filler = "filler ".repeat(BODY_SCAN_LIMIT).slice(0, BODY_SCAN_LIMIT - 9 + pad);
+      const body = `${filler}Form I-941 is revised.`;
+      const ids = formsFor("Agency Information Collection Activities", "", body).map(
+        (f) => f.entityId
+      );
+      expect(ids, `cut ${pad} character(s) into the identifier`).not.toContain("form:i-94");
+    }
   });
 
   it("accepts an unknown identifier only when the document calls it a form", () => {
