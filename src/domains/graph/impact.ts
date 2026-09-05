@@ -288,6 +288,39 @@ export function validateImpact(impact: EventImpact, eventId: string): string[] {
     }
   }
 
+  // A CLASSIFIED DIMENSION MUST SAY HOW IT WAS CLASSIFIED.
+  //
+  // The four dimensions below are the ones measured against ground truth and
+  // filtered by isStrong() before anything is shown. isStrong(undefined) is
+  // false, so an entry that reaches storage without a method is not "ungraded"
+  // — it is invisible, everywhere, silently.
+  //
+  // That is not hypothetical. extractImpact() built country entries with no
+  // method for as long as the dimension existed. Nothing failed, because an
+  // offline pass happened to rewrite the same records with a real grade and no
+  // document in the refetch window designated a country. The first newly
+  // ingested TPS designation would simply not have appeared.
+  //
+  // `method` stays optional on the type so records written before grading
+  // existed still parse. It is required HERE, where a producer and a consumer
+  // have to agree, and where disagreeing fails the build instead of the reader.
+  const CLASSIFIED: [name: string, entries: ImpactedEntity[] | undefined][] = [
+    ["country", impact.countries],
+    ["visa category", impact.visaCategories],
+    ["form", impact.forms],
+    ["process", impact.processes],
+  ];
+  for (const [dimension, entries] of CLASSIFIED) {
+    for (const i of entries ?? []) {
+      if (i.basis === "stated" && !i.method) {
+        errors.push(
+          `${eventId}: ${dimension} ${i.entityId} is stated but carries no method, so isStrong() ` +
+            `would reject it and it would never be shown`
+        );
+      }
+    }
+  }
+
   // An exhaustive list must actually contain something, and everything in it
   // must be stated — we cannot claim completeness over our own inferences.
   if (impact.completeness === "exhaustive") {

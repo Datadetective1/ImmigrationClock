@@ -15,7 +15,7 @@
 
 import type { EntityId } from "./entities";
 import { entityId, VISA_CATEGORIES } from "./entities";
-import { findCountriesInText } from "./countries";
+import { countriesFor } from "./countries";
 import { richText } from "./text";
 import { confidenceFor, gradeClassification } from "./classification";
 import { formsFor } from "./forms";
@@ -247,39 +247,14 @@ function isScopeSentence(sentence: string): boolean {
 }
 
 /**
- * Country extraction uses a MUCH tighter filter than visa extraction, and this
- * is the most important restriction in the module.
+ * Country classification lives in countries.ts, not here.
  *
- * A rule's full text runs to tens of thousands of words, and its regulatory
- * impact analysis, background section, and footnotes name other countries
- * constantly. Live testing proved the danger: the Visa Bond Program rule
- * discusses a DHS overstay report that mentions Canada and Mexico, and a
- * general scope filter happily concluded the rule covered Canadian and Mexican
- * travellers. It does not.
- *
- * Telling someone a rule affects them when it does not — or the reverse — is
- * the single worst thing this platform can do. So a country is only extracted
- * from a sentence that explicitly DESIGNATES countries. Background prose that
- * merely names a country never qualifies, and we accept missing real lists as
- * the price.
+ * This module used to carry its own designation-phrase filter and build country
+ * entries inline. It produced entries with no `method`, which the default public
+ * view silently discards — see the Countries section of extractImpact(). The
+ * rule that replaced it is countriesFor(), which grades a country by where its
+ * evidence sits and records the relation it holds to the document.
  */
-const COUNTRY_DESIGNATION_PHRASES = [
-  "nationals of",
-  "citizens of",
-  "country of nationality",
-  "countries whose nationals",
-  "designated countries",
-  "designated country",
-  "listed countries",
-  "the following countries",
-  "covered countries",
-  "affected countries",
-  "eligible countries",
-  "ineligible countries",
-  "country of chargeability",
-  "applies to nationals",
-  "shall apply to nationals",
-];
 
 /**
  * Phrases showing the document delegates its scope to a list maintained
@@ -326,11 +301,6 @@ function findDelegatedScope(allSentences: string[]): { evidence: string; note: s
   };
 }
 
-function isCountryDesignationSentence(sentence: string): boolean {
-  const l = sentence.toLowerCase();
-  return COUNTRY_DESIGNATION_PHRASES.some((p) => l.includes(p));
-}
-
 /**
  * Extract who is affected, using only what the document says.
  *
@@ -353,18 +323,26 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
   const scopeSentences = allSentences.filter(isScopeSentence);
 
   // ---- Countries -----------------------------------------------------------
-  // Only from sentences that explicitly DESIGNATE countries. See the comment on
-  // COUNTRY_DESIGNATION_PHRASES for why this is far stricter than visa matching.
-  const countries: ImpactedEntity[] = [];
-  const designationText = allSentences.filter(isCountryDesignationSentence).join(" ");
-  for (const hit of findCountriesInText(designationText)) {
-    countries.push({
-      entityId: hit.entityId,
-      basis: "stated",
-      evidence: hit.evidence,
-      confidence: 1,
-    });
-  }
+  //
+  // Delegated to countriesFor(), which is the ONLY country classifier. This
+  // used to be its own implementation: designation sentences in, entries out,
+  // every one of them carrying confidence 1 and NO `method`.
+  //
+  // That last omission was the whole defect. isStrong() rejects an undefined
+  // method, and the default public view shows only strong classifications, so
+  // every country this path produced was invisible the moment it was stored.
+  // Nothing failed and nothing warned — the offline pass happened to rewrite
+  // the same records with a real grade, and no document in the refetch window
+  // designated a country, so the two never visibly disagreed.
+  //
+  // A producer and a consumer that disagree about the schema is not a bug in
+  // either one; it is a missing contract. The contract now lives in
+  // countries.ts and both callers use it.
+  const countries: ImpactedEntity[] = countriesFor(
+    src.title,
+    src.abstract ?? "",
+    src.body ?? ""
+  );
 
   // ---- Visa categories -----------------------------------------------------
   //

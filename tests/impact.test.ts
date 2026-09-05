@@ -8,12 +8,31 @@ import {
   type EventImpact,
 } from "@/domains/graph/impact";
 import { extractImpact } from "@/domains/graph/extract-impact";
-import { BODY_SCAN_LIMIT } from "@/domains/graph/forms";
+import { BODY_SCAN_LIMIT, formsFor } from "@/domains/graph/forms";
+import { richText } from "@/domains/graph/text";
 import { isStrong } from "@/domains/graph/classification";
 import type { EntityId } from "@/domains/graph/entities";
-import { findCountriesInText, COUNTRIES, AMBIGUOUS_COUNTRY_NAMES } from "@/domains/graph/countries";
+import { findCountriesInText, countriesFor, COUNTRIES, AMBIGUOUS_COUNTRY_NAMES } from "@/domains/graph/countries";
+import { confidenceFor } from "@/domains/graph/classification";
+import { toPublicChange } from "@/lib/intelligence/change";
+import { sourceTextFor } from "@/lib/source-text";
 import { EVENTS, EVENT_STORE_META, significantEvents, eventsAffecting, eventCoverageNote } from "@/lib/event-store";
 import { validateEvent } from "@/domains/graph/events";
+
+const BARE_EVENT = {
+  id: "e:0",
+  title: "",
+  summary: "",
+  date: "2026-09-01",
+  sourceKey: "federal_register",
+  source: { name: "Federal Register", url: "https://www.federalregister.gov/" },
+  severity: "medium",
+  classification: "rule",
+  status: "in_effect",
+  entities: [],
+  reviewStatus: "auto",
+  limitations: [],
+};
 
 function impact(over: Partial<EventImpact> = {}): EventImpact {
   return { ...EMPTY_IMPACT, countries: [], visaCategories: [], agencies: [], employers: [], universities: [], states: [], ...over };
@@ -189,9 +208,36 @@ describe("impact extraction", () => {
     });
     const names = im.countries.map((c) => c.entityId);
     expect(names).toContain("country:nigeria");
-    expect(names).toContain("country:zambia");
     // Mentioned in background, not designated.
     expect(names).not.toContain("country:canada");
+  });
+
+  it("KNOWN LIMITATION: loses every country after the first in a coordinated list", () => {
+    // Zambia was asserted here until ingestion started using the same country
+    // classifier the archive is actually built with, and the assertion stopped
+    // holding. It is worth being exact about what changed, because it looks
+    // like a regression and is not one.
+    //
+    // The relation model reads each occurrence from its own left context. In
+    // "nationals of Nigeria and Zambia", Nigeria sits after "nationals of" and
+    // scores nationals_of; Zambia sits after "Nigeria and" and scores
+    // contextual, which is not scope-bearing, so it is dropped. That is the
+    // behaviour of findCountriesInText — the same function reextract-countries
+    // uses to produce every country classification in the archive — so it has
+    // always been true of the data the product serves.
+    //
+    // The old ingestion path was more permissive and did keep Zambia. It also
+    // emitted entries with no method, which isStrong() rejects, so nothing it
+    // found was ever shown to anyone. Ingestion is now honest about matching
+    // the shipped model, and this is the shipped model's gap.
+    //
+    // It is a real recall defect and a consequential one: "nationals of X, Y
+    // and Z" is the standard form of a designation notice. It is reported, not
+    // fixed here — fixing it changes a measured dimension and belongs with the
+    // country benchmark, which currently stands at 61% recall.
+    const hits = findCountriesInText("This rule applies to nationals of Nigeria and Zambia.");
+    expect(hits.find((h) => h.entityId === "country:nigeria")?.isScope).toBe(true);
+    expect(hits.find((h) => h.entityId === "country:zambia")?.isScope).toBe(false);
   });
 
   it("says where the list lives when a document delegates its scope", () => {
@@ -347,6 +393,185 @@ describe("forms are classified from the document body at ingestion", () => {
     expect(strongFormIds(within)).toContain("form:i-765");
   });
 
+});
+
+// =============================================================================
+// THE MAINTENANCE PASS READS THE SAME TEXT AS INGESTION
+//
+// scripts/reclassify-events.ts re-runs the classifier over the committed
+// archive and OVERWRITES impact.forms wholesale. That is intentional — re-
+// running the classifier is the point of the pass — and it is exactly why the
+// text it reads has to match what ingestion reads.
+//
+// It did not. formsFor() grew a body parameter, the script kept passing two
+// arguments, and a maintenance run would have replaced body-derived forms with
+// a title-and-abstract-only answer. Measured on this archive: 17 classifications
+// across 55 records, every one of them weak — which is why a strong-only guard
+// would have watched it happen in silence.
+//
+// The script cannot be imported (it is a main() with side effects), so what is
+// pinned here is the contract it depends on: the retained body is the canonical
+// text, and reclassifying from it is a no-op on the archive.
+// =============================================================================
+describe("reclassification cannot silently degrade the archive", () => {
+  const stored = (EVENTS as unknown as { id: string; title: string; summary: string; impact?: { forms?: { entityId: string; method?: string }[] } }[]);
+
+  it("stores the same text ingestion classifies, byte for byte", () => {
+    // The whole fix rests on this. The store holds richText(body); ingestion
+    // passes richText(body). They are the same string only because richText is
+    // idempotent, so that is asserted rather than assumed.
+    let checked = 0;
+    for (const e of stored) {
+      const text = sourceTextFor(e.id);
+      if (!text) continue;
+      checked++;
+      expect(richText(text), e.id).toBe(text);
+    }
+    expect(checked, "the store holds documents").toBeGreaterThan(100);
+  });
+
+  it("reproduces every stored form classification from title, summary and body", () => {
+    // If this fails, a maintenance run would rewrite the archive into something
+    // other than what it holds — which is the defect, in the form it shipped.
+    const shape = (list: readonly { entityId: string; method?: string }[]) =>
+      [...list].map((f) => `${f.entityId}|${f.method}`).sort().join(",");
+    let compared = 0;
+    for (const e of stored) {
+      const before = e.impact?.forms ?? [];
+      if (before.length === 0) continue;
+      compared++;
+      const after = formsFor(richText(e.title ?? ""), richText(e.summary ?? ""), sourceTextFor(e.id) ?? "");
+      expect(shape(after), e.id).toBe(shape(before));
+    }
+    expect(compared, "some records carry forms").toBeGreaterThan(100);
+  });
+
+  it("loses body-derived classifications when the body is withheld", () => {
+    // The defect itself, measured. This test is the reason the guard in
+    // reclassify-events.ts counts weak losses too.
+    let lost = 0;
+    for (const e of stored) {
+      const withoutBody = formsFor(richText(e.title ?? ""), richText(e.summary ?? ""));
+      if (withoutBody.length === 0) continue; // no overwrite would happen
+      const after = new Set(withoutBody.map((f) => f.entityId));
+      for (const b of e.impact?.forms ?? []) if (!after.has(b.entityId)) lost++;
+    }
+    expect(lost, "withholding the body still costs classifications").toBeGreaterThan(0);
+  });
+
+  it("keeps a body-only form, a title form, and invents neither", () => {
+    const body = "Revision of the currently approved collection: Form I-765, Application for Employment Authorization.";
+    const bodyOnly = formsFor("Agency Information Collection Activities", "", body);
+    expect(bodyOnly.map((f) => f.entityId)).toContain("form:i-765");
+
+    const titled = formsFor("Fee Adjustment for Form I-246", "", body);
+    const ids = titled.map((f) => f.entityId);
+    expect(ids).toContain("form:i-246");
+    expect(ids).toContain("form:i-765");
+
+    // No malformed or partial identifier from either route.
+    for (const f of [...bodyOnly, ...titled]) {
+      expect(f.entityId, f.entityId).toMatch(/^form:[a-z]+-\d{1,4}[a-z]?$/);
+      expect(f.evidence, f.entityId).toBeTruthy();
+      expect(f.method, f.entityId).toBeTruthy();
+    }
+  });
+});
+
+// =============================================================================
+// COUNTRY CLASSIFICATIONS CARRY THEIR PROVENANCE
+//
+// The defect: extractImpact() built country entries with no `method`. Nothing
+// failed. isStrong(undefined) is false, so the default public view — which is
+// what every consumer sees unless it asks for weak matches — silently dropped
+// every country ingestion produced. It stayed hidden because an offline pass
+// rewrote the same records with a real grade, and because no document in the
+// 90-day refetch window designated a country.
+//
+// These tests pin the contract from both ends: a legitimately designated
+// country must survive all the way into the default representation, and a
+// country the document merely mentions must still be refused.
+// =============================================================================
+describe("a country classified at ingestion reaches the default API view", () => {
+  const TPS = {
+    title: "Extension of the Designation of Yemen for Temporary Protected Status",
+    abstract: "The Secretary is extending the designation of Yemen for Temporary Protected Status.",
+    agencyIds: ["agency:uscis"] as EntityId[],
+  };
+
+  it("carries a method, a relation and a matching confidence", () => {
+    const [country] = extractImpact(TPS).countries ?? [];
+    expect(country, "Yemen is classified").toBeTruthy();
+    expect(country.entityId).toBe("country:yemen");
+    expect(country.method, "a classification says how it was made").toBeTruthy();
+    expect(isStrong(country.method)).toBe(true);
+    expect(country.relation).toBeTruthy();
+    expect(country.evidence).toMatch(/Yemen/);
+    // Confidence is pinned to the method, not chosen freely.
+    expect(country.confidence).toBe(confidenceFor(country.method!));
+  });
+
+  it("survives into the default public view, which is what actually broke", () => {
+    // The end-to-end assertion. Everything above could pass while the entry
+    // still vanished at the boundary a consumer actually reads.
+    const change = toPublicChange(
+      { ...BARE_EVENT, id: "e:tps", title: TPS.title, summary: TPS.abstract, impact: extractImpact(TPS) } as never,
+      "2026-09-05"
+    );
+    expect(change.countries.map((c) => c.id)).toContain("yemen");
+  });
+
+  it("passes validation, which now refuses a stated classification with no method", () => {
+    expect(validateImpact(extractImpact(TPS), "e:tps")).toEqual([]);
+
+    const forged = extractImpact(TPS);
+    delete (forged.countries![0] as { method?: string }).method;
+    forged.countries![0].confidence = 1;
+    expect(validateImpact(forged, "e:tps").join(" ")).toMatch(/carries no method/);
+  });
+
+  it("still refuses a country the document only mentions in passing", () => {
+    // THE NEGATIVE CASE. Reading the body must not turn every named country
+    // into a classification — that is the failure the relation model exists to
+    // prevent, and it is worth more than the recall it costs.
+    const im = extractImpact({
+      title: "Visas: Visa Bond Program",
+      abstract: "A rule concerning visa bonds.",
+      body:
+        "In the DHS FY 2024 Entry/Exit Overstay Report, DHS data indicated there were over 480,000 " +
+        "suspected in-country overstays, including aliens who arrived from Canada and Mexico by land.",
+      agencyIds: ["agency:dos"] as EntityId[],
+    });
+    expect(im.countries).toEqual([]);
+  });
+
+  it("refuses every country when the document delegates its list elsewhere", () => {
+    const im = extractImpact({
+      title: "Visa Bond Program",
+      abstract: "A rule about bonds.",
+      body:
+        "Visa bonds may be required from certain business/pleasure visa applicants who are nationals of " +
+        "countries with high overstay rates, deficient information sharing, and insufficient identity verification.",
+      agencyIds: ["agency:dos"] as EntityId[],
+    });
+    expect(im.countries).toEqual([]);
+  });
+
+  it("produces exactly what the maintenance pass produces, for every record", () => {
+    // ONE CONTRACT, NOT TWO. This is the assertion that would have caught the
+    // original defect: ingestion and the offline pass must agree, on real data,
+    // not merely look similar.
+    const shape = (list: readonly { entityId: string; method?: string; relation?: string }[]) =>
+      [...list].map((c) => `${c.entityId}|${c.method}|${c.relation}`).sort().join(",");
+    let compared = 0;
+    for (const e of (EVENTS as unknown as { id: string; title: string; summary: string; impact?: { countries?: [] } }[])) {
+      const stored = e.impact?.countries ?? [];
+      if (stored.length === 0) continue;
+      compared++;
+      expect(shape(countriesFor(e.title, e.summary, sourceTextFor(e.id) ?? "")), e.id).toBe(shape(stored));
+    }
+    expect(compared, "some records carry countries").toBeGreaterThan(20);
+  });
 });
 
 describe("reading the body for forms changes nothing else", () => {
