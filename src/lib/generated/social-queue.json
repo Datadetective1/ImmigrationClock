@@ -1,61 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T00:51:42.960Z",
+  "updatedAt": "2026-09-05T16:00:00.695Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-17146::effective_date",
-      "subjectId": "event:federal_register:2026-17146",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "ready",
-      "headline": "Inflation Adjustment for EOIR OBBBA Fees; Fiscal Year 2027",
-      "suggestedHeadline": "EOIR fee inflation adjustment starts Oct. 1, 2026",
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/21/2026-17146/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027",
-      "eventId": "federal_register:2026-17146",
-      "category": "actionable",
-      "topicKey": "source:federal_register",
-      "priority": 55482.92222222222,
-      "readerValue": 62,
-      "factsHash": "b343bda9b23d2902",
-      "whyItMatters": [
-        "The rule is final but does not apply until October 1, 2026, 27 days from today. Until then the rules in force today stay in force.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "ImmigrationClock is watching the October 1, 2026 effective date."
-      ],
-      "suggestedPost": {
-        "x": "Oct. 1, 2026: the Justice Department’s final inflation adjustment for EOIR OBBBA fees takes effect (27 days from today).\n\nUntil then, current EOIR filing fees stay in force.\n\nFederal Register record, final for FY 2027.\nhttps://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm?utm_source=x&utm_medium=social&utm_campaign=effective_date&utm_content=change%3Aq05bqm",
-        "linkedin": "",
-        "structure": "date_lede"
-      },
-      "shareUrl": "https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm",
-      "ogImage": "/og/change/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm.png",
-      "freshness": {
-        "publishedAt": "2026-08-21",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-01"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm"
-        },
-        {
-          "at": "2026-09-04T16:49:53.803Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-16290::effective_date",
       "subjectId": "event:federal_register:2026-16290",
@@ -69,11 +15,11 @@
       "eventId": "federal_register:2026-16290",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 68072.86666666667,
+      "priority": 68082.86111111111,
       "readerValue": 94,
-      "factsHash": "2c2bc4e90b367ccb",
+      "factsHash": "5b9a96168b4f2d33",
       "whyItMatters": [
-        "The rule is final but does not apply until September 10, 2026, 6 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 10, 2026, 5 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 10, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -113,11 +59,11 @@
       "eventId": "federal_register:2026-16231",
       "category": "deadline",
       "topicKey": "visa:h-1b",
-      "priority": 67522.86111111111,
+      "priority": 67532.85555555555,
       "readerValue": 100,
-      "factsHash": "df2a556952f44d35",
+      "factsHash": "978ffb446333e571",
       "whyItMatters": [
-        "The rule is final but does not apply until September 9, 2026, 5 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 9, 2026, 4 days from today. Until then the rules in force today stay in force.",
         "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the September 9, 2026 effective date."
       ],
@@ -158,11 +104,11 @@
       "eventId": "federal_register:2026-17726",
       "category": "deadline",
       "topicKey": "topic:enforcement",
-      "priority": 67132.97777777778,
+      "priority": 67132.97222222222,
       "readerValue": 98,
-      "factsHash": "2c417270d9e5a19f",
+      "factsHash": "d214333b3fdf0b5e",
       "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 26 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 30, 2026, 25 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the September 30, 2026 effective date."
       ],
@@ -203,11 +149,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66592.74444444444,
+      "priority": 66602.73888888888,
       "readerValue": 82,
-      "factsHash": "c6bd5bd3b49fbe5e",
+      "factsHash": "f19235f54a5c1ad0",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 14 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 13 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -248,11 +194,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65022.72777777778,
+      "priority": 65032.72222222222,
       "readerValue": 54,
-      "factsHash": "4ebdbc0100866b43",
+      "factsHash": "3755c90729fae782",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 11 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 10 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -292,11 +238,11 @@
       "eventId": "federal_register:2026-17726",
       "category": "actionable",
       "topicKey": "topic:enforcement",
-      "priority": 57172.97777777778,
+      "priority": 57182.97222222222,
       "readerValue": 98,
-      "factsHash": "d8e181eca200c7c1",
+      "factsHash": "9671e58ddf95fd8e",
       "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 26 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 30, 2026, 25 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the September 30, 2026 effective date."
       ],
@@ -337,7 +283,7 @@
       "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
       "category": "actionable",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.97777777778,
+      "priority": 54928.97222222222,
       "readerValue": 54,
       "factsHash": "ad31274d32814fb5",
       "whyItMatters": [
@@ -382,7 +328,7 @@
       "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
       "category": "actionable",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.97777777778,
+      "priority": 54928.97222222222,
       "readerValue": 54,
       "factsHash": "549a25fc673d165a",
       "whyItMatters": [
@@ -411,170 +357,6 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78"
-        }
-      ]
-    },
-    {
-      "id": "signal:proposed-rules-open::data_signal",
-      "subjectId": "signal:proposed-rules-open",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Proposed immigration rules that are not in force",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:policy-changes",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "badc4c6cbc88ae88",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
-      "ogImage": "/og/signal/proposed-rules-open.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
-        }
-      ]
-    },
-    {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The next recurring immigration date on the calendar",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "76114b942db77c03",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-sponsor-concentration::data_signal",
-      "subjectId": "signal:h1b-sponsor-concentration",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "H-1B sponsorship is far more concentrated than the employer count suggests",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30009,
-      "readerValue": 65,
-      "factsHash": "edbaa18924410ee2",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsor-concentration",
-      "ogImage": "/og/signal/h1b-sponsor-concentration.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsor-concentration"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30008,
-      "readerValue": 65,
-      "factsHash": "0ff89fa3afb66520",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
         }
       ]
     },
@@ -784,25 +566,25 @@
       ]
     },
     {
-      "id": "signal:changes-last-30-days::data_signal",
-      "subjectId": "signal:changes-last-30-days",
+      "id": "signal:h1b-sponsor-concentration::data_signal",
+      "subjectId": "signal:h1b-sponsor-concentration",
       "contentType": "data_signal",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "How much U.S. immigration policy changed in the last 30 days",
+      "headline": "H-1B sponsorship is far more concentrated than the employer count suggests",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "eventId": null,
       "category": "data_insight",
-      "topicKey": "topic:policy-changes",
+      "topicKey": "visa:h-1b",
       "priority": 30002,
       "readerValue": 65,
-      "factsHash": "4e1e0843247b105f",
+      "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
-      "ogImage": "/og/signal/changes-last-30-days.png",
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsor-concentration",
+      "ogImage": "/og/signal/h1b-sponsor-concentration.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -813,37 +595,37 @@
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsor-concentration"
         }
       ]
     },
     {
-      "id": "signal:effective-dates-ahead::data_signal",
-      "subjectId": "signal:effective-dates-ahead",
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
       "contentType": "data_signal",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Immigration rules that take effect in the next 60 days",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "eventId": null,
       "category": "data_insight",
-      "topicKey": "topic:deadlines",
+      "topicKey": "visa:h-1b",
       "priority": 30001,
       "readerValue": 65,
-      "factsHash": "218c3d705b56631c",
+      "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
-      "ogImage": "/og/signal/effective-dates-ahead.png",
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -854,14 +636,14 @@
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
         }
       ]
     },
@@ -878,7 +660,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24832.98888888889,
+      "priority": 24132.983333333334,
       "readerValue": 42,
       "factsHash": "79664ea9a60c7336",
       "whyItMatters": [
@@ -923,7 +705,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24132.98888888889,
+      "priority": 24132.983333333334,
       "readerValue": 42,
       "factsHash": "f482835a90e95547",
       "whyItMatters": [
@@ -956,93 +738,6 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355::why_it_matters",
-      "subjectId": "event:uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Recent Court Order on Hold Policies",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/recent-court-order-on-hold-policies",
-      "eventId": "uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355",
-      "category": "explainer",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 24028.96111111111,
-      "readerValue": 40,
-      "factsHash": "c4e39f3c5031a465",
-      "whyItMatters": [
-        "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/recent-court-order-on-hold-policies-6lvhvl",
-      "ogImage": "/og/change/recent-court-order-on-hold-policies-6lvhvl.png",
-      "freshness": {
-        "publishedAt": "2026-08-28",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 40/100 clears the floor; share page https://immigrationclock.com/what-changed/recent-court-order-on-hold-policies-6lvhvl"
-        }
-      ]
-    },
-    {
-      "id": "explainer:court-order-is-not-a-rule-change::explainer",
-      "subjectId": "explainer:court-order-is-not-a-rule-change",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What a court injunction does, and does not do",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Courts — Glossary of legal terms; Supreme Court of the United States — Trump v. CASA, Inc. (June 27, 2025)",
-      "sourceUrl": "https://www.uscourts.gov/glossary",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:courts",
-      "priority": 22014,
-      "readerValue": 60,
-      "factsHash": "87cbc7c8befa9d8e",
-      "whyItMatters": [
-        "\"A judge blocked the rule\" is true and incomplete. Whether the block is preliminary, who it covers and whether it has been stayed are the facts that decide what is actually in force today."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/court-order-is-not-a-rule-change",
-      "ogImage": "/og/explainer/court-order-is-not-a-rule-change.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/court-order-is-not-a-rule-change"
-        }
-      ]
-    },
-    {
       "id": "explainer:naturalization-ceremony::explainer",
       "subjectId": "explainer:naturalization-ceremony",
       "contentType": "explainer",
@@ -1055,7 +750,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -1098,7 +793,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22008,
+      "priority": 22009,
       "readerValue": 60,
       "factsHash": "9fde5e6346395c6b",
       "whyItMatters": [
@@ -1141,7 +836,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -1184,7 +879,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22006,
+      "priority": 22007,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -1227,7 +922,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -1270,7 +965,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -1313,7 +1008,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -1344,6 +1039,49 @@
       ]
     },
     {
+      "id": "explainer:court-order-is-not-a-rule-change::explainer",
+      "subjectId": "explainer:court-order-is-not-a-rule-change",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "What a court injunction does, and does not do",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Courts — Glossary of legal terms; Supreme Court of the United States — Trump v. CASA, Inc. (June 27, 2025)",
+      "sourceUrl": "https://www.uscourts.gov/glossary",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:courts",
+      "priority": 22001,
+      "readerValue": 60,
+      "factsHash": "87cbc7c8befa9d8e",
+      "whyItMatters": [
+        "\"A judge blocked the rule\" is true and incomplete. Whether the block is preliminary, who it covers and whether it has been stayed are the facts that decide what is actually in force today."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/court-order-is-not-a-rule-change",
+      "ogImage": "/og/explainer/court-order-is-not-a-rule-change.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/court-order-is-not-a-rule-change"
+        }
+      ]
+    },
+    {
       "id": "explainer:border-encounters-are-events::explainer",
       "subjectId": "explainer:border-encounters-are-events",
       "contentType": "explainer",
@@ -1356,7 +1094,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -1399,7 +1137,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -1442,7 +1180,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -1485,7 +1223,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1528,7 +1266,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -1571,7 +1309,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -1602,47 +1340,6 @@
       ]
     },
     {
-      "id": "discovery:warn-api::data_discovery",
-      "subjectId": "discovery:warn-api",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "A free WARN layoff API",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "20ec27f0f0e507b6",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/developers",
-      "ogImage": "/og/page/developers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/developers"
-        }
-      ]
-    },
-    {
       "id": "discovery:layoffs-vs-h1b::data_discovery",
       "subjectId": "discovery:layoffs-vs-h1b",
       "contentType": "data_discovery",
@@ -1655,7 +1352,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1696,7 +1393,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1737,7 +1434,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1778,7 +1475,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1819,7 +1516,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1860,7 +1557,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1901,7 +1598,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "80fe61f557fffdbc",
       "whyItMatters": [],
@@ -1926,6 +1623,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+        }
+      ]
+    },
+    {
+      "id": "discovery:warn-api::data_discovery",
+      "subjectId": "discovery:warn-api",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "A free WARN layoff API",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "20ec27f0f0e507b6",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/developers",
+      "ogImage": "/og/page/developers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/developers"
         }
       ]
     },
@@ -2044,6 +1782,308 @@
           "at": "2026-09-03T20:57:05.655Z",
           "status": "published",
           "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-17146::effective_date",
+      "subjectId": "event:federal_register:2026-17146",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Inflation Adjustment for EOIR OBBBA Fees; Fiscal Year 2027",
+      "suggestedHeadline": "EOIR fees adjust for inflation on Oct. 1, 2026 (final rule)",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/21/2026-17146/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027",
+      "eventId": "federal_register:2026-17146",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 55492.916666666664,
+      "readerValue": 62,
+      "factsHash": "cf1bdf99bdc3a942",
+      "whyItMatters": [
+        "The rule is final but does not apply until October 1, 2026, 26 days from today. Until then the rules in force today stay in force.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 1, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Oct. 1, 2026: EOIR filing fees adjust for inflation under the One Big Beautiful Bill Act for FY 2027. Final rule in the Federal Register, 26 days away.\n\nUntil then, today’s EOIR fees stay in force. On Oct. 1, the rule’s stated amounts apply.\n\nhttps://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm?utm_source=x&utm_medium=social&utm_campaign=effective_date&utm_content=change%3Aq05bqm",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm",
+      "ogImage": "/og/change/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm.png",
+      "freshness": {
+        "publishedAt": "2026-08-21",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-01"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-05T15:59:08.628Z",
+      "externalUrl": "https://x.com/i/web/status/2096267109982515488",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/inflation-adjustment-for-eoir-obbba-fees-fiscal-year-2027-q05bqm"
+        },
+        {
+          "at": "2026-09-04T16:49:53.803Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "verified",
+          "reason": "fact set changed (b343bda9b23d2902 → cf1bdf99bdc3a942); stored copy discarded"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "signal:proposed-rules-open::data_signal",
+      "subjectId": "signal:proposed-rules-open",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "Proposed immigration rules that are not in force",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30011,
+      "readerValue": 65,
+      "factsHash": "badc4c6cbc88ae88",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
+      "ogImage": "/og/signal/proposed-rules-open.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        }
+      ]
+    },
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "76114b942db77c03",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        }
+      ]
+    },
+    {
+      "id": "signal:changes-last-30-days::data_signal",
+      "subjectId": "signal:changes-last-30-days",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "How much U.S. immigration policy changed in the last 30 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30002,
+      "readerValue": 65,
+      "factsHash": "4e1e0843247b105f",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
+      "ogImage": "/og/signal/changes-last-30-days.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        }
+      ]
+    },
+    {
+      "id": "signal:effective-dates-ahead::data_signal",
+      "subjectId": "signal:effective-dates-ahead",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "Immigration rules that take effect in the next 60 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:deadlines",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "218c3d705b56631c",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
+      "ogImage": "/og/signal/effective-dates-ahead.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355::why_it_matters",
+      "subjectId": "event:uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Recent Court Order on Hold Policies",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/recent-court-order-on-hold-policies",
+      "eventId": "uscis_newsroom:0cf4fd4e-c295-4784-867e-d84bf0676355",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24028.96111111111,
+      "readerValue": 40,
+      "factsHash": "c4e39f3c5031a465",
+      "whyItMatters": [
+        "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/recent-court-order-on-hold-policies-6lvhvl",
+      "ogImage": "/og/change/recent-court-order-on-hold-policies-6lvhvl.png",
+      "freshness": {
+        "publishedAt": "2026-08-28",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 40/100 clears the floor; share page https://immigrationclock.com/what-changed/recent-court-order-on-hold-policies-6lvhvl"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
         }
       ]
     }
