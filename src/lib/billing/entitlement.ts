@@ -170,6 +170,51 @@ export function cookieFor(token: string, exp: number, nowSeconds: number, secure
 }
 
 /** The cookie that clears the claim. */
+/**
+ * A readable companion to the entitlement cookie: "a session exists here".
+ *
+ * WHY A SECOND COOKIE RATHER THAN READING THE FIRST. The entitlement cookie is
+ * httpOnly and must stay that way — script must never be able to read a signed
+ * claim. But that leaves the browser unable to tell whether asking the server
+ * about a subscription is worth doing, so it asked on every page load, and an
+ * anonymous reader got a 503 logged to their console for a feature they do not
+ * have. Console noise on the free product to service a paid one is the wrong
+ * way round.
+ *
+ * THIS COOKIE GRANTS NOTHING. It carries no identity, no plan and no
+ * signature — one character, meaning "somebody signed in on this browser at
+ * some point". Forging it buys a request that answers 401. Every gate still
+ * reads the signed cookie and re-checks the store.
+ */
+export const SESSION_HINT_NAME = "ic_session";
+
+/**
+ * Same shape, but readable. A SEPARATE TYPE ON PURPOSE: CookieOptions pins
+ * httpOnly to the literal `true` so the entitlement cookie cannot be made
+ * script-readable by accident, and that guarantee is worth more than the
+ * convenience of one shared interface.
+ */
+export interface ReadableCookieOptions extends Omit<CookieOptions, "httpOnly"> {
+  httpOnly: false;
+}
+
+export function sessionHintCookie(exp: number, nowSeconds: number, secure = true): ReadableCookieOptions {
+  return {
+    name: SESSION_HINT_NAME,
+    value: "1",
+    // Deliberately readable: this is the one thing script is allowed to know.
+    httpOnly: false,
+    secure,
+    sameSite: "lax",
+    path: "/",
+    maxAge: Math.max(0, exp - nowSeconds),
+  };
+}
+
+export function clearedSessionHintCookie(secure = true): ReadableCookieOptions {
+  return { name: SESSION_HINT_NAME, value: "", httpOnly: false, secure, sameSite: "lax", path: "/", maxAge: 0 };
+}
+
 export function clearedCookie(secure = true): CookieOptions {
   return { name: COOKIE_NAME, value: "", httpOnly: true, secure, sameSite: "lax", path: "/", maxAge: 0 };
 }

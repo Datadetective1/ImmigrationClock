@@ -157,20 +157,20 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     label: "Your watchlist, everywhere",
     blurb: "The same follows on every device, and kept if you clear your browser.",
     plan: "pro",
-    existsToday: false,
-    // WAS "available", BESIDE existsToday: false, IN THIS SAME OBJECT.
+    // THE FIRST CAPABILITY PRO CAN HONESTLY SELL.
     //
-    // status drives a plain green tick on /pricing and the "What your
-    // subscription does today" list on /account. So the one capability a
-    // subscriber was shown as working is the one with no client: the server
-    // half (/api/billing/watchlist) is complete and authorized, and nothing in
-    // the browser has ever called it. src/lib/follows.ts says plainly that
-    // follows do not sync, on the same site, in the same sentence a subscriber
-    // reads after paying.
+    // It was "available" once before while only the server half existed and no
+    // browser code called it — the tick was on the pricing page and the feature
+    // was not there. Both halves now exist: /api/billing/watchlist reads and
+    // writes the account's list, useFollows merges the local list into it on
+    // first sign-in and mirrors it afterwards, and /following says "Synced"
+    // only when the server has confirmed the subscription.
     //
-    // An invariant test now refuses status "available" with existsToday false,
-    // so the two fields cannot disagree again.
-    status: "building",
+    // These two fields are asserted to agree, and availableNow("pro") is
+    // asserted to contain exactly this one id, so the next capability cannot be
+    // marked available by accident.
+    existsToday: true,
+    status: "available",
   },
   {
     id: "bulk_export",
