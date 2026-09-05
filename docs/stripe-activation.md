@@ -102,8 +102,30 @@ environment only. Do not touch Production.
 | `BILLING_SESSION_SECRET` | the hex string from B1 |
 | `STRIPE_WEBHOOK_SECRET` | the `whsec_…` from A3 |
 | `BILLING_ENABLED` | `true` |
+| `KV_REST_API_URL` | the Upstash/Vercel KV REST URL |
+| `KV_REST_API_TOKEN` | the matching REST token |
 
 Then redeploy the preview.
+
+### The store is not optional any more
+
+The last two are new to this list, and they carry a security property rather
+than a convenience.
+
+Two protections added on `fix/revenue-integrity` are enforced **in the store**,
+so both are silently absent without it:
+
+- **A checkout session is spendable once.** `/api/billing/activate` is
+  unauthenticated by design — someone returning from Stripe has no cookie yet —
+  and the session id is the only thing they carry. With a store, that id is
+  claimed atomically and buys exactly one cookie. Without one, the claim is
+  skipped and a single paid `cs_` id mints unlimited Pro cookies in unlimited
+  browsers: a pasted success URL, a leaked referrer, a shared screenshot.
+- **Entitlement survives the cookie.** Without a store, entitlement lives only
+  in the browser cookie, so a cancellation cannot be reflected until it expires.
+
+Test mode is fine to explore without KV. **Do not enable live billing without
+it.**
 
 **Never put any of these in the repository.** Nothing in the codebase reads a
 secret from source, and a test enforces it.
