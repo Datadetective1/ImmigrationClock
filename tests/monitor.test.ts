@@ -20,6 +20,9 @@ import { EVENTS } from "@/lib/event-store";
 import { amendmentIndex, toPublicChange, type ChangeInput } from "@/lib/intelligence/change";
 import { buildBrief } from "@/lib/intelligence/brief";
 import { buildInbox, matchFollows, INBOX_BUCKETS } from "@/lib/intelligence/inbox";
+import { buildFollowCatalog, MAX_FOLLOWS } from "@/lib/follows";
+import { EVENT_INDEX } from "@/lib/event-index";
+import { labelForEntity } from "@/lib/entity-labels";
 
 const ALL = EVENTS as unknown as ChangeInput[];
 const TODAY = "2026-09-04";
@@ -194,6 +197,72 @@ describe("the inbox sorts by how soon someone has to care", () => {
 // -----------------------------------------------------------------------------
 // THE ENDPOINT
 // -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// THE PICKER AND THE MONITOR MUST SPEAK ONE LANGUAGE
+//
+// They did not. The picker built its options from the event index, which carries
+// policy links; the Monitor matches visa, country, form, process, topic and
+// agency and rejects everything else with a 400. So 52 of the 103 options the
+// picker offered broke the Monitor page for anyone who chose one — on the single
+// page the paid product is built around.
+//
+// Two vocabularies for one concept is the defect shape that also produced the
+// forms and country failures. This is the test that closes it: it walks the real
+// catalogue and asks the real route.
+// -----------------------------------------------------------------------------
+
+describe("every followable the picker offers, the Monitor accepts", () => {
+  const catalog = buildFollowCatalog(EVENT_INDEX, labelForEntity);
+
+  it("offers a catalogue at all", () => {
+    expect(catalog.length).toBeGreaterThan(20);
+  });
+
+  it("accepts every offered id, one at a time", async () => {
+    // One request per type is enough to pin the contract, and cheap. A type the
+    // route rejects fails here rather than in a reader's browser.
+    const byType = new Map<string, string>();
+    for (const c of catalog) if (!byType.has(c.type)) byType.set(c.type, c.entityId);
+    expect(byType.size).toBeGreaterThan(1);
+
+    for (const [type, entityId] of byType) {
+      const { status } = await monitor(`?follow=${encodeURIComponent(entityId)}`);
+      expect(status, `${type} (${entityId}) is offered by the picker but the Monitor returns ${status}`).toBe(200);
+    }
+  });
+
+  it("accepts the whole catalogue at once, as a real watchlist would arrive", async () => {
+    const query = catalog
+      .slice(0, MAX_FOLLOWS)
+      .map((c) => `follow=${encodeURIComponent(c.entityId)}`)
+      .join("&");
+    const { status } = await monitor(`?${query}`);
+    expect(status).toBe(200);
+  });
+
+  it("matches the set matchFollows can actually produce", async () => {
+    // The other direction: the route must not advertise a prefix the matcher
+    // cannot emit, or a reader follows something that can never match.
+    const produced = new Set<string>();
+    for (const i of inputs) {
+      for (const id of matchFollows(i.strong, [
+        ...i.strong.visaCategories.map((v) => `visa:${v.id}`),
+        ...i.strong.countries.map((c) => `country:${c.id}`),
+        ...i.strong.forms.map((f) => `form:${f.id}`),
+        ...i.strong.processes.map((p) => `process:${p.id}`),
+        ...i.strong.topics.map((t) => `topic:${t}`),
+        ...(i.strong.agency ? [`agency:${i.strong.agency}`] : []),
+      ])) {
+        produced.add(id.split(":")[0]);
+      }
+    }
+    // Everything the picker offers is something the matcher can emit.
+    for (const type of new Set(catalog.map((c) => c.type))) {
+      expect(produced.has(type), `the picker offers ${type} but matchFollows never emits it`).toBe(true);
+    }
+  });
+});
 
 describe("GET /api/v1/monitor", () => {
   it("returns a bucketed inbox for a watchlist in the query string", async () => {

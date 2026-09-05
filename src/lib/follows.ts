@@ -32,14 +32,32 @@
 
 import type { IndexedEvent } from "./event-index";
 
-/** Entity types a reader can follow. Deliberately a subset of the graph's. */
+/**
+ * Entity types a reader can follow.
+ *
+ * THIS LIST IS THE MONITOR'S VOCABULARY, and it has to stay that way.
+ *
+ * It used to include "policy" and "employer", which the Monitor cannot match on:
+ * matchFollows() reads visa, country, form, process, topic and agency off a
+ * change and nothing else. The picker built its options from the event index,
+ * which DOES carry policy links, so 52 of the 103 options it offered were ids
+ * that GET /api/v1/monitor rejects with a 400 — and MonitorInbox turns any
+ * non-200 into a page-wide "Could not load" error.
+ *
+ * So following a policy did not merely return nothing. It broke the Monitor for
+ * that reader, on the one page the paid product is built around, with no way
+ * back except clearing the watchlist. Two vocabularies for one concept, drifting
+ * apart in the dark — the same defect shape as the classifier failures.
+ *
+ * A test asserts that every id the picker can offer is accepted by the Monitor
+ * API, and that this list matches what matchFollows() can actually produce.
+ * Adding a type here without teaching the matcher about it will fail that test.
+ */
 export const FOLLOWABLE_TYPES = [
   "visa",
   "country",
   "agency",
   "topic",
-  "policy",
-  "employer",
 ] as const;
 
 export type FollowableType = (typeof FOLLOWABLE_TYPES)[number];
@@ -180,10 +198,13 @@ export function groupCatalog(items: Followable[]): FollowGroup[] {
  * The four categories the picker leads with, in the order it shows them.
  *
  * A visitor arriving from "Follow a country or visa" is looking for a country
- * or a visa. Policy Manual parts and employers remain followable — a stored
- * follow of either keeps working — but they are long tails of specialist ids,
- * and putting 53 Policy Manual parts above the 25 countries would bury the
- * thing the reader came for.
+ * or a visa.
+ *
+ * This was four categories out of six; it is now four out of four, because
+ * policy and employer stopped being followable at all — the Monitor cannot
+ * match either, and offering them returned a 400 that broke the page. The
+ * constant stays because the ORDER still matters, and because a fifth category
+ * will exist again as soon as the Monitor can match one.
  */
 export const PRIMARY_FOLLOW_TYPES = ["country", "visa", "agency", "topic"] as const;
 
@@ -216,8 +237,6 @@ const TYPE_KEYWORDS: Record<FollowableType, readonly string[]> = {
   visa: ["visa", "visas", "status", "program", "programs"],
   agency: ["agency", "agencies", "department"],
   topic: ["topic", "topics", "subject"],
-  policy: ["policy", "policies", "manual"],
-  employer: ["employer", "employers", "company", "companies"],
 };
 
 /** Below this, a category word is too ambiguous to widen a search with. */

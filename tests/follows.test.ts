@@ -277,13 +277,23 @@ describe("picker ordering", () => {
     expect(ordered.slice(0, 4)).toEqual(["country", "visa", "agency", "topic"]);
   });
 
-  it("keeps the specialist long tail, just not at the top", () => {
-    // Policy Manual parts outnumber countries two to one. Ordering by size would
-    // bury the thing the reader came for — but dropping them would silently
-    // break follows already stored against them.
-    const ordered = orderGroupsForPicker(groups).map((g) => g.type);
-    expect(ordered).toContain("policy");
-    expect(ordered.indexOf("policy")).toBeGreaterThan(ordered.indexOf("country"));
+  it("offers nothing the Monitor cannot match", () => {
+    // THIS TEST REPLACES ONE THAT ASSERTED THE OPPOSITE.
+    //
+    // It used to require "policy" to appear in the picker, reasoning that
+    // dropping the long tail "would silently break follows already stored
+    // against them". The reverse was true. matchFollows() reads visa, country,
+    // form, process, topic and agency and nothing else, and GET /api/v1/monitor
+    // rejects anything outside that set with a 400 — which MonitorInbox renders
+    // as a page-wide failure. So 52 of the 103 options the picker offered did
+    // not merely return nothing; they broke the Monitor for that reader.
+    //
+    // Stored follows are not orphaned by this: sanitizeFollows() filters
+    // everything read from storage through isFollowableId, so an existing
+    // policy follow is dropped on read and the reader's Monitor starts working.
+    const offered = new Set(orderGroupsForPicker(groups).map((g) => g.type));
+    expect(offered.has("policy" as never)).toBe(false);
+    expect(offered.has("employer" as never)).toBe(false);
   });
 
   it("loses nothing it was given", () => {

@@ -26,7 +26,7 @@
 // =============================================================================
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { track } from "@/lib/analytics";
+import { track, watchlistSizeBucket } from "@/lib/analytics";
 import {
   readStoredFollows,
   writeStoredFollows,
@@ -105,15 +105,23 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
   const toggle = useCallback(
     (entityId: string) => {
       const next = toggleFollowPure(latest.current, entityId);
-      // entity_follow was declared in the taxonomy and never emitted, so the one
-      // feature built specifically to bring readers back was the one we could
-      // not tell was being used. The entity id is a public slug from our own
-      // vocabulary (country:mexico, visa:h-1b) — it names a topic, not a person,
-      // and the follow list itself still never leaves the browser.
+      // THE CATEGORY, NEVER THE SELECTION.
+      //
+      // This sent the exact entity id — country:venezuela, visa:tps — with the
+      // reasoning that a public slug from our own vocabulary "names a topic,
+      // not a person". On most sites that would be true. Here the topic IS the
+      // person: a browser that follows country:venezuela and visa:tps has
+      // disclosed a nationality and an immigration status to a third party,
+      // and those two events are correlatable within a session.
+      //
+      // The product question is "are readers following things, and which
+      // categories" — which the type answers without the disclosure. The exact
+      // count is bucketed for the same reason: a precise watchlist size narrows
+      // a browser to a small group when combined with anything else.
       track("entity_follow", {
-        entity: entityId,
+        entity_type: entityId.split(":")[0],
         action: next.length > latest.current.length ? "follow" : "unfollow",
-        total: next.length,
+        total: watchlistSizeBucket(next.length),
       });
       commit(next);
     },

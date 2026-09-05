@@ -176,9 +176,12 @@ export default function DevelopersPage() {
           </p>
           <p className="text-sm text-slate-400">
             Measured against hand-labelled records rather than asserted, and published per
-            dimension. Filtering <code>visa=h-1b</code> scores 100% precision and 100% recall
-            against 21 records labelled by hand. Country, form and process filters are not yet
-            benchmarked and should not be assumed to match.
+            dimension. Filtering <code>visa=h-1b</code> scores 100% precision and 83% recall
+            against 33 hand-labelled records — every record in the archive whose text names
+            H-1B. Countries score 98% precision and 61% recall across 249 labelled pairs, forms
+            93% and 58% across 185, and employment processes 100% and 64% across 72. Recall
+            below 100% is the honest number: a match found only deep in a body is returned as
+            weak rather than asserted, and <code>?include=weak</code> returns those.
           </p>
           <p className="mt-3 text-sm text-slate-400">
             Every classification carries the verbatim quote it came from and the{" "}

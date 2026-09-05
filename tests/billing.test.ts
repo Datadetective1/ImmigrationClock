@@ -22,6 +22,7 @@
 // =============================================================================
 
 import { describe, it, expect, vi } from "vitest";
+import { FOLLOWABLE_TYPES } from "@/lib/follows";
 import {
   CAPABILITY_SPECS,
   PLANS,
@@ -108,15 +109,20 @@ describe("the free/paid boundary", () => {
     // The pricing page prints this status beside each line. A capability that
     // is sold as available and is not is the one lie a paid product cannot
     // survive, so the two sources are asserted to agree.
+    //
+    // THIS TEST USED TO CARVE OUT watchlist_sync, on the reasoning that it was
+    // "one of the ones this work shipped". Half of it shipped: the server route
+    // is complete and authorized, and no browser code has ever called it, while
+    // src/lib/follows.ts tells the reader on the same site that follows do not
+    // sync. The carve-out is removed, and the exception list is now empty.
     for (const c of CAPABILITY_SPECS) {
       if (c.plan === "free") expect(c.status, c.id).toBe("available");
-      // Anything marked available must be something we can actually do: either
-      // it already existed, or it is one of the ones this work shipped.
-      if (c.status === "available" && !c.existsToday) {
-        expect(["watchlist_sync"], c.id).toContain(c.id);
-      }
+      expect(c.status === "available" && !c.existsToday, `${c.id} is sold as working but does not exist`).toBe(false);
     }
-    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
+    // PRO CURRENTLY HAS NO WORKING CAPABILITY, and saying so here is the point:
+    // this assertion is what will fail, loudly, on the day one is finished — at
+    // which moment the pricing page becomes true rather than aspirational.
+    expect(availableNow("pro").map((c) => c.id)).toEqual([]);
     expect(notYetAvailable("pro").length).toBeGreaterThan(0);
     for (const c of notYetAvailable("pro")) expect(["building", "planned"]).toContain(c.status);
   });
@@ -482,5 +488,49 @@ describe("the Stripe client", () => {
     expect(result.url).toContain("billing.stripe.com");
     const [, init] = fetchImpl.mock.calls[0] as unknown as [string, RequestInit];
     expect(init.body).toContain("customer=cus_x");
+  });
+});
+
+
+// =============================================================================
+// A CAPABILITY MAY NOT CLAIM TO WORK WHEN IT DOES NOT
+//
+// watchlist_sync carried `existsToday: false` and `status: "available"` in the
+// same object. status drives a plain green tick on /pricing and the "What your
+// subscription does today" list on /account, so the one Pro capability a
+// subscriber was shown as working was the one with no client at all — while
+// src/lib/follows.ts said, on the same site, that follows do not sync.
+//
+// The pricing page's own credibility device ("N of the M capabilities above are
+// not finished") is computed from `status`, so the contradiction also made that
+// count wrong in the flattering direction.
+// =============================================================================
+describe("plan capability claims", () => {
+  it("never marks a capability available when it does not exist today", () => {
+    const lying = CAPABILITY_SPECS.filter((c) => c.status === "available" && !c.existsToday);
+    expect(
+      lying.map((c) => c.id),
+      "a capability claims to be available while existsToday is false"
+    ).toEqual([]);
+  });
+
+  it("never marks a capability unfinished when it does exist today", () => {
+    // The other direction, so the honesty counter cannot understate either.
+    const hiding = CAPABILITY_SPECS.filter((c) => c.status !== "available" && c.existsToday);
+    expect(hiding.map((c) => c.id)).toEqual([]);
+  });
+
+  it("describes browser follows with the types that are actually followable", () => {
+    // The blurb promised employers, which the Monitor cannot match and which the
+    // picker no longer offers.
+    const follows = CAPABILITY_SPECS.find((c) => c.id === "browser_follows")!;
+    const blurb = follows.blurb.toLowerCase();
+    for (const type of FOLLOWABLE_TYPES) {
+      // Plural stems: "countries" and "agencies" do not contain "country"/"agency".
+      const stem = type === "country" ? "countr" : type === "agency" ? "agenc" : type;
+      expect(blurb, `the blurb omits ${type}`).toContain(stem);
+    }
+    expect(follows.blurb.toLowerCase()).not.toContain("employer");
+    expect(follows.blurb.toLowerCase()).not.toContain("policy");
   });
 });
