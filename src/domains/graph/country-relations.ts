@@ -223,7 +223,7 @@ const GEOGRAPHIC_FEATURE_PREFIX =
 
 /** Nationality or citizenship: the strongest possible scope statement. */
 const NATIONALITY_BEFORE =
-  /\b(?:nationals?|citizens?|subjects?|natives?|persons?|individuals?|beneficiaries)\s+(?:and\s+(?:nationals?|citizens?)\s+)?(?:of|from)\s+(?:the\s+)?$/i;
+  /\b(?:nationals?|citizens?|subjects?|natives?|persons?|individuals?|beneficiaries|applicants?)\s+(?:and\s+(?:nationals?|citizens?)\s+)?(?:of|from)\s+(?:the\s+)?$/i;
 
 const NATIONALITY_AFTER = /^\s*(?:nationals?|citizens?|passport\s+holders?)\b/i;
 
@@ -237,6 +237,62 @@ const PRESENCE_BEFORE =
   // about a criminal case. Every remaining cue says something about a PERSON's
   // location or movement, which is what a scope rule is made of.
   /\b(?:present\s+in|physically\s+present\s+in|residing\s+in|resided\s+in|arriving\s+from|departing\s+from|travell?ing\s+(?:to|from)|admitted\s+(?:to|from)|removed\s+to|returned\s+to|returning\s+from|entering\s+from|last\s+habitually\s+resided\s+in|born\s+in)\s+(?:the\s+)?$/i;
+
+/**
+ * A designation phrase, and the coordinated list that may follow it.
+ *
+ * THE DEFECT: relations are read from the words immediately before a name, and
+ * a designation phrase only ever sits immediately before the FIRST name in a
+ * list. In "nationals of Nigeria and Zambia", Nigeria scored nationals_of and
+ * Zambia scored contextual, so Zambia was dropped. "nationals of X, Y and Z" is
+ * the standard grammar of a designation notice, which made this a systematic
+ * hole in country recall rather than an edge case.
+ *
+ * THE RULE: everything between the designation phrase and the name must be a
+ * pure enumeration — capitalised name tokens joined by commas, "and" or "or",
+ * with "of"/"the" allowed inside a name. Prose fails it, and that is the point.
+ * "nationals of Nigeria were discussed alongside Canada" has lowercase verbs
+ * between the phrase and Canada, so Canada stays contextual.
+ */
+const DESIGNATION_HEAD =
+  /\b(?:nationals?|citizens?|subjects?|natives?|persons?|individuals?|beneficiaries|applicants?)\s+(?:of|from)\s+(?:the\s+)?/gi;
+
+/** One name: capitalised, with "of"/"the" permitted inside it. */
+const NAME_PART = String.raw`[A-Z][A-Za-z.'\u2019-]*(?:(?:\s+(?:of|the))*\s+[A-Z][A-Za-z.'\u2019-]*)*`;
+
+/** A comma, "and", "or", or a comma followed by one of those. */
+const LIST_SEPARATOR = String.raw`(?:\s*,\s*(?:and\s+|or\s+)?|\s+(?:and|or)\s+)(?:the\s+)?`;
+
+const LIST_CONTINUATION = new RegExp(`^(?:${NAME_PART}${LIST_SEPARATOR})+$`);
+
+/**
+ * Does a designation phrase earlier in the sentence still govern this mention
+ * through an unbroken coordinated list?
+ *
+ * `leading` is the whole sentence up to the mention, not a fixed window, because
+ * a real designation list runs long: "nationals of Afghanistan, Bangladesh,
+ * Cameroon and the Democratic Republic of the Congo" already exceeds the
+ * 80-character window the adjacency cues use.
+ */
+export function continuesDesignationList(leading: string): boolean {
+  if (!leading) return false;
+  const flat = leading.replace(/\s+/g, " ");
+
+  // The LAST designation phrase governs: a sentence may open with prose that
+  // happens to contain one and then designate properly later.
+  DESIGNATION_HEAD.lastIndex = 0;
+  let lastEnd = -1;
+  for (let m = DESIGNATION_HEAD.exec(flat); m !== null; m = DESIGNATION_HEAD.exec(flat)) {
+    lastEnd = m.index + m[0].length;
+  }
+  if (lastEnd === -1) return false;
+
+  const between = flat.slice(lastEnd);
+  // Nothing between the phrase and the name means this IS the first item, which
+  // the ordinary nationality cue already handles.
+  if (!between) return false;
+  return LIST_CONTINUATION.test(between);
+}
 
 export interface RelationInput {
   /** The sentence or span the country appears in. */
@@ -257,6 +313,14 @@ export interface RelationInput {
    * fix.
    */
   inTitle?: boolean;
+  /**
+   * The sentence from its start up to this mention.
+   *
+   * Separate from `before`, which is a fixed 80-character window sized for the
+   * adjacency cues. A coordinated designation list can run longer than that,
+   * and truncating it in the middle turns a list into prose.
+   */
+  leading?: string;
 }
 
 /**
@@ -299,6 +363,12 @@ export function relationFor(input: RelationInput): CountryRelation | null {
   if (NATIONALITY_BEFORE.test(before) || NATIONALITY_AFTER.test(after) || CHARGEABILITY.test(before)) {
     return "nationals_of";
   }
+
+  // The same designation, reached through a coordinated list. Tested after the
+  // direct cue and after every disqualifier above, so a citation or a place
+  // name still wins: a list is only read as a list once the mention has already
+  // proved it is a country reference at all.
+  if (input.leading && continuesDesignationList(input.leading)) return "nationals_of";
   if (PRESENCE_BEFORE.test(before)) return "present_in";
 
   return "contextual";

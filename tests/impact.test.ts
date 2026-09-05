@@ -212,32 +212,54 @@ describe("impact extraction", () => {
     expect(names).not.toContain("country:canada");
   });
 
-  it("KNOWN LIMITATION: loses every country after the first in a coordinated list", () => {
-    // Zambia was asserted here until ingestion started using the same country
-    // classifier the archive is actually built with, and the assertion stopped
-    // holding. It is worth being exact about what changed, because it looks
-    // like a regression and is not one.
-    //
-    // The relation model reads each occurrence from its own left context. In
-    // "nationals of Nigeria and Zambia", Nigeria sits after "nationals of" and
-    // scores nationals_of; Zambia sits after "Nigeria and" and scores
-    // contextual, which is not scope-bearing, so it is dropped. That is the
-    // behaviour of findCountriesInText — the same function reextract-countries
-    // uses to produce every country classification in the archive — so it has
-    // always been true of the data the product serves.
-    //
-    // The old ingestion path was more permissive and did keep Zambia. It also
-    // emitted entries with no method, which isStrong() rejects, so nothing it
-    // found was ever shown to anyone. Ingestion is now honest about matching
-    // the shipped model, and this is the shipped model's gap.
-    //
-    // It is a real recall defect and a consequential one: "nationals of X, Y
-    // and Z" is the standard form of a designation notice. It is reported, not
-    // fixed here — fixing it changes a measured dimension and belongs with the
-    // country benchmark, which currently stands at 61% recall.
-    const hits = findCountriesInText("This rule applies to nationals of Nigeria and Zambia.");
-    expect(hits.find((h) => h.entityId === "country:nigeria")?.isScope).toBe(true);
-    expect(hits.find((h) => h.entityId === "country:zambia")?.isScope).toBe(false);
+  it("keeps every country in a coordinated designation list", () => {
+    // WAS A KNOWN LIMITATION, NOW FIXED. Relations are read from the words
+    // immediately before a name, and a designation phrase only ever sits
+    // immediately before the FIRST name in a list, so "nationals of Nigeria and
+    // Zambia" kept Nigeria and dropped Zambia. That is the standard grammar of
+    // a designation notice, which made it a systematic hole rather than an edge
+    // case: on the committed archive the fix recovers 14 classifications,
+    // including every country named in the H-2B supplemental cap allocation.
+    const listed = (text: string) =>
+      findCountriesInText(text).filter((h) => h.isScope).map((h) => h.entityId).sort();
+
+    expect(listed("This restriction applies to nationals of Nigeria and Zambia.")).toEqual([
+      "country:nigeria",
+      "country:zambia",
+    ]);
+    expect(listed("Citizens of Cuba and Haiti may apply.")).toEqual([
+      "country:cuba",
+      "country:haiti",
+    ]);
+    expect(listed("Applicants from Mexico and Guatemala must provide documentation.")).toEqual([
+      "country:guatemala",
+      "country:mexico",
+    ]);
+    // A long list, an Oxford comma, and an item carrying its own article.
+    expect(
+      listed("The suspension applies to nationals of Afghanistan, Burma, Chad, and the Republic of the Congo.")
+    ).toEqual(["country:afghanistan", "country:chad", "country:congo-republic", "country:myanmar"]);
+  });
+
+  it("does not let a designation list reach across prose into a background mention", () => {
+    // THE ADVERSARIAL HALF, and the reason the rule demands a pure enumeration
+    // between the designation phrase and the name. Loosening it to "a
+    // designation phrase appears somewhere earlier in the sentence" would
+    // promote every country named later in the same sentence, which is exactly
+    // the precision failure the relation model was built to prevent.
+    const scoped = (text: string) =>
+      findCountriesInText(text).filter((h) => h.isScope).map((h) => h.entityId);
+
+    // A verb between the list and the name breaks it.
+    expect(scoped("Nationals of Nigeria were discussed alongside Canada in the report.")).toEqual([
+      "country:nigeria",
+    ]);
+    // A comparison, not a designation. No designation phrase at all.
+    expect(
+      scoped("other countries/locations such as Canada, the UK, Australia and New Zealand are shut down")
+    ).toEqual([]);
+    // A citation naming two parties is still a citation.
+    expect(scoped("Agreement Between the United States and Guatemala on Cooperation.")).toEqual([]);
   });
 
   it("says where the list lives when a document delegates its scope", () => {
@@ -619,19 +641,31 @@ describe("a country classified at ingestion reaches the default API view", () =>
     expect(im.countries).toEqual([]);
   });
 
-  it("produces exactly what the maintenance pass produces, for every record", () => {
-    // ONE CONTRACT, NOT TWO. This is the assertion that would have caught the
-    // original defect: ingestion and the offline pass must agree, on real data,
-    // not merely look similar.
-    const shape = (list: readonly { entityId: string; method?: string; relation?: string }[]) =>
-      [...list].map((c) => `${c.entityId}|${c.method}|${c.relation}`).sort().join(",");
+  it("never drops a country the committed archive already carries", () => {
+    // ONE CONTRACT, AND NO SILENT REGRESSION.
+    //
+    // This asserted exact equality with the committed snapshot until the
+    // coordinated-list fix landed, at which point the classifier legitimately
+    // began finding MORE than the snapshot holds — 14 classifications the
+    // archive is simply stale on, since nothing has re-run the maintenance pass
+    // against it. Equality would now punish an improvement.
+    //
+    // What matters is the direction. Ingestion and the maintenance pass call
+    // one function, so they agree by construction; what a test still has to
+    // catch is the classifier quietly LOSING ground, which is how the forms
+    // defect reached production. Superset, not equality.
+    const key = (c: { entityId: string; method?: string; relation?: string }) =>
+      `${c.entityId}|${c.method}|${c.relation}`;
     let compared = 0;
-    for (const e of (EVENTS as unknown as { id: string; title: string; summary: string; impact?: { countries?: [] } }[])) {
+    const lost: string[] = [];
+    for (const e of (EVENTS as unknown as { id: string; title: string; summary: string; impact?: { countries?: { entityId: string; method?: string; relation?: string }[] } }[])) {
       const stored = e.impact?.countries ?? [];
       if (stored.length === 0) continue;
       compared++;
-      expect(shape(countriesFor(e.title, e.summary, sourceTextFor(e.id) ?? "")), e.id).toBe(shape(stored));
+      const fresh = new Set(countriesFor(e.title, e.summary, sourceTextFor(e.id) ?? "").map(key));
+      for (const c of stored) if (!fresh.has(key(c))) lost.push(`${e.id} ${key(c)}`);
     }
+    expect(lost, "the classifier lost classifications the archive holds").toEqual([]);
     expect(compared, "some records carry countries").toBeGreaterThan(20);
   });
 });

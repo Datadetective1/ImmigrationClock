@@ -516,6 +516,7 @@ export function findCountriesInText(text: string, options: { isTitle?: boolean }
         const relation = relationFor({
           span: sentence,
           before: sentence.slice(Math.max(0, start - 80), start),
+          leading: sentence.slice(0, start),
           after: sentence.slice(end, Math.min(sentence.length, end + 60)),
           inTitle: options.isTitle === true,
         });
