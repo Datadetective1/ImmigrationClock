@@ -85,5 +85,36 @@ export function mergeSubscriber(
     status: incoming.status || existing?.status || "incomplete",
     currentPeriodEnd: incoming.currentPeriodEnd ?? existing?.currentPeriodEnd ?? 0,
     updatedAt: nowSeconds,
+    lastEventAt: incoming.lastEventAt ?? existing?.lastEventAt,
   };
+}
+
+/**
+ * Should an event be applied to the record we already hold?
+ *
+ * STRIPE DOES NOT GUARANTEE ORDER, AND IT RETRIES. The failure this prevents is
+ * specific and expensive: `customer.subscription.deleted` arrives and access
+ * ends, then a `customer.subscription.updated` carrying status active — a
+ * redelivery, or simply the earlier event losing the race — lands afterwards
+ * and restores the cancelled subscriber. Nothing in the merge compared the two,
+ * because the merge had no notion of when either event happened.
+ *
+ * The comparison is on Stripe's own `created` timestamp, not on our clock, so a
+ * slow delivery is still applied in the order Stripe generated it.
+ *
+ * An event with the SAME timestamp is applied. Stripe emits several events for
+ * one state change within the same second, and refusing equal timestamps would
+ * drop the one that matters. Equal-timestamp events describe the same state, so
+ * applying them is idempotent in effect.
+ */
+export function shouldApplyEvent(
+  existing: SubscriberRecord | null,
+  eventCreatedAt: number | undefined
+): boolean {
+  if (!existing) return true;
+  // A record written before ordering existed has no stamp. Treat it as older
+  // than anything, so the first stamped event wins and the record heals.
+  if (existing.lastEventAt === undefined) return true;
+  if (eventCreatedAt === undefined) return true;
+  return eventCreatedAt >= existing.lastEventAt;
 }

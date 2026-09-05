@@ -71,6 +71,44 @@ export async function POST(req: Request): Promise<Response> {
     const customerId = typeof session.customer === "string" ? session.customer : "";
     const email = session.customer_details?.email || session.customer_email || "";
 
+    // A CHECKOUT SESSION IS SPENDABLE ONCE.
+    //
+    // This route is unauthenticated on purpose: someone arriving back from
+    // Stripe has no cookie yet, and the session id is the only thing they
+    // carry. But it was honoured any number of times, so one paid `cs_` id
+    // minted unlimited Pro cookies in unlimited browsers — a shoulder-surf, a
+    // pasted success URL, a leaked referrer, a shared screenshot. The id proves
+    // that ONE person paid once, and it now buys exactly one cookie.
+    //
+    // Claimed AFTER the payment checks so an unpaid or inactive session is not
+    // burned, and BEFORE the cookie is minted so nothing is issued twice. The
+    // claim outlives the longest cookie we grant.
+    const claimStore = resolveStore();
+    if (claimStore) {
+      let claimed = false;
+      try {
+        claimed = await claimStore.claimCheckoutSession(sessionId, (MAX_TTL_DAYS + 1) * 86_400);
+      } catch (err) {
+        // A store that cannot answer must not lock a paying customer out. Log
+        // it and allow the activation — the same call the subscription-lookup
+        // failure below makes, for the same reason.
+        console.error(
+          `[billing] checkout claim failed, allowing activation: ${err instanceof Error ? err.message : String(err)}`
+        );
+        claimed = true;
+      }
+      if (!claimed) {
+        return json(
+          {
+            error: "already_activated",
+            message:
+              "That checkout has already been used to sign in. Use the sign-in link on the account page to add another device.",
+          },
+          409
+        );
+      }
+    }
+
     // The claim expires with the subscription period when we can read one, so
     // a monthly subscriber's cookie never outlives the month they paid for.
     let exp = now + MAX_TTL_DAYS * 86_400;

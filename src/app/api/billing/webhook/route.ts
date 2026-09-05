@@ -35,13 +35,19 @@
 import { billingStatus } from "@/lib/billing/config";
 import { grantsAccess, isHandledEvent, verifyWebhookSignature } from "@/lib/billing/stripe";
 import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
-import { mergeSubscriber } from "@/lib/billing/subscription";
+import { mergeSubscriber, shouldApplyEvent } from "@/lib/billing/subscription";
 import { json } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 interface StripeEvent {
+  /**
+   * Stripe's own creation timestamp, unix seconds. The ordering key: delivery
+   * order is not guaranteed, so this is the only reliable way to tell a late
+   * event from a new one.
+   */
+  created?: number;
   id?: string;
   type?: string;
   data?: { object?: Record<string, unknown> };
@@ -84,6 +90,9 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   const object = event.data?.object ?? {};
+  // Stripe's own clock, not ours: a slow delivery must still be applied in the
+  // order Stripe generated it. See shouldApplyEvent().
+  const eventCreatedAt = typeof event.created === "number" ? event.created : undefined;
   const subscriptionStatus = typeof object.status === "string" ? object.status : null;
   const access = type === "customer.subscription.deleted" ? false : grantsAccess(subscriptionStatus ?? "active");
 
@@ -91,7 +100,7 @@ export async function POST(req: Request): Promise<Response> {
   let stored = false;
   if (store) {
     try {
-      stored = await persist(store, type, object, subscriptionStatus, access);
+      stored = await persist(store, type, object, subscriptionStatus, access, eventCreatedAt);
     } catch (err) {
       // Logged, not thrown: a 500 makes Stripe retry for days and then disable
       // the endpoint, which would lose every later event as well.
@@ -125,7 +134,8 @@ async function persist(
   type: string,
   object: Record<string, unknown>,
   status: string | null,
-  access: boolean
+  access: boolean,
+  eventCreatedAt?: number
 ): Promise<boolean> {
   const now = Math.floor(Date.now() / 1000);
   const secret = process.env.BILLING_SESSION_SECRET;
@@ -143,9 +153,30 @@ async function persist(
     const key = emailKey(email, secret);
     await store.linkCustomer(customer, key);
     const existing = await store.getSubscriber(key);
+    if (!shouldApplyEvent(existing, eventCreatedAt)) return false;
+
+    // A LAPSED SUBSCRIBER WHO COMES BACK MUST NOT INHERIT THEIR DEAD PERIOD.
+    //
+    // mergeSubscriber falls back to the stored currentPeriodEnd when the
+    // incoming event carries none, and a checkout session never carries one.
+    // For someone re-subscribing that fallback is their OLD, expired end, so
+    // accessFor() denies a customer who has just paid — deterministically, on
+    // every such checkout. Clearing it hands the decision to the subscription
+    // event that follows, which does carry the real period.
+    const expired = (existing?.currentPeriodEnd ?? 0) <= now;
     await store.putSubscriber(
       key,
-      mergeSubscriber(existing, { email, customerId: customer, status: "active" }, now)
+      mergeSubscriber(
+        existing,
+        {
+          email,
+          customerId: customer,
+          status: "active",
+          ...(expired ? { currentPeriodEnd: 0 } : {}),
+          lastEventAt: eventCreatedAt,
+        },
+        now
+      )
     );
     return true;
   }
@@ -158,6 +189,12 @@ async function persist(
 
   const periodEnd = typeof object.current_period_end === "number" ? object.current_period_end : undefined;
   const existing = await store.getSubscriber(key);
+
+  // ORDER, NOT ARRIVAL. Without this a redelivered "updated · active" landing
+  // after "deleted" restores a cancelled subscriber's access, silently and for
+  // a full billing period.
+  if (!shouldApplyEvent(existing, eventCreatedAt)) return false;
+
   await store.putSubscriber(
     key,
     mergeSubscriber(
@@ -167,6 +204,7 @@ async function persist(
         status: access ? status ?? "active" : status ?? "canceled",
         // A deletion ends access now rather than at the period end it carries.
         currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
+        lastEventAt: eventCreatedAt,
       },
       now
     )

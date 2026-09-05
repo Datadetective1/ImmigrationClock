@@ -50,6 +50,17 @@ export interface SubscriberRecord {
   currentPeriodEnd: number;
   /** Unix seconds, when this record was last written. */
   updatedAt: number;
+  /**
+   * The `created` timestamp of the most recent Stripe event applied to this
+   * record. Unix seconds. Absent on records written before ordering was
+   * enforced, which is treated as "older than anything".
+   *
+   * Stripe does not guarantee delivery order, and it retries. Without this, a
+   * `customer.subscription.updated` carrying status active — redelivered or
+   * merely late — lands after `customer.subscription.deleted` and silently
+   * restores a cancelled subscriber's access.
+   */
+  lastEventAt?: number;
 }
 
 /** One person's watchlist. Entity ids only — the same strings /following uses. */
@@ -71,6 +82,21 @@ export interface SubscriberStore {
   /** Single-use sign-in token -> emailKey. Expires; consuming it deletes it. */
   putLoginToken(tokenHash: string, emailKey: string, ttlSeconds: number): Promise<void>;
   consumeLoginToken(tokenHash: string): Promise<string | null>;
+
+  /**
+   * Claim a Stripe checkout session, once.
+   *
+   * Returns true only for the caller that claimed it; every later call for the
+   * same session returns false.
+   *
+   * WHY THIS EXISTS: /api/billing/activate is deliberately unauthenticated — the
+   * person arriving back from Stripe has no cookie yet, and the session id is
+   * the only thing they carry. But the route treated that id as a credential it
+   * could honour any number of times, so one paid `cs_` id minted unlimited Pro
+   * cookies in unlimited browsers. A checkout session is proof that ONE person
+   * paid once; it has to be spendable once.
+   */
+  claimCheckoutSession(sessionId: string, ttlSeconds: number): Promise<boolean>;
 
   /** The last change id we alerted this person about, so we never repeat one. */
   getAlertCursor(emailKey: string): Promise<string | null>;
@@ -113,6 +139,8 @@ export const KEYS = {
   customer: (id: string) => `cust:${id}`,
   login: (h: string) => `login:${h}`,
   cursor: (k: string) => `cursor:${k}`,
+  /** A spent checkout session, so it cannot be replayed into a second cookie. */
+  checkout: (id: string) => `cs:${id}`,
   /** The index of subscriber keys, so the alert job can iterate without SCAN. */
   index: "subs:index",
 } as const;
@@ -168,6 +196,11 @@ export class MemoryStore implements SubscriberStore {
     const value = this.read(KEYS.login(hash));
     this.data.delete(KEYS.login(hash));
     return value;
+  }
+  async claimCheckoutSession(sessionId: string, ttlSeconds: number): Promise<boolean> {
+    if (this.read(KEYS.checkout(sessionId)) !== null) return false;
+    this.write(KEYS.checkout(sessionId), "1", ttlSeconds);
+    return true;
   }
   async getAlertCursor(k: string): Promise<string | null> {
     return this.read(KEYS.cursor(k));
@@ -274,6 +307,19 @@ export class RedisStore implements SubscriberStore {
     // GETDEL: read and delete atomically, so a link cannot be used twice even
     // if it is opened twice at once (a mail client prefetching, say).
     return (await this.command<string | null>(["GETDEL", KEYS.login(hash)])) ?? null;
+  }
+  async claimCheckoutSession(sessionId: string, ttlSeconds: number): Promise<boolean> {
+    // SET ... NX: sets only if absent, and reports which call won. Atomic, so
+    // two tabs opening the success URL at the same instant cannot both claim it.
+    const res = await this.command<string | null>([
+      "SET",
+      KEYS.checkout(sessionId),
+      "1",
+      "NX",
+      "EX",
+      ttlSeconds,
+    ]);
+    return res !== null;
   }
   async getAlertCursor(k: string): Promise<string | null> {
     return this.get(KEYS.cursor(k));

@@ -23,6 +23,8 @@
 
 import { describe, it, expect, vi } from "vitest";
 import { FOLLOWABLE_TYPES } from "@/lib/follows";
+import { accessFor, mergeSubscriber, shouldApplyEvent } from "@/lib/billing/subscription";
+import { MemoryStore, RedisStore, type SubscriberRecord } from "@/lib/billing/store";
 import {
   CAPABILITY_SPECS,
   PLANS,
@@ -532,5 +534,163 @@ describe("plan capability claims", () => {
     }
     expect(follows.blurb.toLowerCase()).not.toContain("employer");
     expect(follows.blurb.toLowerCase()).not.toContain("policy");
+  });
+});
+
+
+// =============================================================================
+// STRIPE DOES NOT GUARANTEE ORDER, AND IT RETRIES
+//
+// The merge compared nothing about WHEN two events happened, so a
+// `customer.subscription.updated` carrying status active — a redelivery, or the
+// earlier event simply losing the race — landed after
+// `customer.subscription.deleted` and restored a cancelled subscriber's access
+// for a full billing period. Nothing logged it and nothing could detect it
+// afterwards, because the record looked exactly like a legitimate renewal.
+// =============================================================================
+describe("event ordering", () => {
+  const record = (over: Partial<SubscriberRecord> = {}): SubscriberRecord => ({
+    email: "a@example.com",
+    customerId: "cus_1",
+    status: "active",
+    currentPeriodEnd: 2_000,
+    updatedAt: 1_000,
+    ...over,
+  });
+
+  it("applies an event newer than the last one applied", () => {
+    expect(shouldApplyEvent(record({ lastEventAt: 100 }), 200)).toBe(true);
+  });
+
+  it("refuses an event older than the last one applied", () => {
+    // THE CANCELLATION-UNDO CASE, in one line.
+    expect(shouldApplyEvent(record({ lastEventAt: 500 }), 200)).toBe(false);
+  });
+
+  it("applies an event with the same timestamp", () => {
+    // Stripe emits several events for one state change within the same second.
+    // Refusing equal timestamps would drop the one that matters, and equal
+    // events describe the same state, so applying them is idempotent in effect.
+    expect(shouldApplyEvent(record({ lastEventAt: 300 }), 300)).toBe(true);
+  });
+
+  it("applies anything to a record written before ordering existed", () => {
+    // No stamp means older than everything, so the first stamped event heals it.
+    expect(shouldApplyEvent(record(), 200)).toBe(true);
+  });
+
+  it("applies anything to a subscriber we have never seen", () => {
+    expect(shouldApplyEvent(null, 200)).toBe(true);
+  });
+
+  it("carries the stamp forward when an event does not supply one", () => {
+    const merged = mergeSubscriber(record({ lastEventAt: 400 }), { status: "active" }, 9_999);
+    expect(merged.lastEventAt).toBe(400);
+  });
+
+  it("stamps the record with the event that wrote it", () => {
+    const merged = mergeSubscriber(record({ lastEventAt: 400 }), { lastEventAt: 900 }, 9_999);
+    expect(merged.lastEventAt).toBe(900);
+  });
+});
+
+// =============================================================================
+// A RETURNING SUBSCRIBER MUST NOT INHERIT THEIR DEAD PERIOD
+//
+// mergeSubscriber falls back to the stored currentPeriodEnd when an event
+// carries none, and a checkout session never carries one. For someone
+// re-subscribing that fallback is their OLD, expired end — so accessFor()
+// denied a customer who had just paid, deterministically, on every such
+// checkout, with the message "the paid period has ended".
+// =============================================================================
+describe("a lapsed subscriber who returns", () => {
+  const NOW = 10_000;
+
+  it("is denied by the old merge, which is the bug", () => {
+    const lapsed: SubscriberRecord = {
+      email: "a@example.com",
+      customerId: "cus_1",
+      status: "canceled",
+      currentPeriodEnd: 5_000, // long past
+      updatedAt: 5_000,
+    };
+    // What checkout used to write: status active, no period end supplied.
+    const naive = mergeSubscriber(lapsed, { status: "active" }, NOW);
+    expect(naive.currentPeriodEnd).toBe(5_000);
+    expect(accessFor(naive, NOW).pro).toBe(false);
+    expect(accessFor(naive, NOW).reason).toMatch(/period has ended/);
+  });
+
+  it("has the dead period cleared so the subscription event can set the real one", () => {
+    const lapsed: SubscriberRecord = {
+      email: "a@example.com",
+      customerId: "cus_1",
+      status: "canceled",
+      currentPeriodEnd: 5_000,
+      updatedAt: 5_000,
+    };
+    // What the webhook writes now when the stored period is already expired.
+    const cleared = mergeSubscriber(lapsed, { status: "active", currentPeriodEnd: 0 }, NOW);
+    expect(cleared.currentPeriodEnd).toBe(0);
+
+    // Still no access yet — correctly, because nothing has told us what was
+    // paid for. The subscription event that follows supplies it.
+    expect(accessFor(cleared, NOW).pro).toBe(false);
+    const settled = mergeSubscriber(cleared, { currentPeriodEnd: NOW + 30 * 86_400 }, NOW);
+    expect(accessFor(settled, NOW).pro).toBe(true);
+  });
+});
+
+
+// =============================================================================
+// A CHECKOUT SESSION IS SPENDABLE ONCE
+//
+// /api/billing/activate is unauthenticated on purpose — someone returning from
+// Stripe has no cookie yet — but it honoured a session id any number of times,
+// so one paid `cs_` id minted unlimited Pro cookies in unlimited browsers.
+// =============================================================================
+describe("claiming a checkout session", () => {
+  const TTL = 31 * 86_400;
+
+  it("lets the first caller claim it and refuses every later one", async () => {
+    const store = new MemoryStore();
+    expect(await store.claimCheckoutSession("cs_test_1", TTL)).toBe(true);
+    expect(await store.claimCheckoutSession("cs_test_1", TTL)).toBe(false);
+    expect(await store.claimCheckoutSession("cs_test_1", TTL)).toBe(false);
+  });
+
+  it("treats different sessions independently", async () => {
+    const store = new MemoryStore();
+    expect(await store.claimCheckoutSession("cs_test_1", TTL)).toBe(true);
+    expect(await store.claimCheckoutSession("cs_test_2", TTL)).toBe(true);
+  });
+
+  it("claims atomically in Redis, so two tabs cannot both win", () => {
+    // The behaviour rests on SET ... NX reporting which call won. Asserted on
+    // the command rather than mocked away, because using SET without NX would
+    // silently let both callers through and the test would still pass.
+    const sent: (string | number)[][] = [];
+    const store = new RedisStore({
+      url: "https://kv.example",
+      token: "t",
+      fetchImpl: (async (_u: string, init: { body: string }) => {
+        sent.push(JSON.parse(init.body));
+        return { ok: true, json: async () => ({ result: "OK" }) };
+      }) as unknown as typeof fetch,
+    });
+    return store.claimCheckoutSession("cs_test_1", TTL).then((claimed) => {
+      expect(claimed).toBe(true);
+      expect(sent[0]).toEqual(["SET", "cs:cs_test_1", "1", "NX", "EX", TTL]);
+    });
+  });
+
+  it("reports a lost race as not claimed", async () => {
+    // Redis returns null from SET NX when the key already existed.
+    const store = new RedisStore({
+      url: "https://kv.example",
+      token: "t",
+      fetchImpl: (async () => ({ ok: true, json: async () => ({ result: null }) })) as unknown as typeof fetch,
+    });
+    expect(await store.claimCheckoutSession("cs_test_1", TTL)).toBe(false);
   });
 });
