@@ -55,6 +55,22 @@ export interface BillingStatus {
   disabledReason: string | null;
 }
 
+/**
+ * What a VISITOR is told when billing cannot serve them.
+ *
+ * One sentence, no configuration in it. `disabledReason` and `missing` name
+ * environment variables and internal switches — "BILLING_ENABLED is not set to
+ * \"true\"" was being rendered under the Subscribe button on /pricing, which
+ * tells a customer nothing they can act on and tells everyone else how the
+ * deployment is wired.
+ *
+ * The diagnostics are not lost, they are moved: routes log them server-side,
+ * and `npm run billing:verify` reads billingStatus() directly rather than over
+ * HTTP, so an operator still gets the precise list.
+ */
+export const BILLING_UNAVAILABLE_MESSAGE =
+  "Subscriptions are not open yet. Nothing on the site is behind a paywall, and the weekly email stays free.";
+
 /** The master switch, exactly like SOCIAL_POST_ENABLED: only "true" counts. */
 export function billingEnabled(env: BillingEnv = process.env as BillingEnv): boolean {
   return (env.BILLING_ENABLED ?? "").trim() === "true";

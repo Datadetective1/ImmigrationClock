@@ -15,7 +15,7 @@
 // claim rather than a session row.
 // =============================================================================
 
-import { billingStatus } from "@/lib/billing/config";
+import { BILLING_UNAVAILABLE_MESSAGE, billingStatus } from "@/lib/billing/config";
 import { MAX_TTL_DAYS, cookieFor, sign, type Entitlement } from "@/lib/billing/entitlement";
 import { StripeClient, StripeError, grantsAccess } from "@/lib/billing/stripe";
 import { emailKey, resolveStore } from "@/lib/billing/store";
@@ -31,7 +31,7 @@ export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
   if (!status.checkoutReady) {
     return json(
-      { error: "billing_not_configured", message: status.disabledReason ?? "Billing is not configured." },
+      { error: "billing_not_configured", message: BILLING_UNAVAILABLE_MESSAGE },
       503
     );
   }

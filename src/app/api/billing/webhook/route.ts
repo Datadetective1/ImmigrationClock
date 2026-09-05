@@ -59,7 +59,7 @@ export async function POST(req: Request): Promise<Response> {
     // 503, not 200: an unconfigured endpoint must not look like a working one,
     // or Stripe will report deliveries as successful while nothing is verified.
     return json(
-      { error: "billing_not_configured", message: status.disabledReason ?? "The webhook secret is not configured." },
+      { error: "billing_not_configured", message: "This endpoint is not accepting deliveries." },
       503
     );
   }

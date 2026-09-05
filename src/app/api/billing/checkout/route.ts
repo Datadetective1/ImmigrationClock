@@ -16,7 +16,7 @@
 // presses pay.
 // =============================================================================
 
-import { billingOrigin, billingStatus, priceIdFor } from "@/lib/billing/config";
+import { BILLING_UNAVAILABLE_MESSAGE, billingOrigin, billingStatus, priceIdFor } from "@/lib/billing/config";
 import { isInterval } from "@/lib/billing/plans";
 import { StripeClient, StripeError } from "@/lib/billing/stripe";
 import { clientIp, json, rateLimited } from "@/lib/billing/http";
@@ -30,15 +30,15 @@ const MAX_PER_MINUTE = 5;
 export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
   if (!status.checkoutReady) {
-    return json(
-      {
-        error: "billing_not_configured",
-        message:
-          status.disabledReason ??
-          `Checkout is not configured. Missing: ${status.missing.join(", ") || "nothing"}.`,
-      },
-      503
+    // THE DIAGNOSTIC GOES TO THE LOG, NOT TO THE CUSTOMER. This returned
+    // `disabledReason` verbatim, so a visitor clicking Subscribe was shown
+    // 'BILLING_ENABLED is not set to "true", so every billing surface is
+    // switched off.' — nothing they can act on, and a description of how the
+    // deployment is wired to everyone else.
+    console.warn(
+      `[billing] checkout unavailable: ${status.disabledReason ?? `missing ${status.missing.join(", ") || "nothing"}`}`
     );
+    return json({ error: "billing_not_configured", message: BILLING_UNAVAILABLE_MESSAGE }, 503);
   }
 
   if (rateLimited(clientIp(req), MAX_PER_MINUTE)) {
@@ -95,8 +95,10 @@ export async function GET(): Promise<Response> {
       checkoutReady: status.checkoutReady,
       webhookReady: status.webhookReady,
       testMode: status.testMode,
-      missing: status.missing,
-      disabledReason: status.disabledReason,
+      // `missing` and `disabledReason` are deliberately NOT returned here. This
+      // endpoint is unauthenticated and both name environment variables. An
+      // operator gets the precise list from `npm run billing:verify`, which
+      // reads billingStatus() directly rather than over HTTP.
     },
     status.checkoutReady ? 200 : 503
   );
