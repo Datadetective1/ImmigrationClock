@@ -232,6 +232,18 @@ export default function PricingPage() {
                   label={`Subscribe yearly — $${pro.annualUsd}`}
                   className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
                 />
+                {/* A TEST DEPLOYMENT MUST NOT LOOK LIKE A LIVE ONE.
+                    /account already says this; /pricing is where somebody
+                    actually clicks Subscribe, and it is the page the activation
+                    walkthrough opens first. Driven by whether the configured
+                    Stripe key is a test key, so it cannot be left on by
+                    accident when real keys arrive. */}
+                {billingStatus().testMode ? (
+                  <p className="rounded-md border border-status-amber/30 bg-status-amber/[0.06] px-3 py-2 text-center text-[11px] text-status-amber">
+                    Test mode. No real card is charged, and any subscription
+                    created here is not a real one.
+                  </p>
+                ) : null}
                 <p className="text-center text-[11px] text-slate-500">
                   Payment is handled by Stripe. {SITE.name} never sees your card.
                 </p>

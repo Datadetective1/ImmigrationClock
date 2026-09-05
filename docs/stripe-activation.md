@@ -63,10 +63,19 @@ needs a reachable URL.
 
 1. **Developers** → **Webhooks** → **+ Add endpoint**.
 2. Endpoint URL: `https://<your-preview-domain>/api/billing/webhook`
-3. Click **Select events** and choose exactly these three:
+3. Click **Select events** and choose exactly these four:
    - `checkout.session.completed`
+   - `customer.subscription.created`
    - `customer.subscription.updated`
    - `customer.subscription.deleted`
+
+   > **`customer.subscription.created` is not optional.** It is the only event
+   > that carries `current_period_end` at signup. Without it a buyer who closes
+   > the tab before the success redirect completes is stored with
+   > `currentPeriodEnd: 0` and is denied access until their first renewal — a
+   > paying customer, locked out, silently. A test asserts this list matches the
+   > code.
+
 4. Click **Add endpoint**.
 5. On the endpoint page, click **Reveal** under **Signing secret** and copy it. It starts `whsec_`.
 
@@ -153,7 +162,7 @@ any future expiry, any CVC, any postcode.
 | 1 | Open `/pricing` | Upgrade button is live, not disabled. The page says it is in test mode. |
 | 2 | Click upgrade, monthly | Redirects to Stripe Checkout showing **$19.00/month** and a test-mode banner |
 | 3 | Pay with 4242 | Redirects back to the site, not to an error |
-| 4 | Check Stripe → Developers → Webhooks → your endpoint | `checkout.session.completed` delivered, **200** response |
+| 4 | Check Stripe → Developers → Webhooks → your endpoint | `checkout.session.completed` AND `customer.subscription.created` both delivered, **200** each |
 | 5 | Open `/account` | Shows an active Pro subscription and the renewal date |
 | 6 | Check the browser cookie | An entitlement cookie is set. It is signed — it should not be readable as plain JSON |
 | 7 | Open the customer portal from `/account` | Stripe's portal loads with the subscription listed |
