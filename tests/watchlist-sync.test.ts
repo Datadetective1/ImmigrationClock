@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { mergeWatchlists, readSyncState, writeSyncState, clearSyncState, SYNC_STATE_KEY } from "@/lib/billing/watchlist-sync";
+import { mergeWatchlists, resolveLoad, readSyncState, writeSyncState, clearSyncState, SYNC_STATE_KEY } from "@/lib/billing/watchlist-sync";
 import { sign, sessionHintCookie, COOKIE_NAME, type Entitlement } from "@/lib/billing/entitlement";
 import { hasSessionHint } from "@/lib/billing/watchlist-client";
 import { emailKey, KEYS } from "@/lib/billing/store";
@@ -94,6 +94,56 @@ describe("first sign-in merges rather than replaces", () => {
       [undefined, ["visa:h-1b"], "country:india"] as unknown[]
     );
     expect(merged.entityIds).toEqual(["country:india"]);
+  });
+});
+
+// -----------------------------------------------------------------------------
+// THE SERVER IS AUTHORITATIVE AFTER THE FIRST MERGE
+//
+// This is what makes deletion work, and getting it wrong is silent: the reader
+// unfollows something, it reappears a day later from a stale copy on another
+// device, and nothing anywhere reports an error.
+// -----------------------------------------------------------------------------
+
+describe("a load after the first merge", () => {
+  it("takes the account's list and ignores local entirely", () => {
+    // The laptop unfollowed Mexico. The phone's local copy still has it.
+    const result = resolveLoad({
+      merged: true,
+      server: ["visa:h-1b"],
+      local: ["visa:h-1b", "country:mexico"],
+    });
+    expect(result.entityIds).toEqual(["visa:h-1b"]);
+    expect(result.entityIds).not.toContain("country:mexico");
+    expect(result.changed).toBe(false);
+  });
+
+  it("does not resurrect a follow removed on another device, ever", () => {
+    // Repeated loads must keep converging on the account, not oscillate.
+    let state = ["visa:h-1b", "country:mexico"];
+    for (let i = 0; i < 5; i++) {
+      state = resolveLoad({ merged: true, server: ["visa:h-1b"], local: state }).entityIds;
+    }
+    expect(state).toEqual(["visa:h-1b"]);
+  });
+
+  it("accepts an emptied account list rather than refilling it from local", () => {
+    // Unfollowing everything on one device must not be undone by another.
+    const result = resolveLoad({ merged: true, server: [], local: ["visa:h-1b", "country:india"] });
+    expect(result.entityIds).toEqual([]);
+  });
+
+  it("still sanitizes what the account holds", () => {
+    const result = resolveLoad({ merged: true, server: ["policy:x", "country:india"], local: [] });
+    expect(result.entityIds).toEqual(["country:india"]);
+  });
+
+  it("BEFORE the first merge, unions instead — the two branches differ", () => {
+    // The same inputs, the other branch: this is the contrast the whole design
+    // rests on, asserted side by side so neither can drift into the other.
+    const inputs = { server: ["visa:h-1b"], local: ["visa:h-1b", "country:mexico"] };
+    expect(resolveLoad({ merged: false, ...inputs }).entityIds).toEqual(["visa:h-1b", "country:mexico"]);
+    expect(resolveLoad({ merged: true, ...inputs }).entityIds).toEqual(["visa:h-1b"]);
   });
 });
 

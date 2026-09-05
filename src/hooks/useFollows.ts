@@ -28,7 +28,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track, watchlistSizeBucket } from "@/lib/analytics";
 import { fetchServerWatchlist, hasSessionHint, saveServerWatchlist, type SyncStatus } from "@/lib/billing/watchlist-client";
-import { mergeWatchlists, readSyncState, writeSyncState } from "@/lib/billing/watchlist-sync";
+import { readSyncState, resolveLoad, writeSyncState } from "@/lib/billing/watchlist-sync";
 import {
   readStoredFollows,
   writeStoredFollows,
@@ -164,18 +164,18 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
       syncing.current = true;
       setSyncStatus("on");
 
+      // The decision itself is a pure function so it can be tested; see
+      // resolveLoad() for why the account wins after the first merge.
       const alreadyMerged = readSyncState()?.merged === true;
-      if (alreadyMerged) {
-        // The account is the authority now.
-        const fromServer = sanitizeFollows(server.entityIds, knownIds);
-        adopt(fromServer);
-        writeStoredFollows(fromServer);
-        return;
-      }
-
-      const merged = mergeWatchlists(server.entityIds, latest.current, knownIds);
+      const merged = resolveLoad({
+        merged: alreadyMerged,
+        server: server.entityIds,
+        local: latest.current,
+        knownIds,
+      });
       adopt(merged.entityIds);
       writeStoredFollows(merged.entityIds);
+      if (alreadyMerged) return;
       writeSyncState(Math.floor(Date.now() / 1000));
 
       // Only write back when the browser actually contributed something.

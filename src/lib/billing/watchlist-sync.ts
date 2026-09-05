@@ -82,6 +82,33 @@ export function mergeWatchlists(
   return { entityIds, added: added.slice(0, Math.max(0, MAX_FOLLOWS - cleanServer.length)), rejected, changed: !sameAsServer };
 }
 
+/**
+ * What a signed-in load should adopt, given whether this device has merged yet.
+ *
+ * Extracted from the hook so the rule can be ASSERTED rather than read. The
+ * branch it decides is the one that makes deletion work: after the first merge
+ * the server is authoritative, so a follow removed on a laptop stays removed
+ * when the phone loads — whose local copy still contains it.
+ *
+ * Getting this wrong is the classic sync bug and it is silent: the reader
+ * unfollows something, it comes back a day later, and nothing anywhere reports
+ * an error.
+ */
+export function resolveLoad(input: {
+  merged: boolean;
+  server: readonly unknown[];
+  local: readonly unknown[];
+  knownIds?: ReadonlySet<string>;
+}): MergeResult {
+  const { merged, server, local, knownIds } = input;
+  if (!merged) return mergeWatchlists(server, local, knownIds);
+
+  // Already merged: the account wins outright. Local is not consulted at all,
+  // which is precisely what lets a removal propagate.
+  const entityIds = sanitizeFollows([...server], knownIds);
+  return { entityIds, added: [], rejected: [], changed: false };
+}
+
 // -----------------------------------------------------------------------------
 // PER-DEVICE SYNC STATE
 // -----------------------------------------------------------------------------
