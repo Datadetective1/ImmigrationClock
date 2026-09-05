@@ -373,22 +373,54 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
     // Where does this visa appear, and in what kind of sentence?
     const inTitle = m.re.test(titleText);
     const inSummary = m.re.test(summaryText);
+    // A MEASURED NEGATIVE RESULT, RECORDED SO IT IS NOT RETRIED BLIND.
+    //
+    // First-match-wins looks like the defect that cost this codebase its TPS
+    // country designations and scored a fee rule's forms against a table of
+    // contents, so ranking candidate sentences by the shared evidence model was
+    // the obvious next move. Measured on the ingest path it made things worse:
+    // H-1B precision fell 95% -> 90% (a second false positive) and recall did
+    // not move, because the record it was meant to rescue — "Adjustment to
+    // Premium Processing Fees" — has no better sentence to find. Its only H-1B
+    // passage is fee-table prose that reads as contextual however it is ranked.
+    //
+    // Reverted rather than kept. The span rule stays first-match.
     const bodyScopeSentence = inTitle || inSummary
       ? null
       : allSentences.find((sentence) => m.re.test(sentence) && isScopeSentence(sentence));
 
     if (!inTitle && !inSummary && !bodyScopeSentence) continue;
 
+    // A QUOTE MUST CONTAIN THE THING IT IS A QUOTE FOR.
+    //
+    // A span runs to 400 characters and clip() trims at 320, so when the visa
+    // was named in the last eighty the stored quote did not contain it at all.
+    // One record claimed H-1B on the strength of a quote about 8 CFR 214.2(j),
+    // which is J-1. A reader checking that quote finds nothing — worse than a
+    // missing classification, because it is one that cannot be checked.
+    //
+    // Only the quote is re-centred, and only when the plain clip actually lost
+    // the term. Grading still reads the whole sentence. Centring the window
+    // BEFORE grading was tried and measured: it strips the operative context
+    // that earns a strong grade, and cost two true positives for no precision
+    // (H-1B recall 95% -> 89%). countries.ts calls this property
+    // selfSupporting; the visa branch simply never had it.
+    const bodySpan = bodyScopeSentence as string;
+    const plainClip = inTitle || inSummary ? "" : clip(bodySpan);
     const evidence = inTitle
       ? clip(titleText)
       : inSummary
         ? clip(windowAround(summaryText, m.surface) ?? summaryText)
-        : clip(bodyScopeSentence as string);
+        : m.re.test(plainClip)
+          ? plainClip
+          : clip(windowAround(bodySpan, m.surface) ?? bodySpan);
 
     const method = gradeClassification({
       title: titleText,
       summary: summaryText,
-      evidence,
+      // The whole sentence, not the stored quote: the quote may have been
+      // re-centred on the term and lost the words that establish the grade.
+      evidence: inTitle || inSummary ? evidence : bodySpan,
       matches: (text) => m.re.test(text),
     });
 

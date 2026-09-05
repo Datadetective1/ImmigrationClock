@@ -92,6 +92,18 @@ const RANK: Record<EvidenceKind, number> = {
   unrelated_mention: 10,
 };
 
+/**
+ * How good a piece of evidence is, lower being better.
+ *
+ * Exported so a caller choosing BETWEEN candidate passages ranks them by the
+ * same model that grades the one it picks. Choosing the first match and then
+ * grading it is how a fee rule came to be judged on a sentence about a
+ * different visa class.
+ */
+export function evidenceRank(kind: EvidenceKind): number {
+  return RANK[kind];
+}
+
 export function strongerEvidence(a: EvidenceKind, b: EvidenceKind): EvidenceKind {
   return RANK[a] <= RANK[b] ? a : b;
 }
@@ -137,6 +149,10 @@ const HISTORICAL = [
   /\bcomment(?:er|ers)? (?:noted|stated|requested|suggested|asked|remarked)\b/i,
   /\bfor (?:their|the|his|her|your) comments?\b/i,
   /\bin response to (?:the |these )?comments?\b/i,
+  // An agency answering an assertion is answering a comment, whatever noun the
+  // sentence uses. "DHS disagrees with the assertion the U.S. does not have a
+  // compelling interest ..." was being graded as L-1 scope.
+  /\b(?:DHS|USCIS|CBP|ICE|EOIR|the (?:Department|agency|Service))\s+(?:disagrees|agrees|acknowledges|declines|recognizes)\b/i,
   /\bResponse:\s/,
   /\bin (?:19|20)\d{2}\b[^.]{0,40}\b(?:the (?:Department|agency|Service)|USCIS|DHS)\b/i,
   /\bas (?:described|discussed|noted|set forth|provided) in\b/i,
@@ -260,4 +276,80 @@ export function confidenceForEvidence(kind: EvidenceKind): number {
     default:
       return 0.4;
   }
+}
+
+// -----------------------------------------------------------------------------
+// EXCLUSION — the document saying it does NOT reach something
+// -----------------------------------------------------------------------------
+
+/**
+ * Phrases in which a document disclaims reach.
+ *
+ * This is the most damaging thing the classifier can get wrong, and until now
+ * nothing looked for it. Every other failure mode produces a match that is
+ * merely weak — a footnote, a citation, an aside. An exclusion produces a match
+ * that is BACKWARDS. "This rule does not apply to the adjudication of H-1B
+ * nonimmigrant visa petitions" was being read as evidence that the rule applies
+ * to H-1B, at derived_high_confidence, and sold to a subscriber monitoring
+ * H-1B as a change affecting them.
+ *
+ * Three real examples from the corpus, all previously graded strong:
+ *   "this rule does not apply to the adjudication of H-1B ... petitions"
+ *   "The H-1B cap-gap provisions are not changing due to this rulemaking"
+ *   "The rule does not apply to DACA recipients"
+ */
+const EXCLUSION = [
+  /\b(?:do|does|shall|will|would|did)\s+not\s+(?:apply|affect|change|alter|extend|pertain|reach|cover)\b/i,
+  /\b(?:is|are|was|were)\s+not\s+(?:changing|changed|affected|altered|covered|included|eligible|required|subject)\b/i,
+  /\b(?:is|are)\s+unaffected\b/i,
+  /\bno\s+changes?\s+(?:are\s+being\s+made\s+)?to\b/i,
+  /\bnot\s+applicable\s+to\b/i,
+  /\bexcluded\s+from\b/i,
+  /\bother\s+than\b/i,
+  /\bexcept\s+(?:for|that|as\s+provided)\b/i,
+  /\bnothing\s+in\s+this\s+(?:rule|part|section|notice)\b/i,
+];
+
+/**
+ * How far from the matched term an exclusion still governs it.
+ *
+ * Whole-passage matching was tried first and demoted real classifications: a
+ * 400-character span that excludes one programme while designating another
+ * would lose both. The window is generous enough to span "does not apply to the
+ * adjudication of H-1B nonimmigrant visa petitions" and tight enough that an
+ * unrelated clause in the same span does not reach across.
+ */
+const EXCLUSION_WINDOW = 140;
+
+/**
+ * Does this passage EXCLUDE the matched term rather than cover it?
+ *
+ * Proximity is required in both directions, because a document disclaims reach
+ * both ways round: "does not apply to X" puts the negation first, "X is not
+ * changing" puts it second.
+ */
+export function excludesScope(passage: string, matches: (text: string) => boolean): boolean {
+  if (!passage) return false;
+  const flat = passage.replace(/\s+/g, " ");
+
+  // AN EXCLUSION GOVERNS ITS OWN SENTENCE, and stops at the full stop.
+  //
+  // Without this bound the window reads straight across a sentence boundary:
+  // "The rule does not apply to DACA recipients. Separately, this rule applies
+  // to petitioners filing H-1B petitions" would have excluded H-1B as well as
+  // DACA, turning a precision fix into a recall bug. A regression test holds
+  // both halves of that sentence pair.
+  for (const sentence of flat.split(/(?<=[.;])\s+/)) {
+    for (const re of EXCLUSION) {
+      const global = new RegExp(re.source, "gi");
+      for (let m = global.exec(sentence); m !== null; m = global.exec(sentence)) {
+        const from = Math.max(0, m.index - EXCLUSION_WINDOW);
+        const to = Math.min(sentence.length, m.index + m[0].length + EXCLUSION_WINDOW);
+        // The window either side of the negation, clipped to the sentence. If
+        // the term we classified sits inside it, the document disclaimed it.
+        if (matches(sentence.slice(from, to))) return true;
+      }
+    }
+  }
+  return false;
 }

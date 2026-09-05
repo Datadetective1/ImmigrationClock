@@ -11,7 +11,7 @@ import { extractImpact } from "@/domains/graph/extract-impact";
 import { BODY_SCAN_LIMIT, formsFor } from "@/domains/graph/forms";
 import { richText } from "@/domains/graph/text";
 import { isStrong } from "@/domains/graph/classification";
-import type { EntityId } from "@/domains/graph/entities";
+import { VISA_CATEGORIES, type EntityId } from "@/domains/graph/entities";
 import { findCountriesInText, countriesFor, COUNTRIES, AMBIGUOUS_COUNTRY_NAMES } from "@/domains/graph/countries";
 import { confidenceFor } from "@/domains/graph/classification";
 import { toPublicChange } from "@/lib/intelligence/change";
@@ -475,6 +475,68 @@ describe("reclassification cannot silently degrade the archive", () => {
       expect(f.evidence, f.entityId).toBeTruthy();
       expect(f.method, f.entityId).toBeTruthy();
     }
+  });
+});
+
+// =============================================================================
+// EVERY STORED QUOTE MUST RE-DERIVE ITS OWN CLAIM
+//
+// A span runs to 400 characters and clip() trims at 320, so a visa named in the
+// last eighty produced a quote that did not contain it. One record claimed H-1B
+// on a quote about 8 CFR 214.2(j), which is J-1. That is worse than a missing
+// classification: it is one a reader cannot check, on a platform whose entire
+// claim is that the quotes are real.
+// =============================================================================
+describe("a visa quote contains the visa it is a quote for", () => {
+  // Built exactly as extract-impact builds them, from the same seed entities,
+  // so the test asks the question the extractor asked rather than a guess at it.
+  const HYPHENATED = /^[a-z]{1,2}-\d/i;
+  const SURFACES = new Map<string, RegExp[]>(
+    VISA_CATEGORIES.map((v) => [
+      v.id as string,
+      [v.name, ...(v.aliases ?? [])]
+        .filter((x) => x.length >= 4 || HYPHENATED.test(x))
+        .map(
+          (x) =>
+            new RegExp(
+              `(?<![a-z0-9])${x.toLowerCase()}(?![a-z0-9])`,
+              "i"
+            )
+        ),
+    ])
+  );
+
+  it("holds for every record in the archive that ingestion classifies", () => {
+    let checked = 0;
+    for (const e of (EVENTS as unknown as { id: string; title: string; summary: string }[])) {
+      const im = extractImpact({
+        title: e.title ?? "",
+        abstract: e.summary ?? "",
+        body: sourceTextFor(e.id),
+        agencyIds: [],
+        effectiveAt: null,
+      });
+      for (const v of im.visaCategories ?? []) {
+        const surfaces = SURFACES.get(v.entityId) ?? [];
+        if (surfaces.length === 0) continue;
+        checked++;
+        expect(v.evidence, `${e.id} ${v.entityId}`).toBeTruthy();
+        expect(
+          surfaces.some((re) => re.test(v.evidence ?? "")),
+          `${e.id} ${v.entityId}: the stored quote does not contain the visa it claims`
+        ).toBe(true);
+      }
+    }
+    expect(checked, "some classifications were checked").toBeGreaterThan(30);
+  });
+
+  it("re-centres the quote when a plain clip would lose the term", () => {
+    const tail = "This part applies to aliens who are described in the preceding paragraph. ";
+    const body = `${tail.repeat(6)}This rule applies to aliens who are beneficiaries of H-1B petitions and must be registered.`;
+    const im = extractImpact({ title: "Registration", abstract: "A rule.", body });
+    const h1bEntry = (im.visaCategories ?? []).find((v) => v.entityId === "visa:h-1b");
+    expect(h1bEntry, "H-1B is classified").toBeTruthy();
+    expect(h1bEntry!.evidence).toMatch(/H-1B/i);
   });
 });
 
