@@ -19,6 +19,8 @@ import {
   trackStoryView,
   type AnalyticsEvent,
   type OnceStore,
+  track,
+  watchlistSizeBucket,
 } from "@/lib/analytics";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -145,6 +147,109 @@ describe("the events reach the provider with fixed, non-identifying props", () =
 
   it("is a no-op with no provider and no window", () => {
     expect(() => trackSocialArrival({ platform: "x", contentType: "x", story: "" }, "/")).not.toThrow();
+  });
+});
+
+// =============================================================================
+// NOTHING A READER SELECTS MAY REACH A THIRD PARTY
+//
+// On most sites a followed topic is a topic. Here the topic IS the person: a
+// browser that follows country:venezuela and visa:tps has disclosed a
+// nationality and an immigration status, and two events from one session are
+// correlatable. entity_follow sent the exact entity id until this test existed.
+//
+// The rule this pins: analytics may carry the CATEGORY of a selection, never the
+// selection. Nothing here asserts an implementation detail — it asserts that a
+// payload cannot contain a country, a visa, an employer slug or an email.
+// =============================================================================
+describe("analytics never carry a reader's selection", () => {
+  afterEach(() => {
+    delete (globalThis as { window?: unknown }).window;
+  });
+
+  function capture() {
+    const calls: { name: string; props: Record<string, unknown> }[] = [];
+    (globalThis as { window?: unknown }).window = {
+      plausible: (name: string, opts?: { props?: Record<string, unknown> }) =>
+        calls.push({ name, props: opts?.props ?? {} }),
+    };
+    return calls;
+  }
+
+  /** Values that must never appear in any analytics payload, anywhere. */
+  const FORBIDDEN = [
+    /country:/i,
+    /visa:/i,
+    /employer:/i,
+    /\bvenezuela\b/i,
+    /\bh-1b\b/i,
+    /@/,
+    /\bcus_/i,
+    /\bsub_/i,
+    /\bcs_(?:test|live)_/i,
+  ];
+
+  it("entity_follow carries the category and a bucketed size, never the entity", () => {
+    const calls = capture();
+    track("entity_follow", {
+      entity_type: "country",
+      action: "follow",
+      total: watchlistSizeBucket(3),
+    });
+    expect(calls).toHaveLength(1);
+    expect(calls[0].props).toEqual({ entity_type: "country", action: "follow", total: "2-5" });
+  });
+
+  it("refuses every forbidden value in a realistic follow payload", () => {
+    const calls = capture();
+    track("entity_follow", {
+      entity_type: "country",
+      action: "follow",
+      total: watchlistSizeBucket(1),
+    });
+    const serialized = JSON.stringify(calls);
+    for (const pattern of FORBIDDEN) {
+      expect(serialized, `analytics payload matched ${pattern}`).not.toMatch(pattern);
+    }
+  });
+
+  it("is what the follow hook actually sends, not merely what a test hand-writes", () => {
+    // THIS ASSERTION EXISTS BECAUSE THE ONES ABOVE DO NOT COVER THE HOOK.
+    //
+    // They construct a payload and check it is clean, which is true of any
+    // payload a test writes. Reverting src/hooks/useFollows.ts to send
+    // `entity: entityId` would leave every one of them green. The hook is a
+    // React hook and this suite runs in node, so it is read as source — the
+    // same pattern this file already uses for the component guarantees below.
+    const hook = read("src/hooks/useFollows.ts");
+    const call = hook.slice(hook.indexOf('track("entity_follow"'), hook.indexOf("commit(next)"));
+    expect(call, "the hook no longer fires entity_follow").toContain("entity_type");
+    expect(call, "the hook sends the entity id itself").not.toMatch(/entity:\s/);
+    expect(call, "the hook sends an unbucketed count").toContain("watchlistSizeBucket");
+    expect(call).not.toMatch(/total:\s*next\.length/);
+  });
+
+  it("buckets a watchlist size rather than sending the count", () => {
+    // An exact count narrows a browser to a small group beside anything else,
+    // and no product question needs it.
+    expect(watchlistSizeBucket(0)).toBe("0");
+    expect(watchlistSizeBucket(1)).toBe("1");
+    expect(watchlistSizeBucket(5)).toBe("2-5");
+    expect(watchlistSizeBucket(6)).toBe("6-20");
+    expect(watchlistSizeBucket(60)).toBe("21+");
+  });
+
+  it("keeps every monetization event free of customer identifiers", () => {
+    // The funnel is the place a Stripe id or an email is most likely to be added
+    // by a future edit, and nothing guarded it before.
+    const calls = capture();
+    track("pricing_view", { plan: "pro" });
+    track("checkout_started", { plan: "pro", interval: "monthly" });
+    track("subscription_active", { plan: "pro" });
+    const serialized = JSON.stringify(calls);
+    for (const pattern of FORBIDDEN) {
+      expect(serialized, `a monetization payload matched ${pattern}`).not.toMatch(pattern);
+    }
   });
 });
 

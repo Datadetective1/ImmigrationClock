@@ -130,7 +130,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
   {
     id: "browser_follows",
     label: "Follows in your browser",
-    blurb: "Follow visas, countries, agencies, topics and employers. Stored on your device.",
+    blurb: "Follow visas, countries, agencies and topics. Stored on your device.",
     plan: "free",
     existsToday: true,
     status: "available",
@@ -158,7 +158,19 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     blurb: "The same follows on every device, and kept if you clear your browser.",
     plan: "pro",
     existsToday: false,
-    status: "available",
+    // WAS "available", BESIDE existsToday: false, IN THIS SAME OBJECT.
+    //
+    // status drives a plain green tick on /pricing and the "What your
+    // subscription does today" list on /account. So the one capability a
+    // subscriber was shown as working is the one with no client: the server
+    // half (/api/billing/watchlist) is complete and authorized, and nothing in
+    // the browser has ever called it. src/lib/follows.ts says plainly that
+    // follows do not sync, on the same site, in the same sentence a subscriber
+    // reads after paying.
+    //
+    // An invariant test now refuses status "available" with existsToday false,
+    // so the two fields cannot disagree again.
+    status: "building",
   },
   {
     id: "bulk_export",

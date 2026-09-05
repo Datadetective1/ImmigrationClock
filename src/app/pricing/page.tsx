@@ -17,7 +17,7 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { UpgradeButton } from "@/components/UpgradeButton";
 import { PricingAnalytics } from "@/components/PricingAnalytics";
-import { CAPABILITY_SPECS, PLAN_BY_ID, STATUS_LABEL, annualSavingUsd, notYetAvailable } from "@/lib/billing/plans";
+import { CAPABILITY_SPECS, PLAN_BY_ID, STATUS_LABEL, annualSavingUsd, availableNow, notYetAvailable } from "@/lib/billing/plans";
 import type { CapabilityStatus } from "@/lib/billing/plans";
 import { SITE } from "@/lib/site";
 
@@ -61,6 +61,13 @@ export default function PricingPage() {
   const freeFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "free");
   const proFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "pro");
   const pending = notYetAvailable("pro");
+  const inBuild = pending.filter((c) => c.status === "building").length;
+  const planned = pending.filter((c) => c.status === "planned").length;
+
+  // NOTHING WORKING MEANS NOTHING TO SELL. Derived from the capability specs
+  // rather than a flag someone has to remember to flip: the day a Pro
+  // capability is marked available, the buttons come back on their own.
+  const purchasable = availableNow("pro").length > 0;
 
   return (
     <div>
@@ -147,28 +154,96 @@ export default function PricingPage() {
               </li>
             </ul>
 
-            {pending.length > 0 ? (
+            {/* THE ZERO-AVAILABLE STATE IS REACHABLE AND HAS TO READ HONESTLY.
+                The paragraph below used to say "subscribe now only if the ones
+                marked available are already worth it to you", which pointed at
+                an empty set the moment watchlist_sync was corrected from
+                "available" to "building" — every Pro row renders a dash, and
+                there is no "rest" either. A reader cannot follow an instruction
+                about a set with nothing in it, and asking for $19 against a
+                column of dashes without saying so plainly is the one thing this
+                paragraph exists to prevent. */}
+            {pending.length > 0 && pending.length === proFeatures.length ? (
+              <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
+                <strong className="text-white">Being straight with you: none of this is
+                finished yet.</strong>{" "}
+                {/* Counts by status rather than one comma-joined list. The old
+                    sentence called all five "in build" when two are only
+                    planned — wrong in the flattering direction, in the one
+                    paragraph whose whole job is precision — and joining the
+                    labels with commas made "Your watchlist, everywhere" read as
+                    two separate capabilities. The badge on each line already
+                    says which is which. */}
+                Of the {proFeatures.length} capabilities above,{" "}
+                {inBuild > 0 ? `${inBuild} ${inBuild === 1 ? "is" : "are"} in build` : null}
+                {inBuild > 0 && planned > 0 ? " and " : null}
+                {planned > 0 ? `${planned} ${planned === 1 ? "is" : "are"} planned` : null}; the
+                badge on each line says which. There is nothing here to buy today that you do not
+                already get free. Everything on the free plan stays free and stays complete.
+              </p>
+            ) : pending.length > 0 ? (
               <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
                 <strong className="text-white">Being straight with you:</strong>{" "}
                 {pending.length} of the {proFeatures.length} capabilities above{" "}
-                {pending.length === 1 ? "is" : "are"} not finished yet —{" "}
-                {pending.map((f) => f.label.toLowerCase()).join(", ")}. Subscribe now only if the ones
-                marked available are already worth it to you. The rest arrive at no extra cost.
+                {pending.length === 1 ? "is" : "are"} not finished yet. Subscribe now only if the
+                ones marked available are already worth it to you. The rest arrive at no extra cost.
+                {/* A real list, not a comma-joined sentence: one capability is
+                    literally called "Your watchlist, everywhere". */}
+                <span className="mt-1.5 block">
+                  {pending.map((f) => (
+                    <span key={f.id} className="block">
+                      {"\u00b7 "}
+                      {f.label}{" "}
+                      <span className="text-slate-500">({STATUS_LABEL[f.status].toLowerCase()})</span>
+                    </span>
+                  ))}
+                </span>
               </p>
             ) : null}
 
-            <div className="mt-6 space-y-3">
-              <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />
-              <UpgradeButton
-                interval="annual"
-                placement="pricing_page"
-                label={`Subscribe yearly — $${pro.annualUsd}`}
-                className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
-              />
-              <p className="text-center text-[11px] text-slate-500">
-                Payment is handled by Stripe. {SITE.name} never sees your card.
-              </p>
-            </div>
+            {/* THE PRICE STAYS, THE PURCHASE DOES NOT.
+                Two live Subscribe buttons sat directly beneath a paragraph
+                saying there is nothing to buy — the reader was told not to
+                subscribe and invited to in the same breath. The prices are the
+                intended ones and stay on the page; what is withheld is the
+                ability to pay for a product that cannot yet do anything.
+                Nothing about the Stripe wiring changes, and this branch
+                disappears by itself the moment a Pro capability is available. */}
+            {purchasable ? (
+              <div className="mt-6 space-y-3">
+                <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />
+                <UpgradeButton
+                  interval="annual"
+                  placement="pricing_page"
+                  label={`Subscribe yearly — $${pro.annualUsd}`}
+                  className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
+                />
+                <p className="text-center text-[11px] text-slate-500">
+                  Payment is handled by Stripe. {SITE.name} never sees your card.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-6 space-y-3">
+                <div
+                  data-testid="pro-not-for-sale"
+                  className="rounded-lg border border-dashed border-white/15 bg-white/[0.02] px-4 py-3 text-center"
+                >
+                  <p className="text-sm font-semibold text-slate-200">Not for sale yet</p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                    Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year. You cannot
+                    subscribe today, because none of it works yet and we are not taking money for
+                    something that does not.
+                  </p>
+                </div>
+                <p className="text-center text-[11px] text-slate-500">
+                  The{" "}
+                  <Link href="/pulse" className="link-accent">
+                    weekly email
+                  </Link>{" "}
+                  says when it opens, and stays free either way.
+                </p>
+              </div>
+            )}
           </section>
         </div>
 

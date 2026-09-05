@@ -25,7 +25,7 @@
 
 import Link from "next/link";
 import { trackPremiumInterest } from "@/lib/analytics";
-import type { Capability } from "@/lib/billing/plans";
+import { CAPABILITY_SPECS, STATUS_LABEL, type Capability } from "@/lib/billing/plans";
 
 interface Props {
   /** Which paid capability this surface would use. A fixed id, never free text. */
@@ -37,9 +37,30 @@ interface Props {
 }
 
 export function ProCallout({ capability, placement, children }: Props) {
+  // THE BADGE IS NOT DECORATION. It is what stops a callout promising something
+  // the product cannot do.
+  //
+  // These sit on the two highest-intent surfaces on the site, and both were
+  // written in the present tense — "Pro emails you instead", "Pro watches this
+  // employer and emails you" — for a capability whose own spec says
+  // existsToday: false, status: "building". /pricing badged the same capability
+  // "In build" on the very next click. A prospect was being told two different
+  // things about the same feature depending on which page they were standing on.
+  //
+  // Reading the status here rather than trusting the copy means a callout for an
+  // unfinished capability cannot be written dishonestly by accident: the badge
+  // appears whether or not the author remembered it.
+  const spec = CAPABILITY_SPECS.find((c) => c.id === capability);
+  const unfinished = spec && spec.status !== "available";
+
   return (
     <aside className="rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-slate-400">
       <span>{children} </span>
+      {unfinished ? (
+        <span className="mr-1 whitespace-nowrap rounded border border-status-amber/40 px-1.5 py-0.5 text-xs text-status-amber">
+          {STATUS_LABEL[spec!.status]}
+        </span>
+      ) : null}
       <Link
         href="/pricing"
         onClick={() => trackPremiumInterest(capability, placement)}

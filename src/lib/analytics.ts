@@ -160,6 +160,21 @@ const PLAUSIBLE_NAME: Record<AnalyticsEvent, string> = {
  * policy and is exactly what the Directive asks us to measure; a query someone
  * accidentally pastes an email or number into is not, and must not be recorded.
  */
+/**
+ * A watchlist size, coarsened into a bucket.
+ *
+ * An exact count narrows a browser to a small group on its own, and to a
+ * smaller one beside anything else. No product question needs the exact number:
+ * "do readers build real watchlists or stop at one" is answered by a band.
+ */
+export function watchlistSizeBucket(n: number): string {
+  if (n <= 0) return "0";
+  if (n === 1) return "1";
+  if (n <= 5) return "2-5";
+  if (n <= 20) return "6-20";
+  return "21+";
+}
+
 export function sanitizeSearchTerm(raw: string): string | null {
   const t = raw.trim().toLowerCase().replace(/\s+/g, " ");
   if (!t) return null;

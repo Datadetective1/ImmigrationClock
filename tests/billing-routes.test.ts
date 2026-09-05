@@ -12,6 +12,7 @@
 // =============================================================================
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { BILLING_UNAVAILABLE_MESSAGE } from "@/lib/billing/config";
 import { resetRateLimiter, readCookie, serializeCookie } from "@/lib/billing/http";
 
 const BILLING_VARS = [
@@ -58,7 +59,13 @@ describe("with nothing configured — the shipped state", () => {
     expect(res.status).toBe(503);
     const body = (await res.json()) as { error: string; message: string };
     expect(body.error).toBe("billing_not_configured");
-    expect(body.message).toMatch(/BILLING_ENABLED/);
+    // THIS ASSERTION USED TO REQUIRE THE LEAK. It matched /BILLING_ENABLED/,
+    // so the test enforced showing a visitor the literal string
+    // 'BILLING_ENABLED is not set to "true", so every billing surface is
+    // switched off.' under the Subscribe button. A customer can do nothing with
+    // that, and everyone else learns how the deployment is wired.
+    expect(body.message).toBe(BILLING_UNAVAILABLE_MESSAGE);
+    expect(body.message).not.toMatch(/BILLING_ENABLED|STRIPE_|KV_REST|_SECRET|env\b/i);
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
@@ -81,27 +88,79 @@ describe("with nothing configured — the shipped state", () => {
     expect(res.status).toBe(503);
   });
 
-  it("the checkout readiness probe reports what is missing without revealing anything", async () => {
+  it("the readiness probe answers ready-or-not without naming configuration", async () => {
+    // It used to return `missing: ["STRIPE_SECRET_KEY", ...]` and
+    // `disabledReason` from an UNAUTHENTICATED endpoint — variable names are
+    // configuration, and this told anyone who asked how the deployment is set
+    // up. An operator gets the precise list from `npm run billing:verify`,
+    // which reads billingStatus() directly rather than over HTTP.
     const { GET } = await import("@/app/api/billing/checkout/route");
     const res = await GET();
     expect(res.status).toBe(503);
-    const body = (await res.json()) as { missing: string[]; checkoutReady: boolean };
+    const body = (await res.json()) as Record<string, unknown>;
     expect(body.checkoutReady).toBe(false);
-    expect(body.missing).toContain("STRIPE_SECRET_KEY");
-    // The probe lists NAMES of missing variables, never values of present ones.
-    expect(JSON.stringify(body)).not.toMatch(/sk_(test|live)_/);
+    expect(body.missing).toBeUndefined();
+    expect(body.disabledReason).toBeUndefined();
+    expect(JSON.stringify(body)).not.toMatch(/sk_(test|live)_|STRIPE_|BILLING_ENABLED|KV_REST/);
+  });
+});
+
+describe("no billing route leaks configuration to a caller", () => {
+  // A sweep rather than four separate assertions, so a route added later is
+  // covered the moment someone points this at it.
+  const CONFIG = /BILLING_ENABLED|BILLING_SESSION_SECRET|STRIPE_[A-Z_]+|KV_REST_API|process\.env|sk_(test|live)_|whsec_/;
+
+  it("keeps checkout, portal, activate and the webhook free of it", async () => {
+    const routes: [string, () => Promise<Response>][] = [
+      [
+        "checkout",
+        async () =>
+          (await import("@/app/api/billing/checkout/route")).POST(
+            post("https://immigrationclock.com/api/billing/checkout", { interval: "monthly" })
+          ),
+      ],
+      [
+        "portal",
+        async () =>
+          (await import("@/app/api/billing/portal/route")).POST(
+            post("https://immigrationclock.com/api/billing/portal")
+          ),
+      ],
+      [
+        "activate",
+        async () =>
+          (await import("@/app/api/billing/activate/route")).POST(
+            post("https://immigrationclock.com/api/billing/activate", { sessionId: "cs_test_x" })
+          ),
+      ],
+      [
+        "webhook",
+        async () =>
+          (await import("@/app/api/billing/webhook/route")).POST(
+            post("https://immigrationclock.com/api/billing/webhook", { type: "x" })
+          ),
+      ],
+    ];
+
+    for (const [name, call] of routes) {
+      const res = await call();
+      const text = JSON.stringify(await res.json());
+      expect(text, `${name} leaked configuration: ${text}`).not.toMatch(CONFIG);
+    }
   });
 });
 
 describe("with the switch on but a secret missing", () => {
-  it("still refuses checkout, and names the gap", async () => {
+  it("still refuses checkout, without naming the gap to the caller", async () => {
     process.env.BILLING_ENABLED = "true";
     process.env.STRIPE_SECRET_KEY = "sk_test_placeholder";
     // Prices and the session secret are absent.
     const { POST } = await import("@/app/api/billing/checkout/route");
     const res = await POST(post("https://immigrationclock.com/api/billing/checkout", { interval: "monthly" }));
     expect(res.status).toBe(503);
-    expect((await res.json()).message).toMatch(/STRIPE_PRICE_PRO_MONTHLY|BILLING_SESSION_SECRET/);
+    const { message } = (await res.json()) as { message: string };
+    expect(message).toBe(BILLING_UNAVAILABLE_MESSAGE);
+    expect(message).not.toMatch(/STRIPE_PRICE_PRO_MONTHLY|BILLING_SESSION_SECRET/);
   });
 
   it("rejects a bad interval before any configuration is even complete", async () => {

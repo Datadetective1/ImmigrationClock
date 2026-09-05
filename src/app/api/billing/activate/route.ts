@@ -15,7 +15,7 @@
 // claim rather than a session row.
 // =============================================================================
 
-import { billingStatus } from "@/lib/billing/config";
+import { BILLING_UNAVAILABLE_MESSAGE, billingStatus } from "@/lib/billing/config";
 import { MAX_TTL_DAYS, cookieFor, sign, type Entitlement } from "@/lib/billing/entitlement";
 import { StripeClient, StripeError, grantsAccess } from "@/lib/billing/stripe";
 import { emailKey, resolveStore } from "@/lib/billing/store";
@@ -31,7 +31,7 @@ export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
   if (!status.checkoutReady) {
     return json(
-      { error: "billing_not_configured", message: status.disabledReason ?? "Billing is not configured." },
+      { error: "billing_not_configured", message: BILLING_UNAVAILABLE_MESSAGE },
       503
     );
   }
@@ -71,6 +71,8 @@ export async function POST(req: Request): Promise<Response> {
     const customerId = typeof session.customer === "string" ? session.customer : "";
     const email = session.customer_details?.email || session.customer_email || "";
 
+
+
     // The claim expires with the subscription period when we can read one, so
     // a monthly subscriber's cookie never outlives the month they paid for.
     let exp = now + MAX_TTL_DAYS * 86_400;
@@ -88,6 +90,46 @@ export async function POST(req: Request): Promise<Response> {
         // A readable paid session with an unreadable subscription still earns
         // the default window; the alternative is refusing someone who has paid.
         console.error(`[billing] subscription lookup failed: ${err instanceof Error ? err.message : String(err)}`);
+      }
+    }
+
+    // A CHECKOUT SESSION IS SPENDABLE ONCE.
+    //
+    // This route is unauthenticated on purpose: someone arriving back from
+    // Stripe has no cookie yet, and the session id is the only thing they
+    // carry. But it was honoured any number of times, so one paid `cs_` id
+    // minted unlimited Pro cookies in unlimited browsers — a shoulder-surf, a
+    // pasted success URL, a leaked referrer, a shared screenshot. The id proves
+    // that ONE person paid once, and it now buys exactly one cookie.
+    //
+    // Claimed AFTER every check that can return a 4xx, so a session is never
+    // burned by a failure the customer can fix, and BEFORE anything is written
+    // or minted so nothing is issued twice. Placing it before the
+    // subscription-status check spent the session on a 402 and locked the
+    // customer out permanently. The claim outlives the longest cookie we grant.
+    const claimStore = resolveStore();
+    if (claimStore) {
+      let claimed = false;
+      try {
+        claimed = await claimStore.claimCheckoutSession(sessionId, (MAX_TTL_DAYS + 1) * 86_400);
+      } catch (err) {
+        // A store that cannot answer must not lock a paying customer out. Log
+        // it and allow the activation — the same call the subscription-lookup
+        // failure below makes, for the same reason.
+        console.error(
+          `[billing] checkout claim failed, allowing activation: ${err instanceof Error ? err.message : String(err)}`
+        );
+        claimed = true;
+      }
+      if (!claimed) {
+        return json(
+          {
+            error: "already_activated",
+            message:
+              "That checkout has already been used to sign in. Use the sign-in link on the account page to add another device.",
+          },
+          409
+        );
       }
     }
 

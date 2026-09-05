@@ -223,8 +223,8 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
             employer or the reader goes to analytics — the event carries a
             capability id and a placement name. */}
         <ProCallout capability="employer_monitoring" placement="employer_page">
-          This page is a snapshot. Pro watches this employer and emails you when a new WARN notice
-          appears or the USCIS sponsorship figures move.
+          This page is a snapshot. Pro will watch this employer and email you when a new WARN
+          notice appears or the USCIS sponsorship figures move.
         </ProCallout>
 
         {/* The way out. Every one of the 2,614 employer pages ended here

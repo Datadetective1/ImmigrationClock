@@ -11,7 +11,7 @@
 // portal by guessing a customer id — the classic insecure-direct-object hole.
 // =============================================================================
 
-import { billingOrigin, billingStatus } from "@/lib/billing/config";
+import { BILLING_UNAVAILABLE_MESSAGE, billingOrigin, billingStatus } from "@/lib/billing/config";
 import { COOKIE_NAME, verify } from "@/lib/billing/entitlement";
 import { StripeClient, StripeError } from "@/lib/billing/stripe";
 import { clientIp, json, rateLimited, readCookie } from "@/lib/billing/http";
@@ -25,7 +25,7 @@ export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
   if (!status.checkoutReady) {
     return json(
-      { error: "billing_not_configured", message: status.disabledReason ?? "Billing is not configured." },
+      { error: "billing_not_configured", message: BILLING_UNAVAILABLE_MESSAGE },
       503
     );
   }
