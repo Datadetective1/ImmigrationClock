@@ -29,6 +29,31 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 const API = "https://api.stripe.com/v1";
 
+/**
+ * The API version every Stripe request pins.
+ *
+ * WHY THIS EXACT VERSION. Managed Payments — which a Stripe account can become
+ * eligible for without anything changing on our side — is rejected outright
+ * below `2025-03-31.basil`:
+ *
+ *   Stripe returned HTTP 400: Managed Payments is not supported on API version
+ *   2024-06-20. Update your API version, or set the API Version of this
+ *   request to 2025-03-31.basil or greater.
+ *
+ * That took checkout down in production: the button reached Stripe, Stripe
+ * refused, and the reader saw "Could not start checkout".
+ *
+ * It is the LOWEST version that satisfies that requirement, deliberately.
+ * Every version beyond it adds more breaking changes to audit against this
+ * integration for no gain here, and Basil already carries one that matters —
+ * see `periodEndOf`.
+ *
+ * Pinning at all is what stops Stripe changing a field shape under a running
+ * deployment. Raise it deliberately, with the changelog open, and check what
+ * moved: https://docs.stripe.com/changelog
+ */
+export const STRIPE_API_VERSION = "2025-03-31.basil";
+
 /** Stripe answered, and it was not a 2xx. Carries the status, never the key. */
 export class StripeError extends Error {
   readonly status: number;
@@ -82,12 +107,59 @@ export interface CheckoutSession {
   subscription: string | null;
 }
 
+export interface SubscriptionItem {
+  id?: string;
+  /** Where Basil and later keep the billing period. */
+  current_period_end?: number;
+}
+
 export interface Subscription {
   id: string;
   status: string;
   customer: string;
-  current_period_end: number;
+  /** Present before 2025-03-31.basil, absent after it. Read with periodEndOf. */
+  current_period_end?: number;
+  items?: { data?: SubscriptionItem[] };
   cancel_at_period_end?: boolean;
+}
+
+/**
+ * When the paid period ends — wherever this API version keeps it.
+ *
+ * Basil (2025-03-31) REMOVED `current_period_end` from the subscription and
+ * moved it onto each subscription item, because items can now bill on
+ * different cycles. Reading only the old location returns undefined against a
+ * Basil payload, and undefined is how a paying customer gets stored with
+ * `currentPeriodEnd: 0` and denied access until their first renewal. That
+ * exact failure has already happened here once, from a different cause.
+ *
+ * BOTH SHAPES ARE READ ON PURPOSE, and this is not a workaround. The version
+ * of a WEBHOOK payload is set by the endpoint's own configuration in Stripe,
+ * not by the `Stripe-Version` header this client sends. So an account can
+ * legitimately deliver pre-Basil events to a Basil-era integration, and a
+ * reader that understood only one shape would be wrong half the time.
+ *
+ * The MAXIMUM across items is the paid-through date. Our plan has exactly one
+ * item, so the choice is theoretical today — but where it ever mattered,
+ * ending access early for someone who has paid is the worse mistake.
+ *
+ * `items` is a paginated sublist: Stripe returns the first 10 and sets
+ * `has_more`. One item means one page, so this reads everything there is. A
+ * plan that ever exceeds ten items would need to page before this stayed
+ * true, and would understate the paid-through date until it did.
+ */
+export function periodEndOf(subscription: unknown): number | undefined {
+  if (!subscription || typeof subscription !== "object") return undefined;
+  const sub = subscription as Subscription;
+
+  const ends = (sub.items?.data ?? [])
+    .map((item) => item?.current_period_end)
+    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+  if (ends.length > 0) return Math.max(...ends);
+
+  return typeof sub.current_period_end === "number" && Number.isFinite(sub.current_period_end)
+    ? sub.current_period_end
+    : undefined;
 }
 
 export class StripeClient {
@@ -107,9 +179,7 @@ export class StripeClient {
       headers: {
         Authorization: `Bearer ${this.secretKey}`,
         "Content-Type": "application/x-www-form-urlencoded",
-        // Pinning the version means Stripe cannot change a field shape under a
-        // running deployment. Update it deliberately, with the changelog open.
-        "Stripe-Version": "2024-06-20",
+        "Stripe-Version": STRIPE_API_VERSION,
       },
       body: body ? encodeForm(body) : undefined,
       signal: AbortSignal.timeout(this.timeoutMs),

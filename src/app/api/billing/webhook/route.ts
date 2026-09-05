@@ -33,7 +33,7 @@
 // =============================================================================
 
 import { billingStatus } from "@/lib/billing/config";
-import { grantsAccess, isHandledEvent, verifyWebhookSignature } from "@/lib/billing/stripe";
+import { grantsAccess, isHandledEvent, periodEndOf, verifyWebhookSignature } from "@/lib/billing/stripe";
 import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
 import { mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
 import { json } from "@/lib/billing/http";
@@ -192,7 +192,10 @@ async function persist(
   const key = await store.getEmailKeyForCustomer(customer);
   if (!key) return false;
 
-  const periodEnd = typeof object.current_period_end === "number" ? object.current_period_end : undefined;
+  // A webhook payload's version comes from the endpoint's configuration in
+  // Stripe, not from the header this deployment sends — so both the pre-Basil
+  // and post-Basil shapes can arrive at a single running integration.
+  const periodEnd = periodEndOf(object);
   const existing = await store.getSubscriber(key);
 
   // ORDER, NOT ARRIVAL. Without this a redelivered "updated · active" landing

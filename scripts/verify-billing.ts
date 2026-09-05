@@ -27,6 +27,7 @@
 
 import { billingStatus, isTestKey, priceIdFor, type BillingEnv } from "../src/lib/billing/config";
 import { PLAN_BY_ID } from "../src/lib/billing/plans";
+import { STRIPE_API_VERSION } from "../src/lib/billing/stripe";
 
 const ALLOW_LIVE = process.argv.includes("--allow-live");
 const env = process.env as BillingEnv;
@@ -44,7 +45,9 @@ const add = (name: string, ok: boolean | null, detail: string) => checks.push({ 
 
 async function stripeGet<T>(path: string, key: string): Promise<T> {
   const res = await fetch(`${API}${path}`, {
-    headers: { Authorization: `Bearer ${key}`, "Stripe-Version": "2024-06-20" },
+    // The same pin the app uses. A verifier that asked Stripe under a
+    // different API version could pass while production failed.
+    headers: { Authorization: `Bearer ${key}`, "Stripe-Version": STRIPE_API_VERSION },
     signal: AbortSignal.timeout(20_000),
   });
   const text = await res.text();
