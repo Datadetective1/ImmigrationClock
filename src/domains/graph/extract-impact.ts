@@ -426,17 +426,27 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
 
   // ---- Forms and processes -------------------------------------------------
   //
-  // Both read the title and the abstract only, never the body. That is not a
-  // shortcut, it is the same rule the archive already lives under: it does not
-  // store document bodies, so a form or process derived from body text could
-  // never be re-read by anyone checking the claim. A dimension whose evidence
-  // cannot be verified is worse than one that is merely incomplete.
+  // FORMS READ THE BODY. The old rule here was that they must not, because the
+  // archive did not retain document bodies and evidence nobody can re-read is
+  // worse than evidence that is merely incomplete. That reasoning was sound and
+  // is now obsolete: the source-text store retains the body, and every form
+  // classification drawn from one carries the quote plus the content hash of
+  // the document it was cut from.
   //
-  // Done HERE, at ingestion, rather than as an API patch — the offline
-  // reclassify pass exists only to upgrade the 544 records that predate this,
-  // and calls these same two functions, so there is one classifier rather than
-  // two that will drift.
-  const forms: ImpactedEntity[] = formsFor(titleText, summaryText).map((f) => ({
+  // Leaving the call at title+abstract after the store landed had a measured
+  // cost. The published forms recall of 58% was earned by the offline
+  // re-extraction pass, which does pass a body; this path, which is the one
+  // that actually runs on every deploy, scored 31% on the same ground truth.
+  // Every newly ingested document was getting the weaker classifier while the
+  // API advertised the stronger one's number.
+  //
+  // PROCESSES STILL DO NOT read the body: processesFor has never taken one, and
+  // giving it one is a change to a measured dimension, not a bug fix.
+  const forms: ImpactedEntity[] = formsFor(
+    titleText,
+    summaryText,
+    richText(src.body ?? "")
+  ).map((f) => ({
     entityId: f.entityId as EntityId,
     basis: "stated" as const,
     evidence: f.evidence,

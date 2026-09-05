@@ -39,7 +39,7 @@ import {
   isStrong,
   looksHistorical,
 } from "@/domains/graph/classification";
-import { FORMS, formsFor } from "@/domains/graph/forms";
+import { BODY_SCAN_LIMIT, FORMS, formsFor } from "@/domains/graph/forms";
 import { PROCESSES, processesFor } from "@/domains/graph/processes";
 import { findCountriesInText } from "@/domains/graph/countries";
 import { allImpacted, validateImpact } from "@/domains/graph/impact";
@@ -315,6 +315,23 @@ describe("forms are matched from evidence, not from a wish list", () => {
   it("does not match a longer number that merely starts the same way", () => {
     // I-94 must not fire inside I-941, which is a different form entirely.
     expect(formsFor("Changes to Form I-941", "").map((f) => f.entityId)).not.toContain("form:i-94");
+  });
+
+  it("does not invent that form by cutting the body at the scan limit", () => {
+    // The body is truncated to BODY_SCAN_LIMIT before scanning. A cut at a
+    // fixed offset can land inside an identifier and leave "I-94" where the
+    // document wrote "I-941" — a real form, so nothing downstream could tell an
+    // invention from a classification. The window closes on a word boundary
+    // for exactly this reason; this pins it at every offset that could split
+    // the token.
+    for (let pad = 0; pad <= 6; pad++) {
+      const filler = "filler ".repeat(BODY_SCAN_LIMIT).slice(0, BODY_SCAN_LIMIT - 9 + pad);
+      const body = `${filler}Form I-941 is revised.`;
+      const ids = formsFor("Agency Information Collection Activities", "", body).map(
+        (f) => f.entityId
+      );
+      expect(ids, `cut ${pad} character(s) into the identifier`).not.toContain("form:i-94");
+    }
   });
 
   it("accepts an unknown identifier only when the document calls it a form", () => {

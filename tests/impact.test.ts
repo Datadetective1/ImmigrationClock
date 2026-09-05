@@ -8,6 +8,9 @@ import {
   type EventImpact,
 } from "@/domains/graph/impact";
 import { extractImpact } from "@/domains/graph/extract-impact";
+import { BODY_SCAN_LIMIT } from "@/domains/graph/forms";
+import { isStrong } from "@/domains/graph/classification";
+import type { EntityId } from "@/domains/graph/entities";
 import { findCountriesInText, COUNTRIES, AMBIGUOUS_COUNTRY_NAMES } from "@/domains/graph/countries";
 import { EVENTS, EVENT_STORE_META, significantEvents, eventsAffecting, eventCoverageNote } from "@/lib/event-store";
 import { validateEvent } from "@/domains/graph/events";
@@ -229,6 +232,165 @@ describe("impact extraction", () => {
     expect(agency.basis).toBe("derived");
     expect(agency.evidence).toBeUndefined();
     expect(validateImpact(im, "e:1")).toEqual([]);
+  });
+});
+
+// =============================================================================
+// THE INGESTION PATH READS THE BODY FOR FORMS
+//
+// The defect these tests exist to prevent: formsFor() grew a `body` parameter
+// and the offline re-extraction pass started passing one, but extractImpact()
+// — the only classifier that runs on a live deploy — was never updated. So the
+// published forms recall of 58% was earned by a pass that never ran in
+// production, while every newly ingested document was silently classified by
+// the title and abstract alone, which scores 31% on the same ground truth.
+//
+// Paperwork Reduction Act notices are the reason this matters: their titles are
+// all "Agency Information Collection Activities" and the form they are actually
+// about is named only in the body.
+//
+// These tests pin the fix from both sides. Reading the body must find the form,
+// and it must NOT become a licence to promote every form a rule happens to
+// cite — that precision is what the whole classification grade rests on.
+// =============================================================================
+describe("forms are classified from the document body at ingestion", () => {
+  const PRA_TITLE = "Agency Information Collection Activities; Revision of a Currently Approved Collection";
+  const PRA_ABSTRACT =
+    "The Department of Homeland Security invites the general public and other Federal agencies to comment " +
+    "upon this proposed collection of information.";
+
+  const formIds = (im: ReturnType<typeof extractImpact>) => (im.forms ?? []).map((f) => f.entityId);
+  const strongFormIds = (im: ReturnType<typeof extractImpact>) =>
+    (im.forms ?? []).filter((f) => isStrong(f.method)).map((f) => f.entityId);
+
+  it("retains a form named only in the body, which the title never mentions", () => {
+    // THE REGRESSION. Before the fix this returned no forms at all, because the
+    // body was not passed to the classifier.
+    const im = extractImpact({
+      title: PRA_TITLE,
+      abstract: PRA_ABSTRACT,
+      body:
+        "Revision of the currently approved collection: Form I-765, Application for Employment " +
+        "Authorization. The estimated annual burden is 1,200,000 responses.",
+      agencyIds: ["agency:uscis"],
+    });
+    expect(strongFormIds(im)).toContain("form:i-765");
+    expect(validateImpact(im, "e:1")).toEqual([]);
+  });
+
+  it("carries the body quote it derived the form from", () => {
+    // A classification whose evidence cannot be re-read is the thing the source
+    // text store was built to stop. Reading the body must not reintroduce it.
+    const im = extractImpact({
+      title: PRA_TITLE,
+      abstract: PRA_ABSTRACT,
+      body: "Revision of the currently approved collection: Form I-765, Application for Employment Authorization.",
+      agencyIds: ["agency:uscis"],
+    });
+    const form = (im.forms ?? []).find((f) => f.entityId === "form:i-765")!;
+    expect(form.evidence).toBeTruthy();
+    expect(form.evidence).toMatch(/I-765/);
+    expect(form.basis).toBe("stated");
+  });
+
+  it("does not promote a form the body merely cites", () => {
+    // PRECISION GUARD. Federal Register prose cites forms constantly. Reading
+    // the body must not turn every citation into a subject.
+    const im = extractImpact({
+      title: "Visas: Visa Bond Program",
+      abstract: "A rule concerning visa bonds.",
+      body:
+        "As discussed in the 2019 rulemaking, see 84 FR 12345, applicants have historically submitted " +
+        "Form I-134, Declaration of Financial Support, in support of such requests.",
+      agencyIds: ["agency:dos"],
+    });
+    expect(strongFormIds(im)).not.toContain("form:i-134");
+  });
+
+  it("still reads a form from the title, at full strength", () => {
+    const im = extractImpact({
+      title: "Fee Adjustment for Form I-246, Application for a Stay of Deportation or Removal",
+      abstract: "ICE is adjusting the fee.",
+      agencyIds: ["agency:ice"],
+    });
+    const form = (im.forms ?? []).find((f) => f.entityId === "form:i-246")!;
+    expect(form).toBeTruthy();
+    expect(form.method).toBe("explicit_source");
+  });
+
+  it("still reads a form from the abstract when the title omits it", () => {
+    const im = extractImpact({
+      title: "Naturalization Application Fee Adjustments",
+      abstract: "This rule adjusts the fee for Form N-400, Application for Naturalization.",
+      agencyIds: ["agency:uscis"],
+    });
+    expect(strongFormIds(im)).toContain("form:n-400");
+  });
+
+  it("finds nothing when there is no body and no form is named", () => {
+    const im = extractImpact({ title: PRA_TITLE, abstract: PRA_ABSTRACT, agencyIds: ["agency:uscis"] });
+    expect(formIds(im)).toEqual([]);
+  });
+
+  it("stops reading at the body scan limit", () => {
+    // The offline pass truncated the body and the ingestion path did not, which
+    // is a second way for the two to disagree. The cap now lives in the
+    // classifier, so neither caller can drift from the measured behaviour.
+    const named = "Revision of the currently approved collection: Form I-765, Application for Employment Authorization.";
+    const beyond = `${"filler sentence about unrelated matters. ".repeat(2_000)}${named}`;
+    expect(beyond.length).toBeGreaterThan(BODY_SCAN_LIMIT);
+
+    const im = extractImpact({ title: PRA_TITLE, abstract: PRA_ABSTRACT, body: beyond });
+    expect(formIds(im)).toEqual([]);
+
+    const within = extractImpact({ title: PRA_TITLE, abstract: PRA_ABSTRACT, body: named });
+    expect(strongFormIds(within)).toContain("form:i-765");
+  });
+
+});
+
+describe("reading the body for forms changes nothing else", () => {
+  // The fix touched one call site. These pin the blast radius: the three other
+  // classified dimensions must behave exactly as they did, including the
+  // deliberate decision that processes do NOT read the body.
+  const withFormInBody = {
+    title: "Restriction on Entry",
+    abstract: "The Secretary designates certain countries. This rule concerns H-1B nonimmigrants.",
+    body:
+      "This restriction applies to nationals of Nigeria. Revision of the currently approved collection: " +
+      "Form I-765, Application for Employment Authorization. Labor certification is discussed at length below.",
+    agencyIds: ["agency:dos"] as EntityId[],
+  };
+
+  it("classifies countries exactly as it did before", () => {
+    const im = extractImpact(withFormInBody);
+    expect(im.countries.map((c) => c.entityId)).toContain("country:nigeria");
+    // Still only from designation language, never from a form sentence.
+    expect(im.countries.map((c) => c.entityId)).not.toContain("country:canada");
+  });
+
+  it("classifies visa categories exactly as it did before", () => {
+    const im = extractImpact(withFormInBody);
+    expect(im.visaCategories.map((v) => v.entityId)).toContain("visa:h-1b");
+    expect(im.visaCategories.every((v) => v.evidence)).toBe(true);
+  });
+
+  it("still refuses to classify a process from the body", () => {
+    // processesFor has never taken a body. Giving it one would be a change to a
+    // measured dimension, not a bug fix, so the fix deliberately did not.
+    const im = extractImpact(withFormInBody);
+    expect((im.processes ?? []).map((p) => p.entityId)).not.toContain("process:labor-certification");
+
+    // ...but the title and abstract still work.
+    const titled = extractImpact({
+      title: "Labor Certification Program Changes",
+      abstract: "A rule about labor certification.",
+    });
+    expect((titled.processes ?? []).map((p) => p.entityId)).toContain("process:labor-certification");
+  });
+
+  it("produces a record that still validates with a body present", () => {
+    expect(validateImpact(extractImpact(withFormInBody), "e:1")).toEqual([]);
   });
 });
 
