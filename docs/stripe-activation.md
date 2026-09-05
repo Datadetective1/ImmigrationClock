@@ -70,8 +70,10 @@ needs a reachable URL.
    - `customer.subscription.deleted`
 
    > **`customer.subscription.created` is not optional.** It is the only event
-   > that carries `current_period_end` at signup. Without it a buyer who closes
-   > the tab before the success redirect completes is stored with
+   > that carries the billing period at signup — `current_period_end`, which
+   > from API version `2025-03-31.basil` onwards lives on each subscription
+   > item rather than on the subscription. Without this event a buyer who
+   > closes the tab before the success redirect completes is stored with
    > `currentPeriodEnd: 0` and is denied access until their first renewal — a
    > paying customer, locked out, silently. A test asserts this list matches the
    > code.

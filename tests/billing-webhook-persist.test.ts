@@ -183,4 +183,85 @@ describe("the webhook actually writes to the store", () => {
     const { accessFor } = await import("@/lib/billing/subscription");
     expect(accessFor(record, now).pro).toBe(false);
   });
+
+  // ===========================================================================
+  // THE SHAPE BASIL DELIVERS
+  //
+  // Raising the pinned API version to 2025-03-31.basil — which Managed Payments
+  // requires, and without which checkout returns 400 — also moves
+  // current_period_end off the subscription and onto its items:
+  //
+  //   https://docs.stripe.com/changelog/basil/2025-03-31/deprecate-subscription-current-period-start-and-end
+  //
+  // A reader that only knew the old location would take the version bump,
+  // start checkout working again, and then store every new subscriber with
+  // currentPeriodEnd 0 — paid, and denied. This asserts the money path against
+  // the payload Stripe now actually sends.
+  // ===========================================================================
+  const subscriptionCreatedBasil = (created: number, periodEnd: number) => ({
+    id: "evt_sub_basil",
+    created,
+    type: "customer.subscription.created",
+    data: {
+      object: {
+        id: "sub_1",
+        customer: "cus_1",
+        status: "active",
+        // No top-level current_period_end. This is the whole point.
+        items: { object: "list", data: [{ id: "si_1", object: "subscription_item", current_period_end: periodEnd }] },
+      },
+    },
+  });
+
+  it("grants access from a Basil payload, where the period is on the item", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const periodEnd = now + 30 * 86_400;
+
+    await deliver(checkout(1_000));
+    const { body } = await deliver(subscriptionCreatedBasil(2_000, periodEnd));
+
+    expect(body.stored).toBe(true);
+    const record = await storedRecord();
+    expect(
+      record.currentPeriodEnd,
+      "the item-level period was not read: a paying customer is stored as expired"
+    ).toBe(periodEnd);
+
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a paid subscriber was denied access").toBe(true);
+  });
+
+  it("still grants access from a pre-Basil payload", async () => {
+    // Webhook payload versions come from the endpoint's configuration in
+    // Stripe, not from the header this deployment sends, so the old shape can
+    // keep arriving indefinitely. Both must work at once.
+    const now = Math.floor(Date.now() / 1000);
+    const periodEnd = now + 30 * 86_400;
+
+    await deliver(checkout(1_000));
+    await deliver(subscriptionCreated(2_000, periodEnd));
+
+    const record = await storedRecord();
+    expect(record.currentPeriodEnd).toBe(periodEnd);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro).toBe(true);
+  });
+
+  it("cancels on deletion even though a Basil deletion carries no period", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    await deliver(checkout(1_000));
+    await deliver(subscriptionCreatedBasil(2_000, now + 30 * 86_400));
+
+    await deliver({
+      id: "evt_del_basil",
+      created: 3_000,
+      type: "customer.subscription.deleted",
+      data: { object: { id: "sub_1", customer: "cus_1", status: "canceled", items: { data: [{ id: "si_1" }] } } },
+    });
+
+    const record = await storedRecord();
+    expect(record.status).toBe("canceled");
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a cancelled subscription still granted access").toBe(false);
+  });
 });

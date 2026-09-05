@@ -23,7 +23,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import { readFileSync } from "node:fs";
-import { HANDLED_EVENTS } from "@/lib/billing/stripe";
+import { HANDLED_EVENTS, STRIPE_API_VERSION, periodEndOf } from "@/lib/billing/stripe";
 import { fileURLToPath } from "node:url";
 import { FOLLOWABLE_TYPES } from "@/lib/follows";
 import { accessFor, mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
@@ -486,7 +486,7 @@ describe("the Stripe client", () => {
     expect(init.body).toContain("mode=subscription");
     expect(init.body).toContain("CHECKOUT_SESSION_ID");
     // Pinned so Stripe cannot change a field shape under a running deployment.
-    expect((init.headers as Record<string, string>)["Stripe-Version"]).toBeTruthy();
+    expect((init.headers as Record<string, string>)["Stripe-Version"]).toBe(STRIPE_API_VERSION);
   });
 
   it("surfaces Stripe's own message on an error, with the status, and never the key", async () => {
@@ -804,5 +804,96 @@ describe("docs/stripe-activation.md", () => {
   it("still tells the operator to stay in test mode", () => {
     expect(guide).toMatch(/test mode/i);
     expect(guide).toMatch(/sk_test_/);
+  });
+});
+
+
+// =============================================================================
+// THE API VERSION MANAGED PAYMENTS REQUIRES
+//
+// Production checkout returned 400 for every click:
+//
+//   Stripe returned HTTP 400: Managed Payments is not supported on API version
+//   2024-06-20. Update your API version, or set the API Version of this
+//   request to 2025-03-31.basil or greater.
+//
+// Nothing in this repository changed to cause it. The Stripe ACCOUNT became
+// eligible for Managed Payments, and the pinned version stopped being
+// acceptable underneath a deployment that was working the day before. So the
+// floor is pinned here, in the same units Stripe stated it.
+// =============================================================================
+describe("the pinned Stripe API version", () => {
+  const datePart = (v: string) => v.split(".")[0];
+
+  it("is at least 2025-03-31, the floor Managed Payments requires", () => {
+    // Stripe versions are YYYY-MM-DD with an optional codename suffix, so the
+    // date part compares correctly as a plain string.
+    expect(datePart(STRIPE_API_VERSION) >= "2025-03-31").toBe(true);
+  });
+
+  it("is not the version production actually failed on", () => {
+    expect(STRIPE_API_VERSION).not.toBe("2024-06-20");
+  });
+
+  it("is a well-formed Stripe version string", () => {
+    expect(STRIPE_API_VERSION).toMatch(/^\d{4}-\d{2}-\d{2}(\.[a-z]+)?$/);
+  });
+});
+
+// =============================================================================
+// BASIL MOVED THE BILLING PERIOD ONTO THE SUBSCRIPTION ITEMS
+//
+// https://docs.stripe.com/changelog/basil/2025-03-31/deprecate-subscription-current-period-start-and-end
+//
+// Raising the API version to fix checkout drags this in: `current_period_end`
+// is no longer on the subscription. Reading only the old location returns
+// undefined, and undefined is exactly how a paying customer gets stored with
+// `currentPeriodEnd: 0` and denied until their first renewal.
+//
+// So the version bump WITHOUT this is a worse bug than the one it fixes: the
+// button starts working and the entitlement silently stops.
+// =============================================================================
+describe("periodEndOf reads the period wherever the API version keeps it", () => {
+  const END = 1_800_000_000;
+
+  it("reads the Basil shape, on the subscription item", () => {
+    expect(periodEndOf({ id: "sub_1", items: { data: [{ id: "si_1", current_period_end: END }] } })).toBe(END);
+  });
+
+  it("still reads the pre-Basil shape, on the subscription itself", () => {
+    // Webhook payload versions come from the endpoint's own configuration in
+    // Stripe, not from the header we send — so old-shaped events keep arriving.
+    expect(periodEndOf({ id: "sub_1", current_period_end: END })).toBe(END);
+  });
+
+  it("prefers the item when a payload somehow carries both", () => {
+    expect(
+      periodEndOf({ id: "sub_1", current_period_end: 1, items: { data: [{ current_period_end: END }] } })
+    ).toBe(END);
+  });
+
+  it("takes the furthest item, so nobody paid-up is cut off early", () => {
+    expect(
+      periodEndOf({ items: { data: [{ current_period_end: END }, { current_period_end: END + 86_400 }] } })
+    ).toBe(END + 86_400);
+  });
+
+  it("reports undefined rather than zero when there is genuinely no period", () => {
+    // undefined lets mergeSubscriber keep the stored value; 0 would erase it.
+    expect(periodEndOf({ id: "sub_1" })).toBeUndefined();
+    expect(periodEndOf({ items: { data: [] } })).toBeUndefined();
+    expect(periodEndOf({ items: { data: [{ id: "si_1" }] } })).toBeUndefined();
+  });
+
+  it("ignores values that are not finite numbers", () => {
+    expect(periodEndOf({ current_period_end: "soon" })).toBeUndefined();
+    expect(periodEndOf({ current_period_end: Number.NaN })).toBeUndefined();
+    expect(periodEndOf({ items: { data: [{ current_period_end: null }] } })).toBeUndefined();
+  });
+
+  it("does not throw on anything a payload could contain", () => {
+    for (const junk of [null, undefined, 0, "", [], { items: null }, { items: { data: null } }]) {
+      expect(() => periodEndOf(junk)).not.toThrow();
+    }
   });
 });

@@ -17,7 +17,7 @@
 
 import { BILLING_UNAVAILABLE_MESSAGE, billingStatus } from "@/lib/billing/config";
 import { MAX_TTL_DAYS, cookieFor, sessionHintCookie, sign, type Entitlement } from "@/lib/billing/entitlement";
-import { StripeClient, StripeError, grantsAccess } from "@/lib/billing/stripe";
+import { StripeClient, StripeError, grantsAccess, periodEndOf } from "@/lib/billing/stripe";
 import { emailKey, resolveStore } from "@/lib/billing/store";
 import { mergeSubscriber } from "@/lib/billing/subscription";
 import { clientIp, json, rateLimited, serializeCookie } from "@/lib/billing/http";
@@ -85,7 +85,11 @@ export async function POST(req: Request): Promise<Response> {
             402
           );
         }
-        if (subscription.current_period_end > now) exp = subscription.current_period_end;
+        // Read through periodEndOf: Basil moved this onto the subscription
+        // items, and reading only the old place would silently fall back to
+        // the default window for every subscriber.
+        const periodEnd = periodEndOf(subscription);
+        if (typeof periodEnd === "number" && periodEnd > now) exp = periodEnd;
       } catch (err) {
         // A readable paid session with an unreadable subscription still earns
         // the default window; the alternative is refusing someone who has paid.
