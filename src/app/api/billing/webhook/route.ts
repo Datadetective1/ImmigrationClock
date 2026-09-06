@@ -33,7 +33,14 @@
 // =============================================================================
 
 import { billingStatus } from "@/lib/billing/config";
-import { grantsAccess, isHandledEvent, periodEndOf, verifyWebhookSignature } from "@/lib/billing/stripe";
+import {
+  StripeClient,
+  grantsAccess,
+  isHandledEvent,
+  periodEndOf,
+  periodStartOf,
+  verifyWebhookSignature,
+} from "@/lib/billing/stripe";
 import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
 import { mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
 import { onboardingLogLine, runProOnboarding } from "@/lib/billing/onboarding";
@@ -178,6 +185,8 @@ async function persist(
     const customer = typeof object.customer === "string" ? object.customer : "";
     if (customer) await store.linkCustomer(customer, key);
     const existing = await store.getSubscriber(key);
+    // Read once for the decision below; the WRITE re-reads under CAS, so a
+    // concurrent delivery cannot be overwritten by a stale merge.
 
     // NO ORDERING GUARD HERE, deliberately. A checkout session and the
     // subscription it creates are separate object streams, and the subscription
@@ -205,17 +214,20 @@ async function persist(
     // that has passed just as firmly as on a zero, so a stale period grants
     // nothing while the subscription stream — the only stream that carries a
     // period — catches up.
-    await store.putSubscriber(
-      key,
-      mergeSubscriber(
-        existing,
+    await store.updateSubscriber(key, (current) => {
+      // Re-checked against the CURRENT record, not the one read above: the
+      // subscription stream may have spoken while this handler was in flight,
+      // and it owns the status once it has.
+      if (current?.lastSubscriptionEventAt !== undefined) return null;
+      return mergeSubscriber(
+        current,
         {
-          customerId: customer || existing?.customerId || "",
+          customerId: customer || current?.customerId || "",
           status: "active",
         },
         now
-      )
-    );
+      );
+    });
     return true;
   }
 
@@ -223,8 +235,25 @@ async function persist(
   // MONEY GOING BACK OUT — refunds and disputes end access NOW
   // ---------------------------------------------------------------------------
   if (type === "charge.refunded" || type === "charge.dispute.created" || type === "charge.dispute.closed") {
-    const customer = typeof object.customer === "string" ? object.customer : "";
-    if (!customer) return false;
+    // A DISPUTE HAS NO `customer`. IT NEVER DID.
+    //
+    // charge.refunded delivers a Charge, which carries one. The two dispute
+    // events deliver a DISPUTE, whose fields are id, amount, charge,
+    // payment_intent, reason, status and so on — and no customer. So reading
+    // `object.customer` here found nothing on exactly the events that matter
+    // most, the branch returned before touching the record, and the endpoint
+    // answered 200 so Stripe never retried. Every chargeback was invisible:
+    // the money went back, the $15 fee was charged, and the subscriber kept
+    // Pro for the rest of a term up to a year.
+    //
+    // The test that covered this passed only because it invented a `customer`
+    // field on a dispute payload. One fabricated key was the whole difference
+    // between a green suite and a working handler.
+    const customer = await resolveChargeCustomer(object);
+    if (!customer) {
+      console.error(`[billing] ${type}: could not resolve a customer — access NOT revoked`);
+      return false;
+    }
     const key = await store.getEmailKeyForCustomer(customer);
     if (!key) return false;
     const existing = await store.getSubscriber(key);
@@ -274,18 +303,27 @@ async function persist(
     // customer who won a dispute — or who simply bought again — was billed by
     // Stripe forever and never regained access, with no path back in the
     // product at all. Money that arrives AFTER the revocation is new money.
-    await store.putSubscriber(
-      key,
-      mergeSubscriber(
-        existing,
+    await store.updateSubscriber(key, (current) => {
+      if (!current) return null;
+      // A refund that has already been applied stays applied; re-checking here
+      // closes the window between the guard above and this write.
+      if (
+        current.revokedAt !== undefined &&
+        eventCreatedAt !== undefined &&
+        eventCreatedAt <= current.revokedAt
+      ) {
+        return null;
+      }
+      return mergeSubscriber(
+        current,
         {
           status: type === "charge.refunded" ? "refunded" : "disputed",
           currentPeriodEnd: now,
           revokedAt: eventCreatedAt ?? now,
         },
         now
-      )
-    );
+      );
+    });
     return true;
   }
 
@@ -311,10 +349,15 @@ async function persist(
     // retrying the card. The status stops renewal being assumed, and
     // accessFor() ends access at the period end on its own if dunning fails.
     if (!grantsAccess(existing.status)) return true;
-    await store.putSubscriber(
-      key,
-      mergeSubscriber(existing, { status: "past_due", lastSubscriptionEventAt: eventCreatedAt }, now)
-    );
+    await store.updateSubscriber(key, (current) => {
+      if (!current || !grantsAccess(current.status)) return null;
+      if (!shouldApplySubscriptionEvent(current, eventCreatedAt)) return null;
+      return mergeSubscriber(
+        current,
+        { status: "past_due", lastSubscriptionEventAt: eventCreatedAt },
+        now
+      );
+    });
     return true;
   }
 
@@ -332,6 +375,7 @@ async function persist(
   // Stripe, not from the header this deployment sends — so both the pre-Basil
   // and post-Basil shapes can arrive at a single running integration.
   const periodEnd = periodEndOf(object);
+  const periodStart = periodStartOf(object);
   const existing = await store.getSubscriber(key);
 
   // ORDER, NOT ARRIVAL. Without this a redelivered "updated · active" landing
@@ -370,26 +414,21 @@ async function persist(
     const isNewSubscription =
       Boolean(incoming) && Boolean(revokedSubscription) && incoming !== revokedSubscription;
 
-    // A NEW PAID PERIOD IS NEW MONEY, EVEN ON THE SAME SUBSCRIPTION.
+    // A NEW PAID PERIOD IS NEW MONEY — AND THE PERIOD'S *START* IS WHAT SAYS SO.
     //
-    // Refunding does not cancel a subscription, so Stripe keeps billing the
-    // same id. Requiring a DIFFERENT id to lift the revocation meant a customer
-    // who won a dispute, or whose refund was a one-off goodwill gesture, was
-    // frozen out permanently while their card was charged every month — with no
-    // event able to release them and no path back inside the product.
+    // This compared the period END, which a refund never moves: the refunded
+    // subscription's own period still ends months out, so the very next routine
+    // `customer.subscription.updated` satisfied the test and lifted the
+    // revocation. Worse, the operator's own documented next step after a refund
+    // — cancel at period end — emits exactly that event. The guard disarmed
+    // itself on the first thing that happened after it fired.
     //
-    // A period that starts after the revocation is Stripe telling us they paid
-    // again. That is the exit.
-    // BOTH HALVES ARE REQUIRED. A period reaching past the revocation is not
-    // enough on its own: the refunded subscription's own PRE-refund events
-    // already carry a future period end, so accepting them would let a stale
-    // redelivery undo the refund. The event itself must also have been
-    // generated after the revocation — that is what makes it new information
-    // rather than an echo of the state we deliberately revoked.
+    // A period that BEGAN after the revocation is a renewal that was paid for
+    // afterwards. That is the only shape that means new money.
     const periodAdvanced =
-      periodEnd !== undefined &&
+      periodStart !== undefined &&
       existing.revokedAt !== undefined &&
-      periodEnd > existing.revokedAt &&
+      periodStart > existing.revokedAt &&
       eventCreatedAt !== undefined &&
       eventCreatedAt > existing.revokedAt;
 
@@ -421,20 +460,48 @@ async function persist(
     return false;
   }
 
-  const written = mergeSubscriber(
-    existing,
-    {
-      customerId: customer,
-      status: access ? status ?? "active" : status ?? "canceled",
-      // A deletion ends access now rather than at the period end it carries.
-      currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
-      lastSubscriptionEventAt: eventCreatedAt,
-      // An active subscription becomes the one this record follows.
-      ...(access && incomingId ? { subscriptionId: incomingId } : {}),
-    },
-    now
-  );
-  await store.putSubscriber(key, written);
+  // EVERY GUARD IS RE-EVALUATED INSIDE THE ATOMIC SECTION.
+  //
+  // The checks above ran against a record read one round trip ago. Repeating
+  // them against the CURRENT value is what makes concurrent deliveries safe:
+  // a stale event cannot win a race it would have lost had it arrived a moment
+  // later, and no merge is ever built on a copy that has since moved.
+  const written = await store.updateSubscriber(key, (current) => {
+    if (!shouldApplySubscriptionEvent(current, eventCreatedAt)) return null;
+
+    if (current && (current.status === "refunded" || current.status === "disputed")) {
+      const revokedSub = current.subscriptionId ?? "";
+      const isNew = Boolean(incomingId) && Boolean(revokedSub) && incomingId !== revokedSub;
+      const advanced =
+        periodStart !== undefined &&
+        current.revokedAt !== undefined &&
+        periodStart > current.revokedAt &&
+        eventCreatedAt !== undefined &&
+        eventCreatedAt > current.revokedAt;
+      if (!isNew && !advanced && type !== "customer.subscription.deleted") return null;
+    }
+
+    const tracked = current?.subscriptionId ?? "";
+    const isTrackedNow = !tracked || !incomingId || tracked === incomingId;
+    if (!isTrackedNow && !access) return null;
+
+    return mergeSubscriber(
+      current,
+      {
+        customerId: customer,
+        status: access ? status ?? "active" : status ?? "canceled",
+        // A deletion ends access now rather than at the period end it carries.
+        currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
+        lastSubscriptionEventAt: eventCreatedAt,
+        // An active subscription becomes the one this record follows.
+        ...(access && incomingId ? { subscriptionId: incomingId } : {}),
+      },
+      now
+    );
+  });
+
+  // Another delivery won and its state supersedes this one.
+  if (!written) return false;
 
   // ---------------------------------------------------------------------------
   // ONBOARDING — the welcome email, and a consented newsletter enrolment.
@@ -554,4 +621,33 @@ function isFullRefund(object: Record<string, unknown>): boolean {
   const refunded = typeof object.amount_refunded === "number" ? object.amount_refunded : undefined;
   if (amount === undefined || refunded === undefined) return true;
   return refunded >= amount;
+}
+
+/**
+ * The customer behind a refund or a dispute.
+ *
+ * A Charge carries `customer` directly. A DISPUTE does not — it names the
+ * charge instead — so the id has to be followed. Reading `object.customer` off
+ * a dispute is how every chargeback came to be silently ignored.
+ *
+ * Returns "" when the customer genuinely cannot be resolved, which the caller
+ * treats as "do not revoke, and say so loudly" rather than as a quiet success.
+ */
+async function resolveChargeCustomer(object: Record<string, unknown>): Promise<string> {
+  const direct = typeof object.customer === "string" ? object.customer : "";
+  if (direct) return direct;
+
+  const chargeId = typeof object.charge === "string" ? object.charge : "";
+  if (!chargeId) return "";
+
+  try {
+    const stripe = new StripeClient({ secretKey: process.env.STRIPE_SECRET_KEY as string });
+    const charge = await stripe.getCharge(chargeId);
+    return typeof charge.customer === "string" ? charge.customer : "";
+  } catch (err) {
+    console.error(
+      `[billing] could not retrieve charge ${chargeId}: ${err instanceof Error ? err.message : String(err)}`
+    );
+    return "";
+  }
 }

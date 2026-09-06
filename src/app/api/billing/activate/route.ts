@@ -147,7 +147,14 @@ export async function POST(req: Request): Promise<Response> {
     if (claimStore) {
       let claimed = false;
       try {
-        claimed = await claimStore.claimCheckoutSession(sessionId, (MAX_TTL_DAYS + 1) * 86_400);
+        // LONGER THAN ANY SUBSCRIPTION, not longer than any cookie.
+        //
+        // At 31 days the claim expired while the subscription it protected ran
+        // on — so from day 32 the same paid `cs_` id minted a fresh Pro cookie
+        // again, in any browser, for the remaining eleven months of an annual
+        // term. A leaked success URL became a renewable credential. It is one
+        // small key per sale; there is no reason to reclaim the space.
+        claimed = await claimStore.claimCheckoutSession(sessionId, 10 * 365 * 86_400);
       } catch (err) {
         // A store that cannot answer must not lock a paying customer out. Log
         // it and allow the activation — the same call the subscription-lookup
@@ -181,10 +188,28 @@ export async function POST(req: Request): Promise<Response> {
         // The address is whatever the verified record already holds. It is
         // never taken from the session, and never overwritten from one.
         email = existing?.email ?? "";
-        await store.putSubscriber(
-          key,
-          mergeSubscriber(
-            existing,
+        await store.updateSubscriber(key, (current) => {
+          // A REVOKED RECORD IS NOT RESURRECTED BY A BROWSER.
+          //
+          // The webhook goes to some length to make a refund outrank the
+          // subscription stream; this route re-wrote the same record with none
+          // of it. A paid-but-unclaimed session — the tab was closed, the POST
+          // failed — could be replayed from the customer's own history after a
+          // refund and hand back the whole paid term, because refunding does
+          // not cancel a Stripe subscription and so every upstream check still
+          // passed.
+          if (current?.revokedAt !== undefined) {
+            const revokedSub = current.subscriptionId ?? "";
+            const incomingSub =
+              typeof session.subscription === "string" ? session.subscription : "";
+            const isNew = Boolean(incomingSub) && Boolean(revokedSub) && incomingSub !== revokedSub;
+            if (!isNew) {
+              console.warn("[billing] activate refused: the record was revoked and this is the same subscription");
+              return null;
+            }
+          }
+          return mergeSubscriber(
+            current,
             {
               customerId,
               status: "active",
@@ -194,8 +219,8 @@ export async function POST(req: Request): Promise<Response> {
               ...(periodFromStripe !== undefined ? { currentPeriodEnd: periodFromStripe } : {}),
             },
             now
-          )
-        );
+          );
+        });
       } catch (err) {
         // The person has paid; do not refuse them because a write failed. The
         // webhook will write the same record, and the cookie covers the gap.

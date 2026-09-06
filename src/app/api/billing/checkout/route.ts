@@ -225,40 +225,30 @@ export async function POST(req: Request): Promise<Response> {
       version: NEWSLETTER_CONSENT_VERSION,
     };
 
-    const existing = await store.getSubscriber(key);
-    if (!existing) {
-      await store.putSubscriber(key, {
-        email,
-        customerId,
-        status: "incomplete",
-        currentPeriodEnd: 0,
-        updatedAt: now,
-        newsletterConsent: consent,
-      });
-    } else {
-      await store.putSubscriber(key, {
-        ...existing,
-        email,
-        customerId,
-        updatedAt: now,
-        // THE LATEST EXPLICIT ANSWER WINS, INCLUDING A DECLINE.
-        //
-        // This used to preserve an earlier grant against a later decline, on
-        // the reasoning that unticking might be noise rather than withdrawal.
-        // It produced the opposite of consent: someone ticks the box, abandons
-        // Stripe, comes back, deliberately leaves it unchecked, pays — and is
-        // enrolled anyway, on the strength of a session they walked away from.
-        // Their last on-screen act was declining, and that is the act that
-        // counts.
-        //
-        // Nothing is lost by replacing it: the record is timestamped, dated and
-        // versioned, so the evidence is what was answered and when, not a
-        // high-water mark of everything ever agreed to. Withdrawing after
-        // enrolment is still Resend's unsubscribe link — this only governs
-        // whether we enrol in the first place.
-        newsletterConsent: consent,
-      });
-    }
+    await store.updateSubscriber(key, (current) => {
+      if (!current) {
+        return {
+          email,
+          customerId,
+          status: "incomplete",
+          currentPeriodEnd: 0,
+          updatedAt: now,
+          newsletterConsent: consent,
+        };
+      }
+      // MERGED ONTO THE CURRENT RECORD, ATOMICALLY. Read-modify-write across
+      // two round trips let a webhook that landed while this request was
+      // talking to Stripe be silently overwritten — including a period end
+      // that had just granted somebody access.
+      //
+      // THE LATEST EXPLICIT ANSWER WINS, INCLUDING A DECLINE. Preserving an
+      // earlier grant against a later decline produced the opposite of consent:
+      // tick the box, abandon Stripe, come back, deliberately leave it
+      // unchecked, pay — and be enrolled on the strength of the session you
+      // walked away from. The record is timestamped and versioned, so replacing
+      // it loses no evidence.
+      return { ...current, email, customerId, updatedAt: now, newsletterConsent: consent };
+    });
 
     const priceId = priceIdFor(interval);
     if (!priceId) {

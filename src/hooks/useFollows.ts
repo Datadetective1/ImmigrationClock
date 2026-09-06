@@ -201,17 +201,35 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
       adopt(merged.entityIds);
       writeStoredFollows(merged.entityIds);
       if (alreadyMerged) return;
-      writeSyncState(Math.floor(Date.now() / 1000));
 
-      // Only write back when the browser actually contributed something.
-      if (merged.changed) {
-        const saved = await saveServerWatchlist(merged.entityIds, controller.signal);
-        if (!controller.signal.aborted && saved.status === "on") {
-          const stored = sanitizeFollows(saved.entityIds, knownIds);
-          adopt(stored);
-          writeStoredFollows(stored);
-        }
+      // THE DEVICE IS STAMPED ONLY ONCE THE UNION IS SAFELY ON THE SERVER.
+      //
+      // This used to stamp first. A failed PUT — offline, a 500, a closed tab —
+      // then left the flag set with the merge never performed, so the next load
+      // took the "already merged, the server wins" path and overwrote the local
+      // list with the PRE-merge server one. Every follow built in this browser
+      // was deleted, permanently and silently, by the one mechanism that exists
+      // to protect them.
+      //
+      // Nothing to push is a legitimate completion: the union equals what the
+      // server already holds, so there is nothing that could fail.
+      if (!merged.changed) {
+        writeSyncState(Math.floor(Date.now() / 1000));
+        return;
       }
+
+      const saved = await saveServerWatchlist(merged.entityIds, controller.signal);
+      if (controller.signal.aborted) return;
+      if (saved.status === "on") {
+        const stored = sanitizeFollows(saved.entityIds, knownIds);
+        adopt(stored);
+        writeStoredFollows(stored);
+        // Confirmed stored. Only now is this device's merge genuinely done.
+        writeSyncState(Math.floor(Date.now() / 1000));
+      }
+      // A failed save leaves the device UNSTAMPED, so the next load merges
+      // again — a union is idempotent, so retrying costs nothing and losing
+      // the retry costs the reader their list.
     })();
 
     return () => controller.abort();

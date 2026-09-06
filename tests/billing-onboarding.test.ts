@@ -121,6 +121,24 @@ function world(opts: {
         result = 1;
         break;
       }
+      case "EVAL": {
+        // COMPARE-AND-SET, as RedisStore.updateSubscriber issues it:
+        //   EVAL <script> 1 <key> <expected> <next>
+        // Modelled rather than stubbed, because the whole point of the script
+        // is that the compare and the write cannot be interleaved — a test that
+        // faked it would pass while the real store raced.
+        const casKey = String(rest[1]);
+        const expected = String(rest[2] ?? "");
+        const next = String(rest[3] ?? "");
+        const cur = data.get(casKey) ?? "";
+        if (cur === expected) {
+          data.set(casKey, next);
+          result = 1;
+        } else {
+          result = 0;
+        }
+        break;
+      }
       case "SMEMBERS":
         result = [...(sets.get(key) ?? [])];
         break;
@@ -170,7 +188,13 @@ function seed(over: Record<string, unknown> = {}) {
   w.data.set("cust:cus_1", BUYER_KEY);
 }
 
-function subscriptionEvent(opts: { interval: "month" | "year"; created?: number; id?: string; amount?: number }) {
+function subscriptionEvent(opts: {
+  interval: "month" | "year";
+  created?: number;
+  id?: string;
+  amount?: number;
+  periodStart?: number;
+}) {
   const now = NOW();
   return {
     id: `evt_${opts.interval}`,
@@ -184,6 +208,11 @@ function subscriptionEvent(opts: { interval: "month" | "year"; created?: number;
         items: {
           data: [
             {
+              // Real Stripe items carry BOTH bounds. Omitting the start made
+              // every fixture unrealistic and hid the fact that a refund does
+              // not move the period END — which is why comparing the end
+              // against a revocation silently undid refunds.
+              current_period_start: opts.periodStart ?? now,
               current_period_end: now + (opts.interval === "year" ? 365 : 30) * 86_400,
               price: {
                 unit_amount: opts.amount ?? (opts.interval === "year" ? 19000 : 1900),
@@ -894,7 +923,13 @@ describe("third round · revocation has an exit, and a redelivery has none", () 
     });
 
     const { POST } = await import("@/app/api/billing/webhook/route");
-    await POST(signedEvent(subscriptionEvent({ interval: "month", id: "sub_1", created: now })));
+    // A period that BEGAN after the revocation — the only shape that means the
+    // customer paid again, rather than an echo of the term that was refunded.
+    await POST(
+      signedEvent(
+        subscriptionEvent({ interval: "month", id: "sub_1", created: now, periodStart: now - 50 })
+      )
+    );
 
     const record = JSON.parse(w.data.get(`sub:${BUYER_KEY}`)!);
     const { accessFor } = await import("@/lib/billing/subscription");
@@ -960,5 +995,173 @@ describe("third round · no language is ever substituted", () => {
 
     expect(res.outcome).toBe("already_enrolled");
     expect(w.segmentJoins).toEqual([]);
+  });
+});
+
+// =============================================================================
+// THE MANUAL SANDBOX SCENARIOS, AUTOMATED WHERE THE LOGIC IS OURS
+//
+// Eight scenarios were written to be walked by hand against real Stripe. Six
+// were already covered above. These are the two that were not, and they are the
+// two most expensive to discover by hand: a refunded customer being sold a
+// SECOND subscription while the first still bills, and an annual subscriber
+// being shown the wrong year.
+//
+// What deliberately stays manual is everything whose truth lives in another
+// system: that Stripe really redelivers, that Resend really accepts the key,
+// that the email really renders in a real client.
+// =============================================================================
+describe("sandbox scenario 7 · a refunded customer cannot buy a second subscription", () => {
+  const identity = async () => {
+    const { sign } = await import("@/lib/billing/entitlement");
+    const now = NOW();
+    return `ic_ent=${sign(
+      { plan: "free", email: BUYER, customerId: "", exp: now + 30 * 86_400 },
+      SESSION_SECRET,
+      now
+    )}`;
+  };
+
+  it("refuses when Stripe still reports a billing subscription", async () => {
+    // accessFor() says "no access" for a refunded record — but refunding does
+    // not cancel a subscription, so Stripe may still be charging the card. Our
+    // own verdict alone let exactly the wrong person through.
+    const now = NOW();
+    boot();
+    seed({ status: "refunded", currentPeriodEnd: now, revokedAt: now - 10, subscriptionId: "sub_1" });
+    w.data.set(`idcust:${BUYER_KEY}`, "cus_1");
+
+    const inner = w.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("api.stripe.com/v1/subscriptions")) {
+        return {
+          ok: true,
+          status: 200,
+          text: async () => JSON.stringify({ data: [{ id: "sub_1", status: "active", customer: "cus_1" }] }),
+        };
+      }
+      if (u.includes("api.stripe.com")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: "cs_9", url: "https://stripe/x" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/checkout/route");
+    const res = await POST(
+      new Request("https://immigrationclock.com/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", cookie: await identity() },
+        body: JSON.stringify({ interval: "monthly", newsletterOptIn: false }),
+      })
+    );
+
+    expect(res.status, "a second subscription was sold on top of one still billing").toBe(409);
+    expect(((await res.json()) as { error: string }).error).toBe("already_subscribed");
+  });
+
+  it("allows the purchase once Stripe reports nothing billing", async () => {
+    const now = NOW();
+    boot();
+    seed({ status: "canceled", currentPeriodEnd: now - 1 });
+    w.data.set(`idcust:${BUYER_KEY}`, "cus_1");
+
+    const inner = w.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("api.stripe.com/v1/subscriptions")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ data: [{ id: "sub_1", status: "canceled" }] }) };
+      }
+      if (u.includes("api.stripe.com")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: "cs_9", url: "https://stripe/x" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/checkout/route");
+    const res = await POST(
+      new Request("https://immigrationclock.com/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", cookie: await identity() },
+        body: JSON.stringify({ interval: "monthly", newsletterOptIn: false }),
+      })
+    );
+
+    expect(res.status, "a legitimate re-purchase was blocked").toBe(200);
+  });
+
+  it("does NOT block the sale when Stripe cannot be reached", async () => {
+    // Refusing a legitimate purchase because a read timed out is the worse
+    // mistake; the duplicate case is rare and recoverable.
+    const now = NOW();
+    boot();
+    seed({ status: "canceled", currentPeriodEnd: now - 1 });
+    w.data.set(`idcust:${BUYER_KEY}`, "cus_1");
+
+    const inner = w.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("api.stripe.com/v1/subscriptions")) throw new Error("network down");
+      if (u.includes("api.stripe.com")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: "cs_9", url: "https://stripe/x" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/checkout/route");
+    const res = await POST(
+      new Request("https://immigrationclock.com/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", cookie: await identity() },
+        body: JSON.stringify({ interval: "monthly", newsletterOptIn: false }),
+      })
+    );
+
+    expect(res.status).toBe(200);
+  });
+});
+
+describe("sandbox scenario 3 · an annual subscriber sees a year everywhere", () => {
+  it("stores a year, claims a year, and says a year in the email", async () => {
+    const now = NOW();
+    boot();
+    seed({ newsletterConsent: { granted: false, at: now, source: "checkout", version: "v1" } });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(signedEvent(subscriptionEvent({ interval: "year" })));
+
+    // 1. THE STORE — what every gate reads.
+    const record = JSON.parse(w.data.get(`sub:${BUYER_KEY}`)!);
+    expect(record.currentPeriodEnd).toBeGreaterThan(now + 360 * 86_400);
+
+    // 2. THE EMAIL — what the buyer is told.
+    expect(w.emails[0].text).toContain("billed yearly");
+    expect(w.emails[0].text).toContain("$190.00");
+
+    // 3. THE CLAIM — short-lived by policy, but carrying the true period.
+    const { sign, verify, MAX_TTL_DAYS } = await import("@/lib/billing/entitlement");
+    const token = sign(
+      {
+        plan: "pro",
+        email: BUYER,
+        customerId: "cus_1",
+        exp: record.currentPeriodEnd,
+        periodEnd: record.currentPeriodEnd,
+      },
+      SESSION_SECRET,
+      now
+    );
+    const claim = verify(token, SESSION_SECRET, now)!;
+    expect(claim.exp, "the claim outlived the policy cap").toBeLessThanOrEqual(now + MAX_TTL_DAYS * 86_400);
+    expect(claim.periodEnd, "the true paid-through date was lost").toBe(record.currentPeriodEnd);
+
+    // 4. THE ACCOUNT PAGE — renders periodEnd, not the clamp.
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const page = readFileSync(
+      fileURLToPath(new URL("../src/app/account/page.tsx", import.meta.url)),
+      "utf8"
+    );
+    expect(page).toContain("entitlement.periodEnd ?? entitlement.exp");
   });
 });

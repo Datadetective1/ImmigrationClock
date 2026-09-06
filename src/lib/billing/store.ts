@@ -134,6 +134,31 @@ export interface WatchlistRecord {
 export interface SubscriberStore {
   getSubscriber(emailKey: string): Promise<SubscriberRecord | null>;
   putSubscriber(emailKey: string, record: SubscriberRecord): Promise<void>;
+
+  /**
+   * Read, decide, write — atomically, or not at all.
+   *
+   * WHY putSubscriber IS NOT ENOUGH. Every caller does read-modify-write, and
+   * the two halves are separate network round trips with no transaction between
+   * them. Stripe delivers webhooks concurrently, so two handlers routinely read
+   * the same record, each merge onto their own stale copy, and the second write
+   * silently discards the first. That is how a `currentPeriodEnd` from
+   * `customer.subscription.created` was overwritten by a checkout event that
+   * had read the record a moment earlier — a paying customer denied access by a
+   * race rather than by any rule.
+   *
+   * `mutate` receives the CURRENT record and returns what to store, or null to
+   * write nothing. It may be called more than once: on a lost race the store
+   * re-reads and calls it again with the newer value, so the decision is always
+   * made against state that was true when the write landed. It must therefore
+   * be a pure function of its input — no side effects, no captured staleness.
+   *
+   * Returns the record that was actually stored, or null when `mutate` declined.
+   */
+  updateSubscriber(
+    emailKey: string,
+    mutate: (current: SubscriberRecord | null) => SubscriberRecord | null
+  ): Promise<SubscriberRecord | null>;
   /** customerId -> emailKey, so a webhook carrying only a customer can find the person. */
   getEmailKeyForCustomer(customerId: string): Promise<string | null>;
   linkCustomer(customerId: string, emailKey: string): Promise<void>;
@@ -281,6 +306,17 @@ export class MemoryStore implements SubscriberStore {
     index.add(k);
     this.write(KEYS.index, JSON.stringify([...index]));
   }
+  async updateSubscriber(
+    k: string,
+    mutate: (current: SubscriberRecord | null) => SubscriberRecord | null
+  ): Promise<SubscriberRecord | null> {
+    // Single-threaded by construction: nothing can interleave between the read
+    // and the write, so this is already the atomicity the interface promises.
+    const next = mutate(await this.getSubscriber(k));
+    if (!next) return null;
+    await this.putSubscriber(k, next);
+    return next;
+  }
   async getEmailKeyForCustomer(customerId: string): Promise<string | null> {
     return this.read(KEYS.customer(customerId));
   }
@@ -409,6 +445,67 @@ export class RedisStore implements SubscriberStore {
     await this.set(KEYS.subscriber(k), JSON.stringify(record));
     await this.command(["SADD", KEYS.index, k]);
   }
+  /**
+   * Compare-and-set, server side.
+   *
+   * Redis runs a script atomically, so the GET and the SET cannot be
+   * interleaved by another handler — which is exactly the guarantee that a
+   * REST round trip cannot give and that WATCH/MULTI cannot provide over a
+   * stateless connection.
+   *
+   * The comparison is against the EXACT previous serialization rather than a
+   * version counter: it needs no schema change, no migration for records
+   * already in the store, and it cannot drift out of step with the value it is
+   * supposed to describe. An absent key is represented as the empty string,
+   * which no serialized record can collide with because every record is a JSON
+   * object and therefore starts with a brace.
+   */
+  private static readonly CAS_SCRIPT = [
+    "local cur = redis.call('GET', KEYS[1])",
+    "if cur == false then cur = '' end",
+    "if cur == ARGV[1] then",
+    "  redis.call('SET', KEYS[1], ARGV[2])",
+    "  return 1",
+    "end",
+    "return 0",
+  ].join("\n");
+
+  async updateSubscriber(
+    k: string,
+    mutate: (current: SubscriberRecord | null) => SubscriberRecord | null
+  ): Promise<SubscriberRecord | null> {
+    const key = KEYS.subscriber(k);
+
+    // A bounded retry, not a spin. Contention here is two or three concurrent
+    // Stripe deliveries, never a stampede; if it genuinely cannot settle, the
+    // caller must hear about it rather than loop.
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const raw = (await this.get(key)) ?? "";
+      const current = raw ? (JSON.parse(raw) as SubscriberRecord) : null;
+      const next = mutate(current);
+      if (!next) return null;
+
+      const serialized = JSON.stringify(next);
+      const won = await this.command<number>([
+        "EVAL",
+        RedisStore.CAS_SCRIPT,
+        1,
+        key,
+        raw,
+        serialized,
+      ]);
+
+      if (won === 1) {
+        // The index is a set, so adding an existing member is a no-op and this
+        // never needs to be part of the atomic section.
+        await this.command(["SADD", KEYS.index, k]);
+        return next;
+      }
+    }
+
+    throw new Error("Subscriber store: could not settle a concurrent update after 5 attempts");
+  }
+
   async getEmailKeyForCustomer(customerId: string): Promise<string | null> {
     return this.get(KEYS.customer(customerId));
   }

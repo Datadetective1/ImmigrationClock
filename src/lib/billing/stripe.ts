@@ -113,12 +113,14 @@ export interface SubscriptionItem {
   id?: string;
   /** Where Basil and later keep the billing period. */
   current_period_end?: number;
+  current_period_start?: number;
 }
 
 export interface Subscription {
   id: string;
   status: string;
   customer: string;
+  current_period_start?: number;
   /** Present before 2025-03-31.basil, absent after it. Read with periodEndOf. */
   current_period_end?: number;
   items?: { data?: SubscriptionItem[] };
@@ -161,6 +163,28 @@ export function periodEndOf(subscription: unknown): number | undefined {
 
   return typeof sub.current_period_end === "number" && Number.isFinite(sub.current_period_end)
     ? sub.current_period_end
+    : undefined;
+}
+
+/**
+ * When the CURRENT paid period began — the same dual-shape read as periodEndOf.
+ *
+ * Needed to tell a renewal apart from an echo. A refund does not move a
+ * subscription's period END, so comparing that against the moment of
+ * revocation was satisfied by the refunded subscription's own later events;
+ * the period's START only moves when a new period is actually paid for.
+ */
+export function periodStartOf(subscription: unknown): number | undefined {
+  if (!subscription || typeof subscription !== "object") return undefined;
+  const sub = subscription as Subscription;
+
+  const starts = (sub.items?.data ?? [])
+    .map((item) => item?.current_period_start)
+    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+  if (starts.length > 0) return Math.max(...starts);
+
+  return typeof sub.current_period_start === "number" && Number.isFinite(sub.current_period_start)
+    ? sub.current_period_start
     : undefined;
 }
 
@@ -275,6 +299,20 @@ export class StripeClient {
 
   async getCheckoutSession(id: string): Promise<CheckoutSession> {
     return this.request<CheckoutSession>("GET", `/checkout/sessions/${encodeURIComponent(id)}`);
+  }
+
+  /**
+   * A Charge, so a Dispute can be traced back to a customer.
+   *
+   * A Stripe DISPUTE object carries no `customer` — only `charge` and
+   * `payment_intent`. Reading `object.customer` off one therefore always found
+   * nothing, and every chargeback was silently ignored.
+   */
+  async getCharge(id: string): Promise<{ id: string; customer: string | null }> {
+    return this.request<{ id: string; customer: string | null }>(
+      "GET",
+      `/charges/${encodeURIComponent(id)}`
+    );
   }
 
   async getSubscription(id: string): Promise<Subscription> {
