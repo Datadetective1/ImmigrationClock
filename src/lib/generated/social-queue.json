@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T23:48:31.698Z",
+  "updatedAt": "2026-09-06T16:11:33.581Z",
   "items": [
     {
       "id": "event:federal_register:2026-16290::effective_date",
@@ -15,11 +15,11 @@
       "eventId": "federal_register:2026-16290",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 68082.86111111111,
+      "priority": 68092.85555555555,
       "readerValue": 94,
-      "factsHash": "5b9a96168b4f2d33",
+      "factsHash": "9ee5e67abf17cdb7",
       "whyItMatters": [
-        "The rule is final but does not apply until September 10, 2026, 5 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 10, 2026, 4 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 10, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -59,11 +59,11 @@
       "eventId": "federal_register:2026-16231",
       "category": "deadline",
       "topicKey": "visa:h-1b",
-      "priority": 67532.85555555555,
+      "priority": 67542.85,
       "readerValue": 100,
-      "factsHash": "978ffb446333e571",
+      "factsHash": "d923360fe74b88a6",
       "whyItMatters": [
-        "The rule is final but does not apply until September 9, 2026, 4 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 9, 2026, 3 days from today. Until then the rules in force today stay in force.",
         "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the September 9, 2026 effective date."
       ],
@@ -92,51 +92,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-17726::why_it_matters",
-      "subjectId": "event:federal_register:2026-17726",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Rescission of Coordinated Enforcement Regulations",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
-      "eventId": "federal_register:2026-17726",
-      "category": "deadline",
-      "topicKey": "topic:enforcement",
-      "priority": 67132.97222222222,
-      "readerValue": 98,
-      "factsHash": "d214333b3fdf0b5e",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 25 days from today. Until then the rules in force today stay in force.",
-        "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
-        "ImmigrationClock is watching the September 30, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6",
-      "ogImage": "/og/change/rescission-of-coordinated-enforcement-regulations-pu7qj6.png",
-      "freshness": {
-        "publishedAt": "2026-08-31",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 98/100 clears the floor; share page https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6"
-        }
-      ]
-    },
-    {
       "id": "event:federal_register:2026-14539::effective_date",
       "subjectId": "event:federal_register:2026-14539",
       "contentType": "effective_date",
@@ -149,11 +104,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66602.73888888888,
+      "priority": 66612.73333333334,
       "readerValue": 82,
-      "factsHash": "f19235f54a5c1ad0",
+      "factsHash": "9f03c6c3fec94e29",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 13 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 12 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -194,11 +149,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65032.72222222222,
+      "priority": 65042.71666666667,
       "readerValue": 54,
-      "factsHash": "3755c90729fae782",
+      "factsHash": "2d63e42fc538618e",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 10 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 9 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -238,11 +193,11 @@
       "eventId": "federal_register:2026-17726",
       "category": "actionable",
       "topicKey": "topic:enforcement",
-      "priority": 57182.97222222222,
+      "priority": 57192.96666666667,
       "readerValue": 98,
-      "factsHash": "9671e58ddf95fd8e",
+      "factsHash": "259f7df690dd481d",
       "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 25 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 30, 2026, 24 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the September 30, 2026 effective date."
       ],
@@ -271,51 +226,6 @@
       ]
     },
     {
-      "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::what_changed",
-      "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
-      "contentType": "what_changed",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Policy alert: Non-Governmental, Nonpartisan Organization Voter Registration Services at Administrative Naturalization Ceremonies",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf",
-      "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
-      "category": "actionable",
-      "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.97222222222,
-      "readerValue": 54,
-      "factsHash": "ad31274d32814fb5",
-      "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78",
-      "ogImage": "/og/change/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78.png",
-      "freshness": {
-        "publishedAt": "2026-08-31",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-13"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::why_it_matters",
       "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
       "contentType": "why_it_matters",
@@ -328,7 +238,7 @@
       "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
       "category": "actionable",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.97222222222,
+      "priority": 54928.96666666667,
       "readerValue": 54,
       "factsHash": "549a25fc673d165a",
       "whyItMatters": [
@@ -361,47 +271,6 @@
       ]
     },
     {
-      "id": "signal:h1b-sponsors-by-state::data_signal",
-      "subjectId": "signal:h1b-sponsors-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Where the H-1B sponsors are",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "a1c08d31ca1d2321",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
-      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
       "contentType": "data_signal",
@@ -414,7 +283,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -455,7 +324,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "7236d3363a418fd9",
       "whyItMatters": [],
@@ -496,7 +365,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "4409405f8e2494d6",
       "whyItMatters": [],
@@ -537,7 +406,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -578,7 +447,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
@@ -619,7 +488,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -648,6 +517,47 @@
       ]
     },
     {
+      "id": "signal:h1b-sponsors-by-state::data_signal",
+      "subjectId": "signal:h1b-sponsors-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Where the H-1B sponsors are",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "a1c08d31ca1d2321",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
+      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
+        }
+      ]
+    },
+    {
       "id": "event:dol_oflc:announcement-2026-09-02::what_changed",
       "subjectId": "event:dol_oflc:announcement-2026-09-02",
       "contentType": "what_changed",
@@ -660,7 +570,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24132.983333333334,
+      "priority": 24132.977777777778,
       "readerValue": 42,
       "factsHash": "79664ea9a60c7336",
       "whyItMatters": [
@@ -705,7 +615,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24132.983333333334,
+      "priority": 24132.977777777778,
       "readerValue": 42,
       "factsHash": "f482835a90e95547",
       "whyItMatters": [
@@ -750,7 +660,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -793,7 +703,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22009,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "9fde5e6346395c6b",
       "whyItMatters": [
@@ -836,7 +746,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22008,
+      "priority": 22009,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -879,7 +789,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -922,7 +832,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22006,
+      "priority": 22007,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -965,7 +875,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -1008,7 +918,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -1051,7 +961,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22001,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -1082,49 +992,6 @@
       ]
     },
     {
-      "id": "explainer:border-encounters-are-events::explainer",
-      "subjectId": "explainer:border-encounters-are-events",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "A border encounter is an event, not a person",
-      "suggestedHeadline": null,
-      "sourceName": "CBP — Nationwide Encounters; CBP — Enforcement Statistics",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:enforcement-data",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "11bb30720f7d357b",
-      "whyItMatters": [
-        "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/border-encounters-are-events",
-      "ogImage": "/og/explainer/border-encounters-are-events.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/border-encounters-are-events"
-        }
-      ]
-    },
-    {
       "id": "explainer:arrests-removals-detention::explainer",
       "subjectId": "explainer:arrests-removals-detention",
       "contentType": "explainer",
@@ -1137,7 +1004,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -1180,7 +1047,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -1223,7 +1090,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1266,7 +1133,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -1309,7 +1176,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -1340,25 +1207,27 @@
       ]
     },
     {
-      "id": "discovery:layoffs-vs-h1b::data_discovery",
-      "subjectId": "discovery:layoffs-vs-h1b",
-      "contentType": "data_discovery",
+      "id": "explainer:border-encounters-are-events::explainer",
+      "subjectId": "explainer:border-encounters-are-events",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "headline": "A border encounter is an event, not a person",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "CBP — Nationwide Encounters; CBP — Enforcement Statistics",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "73ae42753297c5d3",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:enforcement-data",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "11bb30720f7d357b",
+      "whyItMatters": [
+        "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
-      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "shareUrl": "https://immigrationclock.com/explained/border-encounters-are-events",
+      "ogImage": "/og/explainer/border-encounters-are-events.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1376,7 +1245,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/border-encounters-are-events"
         }
       ]
     },
@@ -1393,7 +1262,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1434,7 +1303,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1475,7 +1344,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1516,7 +1385,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1557,7 +1426,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1598,7 +1467,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "80fe61f557fffdbc",
       "whyItMatters": [],
@@ -1639,7 +1508,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "20ec27f0f0e507b6",
       "whyItMatters": [],
@@ -1664,6 +1533,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/developers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:layoffs-vs-h1b::data_discovery",
+      "subjectId": "discovery:layoffs-vs-h1b",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "73ae42753297c5d3",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
+      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
         }
       ]
     },
@@ -1786,6 +1696,65 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-17726::why_it_matters",
+      "subjectId": "event:federal_register:2026-17726",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Rescission of Coordinated Enforcement Regulations",
+      "suggestedHeadline": "DOL to rescind coordinated enforcement regs on Sept. 30, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
+      "eventId": "federal_register:2026-17726",
+      "category": "deadline",
+      "topicKey": "topic:enforcement",
+      "priority": 67132.96666666667,
+      "readerValue": 98,
+      "factsHash": "189be4f143b4c805",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 30, 2026, 24 days from today. Until then the rules in force today stay in force.",
+        "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
+        "ImmigrationClock is watching the September 30, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Coordinated enforcement regulations will be rescinded.\n\nEffective Sept. 30, 2026; until then rules remain.\n\nWhy it matters: Final now, operative Sept. 30; removes those regs but not statutes or other authorities. Source: Federal Register\n\nhttps://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Apu7qj6",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6",
+      "ogImage": "/og/change/rescission-of-coordinated-enforcement-regulations-pu7qj6.png",
+      "freshness": {
+        "publishedAt": "2026-08-31",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-06T16:11:02.555Z",
+      "externalUrl": "https://x.com/i/web/status/2096632404010045568",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 98/100 clears the floor; share page https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6"
+        },
+        {
+          "at": "2026-09-06T16:11:02.555Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-06T16:11:02.555Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-17146::effective_date",
       "subjectId": "event:federal_register:2026-17146",
       "contentType": "effective_date",
@@ -1851,6 +1820,56 @@
           "at": "2026-09-05T15:59:08.628Z",
           "status": "published",
           "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::what_changed",
+      "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
+      "contentType": "what_changed",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Policy alert: Non-Governmental, Nonpartisan Organization Voter Registration Services at Administrative Naturalization Ceremonies",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf",
+      "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
+      "category": "actionable",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 54928.97222222222,
+      "readerValue": 54,
+      "factsHash": "ad31274d32814fb5",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78",
+      "ogImage": "/og/change/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78.png",
+      "freshness": {
+        "publishedAt": "2026-08-31",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78"
+        },
+        {
+          "at": "2026-09-06T16:11:02.555Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-06"
         }
       ]
     },
