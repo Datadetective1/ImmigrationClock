@@ -279,15 +279,22 @@ describe("webhook retries", () => {
     expect(w.emails.length, "a returning subscriber was not welcomed back").toBe(2);
   });
 
-  it("an already-active subscriber is never welcomed again", async () => {
-    // The record predates this feature, or the claim is gone: the transition
-    // into active is what matters, and there was none.
+  it("a subscription that has already been welcomed is never welcomed again", async () => {
+    // THIS TEST USED TO ASSERT THE BUG. It seeded an active record with no
+    // claim and demanded silence — which is exactly the state a first-time
+    // subscriber is in when checkout.session.completed or /activate wins the
+    // race and writes status "active" first. Enshrining that swallowed the
+    // welcome for real subscribers.
+    //
+    // The honest protection is the durable claim, so that is what is asserted.
     boot();
     seed({ status: "active", currentPeriodEnd: NOW() + 20 * 86_400, lastSubscriptionEventAt: NOW() - 100 });
+    w.data.set(`once:welcome:${BUYER_KEY}:sub_1`, "1");
+
     const { POST } = await import("@/app/api/billing/webhook/route");
     await POST(signedEvent(subscriptionEvent({ interval: "month", id: "sub_1" })));
 
-    expect(w.emails.length, "an existing subscriber was greeted as new").toBe(0);
+    expect(w.emails.length, "a welcomed subscription was welcomed again").toBe(0);
   });
 });
 
@@ -552,16 +559,44 @@ describe("only the START of a subscription is welcomed", () => {
     };
   }
 
-  it("a renewal sends no welcome email, even with no claim held", async () => {
+  it("a renewal sends no welcome email", async () => {
+    // THE PROTECTION IS THE DURABLE CLAIM, not the record's status.
+    //
+    // This test used to seed NO claim and demand silence anyway, which forced
+    // the gate to read `status === "active"` — and three different writers set
+    // that status, so a first-time subscriber whose checkout event arrived
+    // first was silently never welcomed. Reading the claim instead fixes that
+    // and still keeps renewals quiet, because a renewal presents the same
+    // subscription id.
     boot();
-    // An established subscriber: active, already past their first period, and
-    // deliberately WITHOUT the once-claim, which is the state after it expires.
     seed({ status: "active", currentPeriodEnd: NOW() + 5 * 86_400, lastSubscriptionEventAt: NOW() - 86_400 });
+    w.data.set(`once:welcome:${BUYER_KEY}:sub_1`, "1");
 
     const { POST } = await import("@/app/api/billing/webhook/route");
     await POST(signedEvent(updatedEvent(NOW())));
 
     expect(w.emails.length, "a renewal greeted an existing subscriber as new").toBe(0);
+  });
+
+  it("KNOWN AND ACCEPTED: a subscription predating this feature is welcomed once", async () => {
+    // Holding no claim, an older subscription earns one welcome at its next
+    // event. That is the deliberate trade: the alternative — inferring "already
+    // onboarded" from the record's status — silently swallowed the welcome for
+    // every NEW subscriber whose checkout event won the race, which is a far
+    // worse failure than one late greeting to somebody who never got one.
+    //
+    // It affects only subscriptions created before this shipped. There are no
+    // live subscribers; the sandbox test subscriber is the whole population.
+    boot();
+    seed({ status: "active", currentPeriodEnd: NOW() + 5 * 86_400, lastSubscriptionEventAt: NOW() - 86_400 });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(signedEvent(updatedEvent(NOW())));
+
+    expect(w.emails.length).toBe(1);
+    // And exactly once, because the claim is written on the way through.
+    await POST(signedEvent(updatedEvent(NOW() + 1)));
+    expect(w.emails.length).toBe(1);
   });
 
   it("a renewal does not enrol them in the newsletter either", async () => {
@@ -572,6 +607,8 @@ describe("only the START of a subscription is welcomed", () => {
       lastSubscriptionEventAt: NOW() - 86_400,
       newsletterConsent: { granted: true, at: NOW(), source: "checkout", version: "v1" },
     });
+    w.data.set(`once:welcome:${BUYER_KEY}:sub_1`, "1");
+    w.data.set(`once:newsletter:${BUYER_KEY}:sub_1`, "1");
 
     const { POST } = await import("@/app/api/billing/webhook/route");
     await POST(signedEvent(updatedEvent(NOW())));
@@ -755,5 +792,173 @@ describe("second round · language is respected, not overwritten", () => {
 
     expect(res.outcome).toBe("enrolled");
     expect(rejecting.segmentJoins.length).toBe(1);
+  });
+});
+
+// =============================================================================
+// THIRD ROUND — what a full adversarial pass over the whole path found
+// =============================================================================
+describe("third round · the welcome must survive every event ordering", () => {
+  it("still sends when checkout.session.completed arrives FIRST", async () => {
+    // THE BLOCKER. Three writers set status "active" — this branch,
+    // /api/billing/activate, and the subscription stream — so inferring "first
+    // activation" from the status meant that whenever checkout won the race,
+    // onboarding was skipped permanently. A first-time annual subscriber with
+    // the box ticked got Pro, got charged, and received nothing at all.
+    boot();
+    seed({ newsletterConsent: { granted: true, at: NOW(), source: "checkout", version: "v1" } });
+    const { POST } = await import("@/app/api/billing/webhook/route");
+
+    await POST(
+      signedEvent({
+        id: "evt_checkout",
+        created: NOW(),
+        type: "checkout.session.completed",
+        data: { object: { id: "cs_1", customer: "cus_1", client_reference_id: BUYER_KEY } },
+      })
+    );
+    await POST(signedEvent(subscriptionEvent({ interval: "year", created: NOW() + 1 })));
+
+    expect(w.emails.length, "checkout arriving first swallowed the welcome").toBe(1);
+    expect(w.emails[0].text).toContain("billed yearly");
+    expect(w.segmentJoins.length, "the consented enrolment was skipped too").toBe(1);
+  });
+
+  it("still sends when the record was already marked active by /activate", async () => {
+    boot();
+    seed({ status: "active", newsletterConsent: { granted: true, at: NOW(), source: "checkout", version: "v1" } });
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(signedEvent(subscriptionEvent({ interval: "month" })));
+
+    expect(w.emails.length).toBe(1);
+  });
+
+  it("sends exactly once across all three events in any order", async () => {
+    boot();
+    seed();
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    const checkout = {
+      id: "evt_c",
+      created: NOW(),
+      type: "checkout.session.completed",
+      data: { object: { id: "cs_1", customer: "cus_1", client_reference_id: BUYER_KEY } },
+    };
+    await POST(signedEvent(checkout));
+    await POST(signedEvent(subscriptionEvent({ interval: "month", created: NOW() + 1 })));
+    await POST(signedEvent(checkout));
+    await POST(signedEvent(subscriptionEvent({ interval: "month", created: NOW() + 2 })));
+
+    expect(w.emails.length).toBe(1);
+  });
+});
+
+describe("third round · a checkout event never lowers a paid period", () => {
+  it("does not wipe currentPeriodEnd when it lands after the subscription", async () => {
+    // Read-modify-write with no transaction: the checkout branch used to zero
+    // an expired period, and that zero landed on top of a real period end when
+    // the two deliveries raced — denying Pro to someone who had just paid.
+    const now = NOW();
+    boot();
+    seed({ status: "active", currentPeriodEnd: now + 300 * 86_400, lastSubscriptionEventAt: now });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_late_checkout",
+        created: now - 50,
+        type: "checkout.session.completed",
+        data: { object: { id: "cs_1", customer: "cus_1", client_reference_id: BUYER_KEY } },
+      })
+    );
+
+    const record = JSON.parse(w.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(record.currentPeriodEnd, "a paid period was wiped to zero").toBe(now + 300 * 86_400);
+    expect(accessFor(record, now).pro).toBe(true);
+  });
+});
+
+describe("third round · revocation has an exit, and a redelivery has none", () => {
+  it("a new paid period releases a refunded record on the SAME subscription", async () => {
+    // Refunding does not cancel a subscription, so Stripe keeps billing the
+    // same id. Requiring a different id froze the customer out permanently
+    // while their card was charged every month.
+    const now = NOW();
+    boot();
+    seed({
+      status: "refunded",
+      currentPeriodEnd: now,
+      revokedAt: now - 100,
+      subscriptionId: "sub_1",
+      lastSubscriptionEventAt: now - 200,
+    });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(signedEvent(subscriptionEvent({ interval: "month", id: "sub_1", created: now })));
+
+    const record = JSON.parse(w.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a paying customer stayed frozen out").toBe(true);
+  });
+
+  it("a redelivered refund does not revoke a re-purchased subscription", async () => {
+    const now = NOW();
+    boot();
+    seed({
+      status: "active",
+      currentPeriodEnd: now + 300 * 86_400,
+      revokedAt: now - 10,
+      subscriptionId: "sub_2",
+      lastSubscriptionEventAt: now,
+    });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_old_refund",
+        created: now - 50,
+        type: "charge.refunded",
+        data: { object: { id: "ch_old", customer: "cus_1", refunded: true, amount: 1900, amount_refunded: 1900 } },
+      })
+    );
+
+    const record = JSON.parse(w.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a stale refund revoked a live subscription").toBe(true);
+  });
+});
+
+describe("third round · no language is ever substituted", () => {
+  it("refuses to deliver rather than filing an unconfigured language as English", async () => {
+    // subscriber-language.ts states the rule: NEVER FALL BACK. A French
+    // subscriber receiving English mail they cannot read, from a list they
+    // cannot find themselves on, is worse than not being delivered to.
+    boot({ contact: { unsubscribed: false, properties: { language: "fr" } } });
+    const res = await enrollProSubscriber({
+      email: BUYER,
+      consented: true,
+      env: ENV, // no RESEND_SEGMENT_FR configured
+      fetchImpl: w.impl as unknown as typeof fetch,
+    });
+
+    expect(res.outcome).toBe("not_configured");
+    expect(res.detail).toContain("RESEND_SEGMENT_FR");
+    expect(w.segmentJoins, "a French subscriber was filed as English").toEqual([]);
+  });
+
+  it("leaves an existing contact alone when its language cannot be read", async () => {
+    // Contact properties are not readable on every Resend plan, so "unknown"
+    // is normal — and moving somebody on the strength of a box that never
+    // mentioned language would be the wrong reading of it.
+    boot({ contact: { unsubscribed: false } });
+    const res = await enrollProSubscriber({
+      email: BUYER,
+      consented: true,
+      env: ENV,
+      fetchImpl: w.impl as unknown as typeof fetch,
+    });
+
+    expect(res.outcome).toBe("already_enrolled");
+    expect(w.segmentJoins).toEqual([]);
   });
 });

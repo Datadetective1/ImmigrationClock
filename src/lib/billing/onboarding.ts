@@ -174,6 +174,17 @@ export async function runProOnboarding(input: OnboardingInput): Promise<Onboardi
   async function enrollIfConsented(): Promise<{ outcome: EnrollmentOutcome; detail: string }> {
     if (!consented) return { outcome: "no_consent", detail: "no consent recorded" };
 
+    // ALREADY DONE IS NOT WORTH REDOING. Without this every renewal re-ran the
+    // whole Resend conversation for somebody long since enrolled — idempotent,
+    // but pointless traffic against a marketing API on every billing cycle.
+    try {
+      if (await store.wasClaimed(newsletterToken)) {
+        return { outcome: "already_enrolled", detail: "enrolled on an earlier event" };
+      }
+    } catch {
+      // Cannot tell: fall through and let the idempotent enrolment decide.
+    }
+
     const result = await enrollProSubscriber({
       email: record.email,
       consented: true,

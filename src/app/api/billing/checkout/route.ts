@@ -135,6 +135,49 @@ export async function POST(req: Request): Promise<Response> {
       );
     }
 
+    // OUR VERDICT IS NOT THE ONLY ONE THAT MATTERS.
+    //
+    // accessFor() deliberately says "no access" for a refunded or disputed
+    // record — but refunding does not cancel a subscription, so Stripe may
+    // still be billing that same card every month. Trusting only our own answer
+    // let exactly the wrong person through: no access, so they buy again, on
+    // the same canonical customer, and end up with TWO live subscriptions.
+    //
+    // Asking Stripe closes that loop. A failure here does NOT block the sale:
+    // refusing a legitimate purchase because a read timed out is the worse
+    // mistake, and the duplicate case is rare.
+    if (!access.pro) {
+      const existingCustomer = await store.getCustomerForIdentity(key);
+      if (existingCustomer) {
+        try {
+          const live = await stripe.listSubscriptions(existingCustomer);
+          const billing = (live.data ?? []).filter((sub) =>
+            ["active", "trialing", "past_due", "unpaid"].includes(sub.status)
+          );
+          if (billing.length > 0) {
+            console.warn(
+              `[billing] refusing a second checkout · ${billing.length} subscription(s) still billing`
+            );
+            return json(
+              {
+                error: "already_subscribed",
+                message:
+                  "Stripe still has a subscription on this account. Open your account page to manage it before starting another.",
+                manageUrl: `${billingOrigin()}/account`,
+              },
+              409
+            );
+          }
+        } catch (err) {
+          console.error(
+            `[billing] could not list existing subscriptions, allowing checkout: ${
+              err instanceof Error ? err.message : String(err)
+            }`
+          );
+        }
+      }
+    }
+
     // ---- 3. THE ONE CUSTOMER THIS IDENTITY OWNS ----------------------------
     let customerId = await store.getCustomerForIdentity(key);
     if (!customerId) {

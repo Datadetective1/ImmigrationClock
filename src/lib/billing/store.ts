@@ -189,6 +189,16 @@ export interface SubscriberStore {
    */
   claimOnce(token: string, ttlSeconds: number): Promise<boolean>;
 
+  /**
+   * Has this one-time action already happened?
+   *
+   * A READ, not a claim. Needed where the answer changes behaviour without
+   * consuming anything: a retry path has to tell "this already succeeded" from
+   * "this has never been tried", and calling claimOnce to find out would spend
+   * the very marker it is asking about.
+   */
+  wasClaimed(token: string): Promise<boolean>;
+
   /** The last change id we alerted this person about, so we never repeat one. */
   getAlertCursor(emailKey: string): Promise<string | null>;
   putAlertCursor(emailKey: string, cursor: string): Promise<void>;
@@ -310,6 +320,9 @@ export class MemoryStore implements SubscriberStore {
     if (this.read(KEYS.once(token)) !== null) return false;
     this.write(KEYS.once(token), "1", ttlSeconds);
     return true;
+  }
+  async wasClaimed(token: string): Promise<boolean> {
+    return this.read(KEYS.once(token)) !== null;
   }
   async getAlertCursor(k: string): Promise<string | null> {
     return this.read(KEYS.cursor(k));
@@ -456,6 +469,9 @@ export class RedisStore implements SubscriberStore {
       ttlSeconds,
     ]);
     return res !== null;
+  }
+  async wasClaimed(token: string): Promise<boolean> {
+    return (await this.get(KEYS.once(token))) !== null;
   }
   async getAlertCursor(k: string): Promise<string | null> {
     return this.get(KEYS.cursor(k));

@@ -162,6 +162,21 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
     // under a language they cannot read, on the strength of a checkbox that
     // never mentioned language at all.
     const chosen = parseLocale(existing?.properties?.[LANGUAGE_PROPERTY]);
+
+    // AN EXISTING CONTACT WHOSE LANGUAGE WE CANNOT READ IS LEFT ALONE.
+    //
+    // Defaulting to English here would move a French or Spanish subscriber onto
+    // the English segment because they ticked a box that never mentioned
+    // language — and contact properties are not readable on every Resend plan,
+    // so "cannot read" is a normal state, not an error. For somebody we have
+    // never met, English is the honest default: the whole Pro flow is English.
+    if (existing && !chosen) {
+      return {
+        outcome: "already_enrolled",
+        detail: `${redactEmail(email)} already a contact with no readable language — left in place`,
+      };
+    }
+
     const locale = chosen ?? PRO_NEWSLETTER_LOCALE;
 
     // ---- 3. UPSERT THE CONTACT --------------------------------------------
@@ -200,6 +215,19 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
     // exists to prevent, and joining a segment without it would reintroduce
     // exactly that for anybody who had already chosen a language.
     const plan = planSegments(locale, env);
+
+    // NEVER SUBSTITUTE ANOTHER LANGUAGE'S SEGMENT. subscriber-language.ts states
+    // the rule and the reason: a French subscriber receiving English mail they
+    // cannot read, from a list they cannot find themselves on, is worse than
+    // not being delivered to at all. The consent is stored either way, so this
+    // is a delivery gap that closes the day the segment is configured.
+    if (!plan.join) {
+      return {
+        outcome: "not_configured",
+        detail: `no ${segmentEnvVar(locale)} configured — consent stored, delivery not possible yet`,
+      };
+    }
+
     for (const other of plan.leave) {
       try {
         const left = await call(
@@ -215,7 +243,7 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
       }
     }
 
-    const join = plan.join ?? segmentId;
+    const join = plan.join;
     // Separate from creation on purpose, and idempotent: re-adding an existing
     // member is a no-op, and "already a member" is the end state we want.
     const joined = await call(
