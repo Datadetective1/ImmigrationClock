@@ -15,9 +15,18 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { createHmac } from "node:crypto";
+import { emailKey } from "@/lib/billing/store";
 
 const SECRET = "whsec_placeholder_for_tests";
 const SESSION_SECRET = "s".repeat(32);
+const BUYER = "buyer@example.com";
+/**
+ * The identity key the checkout route stamps onto the Stripe session.
+ *
+ * Derived exactly as production derives it, so these tests exercise the real
+ * binding rather than a stand-in string.
+ */
+const REF = emailKey(BUYER, SESSION_SECRET);
 
 /** An in-memory stand-in for the Upstash REST endpoint. */
 function redisEmulator() {
@@ -101,7 +110,16 @@ describe("the webhook actually writes to the store", () => {
     return { status: res.status, body: (await res.json()) as Record<string, unknown> };
   }
 
-  const checkout = (created: number) => ({
+  // THE IDENTITY IS OUR OWN REFERENCE, NOT A TYPED EMAIL.
+  //
+  // `client_reference_id` is the emailKey the checkout route put on the session
+  // for an address it had already verified. The webhook keys on it and never
+  // reads customer_details.email — which is what stops a $19 payment carrying
+  // somebody else's address from seizing that person's record.
+  //
+  // The address is still present on the object, exactly as Stripe sends it, so
+  // these tests fail if anything ever starts trusting it again.
+  const checkout = (created: number, ref: string = REF) => ({
     id: "evt_checkout",
     created,
     type: "checkout.session.completed",
@@ -109,6 +127,7 @@ describe("the webhook actually writes to the store", () => {
       object: {
         id: "cs_test_1",
         customer: "cus_1",
+        client_reference_id: ref,
         customer_details: { email: "buyer@example.com" },
       },
     },
@@ -121,14 +140,37 @@ describe("the webhook actually writes to the store", () => {
     data: { object: { id: "sub_1", customer: "cus_1", status: "active", current_period_end: periodEnd } },
   });
 
+  /**
+   * What the checkout ROUTE writes before it ever calls Stripe.
+   *
+   * The verified address is stored here, at the moment a session is created
+   * for an identity this site has already proved. The webhook then merges
+   * status and period onto it and never touches `email` — which is precisely
+   * what stops a paid checkout carrying a stranger's address from rewriting a
+   * subscriber's record.
+   */
+  async function seedIdentity(): Promise<void> {
+    emulator.data.set(
+      `sub:${REF}`,
+      JSON.stringify({
+        email: BUYER,
+        customerId: "cus_1",
+        status: "incomplete",
+        currentPeriodEnd: 0,
+        updatedAt: 1,
+      })
+    );
+    emulator.data.set(`cust:cus_1`, REF);
+  }
+
   async function storedRecord() {
-    const { emailKey } = await import("@/lib/billing/store");
-    const key = emailKey("buyer@example.com", SESSION_SECRET);
+    const key = REF;
     const raw = emulator.data.get(`sub:${key}`);
     return raw ? JSON.parse(raw) : null;
   }
 
   it("stores a subscriber from a checkout session", async () => {
+    await seedIdentity();
     const { body } = await deliver(checkout(1_000));
     expect(body.stored).toBe(true);
     const record = await storedRecord();
@@ -143,6 +185,7 @@ describe("the webhook actually writes to the store", () => {
     // event — the only one carrying current_period_end — and left a paying
     // customer at status "active", currentPeriodEnd 0, denied.
     const periodEnd = Math.floor(Date.now() / 1000) + 30 * 86_400;
+    await seedIdentity();
     await deliver(checkout(1_000));
     const { body } = await deliver(subscriptionCreated(999, periodEnd));
 
@@ -158,6 +201,7 @@ describe("the webhook actually writes to the store", () => {
     // The protection the ordering guard exists for, unchanged: a cancellation
     // must not be undone by a redelivered "updated · active".
     const now = Math.floor(Date.now() / 1000);
+    await seedIdentity();
     await deliver(checkout(1_000));
     await deliver(subscriptionCreated(2_000, now + 30 * 86_400));
 
@@ -217,6 +261,7 @@ describe("the webhook actually writes to the store", () => {
     const now = Math.floor(Date.now() / 1000);
     const periodEnd = now + 30 * 86_400;
 
+    await seedIdentity();
     await deliver(checkout(1_000));
     const { body } = await deliver(subscriptionCreatedBasil(2_000, periodEnd));
 
@@ -238,6 +283,7 @@ describe("the webhook actually writes to the store", () => {
     const now = Math.floor(Date.now() / 1000);
     const periodEnd = now + 30 * 86_400;
 
+    await seedIdentity();
     await deliver(checkout(1_000));
     await deliver(subscriptionCreated(2_000, periodEnd));
 
@@ -249,6 +295,7 @@ describe("the webhook actually writes to the store", () => {
 
   it("cancels on deletion even though a Basil deletion carries no period", async () => {
     const now = Math.floor(Date.now() / 1000);
+    await seedIdentity();
     await deliver(checkout(1_000));
     await deliver(subscriptionCreatedBasil(2_000, now + 30 * 86_400));
 

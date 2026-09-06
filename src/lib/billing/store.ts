@@ -90,6 +90,23 @@ export interface SubscriberStore {
   getEmailKeyForCustomer(customerId: string): Promise<string | null>;
   linkCustomer(customerId: string, emailKey: string): Promise<void>;
 
+  /**
+   * emailKey -> the ONE canonical Stripe customer for that verified identity.
+   *
+   * The reverse of linkCustomer, and the direction that prevents duplicates.
+   * Checkout resolves this before creating a session and passes the result to
+   * Stripe as `customer`; without it Stripe mints a fresh Customer per
+   * checkout, so one person could hold two customers and two live
+   * subscriptions billing the same card, with the portal able to reach only
+   * the newer one.
+   *
+   * Written with SET NX semantics — see putCustomerForIdentity — so two
+   * simultaneous first checkouts cannot each win a different customer.
+   */
+  getCustomerForIdentity(emailKey: string): Promise<string | null>;
+  /** Returns the customer id that is now canonical: yours, or the one that won. */
+  putCustomerForIdentity(emailKey: string, customerId: string): Promise<string>;
+
   getWatchlist(emailKey: string): Promise<WatchlistRecord | null>;
   putWatchlist(emailKey: string, record: WatchlistRecord): Promise<void>;
 
@@ -151,6 +168,8 @@ export const KEYS = {
   subscriber: (k: string) => `sub:${k}`,
   watchlist: (k: string) => `watch:${k}`,
   customer: (id: string) => `cust:${id}`,
+  /** The canonical Stripe customer for one verified identity. */
+  identityCustomer: (k: string) => `idcust:${k}`,
   login: (h: string) => `login:${h}`,
   cursor: (k: string) => `cursor:${k}`,
   /** A spent checkout session, so it cannot be replayed into a second cookie. */
@@ -195,6 +214,15 @@ export class MemoryStore implements SubscriberStore {
   }
   async linkCustomer(customerId: string, k: string): Promise<void> {
     this.write(KEYS.customer(customerId), k);
+  }
+  async getCustomerForIdentity(k: string): Promise<string | null> {
+    return this.read(KEYS.identityCustomer(k));
+  }
+  async putCustomerForIdentity(k: string, customerId: string): Promise<string> {
+    const existing = this.read(KEYS.identityCustomer(k));
+    if (existing) return existing;
+    this.write(KEYS.identityCustomer(k), customerId);
+    return customerId;
   }
   async getWatchlist(k: string): Promise<WatchlistRecord | null> {
     const raw = this.read(KEYS.watchlist(k));
@@ -306,6 +334,22 @@ export class RedisStore implements SubscriberStore {
   }
   async linkCustomer(customerId: string, k: string): Promise<void> {
     await this.set(KEYS.customer(customerId), k);
+  }
+  async getCustomerForIdentity(k: string): Promise<string | null> {
+    return this.get(KEYS.identityCustomer(k));
+  }
+  async putCustomerForIdentity(k: string, customerId: string): Promise<string> {
+    // SET NX, then read back. Two tabs starting a first checkout at the same
+    // instant would otherwise create two Stripe customers and both believe
+    // theirs is canonical; here exactly one wins and the loser adopts it.
+    const won = await this.command<string | null>([
+      "SET",
+      KEYS.identityCustomer(k),
+      customerId,
+      "NX",
+    ]);
+    if (won !== null) return customerId;
+    return (await this.get(KEYS.identityCustomer(k))) ?? customerId;
   }
   async getWatchlist(k: string): Promise<WatchlistRecord | null> {
     const raw = await this.get(KEYS.watchlist(k));

@@ -63,11 +63,15 @@ needs a reachable URL.
 
 1. **Developers** → **Webhooks** → **+ Add endpoint**.
 2. Endpoint URL: `https://<your-preview-domain>/api/billing/webhook`
-3. Click **Select events** and choose exactly these four:
+3. Click **Select events** and choose exactly these eight:
    - `checkout.session.completed`
    - `customer.subscription.created`
    - `customer.subscription.updated`
    - `customer.subscription.deleted`
+   - `charge.refunded`
+   - `charge.dispute.created`
+   - `charge.dispute.closed`
+   - `invoice.payment_failed`
 
    > **`customer.subscription.created` is not optional.** It is the only event
    > that carries the billing period at signup — `current_period_end`, which
@@ -77,6 +81,16 @@ needs a reachable URL.
    > `currentPeriodEnd: 0` and is denied access until their first renewal — a
    > paying customer, locked out, silently. A test asserts this list matches the
    > code.
+
+   > **The last four are how money going back out reaches the entitlement.**
+   > Refunding a subscriber in the Stripe dashboard does **not** cancel their
+   > subscription, so without `charge.refunded` the stored record kept
+   > `status: "active"` with a future period end and access continued for the
+   > rest of the term — up to a year on annual, after the money was returned. A
+   > chargeback behaved the same. `charge.dispute.created` ends access
+   > immediately; `charge.dispute.closed` never restores it automatically;
+   > `invoice.payment_failed` records a failed renewal without shortening a
+   > period the customer has already paid for.
 
 4. Click **Add endpoint**.
 5. On the endpoint page, click **Reveal** under **Signing secret** and copy it. It starts `whsec_`.

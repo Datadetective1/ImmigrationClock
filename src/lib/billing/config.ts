@@ -38,6 +38,11 @@ export interface BillingEnv {
   BILLING_SESSION_SECRET?: string;
   BILLING_ENABLED?: string;
   NEXT_PUBLIC_SITE_URL?: string;
+  /** The subscriber store. Not optional: see billingStatus(). */
+  KV_REST_API_URL?: string;
+  KV_REST_API_TOKEN?: string;
+  /** Sign-in email delivery — the only recovery path a subscriber has. */
+  RESEND_API_KEY?: string;
 }
 
 export interface BillingStatus {
@@ -47,6 +52,8 @@ export interface BillingStatus {
   webhookReady: boolean;
   /** A session cookie can be signed and read back. */
   sessionsReady: boolean;
+  /** The subscriber store is configured, so writes actually persist. */
+  storeReady: boolean;
   /** True when the key is a test-mode key, so the UI can say so out loud. */
   testMode: boolean;
   /** What is still missing, in the order an operator should fix it. */
@@ -97,9 +104,19 @@ export function billingStatus(env: BillingEnv = process.env as BillingEnv): Bill
   if (!has("STRIPE_PRICE_PRO_ANNUAL")) missing.push("STRIPE_PRICE_PRO_ANNUAL");
   if (!has("BILLING_SESSION_SECRET")) missing.push("BILLING_SESSION_SECRET");
   if (!has("STRIPE_WEBHOOK_SECRET")) missing.push("STRIPE_WEBHOOK_SECRET");
+  // The store is not optional any more. Without it the single-use checkout
+  // claim, the customer index, cancellation and the whole verified-identity
+  // model silently do nothing — while cards are charged normally.
+  if (!has("KV_REST_API_URL")) missing.push("KV_REST_API_URL");
+  if (!has("KV_REST_API_TOKEN")) missing.push("KV_REST_API_TOKEN");
+  // The only way back in for a subscriber who clears cookies, and — because
+  // the entitlement cookie is deliberately short-lived — a path every
+  // subscriber uses routinely rather than exceptionally.
+  if (!has("RESEND_API_KEY")) missing.push("RESEND_API_KEY");
 
   const enabled = billingEnabled(env);
   const sessionsReady = has("BILLING_SESSION_SECRET");
+  const storeReady = has("KV_REST_API_URL") && has("KV_REST_API_TOKEN");
 
   return {
     checkoutReady:
@@ -107,9 +124,23 @@ export function billingStatus(env: BillingEnv = process.env as BillingEnv): Bill
       has("STRIPE_SECRET_KEY") &&
       has("STRIPE_PRICE_PRO_MONTHLY") &&
       has("STRIPE_PRICE_PRO_ANNUAL") &&
-      sessionsReady,
+      sessionsReady &&
+      // WITHOUT THE WEBHOOK SECRET, MONEY MOVES AND NOTHING RECORDS IT.
+      // The documented rollout creates the webhook endpoint AFTER the first
+      // deploy, so this window is reached by following the instructions
+      // correctly, not by making a mistake: live keys in, BILLING_ENABLED true,
+      // checkout selling, and every delivery rejected because no secret is set.
+      has("STRIPE_WEBHOOK_SECRET") &&
+      storeReady &&
+      // AND A WAY TO SEND A SIGN-IN LINK. The entitlement claim is short-lived
+      // by design, so the email link is not an exceptional recovery path — it
+      // is how a subscriber gets back in after clearing cookies or changing
+      // device. When Resend is unset the signin route still answers "a link is
+      // on its way", so the failure is invisible to the person locked out.
+      has("RESEND_API_KEY"),
     webhookReady: enabled && has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET"),
     sessionsReady,
+    storeReady,
     testMode: isTestKey(env.STRIPE_SECRET_KEY),
     missing,
     disabledReason: enabled

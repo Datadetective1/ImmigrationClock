@@ -115,6 +115,20 @@ async function main() {
       : "not set — the webhook will reject every delivery"
   );
   add(
+    "a subscriber store is configured",
+    Boolean((env.KV_REST_API_URL ?? "").trim() && (env.KV_REST_API_TOKEN ?? "").trim()),
+    (env.KV_REST_API_URL ?? "").trim() && (env.KV_REST_API_TOKEN ?? "").trim()
+      ? "KV_REST_API_URL and KV_REST_API_TOKEN are set"
+      : "not set — the duplicate guard, the customer index and every cancellation would silently do nothing"
+  );
+  add(
+    "sign-in email can be sent",
+    Boolean((env.RESEND_API_KEY ?? "").trim()),
+    (env.RESEND_API_KEY ?? "").trim()
+      ? "RESEND_API_KEY is set (verify the sending domain in Resend separately)"
+      : "not set — a subscriber who clears cookies has no way back in, and the site would still say a link was sent"
+  );
+  add(
     "BILLING_ENABLED",
     (env.BILLING_ENABLED ?? "").trim() === "true",
     (env.BILLING_ENABLED ?? "").trim() === "true"
@@ -147,6 +161,18 @@ async function main() {
       true,
       `account ${account.id}${account.business_profile?.name ? ` (${account.business_profile.name})` : ""}`
     );
+    // DECLARED AND NEVER READ until now. In live mode an account that has not
+    // finished activation accepts no charges at all, and nothing here would
+    // have said so before the first customer found out.
+    add(
+      "the account can accept charges",
+      account.charges_enabled === undefined ? null : account.charges_enabled === true,
+      account.charges_enabled === undefined
+        ? "Stripe did not report charges_enabled"
+        : account.charges_enabled
+          ? "charges enabled"
+          : "CHARGES DISABLED — finish account activation in the Stripe dashboard"
+    );
   } catch (e) {
     add("the secret key works", false, (e as Error).message);
     report(checks);
@@ -167,10 +193,22 @@ async function main() {
       const expectedInterval = interval === "monthly" ? "month" : "year";
 
       add(`${interval} price exists`, true, `${price.id}, product ${price.product}`);
+      // THE KEY AND THE PRICE MUST AGREE, whichever mode that is.
+      //
+      // This used to assert `livemode === false` as the PASS condition, so a
+      // correctly configured live account scored failures by design and there
+      // was no green signal for live mode at all — only the test-mode one.
+      // What actually matters is that the five values describe ONE account:
+      // going live means re-entering all of them, and updating four is a
+      // normal mistake that leaves checkout 502ing on the half that did not
+      // change, with every readiness signal still green.
+      const keyIsTest = isTestKey(key);
       add(
-        `${interval} price is in TEST mode`,
-        price.livemode === false,
-        price.livemode ? "LIVE MODE — this will charge real cards" : "test mode"
+        `${interval} price mode matches the key`,
+        price.livemode === !keyIsTest,
+        price.livemode === !keyIsTest
+          ? `both ${keyIsTest ? "test" : "LIVE"} mode`
+          : `MISMATCH — the key is ${keyIsTest ? "test" : "live"} mode and this price is ${price.livemode ? "live" : "test"} mode`
       );
       add(`${interval} price is active`, price.active, price.active ? "active" : "archived in Stripe");
       add(
@@ -200,8 +238,12 @@ async function main() {
   } else if (unchecked.length > 0) {
     console.log(`${unchecked.length} value(s) not set. See docs/stripe-activation.md.`);
     process.exitCode = 1;
+  } else if (!status.checkoutReady) {
+    console.log("Every value checks out individually, but billingStatus() still refuses to sell.");
+    console.log(`  missing: ${status.missing.join(", ") || "nothing"}`);
+    process.exitCode = 1;
   } else {
-    console.log("Everything checked out, in TEST mode.");
+    console.log(`Everything checked out, in ${status.testMode ? "TEST" : "LIVE"} mode.`);
     console.log("Next: buy a subscription with card 4242 4242 4242 4242 and walk");
     console.log("the lifecycle in docs/stripe-activation.md.");
   }

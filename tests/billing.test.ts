@@ -39,6 +39,7 @@ import {
   isPlanId,
   availableNow,
   notYetAvailable,
+  roadmap,
 } from "@/lib/billing/plans";
 import {
   billingEnabled,
@@ -148,9 +149,24 @@ describe("the free/paid boundary", () => {
     // end. The assertion is kept in the same shape rather than deleted, so the
     // next capability cannot be marked available without someone updating it
     // here and saying why.
+    // EVERYTHING PRO SELLS, WORKS. The four unbuilt capabilities — email
+    // alerts, employer monitoring, bulk export, professional search — were
+    // listed as things a subscriber gets while alerts.ts was imported by
+    // nothing but its own test and no scheduler existed anywhere. They are now
+    // roadmap: still described, no longer sold.
     expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
-    expect(notYetAvailable("pro").length).toBeGreaterThan(0);
-    for (const c of notYetAvailable("pro")) expect(["building", "planned"]).toContain(c.status);
+    expect(notYetAvailable("pro")).toEqual([]);
+    expect(roadmap().map((c) => c.id)).toEqual([
+      "watchlist_alerts",
+      "bulk_export",
+      "advanced_filters",
+      "employer_monitoring",
+    ]);
+    // Nothing sold may be unfinished, in either direction.
+    for (const c of capabilitiesFor("pro")) {
+      expect(c.existsToday, `${c.id} is sold but does not exist`).toBe(true);
+      expect(c.status, `${c.id} is sold but not available`).toBe("available");
+    }
   });
 
   it("gives Pro everything free plus its own", () => {
@@ -201,6 +217,12 @@ const FULL_ENV: BillingEnv = {
   STRIPE_PRICE_PRO_MONTHLY: "price_monthly_placeholder",
   STRIPE_PRICE_PRO_ANNUAL: "price_annual_placeholder",
   BILLING_SESSION_SECRET: "a-long-random-value-for-tests-only",
+  // Part of "configured" now: without a store the duplicate guard and every
+  // cancellation silently no-op, and without Resend a subscriber whose
+  // short-lived claim lapses has no way back into what they paid for.
+  KV_REST_API_URL: "https://kv.example",
+  KV_REST_API_TOKEN: "kv-token-for-tests-only",
+  RESEND_API_KEY: "re_test_placeholder",
 };
 
 describe("billing configuration", () => {
@@ -228,13 +250,40 @@ describe("billing configuration", () => {
     }
   });
 
-  it("will not accept a webhook without its signing secret, even when checkout is ready", () => {
-    // The dangerous half-configured state: people could be charged while the
-    // confirmation could not be verified.
+  it("REFUSES to sell when the webhook cannot be verified", () => {
+    // THIS ASSERTION USED TO REQUIRE THE DEFECT. It asserted checkoutReady was
+    // TRUE without a signing secret, describing that as "the dangerous
+    // half-configured state" while permitting it — and the documented go-live
+    // order reaches it by being followed correctly, because the webhook
+    // endpoint can only be created after the site is deployed. Between those
+    // two steps real cards would be charged and every confirmation rejected.
+    //
+    // Selling is now gated on being able to verify the confirmation.
     const env = { ...FULL_ENV, STRIPE_WEBHOOK_SECRET: "" };
-    expect(billingStatus(env).checkoutReady).toBe(true);
+    expect(billingStatus(env).checkoutReady).toBe(false);
     expect(billingStatus(env).webhookReady).toBe(false);
     expect(billingStatus(env).missing).toContain("STRIPE_WEBHOOK_SECRET");
+  });
+
+  it("REFUSES to sell with no subscriber store", () => {
+    // Without a store the single-use checkout claim, the customer index, the
+    // duplicate guard and every cancellation silently do nothing — while cards
+    // are charged normally. It is not an optional extra.
+    for (const name of ["KV_REST_API_URL", "KV_REST_API_TOKEN"] as const) {
+      const env = { ...FULL_ENV, [name]: "" };
+      expect(billingStatus(env).checkoutReady, name).toBe(false);
+      expect(billingStatus(env).storeReady, name).toBe(false);
+      expect(billingStatus(env).missing, name).toContain(name);
+    }
+  });
+
+  it("REFUSES to sell with no way to send a sign-in link", () => {
+    // The claim is deliberately short-lived, so the email link is not an
+    // exceptional recovery path — every subscriber uses it routinely. When
+    // Resend is unset the signin route still answers "a link is on its way".
+    const env = { ...FULL_ENV, RESEND_API_KEY: "" };
+    expect(billingStatus(env).checkoutReady).toBe(false);
+    expect(billingStatus(env).missing).toContain("RESEND_API_KEY");
   });
 
   it("is fully ready only with the whole set", () => {
@@ -798,7 +847,14 @@ describe("docs/stripe-activation.md", () => {
 
   it("states the count that matches the code", () => {
     // "choose exactly these four" — a number an operator counts against.
-    expect(guide).toMatch(new RegExp(`choose exactly these ${["", "one", "two", "three", "four", "five"][HANDLED_EVENTS.length]}`, "i"));
+    expect(guide).toMatch(new RegExp(
+      `choose exactly these ${
+        ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][
+          HANDLED_EVENTS.length
+        ] ?? String(HANDLED_EVENTS.length)
+      }`,
+      "i"
+    ));
   });
 
   it("still tells the operator to stay in test mode", () => {

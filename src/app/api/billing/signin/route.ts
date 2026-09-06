@@ -35,7 +35,7 @@ export const dynamic = "force-dynamic";
 const MAX_PER_MINUTE = 3;
 
 /** The same words on every path, so timing is the only thing left to differ. */
-const ALWAYS = "If that address has a subscription, a sign-in link is on its way. It expires in 15 minutes.";
+const ALWAYS = "Check your inbox — a sign-in link is on its way. It expires in 15 minutes.";
 
 export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
@@ -75,14 +75,29 @@ export async function POST(req: Request): Promise<Response> {
   const key = emailKey(email, secret);
 
   try {
-    const subscriber = await store.getSubscriber(key);
-    // Only a real subscriber gets a link — but the answer below is identical
-    // either way.
-    if (subscriber) {
-      const token = newLoginToken();
-      await store.putLoginToken(tokenHash(token, secret), key, LOGIN_TTL_SECONDS);
-      await sendSignInEmail(email, loginUrl(billingOrigin(), token));
-    }
+    // A LINK GOES TO ANY VALID ADDRESS, NOT ONLY TO EXISTING SUBSCRIBERS.
+    //
+    // Identity now comes BEFORE payment: checkout refuses to create a Stripe
+    // customer or a session until this site has proved control of the address,
+    // because the previous design took the buyer's word for it at Stripe and
+    // that let $19 seize any subscriber's account. So someone who has never
+    // paid must be able to verify themselves in order to become a customer.
+    //
+    // Opening the link still grants NOTHING but a verified identity: Pro comes
+    // from a subscription record that Stripe wrote, checked separately.
+    //
+    // THE ADDRESS TRAVELS WITH THE TOKEN. emailKey() is a one-way HMAC, so a
+    // first-time verifier's address cannot be recovered from the key, and
+    // checkout needs it to create the Stripe customer. Storing it here keeps it
+    // inside the token's own 15-minute TTL rather than writing a permanent row
+    // for every address anyone types.
+    const token = newLoginToken();
+    await store.putLoginToken(
+      tokenHash(token, secret),
+      JSON.stringify({ k: key, e: email.trim().toLowerCase() }),
+      LOGIN_TTL_SECONDS
+    );
+    await sendSignInEmail(email, loginUrl(billingOrigin(), token));
   } catch (err) {
     // Log for us, identical answer for them: an error here must not become a
     // side channel that says whether the address exists.

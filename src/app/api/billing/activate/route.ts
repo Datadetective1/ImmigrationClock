@@ -69,9 +69,31 @@ export async function POST(req: Request): Promise<Response> {
     }
 
     const customerId = typeof session.customer === "string" ? session.customer : "";
-    const email = session.customer_details?.email || session.customer_email || "";
 
-
+    // THE IDENTITY IS OUR OWN REFERENCE, NOT THE ADDRESS TYPED AT STRIPE.
+    //
+    // This route used to key the store write on `customer_details.email`, so a
+    // paid session carrying somebody else's address rewrote THEIR record. The
+    // key now comes from `client_reference_id`, which this deployment set when
+    // it created the session for an address it had already verified.
+    //
+    // A session without one predates this change or was not created by us;
+    // the customer index is the only other trusted route to an identity.
+    const store = resolveStore();
+    const secret = process.env.BILLING_SESSION_SECRET as string;
+    const ref = typeof session.client_reference_id === "string" ? session.client_reference_id.trim() : "";
+    let key: string | null = /^[A-Za-z0-9_-]{32}$/.test(ref) ? ref : null;
+    if (!key && store && customerId) key = await store.getEmailKeyForCustomer(customerId);
+    if (!key) {
+      console.error("[billing] activate: paid session with no resolvable identity");
+      return json(
+        {
+          error: "identity_unknown",
+          message: "We could not match that checkout to an account. Use the sign-in link on the account page.",
+        },
+        409
+      );
+    }
 
     // The claim expires with the subscription period when we can read one, so
     // a monthly subscriber's cookie never outlives the month they paid for.
@@ -141,16 +163,17 @@ export async function POST(req: Request): Promise<Response> {
     // first, but ordering between a redirect and a webhook delivery is not
     // guaranteed, and a subscriber whose only record was a cookie is exactly
     // the failure this store exists to remove.
-    const secret = process.env.BILLING_SESSION_SECRET as string;
-    const store = resolveStore();
-    if (store && email) {
+    let email = "";
+    if (store) {
       try {
-        const key = emailKey(email, secret);
         if (customerId) await store.linkCustomer(customerId, key);
         const existing = await store.getSubscriber(key);
+        // The address is whatever the verified record already holds. It is
+        // never taken from the session, and never overwritten from one.
+        email = existing?.email ?? "";
         await store.putSubscriber(
           key,
-          mergeSubscriber(existing, { email, customerId, status: "active", currentPeriodEnd: exp }, now)
+          mergeSubscriber(existing, { customerId, status: "active", currentPeriodEnd: exp }, now)
         );
       } catch (err) {
         // The person has paid; do not refuse them because a write failed. The
@@ -159,7 +182,10 @@ export async function POST(req: Request): Promise<Response> {
       }
     }
 
-    const entitlement: Entitlement = { plan: "pro", email, customerId, exp };
+    // `periodEnd` is the TRUE Stripe period, unclamped, for display. `exp` is
+    // clamped to MAX_TTL_DAYS by sign(). Showing the clamp told a $190 annual
+    // buyer their year ended in thirty days.
+    const entitlement: Entitlement = { plan: "pro", email, customerId, exp, periodEnd: exp };
     const token = sign(entitlement, secret, now);
     const cookie = cookieFor(token, Math.min(exp, now + MAX_TTL_DAYS * 86_400), now, billingOriginIsHttps());
 

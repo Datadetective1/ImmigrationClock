@@ -82,6 +82,21 @@ export const STATUS_LABEL: Record<CapabilityStatus, string> = {
 };
 
 export interface CapabilitySpec {
+  /**
+   * Is this part of what the plan SELLS today?
+   *
+   * Four Pro capabilities were listed on /pricing as things a subscriber gets —
+   * email alerts, employer monitoring, bulk export and professional search —
+   * and none of them existed. `src/lib/billing/alerts.ts` was imported by
+   * nothing but its own test, and there was no scheduler of any kind. Someone
+   * paying $190 for a year was buying one working capability and four
+   * intentions.
+   *
+   * Unsold capabilities are not deleted: they are still described, under a
+   * heading that says plainly they are not included yet. The promise is what is
+   * removed, not the roadmap.
+   */
+  sold?: boolean;
   id: Capability;
   label: string;
   /** What it does, in the reader's terms. */
@@ -145,6 +160,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
   },
   {
     id: "watchlist_alerts",
+    sold: false,
     label: "Email alerts on your watchlist",
     blurb:
       "An email when something changes for the employers, visas, countries and topics you follow — not a digest of everything.",
@@ -174,6 +190,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
   },
   {
     id: "bulk_export",
+    sold: false,
     label: "Bulk export",
     blurb: "The whole filtered set — archive, directory or layoff feed — as CSV or Excel.",
     plan: "pro",
@@ -182,6 +199,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
   },
   {
     id: "advanced_filters",
+    sold: false,
     label: "Professional search",
     blurb: "Filter the archive by agency, classification, severity, effective date and date range at once.",
     plan: "pro",
@@ -190,6 +208,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
   },
   {
     id: "employer_monitoring",
+    sold: false,
     label: "Employer monitoring",
     blurb: "Tell me when an employer I watch files a WARN notice or its sponsorship numbers move.",
     plan: "pro",
@@ -249,13 +268,27 @@ export function annualSavingUsd(plan: PlanSpec): number | null {
 }
 
 /** The capabilities a plan includes, free ones included. */
+/** Described but NOT included in any plan yet. Shown as a roadmap, never sold. */
+export function roadmap(): CapabilitySpec[] {
+  return CAPABILITY_SPECS.filter((c) => c.sold === false);
+}
+
+/** True when this capability is part of what a plan sells today. */
+export function isSold(c: CapabilitySpec): boolean {
+  return c.sold !== false;
+}
+
 export function capabilitiesFor(plan: PlanId): CapabilitySpec[] {
-  return CAPABILITY_SPECS.filter((c) => c.plan === "free" || c.plan === plan);
+  // Only what the plan actually SELLS. Unsold entries are roadmap; see
+  // roadmap() and the `sold` field.
+  return CAPABILITY_SPECS.filter((c) => isSold(c) && (c.plan === "free" || c.plan === plan));
 }
 
 /** The capabilities a plan adds over free. Empty for free itself. */
 export function capabilitiesAddedBy(plan: PlanId): CapabilitySpec[] {
-  return plan === "free" ? [] : CAPABILITY_SPECS.filter((c) => c.plan === plan);
+  // Sold only: an unsold capability is a roadmap entry, not something this
+  // plan adds. See the `sold` field and roadmap().
+  return plan === "free" ? [] : CAPABILITY_SPECS.filter((c) => isSold(c) && c.plan === plan);
 }
 
 /** Paid capabilities that work today. What a subscriber gets on the day they pay. */

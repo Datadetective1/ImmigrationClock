@@ -52,12 +52,38 @@ export interface Entitlement {
   email: string;
   /** Stripe customer id, used only to open the customer portal. */
   customerId: string;
-  /** Unix seconds. */
+  /** Unix seconds. When this CLAIM lapses — at most MAX_TTL_DAYS away. */
   exp: number;
+  /**
+   * Unix seconds: when the PAID PERIOD ends, straight from Stripe. Unclamped.
+   *
+   * WHY THIS IS SEPARATE FROM `exp`. The claim is deliberately short-lived so a
+   * cancellation cannot keep working for long, and `sign()` clamps `exp` to
+   * MAX_TTL_DAYS to enforce that. The account page then rendered `exp` — so
+   * somebody who had just paid $190 for a year was told their access ran out in
+   * thirty days. The clamp is right; showing it to the customer was not.
+   *
+   * This field is for DISPLAY and for deciding whether to re-mint. It grants
+   * nothing: every gate reads `exp`, and real capability re-reads the store.
+   */
+  periodEnd?: number;
 }
 
 /** The anonymous state: everything free, nothing more. */
 export const ANONYMOUS: Entitlement = { plan: "free", email: "", customerId: "", exp: 0 };
+
+/**
+ * A VERIFIED IDENTITY that is not paying for anything.
+ *
+ * Someone who has proved control of an email address through the magic-link
+ * flow but holds no subscription. It is `plan: "free"`, so it unlocks nothing
+ * anywhere — `can()` and `isActive()` both treat it as anonymous — but it
+ * carries the verified address, which is what checkout now requires before it
+ * will create a Stripe customer or a session in that person's name.
+ */
+export function isVerifiedIdentity(entitlement: Entitlement | null, nowSeconds: number): boolean {
+  return Boolean(entitlement && entitlement.email && entitlement.exp > nowSeconds);
+}
 
 /** May this entitlement use this capability? */
 export function can(entitlement: Entitlement | null, capability: Capability): boolean {
@@ -95,7 +121,14 @@ export function sign(entitlement: Entitlement, secret: string, nowSeconds: numbe
   if (!secret) throw new Error("BILLING_SESSION_SECRET is required to sign an entitlement");
   const exp = Math.min(entitlement.exp, nowSeconds + MAX_TTL_DAYS * 86_400);
   const payload = base64url(
-    JSON.stringify({ p: entitlement.plan, e: entitlement.email, c: entitlement.customerId, x: exp })
+    JSON.stringify({
+      p: entitlement.plan,
+      e: entitlement.email,
+      c: entitlement.customerId,
+      x: exp,
+      // The true paid-through date rides along UNCLAMPED, for display only.
+      ...(entitlement.periodEnd ? { v: entitlement.periodEnd } : {}),
+    })
   );
   return `${payload}.${signature(payload, secret)}`;
 }
@@ -122,7 +155,7 @@ export function verify(token: string | undefined | null, secret: string, nowSeco
   const b = Buffer.from(expected);
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
 
-  let parsed: { p?: unknown; e?: unknown; c?: unknown; x?: unknown };
+  let parsed: { p?: unknown; e?: unknown; c?: unknown; x?: unknown; v?: unknown };
   try {
     parsed = JSON.parse(fromBase64url(payload).toString("utf8"));
   } catch {
@@ -138,6 +171,7 @@ export function verify(token: string | undefined | null, secret: string, nowSeco
     email: typeof parsed.e === "string" ? parsed.e : "",
     customerId: typeof parsed.c === "string" ? parsed.c : "",
     exp,
+    ...(typeof parsed.v === "number" && Number.isFinite(parsed.v) ? { periodEnd: parsed.v } : {}),
   };
 }
 

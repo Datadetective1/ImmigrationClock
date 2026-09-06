@@ -99,6 +99,8 @@ export function encodeForm(data: Record<string, unknown>, prefix = ""): string {
 export interface CheckoutSession {
   id: string;
   url: string | null;
+  /** Our verified-identity key, set when the session was created. */
+  client_reference_id?: string | null;
   status: string | null;
   payment_status: string | null;
   customer: string | null;
@@ -211,6 +213,24 @@ export class StripeClient {
     priceId: string;
     successUrl: string;
     cancelUrl: string;
+    /**
+     * The canonical Stripe customer for this verified identity.
+     *
+     * PASSING THIS IS WHAT STOPS ONE PERSON OWNING TWO CUSTOMERS. Without it,
+     * Stripe mints a NEW Customer for every checkout, so a subscriber who
+     * bought monthly and then clicked the annual button ended up with two
+     * customers and two live subscriptions billing the same card — and the
+     * portal, which takes its customer id from the entitlement, could only ever
+     * reach the newer one.
+     */
+    customerId?: string;
+    /**
+     * Our own verified-identity key, echoed back on every event.
+     *
+     * THE WEBHOOK KEYS ON THIS, not on the email the buyer typed at Stripe.
+     * Trusting that typed address let anyone who paid $19 seize the record,
+     * watchlist and access of any subscriber whose address they knew.
+     */
     clientReferenceId?: string;
     trialDays?: number;
   }): Promise<CheckoutSession> {
@@ -221,11 +241,36 @@ export class StripeClient {
       success_url: input.successUrl,
       cancel_url: input.cancelUrl,
       client_reference_id: input.clientReferenceId,
+      customer: input.customerId,
       allow_promotion_codes: true,
       // Stripe collects and verifies the email; we never build an email form.
       billing_address_collection: "auto",
       ...(input.trialDays ? { "subscription_data[trial_period_days]": input.trialDays } : {}),
     });
+  }
+
+  /**
+   * The one Stripe Customer that belongs to a verified identity.
+   *
+   * Created once, at the first checkout, and reused for every later one. The
+   * email is the VERIFIED address from our own magic-link flow, never a string
+   * a buyer typed into Stripe.
+   */
+  async createCustomer(input: { email: string; identityKey: string }): Promise<{ id: string }> {
+    return this.request<{ id: string }>("POST", "/customers", {
+      email: input.email,
+      // Opaque, and deliberately not the address: it is the same HMAC key the
+      // store uses, so a Stripe dashboard export is not a list of subscribers.
+      "metadata[identity_key]": input.identityKey,
+    });
+  }
+
+  /** Every subscription a customer has, so a duplicate can be detected. */
+  async listSubscriptions(customerId: string): Promise<{ data: Subscription[] }> {
+    return this.request<{ data: Subscription[] }>(
+      "GET",
+      `/subscriptions?customer=${encodeURIComponent(customerId)}&status=all&limit=100`
+    );
   }
 
   async getCheckoutSession(id: string): Promise<CheckoutSession> {
@@ -326,7 +371,21 @@ export const HANDLED_EVENTS = [
   "customer.subscription.created",
   "customer.subscription.updated",
   "customer.subscription.deleted",
+  // MONEY GOING BACK OUT. Without these four, refunding a subscriber in the
+  // Stripe dashboard did not revoke anything: the stored record kept
+  // status "active" with a future period end, and accessFor() kept saying yes
+  // for the rest of the paid term — up to a year on annual, after the money
+  // had been returned. A chargeback behaved the same way.
+  "charge.refunded",
+  "charge.dispute.created",
+  "charge.dispute.closed",
+  // A failed renewal. Stripe also moves the subscription to past_due, but that
+  // event can be late or lost; this one names the failure directly.
+  "invoice.payment_failed",
 ] as const;
+
+/** Events that END access immediately rather than at the period end. */
+export const REVOKING_EVENTS = ["charge.refunded", "charge.dispute.created"] as const;
 export type HandledEvent = (typeof HANDLED_EVENTS)[number];
 
 export function isHandledEvent(type: string): type is HandledEvent {
