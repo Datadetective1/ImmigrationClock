@@ -26,7 +26,28 @@ export function AccountActivation() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
-    if (!sessionId) return;
+
+    if (!sessionId) {
+      // NO CHECKOUT TO CONFIRM — SO RENEW THE CLAIM INSTEAD.
+      //
+      // The entitlement cookie is capped at MAX_TTL_DAYS so a cancellation
+      // cannot keep working. Nothing renewed it, so an annual subscriber was
+      // signed out on day 31 of a year they had paid for. Visiting the account
+      // page re-reads the store and re-issues the claim if the subscription is
+      // still live — and clears it if it is not.
+      if (!/(?:^|;\s*)ic_session=1(?:;|$)/.test(document.cookie || "")) return;
+      (async () => {
+        try {
+          const res = await fetch("/api/billing/session/refresh", { method: "POST" });
+          // 402 means the subscription ended and the cookie was just cleared;
+          // re-render so the page stops claiming Pro.
+          if (res.status === 402) router.refresh();
+        } catch {
+          // Offline or a blip. The existing claim is untouched.
+        }
+      })();
+      return;
+    }
 
     // Clear it from the address bar immediately, before any await.
     window.history.replaceState({}, "", window.location.pathname);

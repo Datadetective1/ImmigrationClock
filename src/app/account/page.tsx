@@ -72,8 +72,16 @@ export default function AccountPage() {
             </h2>
             <dl className="mt-4 grid gap-3 sm:grid-cols-2">
               <div>
-                <dt className="text-[11px] uppercase tracking-wide text-slate-500">Access runs to</dt>
-                <dd className="mt-0.5 text-sm font-semibold text-white">{formatDate(entitlement.exp)}</dd>
+                <dt className="text-[11px] uppercase tracking-wide text-slate-500">Paid through</dt>
+                {/* THE PAID PERIOD, NOT THE CLAIM'S EXPIRY. The signed cookie is
+                    deliberately short-lived (MAX_TTL_DAYS), and rendering that
+                    told someone who had just paid $190 for a year that their
+                    access ran out in thirty days. `periodEnd` is Stripe's own
+                    period end; `exp` is only how long this browser's claim
+                    lasts before it is re-minted. */}
+                <dd className="mt-0.5 text-sm font-semibold text-white">
+                  {formatDate(entitlement.periodEnd ?? entitlement.exp)}
+                </dd>
               </div>
               {entitlement.email ? (
                 <div>

@@ -17,7 +17,16 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { UpgradeButton } from "@/components/UpgradeButton";
 import { PricingAnalytics } from "@/components/PricingAnalytics";
-import { CAPABILITY_SPECS, PLAN_BY_ID, STATUS_LABEL, annualSavingUsd, availableNow, notYetAvailable } from "@/lib/billing/plans";
+import {
+  CAPABILITY_SPECS,
+  PLAN_BY_ID,
+  STATUS_LABEL,
+  annualSavingUsd,
+  availableNow,
+  capabilitiesAddedBy,
+  notYetAvailable,
+  roadmap,
+} from "@/lib/billing/plans";
 import type { CapabilityStatus } from "@/lib/billing/plans";
 import { SITE } from "@/lib/site";
 import { billingStatus } from "@/lib/billing/config";
@@ -25,9 +34,10 @@ import { billingStatus } from "@/lib/billing/config";
 export const metadata = buildMetadata({
   title: "Pricing — ImmigrationClock Pro",
   description:
-    "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro adds alerts on what you follow, bulk export and professional search.",
+    "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro keeps your watchlist on every device.",
   path: "/pricing",
-  keywords: ["immigration data subscription", "immigration monitoring", "H-1B data export"],
+  // No export keyword: that capability is roadmap, not a product.
+  keywords: ["immigration data subscription", "immigration monitoring", "immigration watchlist"],
 });
 
 const free = PLAN_BY_ID.get("free")!;
@@ -60,7 +70,12 @@ function Status({ status }: { status: CapabilityStatus }) {
 
 export default function PricingPage() {
   const freeFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "free");
-  const proFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "pro");
+  // WHAT PRO SELLS — not every capability tagged "pro". Four of these were
+  // listed as things a subscriber gets while none of them existed: alerts.ts
+  // was imported by nothing but its own test and no scheduler existed anywhere.
+  // They are roadmap now, rendered below under a heading that says so.
+  const proFeatures = capabilitiesAddedBy("pro");
+  const later = roadmap();
   const pending = notYetAvailable("pro");
   const inBuild = pending.filter((c) => c.status === "building").length;
   const planned = pending.filter((c) => c.status === "planned").length;
@@ -85,7 +100,7 @@ export default function PricingPage() {
       <PageHeader
         eyebrow="Pricing"
         title="The public platform is free. Pro is for watching it professionally."
-        description="Nothing that is free today becomes paid. Pro adds three things the site does not do at all yet: alerts on what you follow, bulk export, and search built for research rather than browsing."
+        description="Nothing that is free today becomes paid. Pro adds one thing today: the watchlist you build here follows you to every device, and survives clearing your browser."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/pricing", label: "Pricing" },
@@ -215,6 +230,31 @@ export default function PricingPage() {
               </p>
             ) : null}
 
+            {later.length > 0 ? (
+              <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2.5">
+                <p className="text-xs font-semibold text-slate-300">Not included — what we are building next</p>
+                {/* THESE ARE NOT SOLD, AND THE HEADING HAS TO SAY SO. They were
+                    listed as Pro capabilities with "in build" and "planned"
+                    badges, which reads as "included, arriving shortly" — and a
+                    $190 annual subscriber was buying one working capability and
+                    four intentions. Removing the promise must not become hiding
+                    the plan, so they stay on the page, outside the offer. */}
+                <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
+                  Not part of Pro today and not paid for by subscribing. If they ship, they arrive at
+                  no extra cost.
+                </p>
+                <span className="mt-1.5 block text-[11px] text-slate-400">
+                  {later.map((f) => (
+                    <span key={f.id} className="block">
+                      {"· "}
+                      {f.label}{" "}
+                      <span className="text-slate-600">({STATUS_LABEL[f.status].toLowerCase()})</span>
+                    </span>
+                  ))}
+                </span>
+              </div>
+            ) : null}
+
             {/* THE PRICE STAYS, THE PURCHASE DOES NOT.
                 Two live Subscribe buttons sat directly beneath a paragraph
                 saying there is nothing to buy — the reader was told not to
@@ -322,8 +362,9 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                They stay in your browser exactly as they are now. Pro is what lets you receive email
-                when something changes for them, and keep them across devices.
+                They stay in your browser exactly as they are now. Pro keeps the same list on every
+                device you use, and keeps it if you clear your browser. Email alerts on that list are
+                on the roadmap and are not part of Pro today.
               </p>
             </div>
             <div className="panel panel-pad">

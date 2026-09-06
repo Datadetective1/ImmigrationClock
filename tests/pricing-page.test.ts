@@ -21,7 +21,14 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
-import { CAPABILITY_SPECS, STATUS_LABEL, availableNow, notYetAvailable } from "@/lib/billing/plans";
+import {
+  CAPABILITY_SPECS,
+  STATUS_LABEL,
+  availableNow,
+  capabilitiesFor,
+  notYetAvailable,
+  roadmap,
+} from "@/lib/billing/plans";
 import { BILLING_UNAVAILABLE_MESSAGE } from "@/lib/billing/config";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -97,18 +104,18 @@ describe("a test deployment says so where the money is", () => {
 });
 
 describe("the honesty paragraph is accurate", () => {
-  it("does not claim every unfinished capability is in build", () => {
-    // Two of the five are "planned", not "building".
-    const pending = notYetAvailable("pro");
-    const building = pending.filter((c) => c.status === "building");
-    const planned = pending.filter((c) => c.status === "planned");
-    expect(building.length).toBeGreaterThan(0);
-    expect(planned.length).toBeGreaterThan(0);
+  it("sells nothing that does not exist", () => {
+    // THE HONESTY PARAGRAPH USED TO BE THE FIX FOR SELLING FOUR THINGS THAT DID
+    // NOT EXIST. The paragraph was accurate and the offer was still wrong: a
+    // $190 annual subscriber was buying one working capability and four
+    // intentions. The four are now roadmap rather than plan contents, so there
+    // is no unfinished capability left for the paragraph to disclose.
+    expect(notYetAvailable("pro")).toEqual([]);
+    for (const c of capabilitiesFor("pro")) expect(c.status).toBe("available");
 
-    // So a sentence asserting all of them are "in build" would be false.
-    expect(source).not.toMatch(/capabilities above are still in build/);
-    expect(source).toContain("inBuild");
-    expect(source).toContain("planned");
+    // And they are still described somewhere, so removing the promise did not
+    // become hiding the plan.
+    expect(roadmap().length).toBeGreaterThan(0);
   });
 
   it("never comma-joins capability labels, because one contains a comma", () => {
