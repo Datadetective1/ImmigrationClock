@@ -42,6 +42,7 @@ import { BILLING_UNAVAILABLE_MESSAGE, billingOrigin, billingStatus, priceIdFor }
 import { COOKIE_NAME, isVerifiedIdentity, verify } from "@/lib/billing/entitlement";
 import { isInterval } from "@/lib/billing/plans";
 import { StripeClient, StripeError } from "@/lib/billing/stripe";
+import { NEWSLETTER_CONSENT_VERSION } from "@/lib/billing/consent";
 import { emailKey, resolveStore } from "@/lib/billing/store";
 import { accessForKey } from "@/lib/billing/subscription";
 import { clientIp, json, rateLimited, readCookie } from "@/lib/billing/http";
@@ -71,9 +72,17 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   let interval = "monthly";
+  // CONSENT DEFAULTS TO FALSE AND IS ONLY EVER RAISED BY AN EXPLICIT `true`.
+  //
+  // Not "anything truthy", not "the field was present". A marketing consent
+  // that can be created by a malformed body, a stray string or a missing key is
+  // not consent, and this is the one value in the request whose absence must
+  // never be read generously.
+  let newsletterOptIn = false;
   try {
-    const body = (await req.json()) as { interval?: unknown };
+    const body = (await req.json()) as { interval?: unknown; newsletterOptIn?: unknown };
     if (typeof body.interval === "string") interval = body.interval;
+    newsletterOptIn = body.newsletterOptIn === true;
   } catch {
     // An empty or unparseable body means the default interval, not an error.
   }
@@ -126,6 +135,49 @@ export async function POST(req: Request): Promise<Response> {
       );
     }
 
+    // OUR VERDICT IS NOT THE ONLY ONE THAT MATTERS.
+    //
+    // accessFor() deliberately says "no access" for a refunded or disputed
+    // record — but refunding does not cancel a subscription, so Stripe may
+    // still be billing that same card every month. Trusting only our own answer
+    // let exactly the wrong person through: no access, so they buy again, on
+    // the same canonical customer, and end up with TWO live subscriptions.
+    //
+    // Asking Stripe closes that loop. A failure here does NOT block the sale:
+    // refusing a legitimate purchase because a read timed out is the worse
+    // mistake, and the duplicate case is rare.
+    if (!access.pro) {
+      const existingCustomer = await store.getCustomerForIdentity(key);
+      if (existingCustomer) {
+        try {
+          const live = await stripe.listSubscriptions(existingCustomer);
+          const billing = (live.data ?? []).filter((sub) =>
+            ["active", "trialing", "past_due", "unpaid"].includes(sub.status)
+          );
+          if (billing.length > 0) {
+            console.warn(
+              `[billing] refusing a second checkout · ${billing.length} subscription(s) still billing`
+            );
+            return json(
+              {
+                error: "already_subscribed",
+                message:
+                  "Stripe still has a subscription on this account. Open your account page to manage it before starting another.",
+                manageUrl: `${billingOrigin()}/account`,
+              },
+              409
+            );
+          }
+        } catch (err) {
+          console.error(
+            `[billing] could not list existing subscriptions, allowing checkout: ${
+              err instanceof Error ? err.message : String(err)
+            }`
+          );
+        }
+      }
+    }
+
     // ---- 3. THE ONE CUSTOMER THIS IDENTITY OWNS ----------------------------
     let customerId = await store.getCustomerForIdentity(key);
     if (!customerId) {
@@ -151,6 +203,28 @@ export async function POST(req: Request): Promise<Response> {
     // A seeded record grants nothing: status "incomplete" and no period end
     // fail both halves of accessFor(). Someone who abandons checkout simply
     // leaves a row saying they once started one.
+    //
+    // THE CONSENT IS RECORDED HERE, AGAINST THE VERIFIED IDENTITY, BEFORE ANY
+    // MONEY MOVES. Two reasons it belongs at this point and not later:
+    //
+    //   • The checkbox was on screen in this request. The webhook that follows
+    //     carries Stripe's view of a payment and knows nothing about what the
+    //     buyer agreed to, so asking it later would mean trusting something the
+    //     browser said after the fact.
+    //   • Declining is recorded as explicitly as accepting. `granted: false` is
+    //     evidence that the question was asked and answered, which an absent
+    //     field cannot distinguish from never having asked.
+    //
+    // It is written whether or not the purchase completes. Consent to be
+    // emailed is not conditional on paying, and someone who abandons checkout
+    // has still answered the question.
+    const consent = {
+      granted: newsletterOptIn,
+      at: now,
+      source: "checkout" as const,
+      version: NEWSLETTER_CONSENT_VERSION,
+    };
+
     const existing = await store.getSubscriber(key);
     if (!existing) {
       await store.putSubscriber(key, {
@@ -159,9 +233,31 @@ export async function POST(req: Request): Promise<Response> {
         status: "incomplete",
         currentPeriodEnd: 0,
         updatedAt: now,
+        newsletterConsent: consent,
       });
-    } else if (existing.customerId !== customerId || existing.email !== email) {
-      await store.putSubscriber(key, { ...existing, email, customerId, updatedAt: now });
+    } else {
+      await store.putSubscriber(key, {
+        ...existing,
+        email,
+        customerId,
+        updatedAt: now,
+        // THE LATEST EXPLICIT ANSWER WINS, INCLUDING A DECLINE.
+        //
+        // This used to preserve an earlier grant against a later decline, on
+        // the reasoning that unticking might be noise rather than withdrawal.
+        // It produced the opposite of consent: someone ticks the box, abandons
+        // Stripe, comes back, deliberately leaves it unchecked, pays — and is
+        // enrolled anyway, on the strength of a session they walked away from.
+        // Their last on-screen act was declining, and that is the act that
+        // counts.
+        //
+        // Nothing is lost by replacing it: the record is timestamped, dated and
+        // versioned, so the evidence is what was answered and when, not a
+        // high-water mark of everything ever agreed to. Withdrawing after
+        // enrolment is still Resend's unsubscribe link — this only governs
+        // whether we enrol in the first place.
+        newsletterConsent: consent,
+      });
     }
 
     const priceId = priceIdFor(interval);

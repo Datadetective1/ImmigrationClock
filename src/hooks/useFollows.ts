@@ -27,7 +27,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track, watchlistSizeBucket } from "@/lib/analytics";
-import { fetchServerWatchlist, hasSessionHint, saveServerWatchlist, type SyncStatus } from "@/lib/billing/watchlist-client";
+import {
+  fetchServerWatchlist,
+  hasSessionHint,
+  refreshSession,
+  saveServerWatchlist,
+  type SyncStatus,
+} from "@/lib/billing/watchlist-client";
 import { readSyncState, resolveLoad, writeSyncState } from "@/lib/billing/watchlist-sync";
 import {
   readStoredFollows,
@@ -154,8 +160,27 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
     const controller = new AbortController();
 
     (async () => {
-      const server = await fetchServerWatchlist(controller.signal);
+      let server = await fetchServerWatchlist(controller.signal);
       if (controller.signal.aborted) return;
+
+      // ONE RETRY BEHIND A LAPSED CLAIM.
+      //
+      // The entitlement claim is short-lived on purpose, and it was only ever
+      // renewed on /account — which an annual subscriber has no reason to
+      // visit. On day 31 the watchlist route answered 401, this classified it
+      // as "off", and sync stopped silently for somebody eleven months into a
+      // year they had paid for.
+      //
+      // A 401 while the browser holds a session hint is worth exactly one
+      // refresh: the server re-reads the authoritative record and re-mints, or
+      // answers 402 and clears the cookie because the subscription really did
+      // end. Both outcomes are correct; guessing "off" was not.
+      if (server.httpStatus === 401 && (await refreshSession(controller.signal))) {
+        if (controller.signal.aborted) return;
+        server = await fetchServerWatchlist(controller.signal);
+        if (controller.signal.aborted) return;
+      }
+
       if (server.status !== "on") {
         setSyncStatus(server.status === "unknown" ? "off" : "off");
         return;

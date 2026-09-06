@@ -134,3 +134,35 @@ export async function saveServerWatchlist(
     return { status: "unknown", entityIds: [], httpStatus: 0 };
   }
 }
+
+/**
+ * Renew the entitlement claim, then say whether it worked.
+ *
+ * WHY THE SYNC PATH NEEDS THIS. The claim is capped at MAX_TTL_DAYS so a
+ * cancellation cannot keep working, and it is renewed on /account. But an
+ * annual subscriber has no reason to visit /account: they read the site and
+ * follow things. On day 31 their claim lapsed, the watchlist route answered
+ * 401, and this client classified that as "off" — so sync stopped silently for
+ * someone eleven months into a year they had paid for, and the local list
+ * quietly diverged from the server one.
+ *
+ * A 401 with a session hint present is exactly the case worth one retry: the
+ * browser believes somebody signed in here, so ask the server to re-mint the
+ * claim from the authoritative record before concluding anything.
+ *
+ * Returns false for every other outcome, including a genuine cancellation —
+ * refresh answers 402 and clears the cookie, which is the correct end state.
+ */
+export async function refreshSession(signal?: AbortSignal): Promise<boolean> {
+  try {
+    const res = await fetch("/api/billing/session/refresh", {
+      method: "POST",
+      credentials: "same-origin",
+      cache: "no-store",
+      signal,
+    });
+    return res.status === 200;
+  } catch {
+    return false;
+  }
+}

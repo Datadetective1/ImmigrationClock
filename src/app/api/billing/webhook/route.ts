@@ -36,6 +36,7 @@ import { billingStatus } from "@/lib/billing/config";
 import { grantsAccess, isHandledEvent, periodEndOf, verifyWebhookSignature } from "@/lib/billing/stripe";
 import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
 import { mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
+import { onboardingLogLine, runProOnboarding } from "@/lib/billing/onboarding";
 import { json } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
@@ -191,10 +192,19 @@ async function persist(
     const settled = Boolean(existing && existing.lastSubscriptionEventAt !== undefined);
     if (settled) return true;
 
-    // A LAPSED SUBSCRIBER WHO COMES BACK MUST NOT INHERIT THEIR DEAD PERIOD.
-    // mergeSubscriber falls back to the stored currentPeriodEnd when the
-    // incoming event carries none, and a checkout session never carries one.
-    const expired = (existing?.currentPeriodEnd ?? 0) <= now;
+    // THIS BRANCH NEVER WRITES A PERIOD, IN EITHER DIRECTION.
+    //
+    // It used to zero `currentPeriodEnd` for a lapsed subscriber coming back,
+    // so their dead period could not be inherited. But a checkout session
+    // carries no period of its own, and the store is read-modify-write with no
+    // transaction: when this delivery raced `customer.subscription.created`,
+    // the zero landed on top of the real period end and denied Pro to somebody
+    // who had just paid.
+    //
+    // The zero was never load-bearing anyway. accessFor() denies on a period
+    // that has passed just as firmly as on a zero, so a stale period grants
+    // nothing while the subscription stream — the only stream that carries a
+    // period — catches up.
     await store.putSubscriber(
       key,
       mergeSubscriber(
@@ -202,7 +212,6 @@ async function persist(
         {
           customerId: customer || existing?.customerId || "",
           status: "active",
-          ...(expired ? { currentPeriodEnd: 0 } : {}),
         },
         now
       )
@@ -229,6 +238,21 @@ async function persist(
     // not cancel a subscription when you refund it, kept billing the card.
     if (type === "charge.refunded" && !isFullRefund(object)) {
       console.log(`[billing] partial refund · access unchanged · charge ${String(object.id ?? "unknown")}`);
+      return true;
+    }
+
+    // A REDELIVERY OF AN ALREADY-APPLIED REFUND IS A NO-OP.
+    //
+    // The refund branch had no ordering guard at all, so Stripe redelivering a
+    // months-old `charge.refunded` — which it does, and which this deployment
+    // makes more likely by answering 500 on store failures — landed on whatever
+    // subscription the person holds NOW and revoked it, while Stripe carried on
+    // billing the card.
+    if (
+      existing.revokedAt !== undefined &&
+      eventCreatedAt !== undefined &&
+      eventCreatedAt <= existing.revokedAt
+    ) {
       return true;
     }
 
@@ -345,7 +369,37 @@ async function persist(
     // of the two mistakes, so silence means refuse.
     const isNewSubscription =
       Boolean(incoming) && Boolean(revokedSubscription) && incoming !== revokedSubscription;
-    if (!isNewSubscription && type !== "customer.subscription.deleted") return false;
+
+    // A NEW PAID PERIOD IS NEW MONEY, EVEN ON THE SAME SUBSCRIPTION.
+    //
+    // Refunding does not cancel a subscription, so Stripe keeps billing the
+    // same id. Requiring a DIFFERENT id to lift the revocation meant a customer
+    // who won a dispute, or whose refund was a one-off goodwill gesture, was
+    // frozen out permanently while their card was charged every month — with no
+    // event able to release them and no path back inside the product.
+    //
+    // A period that starts after the revocation is Stripe telling us they paid
+    // again. That is the exit.
+    // BOTH HALVES ARE REQUIRED. A period reaching past the revocation is not
+    // enough on its own: the refunded subscription's own PRE-refund events
+    // already carry a future period end, so accepting them would let a stale
+    // redelivery undo the refund. The event itself must also have been
+    // generated after the revocation — that is what makes it new information
+    // rather than an echo of the state we deliberately revoked.
+    const periodAdvanced =
+      periodEnd !== undefined &&
+      existing.revokedAt !== undefined &&
+      periodEnd > existing.revokedAt &&
+      eventCreatedAt !== undefined &&
+      eventCreatedAt > existing.revokedAt;
+
+    if (!isNewSubscription && !periodAdvanced && type !== "customer.subscription.deleted") {
+      console.warn(
+        `[billing] revoked record still receiving events for ${incoming || "unknown"} · ` +
+          "the subscription may still be billing — check whether it needs cancelling in Stripe"
+      );
+      return false;
+    }
   }
 
   // ONE RECORD TRACKS ONE SUBSCRIPTION.
@@ -367,22 +421,89 @@ async function persist(
     return false;
   }
 
-  await store.putSubscriber(
-    key,
-    mergeSubscriber(
-      existing,
-      {
-        customerId: customer,
-        status: access ? status ?? "active" : status ?? "canceled",
-        // A deletion ends access now rather than at the period end it carries.
-        currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
-        lastSubscriptionEventAt: eventCreatedAt,
-        // An active subscription becomes the one this record follows.
-        ...(access && incomingId ? { subscriptionId: incomingId } : {}),
-      },
-      now
-    )
+  const written = mergeSubscriber(
+    existing,
+    {
+      customerId: customer,
+      status: access ? status ?? "active" : status ?? "canceled",
+      // A deletion ends access now rather than at the period end it carries.
+      currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
+      lastSubscriptionEventAt: eventCreatedAt,
+      // An active subscription becomes the one this record follows.
+      ...(access && incomingId ? { subscriptionId: incomingId } : {}),
+    },
+    now
   );
+  await store.putSubscriber(key, written);
+
+  // ---------------------------------------------------------------------------
+  // ONBOARDING — the welcome email, and a consented newsletter enrolment.
+  //
+  // AFTER the store write, and unable to affect it. This is the authoritative
+  // moment: Stripe has stated, over a signed webhook, that the subscription is
+  // live and paid through a date we have just recorded. The browser's return to
+  // /account is not used for this, because it can be closed, replayed or never
+  // happen at all.
+  //
+  // WRAPPED SO IT CANNOT REACH THE RESPONSE. A thrown error here would become a
+  // 500, Stripe would retry, and the retry would re-run a write that has
+  // already succeeded — turning "the email provider is down" into "the
+  // subscription record is rewritten every few minutes". The send itself is
+  // idempotent by SET NX claim, so a retry that does happen sends nothing
+  // twice.
+  // ---------------------------------------------------------------------------
+  //
+  // FIRST ACTIVATION OF A SUBSCRIPTION, not a particular event type.
+  //
+  // Gating on `customer.subscription.created` looked like the honest trigger
+  // and was a trap: that single event is droppable. The ordering watermark
+  // discards it whenever an `updated` overtakes it, and Checkout can create a
+  // subscription `incomplete` so the `created` event carries a status that
+  // grants nothing — in both cases the subscriber gets no welcome at all, and
+  // no later event was allowed to make up for it.
+  //
+  // So any event that finds the subscription ACTIVE may trigger onboarding, and
+  // the SET NX claim — keyed by identity AND subscription id — is what makes it
+  // happen exactly once. A renewal of the same subscription finds the claim
+  // taken; a genuinely new subscription has a new id and earns its own welcome.
+  //
+  // THE DURABLE CLAIM DECIDES, AND NOTHING ELSE.
+  //
+  // Two earlier attempts read the wrong signal. Gating on the event type let
+  // the ordering watermark drop `customer.subscription.created` and leave a
+  // paying subscriber with no welcome. Gating on "was the record already
+  // active" was worse: THREE writers set that status — this checkout branch,
+  // /api/billing/activate on the browser's return, and the subscription stream
+  // — so whenever either of the first two won the race, every later event saw
+  // "already active" and onboarding was skipped permanently. A first-time
+  // annual subscriber with the newsletter box ticked got Pro, got charged, and
+  // received nothing at all, with the consent sitting in the store as evidence
+  // of a promise the system never kept.
+  //
+  // `claimOnce(welcome:<identityKey>:<subscriptionId>)` is durable, is keyed by
+  // the two things that actually identify this onboarding, and cannot be set by
+  // anybody else. A renewal presents the same subscription id and finds the
+  // claim taken; a genuinely new subscription brings a new id and earns its own
+  // welcome. Whichever event arrives first does the work, and the rest are
+  // no-ops — which is exactly the property Stripe's unordered retries need.
+  if (access && written.email && written.currentPeriodEnd > now) {
+    try {
+      const report = await runProOnboarding({
+        store,
+        identityKey: key,
+        record: written,
+        subscription: object,
+      });
+      console.log(onboardingLogLine(written.email, report));
+    } catch (err) {
+      console.error(
+        `[billing] onboarding failed after a successful subscription write: ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
+    }
+  }
+
   return true;
 }
 

@@ -88,6 +88,9 @@ export function mergeSubscriber(
     lastSubscriptionEventAt: incoming.lastSubscriptionEventAt ?? existing?.lastSubscriptionEventAt,
     subscriptionId: incoming.subscriptionId ?? existing?.subscriptionId,
     revokedAt: incoming.revokedAt ?? existing?.revokedAt,
+    // Consent survives every later billing event. A renewal, a cancellation or
+    // a refund says nothing about whether somebody wanted the newsletter.
+    newsletterConsent: incoming.newsletterConsent ?? existing?.newsletterConsent,
   };
 }
 

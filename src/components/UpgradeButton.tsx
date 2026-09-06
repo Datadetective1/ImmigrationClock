@@ -16,6 +16,7 @@
 import { useState } from "react";
 import { trackCheckoutStarted } from "@/lib/analytics";
 import type { Interval } from "@/lib/billing/plans";
+import { CONSENT_HINT, CONSENT_TEXT } from "@/lib/billing/consent";
 
 interface Props {
   interval: Interval;
@@ -29,6 +30,9 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   const [state, setState] = useState<"idle" | "starting" | "unavailable" | "verify" | "sending" | "sent">("idle");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+  // UNCHECKED BY DEFAULT, ALWAYS. A pre-ticked marketing box is not consent,
+  // and the purchase must complete identically whether or not it is touched.
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
 
   async function start() {
     if (state === "starting") return;
@@ -42,7 +46,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       const res = await fetch("/api/billing/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ interval }),
+        body: JSON.stringify({ interval, newsletterOptIn }),
       });
       const body = (await res.json()) as { url?: string; message?: string; error?: string };
 
@@ -131,6 +135,27 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
 
   return (
     <div className={className}>
+      {/* BEFORE CHECKOUT, NOT AFTER. The question has to be asked while the
+          person is still deciding — asking once money has moved makes it look
+          like part of what they bought. Nothing about entitlement reads this
+          value, and checkout succeeds with it untouched. */}
+      <label
+        htmlFor={`newsletter-optin-${interval}`}
+        className="mb-3 flex cursor-pointer items-start gap-2.5 text-left"
+      >
+        <input
+          id={`newsletter-optin-${interval}`}
+          type="checkbox"
+          checked={newsletterOptIn}
+          onChange={(e) => setNewsletterOptIn(e.target.checked)}
+          className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.03] accent-accent"
+        />
+        <span className="text-xs leading-relaxed text-slate-400">
+          {CONSENT_TEXT}
+          <span className="mt-0.5 block text-[11px] text-slate-500">{CONSENT_HINT}</span>
+        </span>
+      </label>
+
       <button
         type="button"
         onClick={start}
