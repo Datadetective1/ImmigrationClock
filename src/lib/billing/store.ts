@@ -93,6 +93,36 @@ export interface SubscriberRecord {
    * generated after this moment are new money and apply normally.
    */
   revokedAt?: number;
+  /**
+   * Whether this identity asked for the newsletter, and when they asked.
+   *
+   * STORED AGAINST THE VERIFIED IDENTITY, never against an address typed at
+   * Stripe. Consent is evidence: it has to survive, it has to be dated, and it
+   * has to say what was agreed to, because "we think they ticked a box once" is
+   * not an answer to a complaint.
+   *
+   * Absent means never asked — which is NOT the same as declined, and neither
+   * is the same as consented. All three are distinguishable here.
+   */
+  newsletterConsent?: NewsletterConsent;
+}
+
+/** One consent event, recorded at the moment it was given. */
+export interface NewsletterConsent {
+  /** What they chose. False is a real, recorded answer, not an absence. */
+  granted: boolean;
+  /** Unix seconds. */
+  at: number;
+  /** Where the act happened, so an audit can find the surface. */
+  source: "checkout";
+  /**
+   * The wording they agreed to, versioned.
+   *
+   * If the copy changes, old consents keep pointing at the sentence that was
+   * actually on screen. Without this, evidence of consent degrades into
+   * evidence that somebody once clicked something.
+   */
+  version: string;
 }
 
 /** One person's watchlist. Entity ids only — the same strings /following uses. */
@@ -147,6 +177,18 @@ export interface SubscriberStore {
    */
   claimCheckoutSession(sessionId: string, ttlSeconds: number): Promise<boolean>;
 
+  /**
+   * Claim an arbitrary one-time action, once.
+   *
+   * True for the first caller only. Used to make side effects that ESCAPE the
+   * system idempotent under Stripe's retries — a welcome email cannot be
+   * un-sent, and Stripe redelivers on any non-2xx, so "did I already do this"
+   * has to be asked of durable state rather than of the event.
+   *
+   * Same SET NX primitive as claimCheckoutSession, named for the general case.
+   */
+  claimOnce(token: string, ttlSeconds: number): Promise<boolean>;
+
   /** The last change id we alerted this person about, so we never repeat one. */
   getAlertCursor(emailKey: string): Promise<string | null>;
   putAlertCursor(emailKey: string, cursor: string): Promise<void>;
@@ -192,6 +234,8 @@ export const KEYS = {
   cursor: (k: string) => `cursor:${k}`,
   /** A spent checkout session, so it cannot be replayed into a second cookie. */
   checkout: (id: string) => `cs:${id}`,
+  /** A one-time action that has already happened. See claimOnce. */
+  once: (token: string) => `once:${token}`,
   /** The index of subscriber keys, so the alert job can iterate without SCAN. */
   index: "subs:index",
 } as const;
@@ -260,6 +304,11 @@ export class MemoryStore implements SubscriberStore {
   async claimCheckoutSession(sessionId: string, ttlSeconds: number): Promise<boolean> {
     if (this.read(KEYS.checkout(sessionId)) !== null) return false;
     this.write(KEYS.checkout(sessionId), "1", ttlSeconds);
+    return true;
+  }
+  async claimOnce(token: string, ttlSeconds: number): Promise<boolean> {
+    if (this.read(KEYS.once(token)) !== null) return false;
+    this.write(KEYS.once(token), "1", ttlSeconds);
     return true;
   }
   async getAlertCursor(k: string): Promise<string | null> {
@@ -390,6 +439,17 @@ export class RedisStore implements SubscriberStore {
     const res = await this.command<string | null>([
       "SET",
       KEYS.checkout(sessionId),
+      "1",
+      "NX",
+      "EX",
+      ttlSeconds,
+    ]);
+    return res !== null;
+  }
+  async claimOnce(token: string, ttlSeconds: number): Promise<boolean> {
+    const res = await this.command<string | null>([
+      "SET",
+      KEYS.once(token),
       "1",
       "NX",
       "EX",

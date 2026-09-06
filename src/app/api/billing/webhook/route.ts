@@ -36,6 +36,7 @@ import { billingStatus } from "@/lib/billing/config";
 import { grantsAccess, isHandledEvent, periodEndOf, verifyWebhookSignature } from "@/lib/billing/stripe";
 import { emailKey, resolveStore, type SubscriberStore } from "@/lib/billing/store";
 import { mergeSubscriber, shouldApplySubscriptionEvent } from "@/lib/billing/subscription";
+import { onboardingLogLine, runProOnboarding } from "@/lib/billing/onboarding";
 import { json } from "@/lib/billing/http";
 
 export const runtime = "nodejs";
@@ -367,22 +368,80 @@ async function persist(
     return false;
   }
 
-  await store.putSubscriber(
-    key,
-    mergeSubscriber(
-      existing,
-      {
-        customerId: customer,
-        status: access ? status ?? "active" : status ?? "canceled",
-        // A deletion ends access now rather than at the period end it carries.
-        currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
-        lastSubscriptionEventAt: eventCreatedAt,
-        // An active subscription becomes the one this record follows.
-        ...(access && incomingId ? { subscriptionId: incomingId } : {}),
-      },
-      now
-    )
+  const written = mergeSubscriber(
+    existing,
+    {
+      customerId: customer,
+      status: access ? status ?? "active" : status ?? "canceled",
+      // A deletion ends access now rather than at the period end it carries.
+      currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
+      lastSubscriptionEventAt: eventCreatedAt,
+      // An active subscription becomes the one this record follows.
+      ...(access && incomingId ? { subscriptionId: incomingId } : {}),
+    },
+    now
   );
+  await store.putSubscriber(key, written);
+
+  // ---------------------------------------------------------------------------
+  // ONBOARDING — the welcome email, and a consented newsletter enrolment.
+  //
+  // AFTER the store write, and unable to affect it. This is the authoritative
+  // moment: Stripe has stated, over a signed webhook, that the subscription is
+  // live and paid through a date we have just recorded. The browser's return to
+  // /account is not used for this, because it can be closed, replayed or never
+  // happen at all.
+  //
+  // WRAPPED SO IT CANNOT REACH THE RESPONSE. A thrown error here would become a
+  // 500, Stripe would retry, and the retry would re-run a write that has
+  // already succeeded — turning "the email provider is down" into "the
+  // subscription record is rewritten every few minutes". The send itself is
+  // idempotent by SET NX claim, so a retry that does happen sends nothing
+  // twice.
+  // ---------------------------------------------------------------------------
+  //
+  // FIRST ACTIVATION OF A SUBSCRIPTION, not a particular event type.
+  //
+  // Gating on `customer.subscription.created` looked like the honest trigger
+  // and was a trap: that single event is droppable. The ordering watermark
+  // discards it whenever an `updated` overtakes it, and Checkout can create a
+  // subscription `incomplete` so the `created` event carries a status that
+  // grants nothing — in both cases the subscriber gets no welcome at all, and
+  // no later event was allowed to make up for it.
+  //
+  // So any event that finds the subscription ACTIVE may trigger onboarding, and
+  // the SET NX claim — keyed by identity AND subscription id — is what makes it
+  // happen exactly once. A renewal of the same subscription finds the claim
+  // taken; a genuinely new subscription has a new id and earns its own welcome.
+  //
+  // THE TRANSITION INTO ACTIVE, not the event type and not the claim alone.
+  //
+  // `wasAlreadyActive` is what distinguishes a first activation from a renewal.
+  // Gating on the event type instead was wrong in the other direction: the
+  // ordering watermark can drop `customer.subscription.created`, and Checkout
+  // can emit it with an `incomplete` status, so a subscriber could be left with
+  // no welcome at all. And the SET NX claim alone is not enough either — a
+  // subscription that predates this feature holds no claim, so its next renewal
+  // would greet a long-standing subscriber as new.
+  const wasAlreadyActive = Boolean(existing && grantsAccess(existing.status));
+  if (!wasAlreadyActive && access && written.email && written.currentPeriodEnd > now) {
+    try {
+      const report = await runProOnboarding({
+        store,
+        identityKey: key,
+        record: written,
+        subscription: object,
+      });
+      console.log(onboardingLogLine(written.email, report));
+    } catch (err) {
+      console.error(
+        `[billing] onboarding failed after a successful subscription write: ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
+    }
+  }
+
   return true;
 }
 
