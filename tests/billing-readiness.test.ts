@@ -660,3 +660,262 @@ describe("the billing portal", () => {
     expect(res.status).toBe(401);
   });
 });
+
+// =============================================================================
+// THE PURCHASE FLOW MUST NOT DEAD-END
+//
+// Requiring a verified identity before checkout is right, and it very nearly
+// shipped as a wall: the only place to request a sign-in link was /account, so
+// a first-time buyer clicking Subscribe got a 401 and a sentence telling them
+// to confirm an address, with nothing on the page to confirm it with. That is
+// worse for the business than the takeover defect the requirement fixes,
+// because it stops EVERY new customer rather than an unlucky one.
+// =============================================================================
+describe("a first-time buyer can still buy", () => {
+  const read = async (rel: string) => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    return readFileSync(fileURLToPath(new URL("../" + rel, import.meta.url)), "utf8");
+  };
+
+  it("offers the verification step where Subscribe is clicked", async () => {
+    const source = await read("src/components/UpgradeButton.tsx");
+    // It must RECOGNISE the refusal rather than only printing its message...
+    expect(source).toContain("identity_required");
+    // ...and offer the way through, in place.
+    expect(source).toContain("/api/billing/signin");
+    expect(source).toMatch(/type="email"/);
+  });
+
+  it("sends the link somewhere that can consume it", async () => {
+    const identity = await read("src/lib/billing/identity.ts");
+    const target = /\/account\?signin=/.test(identity) ? "src/app/account/page.tsx" : "";
+    expect(target, "the sign-in link points somewhere unexpected").not.toBe("");
+    expect(await read(target)).toContain("SignInForm");
+  });
+});
+
+// =============================================================================
+// SECOND ROUND — defects the remediation itself introduced
+//
+// A post-remediation audit found eight. Every one was a way for the FIX to hurt
+// a paying customer: a goodwill refund ending a year of access, a won dispute
+// leaving somebody billed forever with nothing, and the verified identity being
+// destroyed by the very page the sign-in link lands on.
+// =============================================================================
+describe("second round · the fixes must not become the defect", () => {
+  it("a PARTIAL refund does not end a paid term", async () => {
+    // Stripe emits charge.refunded for partial refunds too. Revoking on the
+    // event alone meant a $5 goodwill refund against a $190 annual charge ended
+    // eleven months of access — while Stripe kept billing the card, because
+    // refunding does not cancel a subscription.
+    const now = NOW();
+    const paidThrough = now + 300 * 86_400;
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: paidThrough });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_partial",
+        created: now,
+        type: "charge.refunded",
+        data: { object: { id: "ch_1", customer: "cus_1", amount: 19000, amount_refunded: 500, refunded: false } },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(record.status, "a partial refund revoked the whole term").toBe("active");
+    expect(accessFor(record, now).pro).toBe(true);
+    expect(record.currentPeriodEnd).toBe(paidThrough);
+  });
+
+  it("a FULL refund still ends access", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_full",
+        created: now,
+        type: "charge.refunded",
+        data: { object: { id: "ch_1", customer: "cus_1", amount: 1900, amount_refunded: 1900, refunded: true } },
+      })
+    );
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!), now).pro).toBe(false);
+  });
+
+  it("a refunded customer who pays again gets access back", async () => {
+    // "refunded" was an absorbing state: every later subscription event was
+    // refused forever, so a re-purchase was billed and granted nothing.
+    const now = NOW();
+    // A real refunded record names the subscription it was following: the
+    // subscription branch stamps subscriptionId whenever access is granted,
+    // which happens before any refund can occur.
+    seed(BUYER_KEY, BUYER, {
+      status: "refunded",
+      currentPeriodEnd: now,
+      revokedAt: now - 100,
+      subscriptionId: "sub_old",
+      lastSubscriptionEventAt: now - 200,
+    });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_new_sub",
+        created: now,
+        type: "customer.subscription.created",
+        data: {
+          object: {
+            id: "sub_new",
+            customer: "cus_1",
+            status: "active",
+            items: { data: [{ current_period_end: now + 30 * 86_400 }] },
+          },
+        },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a re-purchase after a refund granted nothing").toBe(true);
+  });
+
+  it("a pre-refund event still cannot undo the refund", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, {
+      status: "refunded",
+      currentPeriodEnd: now,
+      revokedAt: now,
+      subscriptionId: "sub_1",
+      lastSubscriptionEventAt: now - 500,
+    });
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_stale",
+        created: now - 50,
+        type: "customer.subscription.updated",
+        data: {
+          object: {
+            id: "sub_1",
+            customer: "cus_1",
+            status: "active",
+            items: { data: [{ current_period_end: now + 300 * 86_400 }] },
+          },
+        },
+      })
+    );
+    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).status).toBe("refunded");
+  });
+
+  it("cancelling a stale subscription cannot revoke a live one", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, {
+      status: "active",
+      currentPeriodEnd: now + 300 * 86_400,
+      subscriptionId: "sub_current",
+      lastSubscriptionEventAt: now - 10,
+    });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_old_del",
+        created: now,
+        type: "customer.subscription.deleted",
+        data: { object: { id: "sub_ancient", customer: "cus_1", status: "canceled" } },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a dead subscription's deletion revoked a paid one").toBe(true);
+  });
+
+  it("a late payment_failed cannot revoke a recovered subscriber", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 30 * 86_400, lastSubscriptionEventAt: now });
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_late_fail",
+        created: now - 100,
+        type: "invoice.payment_failed",
+        data: { object: { id: "in_1", customer: "cus_1" } },
+      })
+    );
+    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).status).toBe("active");
+  });
+
+  it("visiting /account does NOT destroy a verified-but-unpaid identity", async () => {
+    // The sign-in link lands on /account, /account calls refresh on load, and
+    // refresh cleared the cookie for anyone not yet paying — so a first-time
+    // buyer was signed out seconds after proving their address, and Subscribe
+    // then told them to confirm an address they had just confirmed.
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "incomplete", currentPeriodEnd: 0 });
+
+    const { POST } = await import("@/app/api/billing/session/refresh/route");
+    const res = await POST(
+      new Request("https://immigrationclock.com/api/billing/session/refresh", {
+        method: "POST",
+        headers: { cookie: identityCookie(BUYER, "free", now) },
+      })
+    );
+
+    expect(res.status, "a verified identity was destroyed before it could buy").toBe(200);
+    const setCookie = res.headers.get("Set-Cookie") ?? "";
+    expect(setCookie).toContain("ic_ent=");
+    expect(setCookie).not.toMatch(/ic_ent=;/);
+
+    const token = setCookie.match(/ic_ent=([^;]+)/)?.[1] ?? "";
+    const ent = verify(decodeURIComponent(token), SESSION_SECRET, now)!;
+    expect(ent.email).toBe(BUYER);
+    expect(ent.plan).toBe("free");
+  });
+
+  it("still revokes a PAID claim whose subscription has ended", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "canceled", currentPeriodEnd: now - 1 });
+    const { POST } = await import("@/app/api/billing/session/refresh/route");
+    const res = await POST(
+      new Request("https://immigrationclock.com/api/billing/session/refresh", {
+        method: "POST",
+        headers: { cookie: identityCookie(BUYER, "pro", now) },
+      })
+    );
+    expect(res.status).toBe(402);
+    expect(res.headers.get("Set-Cookie") ?? "").toMatch(/Max-Age=0/);
+  });
+
+  it("activate never writes its 30-day fallback over a real annual period", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const source = readFileSync(
+      fileURLToPath(new URL("../src/app/api/billing/activate/route.ts", import.meta.url)),
+      "utf8"
+    );
+    // The store write must be conditional on Stripe having stated a period.
+    expect(source).toContain("periodFromStripe");
+    expect(source).toMatch(/periodFromStripe !== undefined/);
+  });
+
+  it("the pricing page does not sell a roadmap capability in its prose", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const source = readFileSync(
+      fileURLToPath(new URL("../src/app/pricing/page.tsx", import.meta.url)),
+      "utf8"
+    );
+    const { roadmap } = await import("@/lib/billing/plans");
+    // The metadata description and the page header are what a reader and a
+    // search engine see first; neither may promise something Pro excludes.
+    const head = source.slice(0, source.indexOf("const free ="));
+    for (const c of roadmap()) {
+      expect(head.toLowerCase(), `metadata still sells ${c.id}`).not.toContain(c.label.toLowerCase());
+    }
+  });
+});

@@ -97,7 +97,14 @@ export async function POST(req: Request): Promise<Response> {
 
     // The claim expires with the subscription period when we can read one, so
     // a monthly subscriber's cookie never outlives the month they paid for.
+    //
+    // `periodFromStripe` stays undefined when the subscription could not be
+    // read. That distinction matters: writing the 30-day FALLBACK into the
+    // store as a period end would overwrite a correct annual period with one
+    // month, and the store is what every gate reads — so a $190 subscriber
+    // would be cut off on day 30 by the very lookup meant to protect them.
     let exp = now + MAX_TTL_DAYS * 86_400;
+    let periodFromStripe: number | undefined;
     if (typeof session.subscription === "string" && session.subscription) {
       try {
         const subscription = await stripe.getSubscription(session.subscription);
@@ -111,7 +118,10 @@ export async function POST(req: Request): Promise<Response> {
         // items, and reading only the old place would silently fall back to
         // the default window for every subscriber.
         const periodEnd = periodEndOf(subscription);
-        if (typeof periodEnd === "number" && periodEnd > now) exp = periodEnd;
+        if (typeof periodEnd === "number" && periodEnd > now) {
+          exp = periodEnd;
+          periodFromStripe = periodEnd;
+        }
       } catch (err) {
         // A readable paid session with an unreadable subscription still earns
         // the default window; the alternative is refusing someone who has paid.
@@ -173,7 +183,18 @@ export async function POST(req: Request): Promise<Response> {
         email = existing?.email ?? "";
         await store.putSubscriber(
           key,
-          mergeSubscriber(existing, { customerId, status: "active", currentPeriodEnd: exp }, now)
+          mergeSubscriber(
+            existing,
+            {
+              customerId,
+              status: "active",
+              // Only a period Stripe actually stated. Omitting it lets
+              // mergeSubscriber keep whatever the webhook already wrote, which
+              // is the real period rather than our fallback.
+              ...(periodFromStripe !== undefined ? { currentPeriodEnd: periodFromStripe } : {}),
+            },
+            now
+          )
         );
       } catch (err) {
         // The person has paid; do not refuse them because a write failed. The

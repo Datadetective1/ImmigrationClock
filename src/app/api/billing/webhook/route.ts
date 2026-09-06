@@ -221,6 +221,17 @@ async function persist(
     const existing = await store.getSubscriber(key);
     if (!existing) return false;
 
+    // A PARTIAL REFUND IS NOT THE END OF THE RELATIONSHIP.
+    //
+    // Stripe emits `charge.refunded` for partial refunds too. Revoking on the
+    // event alone meant a $5 goodwill refund against a $190 annual charge
+    // ended eleven months of access on every device — while Stripe, which does
+    // not cancel a subscription when you refund it, kept billing the card.
+    if (type === "charge.refunded" && !isFullRefund(object)) {
+      console.log(`[billing] partial refund · access unchanged · charge ${String(object.id ?? "unknown")}`);
+      return true;
+    }
+
     if (type === "charge.dispute.closed") {
       // Stripe reports the outcome in `status`. WE DO NOT AUTO-RESTORE: access
       // was revoked when the dispute opened, and a won dispute means the money
@@ -233,11 +244,21 @@ async function persist(
 
     // Refund or dispute opened: end access at once, and say why in the status
     // so the account page and the logs both name the real reason.
+    //
+    // `revokedAt` is what stops this becoming a state nobody can leave. The
+    // first version refused every later subscription event outright, so a
+    // customer who won a dispute — or who simply bought again — was billed by
+    // Stripe forever and never regained access, with no path back in the
+    // product at all. Money that arrives AFTER the revocation is new money.
     await store.putSubscriber(
       key,
       mergeSubscriber(
         existing,
-        { status: type === "charge.refunded" ? "refunded" : "disputed", currentPeriodEnd: now },
+        {
+          status: type === "charge.refunded" ? "refunded" : "disputed",
+          currentPeriodEnd: now,
+          revokedAt: eventCreatedAt ?? now,
+        },
         now
       )
     );
@@ -255,11 +276,21 @@ async function persist(
     const existing = await store.getSubscriber(key);
     if (!existing) return false;
 
+    // ORDERED LIKE EVERY OTHER SUBSCRIPTION FACT. Without this, a redelivered
+    // or late `invoice.payment_failed` landed after the customer had already
+    // fixed their card and flipped a recovered subscriber back to past_due —
+    // and returning 500 on store failures, which is the right fix elsewhere in
+    // this file, makes redelivery more likely rather than less.
+    if (!shouldApplySubscriptionEvent(existing, eventCreatedAt)) return false;
+
     // Do NOT shorten the period: they have paid through it and Stripe is still
     // retrying the card. The status stops renewal being assumed, and
     // accessFor() ends access at the period end on its own if dunning fails.
     if (!grantsAccess(existing.status)) return true;
-    await store.putSubscriber(key, mergeSubscriber(existing, { status: "past_due" }, now));
+    await store.putSubscriber(
+      key,
+      mergeSubscriber(existing, { status: "past_due", lastSubscriptionEventAt: eventCreatedAt }, now)
+    );
     return true;
   }
 
@@ -284,12 +315,56 @@ async function persist(
   // a full billing period.
   if (!shouldApplySubscriptionEvent(existing, eventCreatedAt)) return false;
 
-  // A REFUND OR DISPUTE OUTRANKS THE SUBSCRIPTION STREAM. Stripe keeps a
-  // refunded subscription "active" until someone cancels it, so without this a
-  // routine `customer.subscription.updated` would hand access back to a person
-  // whose money has already been returned.
+  // A REFUND OR DISPUTE OUTRANKS THE SUBSCRIPTION STREAM — BUT ONLY BACKWARDS.
+  //
+  // Stripe keeps a refunded subscription "active" until someone cancels it, so
+  // a routine `customer.subscription.updated` generated BEFORE the refund would
+  // otherwise hand access back to a person whose money has been returned.
+  //
+  // Refusing everything forever was worse: a won dispute, a re-purchase or the
+  // next renewal could never restore access, so the card kept being charged for
+  // nothing. Events generated after the revocation are new information and are
+  // applied normally.
   if (existing && (existing.status === "refunded" || existing.status === "disputed")) {
-    if (type !== "customer.subscription.deleted") return false;
+    // NEW MONEY IS A NEW SUBSCRIPTION, NOT A LATER TIMESTAMP.
+    //
+    // Time alone is the wrong test: Stripe leaves a refunded subscription
+    // "active" and keeps emitting customer.subscription.updated for it, so any
+    // rule of the form "events after the refund apply" hands access straight
+    // back to the person whose money was returned, seconds later.
+    //
+    // A genuine re-purchase creates a DIFFERENT subscription object. That is
+    // what may lift the revocation — and refusing everything forever was the
+    // other failure, leaving a won dispute or a re-purchase billed and granted
+    // nothing.
+    const revokedSubscription = existing.subscriptionId ?? "";
+    const incoming = typeof object.id === "string" ? object.id : "";
+    // BOTH IDS MUST BE KNOWN. If the record does not say which subscription was
+    // revoked, we cannot tell a re-purchase from the refunded subscription's
+    // own chatter — and serving somebody whose money was returned is the worse
+    // of the two mistakes, so silence means refuse.
+    const isNewSubscription =
+      Boolean(incoming) && Boolean(revokedSubscription) && incoming !== revokedSubscription;
+    if (!isNewSubscription && type !== "customer.subscription.deleted") return false;
+  }
+
+  // ONE RECORD TRACKS ONE SUBSCRIPTION.
+  //
+  // A customer can hold more than one subscription object over time — a
+  // re-purchase after cancelling, or a plan the operator created by hand. With
+  // no subscription id on the record, the DELETION of a long-dead subscription
+  // revoked whatever was current, because both events carry the same customer.
+  //
+  // A subscription that grants access adopts the record. An event about some
+  // OTHER subscription may not end access that a different one is paying for.
+  const incomingId = typeof object.id === "string" ? object.id : "";
+  const trackedId = existing?.subscriptionId ?? "";
+  const isTracked = !trackedId || !incomingId || trackedId === incomingId;
+  if (!isTracked && !access) {
+    console.log(
+      `[billing] ignoring ${type} for ${incomingId} · record tracks ${trackedId} · access unchanged`
+    );
+    return false;
   }
 
   await store.putSubscriber(
@@ -302,6 +377,8 @@ async function persist(
         // A deletion ends access now rather than at the period end it carries.
         currentPeriodEnd: type === "customer.subscription.deleted" ? now : periodEnd,
         lastSubscriptionEventAt: eventCreatedAt,
+        // An active subscription becomes the one this record follows.
+        ...(access && incomingId ? { subscriptionId: incomingId } : {}),
       },
       now
     )
@@ -336,4 +413,24 @@ async function resolveKey(
 export async function GET(): Promise<Response> {
   const status = billingStatus();
   return json({ webhookReady: status.webhookReady, testMode: status.testMode }, status.webhookReady ? 200 : 503);
+}
+
+/**
+ * Was this charge refunded in full?
+ *
+ * Stripe emits `charge.refunded` for partial refunds as well as complete ones,
+ * and a partial refund is a goodwill gesture rather than the end of the
+ * relationship. `refunded` is Stripe's own boolean for "nothing is left on this
+ * charge"; the amounts are the fallback when it is absent.
+ *
+ * The safe default when neither is readable is TRUE — revoking access after a
+ * refund we cannot size is recoverable by the subscriber buying again, whereas
+ * serving someone whose money we returned is not.
+ */
+function isFullRefund(object: Record<string, unknown>): boolean {
+  if (typeof object.refunded === "boolean") return object.refunded;
+  const amount = typeof object.amount === "number" ? object.amount : undefined;
+  const refunded = typeof object.amount_refunded === "number" ? object.amount_refunded : undefined;
+  if (amount === undefined || refunded === undefined) return true;
+  return refunded >= amount;
 }

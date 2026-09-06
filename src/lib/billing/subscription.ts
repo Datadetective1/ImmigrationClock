@@ -86,6 +86,8 @@ export function mergeSubscriber(
     currentPeriodEnd: incoming.currentPeriodEnd ?? existing?.currentPeriodEnd ?? 0,
     updatedAt: nowSeconds,
     lastSubscriptionEventAt: incoming.lastSubscriptionEventAt ?? existing?.lastSubscriptionEventAt,
+    subscriptionId: incoming.subscriptionId ?? existing?.subscriptionId,
+    revokedAt: incoming.revokedAt ?? existing?.revokedAt,
   };
 }
 

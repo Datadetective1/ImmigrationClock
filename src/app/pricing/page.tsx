@@ -34,9 +34,10 @@ import { billingStatus } from "@/lib/billing/config";
 export const metadata = buildMetadata({
   title: "Pricing — ImmigrationClock Pro",
   description:
-    "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro adds alerts on what you follow, bulk export and professional search.",
+    "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro keeps your watchlist on every device.",
   path: "/pricing",
-  keywords: ["immigration data subscription", "immigration monitoring", "H-1B data export"],
+  // No export keyword: that capability is roadmap, not a product.
+  keywords: ["immigration data subscription", "immigration monitoring", "immigration watchlist"],
 });
 
 const free = PLAN_BY_ID.get("free")!;
@@ -99,7 +100,7 @@ export default function PricingPage() {
       <PageHeader
         eyebrow="Pricing"
         title="The public platform is free. Pro is for watching it professionally."
-        description="Nothing that is free today becomes paid. Pro adds three things the site does not do at all yet: alerts on what you follow, bulk export, and search built for research rather than browsing."
+        description="Nothing that is free today becomes paid. Pro adds one thing today: the watchlist you build here follows you to every device, and survives clearing your browser."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/pricing", label: "Pricing" },
@@ -361,8 +362,9 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                They stay in your browser exactly as they are now. Pro is what lets you receive email
-                when something changes for them, and keep them across devices.
+                They stay in your browser exactly as they are now. Pro keeps the same list on every
+                device you use, and keeps it if you clear your browser. Email alerts on that list are
+                on the roadmap and are not part of Pro today.
               </p>
             </div>
             <div className="panel panel-pad">

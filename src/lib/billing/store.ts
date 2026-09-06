@@ -75,6 +75,24 @@ export interface SubscriberRecord {
    * its own: it writes no period end, and access is gated on the period.
    */
   lastSubscriptionEventAt?: number;
+  /**
+   * The Stripe subscription this record follows.
+   *
+   * A customer can hold more than one subscription over time — a re-purchase
+   * after cancelling, or one the operator made by hand. Without this, the
+   * DELETION of a long-dead subscription revoked whatever was current, because
+   * both events carry the same customer id and nothing distinguished them.
+   */
+  subscriptionId?: string;
+  /**
+   * When a refund or dispute ended access. Unix seconds, Stripe's clock.
+   *
+   * Not a flag: a timestamp. Treating "refunded" as a terminal status meant a
+   * customer who won a dispute, or who simply bought again, was billed by
+   * Stripe forever and could never regain access. Subscription events
+   * generated after this moment are new money and apply normally.
+   */
+  revokedAt?: number;
 }
 
 /** One person's watchlist. Entity ids only — the same strings /following uses. */

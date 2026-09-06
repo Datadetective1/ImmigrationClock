@@ -45,6 +45,17 @@ export const dynamic = "force-dynamic";
 
 const MAX_PER_MINUTE = 20;
 
+/**
+ * How long the readable hint lasts.
+ *
+ * Deliberately longer than the signed claim. The hint grants nothing — it says
+ * only "somebody signed in on this browser" — and its job is to tell the
+ * browser that recovery is worth offering. Expiring it with the claim meant the
+ * moment a subscriber most needed the sign-in prompt was the moment it stopped
+ * appearing.
+ */
+const HINT_EXP = (now: number) => now + 180 * 86_400;
+
 export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
   const store = resolveStore();
@@ -78,9 +89,35 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   if (!access.pro || !access.record) {
-    // Revoked, lapsed, refunded or disputed. Clear the claim rather than let it
-    // run to its own expiry — this is the fastest path from "cancelled in
-    // Stripe" to "cannot use Pro in this browser".
+    // A VERIFIED IDENTITY IS NOT A SUBSCRIPTION, AND MUST SURVIVE NOT BEING ONE.
+    //
+    // This cleared the cookie for anybody the store could not call Pro — which
+    // includes every first-time buyer, because checkout seeds their record as
+    // `incomplete` and the magic-link claim is `plan: "free"`. The sign-in link
+    // lands on /account, /account calls this on load, and the identity was
+    // destroyed seconds after being proved. Clicking Subscribe then answered
+    // "confirm your email address" to somebody who just had.
+    //
+    // So: only a PAID claim can be revoked here. A free one is re-minted, which
+    // is also what keeps the address available for the checkout that follows.
+    if (current.plan !== "pro") {
+      const identity: Entitlement = {
+        plan: "free",
+        email: current.email,
+        customerId: current.customerId,
+        exp: now + MAX_TTL_DAYS * 86_400,
+      };
+      const kept = sign(identity, secret, now);
+      const keptExp = now + MAX_TTL_DAYS * 86_400;
+      const ok = json({ plan: "free", verified: true, reason: access.reason }, 200);
+      ok.headers.append("Set-Cookie", serializeCookie(cookieFor(kept, keptExp, now, secure)));
+      ok.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(HINT_EXP(now), now, secure)));
+      return ok;
+    }
+
+    // A PAID claim against a record that no longer grants access: revoked,
+    // lapsed, refunded or disputed. Clearing it is the fastest path from
+    // "cancelled in Stripe" to "cannot use Pro in this browser".
     const res = json({ plan: "free", reason: access.reason }, 402);
     res.headers.append("Set-Cookie", serializeCookie(clearedCookie(secure)));
     res.headers.append("Set-Cookie", serializeCookie(clearedSessionHintCookie(secure)));
@@ -103,6 +140,10 @@ export async function POST(req: Request): Promise<Response> {
     200
   );
   res.headers.append("Set-Cookie", serializeCookie(cookieFor(token, cookieExp, now, secure)));
-  res.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(cookieExp, now, secure)));
+  // THE HINT OUTLIVES THE CLAIM ON PURPOSE. Both used to expire together, so a
+  // subscriber whose claim lapsed also lost the only signal telling the browser
+  // that asking about a subscription was worth doing — and silently stopped
+  // being offered the recovery they were entitled to.
+  res.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(HINT_EXP(now), now, secure)));
   return res;
 }

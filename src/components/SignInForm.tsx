@@ -44,6 +44,12 @@ export function SignInForm() {
         });
         const body = (await res.json()) as { plan?: string; message?: string };
         if (res.ok && body.plan) {
+          // A TERMINAL STATE, NOT JUST A REFRESH. Leaving the component on
+          // "Signing you in…" made the page look hung, and the natural response
+          // — reloading — used to destroy the identity that had just been
+          // proved. The reload is harmless now, but a screen that never
+          // finishes is still the wrong thing to show someone.
+          setState("idle");
           router.refresh();
           return;
         }
