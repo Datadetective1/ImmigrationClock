@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-07T18:14:03.042Z",
+  "updatedAt": "2026-09-07T21:59:30.263Z",
   "items": [
     {
       "id": "event:federal_register:2026-16290::effective_date",
@@ -267,47 +267,6 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78"
-        }
-      ]
-    },
-    {
-      "id": "signal:warn-latest-month::data_signal",
-      "subjectId": "signal:warn-latest-month",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "WARN layoff notices in the latest complete month",
-      "suggestedHeadline": null,
-      "sourceName": "State WARN Act notices (state open-data portals)",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:layoffs",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "7236d3363a418fd9",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/warn-latest-month",
-      "ogImage": "/og/signal/warn-latest-month.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-latest-month"
         }
       ]
     },
@@ -1818,6 +1777,61 @@
         },
         {
           "at": "2026-09-05T15:59:08.628Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "signal:warn-latest-month::data_signal",
+      "subjectId": "signal:warn-latest-month",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "WARN layoff notices in the latest complete month",
+      "suggestedHeadline": "August 2026 WARN: 9,406 employees across CA, NJ, TX, VA, WA",
+      "sourceName": "State WARN Act notices (state open-data portals)",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:layoffs",
+      "priority": 30007,
+      "readerValue": 65,
+      "factsHash": "7236d3363a418fd9",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "9,406 employees named in August 2026 WARN layoff notices across 5 states.\n\nSource: State WARN Act notices (state open-data portals). Coverage is CA, NJ, TX, VA, WA only; not national. WARN headcounts do not show immigration status.\n\nhttps://immigrationclock.com/insights/warn-latest-month?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-latest-month",
+        "linkedin": "",
+        "structure": "data_figure"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/warn-latest-month",
+      "ogImage": "/og/signal/warn-latest-month.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-07T21:59:06.306Z",
+      "externalUrl": "https://x.com/i/web/status/2097082355374588346",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-latest-month"
+        },
+        {
+          "at": "2026-09-07T21:59:06.306Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-07T21:59:06.306Z",
           "status": "published",
           "reason": "published on x"
         }
