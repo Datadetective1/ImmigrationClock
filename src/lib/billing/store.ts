@@ -429,6 +429,29 @@ export class RedisStore implements SubscriberStore {
       headers: { Authorization: `Bearer ${this.token}`, "Content-Type": "application/json" },
       body: JSON.stringify(args),
       signal: AbortSignal.timeout(this.timeoutMs),
+      // NEVER CACHED, AND THIS LINE IS LOAD-BEARING.
+      //
+      // Next.js replaces the global `fetch` and, left to itself, stores the
+      // response in its Data Cache. Every command here is one POST to the same
+      // URL with a different body, which is exactly the shape that cache keys
+      // on — so the FIRST answer for a given key was replayed for every later
+      // read, and the store stopped being a store.
+      //
+      // What that broke is the whole entitlement model. `accessForKey` is the
+      // one call every gate makes, and it is documented throughout this
+      // codebase as the authority a cookie is only ever a fast path for. With
+      // the read cached, a subscriber who was refunded, disputed, cancelled or
+      // simply lapsed kept Pro on /api/billing/watchlist and everywhere else,
+      // because the revocation the webhook had already written was never read
+      // back. The same staleness denies a customer who has just paid, when the
+      // "no record yet" answer is the one that got cached.
+      //
+      // Observed, not theorised: after the record was cancelled, a probe made
+      // ZERO requests to the store and still answered 200. `export const
+      // dynamic = "force-dynamic"` on the routes did not prevent it.
+      //
+      // A key-value read must always hit the key-value store.
+      cache: "no-store",
     });
     if (!res.ok) {
       // Never echo the body: it can contain the value that was being written.

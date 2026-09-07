@@ -209,6 +209,13 @@ export class StripeClient {
       },
       body: body ? encodeForm(body) : undefined,
       signal: AbortSignal.timeout(this.timeoutMs),
+      // Never cached. Next.js patches the global fetch and caches by default,
+      // and every call here is either a question whose answer changes (is this
+      // session paid? what subscriptions does this customer have?) or a command
+      // that CREATES something. A cached checkout-session creation would hand
+      // two buyers the same session; a cached subscription list would defeat
+      // the duplicate guard. See the note in store.ts — same root cause.
+      cache: "no-store",
     });
 
     const text = await res.text();
