@@ -42,6 +42,7 @@ import { ProCallout } from "@/components/ProCallout";
 import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { FollowingPanel } from "@/components/FollowingPanel";
+import { FollowStorageNote } from "@/components/FollowStorageNote";
 import { ChangesForYou } from "@/components/ChangesForYou";
 import { INDEX_COVERAGE } from "@/lib/event-index";
 
@@ -91,28 +92,13 @@ export default function FollowingPage() {
           How this works
         </h2>
         <ul className="mt-2 space-y-2 text-sm leading-relaxed text-slate-400">
-          <li>
-            <span className="font-medium text-slate-200">Your choices stay on this device.</span> They
-            are saved in your browser&rsquo;s local storage. We never receive them, so they are not
-            attached to your email address and not attached to you.
-          </li>
-          <li>
-            <span className="font-medium text-slate-200">That means they do not sync.</span> Follow
-            something here and it will not appear on your phone. Syncing would require us to hold the
-            list, and a record of who follows which immigration topics is not something we keep by
-            default — for anyone, paying or not.
-          </li>
-          <li>
-            <span className="font-medium text-slate-200">Unless you ask us to.</span> A Pro
-            subscriber can choose to sync this list so it survives a cleared browser and so we can
-            email them when something on it changes. That is the only circumstance in which we hold
-            it: stored against a one-way hash of your email rather than the address, used for your
-            alerts and nothing else, never sent to analytics, and deleted when you ask.{" "}
-            <a href="/pricing" className="link-accent">
-              What Pro includes
-            </a>
-            .
-          </li>
+          {/* THESE THREE BULLETS DEPEND ON WHO IS READING.
+              They used to state flatly that follows stay on this device and do
+              not sync — while the panel directly above told a Pro subscriber
+              "Synced — saved to your account and available on your devices".
+              The page contradicted itself, and the wrong half was the half
+              describing the capability they had just paid for. */}
+          <FollowStorageNote />
           <li>
             <span className="font-medium text-slate-200">Nothing is emailed unless you subscribe.</span>{" "}
             The weekly Immigration Pulse is the same issue for everyone — it is not personalized from

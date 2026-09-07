@@ -28,6 +28,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track, watchlistSizeBucket } from "@/lib/analytics";
 import {
+  announceSyncStatus,
   fetchServerWatchlist,
   hasSessionHint,
   refreshSession,
@@ -57,7 +58,18 @@ export function useFollows(knownIds?: ReadonlySet<string>) {
    * any of this existed. Nothing here decides what is ALLOWED; the route
    * re-reads the subscription from the store on every write.
    */
-  const [syncStatus, setSyncStatus] = useState<SyncStatus>("off");
+  const [syncStatus, setSyncStatusState] = useState<SyncStatus>("off");
+  /**
+   * Set it here, and tell the rest of the page.
+   *
+   * Read-only consumers — the "How this works" copy, which used to tell paying
+   * subscribers their follows do not sync — need the answer without paying for
+   * another probe or starting another first-sign-in merge.
+   */
+  const setSyncStatus = useCallback((next: SyncStatus) => {
+    setSyncStatusState(next);
+    announceSyncStatus(next);
+  }, []);
   /** Read synchronously by commit(), which cannot wait for a re-render. */
   const syncing = useRef(false);
   /**

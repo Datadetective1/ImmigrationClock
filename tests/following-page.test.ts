@@ -45,6 +45,12 @@ const code = (p: string) =>
     .join("\n");
 
 const PAGE = read("src/app/following/page.tsx");
+/**
+ * The storage bullets moved out of the page and into a client component,
+ * because they depend on whether the reader is actually syncing. Kept as a
+ * separate constant so each assertion below says which state it is about.
+ */
+const STORAGE_NOTE = read("src/components/FollowStorageNote.tsx");
 const HOME = read("src/app/page.tsx");
 const DIGEST = read("src/components/ChangesForYou.tsx");
 const PANEL = read("src/components/FollowingPanel.tsx");
@@ -319,18 +325,61 @@ describe("the homepage sends people here", () => {
 });
 
 describe("the privacy model is stated, not assumed", () => {
-  it("tells the reader their choices stay on the device", () => {
-    expect(PAGE).toMatch(/stay on this device/i);
-    expect(PAGE).toMatch(/local storage/i);
+  it("tells an UNSYNCED reader their choices stay on the device", () => {
+    expect(STORAGE_NOTE).toMatch(/stay on this device/i);
+    expect(STORAGE_NOTE).toMatch(/local storage/i);
   });
 
   it("admits the consequence rather than hiding it", () => {
     // Not syncing is the cost of not holding the data. Saying so is the point.
-    expect(PAGE).toMatch(/do not sync/i);
+    expect(STORAGE_NOTE).toMatch(/do not sync/i);
   });
 
-  it("says the list is not attached to an email address", () => {
-    expect(PAGE_PROSE).toMatch(/not attached to your email address/i);
+  it("does NOT say that to a subscriber who is actually syncing", () => {
+    // THE DEFECT THIS PINS. These bullets were written when follows were
+    // local-only and stated it as flat fact. Watchlist sync then shipped and
+    // became the one capability Pro sells — so a subscriber saw the panel say
+    // "Synced — saved to your account and available on your devices" and this
+    // section, directly below it, tell them in bold that it does not sync.
+    // The page contradicted itself, and the wrong half described the thing
+    // they had paid for.
+    expect(STORAGE_NOTE, "there is no synced branch").toContain('status === "on"');
+    expect(STORAGE_NOTE).toMatch(/saved to your account/i);
+    expect(STORAGE_NOTE).toMatch(/appear on every device you sign in on/i);
+  });
+
+  it("still states what is held, in BOTH states", () => {
+    // The privacy claim is not weakened by syncing, it is made specific: a
+    // one-way hash of the address rather than the address itself.
+    const hashes = STORAGE_NOTE.match(/one-way hash of your email/gi) ?? [];
+    expect(hashes.length, "one branch omits what is actually stored").toBeGreaterThanOrEqual(2);
+  });
+
+  it("treats an UNKNOWN probe as not-synced", () => {
+    // Claiming a sync we could not confirm is the same class of error as
+    // denying one. Only an explicit "on" gets the synced copy.
+    expect(STORAGE_NOTE).toContain('status === "on"');
+    expect(STORAGE_NOTE, "an unconfirmed probe would claim syncing").not.toMatch(
+      /status !== "off"/
+    );
+  });
+
+  it("costs no extra probe and starts no second merge", () => {
+    // /following already runs useFollows twice. A third instance would mean
+    // another request to the entitlement-gated route and another first-sign-in
+    // union, just to read a boolean for some copy.
+    expect(STORAGE_NOTE, "the note runs its own sync probe").not.toContain("useFollows");
+    expect(STORAGE_NOTE).toContain("lastKnownSyncStatus");
+    expect(STORAGE_NOTE).toContain("SYNC_STATUS_EVENT");
+  });
+
+  it("says the list is not attached to an email address — when it is not", () => {
+    // State-dependent by necessity, and that is the whole fix: for an unsynced
+    // reader nothing leaves the browser, so the flat claim is true. For a
+    // subscriber the list IS held, against a one-way hash, and the synced
+    // branch says so rather than repeating a sentence that has stopped
+    // being true for them.
+    expect(prose(STORAGE_NOTE)).toMatch(/not attached to your email address/i);
   });
 
   it("says following is not connected to the newsletter", () => {

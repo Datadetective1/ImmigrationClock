@@ -47,6 +47,37 @@ export type SyncStatus =
   /** We asked and could not tell — offline, a 500, a timeout. */
   | "unknown";
 
+/**
+ * SAME-PAGE BROADCAST OF THE SYNC ANSWER.
+ *
+ * /following renders several components that each ask useFollows for the list,
+ * and the sync probe is deliberately made once per hook instance. A component
+ * that only needs to know WHETHER syncing is on — the "How this works" copy,
+ * which was telling paying subscribers their follows do not sync — must not
+ * pay for another round trip, and must not start another first-sign-in merge
+ * just to read a boolean.
+ *
+ * So the instance that already probed announces the answer, and read-only
+ * consumers listen. `lastKnown` covers the ordinary case where the listener
+ * mounts after the announcement has already happened.
+ *
+ * Anonymous readers are untouched: no hint cookie means no probe, no
+ * announcement, and the status stays "off" — which is the truth for them.
+ */
+export const SYNC_STATUS_EVENT = "immigrationclock:sync-status";
+
+let lastKnown: SyncStatus = "off";
+
+export function lastKnownSyncStatus(): SyncStatus {
+  return lastKnown;
+}
+
+export function announceSyncStatus(status: SyncStatus): void {
+  lastKnown = status;
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent<SyncStatus>(SYNC_STATUS_EVENT, { detail: status }));
+}
+
 export interface FetchResult {
   status: SyncStatus;
   entityIds: string[];
