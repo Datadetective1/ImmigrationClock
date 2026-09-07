@@ -113,12 +113,14 @@ export interface SubscriptionItem {
   id?: string;
   /** Where Basil and later keep the billing period. */
   current_period_end?: number;
+  current_period_start?: number;
 }
 
 export interface Subscription {
   id: string;
   status: string;
   customer: string;
+  current_period_start?: number;
   /** Present before 2025-03-31.basil, absent after it. Read with periodEndOf. */
   current_period_end?: number;
   items?: { data?: SubscriptionItem[] };
@@ -164,6 +166,28 @@ export function periodEndOf(subscription: unknown): number | undefined {
     : undefined;
 }
 
+/**
+ * When the CURRENT paid period began — the same dual-shape read as periodEndOf.
+ *
+ * Needed to tell a renewal apart from an echo. A refund does not move a
+ * subscription's period END, so comparing that against the moment of
+ * revocation was satisfied by the refunded subscription's own later events;
+ * the period's START only moves when a new period is actually paid for.
+ */
+export function periodStartOf(subscription: unknown): number | undefined {
+  if (!subscription || typeof subscription !== "object") return undefined;
+  const sub = subscription as Subscription;
+
+  const starts = (sub.items?.data ?? [])
+    .map((item) => item?.current_period_start)
+    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+  if (starts.length > 0) return Math.max(...starts);
+
+  return typeof sub.current_period_start === "number" && Number.isFinite(sub.current_period_start)
+    ? sub.current_period_start
+    : undefined;
+}
+
 export class StripeClient {
   private readonly secretKey: string;
   private readonly fetchImpl: typeof fetch;
@@ -185,6 +209,13 @@ export class StripeClient {
       },
       body: body ? encodeForm(body) : undefined,
       signal: AbortSignal.timeout(this.timeoutMs),
+      // Never cached. Next.js patches the global fetch and caches by default,
+      // and every call here is either a question whose answer changes (is this
+      // session paid? what subscriptions does this customer have?) or a command
+      // that CREATES something. A cached checkout-session creation would hand
+      // two buyers the same session; a cached subscription list would defeat
+      // the duplicate guard. See the note in store.ts — same root cause.
+      cache: "no-store",
     });
 
     const text = await res.text();
@@ -275,6 +306,35 @@ export class StripeClient {
 
   async getCheckoutSession(id: string): Promise<CheckoutSession> {
     return this.request<CheckoutSession>("GET", `/checkout/sessions/${encodeURIComponent(id)}`);
+  }
+
+  /**
+   * A Charge, so a Dispute can be traced back to a customer.
+   *
+   * A Stripe DISPUTE object carries no `customer` — only `charge` and
+   * `payment_intent`. Reading `object.customer` off one therefore always found
+   * nothing, and every chargeback was silently ignored.
+   */
+  async getCharge(id: string): Promise<{ id: string; customer: string | null }> {
+    return this.request<{ id: string; customer: string | null }>(
+      "GET",
+      `/charges/${encodeURIComponent(id)}`
+    );
+  }
+
+  /**
+   * A PaymentIntent, as the second route from a Dispute to a customer.
+   *
+   * A confirmed sandbox dispute carries BOTH `charge` and `payment_intent`.
+   * Either resolves the customer, and having two means one failed lookup —
+   * a 404, a permissions edge, a transient error — cannot silently turn a
+   * chargeback into a no-op.
+   */
+  async getPaymentIntent(id: string): Promise<{ id: string; customer: string | null }> {
+    return this.request<{ id: string; customer: string | null }>(
+      "GET",
+      `/payment_intents/${encodeURIComponent(id)}`
+    );
   }
 
   async getSubscription(id: string): Promise<Subscription> {

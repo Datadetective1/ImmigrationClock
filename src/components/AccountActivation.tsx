@@ -15,6 +15,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { trackCheckoutCompleted, trackSubscriptionActive } from "@/lib/analytics";
+import { announceIdentityChange } from "@/lib/billing/identity-signal";
 
 type State = "idle" | "activating" | "done" | "failed";
 
@@ -39,9 +40,13 @@ export function AccountActivation() {
       (async () => {
         try {
           const res = await fetch("/api/billing/session/refresh", { method: "POST" });
-          // 402 means the subscription ended and the cookie was just cleared;
-          // re-render so the page stops claiming Pro.
-          if (res.status === 402) router.refresh();
+          // 402 means the subscription was just revoked and the claim
+          // downgraded to a verified-but-unpaid identity; re-render so the page
+          // stops claiming Pro and starts explaining what happened.
+          if (res.status === 402) {
+            announceIdentityChange();
+            router.refresh();
+          }
         } catch {
           // Offline or a blip. The existing claim is untouched.
         }
@@ -49,8 +54,19 @@ export function AccountActivation() {
       return;
     }
 
-    // Clear it from the address bar immediately, before any await.
-    window.history.replaceState({}, "", window.location.pathname);
+    // Clear it from the address bar immediately, before any await. See the
+    // router.replace() below for why this alone does not hold.
+    // A PATHNAME, DELIBERATELY, AND GUARDED ANYWAY.
+    //
+    // `router.replace` follows a protocol-relative target — "//evil.com" is an
+    // external navigation, not a path — and `location.pathname` really can
+    // start with two slashes if someone is served a URL like `https://site//x`.
+    // That route does not exist here, so this is unreachable rather than a live
+    // hole; it costs one line to make it unreachable by construction instead of
+    // by routing.
+    const path = window.location.pathname;
+    const bare = path.startsWith("//") ? "/" : path;
+    window.history.replaceState({}, "", bare);
     setState("activating");
     trackCheckoutCompleted();
 
@@ -65,9 +81,17 @@ export function AccountActivation() {
         if (res.ok && body.plan) {
           trackSubscriptionActive(body.plan);
           setState("done");
-          // The page reads the cookie on the server, so it has to be re-fetched
-          // to show the subscription that was just granted.
-          router.refresh();
+          // A subscriber arriving back from Stripe has an identity for the
+          // first time. The header has to say so without waiting for them to
+          // navigate somewhere.
+          announceIdentityChange();
+          // REPLACE, NOT REFRESH. `history.replaceState` does not tell Next's
+          // router, which still holds `/account?session_id=cs_…`, so a refresh
+          // re-renders that route and restores the id to the address bar —
+          // leaving a paid checkout session id in history and in the referrer
+          // of the next outbound click. `replace` strips it for real and
+          // re-fetches the page, which is what shows the new subscription.
+          router.replace(bare);
           return;
         }
         setState("failed");

@@ -228,6 +228,24 @@ function redisEmulator() {
         result = 1;
         break;
       }
+      case "EVAL": {
+        // COMPARE-AND-SET, as RedisStore.updateSubscriber issues it:
+        //   EVAL <script> 1 <key> <expected> <next>
+        // Modelled rather than stubbed, because the whole point of the script
+        // is that the compare and the write cannot be interleaved — a test that
+        // faked it would pass while the real store raced.
+        const casKey = String(rest[1]);
+        const expected = String(rest[2] ?? "");
+        const next = String(rest[3] ?? "");
+        const cur = data.get(casKey) ?? "";
+        if (cur === expected) {
+          data.set(casKey, next);
+          result = 1;
+        } else {
+          result = 0;
+        }
+        break;
+      }
       case "SMEMBERS":
         result = [...(sets.get(key) ?? [])];
         break;

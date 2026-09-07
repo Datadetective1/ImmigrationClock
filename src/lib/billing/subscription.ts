@@ -91,6 +91,7 @@ export function mergeSubscriber(
     // Consent survives every later billing event. A renewal, a cancellation or
     // a refund says nothing about whether somebody wanted the newsletter.
     newsletterConsent: incoming.newsletterConsent ?? existing?.newsletterConsent,
+    cancelAtPeriodEnd: incoming.cancelAtPeriodEnd ?? existing?.cancelAtPeriodEnd,
   };
 }
 

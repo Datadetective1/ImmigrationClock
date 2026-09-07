@@ -16,9 +16,17 @@
 // been read again.
 //
 // IT CANNOT EXTEND A DEAD SUBSCRIPTION. A cancelled, refunded, disputed or
-// lapsed record fails accessFor(), and this answers 402 and CLEARS the cookie
-// rather than renewing it — so refreshing is also how a revoked subscription
-// stops working on a browser that still holds a valid-looking claim.
+// lapsed record fails accessFor(), and this answers 402 and DOWNGRADES the
+// claim to a verified-but-unpaid identity rather than renewing it — so
+// refreshing is also how a revoked subscription stops working on a browser that
+// still holds a valid-looking claim.
+//
+// DOWNGRADE, NOT EJECTION. It used to clear the cookie outright, which ended
+// the identity along with the subscription: a subscriber whose year ran out
+// opened /account and found a sign-in form, with nothing saying what had
+// happened and no route to their own invoices. A `plan: "free"` claim unlocks
+// nothing anywhere, so Pro stops exactly as fast, and the person is still
+// recognised.
 //
 // A caller with an expired cookie gets nothing: there is no identity left to
 // re-read. That is what the sign-in link is for.
@@ -28,7 +36,6 @@ import { billingStatus } from "@/lib/billing/config";
 import {
   COOKIE_NAME,
   MAX_TTL_DAYS,
-  clearedCookie,
   clearedSessionHintCookie,
   cookieFor,
   sessionHintCookie,
@@ -70,12 +77,30 @@ export async function POST(req: Request): Promise<Response> {
   const secret = process.env.BILLING_SESSION_SECRET as string;
   const now = Math.floor(Date.now() / 1000);
   const current = verify(readCookie(req, COOKIE_NAME), secret, now);
+  // One definition, used by every exit including the 401 below. A cookie
+  // cleared with a different Secure flag than the one that set it is not
+  // cleared at all in some browsers.
+  const secure = !(process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("http://");
 
   if (!current?.email) {
-    return json({ error: "no_session", message: "No session on this browser." }, 401);
+    // THE HINT OUTLIVES THE CLAIM, BUT NOT FOREVER — AND THIS IS WHERE IT ENDS.
+    //
+    // `ic_session` is deliberately given 180 days below, so a subscriber whose
+    // claim lapses is still offered recovery. But it is also what the header
+    // reads to choose between "Sign in" and "Account", so a hint that outlives
+    // every possible recovery leaves the navigation asserting an identity that
+    // no longer exists.
+    //
+    // Reaching here means there is no claim left to renew: the only way back is
+    // a new sign-in link, which the account page offers regardless of the hint.
+    // Clearing it costs nothing and makes the header honest again on the next
+    // navigation. It grants and revokes nothing — the hint has never been a
+    // credential.
+    const res = json({ error: "no_session", message: "No session on this browser." }, 401);
+    res.headers.append("Set-Cookie", serializeCookie(clearedSessionHintCookie(secure)));
+    return res;
   }
 
-  const secure = !(process.env.NEXT_PUBLIC_SITE_URL ?? "").startsWith("http://");
   const key = emailKey(current.email, secret);
 
   let access;
@@ -98,29 +123,48 @@ export async function POST(req: Request): Promise<Response> {
     // destroyed seconds after being proved. Clicking Subscribe then answered
     // "confirm your email address" to somebody who just had.
     //
-    // So: only a PAID claim can be revoked here. A free one is re-minted, which
-    // is also what keeps the address available for the checkout that follows.
-    if (current.plan !== "pro") {
-      const identity: Entitlement = {
-        plan: "free",
-        email: current.email,
-        customerId: current.customerId,
-        exp: now + MAX_TTL_DAYS * 86_400,
-      };
-      const kept = sign(identity, secret, now);
-      const keptExp = now + MAX_TTL_DAYS * 86_400;
-      const ok = json({ plan: "free", verified: true, reason: access.reason }, 200);
-      ok.headers.append("Set-Cookie", serializeCookie(cookieFor(kept, keptExp, now, secure)));
-      ok.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(HINT_EXP(now), now, secure)));
-      return ok;
-    }
+    // THE SAME MISTAKE WAS STILL BEING MADE ONE BRANCH DOWN, TO THE CUSTOMER
+    // WHO HAD ACTUALLY PAID.
+    //
+    // A PAID claim whose record no longer grants access was cleared outright,
+    // identity and all — so a subscriber whose year ran out, or who was
+    // refunded, opened /account and was shown a sign-in form. Nothing told them
+    // their subscription had ended, "Manage billing" was gone so they could not
+    // reach their own invoices, and re-subscribing meant another email round
+    // trip. The one moment the account page exists to explain was the one
+    // moment it had nothing to say.
+    //
+    // WHAT ACTUALLY HAS TO HAPPEN IS THE DOWNGRADE, NOT THE EJECTION. Pro must
+    // stop working immediately; the proof that this person controls this
+    // address is unaffected by Stripe declining a card. So BOTH branches now
+    // re-mint a `plan: "free"` claim, which unlocks nothing anywhere —
+    // `isActive()` and `can()` treat it exactly as anonymous, and every gate
+    // still re-reads the store — and the two differ only in what they REPORT.
+    const identity: Entitlement = {
+      plan: "free",
+      email: current.email,
+      customerId: current.customerId,
+      exp: now + MAX_TTL_DAYS * 86_400,
+    };
+    const kept = sign(identity, secret, now);
+    const keptExp = now + MAX_TTL_DAYS * 86_400;
 
-    // A PAID claim against a record that no longer grants access: revoked,
-    // lapsed, refunded or disputed. Clearing it is the fastest path from
-    // "cancelled in Stripe" to "cannot use Pro in this browser".
-    const res = json({ plan: "free", reason: access.reason }, 402);
-    res.headers.append("Set-Cookie", serializeCookie(clearedCookie(secure)));
-    res.headers.append("Set-Cookie", serializeCookie(clearedSessionHintCookie(secure)));
+    // THE STATUS CODE IS LOAD-BEARING AND KEEPS ITS OLD MEANING.
+    //
+    // 200 = "still a verified identity, nothing was revoked" — the first-time
+    // buyer whose record is merely `incomplete`.
+    // 402 = "a paid claim was just revoked" — which is what the watchlist
+    // client reads to stop claiming sync, and what the account page reads to
+    // re-render. Downgrading the cookie must not quietly turn that into a 200.
+    const revoked = current.plan === "pro";
+    const res = json(
+      revoked
+        ? { plan: "free", verified: true, revoked: true, reason: access.reason }
+        : { plan: "free", verified: true, reason: access.reason },
+      revoked ? 402 : 200
+    );
+    res.headers.append("Set-Cookie", serializeCookie(cookieFor(kept, keptExp, now, secure)));
+    res.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(HINT_EXP(now), now, secure)));
     return res;
   }
 

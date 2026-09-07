@@ -27,7 +27,9 @@ interface Props {
 }
 
 export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", className = "" }: Props) {
-  const [state, setState] = useState<"idle" | "starting" | "unavailable" | "verify" | "sending" | "sent">("idle");
+  const [state, setState] = useState<
+    "idle" | "starting" | "unavailable" | "verify" | "sending" | "sent" | "subscribed"
+  >("idle");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   // UNCHECKED BY DEFAULT, ALWAYS. A pre-ticked marketing box is not consent,
@@ -70,6 +72,16 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
         return;
       }
 
+      // ALREADY PAYING. The route refuses the duplicate, which is correct, but
+      // "Checkout is not available right now" is the wrong sentence for
+      // somebody whose subscription is working — it reads as a fault. They
+      // want the one link that answers what they actually asked.
+      if (res.status === 409 && body.error === "already_subscribed") {
+        setState("subscribed");
+        setMessage(body.message || "You already have an active subscription.");
+        return;
+      }
+
       setState("unavailable");
       setMessage(body.message || "Checkout is not available right now.");
     } catch {
@@ -95,6 +107,22 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       setState("verify");
       setMessage("Could not reach the sign-in service.");
     }
+  }
+
+  if (state === "subscribed") {
+    return (
+      <div className={className}>
+        <p role="status" className="text-xs leading-relaxed text-slate-300">
+          {message}
+        </p>
+        <a
+          href="/account"
+          className="mt-2 inline-block rounded-lg border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 transition-colors hover:border-accent/50 hover:text-accent-soft"
+        >
+          Go to your account
+        </a>
+      </div>
+    );
   }
 
   if (state === "verify" || state === "sending" || state === "sent") {

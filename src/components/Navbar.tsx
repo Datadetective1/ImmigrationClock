@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AccountNav } from "./AccountNav";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { NAV, SITE, type NavItem } from "@/lib/site";
@@ -97,7 +98,7 @@ function NavGroup({ item, pathname }: { item: NavItem; pathname: string }) {
         onFocus={() => {
           if (!returningFocus.current) setOpen(true);
         }}
-        className={`flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+        className={`flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors ${
           active ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5 hover:text-white"
         }`}
       >
@@ -170,7 +171,11 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-ink-950/80 backdrop-blur-md">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+      {/* The bar is the one row on the site that is width-bound rather than
+          rhythm-bound: eight nav items plus search plus the account control
+          filled max-w-7xl exactly, with nothing left over. It gets more room
+          past 1280; every other container on the page is untouched. */}
+      <div className="container-page flex h-16 items-center justify-between gap-4 xl:max-w-[1440px]">
         <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-accent to-status-red text-ink-950">
             <span className="absolute h-2 w-2 rounded-full bg-ink-950" />
@@ -189,7 +194,7 @@ export function Navbar() {
         {/* Named landmarks: a page renders up to four <nav> elements (this one
             or the mobile menu, the breadcrumb, and the footer's legal row), and
             unnamed they all announce as plain "navigation". */}
-        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-0.5 lg:flex">
           {NAV.map((item) => {
             if (item.children) return <NavGroup key={item.label} item={item} pathname={pathname} />;
             const active = isActive(pathname, item);
@@ -198,7 +203,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href!}
                 aria-current={pathname === item.href ? "page" : undefined}
-                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                className={`rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors ${
                   active
                     ? "bg-white/10 text-white"
                     : "text-slate-400 hover:bg-white/5 hover:text-white"
@@ -231,6 +236,11 @@ export function Navbar() {
             </kbd>
           </Link>
 
+          {/* Signed out it says "Sign in"; signed in it becomes "Account". It
+              sits beside search rather than in the nav list because it is
+              about the reader, not about the site's content. */}
+          <AccountNav onNavigate={() => setOpen(false)} />
+
           <button
             type="button"
             className="rounded-lg border border-white/10 p-2 text-slate-300 lg:hidden"
@@ -259,6 +269,12 @@ export function Navbar() {
           aria-label="Main"
           className="container-page max-h-[70vh] overflow-y-auto overscroll-contain pb-28 lg:hidden"
         >
+          {/* FIRST, not last. Twenty-two content rows follow; an account
+              control below them would be unreachable in practice on a phone. */}
+          <div className="border-b border-white/5 pb-2">
+            <AccountNav variant="mobile" onNavigate={() => setOpen(false)} />
+          </div>
+
           {NAV.map((item) =>
             item.children ? (
               <div key={item.label} className="mt-2 first:mt-0">

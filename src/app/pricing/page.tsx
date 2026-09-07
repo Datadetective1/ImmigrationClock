@@ -16,6 +16,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { UpgradeButton } from "@/components/UpgradeButton";
+import { PurchasePanel } from "@/components/PurchasePanel";
 import { PricingAnalytics } from "@/components/PricingAnalytics";
 import {
   CAPABILITY_SPECS,
@@ -91,8 +92,15 @@ export default function PricingPage() {
   // BILLING_ENABLED is deliberately unset, and rendering a Subscribe button
   // that answers "subscriptions are not open yet" would be the same
   // contradiction this branch was written to remove, just one click later.
+  //
+  // THIS PAGE IS STATIC, SO THIS RUNS AT BUILD TIME AND ONLY THEN. That was a
+  // silent way to be unbuyable: switch billing on in production and the page
+  // kept saying "Not for sale yet" until somebody redeployed. The value below
+  // is now the FIRST PAINT only — PurchasePanel re-asks the dynamic route on
+  // mount and is the one that decides. See src/components/PurchasePanel.tsx.
   const hasSomethingToSell = availableNow("pro").length > 0;
-  const purchasable = hasSomethingToSell && billingStatus().checkoutReady;
+  const builtReady = billingStatus().checkoutReady;
+  const purchasable = hasSomethingToSell && builtReady;
 
   return (
     <div>
@@ -263,61 +271,74 @@ export default function PricingPage() {
                 ability to pay for a product that cannot yet do anything.
                 Nothing about the Stripe wiring changes, and this branch
                 disappears by itself the moment a Pro capability is available. */}
-            {purchasable ? (
-              <div className="mt-6 space-y-3">
-                <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />
-                <UpgradeButton
-                  interval="annual"
-                  placement="pricing_page"
-                  label={`Subscribe yearly — $${pro.annualUsd}`}
-                  className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
-                />
-                {/* A TEST DEPLOYMENT MUST NOT LOOK LIKE A LIVE ONE.
-                    /account already says this; /pricing is where somebody
-                    actually clicks Subscribe, and it is the page the activation
-                    walkthrough opens first. Driven by whether the configured
-                    Stripe key is a test key, so it cannot be left on by
-                    accident when real keys arrive. */}
-                {billingStatus().testMode ? (
-                  <p className="rounded-md border border-status-amber/30 bg-status-amber/[0.06] px-3 py-2 text-center text-[11px] text-status-amber">
-                    Test mode. No real card is charged, and any subscription
-                    created here is not a real one.
+            {/* THE PRICE STAYS, THE PURCHASE DOES NOT.
+                Two live Subscribe buttons sat directly beneath a paragraph
+                saying there is nothing to buy — the reader was told not to
+                subscribe and invited to in the same breath. The prices are the
+                intended ones and stay on the page; what is withheld is the
+                ability to pay for a product that cannot yet do anything.
+
+                WHICH OF THE TWO IS SHOWN IS DECIDED AT REQUEST TIME. This page
+                is prerendered, so reading billingStatus() here answered once,
+                at build time, and froze the buy button into the HTML — which
+                meant switching billing on in production changed nothing until
+                the next deploy. `builtReady` is the first paint; PurchasePanel
+                confirms it against the live route. */}
+            <PurchasePanel
+              initialReady={purchasable}
+              initialTestMode={billingStatus().testMode}
+              forSale={
+                <>
+                  <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />
+                  <UpgradeButton
+                    interval="annual"
+                    placement="pricing_page"
+                    label={`Subscribe yearly — $${pro.annualUsd}`}
+                    className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
+                  />
+                  <p className="text-center text-[11px] text-slate-500">
+                    Payment is handled by Stripe. {SITE.name} never sees your card. Prices are in
+                    US dollars and exclude any sales tax or VAT, which Stripe calculates and shows
+                    you before you pay.
                   </p>
-                ) : null}
-                <p className="text-center text-[11px] text-slate-500">
-                  Payment is handled by Stripe. {SITE.name} never sees your card.
-                </p>
-              </div>
-            ) : (
-              <div className="mt-6 space-y-3">
-                <div
-                  data-testid="pro-not-for-sale"
-                  className="rounded-lg border border-dashed border-white/15 bg-white/[0.02] px-4 py-3 text-center"
-                >
-                  <p className="text-sm font-semibold text-slate-200">Not for sale yet</p>
-                  {hasSomethingToSell ? (
-                    <p className="mt-1 text-xs leading-relaxed text-slate-400">
-                      Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year.{" "}
-                      {availableNow("pro")[0].label} works today; subscriptions are not open yet,
-                      so there is nothing to pay for while we finish the rest.
-                    </p>
-                  ) : (
-                    <p className="mt-1 text-xs leading-relaxed text-slate-400">
-                      Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year. You cannot
-                      subscribe today, because none of it works yet and we are not taking money for
-                      something that does not.
-                    </p>
-                  )}
+                  <p className="text-center text-[11px] text-slate-500">
+                    Subscriptions renew automatically — monthly plans every month, yearly plans
+                    every twelve months — until you cancel. Cancel any time from your account; you
+                    keep Pro until the period you have paid for ends.
+                  </p>
+                </>
+              }
+              notForSale={
+                <div className="mt-6 space-y-3">
+                  <div
+                    data-testid="pro-not-for-sale"
+                    className="rounded-lg border border-dashed border-white/15 bg-white/[0.02] px-4 py-3 text-center"
+                  >
+                    <p className="text-sm font-semibold text-slate-200">Not for sale yet</p>
+                    {hasSomethingToSell ? (
+                      <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                        Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year.{" "}
+                        {availableNow("pro")[0].label} works today; subscriptions are not open yet,
+                        so there is nothing to pay for while we finish the rest.
+                      </p>
+                    ) : (
+                      <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                        Pro will be ${pro.monthlyUsd} a month, or ${pro.annualUsd} a year. You cannot
+                        subscribe today, because none of it works yet and we are not taking money for
+                        something that does not.
+                      </p>
+                    )}
+                  </div>
+                  <p className="text-center text-[11px] text-slate-500">
+                    The{" "}
+                    <Link href="/pulse" className="link-accent">
+                      weekly email
+                    </Link>{" "}
+                    says when it opens, and stays free either way.
+                  </p>
                 </div>
-                <p className="text-center text-[11px] text-slate-500">
-                  The{" "}
-                  <Link href="/pulse" className="link-accent">
-                    weekly email
-                  </Link>{" "}
-                  says when it opens, and stays free either way.
-                </p>
-              </div>
-            )}
+              }
+            />
           </section>
         </div>
 
@@ -355,8 +376,9 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Do I need an account to read the site?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                No. There are no accounts on the public platform and no plans for any. A Pro
-                subscription is a billing relationship with Stripe, not a login for reading.
+                No. Everything public stays open with no account and no sign-in. Accounts exist
+                only for Pro, keeping your follows across devices, newsletter settings and billing —
+                you sign in with an emailed link, and there is no password.
               </p>
             </div>
             <div className="panel panel-pad">

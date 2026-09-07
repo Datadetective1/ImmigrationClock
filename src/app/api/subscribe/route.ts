@@ -109,6 +109,11 @@ async function resend(
       // Segment assignment is a bodyless POST — the ids are in the path.
       ...(payload === undefined ? {} : { body: JSON.stringify(payload) }),
       signal: controller.signal,
+      // A bodyless POST to a fixed path is the most cacheable shape there is,
+      // and Next.js caches fetch by default — so the second person to join a
+      // segment would get the first person's response and never be added. See
+      // the note in src/lib/billing/store.ts.
+      cache: "no-store",
     });
   } finally {
     clearTimeout(timer);

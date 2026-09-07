@@ -17,6 +17,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { announceIdentityChange } from "@/lib/billing/identity-signal";
 
 type State = "idle" | "sending" | "sent" | "verifying" | "failed";
 
@@ -32,7 +33,20 @@ export function SignInForm() {
     const token = params.get("signin");
     if (!token) return;
 
-    window.history.replaceState({}, "", window.location.pathname);
+    // Stripped IMMEDIATELY, before any await, so it is not in the address bar
+    // while a request is in flight. This is not sufficient on its own — see the
+    // router.replace() below, which is what makes it stick.
+    // A PATHNAME, DELIBERATELY, AND GUARDED ANYWAY.
+    //
+    // `router.replace` follows a protocol-relative target — "//evil.com" is an
+    // external navigation, not a path — and `location.pathname` really can
+    // start with two slashes if someone is served a URL like `https://site//x`.
+    // That route does not exist here, so this is unreachable rather than a live
+    // hole; it costs one line to make it unreachable by construction instead of
+    // by routing.
+    const path = window.location.pathname;
+    const bare = path.startsWith("//") ? "/" : path;
+    window.history.replaceState({}, "", bare);
     setState("verifying");
 
     (async () => {
@@ -50,7 +64,23 @@ export function SignInForm() {
           // proved. The reload is harmless now, but a screen that never
           // finishes is still the wrong thing to show someone.
           setState("idle");
-          router.refresh();
+          // Same reason as sign-out: the link is consumed by a fetch, so the
+          // header never navigates and would keep offering "Sign in" to
+          // somebody who has just proved who they are.
+          announceIdentityChange();
+          // REPLACE, NOT REFRESH — AND THE DIFFERENCE IS THE TOKEN.
+          //
+          // `history.replaceState` above changes the address bar without
+          // telling Next's router, which still believes the route is
+          // `/account?signin=…`. `router.refresh()` re-renders that route and
+          // PUTS THE TOKEN BACK in the address bar, so the sign-in link ended
+          // up in history and in the referrer of the next outbound click —
+          // exactly what stripping it was meant to prevent. Verified in a
+          // browser: the query survived a refresh and does not survive this.
+          //
+          // `replace` navigates to the bare path, which both strips the query
+          // for real and re-renders the server component.
+          router.replace(bare);
           return;
         }
         setState("failed");

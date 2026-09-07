@@ -123,6 +123,10 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
         headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
         ...(body === undefined ? {} : { body: JSON.stringify(body) }),
         signal: controller.signal,
+        // Reading a contact's opt-out state from a cache is how an unsubscribed
+        // person gets re-enrolled; a cached POST is a segment join that never
+        // happened. Next.js caches fetch by default — see store.ts.
+        cache: "no-store",
       });
     } finally {
       clearTimeout(timer);

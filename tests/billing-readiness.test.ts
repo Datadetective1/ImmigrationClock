@@ -19,7 +19,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { createHmac } from "node:crypto";
 import { emailKey } from "@/lib/billing/store";
-import { MAX_TTL_DAYS, sign, verify, type Entitlement } from "@/lib/billing/entitlement";
+import { MAX_TTL_DAYS, isActive, sign, verify, type Entitlement } from "@/lib/billing/entitlement";
 import { billingStatus, type BillingEnv } from "@/lib/billing/config";
 import { HANDLED_EVENTS } from "@/lib/billing/stripe";
 
@@ -82,6 +82,24 @@ function redisEmulator(opts: { failAfter?: number } = {}) {
         s.add(rest[0]);
         sets.set(key, s);
         result = 1;
+        break;
+      }
+      case "EVAL": {
+        // COMPARE-AND-SET, as RedisStore.updateSubscriber issues it:
+        //   EVAL <script> 1 <key> <expected> <next>
+        // Modelled rather than stubbed, because the whole point of the script
+        // is that the compare and the write cannot be interleaved — a test that
+        // faked it would pass while the real store raced.
+        const casKey = String(rest[1]);
+        const expected = String(rest[2] ?? "");
+        const next = String(rest[3] ?? "");
+        const cur = data.get(casKey) ?? "";
+        if (cur === expected) {
+          data.set(casKey, next);
+          result = 1;
+        } else {
+          result = 0;
+        }
         break;
       }
       case "SMEMBERS":
@@ -321,7 +339,16 @@ describe("blocker 3 · an annual subscription is not a thirty-day one", () => {
     expect(res.headers.get("Set-Cookie") ?? "").toContain("ic_ent=");
   });
 
-  it("does NOT re-mint for a subscription that has ended, and clears the cookie", async () => {
+  it("does NOT re-mint PRO for a subscription that has ended", async () => {
+    // This used to assert the cookie was CLEARED, which is a mechanism rather
+    // than the guarantee — and the mechanism was wrong. Clearing it ended the
+    // IDENTITY along with the subscription, so a subscriber whose year ran out
+    // opened /account and found a sign-in form: nothing saying what happened,
+    // no route to their own invoices, and an email round trip to re-subscribe.
+    //
+    // What actually has to hold is that Pro stops. A `plan: "free"` claim
+    // unlocks nothing — isActive() and can() treat it as anonymous, and every
+    // gate re-reads the store — so the assertion follows the guarantee.
     const now = NOW();
     seed(BUYER_KEY, BUYER, { status: "canceled", currentPeriodEnd: now - 1 });
 
@@ -333,8 +360,15 @@ describe("blocker 3 · an annual subscription is not a thirty-day one", () => {
       })
     );
 
-    expect(res.status).toBe(402);
-    expect(res.headers.get("Set-Cookie") ?? "").toMatch(/ic_ent=;|ic_ent=\s*;|Max-Age=0/);
+    expect(res.status, "the revocation signal the watchlist client reads was lost").toBe(402);
+
+    const setCookie = res.headers.get("Set-Cookie") ?? "";
+    const token = setCookie.match(/ic_ent=([^;]+)/)?.[1] ?? "";
+    const ent = verify(decodeURIComponent(token), SESSION_SECRET, now);
+    expect(ent, "no claim was issued at all, so the identity was destroyed").not.toBeNull();
+    expect(ent!.plan, "a cancelled subscription kept its Pro claim").toBe("free");
+    expect(ent!.email, "the verified identity was lost with the subscription").toBe(BUYER);
+    expect(isActive(ent, now), "a revoked claim still counted as active").toBe(false);
   });
 });
 
@@ -458,26 +492,93 @@ describe("blocker 6 · refunds and disputes end access", () => {
   });
 
   it("revokes access when a dispute opens, and does not restore it when it closes", async () => {
+    // A REAL DISPUTE PAYLOAD. THIS TEST USED TO INVENT ONE.
+    //
+    // It posted `{ id: "dp_1", customer: "cus_1" }` — and a Stripe Dispute has
+    // NO `customer` field. It carries `charge` and `payment_intent`. That one
+    // fabricated key was the entire difference between a green suite and a
+    // handler that silently ignored every chargeback: the branch read
+    // `object.customer`, found nothing, wrote nothing, and answered 200 so
+    // Stripe never retried.
+    //
+    // The shape below is what Stripe actually sends, so the identity must be
+    // resolved by following the charge.
     const now = NOW();
     seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    // Stripe answers the charge lookup the handler now has to make.
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      if (String(url).includes("api.stripe.com/v1/charges/")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: "ch_1", customer: "cus_1" }) };
+      }
+      return inner(String(url), init);
+    }) as unknown as typeof fetch);
+
     const { POST } = await import("@/app/api/billing/webhook/route");
 
     await POST(
-      signedEvent({ id: "e1", created: now, type: "charge.dispute.created", data: { object: { id: "dp_1", customer: "cus_1" } } })
+      signedEvent({
+        id: "e1",
+        created: now,
+        type: "charge.dispute.created",
+        data: {
+          object: {
+            id: "dp_1",
+            object: "dispute",
+            amount: 1900,
+            charge: "ch_1",
+            payment_intent: "pi_1",
+            currency: "usd",
+            reason: "fraudulent",
+            status: "needs_response",
+          },
+        },
+      })
     );
-    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).status).toBe("disputed");
+
+    const afterOpen = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(afterOpen.status, "a chargeback did not revoke access").toBe("disputed");
+    expect(accessFor(afterOpen, now).pro).toBe(false);
 
     await POST(
       signedEvent({
         id: "e2",
         created: now + 1,
         type: "charge.dispute.closed",
-        data: { object: { id: "dp_1", customer: "cus_1", status: "won" } },
+        data: { object: { id: "dp_1", object: "dispute", charge: "ch_1", status: "won" } },
       })
     );
     const after = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
-    const { accessFor } = await import("@/lib/billing/subscription");
     expect(accessFor(after, now).pro, "a won dispute silently restored access").toBe(false);
+  });
+
+  it("does NOT revoke when the dispute's customer cannot be resolved", async () => {
+    // Failing to identify somebody is not a reason to cut off a different
+    // person, and it must be loud rather than a silent 200.
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      if (String(url).includes("api.stripe.com/v1/charges/")) {
+        return { ok: false, status: 404, text: async () => "no such charge" };
+      }
+      return inner(String(url), init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "e3",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { id: "dp_2", object: "dispute", charge: "ch_missing" } },
+      })
+    );
+
+    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).status).toBe("active");
   });
 
   it("a routine subscription update cannot undo a refund", async () => {
@@ -877,7 +978,9 @@ describe("second round · the fixes must not become the defect", () => {
     expect(ent.plan).toBe("free");
   });
 
-  it("still revokes a PAID claim whose subscription has ended", async () => {
+  it("still revokes a PAID claim whose subscription has ended, without ejecting them", async () => {
+    // The mirror of the test above, from the other direction: keeping the
+    // identity must not accidentally keep the entitlement.
     const now = NOW();
     seed(BUYER_KEY, BUYER, { status: "canceled", currentPeriodEnd: now - 1 });
     const { POST } = await import("@/app/api/billing/session/refresh/route");
@@ -888,7 +991,12 @@ describe("second round · the fixes must not become the defect", () => {
       })
     );
     expect(res.status).toBe(402);
-    expect(res.headers.get("Set-Cookie") ?? "").toMatch(/Max-Age=0/);
+    const body = (await res.json()) as { plan: string; revoked?: boolean };
+    expect(body.plan).toBe("free");
+    expect(body.revoked, "the caller could not tell a revocation from an ordinary free identity").toBe(true);
+
+    const token = (res.headers.get("Set-Cookie") ?? "").match(/ic_ent=([^;]+)/)?.[1] ?? "";
+    expect(verify(decodeURIComponent(token), SESSION_SECRET, now)!.plan).toBe("free");
   });
 
   it("activate never writes its 30-day fallback over a real annual period", async () => {
@@ -917,5 +1025,399 @@ describe("second round · the fixes must not become the defect", () => {
     for (const c of roadmap()) {
       expect(head.toLowerCase(), `metadata still sells ${c.id}`).not.toContain(c.label.toLowerCase());
     }
+  });
+});
+
+// =============================================================================
+// THE STORE IS ATOMIC, OR THE RACE IS REAL
+//
+// Every billing handler does read-modify-write, and the two halves used to be
+// separate round trips with nothing between them. Stripe delivers concurrently,
+// so two handlers routinely read the same record, each merged onto their own
+// stale copy, and the second write silently discarded the first — which is how
+// a period end that had just granted access could vanish.
+//
+// updateSubscriber() closes that with a server-side compare-and-set. These
+// tests drive the real RedisStore against the emulator's EVAL, so they exercise
+// the actual script rather than a stand-in.
+// =============================================================================
+describe("updateSubscriber is atomic", () => {
+  async function store() {
+    const { RedisStore } = await import("@/lib/billing/store");
+    return new RedisStore({
+      url: "https://kv.example",
+      token: "t",
+      fetchImpl: emulator.impl as unknown as typeof fetch,
+    });
+  }
+
+  it("a concurrent write cannot be lost", async () => {
+    const s = await store();
+    seed(BUYER_KEY, BUYER, { status: "incomplete", currentPeriodEnd: 0 });
+
+    // Two handlers that both read the ORIGINAL record and then write. Under
+    // read-modify-write the second erases the first; under CAS the loser
+    // re-reads and merges onto the winner.
+    const [a, b] = await Promise.all([
+      s.updateSubscriber(BUYER_KEY, (cur) => ({ ...cur!, currentPeriodEnd: 111, updatedAt: 1 })),
+      s.updateSubscriber(BUYER_KEY, (cur) => ({ ...cur!, status: "active", updatedAt: 2 })),
+    ]);
+
+    expect(a).toBeTruthy();
+    expect(b).toBeTruthy();
+    const final = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    // BOTH changes survive. Under the old code one of these would be gone.
+    expect(final.currentPeriodEnd, "a concurrent write was lost").toBe(111);
+    expect(final.status, "a concurrent write was lost").toBe("active");
+  });
+
+  it("the mutator sees the CURRENT record on a retry, not the stale one", async () => {
+    const s = await store();
+    seed(BUYER_KEY, BUYER, { status: "incomplete", currentPeriodEnd: 0 });
+    const seen: Array<string | undefined> = [];
+
+    await Promise.all([
+      s.updateSubscriber(BUYER_KEY, (cur) => ({ ...cur!, status: "active", updatedAt: 1 })),
+      s.updateSubscriber(BUYER_KEY, (cur) => {
+        seen.push(cur?.status);
+        return { ...cur!, currentPeriodEnd: 222, updatedAt: 2 };
+      }),
+    ]);
+
+    // Whichever ran second was re-invoked against the newer value.
+    const final = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    expect(final.currentPeriodEnd).toBe(222);
+    expect(final.status).toBe("active");
+  });
+
+  it("declining to write leaves the record untouched", async () => {
+    const s = await store();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: 999 });
+    const result = await s.updateSubscriber(BUYER_KEY, () => null);
+
+    expect(result).toBeNull();
+    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).currentPeriodEnd).toBe(999);
+  });
+
+  it("creates the record when there is none", async () => {
+    const s = await store();
+    const created = await s.updateSubscriber(BUYER_KEY, (cur) => {
+      expect(cur).toBeNull();
+      return { email: BUYER, customerId: "cus_1", status: "incomplete", currentPeriodEnd: 0, updatedAt: 1 };
+    });
+    expect(created?.email).toBe(BUYER);
+    expect(emulator.data.get(`sub:${BUYER_KEY}`)).toBeTruthy();
+  });
+});
+
+// =============================================================================
+// A CONCURRENT CHECKOUT EVENT CANNOT ERASE A PAID PERIOD
+// =============================================================================
+describe("concurrent webhook deliveries", () => {
+  it("a checkout event landing beside a subscription event keeps the period", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER);
+    const periodEnd = now + 300 * 86_400;
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await Promise.all([
+      POST(
+        signedEvent({
+          id: "evt_sub",
+          created: now,
+          type: "customer.subscription.created",
+          data: {
+            object: {
+              id: "sub_1",
+              customer: "cus_1",
+              status: "active",
+              items: { data: [{ current_period_end: periodEnd }] },
+            },
+          },
+        })
+      ),
+      POST(
+        signedEvent({
+          id: "evt_checkout",
+          created: now,
+          type: "checkout.session.completed",
+          data: { object: { id: "cs_1", customer: "cus_1", client_reference_id: BUYER_KEY } },
+        })
+      ),
+    ]);
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(record.currentPeriodEnd, "a concurrent checkout erased the paid period").toBe(periodEnd);
+    expect(accessFor(record, now).pro).toBe(true);
+  });
+});
+
+// =============================================================================
+// FOURTH ROUND — the money-out path, which failed in three independent places
+// =============================================================================
+describe("fourth round · a refund stays applied", () => {
+  it("a routine subscription update does NOT lift the revocation", async () => {
+    // `periodAdvanced` compared the period END, which a refund never moves — so
+    // the refunded subscription's own next event satisfied it and handed access
+    // straight back. The operator's documented next step after refunding
+    // ("cancel at period end") emits exactly that event, so the guard disarmed
+    // itself on the first thing that happened after it fired.
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, {
+      status: "refunded",
+      currentPeriodEnd: now,
+      revokedAt: now,
+      subscriptionId: "sub_1",
+      lastSubscriptionEventAt: now - 100,
+    });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_after_refund",
+        created: now + 10,
+        type: "customer.subscription.updated",
+        data: {
+          object: {
+            id: "sub_1",
+            customer: "cus_1",
+            status: "active",
+            items: {
+              data: [
+                {
+                  // The period the refund did NOT move: it began before.
+                  current_period_start: now - 20 * 86_400,
+                  current_period_end: now + 300 * 86_400,
+                },
+              ],
+            },
+          },
+        },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(record.status, "a routine update undid the refund").toBe("refunded");
+    expect(accessFor(record, now).pro).toBe(false);
+  });
+
+  it("a period that BEGAN after the revocation does lift it", async () => {
+    // A renewal paid for after the refund is new money, and must restore access
+    // — otherwise the card is charged forever for nothing.
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, {
+      status: "refunded",
+      currentPeriodEnd: now,
+      revokedAt: now,
+      subscriptionId: "sub_1",
+      lastSubscriptionEventAt: now - 100,
+    });
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_renewal",
+        created: now + 100,
+        type: "customer.subscription.updated",
+        data: {
+          object: {
+            id: "sub_1",
+            customer: "cus_1",
+            status: "active",
+            items: {
+              data: [{ current_period_start: now + 50, current_period_end: now + 30 * 86_400 }],
+            },
+          },
+        },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a genuine re-payment stayed locked out").toBe(true);
+  });
+});
+
+describe("fourth round · a spent checkout session stays spent", () => {
+  it("claims the session for longer than any subscription can run", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const source = readFileSync(
+      fileURLToPath(new URL("../src/app/api/billing/activate/route.ts", import.meta.url)),
+      "utf8"
+    );
+    // At 31 days the claim expired under a live annual subscription, so from
+    // day 32 the same paid session id minted a fresh Pro cookie again.
+    expect(source).not.toMatch(/claimCheckoutSession\(sessionId,\s*\(MAX_TTL_DAYS \+ 1\)/);
+    expect(source).toMatch(/claimCheckoutSession\(sessionId,\s*10 \* 365 \* 86_400\)/);
+  });
+});
+
+// =============================================================================
+// THE DISPUTE PAYLOAD, AS STRIPE ACTUALLY SENDS IT
+//
+// CONFIRMED against a real sandbox chargeback (test card 4000 0000 0000 0259):
+//
+//   HTTP 200
+//   data.object contains  charge
+//   data.object contains  payment_intent
+//   data.object does NOT contain  customer
+//
+// That last line is the whole defect. The handler read `object.customer`, found
+// nothing, wrote nothing, and answered 200 — so Stripe never retried and every
+// chargeback was invisible. The earlier test passed only because it invented a
+// `customer` key, which is why this file now pins the confirmed shape instead.
+// =============================================================================
+describe("a real Stripe dispute payload", () => {
+  /** The shape observed in the sandbox. No `customer` anywhere. */
+  const REAL_DISPUTE = {
+    id: "dp_1MpjxJ2eZvKYlo2C1TnjOKlF",
+    object: "dispute",
+    amount: 1900,
+    charge: "ch_3MpjxG2eZvKYlo2C1uPKXBLW",
+    payment_intent: "pi_3MpjxG2eZvKYlo2C1cKqvXyz",
+    currency: "usd",
+    is_charge_refundable: false,
+    livemode: false,
+    reason: "fraudulent",
+    status: "needs_response",
+  } as const;
+
+  it("has no customer field — the assumption the old code was built on", () => {
+    // Guards the fixture itself. If somebody re-adds `customer` to make a test
+    // pass, this fails and says why.
+    expect(Object.keys(REAL_DISPUTE)).not.toContain("customer");
+    expect(REAL_DISPUTE.charge).toMatch(/^ch_/);
+    expect(REAL_DISPUTE.payment_intent).toMatch(/^pi_/);
+  });
+
+  it("revokes access by following the charge", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const calls: string[] = [];
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("api.stripe.com")) {
+        calls.push(u);
+        if (u.includes("/charges/")) {
+          return { ok: true, status: 200, text: async () => JSON.stringify({ id: REAL_DISPUTE.charge, customer: "cus_1" }) };
+        }
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    const res = await POST(
+      signedEvent({
+        id: "evt_real_dispute",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+
+    expect(res.status).toBe(200);
+    expect(calls.some((c) => c.includes("/charges/" + REAL_DISPUTE.charge))).toBe(true);
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(record.status, "a real chargeback did not revoke access").toBe("disputed");
+    expect(accessFor(record, now).pro).toBe(false);
+  });
+
+  it("falls back to the payment intent when the charge lookup fails", async () => {
+    // One failed lookup must not turn a chargeback into a no-op.
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("/charges/")) return { ok: false, status: 404, text: async () => "no such charge" };
+      if (u.includes("/payment_intents/")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: REAL_DISPUTE.payment_intent, customer: "cus_1" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_dispute_pi",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    expect(record.status, "the payment-intent fallback did not fire").toBe("disputed");
+  });
+
+  it("a won dispute does not restore access", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("/charges/")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: REAL_DISPUTE.charge, customer: "cus_1" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "d1",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+    await POST(
+      signedEvent({
+        id: "d2",
+        created: now + 1,
+        type: "charge.dispute.closed",
+        data: { object: { ...REAL_DISPUTE, status: "won" } },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a won dispute silently restored access").toBe(false);
+  });
+
+  it("does not revoke anybody when neither lookup resolves a customer", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("/charges/") || u.includes("/payment_intents/")) {
+        return { ok: false, status: 404, text: async () => "gone" };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_unresolvable",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+
+    // Failing to identify somebody is not a reason to cut off a different one.
+    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).status).toBe("active");
   });
 });

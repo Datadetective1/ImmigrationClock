@@ -133,6 +133,14 @@ async function sendSignInEmail(to: string, link: string): Promise<void> {
       ...(process.env.NEXT_PUBLIC_CONTACT_EMAIL ? { reply_to: process.env.NEXT_PUBLIC_CONTACT_EMAIL } : {}),
     }),
     signal: AbortSignal.timeout(15_000),
+    // A CACHED POST HERE MEANS THE SECOND SIGN-IN LINK IS NEVER SENT.
+    //
+    // Next.js patches fetch and caches by default. Two requests for the same
+    // address produce the same URL, method and headers, and the body differs
+    // only by the token — so a cache hit would return the first send's response
+    // without contacting Resend at all, and the person waiting on a link that
+    // was never sent has no way back into their paid account. See store.ts.
+    cache: "no-store",
   });
 
   if (!res.ok) throw new Error(`Resend returned HTTP ${res.status}`);

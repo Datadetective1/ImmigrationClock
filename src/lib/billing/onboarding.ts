@@ -228,6 +228,8 @@ async function sendTransactional(
   const from = env.RESEND_FROM_EMAIL || "Immigration Clock <noreply@immigrationclock.com>";
   const doFetch = fetchImpl ?? fetch;
 
+  // cache: "no-store" below — a cached send is a welcome email that never
+  // leaves. Next.js caches fetch by default; see the note in store.ts.
   const res = await doFetch(`${base}/emails`, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
@@ -240,6 +242,7 @@ async function sendTransactional(
       ...(env.NEXT_PUBLIC_CONTACT_EMAIL ? { reply_to: env.NEXT_PUBLIC_CONTACT_EMAIL } : {}),
     }),
     signal: AbortSignal.timeout(8_000),
+    cache: "no-store",
   });
 
   if (!res.ok) return { ok: false, detail: `Resend returned ${res.status}` };
