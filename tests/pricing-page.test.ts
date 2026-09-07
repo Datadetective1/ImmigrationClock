@@ -38,7 +38,9 @@ describe("the pricing page cannot sell what does not exist", () => {
   it("gates the Subscribe buttons on a capability actually being available", () => {
     // Derived from the specs, not from a flag someone has to remember to flip.
     expect(source).toContain('const hasSomethingToSell = availableNow("pro").length > 0;');
-    expect(source).toMatch(/\{purchasable \?/);
+    // The gate moved into PurchasePanel so it can be evaluated per request
+    // instead of once at build time; `purchasable` is now the first paint.
+    expect(source).toMatch(/initialReady=\{purchasable\}/);
   });
 
   it("requires BOTH a working capability and billing being on", () => {
@@ -48,8 +50,28 @@ describe("the pricing page cannot sell what does not exist", () => {
     // branch exists to remove, one click later. Both halves are required.
     expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
     expect(source).toContain('const hasSomethingToSell = availableNow("pro").length > 0;');
-    expect(source).toContain("hasSomethingToSell && billingStatus().checkoutReady");
+    expect(source).toContain("hasSomethingToSell && builtReady");
+    expect(source).toContain("billingStatus().checkoutReady");
     expect(source).toContain('data-testid="pro-not-for-sale"');
+  });
+
+  it("does not FREEZE that answer into the build", () => {
+    // /pricing is prerendered, so billingStatus() runs once, at build time.
+    // The buy button's existence was therefore a property of the last deploy:
+    // switch billing on in production and the page still said "Not for sale
+    // yet", silently, until somebody redeployed — and the documented rollout
+    // reaches exactly that state, because it creates the webhook endpoint
+    // after the first deploy.
+    const panel = readFileSync(
+      fileURLToPath(new URL("../src/components/PurchasePanel.tsx", import.meta.url)),
+      "utf8"
+    );
+    expect(panel).toContain('"use client"');
+    expect(panel).toContain("/api/billing/checkout");
+    expect(panel, "the runtime probe could itself be served from a cache").toContain('cache: "no-store"');
+    // A failed probe must keep the server's answer rather than hiding a
+    // working Subscribe button.
+    expect(panel).toMatch(/catch\s*\{/);
   });
 
   it("says which of the two reasons applies, rather than one catch-all", () => {
@@ -93,7 +115,16 @@ describe("a test deployment says so where the money is", () => {
     // clicks, and it is the first page the activation walkthrough opens, so a
     // test deployment that looks live is a real hazard during activation.
     expect(source).toContain("billingStatus().testMode");
-    expect(source).toMatch(/Test mode\. No real card is charged/);
+    // The banner itself moved into PurchasePanel with the rest of the purchase
+    // block, so that it too reflects the running configuration rather than the
+    // one the site was built with — a deployment must not be able to show
+    // "no real card is charged" while holding live keys.
+    const panel = readFileSync(
+      fileURLToPath(new URL("../src/components/PurchasePanel.tsx", import.meta.url)),
+      "utf8"
+    );
+    expect(panel).toMatch(/Test mode\. No real card is charged/);
+    expect(panel).toContain("setTestMode");
   });
 
   it("drives it from the configured key, not a hand-set flag", () => {
