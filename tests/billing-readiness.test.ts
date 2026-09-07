@@ -1231,3 +1231,170 @@ describe("fourth round · a spent checkout session stays spent", () => {
     expect(source).toMatch(/claimCheckoutSession\(sessionId,\s*10 \* 365 \* 86_400\)/);
   });
 });
+
+// =============================================================================
+// THE DISPUTE PAYLOAD, AS STRIPE ACTUALLY SENDS IT
+//
+// CONFIRMED against a real sandbox chargeback (test card 4000 0000 0000 0259):
+//
+//   HTTP 200
+//   data.object contains  charge
+//   data.object contains  payment_intent
+//   data.object does NOT contain  customer
+//
+// That last line is the whole defect. The handler read `object.customer`, found
+// nothing, wrote nothing, and answered 200 — so Stripe never retried and every
+// chargeback was invisible. The earlier test passed only because it invented a
+// `customer` key, which is why this file now pins the confirmed shape instead.
+// =============================================================================
+describe("a real Stripe dispute payload", () => {
+  /** The shape observed in the sandbox. No `customer` anywhere. */
+  const REAL_DISPUTE = {
+    id: "dp_1MpjxJ2eZvKYlo2C1TnjOKlF",
+    object: "dispute",
+    amount: 1900,
+    charge: "ch_3MpjxG2eZvKYlo2C1uPKXBLW",
+    payment_intent: "pi_3MpjxG2eZvKYlo2C1cKqvXyz",
+    currency: "usd",
+    is_charge_refundable: false,
+    livemode: false,
+    reason: "fraudulent",
+    status: "needs_response",
+  } as const;
+
+  it("has no customer field — the assumption the old code was built on", () => {
+    // Guards the fixture itself. If somebody re-adds `customer` to make a test
+    // pass, this fails and says why.
+    expect(Object.keys(REAL_DISPUTE)).not.toContain("customer");
+    expect(REAL_DISPUTE.charge).toMatch(/^ch_/);
+    expect(REAL_DISPUTE.payment_intent).toMatch(/^pi_/);
+  });
+
+  it("revokes access by following the charge", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const calls: string[] = [];
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("api.stripe.com")) {
+        calls.push(u);
+        if (u.includes("/charges/")) {
+          return { ok: true, status: 200, text: async () => JSON.stringify({ id: REAL_DISPUTE.charge, customer: "cus_1" }) };
+        }
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    const res = await POST(
+      signedEvent({
+        id: "evt_real_dispute",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+
+    expect(res.status).toBe(200);
+    expect(calls.some((c) => c.includes("/charges/" + REAL_DISPUTE.charge))).toBe(true);
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(record.status, "a real chargeback did not revoke access").toBe("disputed");
+    expect(accessFor(record, now).pro).toBe(false);
+  });
+
+  it("falls back to the payment intent when the charge lookup fails", async () => {
+    // One failed lookup must not turn a chargeback into a no-op.
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("/charges/")) return { ok: false, status: 404, text: async () => "no such charge" };
+      if (u.includes("/payment_intents/")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: REAL_DISPUTE.payment_intent, customer: "cus_1" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_dispute_pi",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    expect(record.status, "the payment-intent fallback did not fire").toBe("disputed");
+  });
+
+  it("a won dispute does not restore access", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("/charges/")) {
+        return { ok: true, status: 200, text: async () => JSON.stringify({ id: REAL_DISPUTE.charge, customer: "cus_1" }) };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "d1",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+    await POST(
+      signedEvent({
+        id: "d2",
+        created: now + 1,
+        type: "charge.dispute.closed",
+        data: { object: { ...REAL_DISPUTE, status: "won" } },
+      })
+    );
+
+    const record = JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!);
+    const { accessFor } = await import("@/lib/billing/subscription");
+    expect(accessFor(record, now).pro, "a won dispute silently restored access").toBe(false);
+  });
+
+  it("does not revoke anybody when neither lookup resolves a customer", async () => {
+    const now = NOW();
+    seed(BUYER_KEY, BUYER, { status: "active", currentPeriodEnd: now + 300 * 86_400 });
+
+    const inner = emulator.impl;
+    vi.spyOn(globalThis, "fetch").mockImplementation((async (url: string, init: never) => {
+      const u = String(url);
+      if (u.includes("/charges/") || u.includes("/payment_intents/")) {
+        return { ok: false, status: 404, text: async () => "gone" };
+      }
+      return inner(u, init);
+    }) as unknown as typeof fetch);
+
+    const { POST } = await import("@/app/api/billing/webhook/route");
+    await POST(
+      signedEvent({
+        id: "evt_unresolvable",
+        created: now,
+        type: "charge.dispute.created",
+        data: { object: { ...REAL_DISPUTE } },
+      })
+    );
+
+    // Failing to identify somebody is not a reason to cut off a different one.
+    expect(JSON.parse(emulator.data.get(`sub:${BUYER_KEY}`)!).status).toBe("active");
+  });
+});

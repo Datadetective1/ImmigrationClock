@@ -315,6 +315,21 @@ export class StripeClient {
     );
   }
 
+  /**
+   * A PaymentIntent, as the second route from a Dispute to a customer.
+   *
+   * A confirmed sandbox dispute carries BOTH `charge` and `payment_intent`.
+   * Either resolves the customer, and having two means one failed lookup —
+   * a 404, a permissions edge, a transient error — cannot silently turn a
+   * chargeback into a no-op.
+   */
+  async getPaymentIntent(id: string): Promise<{ id: string; customer: string | null }> {
+    return this.request<{ id: string; customer: string | null }>(
+      "GET",
+      `/payment_intents/${encodeURIComponent(id)}`
+    );
+  }
+
   async getSubscription(id: string): Promise<Subscription> {
     return this.request<Subscription>("GET", `/subscriptions/${encodeURIComponent(id)}`);
   }

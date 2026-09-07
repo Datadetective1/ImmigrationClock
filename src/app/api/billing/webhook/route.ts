@@ -637,17 +637,36 @@ async function resolveChargeCustomer(object: Record<string, unknown>): Promise<s
   const direct = typeof object.customer === "string" ? object.customer : "";
   if (direct) return direct;
 
-  const chargeId = typeof object.charge === "string" ? object.charge : "";
-  if (!chargeId) return "";
+  // CONFIRMED AGAINST A REAL SANDBOX DISPUTE: data.object carries `charge` and
+  // `payment_intent`, and NO `customer`. Both are tried, because one failed
+  // lookup must not be able to turn a chargeback into a silent no-op.
+  const stripe = new StripeClient({ secretKey: process.env.STRIPE_SECRET_KEY as string });
 
-  try {
-    const stripe = new StripeClient({ secretKey: process.env.STRIPE_SECRET_KEY as string });
-    const charge = await stripe.getCharge(chargeId);
-    return typeof charge.customer === "string" ? charge.customer : "";
-  } catch (err) {
-    console.error(
-      `[billing] could not retrieve charge ${chargeId}: ${err instanceof Error ? err.message : String(err)}`
-    );
-    return "";
+  const chargeId = typeof object.charge === "string" ? object.charge : "";
+  if (chargeId) {
+    try {
+      const charge = await stripe.getCharge(chargeId);
+      if (typeof charge.customer === "string" && charge.customer) return charge.customer;
+    } catch (err) {
+      console.error(
+        `[billing] could not retrieve charge ${chargeId}: ${err instanceof Error ? err.message : String(err)}`
+      );
+    }
   }
+
+  const intentId = typeof object.payment_intent === "string" ? object.payment_intent : "";
+  if (intentId) {
+    try {
+      const intent = await stripe.getPaymentIntent(intentId);
+      if (typeof intent.customer === "string" && intent.customer) return intent.customer;
+    } catch (err) {
+      console.error(
+        `[billing] could not retrieve payment intent ${intentId}: ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
+    }
+  }
+
+  return "";
 }
