@@ -1155,13 +1155,35 @@ describe("sandbox scenario 3 · an annual subscriber sees a year everywhere", ()
     expect(claim.exp, "the claim outlived the policy cap").toBeLessThanOrEqual(now + MAX_TTL_DAYS * 86_400);
     expect(claim.periodEnd, "the true paid-through date was lost").toBe(record.currentPeriodEnd);
 
-    // 4. THE ACCOUNT PAGE — renders periodEnd, not the clamp.
+    // 4. THE ACCOUNT PAGE — renders the paid-through date, never the clamp.
+    //
+    // This used to pin the literal expression `entitlement.periodEnd ??
+    // entitlement.exp`. The account redesign replaced it with the STORE's
+    // period, which is a stronger guarantee: the date now comes from the record
+    // Stripe wrote rather than from a cookie that could be stale. So the
+    // assertion follows the guarantee instead of the syntax.
     const { readFileSync } = await import("node:fs");
     const { fileURLToPath } = await import("node:url");
     const page = readFileSync(
       fileURLToPath(new URL("../src/app/account/page.tsx", import.meta.url)),
       "utf8"
     );
-    expect(page).toContain("entitlement.periodEnd ?? entitlement.exp");
+    expect(page).toContain("account.paidThrough");
+    // And never the clamped claim, which is what showed a $190 annual buyer
+    // that their year ended in thirty days.
+    expect(page, "the account page renders the clamped claim").not.toMatch(
+      /formatDate\(entitlement\.exp\)/
+    );
+
+    // The state resolver takes it from the record, not the cookie.
+    const { accountStateFor } = await import("@/lib/billing/account-state");
+    const derived = accountStateFor(
+      { plan: "pro", email: BUYER, customerId: "cus_1", exp: now + 30 * 86_400 },
+      record,
+      now
+    );
+    expect(derived.paidThrough, "the account state lost the true paid-through date").toBe(
+      record.currentPeriodEnd
+    );
   });
 });

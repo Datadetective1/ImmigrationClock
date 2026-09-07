@@ -355,8 +355,9 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Do I need an account to read the site?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                No. There are no accounts on the public platform and no plans for any. A Pro
-                subscription is a billing relationship with Stripe, not a login for reading.
+                No. Everything public stays open with no account and no sign-in. Accounts exist
+                only for Pro, keeping your follows across devices, newsletter settings and billing —
+                you sign in with an emailed link, and there is no password.
               </p>
             </div>
             <div className="panel panel-pad">

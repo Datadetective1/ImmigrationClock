@@ -495,6 +495,11 @@ async function persist(
         lastSubscriptionEventAt: eventCreatedAt,
         // An active subscription becomes the one this record follows.
         ...(access && incomingId ? { subscriptionId: incomingId } : {}),
+        // Straight from Stripe, so the account page can distinguish "renews"
+        // from "cancels on" instead of calling both of them "active".
+        ...(typeof object.cancel_at_period_end === "boolean"
+          ? { cancelAtPeriodEnd: object.cancel_at_period_end }
+          : {}),
       },
       now
     );

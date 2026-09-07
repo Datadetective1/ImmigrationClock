@@ -94,6 +94,16 @@ export interface SubscriberRecord {
    */
   revokedAt?: number;
   /**
+   * True when Stripe will not renew this subscription.
+   *
+   * Cancelling is not the same as ending: the subscriber keeps Pro until the
+   * period they paid for runs out. Without this the account page could only say
+   * "active", which is true and useless — somebody who has just cancelled wants
+   * to see that it worked, and somebody who has not wants to know they will be
+   * charged again.
+   */
+  cancelAtPeriodEnd?: boolean;
+  /**
    * Whether this identity asked for the newsletter, and when they asked.
    *
    * STORED AGAINST THE VERIFIED IDENTITY, never against an address typed at

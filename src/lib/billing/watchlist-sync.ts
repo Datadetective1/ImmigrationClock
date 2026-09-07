@@ -156,9 +156,30 @@ export function writeSyncState(nowSeconds: number): void {
 /**
  * Forget that this device has merged.
  *
- * Called on sign-out, so that signing in again — possibly as somebody else on a
- * shared machine — starts with a union rather than assuming the local list
- * already belongs to the account being signed into.
+ * SIGN-OUT DOES NOT CALL THIS, AND THE REASON IS A LEAK.
+ *
+ * It used to. The thinking was that a shared machine should re-merge rather
+ * than let the server overwrite whatever the browser held — which gets the
+ * danger exactly backwards. The union runs in ONE direction that matters: it
+ * PUSHES the browser's local follows into the account being signed into. So on
+ * a library laptop, Alice signs out, Bob signs in, and Alice's follows are
+ * uploaded to Bob's account and propagated to Bob's phone. On this site a
+ * follow can imply a nationality; that is not a stale-cache annoyance, it is
+ * one reader's interests disclosed to another.
+ *
+ * The union is right in exactly one situation — a device that has NEVER hosted
+ * a session, where the local list can only be the work of the person now
+ * signing in. So sign-out STAMPS the device as merged (see SignOutButton)
+ * rather than clearing the stamp, and every later sign-in takes the
+ * server-wins path.
+ *
+ * The cost is stated rather than hidden: follows added while signed out are
+ * replaced by the account's list at the next sign-in, which is the same rule
+ * that already governs every load after the first, and the sign-out copy says
+ * so.
+ *
+ * This remains exported as the primitive it is — a genuine "treat this device
+ * as new" reset — and is what the tests exercise.
  */
 export function clearSyncState(): void {
   if (typeof window === "undefined") return;

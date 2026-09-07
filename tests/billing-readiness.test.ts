@@ -19,7 +19,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { createHmac } from "node:crypto";
 import { emailKey } from "@/lib/billing/store";
-import { MAX_TTL_DAYS, sign, verify, type Entitlement } from "@/lib/billing/entitlement";
+import { MAX_TTL_DAYS, isActive, sign, verify, type Entitlement } from "@/lib/billing/entitlement";
 import { billingStatus, type BillingEnv } from "@/lib/billing/config";
 import { HANDLED_EVENTS } from "@/lib/billing/stripe";
 
@@ -339,7 +339,16 @@ describe("blocker 3 · an annual subscription is not a thirty-day one", () => {
     expect(res.headers.get("Set-Cookie") ?? "").toContain("ic_ent=");
   });
 
-  it("does NOT re-mint for a subscription that has ended, and clears the cookie", async () => {
+  it("does NOT re-mint PRO for a subscription that has ended", async () => {
+    // This used to assert the cookie was CLEARED, which is a mechanism rather
+    // than the guarantee — and the mechanism was wrong. Clearing it ended the
+    // IDENTITY along with the subscription, so a subscriber whose year ran out
+    // opened /account and found a sign-in form: nothing saying what happened,
+    // no route to their own invoices, and an email round trip to re-subscribe.
+    //
+    // What actually has to hold is that Pro stops. A `plan: "free"` claim
+    // unlocks nothing — isActive() and can() treat it as anonymous, and every
+    // gate re-reads the store — so the assertion follows the guarantee.
     const now = NOW();
     seed(BUYER_KEY, BUYER, { status: "canceled", currentPeriodEnd: now - 1 });
 
@@ -351,8 +360,15 @@ describe("blocker 3 · an annual subscription is not a thirty-day one", () => {
       })
     );
 
-    expect(res.status).toBe(402);
-    expect(res.headers.get("Set-Cookie") ?? "").toMatch(/ic_ent=;|ic_ent=\s*;|Max-Age=0/);
+    expect(res.status, "the revocation signal the watchlist client reads was lost").toBe(402);
+
+    const setCookie = res.headers.get("Set-Cookie") ?? "";
+    const token = setCookie.match(/ic_ent=([^;]+)/)?.[1] ?? "";
+    const ent = verify(decodeURIComponent(token), SESSION_SECRET, now);
+    expect(ent, "no claim was issued at all, so the identity was destroyed").not.toBeNull();
+    expect(ent!.plan, "a cancelled subscription kept its Pro claim").toBe("free");
+    expect(ent!.email, "the verified identity was lost with the subscription").toBe(BUYER);
+    expect(isActive(ent, now), "a revoked claim still counted as active").toBe(false);
   });
 });
 
@@ -962,7 +978,9 @@ describe("second round · the fixes must not become the defect", () => {
     expect(ent.plan).toBe("free");
   });
 
-  it("still revokes a PAID claim whose subscription has ended", async () => {
+  it("still revokes a PAID claim whose subscription has ended, without ejecting them", async () => {
+    // The mirror of the test above, from the other direction: keeping the
+    // identity must not accidentally keep the entitlement.
     const now = NOW();
     seed(BUYER_KEY, BUYER, { status: "canceled", currentPeriodEnd: now - 1 });
     const { POST } = await import("@/app/api/billing/session/refresh/route");
@@ -973,7 +991,12 @@ describe("second round · the fixes must not become the defect", () => {
       })
     );
     expect(res.status).toBe(402);
-    expect(res.headers.get("Set-Cookie") ?? "").toMatch(/Max-Age=0/);
+    const body = (await res.json()) as { plan: string; revoked?: boolean };
+    expect(body.plan).toBe("free");
+    expect(body.revoked, "the caller could not tell a revocation from an ordinary free identity").toBe(true);
+
+    const token = (res.headers.get("Set-Cookie") ?? "").match(/ic_ent=([^;]+)/)?.[1] ?? "";
+    expect(verify(decodeURIComponent(token), SESSION_SECRET, now)!.plan).toBe("free");
   });
 
   it("activate never writes its 30-day fallback over a real annual period", async () => {
