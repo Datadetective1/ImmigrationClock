@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-07T21:59:30.263Z",
+  "updatedAt": "2026-09-08T17:15:08.883Z",
   "items": [
     {
       "id": "event:federal_register:2026-16290::effective_date",
@@ -15,11 +15,11 @@
       "eventId": "federal_register:2026-16290",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 68102.85,
+      "priority": 68112.84444444445,
       "readerValue": 94,
-      "factsHash": "f084ac8e8789de80",
+      "factsHash": "c72e712d669c3719",
       "whyItMatters": [
-        "The rule is final but does not apply until September 10, 2026, 3 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 10, 2026, 2 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 10, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -59,11 +59,11 @@
       "eventId": "federal_register:2026-16231",
       "category": "deadline",
       "topicKey": "visa:h-1b",
-      "priority": 67552.84444444445,
+      "priority": 67562.83888888889,
       "readerValue": 100,
-      "factsHash": "0555604b38528b3e",
+      "factsHash": "510f9d19de4f1019",
       "whyItMatters": [
-        "The rule is final but does not apply until September 9, 2026, 2 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 9, 2026, 1 days from today. Until then the rules in force today stay in force.",
         "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the September 9, 2026 effective date."
       ],
@@ -104,11 +104,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66622.72777777778,
+      "priority": 66632.72222222222,
       "readerValue": 82,
-      "factsHash": "ee85f66bfd4935cf",
+      "factsHash": "394544cbe8fc192d",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 11 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 10 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -149,11 +149,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65052.71111111111,
+      "priority": 65062.705555555556,
       "readerValue": 54,
-      "factsHash": "56feb9b9e3d208a2",
+      "factsHash": "6503ee92bf6e5c25",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 8 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 7 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -181,96 +181,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-17726::effective_date",
-      "subjectId": "event:federal_register:2026-17726",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Rescission of Coordinated Enforcement Regulations",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
-      "eventId": "federal_register:2026-17726",
-      "category": "actionable",
-      "topicKey": "topic:enforcement",
-      "priority": 57202.96111111111,
-      "readerValue": 98,
-      "factsHash": "a433dbd635aa8373",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 30, 2026, 23 days from today. Until then the rules in force today stay in force.",
-        "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
-        "ImmigrationClock is watching the September 30, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6",
-      "ogImage": "/og/change/rescission-of-coordinated-enforcement-regulations-pu7qj6.png",
-      "freshness": {
-        "publishedAt": "2026-08-31",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-30"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 98/100 clears the floor; share page https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6"
-        }
-      ]
-    },
-    {
-      "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::why_it_matters",
-      "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Policy alert: Non-Governmental, Nonpartisan Organization Voter Registration Services at Administrative Naturalization Ceremonies",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf",
-      "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
-      "category": "actionable",
-      "topicKey": "source:uscis_policy_manual",
-      "priority": 54928.96111111111,
-      "readerValue": 54,
-      "factsHash": "549a25fc673d165a",
-      "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78",
-      "ogImage": "/og/change/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78.png",
-      "freshness": {
-        "publishedAt": "2026-08-31",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78"
-        }
-      ]
-    },
-    {
       "id": "signal:warn-by-state::data_signal",
       "subjectId": "signal:warn-by-state",
       "contentType": "data_signal",
@@ -283,7 +193,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "4409405f8e2494d6",
       "whyItMatters": [],
@@ -324,7 +234,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -365,7 +275,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
@@ -406,7 +316,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -447,7 +357,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -488,7 +398,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -517,51 +427,6 @@
       ]
     },
     {
-      "id": "event:dol_oflc:announcement-2026-09-02::what_changed",
-      "subjectId": "event:dol_oflc:announcement-2026-09-02",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
-      "suggestedHeadline": null,
-      "sourceName": "DOL Office of Foreign Labor Certification announcements",
-      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
-      "eventId": "dol_oflc:announcement-2026-09-02",
-      "category": "explainer",
-      "topicKey": "visa:h-2a",
-      "priority": 24132.972222222223,
-      "readerValue": 42,
-      "factsHash": "79664ea9a60c7336",
-      "whyItMatters": [
-        "The document does not state an effective date, so when it applies has to be read from the original.",
-        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
-      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
-      "freshness": {
-        "publishedAt": "2026-09-02",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-13"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
-        }
-      ]
-    },
-    {
       "id": "event:dol_oflc:announcement-2026-09-02::why_it_matters",
       "subjectId": "event:dol_oflc:announcement-2026-09-02",
       "contentType": "why_it_matters",
@@ -574,7 +439,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24132.972222222223,
+      "priority": 24132.966666666667,
       "readerValue": 42,
       "factsHash": "f482835a90e95547",
       "whyItMatters": [
@@ -619,7 +484,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22013,
+      "priority": 22014,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -662,7 +527,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "9fde5e6346395c6b",
       "whyItMatters": [
@@ -705,7 +570,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -748,7 +613,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22009,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -791,7 +656,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22008,
+      "priority": 22009,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -834,7 +699,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -877,7 +742,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22006,
+      "priority": 22007,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -920,7 +785,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -951,49 +816,6 @@
       ]
     },
     {
-      "id": "explainer:what-a-warn-notice-is::explainer",
-      "subjectId": "explainer:what-a-warn-notice-is",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What a WARN notice is",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN); 29 U.S.C. § 2101 — WARN Act definitions; 29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:workforce-data",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "da034e5d18b62a5b",
-      "whyItMatters": [
-        "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/what-a-warn-notice-is",
-      "ogImage": "/og/explainer/what-a-warn-notice-is.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/what-a-warn-notice-is"
-        }
-      ]
-    },
-    {
       "id": "explainer:reported-projected-estimated::explainer",
       "subjectId": "explainer:reported-projected-estimated",
       "contentType": "explainer",
@@ -1006,7 +828,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1049,7 +871,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -1092,7 +914,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -1135,7 +957,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -1178,7 +1000,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -1209,25 +1031,27 @@
       ]
     },
     {
-      "id": "discovery:explainers::data_discovery",
-      "subjectId": "discovery:explainers",
-      "contentType": "data_discovery",
+      "id": "explainer:what-a-warn-notice-is::explainer",
+      "subjectId": "explainer:what-a-warn-notice-is",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "ImmigrationClock explains",
+      "headline": "What a WARN notice is",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN); 29 U.S.C. § 2101 — WARN Act definitions; 29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:explained",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "c15d5822d00b1ad8",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:workforce-data",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "da034e5d18b62a5b",
+      "whyItMatters": [
+        "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained",
-      "ogImage": "/og/page/explained.png",
+      "shareUrl": "https://immigrationclock.com/explained/what-a-warn-notice-is",
+      "ogImage": "/og/explainer/what-a-warn-notice-is.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1245,7 +1069,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/what-a-warn-notice-is"
         }
       ]
     },
@@ -1262,7 +1086,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1303,7 +1127,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1344,7 +1168,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1385,7 +1209,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "80fe61f557fffdbc",
       "whyItMatters": [],
@@ -1426,7 +1250,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "20ec27f0f0e507b6",
       "whyItMatters": [],
@@ -1467,7 +1291,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1508,7 +1332,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1533,6 +1357,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/pulse"
+        }
+      ]
+    },
+    {
+      "id": "discovery:explainers::data_discovery",
+      "subjectId": "discovery:explainers",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "ImmigrationClock explains",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:explained",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "c15d5822d00b1ad8",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained",
+      "ogImage": "/og/page/explained.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
         }
       ]
     },
@@ -1714,6 +1579,65 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-17726::effective_date",
+      "subjectId": "event:federal_register:2026-17726",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Rescission of Coordinated Enforcement Regulations",
+      "suggestedHeadline": "DOL rescinds coordinated enforcement regs effective Sept. 30, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/31/2026-17726/rescission-of-coordinated-enforcement-regulations",
+      "eventId": "federal_register:2026-17726",
+      "category": "actionable",
+      "topicKey": "topic:enforcement",
+      "priority": 57212.955555555556,
+      "readerValue": 98,
+      "factsHash": "3cc6e1a1f5db054a",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 30, 2026, 22 days from today. Until then the rules in force today stay in force.",
+        "A rescission removes the rule it names from September 30, 2026. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
+        "ImmigrationClock is watching the September 30, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Before: Coordinated enforcement regulations by WHD, OSHA and ETA covered migrant and seasonal farmworkers.\nAfter: The Department of Labor rescinds those regulations.\n\nEffective Sept. 30, 2026. Until then, current rules stay in force.\nhttps://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6?utm_source=x&utm_medium=social&utm_campaign=effective_date&utm_content=change%3Apu7qj6",
+        "linkedin": "",
+        "structure": "before_after"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6",
+      "ogImage": "/og/change/rescission-of-coordinated-enforcement-regulations-pu7qj6.png",
+      "freshness": {
+        "publishedAt": "2026-08-31",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-30"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-08T17:13:43.310Z",
+      "externalUrl": "https://x.com/i/web/status/2097373182613209223",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 98/100 clears the floor; share page https://immigrationclock.com/what-changed/rescission-of-coordinated-enforcement-regulations-pu7qj6"
+        },
+        {
+          "at": "2026-09-08T17:13:43.310Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-08T17:13:43.310Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-17146::effective_date",
       "subjectId": "event:federal_register:2026-17146",
       "contentType": "effective_date",
@@ -1884,6 +1808,56 @@
           "at": "2026-09-06T16:11:02.555Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-06"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Policy alert: Non-Governmental, Nonpartisan Organization Voter Registration Services at Administrative Naturalization Ceremonies",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260831-VoterRegNatzCeremonies.pdf",
+      "eventId": "uscis_policy_manual:20260831-voterregnatzceremonies",
+      "category": "actionable",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 54928.96111111111,
+      "readerValue": 54,
+      "factsHash": "549a25fc673d165a",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78",
+      "ogImage": "/og/change/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78.png",
+      "freshness": {
+        "publishedAt": "2026-08-31",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-non-governmental-nonpartisan-organization-voter-ojmc78"
+        },
+        {
+          "at": "2026-09-08T17:13:43.310Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-08"
         }
       ]
     },
@@ -2068,6 +2042,56 @@
           "at": "2026-09-05T15:59:08.628Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-05"
+        }
+      ]
+    },
+    {
+      "id": "event:dol_oflc:announcement-2026-09-02::what_changed",
+      "subjectId": "event:dol_oflc:announcement-2026-09-02",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "suggestedHeadline": null,
+      "sourceName": "DOL Office of Foreign Labor Certification announcements",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
+      "eventId": "dol_oflc:announcement-2026-09-02",
+      "category": "explainer",
+      "topicKey": "visa:h-2a",
+      "priority": 24132.972222222223,
+      "readerValue": 42,
+      "factsHash": "79664ea9a60c7336",
+      "whyItMatters": [
+        "The document does not state an effective date, so when it applies has to be read from the original.",
+        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
+      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "freshness": {
+        "publishedAt": "2026-09-02",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
+        },
+        {
+          "at": "2026-09-08T17:13:43.310Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-08"
         }
       ]
     },
