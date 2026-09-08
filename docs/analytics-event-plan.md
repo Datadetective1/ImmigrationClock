@@ -93,6 +93,61 @@ tracked as commercial events, never carry a tracking parameter, and are never
 
 ---
 
+## Pro funnel — Free → paid
+
+Six events, all implemented in `src/lib/analytics.ts`. Together they are the
+only way to tell which part of the paid funnel is actually losing people, and
+they were added with the billing work rather than designed up front — this
+section documents what exists, not an intention.
+
+| Event | Trigger | Properties | Fires in |
+| --- | --- | --- | --- |
+| `premium_interest` | "See what Pro includes" clicked on an in-page callout | `capability`, `placement` | `ProCallout.tsx` |
+| `pricing_view` | `/pricing` opened | `from` (referring pathname, allow-listed) | `PricingAnalytics.tsx` |
+| `checkout_started` | Subscribe clicked, before the redirect to Stripe | `interval`, `placement` | `UpgradeButton.tsx` |
+| `checkout_completed` | Browser returns from Stripe with a session id | — | `AccountActivation.tsx` |
+| `subscription_active` | That session is confirmed paid and Pro is minted | `plan` | `AccountActivation.tsx` |
+| `billing_portal_open` | "Manage billing" clicked | — | `ManageBillingButton.tsx` |
+
+### The one measurement that matters most
+
+`premium_interest` is the only event that measures demand **before a price is in
+the way**. It carries the capability id, so it answers "which unbuilt paid
+capability do people actually want" for the cost of a link — which is the
+question that should decide what gets built next, rather than a guess made at
+design time. A callout nobody clicks is a capability nobody wants.
+
+### Known measurement gaps — read the numbers with these in mind
+
+**`checkout_completed` and `subscription_active` UNDER-COUNT.** Both fire only
+when the browser returns to `/account` after paying. A customer who closes the
+tab on Stripe's confirmation page is a real, completed, charged sale that these
+events never see. The authoritative record of a purchase is the Stripe webhook,
+which is server-side and emits no analytics.
+
+So: **never compute conversion rate as `checkout_completed ÷ checkout_started`.**
+Take the numerator from Stripe. The client events are useful for the *shape* of
+the funnel and for spotting a sudden break, not for the true paid count.
+
+**`checkout_started` over-counts relative to Stripe.** It fires before the
+redirect, so it includes people the identity gate then stops (an unverified
+visitor gets a 401 and an email form instead of Stripe) and anyone who abandons
+on Stripe's page.
+
+The gap between the two is therefore expected and large. Closing it would mean
+emitting an event from the webhook, which is a server-side analytics dependency
+this project does not have today and should not acquire casually.
+
+### Privacy
+
+These carry the same constraints as everything else here: `capability`,
+`placement`, `interval`, `plan` and `from` are all fixed vocabularies, never
+free text, never a path a reader typed, and never an entity being viewed. A
+followed employer or country can imply a nationality or a visa status, so the
+funnel measures the surface, not the subject.
+
+---
+
 ## Privacy rules
 
 These are constraints, not preferences.
