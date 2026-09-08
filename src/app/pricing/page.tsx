@@ -304,7 +304,11 @@ export default function PricingPage() {
                   <p className="text-center text-[11px] text-slate-500">
                     Subscriptions renew automatically — monthly plans every month, yearly plans
                     every twelve months — until you cancel. Cancel any time from your account; you
-                    keep Pro until the period you have paid for ends.
+                    keep Pro until the period you have paid for ends. Full{" "}
+                    <Link href="/terms" className="link-accent">
+                      billing terms
+                    </Link>
+                    .
                   </p>
                 </>
               }
