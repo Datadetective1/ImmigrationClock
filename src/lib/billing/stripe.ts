@@ -397,7 +397,27 @@ export function verifyWebhookSignature(
   nowSeconds: number,
   toleranceSeconds = WEBHOOK_TOLERANCE_SECONDS
 ): SignatureCheck {
-  if (!secret) return { ok: false, reason: "no signing secret is configured" };
+  // TRIMMED, AND THIS IS NOT COSMETIC.
+  //
+  // A signing secret pasted into a dashboard picks up a trailing newline or
+  // space far more often than anyone expects. billingStatus() already checks
+  // presence with .trim(), so a padded value reports `webhookReady: true` and
+  // the deployment looks healthy — while EVERY signature fails, because the
+  // HMAC is computed over the padded key. The failure is silent in exactly the
+  // place silence is most expensive: refunds and cancellations stop being
+  // recorded and nothing says so.
+  //
+  // That is not hypothetical. It is a live candidate cause of a 400 on this
+  // deployment right now, and at live cutover the same paste happens again with
+  // real money behind it.
+  //
+  // Trimming cannot weaken verification. A Stripe signing secret is
+  // `whsec_` + base64url characters and never legitimately contains leading or
+  // trailing whitespace, so the only values this changes are ones that could
+  // never have verified anything. The comparison below is untouched: same HMAC,
+  // same constant-time compare of the full digest.
+  const key = secret.trim();
+  if (!key) return { ok: false, reason: "no signing secret is configured" };
 
   const parsed = parseSignatureHeader(header);
   if (!parsed) return { ok: false, reason: "the Stripe-Signature header is missing or malformed" };
@@ -407,7 +427,7 @@ export function verifyWebhookSignature(
     return { ok: false, reason: `the signature is ${age}s old, outside the ${toleranceSeconds}s tolerance` };
   }
 
-  const expected = createHmac("sha256", secret).update(`${parsed.timestamp}.${rawBody}`).digest("hex");
+  const expected = createHmac("sha256", key).update(`${parsed.timestamp}.${rawBody}`).digest("hex");
   const expectedBuf = Buffer.from(expected);
   const matched = parsed.signatures.some((candidate) => {
     const buf = Buffer.from(candidate);

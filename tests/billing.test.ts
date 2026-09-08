@@ -421,6 +421,66 @@ function signedHeader(body: string, timestamp: number, secret = WEBHOOK_SECRET):
   return `t=${timestamp},v1=${sig}`;
 }
 
+describe("a signing secret with stray whitespace still verifies", () => {
+  // FOUND IN PRODUCTION. billingStatus() checks presence with .trim(), so a
+  // secret pasted into a dashboard with a trailing newline reports
+  // `webhookReady: true` and the deployment looks healthy — while every
+  // signature fails, because the HMAC is computed over the padded key.
+  //
+  // The failure is silent in the most expensive place: refunds and
+  // cancellations stop being recorded and nothing reports it. At live cutover
+  // the same paste happens again with real money behind it.
+  const SECRET = "whsec_" + "k".repeat(32);
+  const body = JSON.stringify({ id: "evt_1", type: "charge.refunded" });
+  const now = 1_700_000_000;
+  const sign = (secret: string) =>
+    `t=${now},v1=${createHmac("sha256", secret).update(`${now}.${body}`).digest("hex")}`;
+
+  it("accepts a real Stripe signature when the CONFIGURED secret is padded", () => {
+    // Stripe signs with the true secret; our env holds it with whitespace.
+    const header = sign(SECRET);
+    for (const padded of [`${SECRET}
+`, ` ${SECRET}`, `${SECRET}  `, `
+ ${SECRET} 
+`]) {
+      expect(
+        verifyWebhookSignature(body, header, padded, now).ok,
+        `a secret padded as ${JSON.stringify(padded)} rejected a genuine Stripe signature`
+      ).toBe(true);
+    }
+  });
+
+  it("still rejects a genuinely WRONG secret, padded or not", () => {
+    // Trimming must not turn "wrong" into "close enough".
+    const header = sign(SECRET);
+    for (const wrong of ["whsec_" + "j".repeat(32), ` whsec_${"j".repeat(32)} `, "", "   "]) {
+      expect(verifyWebhookSignature(body, header, wrong, now).ok).toBe(false);
+    }
+  });
+
+  it("reports an all-whitespace secret as absent, not as a mismatch", () => {
+    expect(verifyWebhookSignature(body, sign(SECRET), "   ", now).reason).toMatch(
+      /no signing secret is configured/
+    );
+  });
+
+  it("does not trim the BODY — the signed payload stays byte-exact", () => {
+    // The signed payload is `${t}.${rawBody}`. Trimming the body would break
+    // verification for legitimate payloads and would be a real weakening, so
+    // one extra byte must still fail.
+    expect(verifyWebhookSignature(body + " ", sign(SECRET), SECRET, now).ok).toBe(false);
+  });
+
+  it("tolerates whitespace AROUND the header fields, but not a changed signature", () => {
+    // parseSignatureHeader already trims each `k=v` pair, which is correct for
+    // an HTTP header and predates this change — so surrounding space is fine.
+    // The signature VALUE itself is still compared byte for byte.
+    const header = sign(SECRET);
+    expect(verifyWebhookSignature(body, `${header} `, SECRET, now).ok).toBe(true);
+    expect(verifyWebhookSignature(body, header.slice(0, -1) + "0", SECRET, now).ok).toBe(false);
+  });
+});
+
 describe("the Stripe webhook signature", () => {
   const body = JSON.stringify({ id: "evt_x", type: "customer.subscription.updated" });
 
