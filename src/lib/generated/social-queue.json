@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-09T20:52:46.385Z",
+  "updatedAt": "2026-09-09T23:10:37.876Z",
   "items": [
     {
       "id": "signal:cbp-fiscal-year-to-date::data_signal",
@@ -428,49 +428,6 @@
           "at": "2026-09-03T16:14:06.760Z",
           "status": "verified",
           "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
-        }
-      ]
-    },
-    {
-      "id": "explainer:proposed-rule-vs-final-rule::explainer",
-      "subjectId": "explainer:proposed-rule-vs-final-rule",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Proposed rule vs. final rule",
-      "suggestedHeadline": null,
-      "sourceName": "Regulations.gov — Learn about the regulatory process; 5 U.S.C. § 553 — Rule making (Administrative Procedure Act)",
-      "sourceUrl": "https://www.regulations.gov/learn",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 22013,
-      "readerValue": 60,
-      "factsHash": "9fde5e6346395c6b",
-      "whyItMatters": [
-        "Planning around a proposed fee or eligibility test as though it were already law is a common way rulemaking news hurts a reader. The stage word is the whole story."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/proposed-rule-vs-final-rule",
-      "ogImage": "/og/explainer/proposed-rule-vs-final-rule.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/proposed-rule-vs-final-rule"
         }
       ]
     },
@@ -1716,6 +1673,63 @@
         },
         {
           "at": "2026-09-07T21:59:06.306Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "explainer:proposed-rule-vs-final-rule::explainer",
+      "subjectId": "explainer:proposed-rule-vs-final-rule",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "Proposed rule vs. final rule",
+      "suggestedHeadline": "Proposed rule ≠ final rule: what the stage word tells you",
+      "sourceName": "Regulations.gov — Learn about the regulatory process; 5 U.S.C. § 553 — Rule making (Administrative Procedure Act)",
+      "sourceUrl": "https://www.regulations.gov/learn",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 22013,
+      "readerValue": 60,
+      "factsHash": "9fde5e6346395c6b",
+      "whyItMatters": [
+        "Planning around a proposed fee or eligibility test as though it were already law is a common way rulemaking news hurts a reader. The stage word is the whole story."
+      ],
+      "suggestedPost": {
+        "x": "A proposed rule is not a final rule. A proposal is published in the Federal Register for comment and, by itself, changes no fee, requirement, or eligibility test.\n\nImmigrationClock marks proposals “not in force” and never records an effective date.\nhttps://immigrationclock.com/explained/proposed-rule-vs-final-rule?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Aproposed-rule-vs-final-rule",
+        "linkedin": "",
+        "structure": "distinction"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/proposed-rule-vs-final-rule",
+      "ogImage": "/og/explainer/proposed-rule-vs-final-rule.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-09T23:09:50.191Z",
+      "externalUrl": "https://x.com/i/web/status/2097825030755238037",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/proposed-rule-vs-final-rule"
+        },
+        {
+          "at": "2026-09-09T23:09:50.191Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-09T23:09:50.191Z",
           "status": "published",
           "reason": "published on x"
         }
