@@ -1,7 +1,53 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T23:21:36.296Z",
+  "updatedAt": "2026-09-09T17:08:22.551Z",
   "items": [
+    {
+      "id": "signal:cbp-fiscal-year-to-date::data_signal",
+      "subjectId": "signal:cbp-fiscal-year-to-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "scheduled",
+      "headline": "Border encounters so far this fiscal year",
+      "suggestedHeadline": null,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:border",
+      "priority": 30007,
+      "readerValue": 65,
+      "factsHash": "e88f8ee75bd6e891",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
+      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": "afternoon",
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+        },
+        {
+          "at": "2026-09-09T17:08:22.513Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        }
+      ]
+    },
     {
       "id": "event:federal_register:2026-16290::effective_date",
       "subjectId": "event:federal_register:2026-16290",
@@ -15,11 +61,11 @@
       "eventId": "federal_register:2026-16290",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 68112.84444444445,
+      "priority": 68122.83888888889,
       "readerValue": 94,
-      "factsHash": "c72e712d669c3719",
+      "factsHash": "214bc82a73347aa3",
       "whyItMatters": [
-        "The rule is final but does not apply until September 10, 2026, 2 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 10, 2026, 1 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 10, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -47,51 +93,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-16231::effective_date",
-      "subjectId": "event:federal_register:2026-16231",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/10/2026-16231/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas",
-      "eventId": "federal_register:2026-16231",
-      "category": "deadline",
-      "topicKey": "visa:h-1b",
-      "priority": 67562.83888888889,
-      "readerValue": 100,
-      "factsHash": "510f9d19de4f1019",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 9, 2026, 1 days from today. Until then the rules in force today stay in force.",
-        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching the September 9, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4",
-      "ogImage": "/og/change/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4.png",
-      "freshness": {
-        "publishedAt": "2026-08-10",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-09"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4"
-        }
-      ]
-    },
-    {
       "id": "event:federal_register:2026-14539::effective_date",
       "subjectId": "event:federal_register:2026-14539",
       "contentType": "effective_date",
@@ -104,11 +105,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66632.72222222222,
+      "priority": 66642.71666666667,
       "readerValue": 82,
-      "factsHash": "394544cbe8fc192d",
+      "factsHash": "ddf6a03c079fb817",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 10 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 9 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -149,11 +150,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65062.705555555556,
+      "priority": 65072.7,
       "readerValue": 54,
-      "factsHash": "6503ee92bf6e5c25",
+      "factsHash": "84e552736c920e2d",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 7 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 6 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -181,88 +182,6 @@
       ]
     },
     {
-      "id": "signal:warn-by-state::data_signal",
-      "subjectId": "signal:warn-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
-      "suggestedHeadline": null,
-      "sourceName": "State WARN Act notices (state open-data portals)",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:layoffs",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "4409405f8e2494d6",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
-      "ogImage": "/og/signal/warn-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
-        }
-      ]
-    },
-    {
-      "id": "signal:cbp-fiscal-year-to-date::data_signal",
-      "subjectId": "signal:cbp-fiscal-year-to-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Border encounters so far this fiscal year",
-      "suggestedHeadline": null,
-      "sourceName": "CBP Nationwide Encounters",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:border",
-      "priority": 30006,
-      "readerValue": 65,
-      "factsHash": "e88f8ee75bd6e891",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
-      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-sponsor-concentration::data_signal",
       "subjectId": "signal:h1b-sponsor-concentration",
       "contentType": "data_signal",
@@ -275,7 +194,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
@@ -316,7 +235,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -357,7 +276,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -398,7 +317,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -427,6 +346,47 @@
       ]
     },
     {
+      "id": "signal:warn-by-state::data_signal",
+      "subjectId": "signal:warn-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
+      "suggestedHeadline": null,
+      "sourceName": "State WARN Act notices (state open-data portals)",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:layoffs",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "4409405f8e2494d6",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
+      "ogImage": "/og/signal/warn-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
+        }
+      ]
+    },
+    {
       "id": "event:dol_oflc:announcement-2026-09-02::why_it_matters",
       "subjectId": "event:dol_oflc:announcement-2026-09-02",
       "contentType": "why_it_matters",
@@ -439,7 +399,7 @@
       "eventId": "dol_oflc:announcement-2026-09-02",
       "category": "explainer",
       "topicKey": "visa:h-2a",
-      "priority": 24132.966666666667,
+      "priority": 24132.96111111111,
       "readerValue": 42,
       "factsHash": "f482835a90e95547",
       "whyItMatters": [
@@ -472,49 +432,6 @@
       ]
     },
     {
-      "id": "explainer:naturalization-ceremony::explainer",
-      "subjectId": "explainer:naturalization-ceremony",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What happens at a naturalization ceremony",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — Naturalization Ceremonies; USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
-      "sourceUrl": "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:citizenship",
-      "priority": 22014,
-      "readerValue": 60,
-      "factsHash": "e47a11c97aa782bc",
-      "whyItMatters": [
-        "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/naturalization-ceremony",
-      "ogImage": "/og/explainer/naturalization-ceremony.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/naturalization-ceremony"
-        }
-      ]
-    },
-    {
       "id": "explainer:proposed-rule-vs-final-rule::explainer",
       "subjectId": "explainer:proposed-rule-vs-final-rule",
       "contentType": "explainer",
@@ -527,7 +444,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "9fde5e6346395c6b",
       "whyItMatters": [
@@ -570,7 +487,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -613,7 +530,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -656,7 +573,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22009,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -687,49 +604,6 @@
       ]
     },
     {
-      "id": "explainer:h1b-approvals-vs-workers::explainer",
-      "subjectId": "explainer:h1b-approvals-vs-workers",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Why an H-1B approval count is not the number of workers",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 22008,
-      "readerValue": 60,
-      "factsHash": "026994ea743c7a2f",
-      "whyItMatters": [
-        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
-      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -742,7 +616,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -785,7 +659,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -816,6 +690,49 @@
       ]
     },
     {
+      "id": "explainer:naturalization-ceremony::explainer",
+      "subjectId": "explainer:naturalization-ceremony",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "What happens at a naturalization ceremony",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — Naturalization Ceremonies; USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
+      "sourceUrl": "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:citizenship",
+      "priority": 22001,
+      "readerValue": 60,
+      "factsHash": "e47a11c97aa782bc",
+      "whyItMatters": [
+        "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/naturalization-ceremony",
+      "ogImage": "/og/explainer/naturalization-ceremony.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/naturalization-ceremony"
+        }
+      ]
+    },
+    {
       "id": "explainer:reported-projected-estimated::explainer",
       "subjectId": "explainer:reported-projected-estimated",
       "contentType": "explainer",
@@ -828,7 +745,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -859,6 +776,49 @@
       ]
     },
     {
+      "id": "explainer:h1b-approvals-vs-workers::explainer",
+      "subjectId": "explainer:h1b-approvals-vs-workers",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Why an H-1B approval count is not the number of workers",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:work-visas",
+      "priority": 20009,
+      "readerValue": 60,
+      "factsHash": "026994ea743c7a2f",
+      "whyItMatters": [
+        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
+      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
+        }
+      ]
+    },
+    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -871,7 +831,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -914,7 +874,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -957,7 +917,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -1000,7 +960,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -1043,7 +1003,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -1074,47 +1034,6 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The H-1B employer directory",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
-        }
-      ]
-    },
-    {
       "id": "discovery:key-dates::data_discovery",
       "subjectId": "discovery:key-dates",
       "contentType": "data_discovery",
@@ -1127,7 +1046,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1168,7 +1087,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1209,7 +1128,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "80fe61f557fffdbc",
       "whyItMatters": [],
@@ -1250,7 +1169,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "20ec27f0f0e507b6",
       "whyItMatters": [],
@@ -1291,7 +1210,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1332,7 +1251,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1373,7 +1292,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1398,6 +1317,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
         }
       ]
     },
@@ -1758,6 +1718,56 @@
           "at": "2026-09-07T21:59:06.306Z",
           "status": "published",
           "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-16231::effective_date",
+      "subjectId": "event:federal_register:2026-16231",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/10/2026-16231/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas",
+      "eventId": "federal_register:2026-16231",
+      "category": "deadline",
+      "topicKey": "visa:h-1b",
+      "priority": 67562.83888888889,
+      "readerValue": 100,
+      "factsHash": "510f9d19de4f1019",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 9, 2026, 1 days from today. Until then the rules in force today stay in force.",
+        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching the September 9, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4",
+      "ogImage": "/og/change/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4.png",
+      "freshness": {
+        "publishedAt": "2026-08-10",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-09"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/9-11-response-and-biometric-entry-exit-fee-for-h-1b-and-l-1-visas-vjsqm4"
+        },
+        {
+          "at": "2026-09-09T17:08:22.513Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-09"
         }
       ]
     },
