@@ -1,27 +1,27 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-09T23:10:37.876Z",
+  "updatedAt": "2026-09-10T16:58:22.105Z",
   "items": [
     {
-      "id": "signal:cbp-fiscal-year-to-date::data_signal",
-      "subjectId": "signal:cbp-fiscal-year-to-date",
+      "id": "signal:h1b-sponsor-concentration::data_signal",
+      "subjectId": "signal:h1b-sponsor-concentration",
       "contentType": "data_signal",
       "tier": "evergreen",
       "status": "scheduled",
-      "headline": "Border encounters so far this fiscal year",
+      "headline": "H-1B sponsorship is far more concentrated than the employer count suggests",
       "suggestedHeadline": null,
-      "sourceName": "CBP Nationwide Encounters",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
       "eventId": null,
       "category": "data_insight",
-      "topicKey": "topic:border",
+      "topicKey": "visa:h-1b",
       "priority": 30007,
       "readerValue": 65,
-      "factsHash": "e88f8ee75bd6e891",
+      "factsHash": "edbaa18924410ee2",
       "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
-      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsor-concentration",
+      "ogImage": "/og/signal/h1b-sponsor-concentration.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -39,56 +39,12 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsor-concentration"
         },
         {
-          "at": "2026-09-09T17:08:22.513Z",
+          "at": "2026-09-10T16:58:22.075Z",
           "status": "scheduled",
           "reason": "morning is news-only; evergreen waits for the afternoon"
-        }
-      ]
-    },
-    {
-      "id": "event:federal_register:2026-16290::effective_date",
-      "subjectId": "event:federal_register:2026-16290",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Adjudication of Civil Penalties Against International Marriage Brokers",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/11/2026-16290/adjudication-of-civil-penalties-against-international-marriage-brokers",
-      "eventId": "federal_register:2026-16290",
-      "category": "deadline",
-      "topicKey": "source:federal_register",
-      "priority": 68122.83888888889,
-      "readerValue": 94,
-      "factsHash": "214bc82a73347aa3",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 10, 2026, 1 days from today. Until then the rules in force today stay in force.",
-        "ImmigrationClock is watching the September 10, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/adjudication-of-civil-penalties-against-international-marriage-brokers-wybvol",
-      "ogImage": "/og/change/adjudication-of-civil-penalties-against-international-marriage-brokers-wybvol.png",
-      "freshness": {
-        "publishedAt": "2026-08-11",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-10"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 94/100 clears the floor; share page https://immigrationclock.com/what-changed/adjudication-of-civil-penalties-against-international-marriage-brokers-wybvol"
         }
       ]
     },
@@ -105,11 +61,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66642.71666666667,
+      "priority": 66652.7111111111,
       "readerValue": 82,
-      "factsHash": "ddf6a03c079fb817",
+      "factsHash": "e1db56ee1c390ff9",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 9 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 8 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -150,11 +106,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65072.7,
+      "priority": 65082.694444444445,
       "readerValue": 54,
-      "factsHash": "84e552736c920e2d",
+      "factsHash": "5ddf0ffa50f39349",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 6 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 5 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -182,47 +138,6 @@
       ]
     },
     {
-      "id": "signal:h1b-sponsor-concentration::data_signal",
-      "subjectId": "signal:h1b-sponsor-concentration",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "H-1B sponsorship is far more concentrated than the employer count suggests",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30006,
-      "readerValue": 65,
-      "factsHash": "edbaa18924410ee2",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsor-concentration",
-      "ogImage": "/og/signal/h1b-sponsor-concentration.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsor-concentration"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
       "contentType": "data_signal",
@@ -235,7 +150,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -276,7 +191,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -317,7 +232,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -358,7 +273,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "4409405f8e2494d6",
       "whyItMatters": [],
@@ -387,47 +302,53 @@
       ]
     },
     {
-      "id": "event:dol_oflc:announcement-2026-09-02::why_it_matters",
-      "subjectId": "event:dol_oflc:announcement-2026-09-02",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
+      "id": "signal:cbp-fiscal-year-to-date::data_signal",
+      "subjectId": "signal:cbp-fiscal-year-to-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
       "status": "verified",
-      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "headline": "Border encounters so far this fiscal year",
       "suggestedHeadline": null,
-      "sourceName": "DOL Office of Foreign Labor Certification announcements",
-      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
-      "eventId": "dol_oflc:announcement-2026-09-02",
-      "category": "explainer",
-      "topicKey": "visa:h-2a",
-      "priority": 24132.96111111111,
-      "readerValue": 42,
-      "factsHash": "f482835a90e95547",
-      "whyItMatters": [
-        "The document does not state an effective date, so when it applies has to be read from the original.",
-        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:border",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "e88f8ee75bd6e891",
+      "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
-      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
+      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
       "freshness": {
-        "publishedAt": "2026-09-02",
+        "publishedAt": null,
         "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-24"
+        "expiresAt": "2026-10-18"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+        },
+        {
+          "at": "2026-09-09T17:08:22.513Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-10T16:58:22.075Z",
+          "status": "verified",
+          "reason": "deferred window passed"
         }
       ]
     },
@@ -444,7 +365,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -487,7 +408,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -530,7 +451,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -573,7 +494,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22008,
+      "priority": 22009,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -616,7 +537,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -659,7 +580,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22001,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -690,49 +611,6 @@
       ]
     },
     {
-      "id": "explainer:reported-projected-estimated::explainer",
-      "subjectId": "explainer:reported-projected-estimated",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How ImmigrationClock labels a number",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock — Methodology",
-      "sourceUrl": "https://immigrationclock.com/methodology",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:how-we-work",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "ccae3862f5a31652",
-      "whyItMatters": [
-        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
-      "ogImage": "/og/explainer/reported-projected-estimated.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-approvals-vs-workers::explainer",
       "subjectId": "explainer:h1b-approvals-vs-workers",
       "contentType": "explainer",
@@ -745,7 +623,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -788,7 +666,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -831,7 +709,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -874,7 +752,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -917,7 +795,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -960,7 +838,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -991,25 +869,27 @@
       ]
     },
     {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
+      "id": "explainer:reported-projected-estimated::explainer",
+      "subjectId": "explainer:reported-projected-estimated",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Key dates, counted down",
+      "headline": "How ImmigrationClock labels a number",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "ImmigrationClock — Methodology",
+      "sourceUrl": "https://immigrationclock.com/methodology",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:how-we-work",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "ccae3862f5a31652",
+      "whyItMatters": [
+        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
+      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
+      "ogImage": "/og/explainer/reported-projected-estimated.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1027,7 +907,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
         }
       ]
     },
@@ -1044,7 +924,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1085,7 +965,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "80fe61f557fffdbc",
       "whyItMatters": [],
@@ -1126,7 +1006,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "20ec27f0f0e507b6",
       "whyItMatters": [],
@@ -1167,7 +1047,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1208,7 +1088,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1249,7 +1129,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1290,7 +1170,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1315,6 +1195,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
         }
       ]
     },
@@ -1736,6 +1657,55 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-16290::effective_date",
+      "subjectId": "event:federal_register:2026-16290",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Adjudication of Civil Penalties Against International Marriage Brokers",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/08/11/2026-16290/adjudication-of-civil-penalties-against-international-marriage-brokers",
+      "eventId": "federal_register:2026-16290",
+      "category": "deadline",
+      "topicKey": "source:federal_register",
+      "priority": 68122.83888888889,
+      "readerValue": 94,
+      "factsHash": "214bc82a73347aa3",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 10, 2026, 1 days from today. Until then the rules in force today stay in force.",
+        "ImmigrationClock is watching the September 10, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/adjudication-of-civil-penalties-against-international-marriage-brokers-wybvol",
+      "ogImage": "/og/change/adjudication-of-civil-penalties-against-international-marriage-brokers-wybvol.png",
+      "freshness": {
+        "publishedAt": "2026-08-11",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-10"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 94/100 clears the floor; share page https://immigrationclock.com/what-changed/adjudication-of-civil-penalties-against-international-marriage-brokers-wybvol"
+        },
+        {
+          "at": "2026-09-10T16:58:22.075Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-10"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-16231::effective_date",
       "subjectId": "event:federal_register:2026-16231",
       "contentType": "effective_date",
@@ -2116,6 +2086,56 @@
           "at": "2026-09-08T17:13:43.310Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-08"
+        }
+      ]
+    },
+    {
+      "id": "event:dol_oflc:announcement-2026-09-02::why_it_matters",
+      "subjectId": "event:dol_oflc:announcement-2026-09-02",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "September 2, 2026. OFLC Announces Updates to Implementation of the H-2A Adverse Effect Wage Rate Methodology for Non-Range Occupations Interim Final Rule; Compliance with District Court Order",
+      "suggestedHeadline": null,
+      "sourceName": "DOL Office of Foreign Labor Certification announcements",
+      "sourceUrl": "https://flag.dol.gov/announcement/2026-09-02",
+      "eventId": "dol_oflc:announcement-2026-09-02",
+      "category": "explainer",
+      "topicKey": "visa:h-2a",
+      "priority": 24132.96111111111,
+      "readerValue": 42,
+      "factsHash": "f482835a90e95547",
+      "whyItMatters": [
+        "The document does not state an effective date, so when it applies has to be read from the original.",
+        "The record is linked to H-2A temporary agricultural. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2",
+      "ogImage": "/og/change/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2.png",
+      "freshness": {
+        "publishedAt": "2026-09-02",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/september-2-2026-oflc-announces-updates-to-implementation-of-the-h-2a-s9h5j2"
+        },
+        {
+          "at": "2026-09-10T16:58:22.075Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-10"
         }
       ]
     },
