@@ -1,53 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-10T16:58:22.105Z",
+  "updatedAt": "2026-09-10T19:35:19.457Z",
   "items": [
-    {
-      "id": "signal:h1b-sponsor-concentration::data_signal",
-      "subjectId": "signal:h1b-sponsor-concentration",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "scheduled",
-      "headline": "H-1B sponsorship is far more concentrated than the employer count suggests",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "edbaa18924410ee2",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsor-concentration",
-      "ogImage": "/og/signal/h1b-sponsor-concentration.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": "afternoon",
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsor-concentration"
-        },
-        {
-          "at": "2026-09-10T16:58:22.075Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-14539::effective_date",
       "subjectId": "event:federal_register:2026-14539",
@@ -1539,6 +1493,66 @@
         },
         {
           "at": "2026-09-05T15:59:08.628Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-sponsor-concentration::data_signal",
+      "subjectId": "signal:h1b-sponsor-concentration",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "H-1B sponsorship is far more concentrated than the employer count suggests",
+      "suggestedHeadline": "FY2023 H-1B approvals: 15.1% to the top 10 employers",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30007,
+      "readerValue": 65,
+      "factsHash": "edbaa18924410ee2",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "How concentrated is H-1B sponsorship?\n\nIn FY2023, 15.1% of approvals went to the 10 largest employers.\n\nSource: USCIS H-1B Employer Data Hub. Approvals count petitions, not workers.\nhttps://immigrationclock.com/insights/h1b-sponsor-concentration?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Ah1b-sponsor-concentration",
+        "linkedin": "",
+        "structure": "data_question"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsor-concentration",
+      "ogImage": "/og/signal/h1b-sponsor-concentration.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-10T19:34:53.292Z",
+      "externalUrl": "https://x.com/i/web/status/2098133234915647675",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsor-concentration"
+        },
+        {
+          "at": "2026-09-10T16:58:22.075Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-10T19:34:53.292Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-10T19:34:53.292Z",
           "status": "published",
           "reason": "published on x"
         }
