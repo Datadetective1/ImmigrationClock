@@ -458,7 +458,7 @@ describe("refresh-warn-scraper.mjs", () => {
     writeFileSync(
       join(dir, "il.csv"),
       header +
-        "Prairie Works,,100 Main St,Peoria,IL,61602,Peoria,,,Permanent,Yes,,2025-01-09,,2026-04-30,,,,,,,,,,1,2500,140,155,2026-02-02,2026-02-10,2026-02-01,,,\n" +
+        "Prairie Works,,100 Main St,Peoria,IL,61602,Peoria,,,State,Yes,,2025-01-09,,2026-04-30,,,,Other,Closure,,,,,1,2500,140,155,2026-02-02,2026-02-10,2026-02-01,,,\n" +
         "Second Site,,,Chicago,IL,,Cook,,,Temporary,Yes,,2025-01-09,,2026-05-15,,,,,,,,,,2,900,60,,2026-02-03,,,,,\n"
     );
     const out = join(dir, "out.json");
@@ -466,7 +466,8 @@ describe("refresh-warn-scraper.mjs", () => {
     expect(r.status, r.stderr).toBe(0);
     const [a, b] = JSON.parse(readFileSync(out, "utf8")).notices;
     // Revised (155) beats expected (140); the 2,500-person workforce is never the layoff.
-    expect(a).toMatchObject({ employer: "Prairie Works", employees: 155, noticeDate: "2026-02-02", effectiveDate: "2026-04-30", city: "Peoria", county: "Peoria", state: "IL", layoffType: "Permanent" });
+    // Type comes from `reason` (the closure or layoff), not `layoff_type` (which WARN act applies).
+    expect(a).toMatchObject({ employer: "Prairie Works", employees: 155, noticeDate: "2026-02-02", effectiveDate: "2026-04-30", city: "Peoria", county: "Peoria", state: "IL", layoffType: "Closure" });
     // No revision → the expected figure; the TAA petition date is never the notice date.
     expect(b).toMatchObject({ employer: "Second Site", employees: 60, noticeDate: "2026-02-03", effectiveDate: "2026-05-15" });
   });
@@ -484,6 +485,65 @@ describe("refresh-warn-scraper.mjs", () => {
         "Empire Retail LLC,05/30/2026,03/02/2026,03/05/2026,\"1 Broadway, New York\",New York,Layoff,Permanent,Economic,1,75,75\n"
     );
     expect(ny).toMatchObject({ employer: "Empire Retail LLC", noticeDate: "2026-03-02", effectiveDate: "2026-05-30", employees: 75, county: "New York", layoffType: "Layoff", state: "NY" });
+  });
+
+  it("reads Maryland's header-less, positional file", () => {
+    // The parser reads the first page's header with the <td> selector, so the
+    // <th> cells come out as an empty row. These are two real rows from the
+    // 2026-09-11 run.
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(
+      join(dir, "md.csv"),
+      "\n" +
+        '08/31/2026,459510,"ThriftBooks Global, LLC","4734 Trident Court, Building A Baltimore, MD 21227",Baltimore County,136,10/31/2026,Plant Closure\n' +
+        '08/25/2026,541810,Crosby Marketing Communications,"705 Melvin Avenue Annapolis, MD 21401",Anne Arundel County,20,10/30/2026,Mass Layoff- No Recall\n'
+    );
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "missing.json"));
+    expect(r.status, r.stderr).toBe(0);
+    const [a, b] = JSON.parse(readFileSync(out, "utf8")).notices;
+    expect(a).toMatchObject({ employer: "ThriftBooks Global, LLC", noticeDate: "2026-08-31", effectiveDate: "2026-10-31", employees: 136, county: "Baltimore", city: null, layoffType: "Plant Closure", state: "MD" });
+    expect(b).toMatchObject({ employer: "Crosby Marketing Communications", employees: 20, county: "Anne Arundel" });
+  });
+
+  it("reports, rather than misreads, a header-less file whose width does not match the known layout", () => {
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(join(dir, "md.csv"), "\nOnly,Three,Columns\n");
+    writeFileSync(join(dir, "nj.csv"), 'Company,City,Effective Date,Employees\nNew Jersey Co,Trenton,2026-01-05,120\n');
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "missing.json"));
+    expect(r.status).toBe(0);
+    expect(r.stderr).toMatch(/md\.csv: empty header row and no 3-column layout for MD/);
+  });
+
+  it("reads Kentucky's effective date, type and notice link", () => {
+    const n = normalizeOne(
+      "ky",
+      "NAICS,address,closure_or_layoff,comments,company,congressional,contact,county,date_effective,date_received,employees,industry,neg,notice_number,notice_url,region,source,trade,union,union_affected\n" +
+        '312111,,Layoff,,"Congo Brands (Alani, Prime, 3D Energy)",,,Jefferson,2026-11-04 00:00:00,2026-09-04 00:00:00,15,,,Notice 2837,https://kydev.my.salesforce.com/sfc/p/abc,Kentuckiana Works,WARN Notice,TBD,,Non-Union\n'
+    );
+    expect(n).toMatchObject({ employer: "Congo Brands (Alani, Prime, 3D Energy)", noticeDate: "2026-09-04", effectiveDate: "2026-11-04", employees: 15, county: "Jefferson", layoffType: "Layoff", sourceUrl: "https://kydev.my.salesforce.com/sfc/p/abc", state: "KY" });
+  });
+
+  it("attributes every row to the state whose portal published it, whatever a worksite-state column says", () => {
+    // Otherwise a handful of out-of-state worksites in Illinois's export would
+    // make the site claim coverage of states whose portals it never read.
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(join(dir, "il.csv"), "location_name,location_city,location_state,expected_layoff,initial_date_reported\nBorder Co,Hammond,IN,30,2026-01-01\nHome Co,Chicago,IL,40,2026-01-02\n");
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "missing.json"));
+    expect(r.status).toBe(0);
+    const cache = JSON.parse(readFileSync(out, "utf8"));
+    expect(cache.notices.map((n: any) => n.state)).toEqual(["IL", "IL"]);
+    expect(cache.states.map((s: any) => s.code)).toEqual(["IL"]);
+    expect(r.stdout).toMatch(/IL: 2 notices, 70 employees \(1 rows list a worksite in another state; kept as IL\)/);
+  });
+
+  it("treats a quote in the middle of an unquoted field as a literal, not as the start of a quoted field", () => {
+    // One stray inch mark used to swallow every following comma and newline
+    // into a single field, shifting every later column of the file.
+    const n = normalizeOne("nj", 'Company,City,Effective Date,Employees\nAcme 12" Pipe Co,Newark,2026-02-01,50\nNext Co,Camden,2026-03-01,60\n');
+    expect(n).toMatchObject({ employer: 'Acme 12" Pipe Co', city: "Newark", effectiveDate: "2026-02-01", employees: 50 });
   });
 
   it("never matches a generic word like `title` as a substring of another column", () => {

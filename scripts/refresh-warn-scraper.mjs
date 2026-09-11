@@ -85,10 +85,23 @@ const ALIASES = {
   county: ["county", "county_name", "county_parish"],
   state: ["state", "state_code"],
   noticeDate: ["notice_date", "received_date", "date_received", "received_sort_descending", "warn_date", "warn_document_date", "date_of_warn_notice", "state_notification_date", "date_of_notice", "notice_received_date", "initial_report_date", "initial_date_reported", "notification_date_s", "date_posted", "date"],
-  effectiveDate: ["effective_date", "layoff_date", "layoff_start_date", "begin_date", "impact_date", "date_layoff_closure_starts", "layoff_date_s", "planned_starting_date", "effective_layoff_date", "separation_date", "closure_date", "layoff_begin_date"],
+  effectiveDate: ["effective_date", "date_effective", "layoff_date", "layoff_start_date", "begin_date", "impact_date", "date_layoff_closure_starts", "layoff_date_s", "planned_starting_date", "effective_layoff_date", "separation_date", "closure_date", "layoff_begin_date"],
   employees: ["employees_affected", "affected_employees", "number_affected", "total_layoff_number", "number_of_impacted_workers", "number_of_employees_affected", "number_of_affected_workers", "planned_affected_employees", "revised_layoff", "expected_layoff", "affected", "workforce_affected", "of_workers", "number_of_workers", "num_workers", "employees", "jobs", "laid_off", "num_employees", "workers_affected", "impact"],
-  layoffType: ["layoff_closure", "layoff_type", "type_of_layoff", "layoff_or_closure", "closing_or_layoff", "closure_type", "notice_type", "closure_layoff", "warn_type", "type"],
+  // `reason` sits before `layoff_type` for Illinois, whose `layoff_type` is
+  // "State"/"Federal" (which WARN act applies) while `reason` is the closure
+  // or layoff itself.
+  layoffType: ["layoff_closure", "layoff_or_closure", "closing_or_layoff", "closure_or_layoff", "reason", "layoff_type", "type_of_layoff", "closure_type", "notice_type", "closure_layoff", "warn_type", "type"],
   sourceUrl: ["detail_page_url", "source_url", "pdf_url", "url", "link"],
+};
+
+// Files whose header row is empty. Maryland's parser reads its first page's
+// header row with the <td> selector, so the <th> cells come out as an empty
+// first row and the data rows that follow are positional. This is the portal
+// table's column order (dllr.state.md.us/employment/warn.shtml), confirmed
+// against the rows the 2026-09-11 run wrote; it is applied only when the
+// data width matches, so a changed layout is reported rather than misread.
+const POSITIONAL_HEADERS = {
+  MD: ["notice_date", "naics", "company", "address", "county", "employees", "effective_date", "layoff_type"],
 };
 
 // Generic words that are safe as an exact column name but would match the
@@ -177,7 +190,7 @@ function parseCsv(text) {
       if (c === '"') {
         if (text[i + 1] === '"') { cur += '"'; i++; } else q = false;
       } else cur += c;
-    } else if (c === '"') q = true;
+    } else if (c === '"' && cur === "") q = true; // a quote opens a field only at its start; mid-field it is literal
     else if (c === ",") { row.push(cur); cur = ""; }
     else if (c === "\n") { row.push(cur); rows.push(row); row = []; cur = ""; }
     else if (c === "\r") { /* skip */ }
@@ -233,7 +246,15 @@ function parseStateCsv(file, code) {
     return { notices: null, reason: `read failed (${err.message})` };
   }
   if (grid.length < 2) return { notices: null, reason: "no data rows" };
-  const headers = grid[0].map(cleanHeader);
+  let headers = grid[0].map(cleanHeader);
+  if (headers.every((h) => !h)) {
+    const layout = POSITIONAL_HEADERS[code];
+    const width = grid[1].length;
+    if (!layout || layout.length !== width) {
+      return { notices: null, reason: `empty header row and no ${width}-column layout for ${code}` };
+    }
+    headers = layout;
+  }
   const idx = Object.fromEntries(Object.entries(ALIASES).map(([k, a]) => [k, pick(headers, a)]));
   if (idx.employer.length === 0) return { notices: null, reason: `no employer column (${headers.join(",") || "empty header"})` };
   // Guard against mislabeling: if "noticeDate" only matched the effective/layoff
@@ -242,6 +263,7 @@ function parseStateCsv(file, code) {
   idx.noticeDate = idx.noticeDate.filter((i) => !idx.effectiveDate.includes(i));
   const portal = portalFor(code);
   const notices = [];
+  let otherState = 0;
   for (let r = 1; r < grid.length; r++) {
     const row = grid[r];
     // First column, in alias order, whose value survives the field's parser.
@@ -255,14 +277,20 @@ function parseStateCsv(file, code) {
     };
     const employer = first(idx.employer, (v) => String(v ?? "").trim());
     if (!employer) continue;
+    // The notice belongs to the state whose portal published it. A few exports
+    // carry a state column for the worksite; it is counted for the log but
+    // never re-attributes the row — otherwise a handful of out-of-state
+    // worksites in one state's file would make the site claim coverage of a
+    // state whose portal it has never read (the 2026-09-11 run reported 19
+    // states from 9 files).
     const stateVal = first(idx.state, clean);
-    const state = stateVal && stateVal.length === 2 ? stateVal.toUpperCase() : code;
+    if (stateVal && stateVal.toUpperCase() !== code) otherState++;
     const src = first(idx.sourceUrl, clean);
     notices.push({
       employer,
       city: first(idx.city, cityOf),
       county: first(idx.county, (v) => clean(String(v ?? "").replace(/\s+county$/i, ""))),
-      state,
+      state: code,
       noticeDate: first(idx.noticeDate, toIso),
       effectiveDate: first(idx.effectiveDate, toIso),
       employees: first(idx.employees, toInt) ?? 0,
@@ -271,7 +299,7 @@ function parseStateCsv(file, code) {
     });
   }
   if (notices.length === 0) return { notices: null, reason: "no rows with an employer" };
-  return { notices, reason: "" };
+  return { notices, reason: "", otherState };
 }
 
 function stepSummary(lines) {
@@ -290,7 +318,7 @@ function main() {
   const unusable = new Map(); // code → reason (a CSV that exists but yields nothing)
   for (const file of files) {
     const code = basename(file, ".csv").toUpperCase().slice(0, 2);
-    const { notices, reason } = parseStateCsv(file, code);
+    const { notices, reason, otherState } = parseStateCsv(file, code);
     if (!notices) {
       console.warn(`[refresh-warn-scraper] ${file}: ${reason}; skipping`);
       unusable.set(code, reason);
@@ -302,7 +330,11 @@ function main() {
       scrapedAt: attempt?.scrapedAt || now,
       scraperVersion: attempt?.scraperVersion || null,
     });
-    console.log(`[refresh-warn-scraper] ${code}: ${notices.length} notices`);
+    const employees = notices.reduce((t, n) => t + n.employees, 0);
+    console.log(
+      `[refresh-warn-scraper] ${code}: ${notices.length} notices, ${employees.toLocaleString("en-US")} employees` +
+        (otherState ? ` (${otherState} rows list a worksite in another state; kept as ${code})` : "")
+    );
   }
 
   // ── 2. Carried: previous states with nothing fresh this run ───────────────
@@ -345,6 +377,7 @@ function main() {
       code,
       outcome,
       count: data?.notices.length ?? 0,
+      employees: data ? data.notices.reduce((t, n) => t + n.employees, 0) : 0,
       asOf: data?.scrapedAt?.slice(0, 10) ?? null,
       thisRun,
     });
@@ -359,9 +392,11 @@ function main() {
   stepSummary([
     "### WARN cache — per state",
     "",
-    "| State | Outcome | Notices | Data as of | This run |",
-    "|---|---|---:|---|---|",
-    ...report.map((r) => `| ${r.code} | ${r.outcome} | ${r.count} | ${r.asOf ?? "—"} | ${r.thisRun.replace(/\|/g, "¦")} |`),
+    "| State | Outcome | Notices | Employees | Data as of | This run |",
+    "|---|---|---:|---:|---|---|",
+    ...report.map(
+      (r) => `| ${r.code} | ${r.outcome} | ${r.count} | ${r.employees.toLocaleString("en-US")} | ${r.asOf ?? "—"} | ${r.thisRun.replace(/\|/g, "¦")} |`
+    ),
     "",
     `**${fresh.size} state(s) refreshed, ${carried.size} carried forward from an earlier run, ` +
       `${report.filter((r) => r.outcome === "none").length} with no data.**`,
