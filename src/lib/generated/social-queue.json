@@ -1,7 +1,53 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-11T00:59:09.342Z",
+  "updatedAt": "2026-09-11T17:00:30.450Z",
   "items": [
+    {
+      "id": "signal:warn-by-state::data_signal",
+      "subjectId": "signal:warn-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "scheduled",
+      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
+      "suggestedHeadline": null,
+      "sourceName": "State WARN Act notices (state open-data portals)",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:layoffs",
+      "priority": 30011,
+      "readerValue": 65,
+      "factsHash": "493892fbd9e12700",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
+      "ogImage": "/og/signal/warn-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": "afternoon",
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        }
+      ]
+    },
     {
       "id": "event:federal_register:2026-14539::effective_date",
       "subjectId": "event:federal_register:2026-14539",
@@ -15,11 +61,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66652.7111111111,
+      "priority": 66662.70555555556,
       "readerValue": 82,
-      "factsHash": "e1db56ee1c390ff9",
+      "factsHash": "3d44b0ecca979fa3",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 8 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 7 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -60,11 +106,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65082.694444444445,
+      "priority": 65092.688888888886,
       "readerValue": 54,
-      "factsHash": "5ddf0ffa50f39349",
+      "factsHash": "61f3df8b5a658945",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 5 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 4 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -92,6 +138,261 @@
       ]
     },
     {
+      "id": "signal:cbp-fiscal-year-to-date::data_signal",
+      "subjectId": "signal:cbp-fiscal-year-to-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Border encounters so far this fiscal year",
+      "suggestedHeadline": null,
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:border",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "e88f8ee75bd6e891",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
+      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+        },
+        {
+          "at": "2026-09-09T17:08:22.513Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-10T16:58:22.075Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        }
+      ]
+    },
+    {
+      "id": "signal:changes-last-30-days::data_signal",
+      "subjectId": "signal:changes-last-30-days",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "How much U.S. immigration policy changed in the last 30 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30009,
+      "readerValue": 65,
+      "factsHash": "4d225df3fc28a522",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
+      "ogImage": "/og/signal/changes-last-30-days.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
+    {
+      "id": "signal:effective-dates-ahead::data_signal",
+      "subjectId": "signal:effective-dates-ahead",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Immigration rules that take effect in the next 60 days",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:deadlines",
+      "priority": 30008,
+      "readerValue": 65,
+      "factsHash": "aba225aa0e8f1fc6",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
+      "ogImage": "/og/signal/effective-dates-ahead.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
+    {
+      "id": "signal:proposed-rules-open::data_signal",
+      "subjectId": "signal:proposed-rules-open",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Proposed immigration rules that are not in force",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30007,
+      "readerValue": 65,
+      "factsHash": "f9248b8652f519a5",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
+      "ogImage": "/og/signal/proposed-rules-open.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30006,
+      "readerValue": 65,
+      "factsHash": "23b61ae1a09b2919",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
+    {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
       "contentType": "data_signal",
@@ -104,7 +405,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -145,7 +446,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -186,7 +487,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -215,94 +516,46 @@
       ]
     },
     {
-      "id": "signal:warn-by-state::data_signal",
-      "subjectId": "signal:warn-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
+      "id": "event:uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8::why_it_matters",
+      "subjectId": "event:uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
       "status": "verified",
-      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
+      "headline": "Court Order on Diversity Immigrant Visa Program Hold Policy",
       "suggestedHeadline": null,
-      "sourceName": "State WARN Act notices (state open-data portals)",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:layoffs",
-      "priority": 30002,
-      "readerValue": 65,
-      "factsHash": "4409405f8e2494d6",
-      "whyItMatters": [],
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/court-order-on-diversity-immigrant-visa-program-hold-policy",
+      "eventId": "uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24928.96111111111,
+      "readerValue": 58,
+      "factsHash": "cbe0a050086d7bd3",
+      "whyItMatters": [
+        "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
-      "ogImage": "/og/signal/warn-by-state.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua",
+      "ogImage": "/og/change/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
+        "publishedAt": "2026-09-04",
+        "discoveredAt": "2026-09-11",
+        "expiresAt": "2026-10-02"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-11T17:00:30.411Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-11T17:00:30.411Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
-        }
-      ]
-    },
-    {
-      "id": "signal:cbp-fiscal-year-to-date::data_signal",
-      "subjectId": "signal:cbp-fiscal-year-to-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Border encounters so far this fiscal year",
-      "suggestedHeadline": null,
-      "sourceName": "CBP Nationwide Encounters",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:border",
-      "priority": 30001,
-      "readerValue": 65,
-      "factsHash": "e88f8ee75bd6e891",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
-      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
-        },
-        {
-          "at": "2026-09-09T17:08:22.513Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-10T16:58:22.075Z",
-          "status": "verified",
-          "reason": "deferred window passed"
+          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua"
         }
       ]
     },
@@ -319,7 +572,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22013,
+      "priority": 22014,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -362,7 +615,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -405,7 +658,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "84d826118dd24d8e",
       "whyItMatters": [
@@ -436,6 +689,49 @@
       ]
     },
     {
+      "id": "explainer:h1b-approvals-vs-workers::explainer",
+      "subjectId": "explainer:h1b-approvals-vs-workers",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Why an H-1B approval count is not the number of workers",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:work-visas",
+      "priority": 22011,
+      "readerValue": 60,
+      "factsHash": "026994ea743c7a2f",
+      "whyItMatters": [
+        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
+      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
+        }
+      ]
+    },
+    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -448,7 +744,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22009,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -491,7 +787,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22006,
+      "priority": 22007,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -534,7 +830,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22002,
+      "priority": 22003,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -565,49 +861,6 @@
       ]
     },
     {
-      "id": "explainer:h1b-approvals-vs-workers::explainer",
-      "subjectId": "explainer:h1b-approvals-vs-workers",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Why an H-1B approval count is not the number of workers",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 20010,
-      "readerValue": 60,
-      "factsHash": "026994ea743c7a2f",
-      "whyItMatters": [
-        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
-      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
-        }
-      ]
-    },
-    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -620,7 +873,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -663,7 +916,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -706,7 +959,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -749,7 +1002,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -792,7 +1045,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -835,7 +1088,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -866,47 +1119,6 @@
       ]
     },
     {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
-        }
-      ]
-    },
-    {
       "id": "discovery:change-archive-search::data_discovery",
       "subjectId": "discovery:change-archive-search",
       "contentType": "data_discovery",
@@ -919,9 +1131,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
-      "factsHash": "80fe61f557fffdbc",
+      "factsHash": "5ad4693b9542ba9d",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -960,9 +1172,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "20ec27f0f0e507b6",
+      "factsHash": "4fc2e77c8fa27c44",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/developers",
@@ -1001,7 +1213,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1042,7 +1254,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1083,7 +1295,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1124,7 +1336,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1165,7 +1377,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1190,6 +1402,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
         }
       ]
     },
@@ -1866,190 +2119,6 @@
           "at": "2026-09-08T17:13:43.310Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-08"
-        }
-      ]
-    },
-    {
-      "id": "signal:proposed-rules-open::data_signal",
-      "subjectId": "signal:proposed-rules-open",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "Proposed immigration rules that are not in force",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:policy-changes",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "badc4c6cbc88ae88",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
-      "ogImage": "/og/signal/proposed-rules-open.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        }
-      ]
-    },
-    {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "The next recurring immigration date on the calendar",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "76114b942db77c03",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        }
-      ]
-    },
-    {
-      "id": "signal:changes-last-30-days::data_signal",
-      "subjectId": "signal:changes-last-30-days",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "How much U.S. immigration policy changed in the last 30 days",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:policy-changes",
-      "priority": 30002,
-      "readerValue": 65,
-      "factsHash": "4e1e0843247b105f",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
-      "ogImage": "/og/signal/changes-last-30-days.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        }
-      ]
-    },
-    {
-      "id": "signal:effective-dates-ahead::data_signal",
-      "subjectId": "signal:effective-dates-ahead",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "Immigration rules that take effect in the next 60 days",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:deadlines",
-      "priority": 30001,
-      "readerValue": 65,
-      "factsHash": "218c3d705b56631c",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
-      "ogImage": "/og/signal/effective-dates-ahead.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/effective-dates-ahead"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
         }
       ]
     },
