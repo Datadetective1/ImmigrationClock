@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-11T17:00:30.450Z",
+  "updatedAt": "2026-09-11T19:36:17.857Z",
   "items": [
     {
       "id": "signal:warn-by-state::data_signal",
@@ -642,49 +642,6 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
-        }
-      ]
-    },
-    {
-      "id": "explainer:uscis-policy-manual-updates::explainer",
-      "subjectId": "explainer:uscis-policy-manual-updates",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What it means when USCIS updates the Policy Manual",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual; USCIS Policy Manual — Updates",
-      "sourceUrl": "https://www.uscis.gov/policy-manual",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:agency-process",
-      "priority": 22012,
-      "readerValue": 60,
-      "factsHash": "84d826118dd24d8e",
-      "whyItMatters": [
-        "A Policy Manual update can change how a case is decided as soon as it is posted, without the comment period or the 30-day lead a regulation gets. That speed is why the updates page is worth watching, and why an update is not the same kind of thing as a rule."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/uscis-policy-manual-updates",
-      "ogImage": "/og/explainer/uscis-policy-manual-updates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-policy-manual-updates"
         }
       ]
     },
@@ -1918,6 +1875,63 @@
         },
         {
           "at": "2026-09-09T23:09:50.191Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "explainer:uscis-policy-manual-updates::explainer",
+      "subjectId": "explainer:uscis-policy-manual-updates",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "What it means when USCIS updates the Policy Manual",
+      "suggestedHeadline": "Policy Manual updates are guidance, not regulation",
+      "sourceName": "USCIS Policy Manual; USCIS Policy Manual — Updates",
+      "sourceUrl": "https://www.uscis.gov/policy-manual",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:agency-process",
+      "priority": 22012,
+      "readerValue": 60,
+      "factsHash": "84d826118dd24d8e",
+      "whyItMatters": [
+        "A Policy Manual update can change how a case is decided as soon as it is posted, without the comment period or the 30-day lead a regulation gets. That speed is why the updates page is worth watching, and why an update is not the same kind of thing as a rule."
+      ],
+      "suggestedPost": {
+        "x": "What does it mean when USCIS updates the Policy Manual?\nIt’s guidance to officers, not a regulation, and not in the Federal Register.\nImmigrationClock logs each alert and records an effective date only if the alert states one.\nhttps://immigrationclock.com/explained/uscis-policy-manual-updates?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Auscis-policy-manual-updates",
+        "linkedin": "",
+        "structure": "question_answer"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/uscis-policy-manual-updates",
+      "ogImage": "/og/explainer/uscis-policy-manual-updates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-11T19:35:56.305Z",
+      "externalUrl": "https://x.com/i/web/status/2098495867736952959",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-policy-manual-updates"
+        },
+        {
+          "at": "2026-09-11T19:35:56.305Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-11T19:35:56.305Z",
           "status": "published",
           "reason": "published on x"
         }
