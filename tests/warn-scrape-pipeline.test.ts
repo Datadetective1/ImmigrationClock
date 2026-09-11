@@ -411,6 +411,86 @@ describe("refresh-warn-scraper.mjs", () => {
     expect(r.stderr).toMatch(/no state produced usable rows/);
   });
 
+  // Column shapes taken from the header rows the warn-scraper modules write.
+  function normalizeOne(code: string, csv: string) {
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(join(dir, `${code}.csv`), csv);
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "missing.json"));
+    expect(r.status, r.stderr).toBe(0);
+    return JSON.parse(readFileSync(out, "utf8")).notices[0];
+  }
+
+  it("reads Colorado's headcount (`jobs`) and start date (`begin_date`), and does not call an address a city", () => {
+    const n = normalizeOne(
+      "co",
+      "at_the_location,begin_date,company,contact,dropdown,email,end_date,fein,furloughs,jobs,letter,location,naics,notes,notice_date,occupations,permanent_job_losses,phone,reason,received_date,reduced_hours,temporary_job_losses,total_notified,workforce_area,workforce_region\n" +
+        ",2026-03-01,Front Range Co,,,,,,0,85,,\"4850 32nd Avenue South, Denver\",,,2026-01-15,,,,Closure,2026-01-15,,,85,,\n"
+    );
+    expect(n).toMatchObject({ employer: "Front Range Co", employees: 85, effectiveDate: "2026-03-01", noticeDate: "2026-01-15", city: null, state: "CO" });
+    // The `url` substring alias reaches `furloughs`; the https guard must keep
+    // that headcount out of sourceUrl.
+    expect(n.sourceUrl).toMatch(/^https:\/\/cdle\.colorado\.gov/);
+  });
+
+  it("reads Connecticut's filing date from `warn_document_date`, not the free-text layoff dates", () => {
+    const n = normalizeOne(
+      "ct",
+      "affected_company,layoff_dates,layoff_locations,number_of_impacted_workers,warn_document_date\n" +
+        "Nutmeg Corp,11/24/2025,Hartford,120,2025-09-30\n"
+    );
+    expect(n).toMatchObject({ employer: "Nutmeg Corp", noticeDate: "2025-09-30", effectiveDate: "2025-11-24", employees: 120, city: "Hartford" });
+  });
+
+  it("reads Alabama's type and start date, and never takes a date column for the state", () => {
+    const n = normalizeOne(
+      "al",
+      "Closing or Layoff,Initial Report Date,Planned Starting Date,Company,City,Planned # Affected Employees\n" +
+        "Closing,1/5/2026,3/1/2026,Yellowhammer Inc,Mobile,40\n"
+    );
+    expect(n).toMatchObject({ employer: "Yellowhammer Inc", layoffType: "Closing", noticeDate: "2026-01-05", effectiveDate: "2026-03-01", employees: 40, state: "AL" });
+  });
+
+  it("reads Illinois's IEBS export, preferring the revised headcount and ignoring the site's whole workforce", () => {
+    const header =
+      "location_name,doing_business_as_name,location_address,location_city,location_state,location_zipcode,county,lwia,lwia,layoff_type,warn_notice,trade,petition_date,determination,impact_date,certificationdate,exp_term_date,ataa_certified,causes,reason,status,report_source,industry,naics_codes,iebs_id,approximate_total_of_full_time_employees,expected_layoff,revised_layoff,initial_date_reported,last_report_date,notification_date_s,unions_involved,unions,has_public_layoff_assistance_web_page\n";
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(
+      join(dir, "il.csv"),
+      header +
+        "Prairie Works,,100 Main St,Peoria,IL,61602,Peoria,,,Permanent,Yes,,2025-01-09,,2026-04-30,,,,,,,,,,1,2500,140,155,2026-02-02,2026-02-10,2026-02-01,,,\n" +
+        "Second Site,,,Chicago,IL,,Cook,,,Temporary,Yes,,2025-01-09,,2026-05-15,,,,,,,,,,2,900,60,,2026-02-03,,,,,\n"
+    );
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "missing.json"));
+    expect(r.status, r.stderr).toBe(0);
+    const [a, b] = JSON.parse(readFileSync(out, "utf8")).notices;
+    // Revised (155) beats expected (140); the 2,500-person workforce is never the layoff.
+    expect(a).toMatchObject({ employer: "Prairie Works", employees: 155, noticeDate: "2026-02-02", effectiveDate: "2026-04-30", city: "Peoria", county: "Peoria", state: "IL", layoffType: "Permanent" });
+    // No revision → the expected figure; the TAA petition date is never the notice date.
+    expect(b).toMatchObject({ employer: "Second Site", employees: 60, noticeDate: "2026-02-03", effectiveDate: "2026-05-15" });
+  });
+
+  it("reads Missouri's and New York's column names", () => {
+    const mo = normalizeOne(
+      "mo",
+      "received_sort_descending,title,industry,location_s,county,region,type,layoff_date_s,affected,notes\n" +
+        "2026-03-04,Gateway Foods,Manufacturing,Kansas City,Jackson,West,Closure,2026-05-01,210,\n"
+    );
+    expect(mo).toMatchObject({ employer: "Gateway Foods", noticeDate: "2026-03-04", effectiveDate: "2026-05-01", employees: 210, city: "Kansas City", county: "Jackson", layoffType: "Closure", state: "MO" });
+    const ny = normalizeOne(
+      "ny",
+      "business_legal_name,date_layoff_closure_starts,date_of_warn_notice,date_posted,impacted_site_address,impacted_site_county,layoff_or_closure,permanent_or_temporary_layoff,reason_for_layoff_closure,index,number_of_affected_workers,number_of_affected_workers\n" +
+        "Empire Retail LLC,05/30/2026,03/02/2026,03/05/2026,\"1 Broadway, New York\",New York,Layoff,Permanent,Economic,1,75,75\n"
+    );
+    expect(ny).toMatchObject({ employer: "Empire Retail LLC", noticeDate: "2026-03-02", effectiveDate: "2026-05-30", employees: 75, county: "New York", layoffType: "Layoff", state: "NY" });
+  });
+
+  it("never matches a generic word like `title` as a substring of another column", () => {
+    const n = normalizeOne("xx", "job_title,company,notice_date,employees\nWelder,Widget Co,2026-01-01,12\n");
+    expect(n.employer).toBe("Widget Co");
+  });
+
   it("does not pass an effective date off as a notice date", () => {
     // Unchanged behaviour from before the rewrite, pinned: a state whose only
     // date column is the layoff date (NJ) gets noticeDate null.

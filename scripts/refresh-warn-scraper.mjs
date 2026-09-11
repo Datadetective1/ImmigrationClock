@@ -52,31 +52,73 @@ if (!SCRAPE_DIR || !existsSync(SCRAPE_DIR)) {
 }
 
 // Header aliases (cleaned to lower_snake). First present wins; then loose contains.
+//
+// The exact pass runs over the whole list before the substring pass, so an
+// exact name can sit anywhere; order only decides ties. Entries were checked
+// against the header row each warn-scraper module actually writes (2026-09):
+//   · Colorado publishes its headcount as `jobs` and its start date as
+//     `begin_date` — without those two every Colorado notice was 0 employees
+//     with no effective date.
+//   · Connecticut's filing date is `warn_document_date`; the generic `date`
+//     substring used to land on `layoff_dates` instead and then be nulled by
+//     the notice≠effective guard, so no Connecticut row had a notice date.
+//   · Alabama's type is `closing_or_layoff` and its start date
+//     `planned_starting_date`.
+//   · California writes `layoff_or_closure`; Arizona, Delaware, Kansas, Maine,
+//     Oklahoma and Vermont (the Job Center platform) write `warn_type`.
+//   · `st` is gone from the state aliases: no module writes a bare `st`
+//     column, and as a substring it matched `planned_starting_date` and
+//     `state_notification_date`. Only the two-character value guard below
+//     kept those from mis-attributing rows.
+//   · Illinois (IEBS export): employer is `location_name`, the filing date
+//     `initial_date_reported`, the layoff date `impact_date`, and the headcount
+//     `revised_layoff` when the state has revised it, else `expected_layoff`;
+//     `approximate_total_of_full_time_employees` is the site's whole workforce
+//     and must never be read as the layoff. Missouri: `title`, `affected`,
+//     `received_sort_descending`, `layoff_date_s`, `location_s`. New York:
+//     `business_legal_name`, `date_of_warn_notice`, `date_layoff_closure_starts`,
+//     `number_of_affected_workers`. All three states were "no employer column"
+//     in the 2026-09-11 dry run — 5,455 notices skipped between them.
 const ALIASES = {
-  employer: ["company", "company_name", "employer", "employer_name", "job_site_name", "business_name", "organization"],
-  city: ["city", "city_name", "location", "worksite_city", "location_city"],
+  employer: ["company", "company_name", "employer", "employer_name", "affected_company", "business_legal_name", "organization_name", "job_site_name", "business_name", "organization", "location_name", "title"],
+  city: ["city", "city_name", "worksite_city", "location_city", "location_s", "location"],
   county: ["county", "county_name", "county_parish"],
-  state: ["state", "state_code", "st"],
-  noticeDate: ["notice_date", "received_date", "date_received", "warn_date", "date_of_notice", "notice_received_date", "initial_report_date", "date_posted", "date"],
-  effectiveDate: ["effective_date", "layoff_date", "layoff_start_date", "separation_date", "closure_date", "layoff_begin_date"],
-  employees: ["employees_affected", "affected_employees", "number_affected", "total_layoff_number", "workforce_affected", "of_workers", "number_of_workers", "num_workers", "employees", "laid_off", "num_employees", "number_of_employees_affected", "workers_affected", "impact"],
-  layoffType: ["layoff_closure", "layoff_type", "type_of_layoff", "closure_type", "notice_type", "closure_layoff", "type"],
-  sourceUrl: ["detail_page_url", "source_url", "url", "link"],
+  state: ["state", "state_code"],
+  noticeDate: ["notice_date", "received_date", "date_received", "received_sort_descending", "warn_date", "warn_document_date", "date_of_warn_notice", "state_notification_date", "date_of_notice", "notice_received_date", "initial_report_date", "initial_date_reported", "notification_date_s", "date_posted", "date"],
+  effectiveDate: ["effective_date", "layoff_date", "layoff_start_date", "begin_date", "impact_date", "date_layoff_closure_starts", "layoff_date_s", "planned_starting_date", "effective_layoff_date", "separation_date", "closure_date", "layoff_begin_date"],
+  employees: ["employees_affected", "affected_employees", "number_affected", "total_layoff_number", "number_of_impacted_workers", "number_of_employees_affected", "number_of_affected_workers", "planned_affected_employees", "revised_layoff", "expected_layoff", "affected", "workforce_affected", "of_workers", "number_of_workers", "num_workers", "employees", "jobs", "laid_off", "num_employees", "workers_affected", "impact"],
+  layoffType: ["layoff_closure", "layoff_type", "type_of_layoff", "layoff_or_closure", "closing_or_layoff", "closure_type", "notice_type", "closure_layoff", "warn_type", "type"],
+  sourceUrl: ["detail_page_url", "source_url", "pdf_url", "url", "link"],
 };
+
+// Generic words that are safe as an exact column name but would match the
+// wrong column as a substring in some other state ("title" inside
+// "job_title", "jobs" inside "jobs_lost", "affected" inside a text column).
+const EXACT_ONLY = new Set(["title", "jobs", "affected", "location_name", "location_s"]);
 
 function cleanHeader(h) {
   return String(h).trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 }
+/**
+ * Column indexes for one field, best first. Every exact alias match is kept,
+ * in alias order, so a row can fall through to the next column when the first
+ * is empty — Illinois publishes `revised_layoff` beside `expected_layoff`, and
+ * only the rows the state has revised fill the first. Substring matching is
+ * the last resort and yields a single column.
+ */
 function pick(headers, aliases) {
+  const exact = [];
   for (const a of aliases) {
     const i = headers.indexOf(a);
-    if (i >= 0) return i;
+    if (i >= 0 && !exact.includes(i)) exact.push(i);
   }
+  if (exact.length) return exact;
   for (const a of aliases) {
+    if (EXACT_ONLY.has(a)) continue;
     const i = headers.findIndex((h) => h.includes(a));
-    if (i >= 0) return i;
+    if (i >= 0) return [i];
   }
-  return -1;
+  return [];
 }
 const MAX_EMPLOYEES = 1_000_000; // no single WARN notice is bigger; larger = data error
 const MIN_YEAR = 1988; // the WARN Act was enacted in 1988
@@ -110,6 +152,17 @@ function toIso(v) {
 function clean(v) {
   const s = String(v ?? "").trim();
   return s ? s : null;
+}
+/**
+ * A city, or null. Several portals publish a street address in the column the
+ * `location` alias reaches (Colorado's "Location Address", Connecticut's
+ * "layoff_locations"), and the feed table renders city + state as a place —
+ * "4850 32nd Avenue South, CO" is not one. A value that starts with a digit is
+ * an address, not a city.
+ */
+function cityOf(v) {
+  const s = clean(v);
+  return s && !/^\d/.test(s) ? s : null;
 }
 
 // Minimal RFC-4180 CSV parser (handles quotes, embedded commas/newlines).
@@ -182,30 +235,38 @@ function parseStateCsv(file, code) {
   if (grid.length < 2) return { notices: null, reason: "no data rows" };
   const headers = grid[0].map(cleanHeader);
   const idx = Object.fromEntries(Object.entries(ALIASES).map(([k, a]) => [k, pick(headers, a)]));
-  if (idx.employer < 0) return { notices: null, reason: `no employer column (${headers.join(",") || "empty header"})` };
+  if (idx.employer.length === 0) return { notices: null, reason: `no employer column (${headers.join(",") || "empty header"})` };
   // Guard against mislabeling: if "noticeDate" only matched the effective/layoff
   // date column (e.g. NJ, which publishes no received date), leave it null rather
   // than pass an effective date off as a notice date.
-  if (idx.noticeDate >= 0 && idx.noticeDate === idx.effectiveDate) idx.noticeDate = -1;
+  idx.noticeDate = idx.noticeDate.filter((i) => !idx.effectiveDate.includes(i));
   const portal = portalFor(code);
   const notices = [];
   for (let r = 1; r < grid.length; r++) {
     const row = grid[r];
-    const at = (i) => (i >= 0 && i < row.length ? row[i] : "");
-    const employer = String(at(idx.employer) || "").trim();
+    // First column, in alias order, whose value survives the field's parser.
+    const first = (cols, parse) => {
+      for (const i of cols) {
+        if (i >= row.length) continue;
+        const v = parse(row[i]);
+        if (v !== null && v !== 0 && v !== "") return v;
+      }
+      return null;
+    };
+    const employer = first(idx.employer, (v) => String(v ?? "").trim());
     if (!employer) continue;
-    const stateVal = clean(at(idx.state));
+    const stateVal = first(idx.state, clean);
     const state = stateVal && stateVal.length === 2 ? stateVal.toUpperCase() : code;
-    const src = clean(at(idx.sourceUrl));
+    const src = first(idx.sourceUrl, clean);
     notices.push({
       employer,
-      city: clean(at(idx.city)),
-      county: clean(String(at(idx.county)).replace(/\s+county$/i, "")),
+      city: first(idx.city, cityOf),
+      county: first(idx.county, (v) => clean(String(v ?? "").replace(/\s+county$/i, ""))),
       state,
-      noticeDate: toIso(at(idx.noticeDate)),
-      effectiveDate: toIso(at(idx.effectiveDate)),
-      employees: toInt(at(idx.employees)),
-      layoffType: clean(at(idx.layoffType)),
+      noticeDate: first(idx.noticeDate, toIso),
+      effectiveDate: first(idx.effectiveDate, toIso),
+      employees: first(idx.employees, toInt) ?? 0,
+      layoffType: first(idx.layoffType, clean),
       sourceUrl: src && /^https?:\/\//.test(src) ? src : portal,
     });
   }

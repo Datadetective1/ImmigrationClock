@@ -107,6 +107,12 @@ for raw in "$@"; do
     echo "--- last 20 lines of $log:"
     tail -n 20 "$log" 2>/dev/null || true
   fi
+  if [ "$status" = ok ]; then
+    # Header + first two rows, so a column the normalizer cannot map can be
+    # read off the run log instead of by downloading the artifact.
+    echo "--- first lines of $csv:"
+    head -n 3 "$csv" | cut -c1-600
+  fi
   echo "$S: $status (${rows} rows, ${secs}s, exit $rc)"
   echo "::endgroup::"
   if [ "$status" != ok ]; then
