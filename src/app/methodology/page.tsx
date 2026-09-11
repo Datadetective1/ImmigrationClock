@@ -181,7 +181,7 @@ export default function MethodologyPage() {
           <p className="text-sm leading-relaxed text-slate-300">
             {WARN_COVERAGE_SENTENCE} Every notice we show is a real filing republished from a state
             agency&rsquo;s open-data portal, with a link back to that portal on each row. We do not
-            estimate, model, or infer layoff notices — if a state has no machine-readable feed, we show
+            estimate, model, or infer layoff notices — if a state publishes nothing we can parse, we show
             nothing for it and say so.
           </p>
           <p className="text-sm leading-relaxed text-slate-300">

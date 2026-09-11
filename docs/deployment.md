@@ -181,8 +181,35 @@ adapter report that change on every run; hashing the file would deploy daily and
 defeat the free-tier gate.
 
 **`refresh-warn.yml`** — Tuesdays and Fridays. Needs Python, Selenium and Xvfb,
-which is exactly why it is a separate job: the site build stays Python-free and
-just reads the committed JSON.
+which is exactly why it is a separate workflow: the site build stays Python-free
+and just reads the committed JSON.
+
+It is three jobs: `plan` → `scrape` → `publish`. `plan` resolves the state list
+(`scripts/warn-states.mjs` — every parser the `warn-scraper` package ships, minus
+the states `build-warn.ts` already fetches live) into batches. `scrape` is a
+matrix, one runner per batch, and inside a batch **every state runs in its own
+process with its own timeout** (`.github/scripts/scrape-warn-states.sh`). That is
+the fix for the 2026-09-11 finding: the scraper CLI has no per-state error
+handling, so one portal hanging on a TCP connect ended the process, six of the
+eleven requested states were never attempted, two of the eleven had no parser at
+all, and `|| true` reported the run green. The site showed five states.
+
+`publish` merges the batches, normalizes them (`scripts/refresh-warn-scraper.mjs`)
+and commits. Two things to know about it:
+
+- **A state that fails keeps its last good snapshot.** The cache is merged per
+  state, not rebuilt from scratch, so one bad run no longer drops a state from
+  the site. Each state carries the date its portal was last actually read
+  (`scrapedAt`, surfaced as `asOf` on `/layoffs` and in the API), and the job
+  summary lists every state as `fresh`, `carried` or `none` with the reason.
+- **Only `publish` holds the `main-writer` lock.** Scraping forty portals takes
+  most of an hour; GitHub keeps at most one run waiting per concurrency group
+  and drops the next, so a long scrape inside the lock could have cost a
+  newsletter.
+
+To test a change without touching `main`, run the workflow manually with
+**commit** unticked: every state is scraped and reported, nothing is committed.
+The **states** input takes postal codes, `default`, or `all`.
 
 ### Automated pushes to a protected `main`
 

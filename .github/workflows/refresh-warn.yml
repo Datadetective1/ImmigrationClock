@@ -2,15 +2,36 @@
 # normalize into the committed cache, rebuild the site's WARN feed + public API,
 # and (only if the data actually changed) commit back to `main` → Vercel deploys.
 #
-# Why a separate job from refresh-data.yml: warn-scraper needs Python + system
-# packages (Xvfb for a few Selenium-based state scrapers) that the site build must
-# NOT depend on. This job produces src/lib/generated/warn-scraper.json (the wide
-# net); build-warn.ts then merges it with the always-live TX/OR/CA adapters. The
-# Vercel build itself stays Python-free — it just reads the committed JSON.
+# Shape — three jobs:
 #
-# Coverage note: warn-scraper is best-effort per state (formats change, some sites
-# rate-limit). A failed state is skipped, not fatal — partial refreshes are fine,
-# and build-warn keeps the last-good feed if everything fails.
+#   plan ──► scrape (matrix: one runner per batch of states) ──► publish
+#
+# · plan turns the `states` input into batches (scripts/warn-scrape-plan.mjs),
+#   dropping any code the scraper package has no parser for. Such a code used to
+#   crash the scrape mid-list, taking every later state with it.
+# · scrape runs each state IN ITS OWN PROCESS with its own timeout
+#   (.github/scripts/scrape-warn-states.sh) and uploads the CSVs plus a status
+#   record per state. Batches run in parallel and independently (fail-fast:
+#   false); a batch fails only when no state in it produced data.
+# · publish merges every batch, normalizes into src/lib/generated/warn-scraper.json
+#   — keeping the last good snapshot of any state that failed this run — rebuilds
+#   the feed, and commits if the data changed.
+#
+# Only publish holds the `main-writer` lock. Scraping forty portals can take the
+# better part of an hour, and the lock is shared with the daily data refresh,
+# the newsletter and the social poster: GitHub keeps at most one run waiting per
+# group and drops the next arrival, so a long scrape inside the lock could cost
+# a newsletter. Publish itself takes about two minutes.
+#
+# Why this is separate from refresh-data.yml: warn-scraper needs Python plus
+# system packages (Xvfb for the Selenium-based state scrapers) that the site
+# build must NOT depend on. The Vercel build stays Python-free — it just reads
+# the committed JSON.
+#
+# Before 2026-09-11 this was one job asking for eleven states in one process.
+# Georgia's portal hung on a TCP connect, the process died, six states were
+# never attempted, two of the eleven had no parser at all, and `|| true` made
+# the run green. The site showed five states.
 
 name: Refresh WARN feed (wide net)
 
@@ -21,30 +42,56 @@ on:
   workflow_dispatch:
     inputs:
       states:
-        description: "Space-separated postal codes to scrape (or 'all')"
+        description: "Postal codes to scrape (space-separated); 'default' = every supported state without a live adapter; 'all' = every supported state"
         required: false
-        default: "wa nj va md ga mn co ma ks in wi"
+        default: "default"
+      commit:
+        description: "Commit the refreshed data to main. Untick for a dry run that only reports per-state outcomes."
+        type: boolean
+        required: false
+        default: true
 
 permissions:
   contents: write # the only scope needed: commit + push generated data
 
-# Shared with refresh-data.yml — see the note there. Both write generated files
-# to `main`, so they must never hold the lock at the same time.
-concurrency:
-  group: main-writer
-  cancel-in-progress: false
+env:
+  WARN_STATES: ${{ github.event.inputs.states || 'default' }}
+  # Seconds one state may run before it is killed. Georgia once hung on a TCP
+  # connect for the rest of the job; now it can only cost itself.
+  WARN_STATE_TIMEOUT: "420"
 
 jobs:
-  refresh-warn:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
-    env:
-      STATES: ${{ github.event.inputs.states || 'wa nj va md ga mn co ma ks in wi' }}
+    timeout-minutes: 5
+    outputs:
+      batches: ${{ steps.plan.outputs.batches }}
+      states: ${{ steps.plan.outputs.states }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          # Full history — `git pull --rebase` before the push needs it.
-          fetch-depth: 0
+          node-version: "20"
+      - name: Resolve the state list and split it into batches
+        id: plan
+        run: node scripts/warn-scrape-plan.mjs --batches 5 "$WARN_STATES"
+
+  scrape:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      # One batch's failure must never cancel the others.
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        batch: ${{ fromJSON(needs.plan.outputs.batches) }}
+    name: scrape ${{ matrix.batch.name }}
+    env:
+      # Passed through the environment, never interpolated into the shell line.
+      BATCH_STATES: ${{ matrix.batch.states }}
+    steps:
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
@@ -56,6 +103,44 @@ jobs:
           python -m pip install --upgrade pip
           pip install warn-scraper
 
+      - name: Scrape each state in its own process (one failure cannot stop the rest)
+        run: |
+          mkdir -p /tmp/warn
+          # shellcheck disable=SC2086 — the list is meant to word-split
+          bash .github/scripts/scrape-warn-states.sh /tmp/warn $BATCH_STATES
+
+      - name: Upload CSVs, per-state status records and logs
+        # always(): a batch that timed out still hands over what it scraped.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: warn-scrape-${{ strategy.job-index }}
+          path: |
+            /tmp/warn/*.csv
+            /tmp/warn/status/
+            /tmp/warn/logs/
+          if-no-files-found: warn
+          retention-days: 7
+
+  publish:
+    needs: [plan, scrape]
+    # Runs even when a batch failed or timed out: whatever was scraped is
+    # published and every other state keeps its last good snapshot.
+    if: ${{ !cancelled() && needs.plan.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Shared with refresh-data.yml, newsletter.yml and social.yml — see the note
+    # in refresh-data.yml. Only this job writes to `main`, so only it takes the
+    # lock; the scrape above runs outside it.
+    concurrency:
+      group: main-writer
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history — `git pull --rebase` before the push needs it.
+          fetch-depth: 0
+
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -64,21 +149,17 @@ jobs:
       - name: Install node dependencies
         run: npm ci
 
-      - name: Scrape state WARN portals (best-effort; failures are skipped)
-        continue-on-error: true
-        run: |
-          mkdir -p /tmp/warn
-          echo "Scraping: $STATES"
-          xvfb-run -a warn-scraper --data-dir /tmp/warn --cache-dir /tmp/warn/cache -l warning $STATES || true
-          echo "### Scraped CSVs" >> "$GITHUB_STEP_SUMMARY"
-          for f in /tmp/warn/*.csv; do
-            [ -e "$f" ] || continue
-            echo "- $(basename "$f"): $(($(wc -l < "$f") - 1)) rows" >> "$GITHUB_STEP_SUMMARY"
-          done
+      - name: Collect every batch's output
+        uses: actions/download-artifact@v4
+        with:
+          pattern: warn-scrape-*
+          path: /tmp/warn
+          merge-multiple: true
 
       - name: Normalize CSVs → committed cache (src/lib/generated/warn-scraper.json)
         run: |
           echo "::group::Generation — normalize scraped CSVs into the committed cache"
+          ls -la /tmp/warn /tmp/warn/status 2>/dev/null || true
           WARN_SCRAPE_DIR=/tmp/warn npm run refresh:warn-scraper
           echo "::endgroup::"
 
@@ -109,16 +190,16 @@ jobs:
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
           echo "WARN data changed: $CHANGED" >> "$GITHUB_STEP_SUMMARY"
 
-      # Same shared script as refresh-data.yml. Note this now also carries
-      # src/lib/generated/warn-summary.json, which build-warn.ts regenerates on
-      # every run but the old hand-written `git add` list omitted entirely.
+      # Same shared script as refresh-data.yml; it carries warn-summary.json and
+      # the scraper cache alongside warn.json and the public API files.
       - name: Commit refreshed WARN data & push to main (triggers deploy)
-        if: steps.changed.outputs.changed == 'true'
+        # On a schedule there are no inputs, so `commit` is empty and this runs.
+        if: steps.changed.outputs.changed == 'true' && github.event.inputs.commit != 'false'
         run: |
           bash .github/scripts/commit-and-push.sh "chore(warn): refresh wide-net WARN feed"
 
       - name: Optional Vercel deploy hook
-        if: steps.changed.outputs.changed == 'true'
+        if: steps.changed.outputs.changed == 'true' && github.event.inputs.commit != 'false'
         env:
           HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
         run: |
@@ -128,6 +209,12 @@ jobs:
             echo "No VERCEL_DEPLOY_HOOK set — relying on Vercel git integration to auto-deploy."
           fi
 
+      - name: Dry run — nothing committed
+        if: github.event.inputs.commit == 'false'
+        run: |
+          echo "Dry run: the refreshed cache was built and validated but not committed (changed=${{ steps.changed.outputs.changed }})."
+          echo "- **dry run:** nothing committed" >> "$GITHUB_STEP_SUMMARY"
+
       - name: No change — skip
-        if: steps.changed.outputs.changed != 'true'
+        if: steps.changed.outputs.changed != 'true' && github.event.inputs.commit != 'false'
         run: echo "WARN data unchanged — nothing committed."

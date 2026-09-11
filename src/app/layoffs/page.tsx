@@ -20,7 +20,7 @@ import { formatNumber, formatDate } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Live Layoffs — WARN Notices",
   description:
-    "WARN Act layoff notices from state open-data portals: employer, location, employees affected and effective date, each linked to its source.",
+    "WARN Act layoff notices from state WARN portals: employer, location, employees affected and effective date, each linked to its source.",
   path: "/layoffs",
   image: ogImagePath("page", "layoffs"),
   keywords: ["WARN notices", "layoff tracker", "WARN Act layoffs", "layoffs by state", "mass layoff notices"],
@@ -52,7 +52,7 @@ export default function LayoffsPage() {
       <PageHeader
         eyebrow="Jobs & Workforce"
         title="Live layoffs — WARN notices"
-        description="Employer layoff and plant-closing notices, pulled directly from state open-data portals and refreshed each build. Every row links back to the government source it came from."
+        description="Employer layoff and plant-closing notices, pulled from state WARN portals and refreshed on a schedule. Every row links back to the government source it came from."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/layoffs", label: "Live layoffs" },
@@ -81,16 +81,17 @@ export default function LayoffsPage() {
         />
 
         <MethodologyNote>
-          There is no national WARN feed. This tracks the states that publish a{" "}
-          <span className="font-semibold text-white">structured, machine-readable</span> feed — a growing subset,
-          not a national total. Not every state has a WARN act, and press-based trackers miss the small notices
-          this captures. Coverage today: {WARN_META.stateCount} states.
+          There is no national WARN feed. This tracks every state whose WARN portal we can{" "}
+          <span className="font-semibold text-white">read and parse</span> — open-data feeds fetched on each build,
+          plus HTML, Excel and PDF listings parsed by the open-source warn-scraper on a twice-weekly schedule. A
+          growing subset, not a national total: not every state has a WARN act or a public portal. Press-based
+          trackers miss the small notices this captures. Coverage today: {WARN_META.stateCount} states.
         </MethodologyNote>
 
         {/* State coverage — each links to the government portal the data comes from. */}
         <ChartCard
           title="State coverage"
-          subtitle="Machine-readable WARN feeds we ingest directly. More states are added as they publish open data."
+          subtitle="Every state portal in the feed, linked to the agency page it was read from. Freshness varies by state: each shows the date its portal was last read."
         >
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {WARN_STATES.map((s) => (
@@ -110,6 +111,9 @@ export default function LayoffsPage() {
                     {formatNumber(s.employeesTotal)}
                   </div>
                   <div className="text-xs text-slate-500">{formatNumber(s.noticeCount)} notices</div>
+                  {s.asOf ? (
+                    <div className="text-[11px] text-slate-600">read {formatDate(s.asOf.slice(0, 10))}</div>
+                  ) : null}
                 </div>
               </a>
             ))}
@@ -144,7 +148,7 @@ export default function LayoffsPage() {
           title="Most recent notices"
           subtitle={`Latest ${Math.min(TABLE_LIMIT, notices.length)} of ${formatNumber(WARN_META.noticeCount)} tracked notices`}
           source={{
-            sourceName: "State WARN open-data portals",
+            sourceName: "State WARN portals",
             sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn",
             sourceUpdatedAt: WARN_META.maxNoticeDate ?? WARN_META.generatedAt.slice(0, 10),
           }}
