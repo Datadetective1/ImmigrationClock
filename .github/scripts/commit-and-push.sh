@@ -43,6 +43,17 @@ DEFAULT_PATHS=(
   "public/api"
   "public/newsletter"
   "public/data-manifest.json"
+  # The retained source-document store. Written during ingest by the
+  # federal-register and executive-actions adapters via putSourceText(), so
+  # every run that finds new documents leaves it dirty.
+  #
+  # Missing from this list between 2026-09-04 and its addition here, and the
+  # consequence was not staleness but a hard stop: `git pull --rebase` refuses
+  # to run against a dirty tree, so the push below failed five times and the job
+  # exited 1. That killed the daily refresh every day from 2026-09-05, and on
+  # 2026-09-10 it killed the newsletter BEFORE the send step — the issue was
+  # built, validated and cleared for delivery, and no email went out.
+  "data/source-text"
 )
 
 if [ "$#" -gt 0 ]; then
@@ -82,6 +93,28 @@ fi
 
 git add -A -- "${PRESENT[@]}"
 echo "::endgroup::"
+
+# ── Anything regenerated but NOT in the path list? ──────────────────────────
+# This is the check that was missing. When a new generated output appears
+# outside the list above, the working tree stays dirty after staging, and the
+# only symptom used to be `git pull --rebase` refusing to run — reported as
+# "cannot pull with rebase: You have unstaged changes" and then, five attempts
+# later, as an error suggesting branch protection. The real cause was never
+# named, so the daily refresh failed for six days and the newsletter for a week
+# before anyone traced it.
+#
+# Named here instead, with the files, so the next omission is one line in the
+# log rather than an archaeology exercise. A warning and not an error: the
+# autostash below means the push still succeeds, and stopping the newsletter
+# because a cache file is uncommitted would be the same trade that caused this
+# incident.
+STRAY="$(git diff --name-only)"
+if [ -n "$STRAY" ]; then
+  echo "::group::Regenerated but not staged"
+  echo "$STRAY" | sed 's/^/  /'
+  echo "::endgroup::"
+  echo "::warning::$(echo "$STRAY" | wc -l | tr -d ' ') tracked file(s) were regenerated but are not in this script's path list, so they will NOT be committed. If they are generated output, add their path to DEFAULT_PATHS in .github/scripts/commit-and-push.sh."
+fi
 
 # ── Nothing to do? Succeed quietly. ─────────────────────────────────────────
 if git diff --cached --quiet; then
@@ -123,7 +156,14 @@ for attempt in $(seq 1 "$ATTEMPTS"); do
   echo "::group::Push attempt $attempt of $ATTEMPTS"
 
   echo "rebasing onto origin/$BRANCH ..."
-  if ! git pull --rebase origin "$BRANCH"; then
+  # --autostash, because a dirty working tree must never be able to stop a
+  # publish. Callers legitimately commit a subset (social.yml passes two files),
+  # and any regenerated output outside the path list leaves the tree dirty —
+  # which made `git pull --rebase` refuse outright and took down the daily
+  # refresh and one week's newsletter. Git stashes the remainder, rebases, and
+  # reapplies it; nothing is discarded, and the warning above still says what
+  # was left behind.
+  if ! git -c rebase.autoStash=true pull --rebase origin "$BRANCH"; then
     # A conflict here means someone changed the same generated files. Resolving
     # it automatically would mean guessing whose data is correct, so the rebase
     # is abandoned and retried from a clean state instead.
