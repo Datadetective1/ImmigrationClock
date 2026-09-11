@@ -207,6 +207,13 @@ and commits. Two things to know about it:
   and drops the next, so a long scrape inside the lock could have cost a
   newsletter.
 
+- **A read that shrank by more than half is treated as partial.** WARN
+  archives only grow; the Job Center portals (AZ, DE, KS, ME, OK, VT) return
+  wildly different row counts between runs when they rate-limit. A state whose
+  read comes back under half of its kept snapshot keeps the snapshot and is
+  reported as `partial read`. If a portal genuinely pruned its archive, run
+  the workflow once with that code in the **accept_partial** input.
+
 To test a change without touching `main`, run the workflow manually with
 **commit** unticked: every state is scraped and reported, nothing is committed.
 The **states** input takes postal codes, `default`, or `all`.

@@ -217,6 +217,12 @@ describe("refresh-warn.yml", () => {
     expect(commit).toMatch(/commit-and-push\.sh/);
   });
 
+  it("passes the accept_partial input through to the normalizer", () => {
+    expect(WORKFLOW_TEXT).toMatch(/^      accept_partial:\n/m);
+    const normalize = stepBlock("publish", /Normalize CSVs/);
+    expect(normalize).toMatch(/WARN_ACCEPT_PARTIAL: \$\{\{ github\.event\.inputs\.accept_partial \}\}/);
+  });
+
   it("defaults the state list to the planner's 'default' keyword, not a hand-written list", () => {
     expect(WORKFLOW_TEXT).toMatch(/^      states:\n(?:        .*\n)*?        default: "default"$/m);
     expect(WORKFLOW_TEXT).toMatch(/^  WARN_STATES: \$\{\{ github\.event\.inputs\.states \|\| 'default' \}\}$/m);
@@ -544,6 +550,93 @@ describe("refresh-warn-scraper.mjs", () => {
     // into a single field, shifting every later column of the file.
     const n = normalizeOne("nj", 'Company,City,Effective Date,Employees\nAcme 12" Pipe Co,Newark,2026-02-01,50\nNext Co,Camden,2026-03-01,60\n');
     expect(n).toMatchObject({ employer: 'Acme 12" Pipe Co', city: "Newark", effectiveDate: "2026-02-01", employees: 50 });
+  });
+
+  it("reads the first figure of a headcount cell, never a concatenation of every digit", () => {
+    const csv =
+      "Company,City,Notice Date,Employees\n" +
+      "Range Co,A,2026-01-01,50-75\n" +
+      "Thousands Co,A,2026-01-01,\"1,200\"\n" +
+      "Note Co,A,2026-01-01,Up to 300\n" +
+      "Amended Co,A,2026-01-01,45 (amended)\n" +
+      "Unknown Co,A,2026-01-01,TBA\n" +
+      "List Co,A,2026-01-01,100 / 50\n";
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(join(dir, "ri.csv"), csv);
+    const out = join(dir, "out.json");
+    expect(runNormalizer(dir, out, join(dir, "missing.json")).status).toBe(0);
+    const employees = JSON.parse(readFileSync(out, "utf8")).notices.map((n: any) => n.employees);
+    expect(employees).toEqual([50, 1200, 300, 45, 0, 100]);
+  });
+
+  it("reads the headcount columns of Iowa, Indiana, Nebraska, Utah and Wisconsin", () => {
+    // Header rows from the 2026-09-11 run; all five parsed with 0 employees before.
+    const ia = normalizeOne(
+      "ia",
+      "Company,Address Line 1,City,County,St,ZIP,Notice Type,Emp #,Notice Date,Layoff Date,Local Workforce Area,Industry\n" +
+        "CNH Industrial America LLC ,1930 Des Moines Ave,Burlington,Des Moines,IA,52601,Closing ,7,2026-01-20 00:00:00,2026-03-02 00:00:00,Mississippi Valley ,Manufacturing \n"
+    );
+    expect(ia).toMatchObject({ employer: "CNH Industrial America LLC", employees: 7, noticeDate: "2026-01-20", effectiveDate: "2026-03-02", city: "Burlington", county: "Des Moines", layoffType: "Closing" });
+    const inn = normalizeOne(
+      "in",
+      "Company,City,Affected Workers,Notice Date,LO/CL Date,NAICS,Description of Work/Industry,Notice Type,\n" +
+        "PMG Indiana,Columbus,150,9/2/2026,12/31/2026,336110,Automobile and Light Duty Motor Vehicle Manufacturing,CL,\n"
+    );
+    expect(inn).toMatchObject({ employer: "PMG Indiana", employees: 150, noticeDate: "2026-09-02", effectiveDate: "2026-12-31", layoffType: "CL" });
+    const ne = normalizeOne("ne", "Date,Company,Type,Jobs Affected,City,Location\n08/26/2026,Fortrex 0129 Madison,,91,,Madison\n");
+    // An empty City cell falls through to Location.
+    expect(ne).toMatchObject({ employer: "Fortrex 0129 Madison", employees: 91, noticeDate: "2026-08-26", city: "Madison" });
+    const ut = normalizeOne("ut", "Date of Notice,Company Name,Location,Affected Workers\n10/30/26,Point Designs,Bountiful,8\n");
+    expect(ut).toMatchObject({ employer: "Point Designs", employees: 8, noticeDate: "2026-10-30", city: "Bountiful" });
+    const wi = normalizeOne(
+      "wi",
+      "Company,City,Affected Workers,Notice Received,Original Notice Type / Update Type,Layoff Begin Date,NAICS Description,CountyWorkforce Development Area\n" +
+        "Semco Windows and Doors,Merrill,141,20200102,CL,12/31/2019,Wood Window & Door Mfg.,Lincoln,North Central\n"
+    );
+    // yyyymmdd notice date; the county header is fused with the next column's name in the file.
+    expect(wi).toMatchObject({ employer: "Semco Windows and Doors", employees: 141, noticeDate: "2020-01-02", effectiveDate: "2019-12-31", layoffType: "CL", county: "Lincoln" });
+  });
+
+  it("keeps the earlier snapshot when a read comes back under half of it, unless told to accept it", () => {
+    // Arizona: 460 rows in one run, 91 an hour later. Archives only grow.
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    const rows = Array.from({ length: 10 }, (_, i) => `Co ${i},Phoenix,2026-01-0${(i % 9) + 1},5`).join("\n");
+    writeFileSync(join(dir, "az.csv"), `Company,City,Notice Date,Employees\n${rows}\n`);
+    const prev = {
+      ...PREVIOUS_CACHE,
+      states: [{ code: "AZ", count: 40, portal: "old", scrapedAt: "2026-09-01T09:00:00Z" }],
+      notices: Array.from({ length: 40 }, (_, i) => ({ employer: `Old ${i}`, city: null, county: null, state: "AZ", noticeDate: "2025-01-01", effectiveDate: null, employees: 3, layoffType: null, sourceUrl: "old" })),
+    };
+    writeFileSync(join(dir, "prev.json"), JSON.stringify(prev));
+    writeFileSync(join(dir, "nj.csv"), 'Company,City,Effective Date,Employees\nNew Jersey Co,Trenton,2026-01-05,120\n');
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "prev.json"));
+    expect(r.status).toBe(0);
+    const az = JSON.parse(readFileSync(out, "utf8")).states.find((s: any) => s.code === "AZ");
+    expect(az).toMatchObject({ status: "carried", count: 40, scrapedAt: "2026-09-01T09:00:00Z" });
+    expect(r.stderr).toMatch(/AZ: partial read — 10 rows where the last good read had 40; kept the earlier snapshot/);
+
+    const r2 = spawnSync("node", [NORMALIZER], {
+      encoding: "utf8",
+      env: { ...process.env, WARN_SCRAPE_DIR: dir, WARN_SCRAPER_OUT: out, WARN_SCRAPER_PREVIOUS: join(dir, "prev.json"), WARN_ACCEPT_PARTIAL: "az" },
+    });
+    expect(r2.status).toBe(0);
+    expect(JSON.parse(readFileSync(out, "utf8")).states.find((s: any) => s.code === "AZ")).toMatchObject({ status: "fresh", count: 10 });
+  });
+
+  it("skips positional rows whose width does not match the layout, and says how many", () => {
+    const dir = mkdtempSync(join(tmpdir(), "warn-norm-"));
+    writeFileSync(
+      join(dir, "md.csv"),
+      "\n" +
+        '08/31/2026,459510,"ThriftBooks Global, LLC","4734 Trident Court",Baltimore County,136,10/31/2026,Plant Closure\n' +
+        "08/25/2026,541810,Short Row Co,Anne Arundel County,20,10/30/2026,Mass Layoff\n"
+    );
+    const out = join(dir, "out.json");
+    const r = runNormalizer(dir, out, join(dir, "missing.json"));
+    expect(r.status).toBe(0);
+    expect(JSON.parse(readFileSync(out, "utf8")).notices).toHaveLength(1);
+    expect(r.stdout).toMatch(/MD: 1 notices, 136 employees \(1 rows skipped: not MD's 8-column layout\)/);
   });
 
   it("never matches a generic word like `title` as a substring of another column", () => {

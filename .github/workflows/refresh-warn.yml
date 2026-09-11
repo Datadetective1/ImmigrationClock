@@ -50,6 +50,10 @@ on:
         type: boolean
         required: false
         default: true
+      accept_partial:
+        description: "Postal codes (or 'all') whose smaller-than-last-time read should replace the kept snapshot — only when a portal really pruned its archive"
+        required: false
+        default: ""
 
 permissions:
   contents: write # the only scope needed: commit + push generated data
@@ -160,6 +164,8 @@ jobs:
           merge-multiple: true
 
       - name: Normalize CSVs → committed cache (src/lib/generated/warn-scraper.json)
+        env:
+          WARN_ACCEPT_PARTIAL: ${{ github.event.inputs.accept_partial }}
         run: |
           echo "::group::Generation — normalize scraped CSVs into the committed cache"
           ls -la /tmp/warn /tmp/warn/status 2>/dev/null || true

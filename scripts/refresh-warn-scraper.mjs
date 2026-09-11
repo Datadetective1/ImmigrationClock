@@ -84,9 +84,9 @@ const ALIASES = {
   city: ["city", "city_name", "worksite_city", "location_city", "location_s", "location"],
   county: ["county", "county_name", "county_parish"],
   state: ["state", "state_code"],
-  noticeDate: ["notice_date", "received_date", "date_received", "received_sort_descending", "warn_date", "warn_document_date", "date_of_warn_notice", "state_notification_date", "date_of_notice", "notice_received_date", "initial_report_date", "initial_date_reported", "notification_date_s", "date_posted", "date"],
-  effectiveDate: ["effective_date", "date_effective", "layoff_date", "layoff_start_date", "begin_date", "impact_date", "date_layoff_closure_starts", "layoff_date_s", "planned_starting_date", "effective_layoff_date", "separation_date", "closure_date", "layoff_begin_date"],
-  employees: ["employees_affected", "affected_employees", "number_affected", "total_layoff_number", "number_of_impacted_workers", "number_of_employees_affected", "number_of_affected_workers", "planned_affected_employees", "revised_layoff", "expected_layoff", "affected", "workforce_affected", "of_workers", "number_of_workers", "num_workers", "employees", "jobs", "laid_off", "num_employees", "workers_affected", "impact"],
+  noticeDate: ["notice_date", "received_date", "date_received", "notice_received", "received_sort_descending", "warn_date", "warn_document_date", "date_of_warn_notice", "state_notification_date", "date_of_notice", "notice_received_date", "initial_report_date", "initial_date_reported", "notification_date_s", "date_posted", "date"],
+  effectiveDate: ["effective_date", "date_effective", "layoff_date", "layoff_start_date", "lo_cl_date", "begin_date", "impact_date", "date_layoff_closure_starts", "layoff_date_s", "planned_starting_date", "effective_layoff_date", "separation_date", "closure_date", "layoff_begin_date"],
+  employees: ["employees_affected", "affected_employees", "affected_workers", "jobs_affected", "number_affected", "total_layoff_number", "number_of_impacted_workers", "number_of_employees_affected", "number_of_affected_workers", "planned_affected_employees", "revised_layoff", "expected_layoff", "affected", "emp", "workforce_affected", "of_workers", "number_of_workers", "num_workers", "employees", "jobs", "laid_off", "num_employees", "workers_affected", "impact"],
   // `reason` sits before `layoff_type` for Illinois, whose `layoff_type` is
   // "State"/"Federal" (which WARN act applies) while `reason` is the closure
   // or layoff itself.
@@ -107,7 +107,7 @@ const POSITIONAL_HEADERS = {
 // Generic words that are safe as an exact column name but would match the
 // wrong column as a substring in some other state ("title" inside
 // "job_title", "jobs" inside "jobs_lost", "affected" inside a text column).
-const EXACT_ONLY = new Set(["title", "jobs", "affected", "location_name", "location_s"]);
+const EXACT_ONLY = new Set(["title", "jobs", "affected", "emp", "location_name", "location_s"]);
 
 function cleanHeader(h) {
   return String(h).trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
@@ -135,9 +135,18 @@ function pick(headers, aliases) {
 }
 const MAX_EMPLOYEES = 1_000_000; // no single WARN notice is bigger; larger = data error
 const MIN_YEAR = 1988; // the WARN Act was enacted in 1988
+/**
+ * The FIRST figure in a headcount cell, thousands separators removed.
+ *
+ * Cells carry ranges ("50-75"), multi-site lists ("100 / 50") and notes ("Up
+ * to 300", "45 (amended)"). Concatenating every digit turned "50-75" into
+ * 5,075 and put Rhode Island at 2,458 employees per notice in the 2026-09-11
+ * dry run. The first figure is the low end of a range and the first site of
+ * a list: an undercount at worst, never an invented number.
+ */
 function toInt(v) {
-  const d = String(v ?? "").replace(/[^0-9]/g, "");
-  const n = d ? parseInt(d, 10) : 0;
+  const m = String(v ?? "").replace(/(\d),(?=\d{3})/g, "$1").match(/\d+/);
+  const n = m ? parseInt(m[0], 10) : 0;
   return Number.isFinite(n) && n >= 0 && n <= MAX_EMPLOYEES ? n : 0;
 }
 function toIso(v) {
@@ -146,6 +155,10 @@ function toIso(v) {
   let iso = null;
   let m = s.match(/^(\d{4})-(\d{2})-(\d{2})/); // yyyy-mm-dd[ hh:mm:ss]
   if (m) iso = `${m[1]}-${m[2]}-${m[3]}`;
+  if (!iso) {
+    m = s.match(/^(\d{4})(\d{2})(\d{2})$/); // yyyymmdd (Wisconsin)
+    if (m) iso = `${m[1]}-${m[2]}-${m[3]}`;
+  }
   if (!iso) {
     m = s.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{2,4})/); // m/d/yyyy
     if (m) {
@@ -247,6 +260,7 @@ function parseStateCsv(file, code) {
   }
   if (grid.length < 2) return { notices: null, reason: "no data rows" };
   let headers = grid[0].map(cleanHeader);
+  let positional = false;
   if (headers.every((h) => !h)) {
     const layout = POSITIONAL_HEADERS[code];
     const width = grid[1].length;
@@ -254,6 +268,7 @@ function parseStateCsv(file, code) {
       return { notices: null, reason: `empty header row and no ${width}-column layout for ${code}` };
     }
     headers = layout;
+    positional = true;
   }
   const idx = Object.fromEntries(Object.entries(ALIASES).map(([k, a]) => [k, pick(headers, a)]));
   if (idx.employer.length === 0) return { notices: null, reason: `no employer column (${headers.join(",") || "empty header"})` };
@@ -264,8 +279,15 @@ function parseStateCsv(file, code) {
   const portal = portalFor(code);
   const notices = [];
   let otherState = 0;
+  let wrongWidth = 0;
   for (let r = 1; r < grid.length; r++) {
     const row = grid[r];
+    // Without a header, a row of a different width cannot be read by
+    // position — its employees cell would be some other column's value.
+    if (positional && row.length !== headers.length) {
+      wrongWidth++;
+      continue;
+    }
     // First column, in alias order, whose value survives the field's parser.
     const first = (cols, parse) => {
       for (const i of cols) {
@@ -299,7 +321,7 @@ function parseStateCsv(file, code) {
     });
   }
   if (notices.length === 0) return { notices: null, reason: "no rows with an employer" };
-  return { notices, reason: "", otherState };
+  return { notices, reason: "", otherState, wrongWidth };
 }
 
 function stepSummary(lines) {
@@ -318,7 +340,7 @@ function main() {
   const unusable = new Map(); // code → reason (a CSV that exists but yields nothing)
   for (const file of files) {
     const code = basename(file, ".csv").toUpperCase().slice(0, 2);
-    const { notices, reason, otherState } = parseStateCsv(file, code);
+    const { notices, reason, otherState, wrongWidth } = parseStateCsv(file, code);
     if (!notices) {
       console.warn(`[refresh-warn-scraper] ${file}: ${reason}; skipping`);
       unusable.set(code, reason);
@@ -333,8 +355,40 @@ function main() {
     const employees = notices.reduce((t, n) => t + n.employees, 0);
     console.log(
       `[refresh-warn-scraper] ${code}: ${notices.length} notices, ${employees.toLocaleString("en-US")} employees` +
-        (otherState ? ` (${otherState} rows list a worksite in another state; kept as ${code})` : "")
+        (otherState ? ` (${otherState} rows list a worksite in another state; kept as ${code})` : "") +
+        (wrongWidth ? ` (${wrongWidth} rows skipped: not ${code}'s ${POSITIONAL_HEADERS[code].length}-column layout)` : "")
     );
+  }
+
+  // ── 1b. A read that shrank by more than half is a partial read ────────────
+  // WARN archives only grow. A portal that returns 91 rows where the last good
+  // read had 460 (Arizona, in two runs an hour apart) has been paginated short
+  // or rate-limited, not pruned — and replacing the snapshot would silently
+  // drop four fifths of a state. The earlier snapshot is kept and the run
+  // says so. When a portal really has pruned its archive, pass the code in
+  // WARN_ACCEPT_PARTIAL (or "all") once to accept the smaller read as the new
+  // baseline.
+  const PARTIAL_FLOOR = 20; // below this a halving is noise, not a signal
+  const acceptPartial = new Set(
+    String(process.env.WARN_ACCEPT_PARTIAL ?? "").toUpperCase().split(/[\s,]+/).filter(Boolean)
+  );
+  const partial = new Map(); // code → reason
+  if (previous) {
+    const before = new Map();
+    for (const n of previous.notices) {
+      const code = String(n.state || "").toUpperCase();
+      before.set(code, (before.get(code) ?? 0) + 1);
+    }
+    for (const [code, data] of fresh) {
+      const had = before.get(code) ?? 0;
+      if (had < PARTIAL_FLOOR || data.notices.length * 2 >= had) continue;
+      if (acceptPartial.has(code) || acceptPartial.has("ALL")) {
+        console.warn(`[refresh-warn-scraper] ${code}: ${data.notices.length} rows where the last good read had ${had}; accepted as the new baseline (WARN_ACCEPT_PARTIAL)`);
+        continue;
+      }
+      fresh.delete(code);
+      partial.set(code, `partial read — ${data.notices.length} rows where the last good read had ${had}; kept the earlier snapshot (pass ${code} in WARN_ACCEPT_PARTIAL to accept it)`);
+    }
   }
 
   // ── 2. Carried: previous states with nothing fresh this run ───────────────
@@ -366,7 +420,9 @@ function main() {
     const attempt = attempts.get(code);
     const thisRun = fresh.has(code)
       ? "ok"
-      : unusable.has(code)
+      : partial.has(code)
+        ? partial.get(code)
+        : unusable.has(code)
         ? `unusable — ${unusable.get(code)}`
         : attempt
           ? `${attempt.status}${attempt.reason ? ` — ${attempt.reason}` : ""}`
