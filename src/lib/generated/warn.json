@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T14:37:16.334Z",
+  "generatedAt": "2026-09-11T13:14:47.966Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2304,
-      "employeesTotal": 371440,
+      "noticeCount": 2305,
+      "employeesTotal": 371502,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2293
+      "withEffectiveOnly": 2294
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1500,
-      "employeesTotal": 237829,
-      "latestNotice": "2026-09-03",
-      "withNoticeDate": 1500,
+      "noticeCount": 1501,
+      "employeesTotal": 237967,
+      "latestNotice": "2026-09-08",
+      "withNoticeDate": 1501,
       "withEffectiveOnly": 0
     },
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 191,
-      "employeesTotal": 10303,
-      "latestNotice": "2026-09-02",
-      "withNoticeDate": 191,
+      "noticeCount": 215,
+      "employeesTotal": 11434,
+      "latestNotice": "2026-09-09",
+      "withNoticeDate": 215,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7470,
-  "employeesTotal": 966588,
-  "employerCount": 5842,
+  "noticeCount": 7496,
+  "employeesTotal": 967919,
+  "employerCount": 5867,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-09-03",
+  "maxNoticeDate": "2026-09-09",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -808,7 +808,7 @@
         "NJ",
         "WA"
       ],
-      "latestNotice": "2026-09-04"
+      "latestNotice": "2026-12-11"
     },
     {
       "normalized": "WALMART #1258",
@@ -10819,6 +10819,17 @@
       "latestNotice": "2017-04-17"
     },
     {
+      "normalized": "SAPPORO U S A (1999 CITRACADO PARKWAY)",
+      "name": "Sapporo U.S.A. (1999 Citracado Parkway)",
+      "slug": "sapporo-u-s-a-1999-citracado-parkway",
+      "notices": 1,
+      "employees": 200,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
       "normalized": "PACKAGING OF AMERICA",
       "name": "Packaging Corporation of America",
       "slug": "packaging-corporation-of-america",
@@ -11735,6 +11746,17 @@
         "VA"
       ],
       "latestNotice": "2012-02-09"
+    },
+    {
+      "normalized": "EDUCATIONAL TESTING SERVICE",
+      "name": "Educational Testing Service",
+      "slug": "educational-testing-service",
+      "notices": 2,
+      "employees": 188,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "PROVIDENCE HEALTH",
@@ -12861,6 +12883,17 @@
         "WA"
       ],
       "latestNotice": "2008-04-03"
+    },
+    {
+      "normalized": "RUIZ FOOD PRODUCTS",
+      "name": "Ruiz Food Products, Inc.",
+      "slug": "ruiz-food-products-inc",
+      "notices": 1,
+      "employees": 176,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-04"
     },
     {
       "normalized": "EDISON JOB CORPS - ON HOLD",
@@ -17840,6 +17873,17 @@
       "latestNotice": "2006-06-16"
     },
     {
+      "normalized": "MULTICARE HEALTH SYSTEM",
+      "name": "MultiCare Health System",
+      "slug": "multicare-health-system",
+      "notices": 1,
+      "employees": 138,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-08"
+    },
+    {
       "normalized": "FIS",
       "name": "FIS",
       "slug": "fis",
@@ -19462,6 +19506,17 @@
       "latestNotice": "2009-03-05"
     },
     {
+      "normalized": "OVG HOSPITALITY",
+      "name": "OVG Hospitality",
+      "slug": "ovg-hospitality",
+      "notices": 1,
+      "employees": 128,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-03"
+    },
+    {
       "normalized": "SYNOPSYS",
       "name": "Synopsys, Inc.",
       "slug": "synopsys-inc",
@@ -19922,17 +19977,6 @@
         "TX"
       ],
       "latestNotice": "2023-06-01"
-    },
-    {
-      "normalized": "EDUCATIONAL TESTING SERVICE",
-      "name": "Educational Testing Service",
-      "slug": "educational-testing-service",
-      "notices": 1,
-      "employees": 126,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2023-01-04"
     },
     {
       "normalized": "BELLAIRE MEDICAL CENTER-CORNERSTONE SPECIALTY HOSPITALS",
@@ -21283,6 +21327,17 @@
       "latestNotice": "2004-05-08"
     },
     {
+      "normalized": "TRAILER PARK",
+      "name": "Trailer Park, Inc.",
+      "slug": "trailer-park-inc",
+      "notices": 1,
+      "employees": 119,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-27"
+    },
+    {
       "normalized": "RECKITT BENCKISER",
       "name": "Reckitt Benckiser",
       "slug": "reckitt-benckiser",
@@ -21601,6 +21656,17 @@
         "NJ"
       ],
       "latestNotice": "2007-06-15"
+    },
+    {
+      "normalized": "HOMELESS HEALTH CARE LOS ANGELES - CROCKER STREET",
+      "name": "Homeless Health Care Los Angeles - Crocker Street",
+      "slug": "homeless-health-care-los-angeles-crocker-street",
+      "notices": 1,
+      "employees": 117,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "QUALTRICS",
@@ -22885,6 +22951,17 @@
         "NJ"
       ],
       "latestNotice": "2005-06-21"
+    },
+    {
+      "normalized": "EGGO DBA KELLANOVA",
+      "name": "Eggo Company dba Kellanova",
+      "slug": "eggo-company-dba-kellanova",
+      "notices": 1,
+      "employees": 112,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-04"
     },
     {
       "normalized": "WESTERN FOREST PRODUCTS",
@@ -31145,6 +31222,17 @@
       "latestNotice": "2006-05-15"
     },
     {
+      "normalized": "VENTANA GRILL",
+      "name": "Ventana Grill",
+      "slug": "ventana-grill",
+      "notices": 1,
+      "employees": 82,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "SAN FRANCISCO PRETRIAL DIVERSION PROJECT",
       "name": "San Francisco Pretrial Diversion Project, Inc.",
       "slug": "san-francisco-pretrial-diversion-project-inc",
@@ -38583,6 +38671,17 @@
         "WA"
       ],
       "latestNotice": "2005-09-09"
+    },
+    {
+      "normalized": "SHELL CATALYST",
+      "name": "Shell Catalyst & Technologies",
+      "slug": "shell-catalyst-technologies",
+      "notices": 1,
+      "employees": 64,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "LUMLIQ2 D/B/A LUMBER LIQUIDATORS",
@@ -49095,6 +49194,17 @@
       "latestNotice": "2004-04-30"
     },
     {
+      "normalized": "SONTEK (XYLEM )",
+      "name": "SonTek (Xylem, Inc.)",
+      "slug": "sontek-xylem-inc",
+      "notices": 1,
+      "employees": 36,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-04"
+    },
+    {
       "normalized": "ZOOMCARE",
       "name": "ZoomCare",
       "slug": "zoomcare",
@@ -52430,6 +52540,17 @@
       "latestNotice": "2008-01-30"
     },
     {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (3649 MCCLINTOCK AVE )",
+      "name": "University of Southern California (3649 McClintock Ave.)",
+      "slug": "university-of-southern-california-3649-mcclintock-ave",
+      "notices": 1,
+      "employees": 21,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
       "normalized": "FIREBIRD BULK CARRIERS (GEORGE WEST)",
       "name": "Firebird Bulk Carriers, Inc. (George West)",
       "slug": "firebird-bulk-carriers-inc-george-west",
@@ -53806,6 +53927,17 @@
       "latestNotice": "2007-04-02"
     },
     {
+      "normalized": "HOMELESS HEALTH CARE LOS ANGELES - MAPLE AVE",
+      "name": "Homeless Health Care Los Angeles - Maple Ave.",
+      "slug": "homeless-health-care-los-angeles-maple-ave",
+      "notices": 1,
+      "employees": 16,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "STANFORD HEALTH CARE - 1840 EMBARCADERO RD",
       "name": "Stanford Health Care - 1840 Embarcadero Rd.",
       "slug": "stanford-health-care-1840-embarcadero-rd",
@@ -54046,6 +54178,17 @@
         "NJ"
       ],
       "latestNotice": "2011-03-14"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (4676 ADMIRALTY WAY)",
+      "name": "University of Southern California (4676 Admiralty Way)",
+      "slug": "university-of-southern-california-4676-admiralty-way",
+      "notices": 1,
+      "employees": 15,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "JOHN MUIR HEALTH - 1601 YGNACIO VALLEY ROAD",
@@ -57100,6 +57243,17 @@
       "latestNotice": "2004-07-23"
     },
     {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (12015 E WATERFRONT DR )",
+      "name": "University of Southern California (12015 E Waterfront Dr.)",
+      "slug": "university-of-southern-california-12015-e-waterfront-dr",
+      "notices": 1,
+      "employees": 8,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
       "normalized": "SOUTHWEST KEY PROGRAMS-CASA NUEVA ESPERANZA",
       "name": "Southwest Key Programs-Casa Nueva Esperanza",
       "slug": "southwest-key-programs-casa-nueva-esperanza",
@@ -57649,6 +57803,17 @@
         "WA"
       ],
       "latestNotice": "2005-11-29"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1042 DOWNEY WAY)",
+      "name": "University of Southern California (1042 Downey Way)",
+      "slug": "university-of-southern-california-1042-downey-way",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "RTX",
@@ -58277,6 +58442,28 @@
         "NJ"
       ],
       "latestNotice": "2005-12-31"
+    },
+    {
+      "normalized": "SAPPORO U S A (2865 EXECUTIVE PLACE)",
+      "name": "Sapporo U.S.A. (2865 Executive Place)",
+      "slug": "sapporo-u-s-a-2865-executive-place",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
+      "normalized": "SAPPORO U S A (2005 HARMONY GROVE RD)",
+      "name": "Sapporo U.S.A. (2005 Harmony Grove Rd)",
+      "slug": "sapporo-u-s-a-2005-harmony-grove-rd",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "JOHN MUIR PHYSICIAN NETWORK - 1450 TREAT BLVD",
@@ -59113,6 +59300,17 @@
         "NJ"
       ],
       "latestNotice": "2010-12-31"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1150 S OLIVE STREET)",
+      "name": "University of Southern California (1150 S. Olive Street)",
+      "slug": "university-of-southern-california-1150-s-olive-street",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP OUTPATIENT PAVILION",
@@ -60019,6 +60217,17 @@
         "WA"
       ],
       "latestNotice": "2004-09-27"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (941 BLOOM WALK)",
+      "name": "University of Southern California (941 Bloom Walk)",
+      "slug": "university-of-southern-california-941-bloom-walk",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "JOHN MUIR HEALTH - 1450 TREAT BLVD",
@@ -61000,6 +61209,17 @@
       "latestNotice": "2005-11-01"
     },
     {
+      "normalized": "GRAIN CRAFT",
+      "name": "Grain Craft, LLC",
+      "slug": "grain-craft-llc",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-01"
+    },
+    {
       "normalized": "TPE ACQUISITION - 5116",
       "name": "TPE Acquisition, LLC - 5116",
       "slug": "tpe-acquisition-llc-5116",
@@ -61792,6 +62012,17 @@
         "WA"
       ],
       "latestNotice": "2010-09-21"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (3740 MCCLINTOCK AVE)",
+      "name": "University of Southern California (3740 McClintock Ave)",
+      "slug": "university-of-southern-california-3740-mcclintock-ave",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "JOHN MUIR HEALTH - 177 LA CASA VIA",
@@ -62608,6 +62839,50 @@
         "NJ"
       ],
       "latestNotice": "2009-06-30"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1149 S HILL STREET)",
+      "name": "University of Southern California (1149 S. Hill Street)",
+      "slug": "university-of-southern-california-1149-s-hill-street",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (746 W ADAMS BLVD )",
+      "name": "University of Southern California (746 W Adams Blvd.)",
+      "slug": "university-of-southern-california-746-w-adams-blvd",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (854 DOWNEY WAY)",
+      "name": "University of Southern California (854 Downey Way)",
+      "slug": "university-of-southern-california-854-downey-way",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-09"
+    },
+    {
+      "normalized": "HOMELESS HEALTH CARE LOS ANGELES - 2ND STREET",
+      "name": "Homeless Health Care Los Angeles - 2nd Street",
+      "slug": "homeless-health-care-los-angeles-2nd-street",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "JOHN MUIR PHYSICIAN NETWORK - 5860 OWENS DRIVE",
@@ -64604,6 +64879,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Merck & Co",
+      "normalized": "MERCK",
+      "city": "Rahway",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-11",
+      "employees": 54,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Optum",
       "normalized": "OPTUM",
       "city": "Basking Ridge",
@@ -64648,6 +64935,18 @@
       "noticeDate": null,
       "effectiveDate": "2026-11-17",
       "employees": 374,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Educational Testing Service",
+      "normalized": "EDUCATIONAL TESTING SERVICE",
+      "city": "Princeton",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-11-09",
+      "employees": 62,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
@@ -64868,6 +65167,222 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Shell Catalyst & Technologies",
+      "normalized": "SHELL CATALYST",
+      "city": "Martinez",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-30",
+      "employees": 64,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (1042 Downey Way)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1042 DOWNEY WAY)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 7,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (1149 S. Hill Street)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1149 S HILL STREET)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (1150 S. Olive Street)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1150 S OLIVE STREET)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (12015 E Waterfront Dr.)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (12015 E WATERFRONT DR )",
+      "city": "Playa Vista",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 8,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (3649 McClintock Ave.)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (3649 MCCLINTOCK AVE )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 21,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (3740 McClintock Ave)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (3740 MCCLINTOCK AVE)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (4676 Admiralty Way)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (4676 ADMIRALTY WAY)",
+      "city": "Marina Del Rey",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 15,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (746 W Adams Blvd.)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (746 W ADAMS BLVD )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (854 Downey Way)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (854 DOWNEY WAY)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (941 Bloom Walk)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (941 BLOOM WALK)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-04",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sapporo U.S.A. (1999 Citracado Parkway)",
+      "normalized": "SAPPORO U S A (1999 CITRACADO PARKWAY)",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-13",
+      "employees": 200,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sapporo U.S.A. (2865 Executive Place)",
+      "normalized": "SAPPORO U S A (2865 EXECUTIVE PLACE)",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-13",
+      "employees": 6,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sapporo U.S.A. (2005 Harmony Grove Rd)",
+      "normalized": "SAPPORO U S A (2005 HARMONY GROVE RD)",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-13",
+      "employees": 6,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "MultiCare Health System",
+      "normalized": "MULTICARE HEALTH SYSTEM",
+      "city": "Statewide",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-08",
+      "effectiveDate": "2026-10-27",
+      "employees": 138,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "SonTek (Xylem, Inc.)",
+      "normalized": "SONTEK (XYLEM )",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-04",
+      "effectiveDate": "2026-11-06",
+      "employees": 36,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Eggo Company dba Kellanova",
+      "normalized": "EGGO DBA KELLANOVA",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-04",
+      "effectiveDate": "2026-11-04",
+      "employees": 112,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Ruiz Food Products, Inc.",
+      "normalized": "RUIZ FOOD PRODUCTS",
+      "city": "Dinuba",
+      "county": "Tulare",
+      "state": "CA",
+      "noticeDate": "2026-09-04",
+      "effectiveDate": "2026-11-04",
+      "employees": 176,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Merck & Co",
       "normalized": "MERCK",
       "city": "Rahway",
@@ -64878,6 +65393,18 @@
       "employees": 88,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "OVG Hospitality",
+      "normalized": "OVG HOSPITALITY",
+      "city": "Ventura",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-09-03",
+      "effectiveDate": "2026-11-15",
+      "employees": 128,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Gilbert Orchards, Inc.",
@@ -64900,6 +65427,54 @@
       "noticeDate": "2026-09-02",
       "effectiveDate": "2026-10-30",
       "employees": 178,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Ventana Grill",
+      "normalized": "VENTANA GRILL",
+      "city": "Pismo Beach",
+      "county": "San Luis Obispo",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-09-18",
+      "employees": 82,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Homeless Health Care Los Angeles - Crocker Street",
+      "normalized": "HOMELESS HEALTH CARE LOS ANGELES - CROCKER STREET",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-03",
+      "employees": 117,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Homeless Health Care Los Angeles - Maple Ave.",
+      "normalized": "HOMELESS HEALTH CARE LOS ANGELES - MAPLE AVE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-03",
+      "employees": 16,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Homeless Health Care Los Angeles - 2nd Street",
+      "normalized": "HOMELESS HEALTH CARE LOS ANGELES - 2ND STREET",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-03",
+      "employees": 1,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -64973,6 +65548,18 @@
       "effectiveDate": "2026-11-02",
       "employees": 52,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Grain Craft, LLC",
+      "normalized": "GRAIN CRAFT",
+      "city": "Rancho Cucamonga",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-10-30",
+      "employees": 3,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -65444,6 +66031,18 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "Trailer Park, Inc.",
+      "normalized": "TRAILER PARK",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-27",
+      "effectiveDate": "2026-07-07",
+      "employees": 119,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Optum Select Management Inc.",
       "normalized": "OPTUM SELECT MANAGEMENT",
       "city": "Somerset",
@@ -65824,7 +66423,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Relocation Permanent",
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -139950,18 +140549,6 @@
       "employees": 80,
       "layoffType": "Closure",
       "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
-    },
-    {
-      "employer": "Merck & Co. Inc.",
-      "normalized": "MERCK",
-      "city": "Union",
-      "county": null,
-      "state": "NJ",
-      "noticeDate": null,
-      "effectiveDate": "2011-01-19",
-      "employees": 54,
-      "layoffType": null,
-      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
       "employer": "Dolce International Seaview, Inc.",
