@@ -187,7 +187,7 @@ export default function StatePage({ params }: { params: { stateCode: string } })
           <section className="panel panel-pad">
             <div className="eyebrow mb-1">Layoff notices · WARN</div>
             <p className="text-sm leading-relaxed text-slate-400">
-              {agg.state.name} does not yet publish WARN notices in a machine-readable format we can ingest,
+              {agg.state.name} does not yet publish WARN notices in a form we can ingest,
               so we show none here rather than estimating them. {WARN_COVERAGE_SENTENCE}{" "}
               <Link href="/layoffs" className="link-accent">See the states we do cover →</Link>
             </p>
