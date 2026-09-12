@@ -1,53 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-12T01:03:44.373Z",
+  "updatedAt": "2026-09-12T16:14:14.339Z",
   "items": [
-    {
-      "id": "signal:warn-by-state::data_signal",
-      "subjectId": "signal:warn-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "scheduled",
-      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
-      "suggestedHeadline": null,
-      "sourceName": "State WARN Act notices (state open-data portals)",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:layoffs",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "493892fbd9e12700",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
-      "ogImage": "/og/signal/warn-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": "afternoon",
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-14539::effective_date",
       "subjectId": "event:federal_register:2026-14539",
@@ -61,11 +15,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66662.70555555556,
+      "priority": 66672.7,
       "readerValue": 82,
-      "factsHash": "3d44b0ecca979fa3",
+      "factsHash": "25379dc799aefacf",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 7 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 6 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -106,11 +60,11 @@
       "eventId": "federal_register:2026-14439",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65092.688888888886,
+      "priority": 65102.683333333334,
       "readerValue": 54,
-      "factsHash": "61f3df8b5a658945",
+      "factsHash": "851e5a396bbcf805",
       "whyItMatters": [
-        "The rule is final but does not apply until September 15, 2026, 4 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 15, 2026, 3 days from today. Until then the rules in force today stay in force.",
         "ImmigrationClock is watching the September 15, 2026 effective date."
       ],
       "suggestedPost": null,
@@ -150,7 +104,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -201,9 +155,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
-      "factsHash": "4d225df3fc28a522",
+      "factsHash": "91997d00a45168d7",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
@@ -252,9 +206,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:deadlines",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
-      "factsHash": "aba225aa0e8f1fc6",
+      "factsHash": "46fd7f89d05ee4ce",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
@@ -303,9 +257,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
-      "factsHash": "f9248b8652f519a5",
+      "factsHash": "c173919c6b24de93",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
@@ -354,9 +308,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
-      "factsHash": "23b61ae1a09b2919",
+      "factsHash": "a105444b010d154e",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -405,7 +359,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -446,7 +400,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -487,7 +441,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -516,89 +470,141 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8::why_it_matters",
-      "subjectId": "event:uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
+      "id": "signal:warn-by-state::data_signal",
+      "subjectId": "signal:warn-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
       "status": "verified",
-      "headline": "Court Order on Diversity Immigrant Visa Program Hold Policy",
+      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
       "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/court-order-on-diversity-immigrant-visa-program-hold-policy",
-      "eventId": "uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8",
-      "category": "explainer",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 24928.96111111111,
-      "readerValue": 58,
-      "factsHash": "cbe0a050086d7bd3",
-      "whyItMatters": [
-        "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
+      "sourceName": "State WARN Act notices (state open-data portals)",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:layoffs",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "493892fbd9e12700",
+      "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua",
-      "ogImage": "/og/change/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua.png",
+      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
+      "ogImage": "/og/signal/warn-by-state.png",
       "freshness": {
-        "publishedAt": "2026-09-04",
-        "discoveredAt": "2026-09-11",
-        "expiresAt": "2026-10-02"
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-11T17:00:30.411Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-11T17:00:30.411Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "verified",
+          "reason": "deferred window passed"
         }
       ]
     },
     {
-      "id": "explainer:effective-date-vs-publication-date::explainer",
-      "subjectId": "explainer:effective-date-vs-publication-date",
-      "contentType": "explainer",
-      "tier": "evergreen",
+      "id": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8::what_changed",
+      "subjectId": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "verified",
-      "headline": "An effective date is not a publication date",
+      "headline": "Department of Justice Removes Alien Terrorist in First Use of United States Alien Terrorist Removal Court",
       "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/department-of-justice-removes-alien-terrorist-in-first-use-of-united-states-alien-terrorist-removal",
+      "eventId": "uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
       "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 22014,
-      "readerValue": 60,
-      "factsHash": "4bb7139aa31c33a9",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24818.994444444445,
+      "readerValue": 38,
+      "factsHash": "de1be1b8ba76cb11",
       "whyItMatters": [
-        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
-      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag",
+      "ogImage": "/og/change/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "publishedAt": "2026-09-11",
+        "discoveredAt": "2026-09-12",
+        "expiresAt": "2026-09-22"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-12T16:13:48.006Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-12T16:13:48.006Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8::why_it_matters",
+      "subjectId": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Department of Justice Removes Alien Terrorist in First Use of United States Alien Terrorist Removal Court",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/department-of-justice-removes-alien-terrorist-in-first-use-of-united-states-alien-terrorist-removal",
+      "eventId": "uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23968.994444444445,
+      "readerValue": 38,
+      "factsHash": "59dab4c7ddf4032d",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag",
+      "ogImage": "/og/change/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag.png",
+      "freshness": {
+        "publishedAt": "2026-09-11",
+        "discoveredAt": "2026-09-12",
+        "expiresAt": "2026-10-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag"
         }
       ]
     },
@@ -615,7 +621,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22013,
+      "priority": 22014,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -658,7 +664,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -701,7 +707,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -744,7 +750,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:courts",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "87cbc7c8befa9d8e",
       "whyItMatters": [
@@ -775,6 +781,49 @@
       ]
     },
     {
+      "id": "explainer:arrests-removals-detention::explainer",
+      "subjectId": "explainer:arrests-removals-detention",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Arrests, removals and detention are three different numbers",
+      "suggestedHeadline": null,
+      "sourceName": "ICE — Statistics; ICE — Detention management statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:enforcement-data",
+      "priority": 22006,
+      "readerValue": 60,
+      "factsHash": "95013a86f0878a92",
+      "whyItMatters": [
+        "\"ICE deported X people\" is usually a sentence about arrests, removals or detention, and which one changes the meaning entirely. The label is the fact."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/arrests-removals-detention",
+      "ogImage": "/og/explainer/arrests-removals-detention.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/arrests-removals-detention"
+        }
+      ]
+    },
+    {
       "id": "explainer:naturalization-ceremony::explainer",
       "subjectId": "explainer:naturalization-ceremony",
       "contentType": "explainer",
@@ -787,7 +836,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -818,6 +867,49 @@
       ]
     },
     {
+      "id": "explainer:effective-date-vs-publication-date::explainer",
+      "subjectId": "explainer:effective-date-vs-publication-date",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "An effective date is not a publication date",
+      "suggestedHeadline": null,
+      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 22001,
+      "readerValue": 60,
+      "factsHash": "4bb7139aa31c33a9",
+      "whyItMatters": [
+        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
+      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+        }
+      ]
+    },
+    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -830,7 +922,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -873,7 +965,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -916,7 +1008,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -947,49 +1039,6 @@
       ]
     },
     {
-      "id": "explainer:arrests-removals-detention::explainer",
-      "subjectId": "explainer:arrests-removals-detention",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Arrests, removals and detention are three different numbers",
-      "suggestedHeadline": null,
-      "sourceName": "ICE — Statistics; ICE — Detention management statistics",
-      "sourceUrl": "https://www.ice.gov/statistics",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:enforcement-data",
-      "priority": 20005,
-      "readerValue": 60,
-      "factsHash": "95013a86f0878a92",
-      "whyItMatters": [
-        "\"ICE deported X people\" is usually a sentence about arrests, removals or detention, and which one changes the meaning entirely. The label is the fact."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/arrests-removals-detention",
-      "ogImage": "/og/explainer/arrests-removals-detention.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/arrests-removals-detention"
-        }
-      ]
-    },
-    {
       "id": "explainer:what-a-warn-notice-is::explainer",
       "subjectId": "explainer:what-a-warn-notice-is",
       "contentType": "explainer",
@@ -1002,7 +1051,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -1045,7 +1094,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1076,47 +1125,6 @@
       ]
     },
     {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Search the change archive",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5ad4693b9542ba9d",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
-        }
-      ]
-    },
-    {
       "id": "discovery:warn-api::data_discovery",
       "subjectId": "discovery:warn-api",
       "contentType": "data_discovery",
@@ -1129,7 +1137,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "4fc2e77c8fa27c44",
       "whyItMatters": [],
@@ -1170,7 +1178,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1211,7 +1219,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1252,7 +1260,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1293,7 +1301,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1334,7 +1342,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1375,7 +1383,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1400,6 +1408,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "93bcd354d2fac637",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
@@ -1457,6 +1506,64 @@
         },
         {
           "at": "2026-09-03T17:48:42.349Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8::breaking_change",
+      "subjectId": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Department of Justice Removes Alien Terrorist in First Use of United States Alien Terrorist Removal Court",
+      "suggestedHeadline": "First use of Alien Terrorist Removal Court removes Afghan national",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/department-of-justice-removes-alien-terrorist-in-first-use-of-united-states-alien-terrorist-removal",
+      "eventId": "uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "category": "development",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 74818.99444444444,
+      "readerValue": 38,
+      "factsHash": "2d8ac071f9ce31ee",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "The Justice Department removed an alien terrorist in the first case before the Alien Terrorist Removal Court.\n\nNazira Haji Zada, 47, an Afghan national in Fort Worth, conceded that status.\n\nPublished Sept. 11.\n\nhttps://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Ak081ag",
+        "linkedin": "",
+        "structure": "news"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag",
+      "ogImage": "/og/change/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag.png",
+      "freshness": {
+        "publishedAt": "2026-09-11",
+        "discoveredAt": "2026-09-12",
+        "expiresAt": "2026-09-15"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-12T16:13:48.006Z",
+      "externalUrl": "https://x.com/i/web/status/2098807405790249250",
+      "history": [
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -2133,6 +2240,55 @@
           "at": "2026-09-08T17:13:43.310Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-08"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8::why_it_matters",
+      "subjectId": "event:uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Court Order on Diversity Immigrant Visa Program Hold Policy",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/court-order-on-diversity-immigrant-visa-program-hold-policy",
+      "eventId": "uscis_newsroom:2066c5b7-5e93-413e-b1a9-7c7d222ba4d8",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24928.96111111111,
+      "readerValue": 58,
+      "factsHash": "cbe0a050086d7bd3",
+      "whyItMatters": [
+        "A court order binds according to the court that issued it, and it can be stayed, narrowed or reversed on appeal. It stops enforcement as the order specifies; it does not rewrite the policy text.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua",
+      "ogImage": "/og/change/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua.png",
+      "freshness": {
+        "publishedAt": "2026-09-04",
+        "discoveredAt": "2026-09-11",
+        "expiresAt": "2026-10-02"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/court-order-on-diversity-immigrant-visa-program-hold-policy-yqixua"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-12"
         }
       ]
     },
