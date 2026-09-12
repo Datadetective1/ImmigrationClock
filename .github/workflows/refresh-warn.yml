@@ -201,14 +201,23 @@ jobs:
 
       # Same shared script as refresh-data.yml; it carries warn-summary.json and
       # the scraper cache alongside warn.json and the public API files.
-      - name: Commit refreshed WARN data & push to main (triggers deploy)
+      - name: Commit refreshed WARN data & push (triggers deploy)
         # On a schedule there are no inputs, so `commit` is empty and this runs.
         if: steps.changed.outputs.changed == 'true' && github.event.inputs.commit != 'false'
+        env:
+          # The shared script pushes to `main` by default. A manual run started
+          # from another branch must land on THAT branch: otherwise ticking
+          # `commit` on a feature branch would rebase the whole branch onto main
+          # and push it there, merging it through the bot. On a schedule the
+          # ref is `main`, so nothing changes for the twice-weekly run.
+          TARGET_BRANCH: ${{ github.ref_name }}
         run: |
           bash .github/scripts/commit-and-push.sh "chore(warn): refresh wide-net WARN feed"
 
       - name: Optional Vercel deploy hook
-        if: steps.changed.outputs.changed == 'true' && github.event.inputs.commit != 'false'
+        # Production only: a branch run already gets a preview from Vercel's git
+        # integration, and the hook would rebuild production from unchanged main.
+        if: steps.changed.outputs.changed == 'true' && github.event.inputs.commit != 'false' && github.ref_name == 'main'
         env:
           HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
         run: |

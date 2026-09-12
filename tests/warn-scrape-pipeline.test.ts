@@ -217,6 +217,16 @@ describe("refresh-warn.yml", () => {
     expect(commit).toMatch(/commit-and-push\.sh/);
   });
 
+  it("commits to the branch a manual run started from, and pings production only from main", () => {
+    // commit-and-push.sh pushes to `main` unless TARGET_BRANCH says otherwise.
+    // Without this, ticking `commit` on a feature branch would rebase that
+    // branch onto main and push it there — a merge through the bot.
+    const commit = stepBlock("publish", /Commit refreshed WARN data/);
+    expect(commit).toMatch(/^          TARGET_BRANCH: \$\{\{ github\.ref_name \}\}$/m);
+    const hook = stepBlock("publish", /Optional Vercel deploy hook/);
+    expect(hook).toMatch(/^        if: .*github\.ref_name == 'main'$/m);
+  });
+
   it("passes the accept_partial input through to the normalizer", () => {
     expect(WORKFLOW_TEXT).toMatch(/^      accept_partial:\n/m);
     const normalize = stepBlock("publish", /Normalize CSVs/);

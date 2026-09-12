@@ -216,7 +216,12 @@ and commits. Two things to know about it:
 
 To test a change without touching `main`, run the workflow manually with
 **commit** unticked: every state is scraped and reported, nothing is committed.
-The **states** input takes postal codes, `default`, or `all`.
+The **states** input takes postal codes, `default`, or `all`. A manual run
+started from another branch with **commit** ticked commits the refreshed data
+**to that branch** (`TARGET_BRANCH` is the run's own ref), never to `main`, and
+skips the production deploy hook; Vercel's git integration builds the branch
+push as a preview. That is how a data change is checked on a pull request
+before it merges.
 
 ### Automated pushes to a protected `main`
 
