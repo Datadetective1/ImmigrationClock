@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T13:48:33.839Z",
+  "generatedAt": "2026-09-15T14:15:32.901Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2305,
-      "employeesTotal": 371502,
+      "noticeCount": 2306,
+      "employeesTotal": 371600,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2294
+      "withEffectiveOnly": 2295
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1501,
-      "employeesTotal": 237967,
-      "latestNotice": "2026-09-08",
-      "withNoticeDate": 1501,
+      "noticeCount": 1504,
+      "employeesTotal": 239392,
+      "latestNotice": "2026-09-11",
+      "withNoticeDate": 1504,
       "withEffectiveOnly": 0
     },
     {
@@ -44,10 +44,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1117,
-      "employeesTotal": 130648,
-      "latestNotice": "2026-08-28",
-      "withNoticeDate": 1117,
+      "noticeCount": 1118,
+      "employeesTotal": 130741,
+      "latestNotice": "2026-09-10",
+      "withNoticeDate": 1118,
       "withEffectiveOnly": 0
     },
     {
@@ -64,11 +64,11 @@
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7496,
-  "employeesTotal": 967919,
-  "employerCount": 5867,
+  "noticeCount": 7501,
+  "employeesTotal": 969535,
+  "employerCount": 5871,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-09-09",
+  "maxNoticeDate": "2026-09-11",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -970,6 +970,17 @@
         "WA"
       ],
       "latestNotice": "2020-03-25"
+    },
+    {
+      "normalized": "LEGENDARY FRUIT",
+      "name": "Legendary Fruit Co",
+      "slug": "legendary-fruit-co",
+      "notices": 1,
+      "employees": 1220,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-10"
     },
     {
       "normalized": "UNIVERSAL PROTECTION SERVICE DBA ALLIED UNIVERSAL SECURITY",
@@ -9767,6 +9778,17 @@
       "latestNotice": "2007-09-13"
     },
     {
+      "normalized": "FISERV",
+      "name": "Fiserv Solutions LLC",
+      "slug": "fiserv-solutions-llc",
+      "notices": 2,
+      "employees": 216,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-09-11"
+    },
+    {
       "normalized": "NEW COLUMBIA FRUIT PACKERS",
       "name": "New Columbia Fruit Packers, LLC",
       "slug": "new-columbia-fruit-packers-llc",
@@ -13358,6 +13380,17 @@
         "NJ"
       ],
       "latestNotice": "2004-07-12"
+    },
+    {
+      "normalized": "MONSON RANCHES SNAKE RIVER ORCHARDS",
+      "name": "Monson Ranches Snake River Orchards LLC",
+      "slug": "monson-ranches-snake-river-orchards-llc",
+      "notices": 1,
+      "employees": 172,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-11"
     },
     {
       "normalized": "MANAGEMENT TRAINING (BRADSHAW STATE JAIL)",
@@ -21514,17 +21547,6 @@
       "latestNotice": "2026-05-01"
     },
     {
-      "normalized": "FISERV",
-      "name": "Fiserv Solutions LLC",
-      "slug": "fiserv-solutions-llc",
-      "notices": 1,
-      "employees": 118,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2026-03-31"
-    },
-    {
       "normalized": "EDDIE BAUER",
       "name": "Eddie Bauer LLC",
       "slug": "eddie-bauer-llc",
@@ -27785,6 +27807,17 @@
         "NJ"
       ],
       "latestNotice": "2010-07-10"
+    },
+    {
+      "normalized": "UNITED AIR TEMP AIR CONDITIONING AND HEATING",
+      "name": "United Air Temp Air Conditioning and Heating LLC",
+      "slug": "united-air-temp-air-conditioning-and-heating-llc",
+      "notices": 1,
+      "employees": 93,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-09-10"
     },
     {
       "normalized": "UBER",
@@ -49887,6 +49920,17 @@
       "latestNotice": "2005-11-25"
     },
     {
+      "normalized": "YOUNG'S MARKET OF WASHINGTON",
+      "name": "Young's Market Company of Washington LLC",
+      "slug": "young-s-market-company-of-washington-llc",
+      "notices": 1,
+      "employees": 33,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-11"
+    },
+    {
       "normalized": "ZACHRY INDUSTRIAL (SABINE PASS) UPDATED",
       "name": "Zachry Industrial, Inc. (Sabine Pass) Updated",
       "slug": "zachry-industrial-inc-sabine-pass-updated",
@@ -65167,6 +65211,66 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Fiserv Solutions LLC",
+      "normalized": "FISERV",
+      "city": "Berkeley Heights",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-09-11",
+      "employees": 98,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Young's Market Company of Washington LLC",
+      "normalized": "YOUNG'S MARKET OF WASHINGTON",
+      "city": "Auburn",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-11",
+      "effectiveDate": "2026-11-07",
+      "employees": 33,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Monson Ranches Snake River Orchards LLC",
+      "normalized": "MONSON RANCHES SNAKE RIVER ORCHARDS",
+      "city": "Benton City, Burbank",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-11",
+      "effectiveDate": "2026-11-18",
+      "employees": 172,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "United Air Temp Air Conditioning and Heating LLC",
+      "normalized": "UNITED AIR TEMP AIR CONDITIONING AND HEATING",
+      "city": "Lorton VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-09-10",
+      "effectiveDate": null,
+      "employees": 93,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Legendary Fruit Co",
+      "normalized": "LEGENDARY FRUIT",
+      "city": "Yakima, Wapato",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-10",
+      "effectiveDate": "2026-11-10",
+      "employees": 1220,
+      "layoffType": "Temporary",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
       "employer": "Shell Catalyst & Technologies",
       "normalized": "SHELL CATALYST",
       "city": "Martinez",
@@ -65415,7 +65519,7 @@
       "noticeDate": "2026-09-03",
       "effectiveDate": "2026-11-22",
       "employees": 518,
-      "layoffType": "Permanent",
+      "layoffType": "Temporary",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
@@ -65511,7 +65615,7 @@
       "noticeDate": "2026-09-02",
       "effectiveDate": "2026-11-15",
       "employees": 243,
-      "layoffType": "Permanent",
+      "layoffType": "Temporary",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
