@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T15:20:52.530Z",
+  "generatedAt": "2026-09-16T15:13:01.657Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,17 +56,17 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 215,
-      "employeesTotal": 11434,
-      "latestNotice": "2026-09-09",
-      "withNoticeDate": 215,
+      "noticeCount": 219,
+      "employeesTotal": 11668,
+      "latestNotice": "2026-09-11",
+      "withNoticeDate": 219,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7501,
-  "employeesTotal": 969535,
-  "employerCount": 5871,
+  "noticeCount": 7505,
+  "employeesTotal": 969769,
+  "employerCount": 5874,
   "minNoticeDate": "2004-01-12",
   "maxNoticeDate": "2026-09-11",
   "byEmployer": [
@@ -2948,6 +2948,18 @@
       "latestNotice": "2019-07-22"
     },
     {
+      "normalized": "LEEMAH ELECTRONICS",
+      "name": "LeeMah Electronics",
+      "slug": "leemah-electronics",
+      "notices": 4,
+      "employees": 563,
+      "states": [
+        "CA",
+        "TX"
+      ],
+      "latestNotice": "2026-09-11"
+    },
+    {
       "normalized": "STITCH FIX",
       "name": "Stitch Fix",
       "slug": "stitch-fix",
@@ -3236,18 +3248,6 @@
         "WA"
       ],
       "latestNotice": "2020-06-01"
-    },
-    {
-      "normalized": "LEEMAH ELECTRONICS",
-      "name": "LeeMAH Electronics",
-      "slug": "leemah-electronics",
-      "notices": 3,
-      "employees": 501,
-      "states": [
-        "CA",
-        "TX"
-      ],
-      "latestNotice": "2026-08-17"
     },
     {
       "normalized": "STADELMAN FRUIT",
@@ -27556,6 +27556,17 @@
       "latestNotice": "2004-03-31"
     },
     {
+      "normalized": "UBER - 200 MATHILDA PLACE",
+      "name": "Uber Technologies, Inc. - 200 Mathilda Place",
+      "slug": "uber-technologies-inc-200-mathilda-place",
+      "notices": 1,
+      "employees": 94,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "CENTRAL GARDEN AMP; PET",
       "name": "Central Garden &amp; Pet",
       "slug": "central-garden-amp-pet",
@@ -47511,6 +47522,17 @@
       "latestNotice": "2019-08-16"
     },
     {
+      "normalized": "UBER - 190 MATHILDA PLACE",
+      "name": "Uber technologies, Inc. - 190 Mathilda Place",
+      "slug": "uber-technologies-inc-190-mathilda-place",
+      "notices": 1,
+      "employees": 43,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "FIRST BRANDS GROUP (ASC FACILITY)",
       "name": "First Brands Group LLC. (ASC Facility)",
       "slug": "first-brands-group-llc-asc-facility",
@@ -49500,6 +49522,17 @@
         "NJ"
       ],
       "latestNotice": "2010-02-28"
+    },
+    {
+      "normalized": "FUJI FOOD PRODUCTS",
+      "name": "Fuji Food Products, Inc.",
+      "slug": "fuji-food-products-inc",
+      "notices": 1,
+      "employees": 35,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-10"
     },
     {
       "normalized": "ATHWAL FDS",
@@ -65211,6 +65244,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "LeeMah Electronics",
+      "normalized": "LEEMAH ELECTRONICS",
+      "city": "Brisbane",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-09-11",
+      "effectiveDate": "2026-12-21",
+      "employees": 62,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Fiserv Solutions LLC",
       "normalized": "FISERV",
       "city": "Berkeley Heights",
@@ -65245,6 +65290,18 @@
       "employees": 172,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Fuji Food Products, Inc.",
+      "normalized": "FUJI FOOD PRODUCTS",
+      "city": "Santa Fe Springs",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-10",
+      "effectiveDate": "2026-11-13",
+      "employees": 35,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "United Air Temp Air Conditioning and Heating LLC",
@@ -65579,6 +65636,30 @@
       "noticeDate": "2026-09-02",
       "effectiveDate": "2026-11-03",
       "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Uber Technologies, Inc. - 200 Mathilda Place",
+      "normalized": "UBER - 200 MATHILDA PLACE",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-02",
+      "employees": 94,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Uber technologies, Inc. - 190 Mathilda Place",
+      "normalized": "UBER - 190 MATHILDA PLACE",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-02",
+      "employees": 43,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
