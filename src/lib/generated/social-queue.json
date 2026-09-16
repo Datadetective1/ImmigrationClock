@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-16T17:36:23.204Z",
+  "updatedAt": "2026-09-16T21:14:41.064Z",
   "items": [
     {
       "id": "event:federal_register:2026-14539::effective_date",
@@ -550,49 +550,6 @@
           "at": "2026-09-12T16:13:48.006Z",
           "status": "verified",
           "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag"
-        }
-      ]
-    },
-    {
-      "id": "explainer:court-order-is-not-a-rule-change::explainer",
-      "subjectId": "explainer:court-order-is-not-a-rule-change",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What a court injunction does, and does not do",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Courts — Glossary of legal terms; Supreme Court of the United States — Trump v. CASA, Inc. (June 27, 2025)",
-      "sourceUrl": "https://www.uscourts.gov/glossary",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:courts",
-      "priority": 22012,
-      "readerValue": 60,
-      "factsHash": "87cbc7c8befa9d8e",
-      "whyItMatters": [
-        "\"A judge blocked the rule\" is true and incomplete. Whether the block is preliminary, who it covers and whether it has been stayed are the facts that decide what is actually in force today."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/court-order-is-not-a-rule-change",
-      "ogImage": "/og/explainer/court-order-is-not-a-rule-change.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/court-order-is-not-a-rule-change"
         }
       ]
     },
@@ -2108,6 +2065,63 @@
         },
         {
           "at": "2026-09-09T23:09:50.191Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "explainer:court-order-is-not-a-rule-change::explainer",
+      "subjectId": "explainer:court-order-is-not-a-rule-change",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "What a court injunction does, and does not do",
+      "suggestedHeadline": "Explainer: An injunction stops enforcement, not the text of a policy",
+      "sourceName": "U.S. Courts — Glossary of legal terms; Supreme Court of the United States — Trump v. CASA, Inc. (June 27, 2025)",
+      "sourceUrl": "https://www.uscourts.gov/glossary",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:courts",
+      "priority": 22012,
+      "readerValue": 60,
+      "factsHash": "87cbc7c8befa9d8e",
+      "whyItMatters": [
+        "\"A judge blocked the rule\" is true and incomplete. Whether the block is preliminary, who it covers and whether it has been stayed are the facts that decide what is actually in force today."
+      ],
+      "suggestedPost": {
+        "x": "A court injunction is not a rule change.\n\nIt orders the government to stop enforcing a policy as specified. It does not rewrite the policy or the statute. ImmigrationClock records the court’s terms and links the order.\n\nhttps://immigrationclock.com/explained/court-order-is-not-a-rule-change?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Acourt-order-is-not-a-rule-change",
+        "linkedin": "",
+        "structure": "distinction"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/court-order-is-not-a-rule-change",
+      "ogImage": "/og/explainer/court-order-is-not-a-rule-change.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-16T21:14:10.216Z",
+      "externalUrl": "https://x.com/i/web/status/2100332566897111444",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/court-order-is-not-a-rule-change"
+        },
+        {
+          "at": "2026-09-16T21:14:10.216Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-16T21:14:10.216Z",
           "status": "published",
           "reason": "published on x"
         }
