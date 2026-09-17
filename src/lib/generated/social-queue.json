@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-16T21:14:41.064Z",
+  "updatedAt": "2026-09-17T00:22:50.322Z",
   "items": [
     {
       "id": "event:federal_register:2026-14539::effective_date",
@@ -506,50 +506,6 @@
           "at": "2026-09-15T17:39:11.072Z",
           "status": "verified",
           "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-revocation-of-naturalization-referrals-2tez9l"
-        }
-      ]
-    },
-    {
-      "id": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8::why_it_matters",
-      "subjectId": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Department of Justice Removes Alien Terrorist in First Use of United States Alien Terrorist Removal Court",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/department-of-justice-removes-alien-terrorist-in-first-use-of-united-states-alien-terrorist-removal",
-      "eventId": "uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
-      "category": "explainer",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 23968.972222222223,
-      "readerValue": 38,
-      "factsHash": "59dab4c7ddf4032d",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag",
-      "ogImage": "/og/change/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag.png",
-      "freshness": {
-        "publishedAt": "2026-09-11",
-        "discoveredAt": "2026-09-12",
-        "expiresAt": "2026-10-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-12T16:13:48.006Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-12T16:13:48.006Z",
-          "status": "verified",
-          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag"
         }
       ]
     },
@@ -2008,6 +1964,64 @@
         },
         {
           "at": "2026-09-14T18:33:20.209Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8::why_it_matters",
+      "subjectId": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Department of Justice Removes Alien Terrorist in First Use of United States Alien Terrorist Removal Court",
+      "suggestedHeadline": "First use of ATRC results in removal; effect depends on court order",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/department-of-justice-removes-alien-terrorist-in-first-use-of-united-states-alien-terrorist-removal",
+      "eventId": "uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23968.972222222223,
+      "readerValue": 38,
+      "factsHash": "59dab4c7ddf4032d",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "Justice Department used the Alien Terrorist Removal Court to remove an Afghan after she conceded she is an alien terrorist. Published Sept. 11, 2026.\n\nWhy it matters: It can be appealed; practical effect depends on the order.\n\nUSCIS newsroom\nhttps://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Ak081ag",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag",
+      "ogImage": "/og/change/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag.png",
+      "freshness": {
+        "publishedAt": "2026-09-11",
+        "discoveredAt": "2026-09-12",
+        "expiresAt": "2026-10-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-17T00:21:42.706Z",
+      "externalUrl": "https://x.com/i/web/status/2100379917024211336",
+      "history": [
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-justice-removes-alien-terrorist-in-first-use-of-united-k081ag"
+        },
+        {
+          "at": "2026-09-17T00:21:42.706Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-17T00:21:42.706Z",
           "status": "published",
           "reason": "published on x"
         }
