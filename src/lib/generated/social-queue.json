@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-17T00:22:50.322Z",
+  "updatedAt": "2026-09-17T17:36:48.239Z",
   "items": [
     {
       "id": "event:federal_register:2026-14539::effective_date",
@@ -15,11 +15,11 @@
       "eventId": "federal_register:2026-14539",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 66712.67777777778,
+      "priority": 66722.67222222223,
       "readerValue": 82,
-      "factsHash": "1177780eccb8de40",
+      "factsHash": "24c5c7235b41fda0",
       "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 2 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until September 18, 2026, 1 days from today. Until then the rules in force today stay in force.",
         "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
         "ImmigrationClock is watching the September 18, 2026 effective date."
       ],
@@ -48,63 +48,43 @@
       ]
     },
     {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
+      "id": "keydate:dv-lottery::key_date",
+      "subjectId": "keydate:dv-lottery",
+      "contentType": "key_date",
+      "tier": "follow_up",
       "status": "verified",
-      "headline": "The next recurring immigration date on the calendar",
+      "headline": "Diversity Visa (green-card) lottery (14 days away)",
       "suggestedHeadline": null,
       "sourceName": "U.S. Dept. of State — DV Program",
       "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
       "eventId": null,
-      "category": "data_insight",
+      "category": "deadline",
       "topicKey": "topic:green-card",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "f5499f69ddc1daf9",
+      "priority": 63106,
+      "readerValue": 78,
+      "factsHash": "57ea9f293191a1b3",
       "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
       "freshness": {
         "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
+        "discoveredAt": "2026-09-17",
+        "expiresAt": "2026-09-24"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-17T17:36:19.231Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-09-17T17:36:19.231Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
+          "reason": "reader value 78/100 clears the floor; share page https://immigrationclock.com/key-dates"
         }
       ]
     },
@@ -121,7 +101,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -162,7 +142,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -203,7 +183,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -244,7 +224,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -295,9 +275,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
-      "factsHash": "201797322af24af4",
+      "factsHash": "6bc3ffcede9462df",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
@@ -356,9 +336,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:deadlines",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
-      "factsHash": "0eaa3e616e909ee4",
+      "factsHash": "b971b3276a206f6b",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
@@ -417,9 +397,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
-      "factsHash": "82027f9710b820aa",
+      "factsHash": "8abe38bf10d2e1b4",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
@@ -466,6 +446,67 @@
       ]
     },
     {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "d434585092ad1230",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
+    {
       "id": "event:uscis_policy_manual:20260914-revocationreferrals::why_it_matters",
       "subjectId": "event:uscis_policy_manual:20260914-revocationreferrals",
       "contentType": "why_it_matters",
@@ -478,7 +519,7 @@
       "eventId": "uscis_policy_manual:20260914-revocationreferrals",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 24208.98888888889,
+      "priority": 24208.983333333334,
       "readerValue": 42,
       "factsHash": "9679d06dec12b5c7",
       "whyItMatters": [
@@ -522,7 +563,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -565,7 +606,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -608,7 +649,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22002,
+      "priority": 22003,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -651,7 +692,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22001,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -682,49 +723,6 @@
       ]
     },
     {
-      "id": "explainer:opt-in-plain-terms::explainer",
-      "subjectId": "explainer:opt-in-plain-terms",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "OPT, in plain terms",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:students",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "ea08f20297a9dff5",
-      "whyItMatters": [
-        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
-      "ogImage": "/og/explainer/opt-in-plain-terms.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
-        }
-      ]
-    },
-    {
       "id": "explainer:visa-bulletin-priority-dates::explainer",
       "subjectId": "explainer:visa-bulletin-priority-dates",
       "contentType": "explainer",
@@ -737,7 +735,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -780,7 +778,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -823,7 +821,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -866,7 +864,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -909,7 +907,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -952,7 +950,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -983,25 +981,27 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
+      "id": "explainer:opt-in-plain-terms::explainer",
+      "subjectId": "explainer:opt-in-plain-terms",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "The H-1B employer directory",
+      "headline": "OPT, in plain terms",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:students",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "ea08f20297a9dff5",
+      "whyItMatters": [
+        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
+      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
+      "ogImage": "/og/explainer/opt-in-plain-terms.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1019,7 +1019,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
         }
       ]
     },
@@ -1036,7 +1036,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1077,7 +1077,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1118,9 +1118,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
-      "factsHash": "99d5865264e2d6b5",
+      "factsHash": "a084325ac89ffb2c",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1159,7 +1159,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "520b78f49424f99d",
       "whyItMatters": [],
@@ -1200,7 +1200,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1241,7 +1241,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1282,7 +1282,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1307,6 +1307,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
         }
       ]
     },
@@ -1540,6 +1581,61 @@
         },
         {
           "at": "2026-09-06T16:11:02.555Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "keydate:fiscal-year-start::key_date",
+      "subjectId": "keydate:fiscal-year-start",
+      "contentType": "key_date",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "New fiscal year — H-1B start date (14 days away)",
+      "suggestedHeadline": "Oct. 1, 2026 H-1B start date for cap-subject cases",
+      "sourceName": "USCIS — H-1B specialty occupations",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations",
+      "eventId": null,
+      "category": "deadline",
+      "topicKey": "topic:h1b",
+      "priority": 63106,
+      "readerValue": 78,
+      "factsHash": "be18866aa1a0a0c2",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "October 1, 2026: federal fiscal year starts. For cap-subject H-1B, employment can begin and new numbers are available.\n\nAbout two weeks away. Until then, cap-subject H-1B start dates aren’t effective. Source: USCIS\nhttps://immigrationclock.com/key-dates?utm_source=x&utm_medium=social&utm_campaign=key_date&utm_content=keydate%3Afiscal-year-start",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-17",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-17T17:36:19.231Z",
+      "externalUrl": "https://x.com/i/web/status/2100640123272540552",
+      "history": [
+        {
+          "at": "2026-09-17T17:36:19.231Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-17T17:36:19.231Z",
+          "status": "verified",
+          "reason": "reader value 78/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        },
+        {
+          "at": "2026-09-17T17:36:19.231Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-17T17:36:19.231Z",
           "status": "published",
           "reason": "published on x"
         }
