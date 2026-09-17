@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T15:13:01.657Z",
+  "generatedAt": "2026-09-17T15:22:17.580Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "sourceName": "State WARN Act notices (state open-data portals)",
   "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
