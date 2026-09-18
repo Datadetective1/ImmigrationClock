@@ -1,5 +1,8 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
 "Enablx, Inc.",ENABLX,Rockaway Twp.,,NJ,,2026-12-31,187,,https://www.nj.gov/labor/employer-services/warn/
+"Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL,Atlantic City,,NJ,,2026-12-15,91,,https://www.nj.gov/labor/employer-services/warn/
+"Banker Steel, a Division of Schuff Steel",BANKER STEEL A DIVISION OF SCHUFF STEEL,South Plainfield,,NJ,,2026-12-14,115,,https://www.nj.gov/labor/employer-services/warn/
+Barrette Outdoor Living,BARRETTE OUTDOOR LIVING,Egg Harbor City,,NJ,,2026-12-13,59,,https://www.nj.gov/labor/employer-services/warn/
 Merck & Co,MERCK,Rahway,,NJ,,2026-12-11,54,,https://www.nj.gov/labor/employer-services/warn/
 Optum,OPTUM,Basking Ridge,,NJ,,2026-12-07,57,,https://www.nj.gov/labor/employer-services/warn/
 UBS,UBS,Weehawken,,NJ,,2026-11-25,41,,https://www.nj.gov/labor/employer-services/warn/
@@ -23,13 +26,26 @@ Fusion Transport LLC,FUSION TRANSPORT,Piscataway,,NJ,,2026-10-01,79,,https://www
 Verizon Corp Resources Group LLC,VERIZON RESOURCES GROUP,Basking Ridge,,NJ,,2026-09-18,35,,https://www.nj.gov/labor/employer-services/warn/
 Prudential Insurance Company of America,PRUDENTIAL INSURANCE OF AMERICA,Newark,,NJ,,2026-09-18,89,,https://www.nj.gov/labor/employer-services/warn/
 Digital Room LLC,DIGITAL ROOM,Saddle Brook,,NJ,,2026-09-16,69,,https://www.nj.gov/labor/employer-services/warn/
+"Wonder Group, Inc.",WONDER GROUP,Parsippany,,NJ,,2026-09-16,533,,https://www.nj.gov/labor/employer-services/warn/
+Owens &amp; Minor (Avid Medical LLC),OWENS AMP; MINOR (AVID MEDICAL ),Toano VA,,VA,2026-09-16,,419,Closure,https://www.vec.virginia.gov/warn-notices
+Pacific Ag Services LLC,PACIFIC AG,Grant and Franklin Counties,,WA,2026-09-16,2026-11-15,530,Permanent,https://esd.wa.gov/about-employees/WARN
+Full Steam Staffing (2121 Boeing Way),FULL STEAM STAFFING (2121 BOEING WAY),Stockton,San Joaquin,CA,2026-09-15,2026-11-04,91,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Full Steam Staffing (4239 Pock Lane),FULL STEAM STAFFING (4239 POCK LANE),Stockton,San Joaquin,CA,2026-09-15,2026-11-04,19,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 AT&T,AT T,Cumberland County,,NJ,,2026-09-15,138,,https://www.nj.gov/labor/employer-services/warn/
+Bechtel Power Corporation,BECHTEL POWER,Reston VA,,VA,2026-09-15,,200,Closure,https://www.vec.virginia.gov/warn-notices
+Loftus Administrative Services LLC,LOFTUS ADMINISTRATIVE,Yakima County,,WA,2026-09-15,2026-11-15,376,Permanent,https://esd.wa.gov/about-employees/WARN
+Oracle Pleasanton Campus (Pleasanton Campus),ORACLE PLEASANTON CAMPUS (PLEASANTON CAMPUS),Pleasanton,Alameda,CA,2026-09-14,2026-11-13,63,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Oracle America, Inc.",ORACLE AMERICA,Redwood City,San Mateo,CA,2026-09-14,2026-11-13,279,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Oracle America, Inc.",ORACLE AMERICA,Santa Clara,Santa Clara,CA,2026-09-14,2026-11-13,99,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"DesigneRx Pharmaceuticals, Inc.",DESIGNERX PHARMACEUTICALS,Vacaville,Solano,CA,2026-09-14,2026-11-15,7,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Oracle America, Inc.",ORACLE AMERICA,Seattle,,WA,2026-09-14,2026-11-13,359,Permanent,https://esd.wa.gov/about-employees/WARN
+Blue Cascade Orchards,BLUE CASCADE ORCHARDS,"Yakima, Okanogan, Franklin, Grant, Adams, Walla Walla, and Benton Counties",,WA,2026-09-14,2026-11-20,792,Permanent,https://esd.wa.gov/about-employees/WARN
 LeeMah Electronics,LEEMAH ELECTRONICS,Brisbane,San Mateo,CA,2026-09-11,2026-12-21,62,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Fiserv Solutions LLC,FISERV,Berkeley Heights,,NJ,,2026-09-11,98,,https://www.nj.gov/labor/employer-services/warn/
 Young's Market Company of Washington LLC,YOUNG'S MARKET OF WASHINGTON,Auburn,,WA,2026-09-11,2026-11-07,33,Permanent,https://esd.wa.gov/about-employees/WARN
 Monson Ranches Snake River Orchards LLC,MONSON RANCHES SNAKE RIVER ORCHARDS,"Benton City, Burbank",,WA,2026-09-11,2026-11-18,172,Permanent,https://esd.wa.gov/about-employees/WARN
 "Fuji Food Products, Inc.",FUJI FOOD PRODUCTS,Santa Fe Springs,Los Angeles,CA,2026-09-10,2026-11-13,35,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
-United Air Temp Air Conditioning and Heating LLC,UNITED AIR TEMP AIR CONDITIONING AND HEATING,Lorton VA,,VA,2026-09-10,,93,Closure,https://www.vec.virginia.gov/warn-notices
+United Air Temp Air Conditioning and Heating LLC,UNITED AIR TEMP AIR CONDITIONING AND HEATING,Lorton VA,,VA,2026-09-10,,96,Closure,https://www.vec.virginia.gov/warn-notices
 Legendary Fruit Co,LEGENDARY FRUIT,"Yakima, Wapato",,WA,2026-09-10,2026-11-10,1220,Temporary,https://esd.wa.gov/about-employees/WARN
 Shell Catalyst & Technologies,SHELL CATALYST,Martinez,Contra Costa,CA,2026-09-09,2026-11-30,64,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 University of Southern California (1042 Downey Way),UNIVERSITY OF SOUTHERN CALIFORNIA (1042 DOWNEY WAY),Los Angeles,Los Angeles,CA,2026-09-09,2026-11-04,7,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -45,6 +61,7 @@ University of Southern California (941 Bloom Walk),UNIVERSITY OF SOUTHERN CALIFO
 Sapporo U.S.A. (1999 Citracado Parkway),SAPPORO U S A (1999 CITRACADO PARKWAY),Escondido,San Diego,CA,2026-09-09,2026-11-13,200,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Sapporo U.S.A. (2865 Executive Place),SAPPORO U S A (2865 EXECUTIVE PLACE),Escondido,San Diego,CA,2026-09-09,2026-11-13,6,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Sapporo U.S.A. (2005 Harmony Grove Rd),SAPPORO U S A (2005 HARMONY GROVE RD),Escondido,San Diego,CA,2026-09-09,2026-11-13,6,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Cascade View Fruit & Cold Storage, LLC",CASCADE VIEW FRUIT COLD STORAGE,Selah,,WA,2026-09-09,2026-11-15,259,Permanent,https://esd.wa.gov/about-employees/WARN
 MultiCare Health System,MULTICARE HEALTH SYSTEM,Statewide,,WA,2026-09-08,2026-10-27,138,Permanent,https://esd.wa.gov/about-employees/WARN
 "SonTek (Xylem, Inc.)",SONTEK (XYLEM ),San Diego,San Diego,CA,2026-09-04,2026-11-06,36,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Eggo Company dba Kellanova,EGGO DBA KELLANOVA,San Jose,Santa Clara,CA,2026-09-04,2026-11-04,112,Closure Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -59,6 +76,8 @@ Homeless Health Care Los Angeles - Maple Ave.,HOMELESS HEALTH CARE LOS ANGELES -
 Homeless Health Care Los Angeles - 2nd Street,HOMELESS HEALTH CARE LOS ANGELES - 2ND STREET,Los Angeles,Los Angeles,CA,2026-09-02,2026-11-03,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Uber Technologies, Inc. - 200 Mathilda Place",UBER - 200 MATHILDA PLACE,Sunnyvale,Santa Clara,CA,2026-09-02,2026-11-02,94,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Uber technologies, Inc. - 190 Mathilda Place",UBER - 190 MATHILDA PLACE,Sunnyvale,Santa Clara,CA,2026-09-02,2026-11-02,43,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Uber Technologies, Inc. - 1655 3rd Street",UBER - 1655 3RD STREET,San Francisco,San Francisco,CA,2026-09-02,2026-11-02,151,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Uber Technologies, Inc. 1725 3rd Street",UBER 1725 3RD STREET,San Francisco,San Francisco,CA,2026-09-02,2026-11-02,102,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Qualtrics LLC,QUALTRICS,Seattle,,WA,2026-09-02,2026-10-18,117,Permanent,https://esd.wa.gov/about-employees/WARN
 Uber Technologies Inc,UBER,Seattle,,WA,2026-09-02,2026-11-02,93,Permanent,https://esd.wa.gov/about-employees/WARN
 "Sundquist Fruit, LLC",SUNDQUIST FRUIT,Yakima and Franklin Counties,,WA,2026-09-02,2026-11-15,243,Temporary,https://esd.wa.gov/about-employees/WARN
@@ -66,6 +85,8 @@ Renewal by Andersen LLC,RENEWAL BY ANDERSEN,Torrance,Los Angeles,CA,2026-09-01,2
 Renewal by Andersen LLC,RENEWAL BY ANDERSEN,Orange,Orange,CA,2026-09-01,2026-11-02,79,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Renewal by Andersen LLC,RENEWAL BY ANDERSEN,Laguna Hills,Orange,CA,2026-09-01,2026-11-02,52,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Grain Craft, LLC",GRAIN CRAFT,Rancho Cucamonga,San Bernardino,CA,2026-09-01,2026-10-30,3,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Pathways Community Services dba Clarvida,PATHWAYS COMMUNITY DBA CLARVIDA,Anaheim,Orange,CA,2026-09-01,2026-11-01,35,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Pathways Community Services dba Clarvida,PATHWAYS COMMUNITY DBA CLARVIDA,Santa Ana,Orange,CA,2026-09-01,2026-11-01,32,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Gerresheimer,GERRESHEIMER,Vineland,,NJ,,2026-09-01,139,,https://www.nj.gov/labor/employer-services/warn/
 Georgia-Pacific Gypsum LLC,GEORGIA-PACIFIC GYPSUM,Tacoma,,WA,2026-09-01,2026-10-30,120,Permanent,https://esd.wa.gov/about-employees/WARN
 "Synopsys, Inc.",SYNOPSYS,Sunnyvale,Santa Clara,CA,2026-08-31,2026-12-16,128,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -137,7 +158,7 @@ Starbucks,STARBUCKS,Seattle,,WA,2026-08-20,2026-10-19,224,Permanent,https://esd.
 "Stone Brewing Co., LLC - Executive Place",STONE BREWING - EXECUTIVE PLACE,Escondido,San Diego,CA,2026-08-19,2026-10-19,6,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Stone Brewing Co., LLC - Harmony Grove",STONE BREWING - HARMONY GROVE,Escondido,San Diego,CA,2026-08-19,2026-10-19,2,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Stone Brewing CO., LLC - Citracado Parkway",STONE BREWING - CITRACADO PARKWAY,Escondido,San Diego,CA,2026-08-19,2026-10-19,50,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
-"Haas Automation, Inc.",HAAS AUTOMATION,Oxnard,Ventura,CA,2026-08-19,2026-11-02,73,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+"Haas Automation, Inc.",HAAS AUTOMATION,Oxnard,Ventura,CA,2026-08-19,2026-11-02,73,Relocation,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 JP Morgan Chase,JP MORGAN CHASE,Jersey City,,NJ,,2026-08-19,63,,https://www.nj.gov/labor/employer-services/warn/
 Corteva Agriscience LLC,CORTEVA AGRISCIENCE,Pittsburg,Contra Costa,CA,2026-08-18,2026-10-30,2,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Stockton Truss LLC,STOCKTON TRUSS,Stockton,San Joaquin,CA,2026-08-18,2026-10-18,65,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/

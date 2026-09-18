@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T17:50:05.953Z",
+  "generatedAt": "2026-09-18T13:22:04.783Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -8,11 +8,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2306,
-      "employeesTotal": 371600,
+      "noticeCount": 2310,
+      "employeesTotal": 372398,
       "latestNotice": "2026-12-31",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2295
+      "withEffectiveOnly": 2299
     },
     {
       "code": "WA",
@@ -20,10 +20,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1504,
-      "employeesTotal": 239392,
-      "latestNotice": "2026-09-11",
-      "withNoticeDate": 1504,
+      "noticeCount": 1509,
+      "employeesTotal": 241708,
+      "latestNotice": "2026-09-16",
+      "withNoticeDate": 1509,
       "withEffectiveOnly": 0
     },
     {
@@ -44,10 +44,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1118,
-      "employeesTotal": 130741,
-      "latestNotice": "2026-09-10",
-      "withNoticeDate": 1118,
+      "noticeCount": 1120,
+      "employeesTotal": 131363,
+      "latestNotice": "2026-09-16",
+      "withNoticeDate": 1120,
       "withEffectiveOnly": 0
     },
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 219,
-      "employeesTotal": 11668,
-      "latestNotice": "2026-09-11",
-      "withNoticeDate": 219,
+      "noticeCount": 229,
+      "employeesTotal": 12546,
+      "latestNotice": "2026-09-15",
+      "withNoticeDate": 229,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7505,
-  "employeesTotal": 969769,
-  "employerCount": 5874,
+  "noticeCount": 7526,
+  "employeesTotal": 974383,
+  "employerCount": 5886,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-09-11",
+  "maxNoticeDate": "2026-09-16",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -740,6 +740,18 @@
         "WA"
       ],
       "latestNotice": "2006-03-13"
+    },
+    {
+      "normalized": "ORACLE AMERICA",
+      "name": "Oracle America, Inc.",
+      "slug": "oracle-america-inc",
+      "notices": 7,
+      "employees": 1478,
+      "states": [
+        "CA",
+        "WA"
+      ],
+      "latestNotice": "2026-09-14"
     },
     {
       "normalized": "NORVERGENCE",
@@ -1777,6 +1789,17 @@
       "latestNotice": "2011-08-31"
     },
     {
+      "normalized": "BLUE CASCADE ORCHARDS",
+      "name": "Blue Cascade Orchards",
+      "slug": "blue-cascade-orchards",
+      "notices": 1,
+      "employees": 792,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-14"
+    },
+    {
       "normalized": "FIRST TRANSIT",
       "name": "First Transit",
       "slug": "first-transit",
@@ -1966,17 +1989,6 @@
         "NJ"
       ],
       "latestNotice": "2005-08-31"
-    },
-    {
-      "normalized": "ORACLE AMERICA",
-      "name": "Oracle America, Inc.",
-      "slug": "oracle-america-inc",
-      "notices": 4,
-      "employees": 741,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-03-31"
     },
     {
       "normalized": "NEWPORT NEWS SHIPBUILDING",
@@ -2371,6 +2383,17 @@
         "WA"
       ],
       "latestNotice": "2023-08-03"
+    },
+    {
+      "normalized": "WONDER GROUP",
+      "name": "Wonder Group, Inc.",
+      "slug": "wonder-group-inc",
+      "notices": 2,
+      "employees": 654,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-09-16"
     },
     {
       "normalized": "SEMIAHMOO RESORT",
@@ -3093,6 +3116,17 @@
       "latestNotice": "2020-03-23"
     },
     {
+      "normalized": "PACIFIC AG",
+      "name": "Pacific Ag Services LLC",
+      "slug": "pacific-ag-services-llc",
+      "notices": 1,
+      "employees": 530,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-16"
+    },
+    {
       "normalized": "YELLOW FREIGHT (DALLAS)",
       "name": "Yellow Freight (Dallas)",
       "slug": "yellow-freight-dallas",
@@ -3125,6 +3159,17 @@
         "WA"
       ],
       "latestNotice": "2020-01-17"
+    },
+    {
+      "normalized": "CASCADE VIEW FRUIT COLD STORAGE",
+      "name": "Cascade View Fruit & Cold Storage, LLC",
+      "slug": "cascade-view-fruit-cold-storage-llc",
+      "notices": 2,
+      "employees": 522,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-09"
     },
     {
       "normalized": "TEVA PHARMACEUTICALS",
@@ -4202,6 +4247,17 @@
       "latestNotice": "2013-02-15"
     },
     {
+      "normalized": "OWENS AMP; MINOR (AVID MEDICAL )",
+      "name": "Owens &amp; Minor (Avid Medical LLC)",
+      "slug": "owens-amp-minor-avid-medical-llc",
+      "notices": 1,
+      "employees": 419,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-09-16"
+    },
+    {
       "normalized": "LL FLOORING",
       "name": "LL Flooring",
       "slug": "ll-flooring",
@@ -4913,6 +4969,17 @@
         "NJ"
       ],
       "latestNotice": "2018-03-16"
+    },
+    {
+      "normalized": "LOFTUS ADMINISTRATIVE",
+      "name": "Loftus Administrative Services LLC",
+      "slug": "loftus-administrative-services-llc",
+      "notices": 1,
+      "employees": 376,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-15"
     },
     {
       "normalized": "CENVEO",
@@ -7558,17 +7625,6 @@
         "WA"
       ],
       "latestNotice": "2026-06-08"
-    },
-    {
-      "normalized": "CASCADE VIEW FRUIT COLD STORAGE",
-      "name": "Cascade View Fruit & Cold Storage, LLC",
-      "slug": "cascade-view-fruit-cold-storage-llc",
-      "notices": 1,
-      "employees": 263,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-09-15"
     },
     {
       "normalized": "OMEGA ENGINEERING",
@@ -10841,6 +10897,17 @@
       "latestNotice": "2017-04-17"
     },
     {
+      "normalized": "BECHTEL POWER",
+      "name": "Bechtel Power Corporation",
+      "slug": "bechtel-power-corporation",
+      "notices": 1,
+      "employees": 200,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-09-15"
+    },
+    {
       "normalized": "SAPPORO U S A (1999 CITRACADO PARKWAY)",
       "name": "Sapporo U.S.A. (1999 Citracado Parkway)",
       "slug": "sapporo-u-s-a-1999-citracado-parkway",
@@ -11591,6 +11658,17 @@
         "NJ"
       ],
       "latestNotice": "2008-11-07"
+    },
+    {
+      "normalized": "HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL",
+      "name": "Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",
+      "slug": "headquarters-hotel-mgmt-llc-d-b-a-sheraton-atlantic-city-convention-center-hotel",
+      "notices": 2,
+      "employees": 190,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-12-15"
     },
     {
       "normalized": "YANG MING (AMERICA)",
@@ -12683,6 +12761,17 @@
         "NJ"
       ],
       "latestNotice": "2005-10-04"
+    },
+    {
+      "normalized": "BARRETTE OUTDOOR LIVING",
+      "name": "Barrette Outdoor Living",
+      "slug": "barrette-outdoor-living",
+      "notices": 2,
+      "employees": 179,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-12-13"
     },
     {
       "normalized": "SAMSUNG SDS AMERICA",
@@ -15906,6 +15995,17 @@
         "NJ"
       ],
       "latestNotice": "2009-12-31"
+    },
+    {
+      "normalized": "UBER - 1655 3RD STREET",
+      "name": "Uber Technologies, Inc. - 1655 3rd Street",
+      "slug": "uber-technologies-inc-1655-3rd-street",
+      "notices": 1,
+      "employees": 151,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "ANHEUSER BUSCH",
@@ -20788,17 +20888,6 @@
       "latestNotice": "2026-03-24"
     },
     {
-      "normalized": "WONDER GROUP",
-      "name": "Wonder Group",
-      "slug": "wonder-group",
-      "notices": 1,
-      "employees": 121,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2026-02-19"
-    },
-    {
       "normalized": "ENCINO ENERGY",
       "name": "Encino Energy, LLC",
       "slug": "encino-energy-llc",
@@ -21105,17 +21194,6 @@
         "NJ"
       ],
       "latestNotice": "2025-10-10"
-    },
-    {
-      "normalized": "BARRETTE OUTDOOR LIVING",
-      "name": "Barrette Outdoor Living, Inc",
-      "slug": "barrette-outdoor-living-inc",
-      "notices": 1,
-      "employees": 120,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2025-07-01"
     },
     {
       "normalized": "PVH",
@@ -22230,6 +22308,17 @@
         "WA"
       ],
       "latestNotice": "2007-12-26"
+    },
+    {
+      "normalized": "BANKER STEEL A DIVISION OF SCHUFF STEEL",
+      "name": "Banker Steel, a Division of Schuff Steel",
+      "slug": "banker-steel-a-division-of-schuff-steel",
+      "notices": 1,
+      "employees": 115,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-12-14"
     },
     {
       "normalized": "ROSKAM BAKING DBA ORGANIC MILLING",
@@ -25265,6 +25354,17 @@
       "latestNotice": "2005-10-26"
     },
     {
+      "normalized": "UBER 1725 3RD STREET",
+      "name": "Uber Technologies, Inc. 1725 3rd Street",
+      "slug": "uber-technologies-inc-1725-3rd-street",
+      "notices": 1,
+      "employees": 102,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "DHL SUPPLY CHAIN",
       "name": "DHL Supply Chain",
       "slug": "dhl-supply-chain",
@@ -26323,17 +26423,6 @@
       "latestNotice": "2004-04-22"
     },
     {
-      "normalized": "HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL",
-      "name": "Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",
-      "slug": "headquarters-hotel-mgmt-llc-d-b-a-sheraton-atlantic-city-convention-center-hotel",
-      "notices": 1,
-      "employees": 99,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2026-10-01"
-    },
-    {
       "normalized": "NATIONAL FIRE SAFETY",
       "name": "National Fire & Safety, Inc",
       "slug": "national-fire-safety-inc",
@@ -27015,6 +27104,17 @@
         "NJ"
       ],
       "latestNotice": "2005-02-28"
+    },
+    {
+      "normalized": "UNITED AIR TEMP AIR CONDITIONING AND HEATING",
+      "name": "United Air Temp Air Conditioning and Heating LLC",
+      "slug": "united-air-temp-air-conditioning-and-heating-llc",
+      "notices": 1,
+      "employees": 96,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-09-10"
     },
     {
       "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
@@ -27820,17 +27920,6 @@
       "latestNotice": "2010-07-10"
     },
     {
-      "normalized": "UNITED AIR TEMP AIR CONDITIONING AND HEATING",
-      "name": "United Air Temp Air Conditioning and Heating LLC",
-      "slug": "united-air-temp-air-conditioning-and-heating-llc",
-      "notices": 1,
-      "employees": 93,
-      "states": [
-        "VA"
-      ],
-      "latestNotice": "2026-09-10"
-    },
-    {
       "normalized": "UBER",
       "name": "Uber Technologies Inc",
       "slug": "uber-technologies-inc",
@@ -28478,6 +28567,17 @@
         "WA"
       ],
       "latestNotice": "2004-03-08"
+    },
+    {
+      "normalized": "FULL STEAM STAFFING (2121 BOEING WAY)",
+      "name": "Full Steam Staffing (2121 Boeing Way)",
+      "slug": "full-steam-staffing-2121-boeing-way",
+      "notices": 1,
+      "employees": 91,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-15"
     },
     {
       "normalized": "RENTERIA VINEYARD MANAGEMENT",
@@ -37375,6 +37475,17 @@
       "latestNotice": "2004-05-19"
     },
     {
+      "normalized": "PATHWAYS COMMUNITY DBA CLARVIDA",
+      "name": "Pathways Community Services dba Clarvida",
+      "slug": "pathways-community-services-dba-clarvida",
+      "notices": 2,
+      "employees": 67,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-01"
+    },
+    {
       "normalized": "O'BRIENS MARKET",
       "name": "O'Briens Market Inc.",
       "slug": "o-briens-market-inc",
@@ -39254,6 +39365,17 @@
         "WA"
       ],
       "latestNotice": "2006-09-15"
+    },
+    {
+      "normalized": "ORACLE PLEASANTON CAMPUS (PLEASANTON CAMPUS)",
+      "name": "Oracle Pleasanton Campus (Pleasanton Campus)",
+      "slug": "oracle-pleasanton-campus-pleasanton-campus",
+      "notices": 1,
+      "employees": 63,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-14"
     },
     {
       "normalized": "SODEXO (SDH EAST ) HCA SOUTHEAST TEXAS MEDICAL CENTER",
@@ -50173,6 +50295,17 @@
       "latestNotice": "2011-05-25"
     },
     {
+      "normalized": "DESIGNERX PHARMACEUTICALS",
+      "name": "DesigneRx Pharmaceuticals, Inc.",
+      "slug": "designerx-pharmaceuticals-inc",
+      "notices": 2,
+      "employees": 32,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-14"
+    },
+    {
       "normalized": "CONN'S APPLIANCES (BEAUMONT SITE)",
       "name": "Conn's Appliances (Beaumont Site)",
       "slug": "conn-s-appliances-beaumont-site",
@@ -51726,17 +51859,6 @@
       "latestNotice": "2026-08-10"
     },
     {
-      "normalized": "DESIGNERX PHARMACEUTICALS",
-      "name": "DesigneRX Pharmaceuticals, Inc.",
-      "slug": "designerx-pharmaceuticals-inc",
-      "notices": 1,
-      "employees": 25,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-20"
-    },
-    {
       "normalized": "JOB1 (HASLET)",
       "name": "Job1 USA (Haslet)",
       "slug": "job1-usa-haslet",
@@ -53187,6 +53309,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "FULL STEAM STAFFING (4239 POCK LANE)",
+      "name": "Full Steam Staffing (4239 Pock Lane)",
+      "slug": "full-steam-staffing-4239-pock-lane",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-15"
     },
     {
       "normalized": "VESTIS",
@@ -64956,6 +65089,42 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",
+      "normalized": "HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL",
+      "city": "Atlantic City",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-15",
+      "employees": 91,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Banker Steel, a Division of Schuff Steel",
+      "normalized": "BANKER STEEL A DIVISION OF SCHUFF STEEL",
+      "city": "South Plainfield",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-14",
+      "employees": 115,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Barrette Outdoor Living",
+      "normalized": "BARRETTE OUTDOOR LIVING",
+      "city": "Egg Harbor City",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-13",
+      "employees": 59,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Merck & Co",
       "normalized": "MERCK",
       "city": "Rahway",
@@ -65232,6 +65401,66 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Wonder Group, Inc.",
+      "normalized": "WONDER GROUP",
+      "city": "Parsippany",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-09-16",
+      "employees": 533,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Owens &amp; Minor (Avid Medical LLC)",
+      "normalized": "OWENS AMP; MINOR (AVID MEDICAL )",
+      "city": "Toano VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-09-16",
+      "effectiveDate": null,
+      "employees": 419,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Pacific Ag Services LLC",
+      "normalized": "PACIFIC AG",
+      "city": "Grant and Franklin Counties",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-16",
+      "effectiveDate": "2026-11-15",
+      "employees": 530,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Full Steam Staffing (2121 Boeing Way)",
+      "normalized": "FULL STEAM STAFFING (2121 BOEING WAY)",
+      "city": "Stockton",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-04",
+      "employees": 91,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Full Steam Staffing (4239 Pock Lane)",
+      "normalized": "FULL STEAM STAFFING (4239 POCK LANE)",
+      "city": "Stockton",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-04",
+      "employees": 19,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "AT&T",
       "normalized": "AT T",
       "city": "Cumberland County",
@@ -65242,6 +65471,102 @@
       "employees": 138,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Bechtel Power Corporation",
+      "normalized": "BECHTEL POWER",
+      "city": "Reston VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": null,
+      "employees": 200,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Loftus Administrative Services LLC",
+      "normalized": "LOFTUS ADMINISTRATIVE",
+      "city": "Yakima County",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-15",
+      "employees": 376,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Oracle Pleasanton Campus (Pleasanton Campus)",
+      "normalized": "ORACLE PLEASANTON CAMPUS (PLEASANTON CAMPUS)",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-14",
+      "effectiveDate": "2026-11-13",
+      "employees": 63,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Oracle America, Inc.",
+      "normalized": "ORACLE AMERICA",
+      "city": "Redwood City",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-09-14",
+      "effectiveDate": "2026-11-13",
+      "employees": 279,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Oracle America, Inc.",
+      "normalized": "ORACLE AMERICA",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-14",
+      "effectiveDate": "2026-11-13",
+      "employees": 99,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "DesigneRx Pharmaceuticals, Inc.",
+      "normalized": "DESIGNERX PHARMACEUTICALS",
+      "city": "Vacaville",
+      "county": "Solano",
+      "state": "CA",
+      "noticeDate": "2026-09-14",
+      "effectiveDate": "2026-11-15",
+      "employees": 7,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Oracle America, Inc.",
+      "normalized": "ORACLE AMERICA",
+      "city": "Seattle",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-14",
+      "effectiveDate": "2026-11-13",
+      "employees": 359,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Blue Cascade Orchards",
+      "normalized": "BLUE CASCADE ORCHARDS",
+      "city": "Yakima, Okanogan, Franklin, Grant, Adams, Walla Walla, and Benton Counties",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-14",
+      "effectiveDate": "2026-11-20",
+      "employees": 792,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "LeeMah Electronics",
@@ -65311,7 +65636,7 @@
       "state": "VA",
       "noticeDate": "2026-09-10",
       "effectiveDate": null,
-      "employees": 93,
+      "employees": 96,
       "layoffType": "Closure",
       "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },
@@ -65496,6 +65821,18 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "Cascade View Fruit & Cold Storage, LLC",
+      "normalized": "CASCADE VIEW FRUIT COLD STORAGE",
+      "city": "Selah",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-09",
+      "effectiveDate": "2026-11-15",
+      "employees": 259,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
       "employer": "MultiCare Health System",
       "normalized": "MULTICARE HEALTH SYSTEM",
       "city": "Statewide",
@@ -65664,6 +66001,30 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "Uber Technologies, Inc. - 1655 3rd Street",
+      "normalized": "UBER - 1655 3RD STREET",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-02",
+      "employees": 151,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Uber Technologies, Inc. 1725 3rd Street",
+      "normalized": "UBER 1725 3RD STREET",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-09-02",
+      "effectiveDate": "2026-11-02",
+      "employees": 102,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Qualtrics LLC",
       "normalized": "QUALTRICS",
       "city": "Seattle",
@@ -65744,6 +66105,30 @@
       "noticeDate": "2026-09-01",
       "effectiveDate": "2026-10-30",
       "employees": 3,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pathways Community Services dba Clarvida",
+      "normalized": "PATHWAYS COMMUNITY DBA CLARVIDA",
+      "city": "Anaheim",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-11-01",
+      "employees": 35,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pathways Community Services dba Clarvida",
+      "normalized": "PATHWAYS COMMUNITY DBA CLARVIDA",
+      "city": "Santa Ana",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-09-01",
+      "effectiveDate": "2026-11-01",
+      "employees": 32,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -66608,7 +66993,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Layoff Permanent",
+      "layoffType": "Relocation",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
