@@ -1,93 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-18T00:08:50.400Z",
+  "updatedAt": "2026-09-18T17:03:45.674Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-14539::effective_date",
-      "subjectId": "event:federal_register:2026-14539",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Public Charge Ground of Inadmissibility",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility",
-      "eventId": "federal_register:2026-14539",
-      "category": "actionable",
-      "topicKey": "source:federal_register",
-      "priority": 66722.67222222223,
-      "readerValue": 82,
-      "factsHash": "24c5c7235b41fda0",
-      "whyItMatters": [
-        "The rule is final but does not apply until September 18, 2026, 1 days from today. Until then the rules in force today stay in force.",
-        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
-        "ImmigrationClock is watching the September 18, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz",
-      "ogImage": "/og/change/public-charge-ground-of-inadmissibility-fzbwfz.png",
-      "freshness": {
-        "publishedAt": "2026-07-20",
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-09-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 82/100 clears the floor; share page https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz"
-        }
-      ]
-    },
-    {
-      "id": "keydate:dv-lottery::key_date",
-      "subjectId": "keydate:dv-lottery",
-      "contentType": "key_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Diversity Visa (green-card) lottery (14 days away)",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "deadline",
-      "topicKey": "topic:green-card",
-      "priority": 63106,
-      "readerValue": 78,
-      "factsHash": "57ea9f293191a1b3",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-17",
-        "expiresAt": "2026-09-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-17T17:36:19.231Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-17T17:36:19.231Z",
-          "status": "verified",
-          "reason": "reader value 78/100 clears the floor; share page https://immigrationclock.com/key-dates"
-        }
-      ]
-    },
     {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
@@ -101,7 +15,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -142,7 +56,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -183,7 +97,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -224,7 +138,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -275,9 +189,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
-      "factsHash": "6bc3ffcede9462df",
+      "factsHash": "236a6c9d9d79bb23",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
@@ -336,9 +250,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:deadlines",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
-      "factsHash": "b971b3276a206f6b",
+      "factsHash": "9c0275eb1b0a8724",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/effective-dates-ahead",
@@ -397,9 +311,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:policy-changes",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
-      "factsHash": "8abe38bf10d2e1b4",
+      "factsHash": "6ef72603129ba0e5",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
@@ -458,9 +372,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
-      "factsHash": "d434585092ad1230",
+      "factsHash": "e345707f2ab03515",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -507,50 +421,6 @@
       ]
     },
     {
-      "id": "event:uscis_policy_manual:20260914-revocationreferrals::why_it_matters",
-      "subjectId": "event:uscis_policy_manual:20260914-revocationreferrals",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Policy alert: Revocation of Naturalization Referrals",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260914-RevocationReferrals.pdf",
-      "eventId": "uscis_policy_manual:20260914-revocationreferrals",
-      "category": "explainer",
-      "topicKey": "source:uscis_policy_manual",
-      "priority": 24208.983333333334,
-      "readerValue": 42,
-      "factsHash": "9679d06dec12b5c7",
-      "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-revocation-of-naturalization-referrals-2tez9l",
-      "ogImage": "/og/change/policy-alert-revocation-of-naturalization-referrals-2tez9l.png",
-      "freshness": {
-        "publishedAt": "2026-09-14",
-        "discoveredAt": "2026-09-15",
-        "expiresAt": "2026-10-06"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-revocation-of-naturalization-referrals-2tez9l"
-        }
-      ]
-    },
-    {
       "id": "explainer:arrests-removals-detention::explainer",
       "subjectId": "explainer:arrests-removals-detention",
       "contentType": "explainer",
@@ -563,7 +433,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "95013a86f0878a92",
       "whyItMatters": [
@@ -606,7 +476,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -649,7 +519,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -692,7 +562,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22002,
+      "priority": 22003,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -723,49 +593,6 @@
       ]
     },
     {
-      "id": "explainer:visa-bulletin-priority-dates::explainer",
-      "subjectId": "explainer:visa-bulletin-priority-dates",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How to read the Visa Bulletin",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:green-cards",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "73bd2eafafb2a189",
-      "whyItMatters": [
-        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
-      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
-        }
-      ]
-    },
-    {
       "id": "explainer:border-encounters-are-events::explainer",
       "subjectId": "explainer:border-encounters-are-events",
       "contentType": "explainer",
@@ -778,7 +605,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -821,7 +648,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -864,7 +691,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -907,7 +734,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -950,7 +777,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -993,7 +820,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -1024,25 +851,27 @@
       ]
     },
     {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
+      "id": "explainer:visa-bulletin-priority-dates::explainer",
+      "subjectId": "explainer:visa-bulletin-priority-dates",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Key dates, counted down",
+      "headline": "How to read the Visa Bulletin",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:green-cards",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "73bd2eafafb2a189",
+      "whyItMatters": [
+        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
+      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
+      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1060,7 +889,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
         }
       ]
     },
@@ -1077,7 +906,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1118,9 +947,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "a084325ac89ffb2c",
+      "factsHash": "6a01d81f95e06f85",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1159,9 +988,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
-      "factsHash": "520b78f49424f99d",
+      "factsHash": "492639c1c44e8b2d",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/developers",
@@ -1200,7 +1029,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1241,7 +1070,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1282,7 +1111,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1323,7 +1152,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1348,6 +1177,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
         }
       ]
     },
@@ -2008,6 +1878,64 @@
       ]
     },
     {
+      "id": "event:uscis_policy_manual:20260914-revocationreferrals::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20260914-revocationreferrals",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Policy alert: Revocation of Naturalization Referrals",
+      "suggestedHeadline": "USCIS guidance on denaturalization referrals (INA 340) — what it is",
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260914-RevocationReferrals.pdf",
+      "eventId": "uscis_policy_manual:20260914-revocationreferrals",
+      "category": "explainer",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 24208.977777777778,
+      "readerValue": 42,
+      "factsHash": "9679d06dec12b5c7",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS posted Policy Manual guidance on denaturalization referrals (INA 340) Sept. 14.\nNo effective date.\n\nWhy it matters: Officer guidance, not regulation; changeable without rulemaking.\nSource: USCIS Policy Manual\nhttps://immigrationclock.com/what-changed/policy-alert-revocation-of-naturalization-referrals-2tez9l?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3A2tez9l",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-revocation-of-naturalization-referrals-2tez9l",
+      "ogImage": "/og/change/policy-alert-revocation-of-naturalization-referrals-2tez9l.png",
+      "freshness": {
+        "publishedAt": "2026-09-14",
+        "discoveredAt": "2026-09-15",
+        "expiresAt": "2026-10-06"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-18T17:03:06.066Z",
+      "externalUrl": "https://x.com/i/web/status/2100994195632603416",
+      "history": [
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "reader value 42/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-revocation-of-naturalization-referrals-2tez9l"
+        },
+        {
+          "at": "2026-09-18T17:03:06.066Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-18T17:03:06.066Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
       "id": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8::what_changed",
       "subjectId": "event:uscis_newsroom:85cbcecc-cce6-483c-9e98-1dd737e7c1a8",
       "contentType": "what_changed",
@@ -2394,6 +2322,56 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-14539::effective_date",
+      "subjectId": "event:federal_register:2026-14539",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Public Charge Ground of Inadmissibility",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/07/20/2026-14539/public-charge-ground-of-inadmissibility",
+      "eventId": "federal_register:2026-14539",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 66722.67222222223,
+      "readerValue": 82,
+      "factsHash": "24c5c7235b41fda0",
+      "whyItMatters": [
+        "The rule is final but does not apply until September 18, 2026, 1 days from today. Until then the rules in force today stay in force.",
+        "What changes is which guidance applies: the later policy is withdrawn and the earlier guidance is back in force. The underlying authority is not itself removed.",
+        "ImmigrationClock is watching the September 18, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz",
+      "ogImage": "/og/change/public-charge-ground-of-inadmissibility-fzbwfz.png",
+      "freshness": {
+        "publishedAt": "2026-07-20",
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-09-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 82/100 clears the floor; share page https://immigrationclock.com/what-changed/public-charge-ground-of-inadmissibility-fzbwfz"
+        },
+        {
+          "at": "2026-09-18T17:03:06.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-18"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-14439::effective_date",
       "subjectId": "event:federal_register:2026-14439",
       "contentType": "effective_date",
@@ -2439,6 +2417,52 @@
           "at": "2026-09-15T17:39:11.072Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-15"
+        }
+      ]
+    },
+    {
+      "id": "keydate:dv-lottery::key_date",
+      "subjectId": "keydate:dv-lottery",
+      "contentType": "key_date",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Diversity Visa (green-card) lottery (14 days away)",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "deadline",
+      "topicKey": "topic:green-card",
+      "priority": 63106,
+      "readerValue": 78,
+      "factsHash": "57ea9f293191a1b3",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-17",
+        "expiresAt": "2026-09-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-17T17:36:19.231Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-17T17:36:19.231Z",
+          "status": "verified",
+          "reason": "reader value 78/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        },
+        {
+          "at": "2026-09-18T17:03:06.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-18"
         }
       ]
     },
