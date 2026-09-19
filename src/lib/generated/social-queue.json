@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-19T16:23:39.932Z",
+  "updatedAt": "2026-09-19T19:17:50.765Z",
   "items": [
     {
       "id": "signal:h1b-sponsors-by-state::data_signal",
@@ -137,67 +137,6 @@
           "at": "2026-09-10T16:58:22.075Z",
           "status": "verified",
           "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
-      "id": "signal:changes-last-30-days::data_signal",
-      "subjectId": "signal:changes-last-30-days",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How much U.S. immigration policy changed in the last 30 days",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:policy-changes",
-      "priority": 30006,
-      "readerValue": 65,
-      "factsHash": "63dabacb45079b2f",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
-      "ogImage": "/og/signal/changes-last-30-days.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
         }
       ]
     },
@@ -1754,6 +1693,81 @@
         },
         {
           "at": "2026-09-07T21:59:06.306Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "signal:changes-last-30-days::data_signal",
+      "subjectId": "signal:changes-last-30-days",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "How much U.S. immigration policy changed in the last 30 days",
+      "suggestedHeadline": "20 immigration changes in the 30 days to Sep 19, 2026",
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30006,
+      "readerValue": 65,
+      "factsHash": "63dabacb45079b2f",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "20 official immigration changes in the last 30 days, routine notices excluded.\n\nSource: ImmigrationClock change archive to Sep 19, 2026. 2 carry future effective dates. It counts our feeds, not everything; severity follows source rules.\n\nhttps://immigrationclock.com/insights/changes-last-30-days?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Achanges-last-30-days",
+        "linkedin": "",
+        "structure": "data_figure"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/changes-last-30-days",
+      "ogImage": "/og/signal/changes-last-30-days.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-19T19:17:33.779Z",
+      "externalUrl": "https://x.com/i/web/status/2101390327135277104",
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/changes-last-30-days"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-19T19:17:33.779Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-19T19:17:33.779Z",
           "status": "published",
           "reason": "published on x"
         }
