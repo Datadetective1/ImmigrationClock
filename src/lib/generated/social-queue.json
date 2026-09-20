@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-20T16:45:57.770Z",
+  "updatedAt": "2026-09-20T19:23:45.989Z",
   "items": [
     {
       "id": "signal:h1b-approval-rate::data_signal",
@@ -188,49 +188,6 @@
           "at": "2026-09-20T16:45:57.736Z",
           "status": "verified",
           "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
-      "id": "explainer:arrests-removals-detention::explainer",
-      "subjectId": "explainer:arrests-removals-detention",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Arrests, removals and detention are three different numbers",
-      "suggestedHeadline": null,
-      "sourceName": "ICE — Statistics; ICE — Detention management statistics",
-      "sourceUrl": "https://www.ice.gov/statistics",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:enforcement-data",
-      "priority": 22014,
-      "readerValue": 60,
-      "factsHash": "95013a86f0878a92",
-      "whyItMatters": [
-        "\"ICE deported X people\" is usually a sentence about arrests, removals or detention, and which one changes the meaning entirely. The label is the fact."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/arrests-removals-detention",
-      "ogImage": "/og/explainer/arrests-removals-detention.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/arrests-removals-detention"
         }
       ]
     },
@@ -1892,6 +1849,63 @@
         },
         {
           "at": "2026-09-17T00:21:42.706Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "explainer:arrests-removals-detention::explainer",
+      "subjectId": "explainer:arrests-removals-detention",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "Arrests, removals and detention are three different numbers",
+      "suggestedHeadline": "Arrests, removals, detention: what each ICE number means",
+      "sourceName": "ICE — Statistics; ICE — Detention management statistics",
+      "sourceUrl": "https://www.ice.gov/statistics",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:enforcement-data",
+      "priority": 22014,
+      "readerValue": 60,
+      "factsHash": "95013a86f0878a92",
+      "whyItMatters": [
+        "\"ICE deported X people\" is usually a sentence about arrests, removals or detention, and which one changes the meaning entirely. The label is the fact."
+      ],
+      "suggestedPost": {
+        "x": "Are ICE arrests, removals and detention the same?\n\nArrest = custody. Removal = confirmed departure, incl. voluntary returns/departures.\n\nArrests/removals are year totals. Detention is a one‑day snapshot. We label each and date detention.\n\nhttps://immigrationclock.com/explained/arrests-removals-detention?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Aarrests-removals-detention",
+        "linkedin": "",
+        "structure": "question_answer"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/arrests-removals-detention",
+      "ogImage": "/og/explainer/arrests-removals-detention.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-20T19:22:17.227Z",
+      "externalUrl": "https://x.com/i/web/status/2101754204922450014",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/arrests-removals-detention"
+        },
+        {
+          "at": "2026-09-20T19:22:17.227Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-20T19:22:17.227Z",
           "status": "published",
           "reason": "published on x"
         }
