@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-22T17:37:03.103Z",
+  "updatedAt": "2026-09-22T21:14:22.235Z",
   "items": [
     {
       "id": "signal:warn-by-state::data_signal",
@@ -15,9 +15,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30007,
       "readerValue": 65,
-      "factsHash": "493892fbd9e12700",
+      "factsHash": "94b30a805b606326",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -939,47 +939,6 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
-        }
-      ]
-    },
-    {
-      "id": "discovery:warn-api::data_discovery",
-      "subjectId": "discovery:warn-api",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "A free WARN layoff API",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15002,
-      "readerValue": 50,
-      "factsHash": "a1b27168d1891cb6",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/developers",
-      "ogImage": "/og/page/developers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/developers"
         }
       ]
     },
@@ -2172,6 +2131,61 @@
         },
         {
           "at": "2026-09-11T19:35:56.305Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "discovery:warn-api::data_discovery",
+      "subjectId": "discovery:warn-api",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "A free WARN layoff API",
+      "suggestedHeadline": "Free WARN layoff JSON feed from 6 states, 11,931 notices",
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "a1b27168d1891cb6",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "Looking for WARN layoff data?\n\nImmigrationClock has a free JSON feed from 6 states (CA, GA, NJ, TX, VA, WA): 11,931 notices naming 1,536,465 employees at 8,866 employers. Employer, location, date, headcount. No key, no sign-up.\n\nhttps://immigrationclock.com/developers?utm_source=x&utm_medium=social&utm_campaign=data_discovery&utm_content=discovery%3Awarn-api",
+        "linkedin": "",
+        "structure": "need_first"
+      },
+      "shareUrl": "https://immigrationclock.com/developers",
+      "ogImage": "/og/page/developers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-22T21:13:17.253Z",
+      "externalUrl": "https://x.com/i/web/status/2102506815095194095",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/developers"
+        },
+        {
+          "at": "2026-09-22T21:13:17.253Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-22T21:13:17.253Z",
           "status": "published",
           "reason": "published on x"
         }
