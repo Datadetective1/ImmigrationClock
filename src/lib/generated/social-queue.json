@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-23T17:49:49.332Z",
+  "updatedAt": "2026-09-23T21:27:03.500Z",
   "items": [
     {
       "id": "signal:cbp-fiscal-year-to-date::data_signal",
@@ -55,87 +55,6 @@
           "at": "2026-09-23T17:49:49.297Z",
           "status": "scheduled",
           "reason": "morning is news-only; evergreen waits for the afternoon"
-        }
-      ]
-    },
-    {
-      "id": "signal:proposed-rules-open::data_signal",
-      "subjectId": "signal:proposed-rules-open",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Proposed immigration rules that are not in force",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock change archive",
-      "sourceUrl": "https://immigrationclock.com/what-changed",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:policy-changes",
-      "priority": 30008,
-      "readerValue": 65,
-      "factsHash": "e11d0ae3d0c314a6",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
-      "ogImage": "/og/signal/proposed-rules-open.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-20"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-22"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
         }
       ]
     },
@@ -1568,6 +1487,101 @@
         },
         {
           "at": "2026-09-05T15:59:08.628Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "signal:proposed-rules-open::data_signal",
+      "subjectId": "signal:proposed-rules-open",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "Proposed immigration rules that are not in force",
+      "suggestedHeadline": "8 proposed rules in last 90 days, none in force",
+      "sourceName": "ImmigrationClock change archive",
+      "sourceUrl": "https://immigrationclock.com/what-changed",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:policy-changes",
+      "priority": 30008,
+      "readerValue": 65,
+      "factsHash": "e11d0ae3d0c314a6",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "8 proposed immigration rules in the last 90 days — none in force.\n\nSource: ImmigrationClock change archive. Period: June 25 to Sept. 23, 2026. A proposed rule changes nothing until it is finalised, and it may never be.\n\nhttps://immigrationclock.com/insights/proposed-rules-open?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Aproposed-rules-open",
+        "linkedin": "",
+        "structure": "data_figure"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/proposed-rules-open",
+      "ogImage": "/og/signal/proposed-rules-open.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-23T21:26:34.644Z",
+      "externalUrl": "https://x.com/i/web/status/2102872395933515944",
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/proposed-rules-open"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-20"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-22"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-23T21:26:34.644Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-23T21:26:34.644Z",
           "status": "published",
           "reason": "published on x"
         }
