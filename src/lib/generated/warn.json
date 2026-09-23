@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T13:49:42.180Z",
+  "generatedAt": "2026-09-23T15:14:04.268Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,17 +68,17 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 229,
-      "employeesTotal": 12546,
-      "latestNotice": "2026-09-15",
-      "withNoticeDate": 229,
+      "noticeCount": 268,
+      "employeesTotal": 13264,
+      "latestNotice": "2026-09-18",
+      "withNoticeDate": 268,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 11931,
-  "employeesTotal": 1536465,
-  "employerCount": 8866,
+  "noticeCount": 11970,
+  "employeesTotal": 1537183,
+  "employerCount": 8901,
   "minNoticeDate": "1989-08-17",
   "maxNoticeDate": "2026-09-21",
   "byEmployer": [
@@ -13105,6 +13105,17 @@
       "latestNotice": "2017-06-02"
     },
     {
+      "normalized": "IPS NATIONWIDE",
+      "name": "IPS Nationwide, Inc.",
+      "slug": "ips-nationwide-inc",
+      "notices": 2,
+      "employees": 262,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-18"
+    },
+    {
       "normalized": "JOANN STORES SUPPORT CENTER",
       "name": "JoAnn Stores Support Center",
       "slug": "joann-stores-support-center",
@@ -18121,6 +18132,17 @@
         "GA"
       ],
       "latestNotice": "1997-08-20"
+    },
+    {
+      "normalized": "AMY'S KITCHEN",
+      "name": "Amy's Kitchen, LLC",
+      "slug": "amy-s-kitchen-llc",
+      "notices": 1,
+      "employees": 200,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-17"
     },
     {
       "normalized": "BECHTEL POWER",
@@ -44947,6 +44969,17 @@
       "latestNotice": "1997-08-20"
     },
     {
+      "normalized": "INTEL - SC-12",
+      "name": "Intel Corporation - SC-12",
+      "slug": "intel-corporation-sc-12",
+      "notices": 2,
+      "employees": 91,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-18"
+    },
+    {
       "normalized": "FULL STEAM STAFFING (2121 BOEING WAY)",
       "name": "Full Steam Staffing (2121 Boeing Way)",
       "slug": "full-steam-staffing-2121-boeing-way",
@@ -47322,6 +47355,17 @@
         "NJ"
       ],
       "latestNotice": "2026-10-11"
+    },
+    {
+      "normalized": "MAYA CINEMAS FRESNO 16",
+      "name": "Maya Cinemas Fresno 16",
+      "slug": "maya-cinemas-fresno-16",
+      "notices": 1,
+      "employees": 86,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-16"
     },
     {
       "normalized": "COLUMBIA HOSPITALITY",
@@ -58196,17 +58240,6 @@
         "CA"
       ],
       "latestNotice": "2026-07-27"
-    },
-    {
-      "normalized": "INTEL - SC-12",
-      "name": "Intel Corporation - SC-12",
-      "slug": "intel-corporation-sc-12",
-      "notices": 1,
-      "employees": 67,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-24"
     },
     {
       "normalized": "ELC BEAUTY (TOO FACED COSMETICS )",
@@ -72716,6 +72749,28 @@
       "latestNotice": "2000-03-20"
     },
     {
+      "normalized": "INTEL - ROBERT NOYCE BUILDING",
+      "name": "Intel Corporation - Robert Noyce Building",
+      "slug": "intel-corporation-robert-noyce-building",
+      "notices": 2,
+      "employees": 46,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-18"
+    },
+    {
+      "normalized": "SAFEWAY - DUBLIN CANYON ROAD",
+      "name": "Safeway, Inc. - Dublin Canyon Road",
+      "slug": "safeway-inc-dublin-canyon-road",
+      "notices": 1,
+      "employees": 46,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-17"
+    },
+    {
       "normalized": "GXO LOGISTICS WORLDWIDE",
       "name": "GXO Logistics Worldwide, LLC",
       "slug": "gxo-logistics-worldwide-llc",
@@ -81381,17 +81436,6 @@
       "latestNotice": "2000-03-29"
     },
     {
-      "normalized": "INTEL - ROBERT NOYCE BUILDING",
-      "name": "Intel Corporation - Robert Noyce Building",
-      "slug": "intel-corporation-robert-noyce-building",
-      "notices": 1,
-      "employees": 24,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-24"
-    },
-    {
       "normalized": "YELLOW TRUCKING (YRC FREIGHT) TEAMSTERS LOCAL 29",
       "name": "Yellow Trucking (YRC Freight) Teamsters Local 29",
       "slug": "yellow-trucking-yrc-freight-teamsters-local-29",
@@ -83790,6 +83834,17 @@
       "latestNotice": "2000-04-18"
     },
     {
+      "normalized": "LEVINE MANAGEMENT GROUP - 822 SROBERTSON",
+      "name": "Levine Management Group, Inc. - 822 SRobertson",
+      "slug": "levine-management-group-inc-822-srobertson",
+      "notices": 1,
+      "employees": 17,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
       "normalized": "EQUUS WORKFORCE -ALPHA RD (ARBOR E T )",
       "name": "Equus Workforce Solutions-Alpha Rd.(Arbor E&T, LLC)",
       "slug": "equus-workforce-solutions-alpha-rd-arbor-e-t-llc",
@@ -84526,6 +84581,17 @@
         "GA"
       ],
       "latestNotice": "2000-03-29"
+    },
+    {
+      "normalized": "INTEL - SC-9",
+      "name": "Intel Corporation, Inc. - SC-9",
+      "slug": "intel-corporation-inc-sc-9",
+      "notices": 2,
+      "employees": 15,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-18"
     },
     {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (4676 ADMIRALTY WAY)",
@@ -86698,17 +86764,6 @@
         "CA"
       ],
       "latestNotice": "2026-07-30"
-    },
-    {
-      "normalized": "INTEL - SC-9",
-      "name": "Intel Corporation - SC-9",
-      "slug": "intel-corporation-sc-9",
-      "notices": 1,
-      "employees": 10,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-24"
     },
     {
       "normalized": "NORDSTROM CREDIT BANK",
@@ -92098,6 +92153,17 @@
       "latestNotice": "2000-04-19"
     },
     {
+      "normalized": "SAFEWAY - STONERIDGE MALL ROAD",
+      "name": "Safeway, Inc. - Stoneridge Mall Road",
+      "slug": "safeway-inc-stoneridge-mall-road",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-17"
+    },
+    {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (941 BLOOM WALK)",
       "name": "University of Southern California (941 Bloom Walk)",
       "slug": "university-of-southern-california-941-bloom-walk",
@@ -92118,6 +92184,39 @@
         "CA"
       ],
       "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - TOWNE AVENUE",
+      "name": "Levine Management Groups, Inc. - Towne Avenue",
+      "slug": "levine-management-groups-inc-towne-avenue",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUP - RURAL DR",
+      "name": "Levine Management Group, Inc. - Rural Dr.",
+      "slug": "levine-management-group-inc-rural-dr",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - VALLEY BLVD",
+      "name": "Levine Management Groups, Inc. - Valley Blvd.",
+      "slug": "levine-management-groups-inc-valley-blvd",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
     },
     {
       "normalized": "EBALDC (100 9TH STREET)",
@@ -93352,6 +93451,28 @@
       "latestNotice": "2026-09-01"
     },
     {
+      "normalized": "LEVINE MANAGEMENT GROUPS - SAN DIMAS",
+      "name": "Levine Management Groups, Inc. - San Dimas",
+      "slug": "levine-management-groups-inc-san-dimas",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - 425 S OLEANDER AVE",
+      "name": "Levine Management Groups, Inc. - 425 S. Oleander Ave.",
+      "slug": "levine-management-groups-inc-425-s-oleander-ave",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
       "normalized": "TPE ACQUISITION - 5116",
       "name": "TPE Acquisition, LLC - 5116",
       "slug": "tpe-acquisition-llc-5116",
@@ -94410,6 +94531,116 @@
       "latestNotice": "2026-08-18"
     },
     {
+      "normalized": "LEVINE MANAGEMENT GROUPS - CANDLEWOOD",
+      "name": "Levine Management Groups, Inc. - Candlewood",
+      "slug": "levine-management-groups-inc-candlewood",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS 95TH STREET",
+      "name": "Levine Management Groups, Inc. 95th Street",
+      "slug": "levine-management-groups-inc-95th-street",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - NORMANDIE AVE",
+      "name": "Levine management Groups, Inc. - Normandie Ave",
+      "slug": "levine-management-groups-inc-normandie-ave",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUP - JAMES M WOOD BLVD",
+      "name": "Levine Management Group, Inc. - James M. Wood Blvd",
+      "slug": "levine-management-group-inc-james-m-wood-blvd",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUP - GALE AVE",
+      "name": "Levine Management Group, Inc. - Gale Ave.",
+      "slug": "levine-management-group-inc-gale-ave",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - MESA ST",
+      "name": "Levine Management Groups, Inc. - Mesa St.",
+      "slug": "levine-management-groups-inc-mesa-st",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - 980 PALM AVE",
+      "name": "Levine Management Groups, Inc. - 980 Palm Ave.",
+      "slug": "levine-management-groups-inc-980-palm-ave",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - SUNSET PL",
+      "name": "Levine Management Groups, Inc. - Sunset Pl.",
+      "slug": "levine-management-groups-inc-sunset-pl",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - CYPRESS ROAD",
+      "name": "Levine Management Groups, Inc. - Cypress Road",
+      "slug": "levine-management-groups-inc-cypress-road",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - PONDEROSA DR",
+      "name": "Levine Management Groups, Inc. - Ponderosa Dr.",
+      "slug": "levine-management-groups-inc-ponderosa-dr",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
       "normalized": "SHARP METROPOLITAN MEDICAL GROUP - SHARP MCDONALD CENTER",
       "name": "Sharp Metropolitan Medical Group - Sharp McDonald Center",
       "slug": "sharp-metropolitan-medical-group-sharp-mcdonald-center",
@@ -95446,6 +95677,17 @@
       "latestNotice": "2008-01-24"
     },
     {
+      "normalized": "INTEL - SC-11",
+      "name": "Intel Corporation - SC-11",
+      "slug": "intel-corporation-sc-11",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-18"
+    },
+    {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1149 S HILL STREET)",
       "name": "University of Southern California (1149 S. Hill Street)",
       "slug": "university-of-southern-california-1149-s-hill-street",
@@ -95565,6 +95807,149 @@
         "CA"
       ],
       "latestNotice": "2026-08-21"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - RATNER ST",
+      "name": "Levine Management Groups, Inc. - Ratner St.",
+      "slug": "levine-management-groups-inc-ratner-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - POTRERO GRANDE",
+      "name": "Levine Management Groups, Inc. - Potrero Grande",
+      "slug": "levine-management-groups-inc-potrero-grande",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - 900-906 CRENSHAW BLVD",
+      "name": "Levine Management Groups, Inc. - 900-906 Crenshaw Blvd",
+      "slug": "levine-management-groups-inc-900-906-crenshaw-blvd",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - KINGSLEY DR",
+      "name": "Levine Management Groups. Inc. - Kingsley Dr.",
+      "slug": "levine-management-groups-inc-kingsley-dr",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - BEACHWOOD DR",
+      "name": "Levine Management Groups, Inc. - Beachwood Dr.",
+      "slug": "levine-management-groups-inc-beachwood-dr",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - MANHATTAN PL",
+      "name": "Levine Management Groups, Inc. - Manhattan Pl",
+      "slug": "levine-management-groups-inc-manhattan-pl",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - 1053 S NEW HAMPSHIRE AVE -",
+      "name": "Levine Management Groups, Inc. - 1053 S. New Hampshire Ave.-",
+      "slug": "levine-management-groups-inc-1053-s-new-hampshire-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - 1057 S NEW HAMPSHIRE AVE",
+      "name": "Levine Management Groups, Inc. - 1057 S, New Hampshire Ave",
+      "slug": "levine-management-groups-inc-1057-s-new-hampshire-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - ARROW HIGHWAY",
+      "name": "Levine Management Groups, Inc. - Arrow Highway",
+      "slug": "levine-management-groups-inc-arrow-highway",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - GLENDALE BLVD",
+      "name": "Levine Management Groups, Inc. - Glendale Blvd",
+      "slug": "levine-management-groups-inc-glendale-blvd",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVEINE MANAGEMENT GROUPS - 415 S OLEANDER AVE",
+      "name": "Leveine Management Groups - 415 S. Oleander Ave.",
+      "slug": "leveine-management-groups-415-s-oleander-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - CANADA BLVD",
+      "name": "Levine Management Groups, Inc. - Canada Blvd.",
+      "slug": "levine-management-groups-inc-canada-blvd",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
+    },
+    {
+      "normalized": "LEVINE MANAGEMENT GROUPS - CARMELITA CT",
+      "name": "Levine Management Groups, Inc. - Carmelita Ct.",
+      "slug": "levine-management-groups-inc-carmelita-ct",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-08-18"
     },
     {
       "normalized": "EBALDC (3850 SAN PABLO AVE)",
@@ -98479,6 +98864,78 @@
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
+      "employer": "Intel Corporation - Robert Noyce Building",
+      "normalized": "INTEL - ROBERT NOYCE BUILDING",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-09-30",
+      "employees": 22,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation, Inc. - SC-9",
+      "normalized": "INTEL - SC-9",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-09-30",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation - SC-11",
+      "normalized": "INTEL - SC-11",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-09-30",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation - SC-12",
+      "normalized": "INTEL - SC-12",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-09-30",
+      "employees": 24,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "IPS Nationwide, Inc.",
+      "normalized": "IPS NATIONWIDE",
+      "city": "Newark",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-11-17",
+      "employees": 212,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "IPS Nationwide, Inc.",
+      "normalized": "IPS NATIONWIDE",
+      "city": "Costa Mesa",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-11-17",
+      "employees": 50,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Verizon Corp Resources Group LLC",
       "normalized": "VERIZON RESOURCES GROUP",
       "city": "Basking Ridge",
@@ -98527,6 +98984,42 @@
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
+      "employer": "Amy's Kitchen, LLC",
+      "normalized": "AMY'S KITCHEN",
+      "city": "Santa Rosa",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-09-17",
+      "effectiveDate": "2026-12-18",
+      "employees": 200,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Safeway, Inc. - Stoneridge Mall Road",
+      "normalized": "SAFEWAY - STONERIDGE MALL ROAD",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-17",
+      "effectiveDate": "2026-11-20",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Safeway, Inc. - Dublin Canyon Road",
+      "normalized": "SAFEWAY - DUBLIN CANYON ROAD",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-17",
+      "effectiveDate": "2026-11-20",
+      "employees": 46,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "TLC Orchards LLC",
       "normalized": "TLC ORCHARDS",
       "city": "Wapato",
@@ -98573,6 +99066,18 @@
       "employees": 443,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maya Cinemas Fresno 16",
+      "normalized": "MAYA CINEMAS FRESNO 16",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-09-16",
+      "effectiveDate": "2026-09-15",
+      "employees": 86,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Digital Room LLC",
@@ -100179,7 +100684,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Relocation",
+      "layoffType": "Relocation Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -100228,6 +100733,354 @@
       "effectiveDate": "2026-08-17",
       "employees": 72,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Group, Inc. - 822 SRobertson",
+      "normalized": "LEVINE MANAGEMENT GROUP - 822 SROBERTSON",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 17,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Candlewood",
+      "normalized": "LEVINE MANAGEMENT GROUPS - CANDLEWOOD",
+      "city": "Lakewood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - San Dimas",
+      "normalized": "LEVINE MANAGEMENT GROUPS - SAN DIMAS",
+      "city": "La Verne",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 3,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Ratner St.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - RATNER ST",
+      "city": "Sun Valley",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. 95th Street",
+      "normalized": "LEVINE MANAGEMENT GROUPS 95TH STREET",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Towne Avenue",
+      "normalized": "LEVINE MANAGEMENT GROUPS - TOWNE AVENUE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 4,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine management Groups, Inc. - Normandie Ave",
+      "normalized": "LEVINE MANAGEMENT GROUPS - NORMANDIE AVE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Group, Inc. - Rural Dr.",
+      "normalized": "LEVINE MANAGEMENT GROUP - RURAL DR",
+      "city": "Monterey Park",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 4,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Group, Inc. - James M. Wood Blvd",
+      "normalized": "LEVINE MANAGEMENT GROUP - JAMES M WOOD BLVD",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Group, Inc. - Gale Ave.",
+      "normalized": "LEVINE MANAGEMENT GROUP - GALE AVE",
+      "city": "Hacienda Heights",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Potrero Grande",
+      "normalized": "LEVINE MANAGEMENT GROUPS - POTRERO GRANDE",
+      "city": "Rosemead",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Mesa St.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - MESA ST",
+      "city": "San Pedro",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - 900-906 Crenshaw Blvd",
+      "normalized": "LEVINE MANAGEMENT GROUPS - 900-906 CRENSHAW BLVD",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups. Inc. - Kingsley Dr.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - KINGSLEY DR",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Beachwood Dr.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - BEACHWOOD DR",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Manhattan Pl",
+      "normalized": "LEVINE MANAGEMENT GROUPS - MANHATTAN PL",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Valley Blvd.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - VALLEY BLVD",
+      "city": "West Covina",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 4,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - 1053 S. New Hampshire Ave.-",
+      "normalized": "LEVINE MANAGEMENT GROUPS - 1053 S NEW HAMPSHIRE AVE -",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - 1057 S, New Hampshire Ave",
+      "normalized": "LEVINE MANAGEMENT GROUPS - 1057 S NEW HAMPSHIRE AVE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - 980 Palm Ave.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - 980 PALM AVE",
+      "city": "West Hollywood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Arrow Highway",
+      "normalized": "LEVINE MANAGEMENT GROUPS - ARROW HIGHWAY",
+      "city": "Pomona",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Glendale Blvd",
+      "normalized": "LEVINE MANAGEMENT GROUPS - GLENDALE BLVD",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Leveine Management Groups - 415 S. Oleander Ave.",
+      "normalized": "LEVEINE MANAGEMENT GROUPS - 415 S OLEANDER AVE",
+      "city": "Compton",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - 425 S. Oleander Ave.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - 425 S OLEANDER AVE",
+      "city": "Compton",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 3,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Canada Blvd.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - CANADA BLVD",
+      "city": "Glendale",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Sunset Pl.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - SUNSET PL",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Cypress Road",
+      "normalized": "LEVINE MANAGEMENT GROUPS - CYPRESS ROAD",
+      "city": "Oxnard",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Ponderosa Dr.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - PONDEROSA DR",
+      "city": "Camarillo",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 2,
+      "layoffType": "Layoff Not known at this time",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Levine Management Groups, Inc. - Carmelita Ct.",
+      "normalized": "LEVINE MANAGEMENT GROUPS - CARMELITA CT",
+      "city": "Oxnard",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-08-18",
+      "effectiveDate": "2026-10-20",
+      "employees": 1,
+      "layoffType": "Layoff Not known at this time",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
