@@ -35,6 +35,13 @@
       "audienceId": "84934be1-58ef-41f1-8680-3cd665df4d32",
       "broadcastId": "a0f6e32d-88a2-4fec-8a51-254b45b955e4",
       "sentAt": "2026-09-17T17:51:26.205Z"
+    },
+    {
+      "issueId": "weekly-en-2026-09-24",
+      "locale": "en",
+      "audienceId": "84934be1-58ef-41f1-8680-3cd665df4d32",
+      "broadcastId": "8a7e948e-4d0a-4394-9545-bfeeac1daa78",
+      "sentAt": "2026-09-24T18:04:08.595Z"
     }
   ]
 }
