@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-24T17:50:34.528Z",
+  "updatedAt": "2026-09-24T21:28:17.981Z",
   "items": [
     {
       "id": "keydate:dv-lottery::key_date",
@@ -440,50 +440,6 @@
         "publishedAt": "2026-09-23",
         "discoveredAt": "2026-09-24",
         "expiresAt": "2026-10-04"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-24T17:50:34.528Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-24T17:50:34.528Z",
-          "status": "verified",
-          "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
-        }
-      ]
-    },
-    {
-      "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::why_it_matters",
-      "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Policy alert: Controlled Substance Trafficking, Significant Trafficking in Persons, and Money Laundering Grounds of Inadmissibility",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260923-CriminalInadmissibility.pdf",
-      "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
-      "category": "explainer",
-      "topicKey": "source:uscis_policy_manual",
-      "priority": 23608.994444444445,
-      "readerValue": 30,
-      "factsHash": "6f3a879f9fa4d2d4",
-      "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia",
-      "ogImage": "/og/change/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia.png",
-      "freshness": {
-        "publishedAt": "2026-09-23",
-        "discoveredAt": "2026-09-24",
-        "expiresAt": "2026-10-15"
       },
       "scheduledFor": null,
       "publishedAt": null,
@@ -2233,6 +2189,64 @@
         },
         {
           "at": "2026-09-17T00:21:42.706Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Policy alert: Controlled Substance Trafficking, Significant Trafficking in Persons, and Money Laundering Grounds of Inadmissibility",
+      "suggestedHeadline": "USCIS updates guidance on INA 212(a)(2) inadmissibility grounds",
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260923-CriminalInadmissibility.pdf",
+      "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
+      "category": "explainer",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 23608.994444444445,
+      "readerValue": 30,
+      "factsHash": "6f3a879f9fa4d2d4",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS updated Policy Manual guidance on 212(a)(2) grounds for controlled substance trafficking, trafficking in persons, and money laundering.\n\nNo posted effective date. Guides adjudication; not a regulation.\n\nSource: USCIS Policy Manual\nhttps://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Aa1niia",
+        "linkedin": "",
+        "structure": "context_first"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia",
+      "ogImage": "/og/change/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia.png",
+      "freshness": {
+        "publishedAt": "2026-09-23",
+        "discoveredAt": "2026-09-24",
+        "expiresAt": "2026-10-15"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-24T21:27:17.924Z",
+      "externalUrl": "https://x.com/i/web/status/2103235096216301745",
+      "history": [
+        {
+          "at": "2026-09-24T17:50:34.528Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-24T17:50:34.528Z",
+          "status": "verified",
+          "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
+        },
+        {
+          "at": "2026-09-24T21:27:17.924Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-24T21:27:17.924Z",
           "status": "published",
           "reason": "published on x"
         }
