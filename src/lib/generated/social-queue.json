@@ -1,60 +1,55 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-23T21:27:03.500Z",
+  "updatedAt": "2026-09-24T17:50:34.528Z",
   "items": [
     {
-      "id": "signal:cbp-fiscal-year-to-date::data_signal",
-      "subjectId": "signal:cbp-fiscal-year-to-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "scheduled",
-      "headline": "Border encounters so far this fiscal year",
+      "id": "keydate:dv-lottery::key_date",
+      "subjectId": "keydate:dv-lottery",
+      "contentType": "key_date",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Diversity Visa (green-card) lottery (14 days away)",
       "suggestedHeadline": null,
-      "sourceName": "CBP Nationwide Encounters",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
       "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:border",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "e88f8ee75bd6e891",
+      "category": "deadline",
+      "topicKey": "topic:green-card",
+      "priority": 63113,
+      "readerValue": 78,
+      "factsHash": "da72d2e7c1774041",
       "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
-      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
       "freshness": {
         "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
+        "discoveredAt": "2026-09-17",
+        "expiresAt": "2026-09-24"
       },
-      "scheduledFor": "afternoon",
+      "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-17T17:36:19.231Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-17T17:36:19.231Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+          "reason": "reader value 78/100 clears the floor; share page https://immigrationclock.com/key-dates"
         },
         {
-          "at": "2026-09-09T17:08:22.513Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
+          "at": "2026-09-18T17:03:06.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-18"
         },
         {
-          "at": "2026-09-10T16:58:22.075Z",
+          "at": "2026-09-24T17:50:34.528Z",
           "status": "verified",
-          "reason": "deferred window passed"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
+          "reason": "re-entered the candidates"
         }
       ]
     },
@@ -71,9 +66,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
-      "factsHash": "aed540c553d4bf02",
+      "factsHash": "5f14e6630f8cc0f6",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -152,7 +147,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -193,7 +188,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -244,7 +239,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -295,7 +290,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "dda57e526908be51",
       "whyItMatters": [],
@@ -358,31 +353,29 @@
       ]
     },
     {
-      "id": "explainer:h1b-approvals-vs-workers::explainer",
-      "subjectId": "explainer:h1b-approvals-vs-workers",
-      "contentType": "explainer",
+      "id": "signal:cbp-fiscal-year-to-date::data_signal",
+      "subjectId": "signal:cbp-fiscal-year-to-date",
+      "contentType": "data_signal",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Why an H-1B approval count is not the number of workers",
+      "headline": "Border encounters so far this fiscal year",
       "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "sourceName": "CBP Nationwide Encounters",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
       "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 22009,
-      "readerValue": 60,
-      "factsHash": "026994ea743c7a2f",
-      "whyItMatters": [
-        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
-      ],
+      "category": "data_insight",
+      "topicKey": "topic:border",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "e88f8ee75bd6e891",
+      "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
-      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
+      "shareUrl": "https://immigrationclock.com/insights/cbp-fiscal-year-to-date",
+      "ogImage": "/og/signal/cbp-fiscal-year-to-date.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "expiresAt": "2026-10-18"
       },
       "scheduledFor": null,
       "publishedAt": null,
@@ -396,93 +389,115 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/cbp-fiscal-year-to-date"
+        },
+        {
+          "at": "2026-09-09T17:08:22.513Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-10T16:58:22.075Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-24T17:50:34.528Z",
+          "status": "verified",
+          "reason": "deferred window passed"
         }
       ]
     },
     {
-      "id": "explainer:h1b-cap-and-registration::explainer",
-      "subjectId": "explainer:h1b-cap-and-registration",
-      "contentType": "explainer",
-      "tier": "evergreen",
+      "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::what_changed",
+      "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "verified",
-      "headline": "How the H-1B cap works",
+      "headline": "Policy alert: Controlled Substance Trafficking, Significant Trafficking in Persons, and Money Laundering Grounds of Inadmissibility",
       "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B cap season; USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
-      "eventId": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260923-CriminalInadmissibility.pdf",
+      "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
       "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 22008,
-      "readerValue": 60,
-      "factsHash": "4068f60d64f54dcd",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 24458.994444444445,
+      "readerValue": 30,
+      "factsHash": "2a063738d66dc74a",
       "whyItMatters": [
-        "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-cap-and-registration",
-      "ogImage": "/og/explainer/h1b-cap-and-registration.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia",
+      "ogImage": "/og/change/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "publishedAt": "2026-09-23",
+        "discoveredAt": "2026-09-24",
+        "expiresAt": "2026-10-04"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-24T17:50:34.528Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-24T17:50:34.528Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-cap-and-registration"
+          "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
         }
       ]
     },
     {
-      "id": "explainer:reported-projected-estimated::explainer",
-      "subjectId": "explainer:reported-projected-estimated",
-      "contentType": "explainer",
-      "tier": "evergreen",
+      "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
       "status": "verified",
-      "headline": "How ImmigrationClock labels a number",
+      "headline": "Policy alert: Controlled Substance Trafficking, Significant Trafficking in Persons, and Money Laundering Grounds of Inadmissibility",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock — Methodology",
-      "sourceUrl": "https://immigrationclock.com/methodology",
-      "eventId": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260923-CriminalInadmissibility.pdf",
+      "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
       "category": "explainer",
-      "topicKey": "explainer:how-we-work",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "ccae3862f5a31652",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 23608.994444444445,
+      "readerValue": 30,
+      "factsHash": "6f3a879f9fa4d2d4",
       "whyItMatters": [
-        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
-      "ogImage": "/og/explainer/reported-projected-estimated.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia",
+      "ogImage": "/og/change/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "publishedAt": "2026-09-23",
+        "discoveredAt": "2026-09-24",
+        "expiresAt": "2026-10-15"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-24T17:50:34.528Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-09-24T17:50:34.528Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
+          "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
         }
       ]
     },
@@ -499,7 +514,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -530,6 +545,49 @@
       ]
     },
     {
+      "id": "explainer:h1b-approvals-vs-workers::explainer",
+      "subjectId": "explainer:h1b-approvals-vs-workers",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Why an H-1B approval count is not the number of workers",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:work-visas",
+      "priority": 22010,
+      "readerValue": 60,
+      "factsHash": "026994ea743c7a2f",
+      "whyItMatters": [
+        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
+      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
+        }
+      ]
+    },
+    {
       "id": "explainer:interim-final-rule::explainer",
       "subjectId": "explainer:interim-final-rule",
       "contentType": "explainer",
@@ -542,7 +600,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -573,6 +631,49 @@
       ]
     },
     {
+      "id": "explainer:h1b-cap-and-registration::explainer",
+      "subjectId": "explainer:h1b-cap-and-registration",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "How the H-1B cap works",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — H-1B cap season; USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:work-visas",
+      "priority": 20009,
+      "readerValue": 60,
+      "factsHash": "4068f60d64f54dcd",
+      "whyItMatters": [
+        "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/h1b-cap-and-registration",
+      "ogImage": "/og/explainer/h1b-cap-and-registration.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-cap-and-registration"
+        }
+      ]
+    },
+    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -585,7 +686,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -628,7 +729,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -671,7 +772,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -714,7 +815,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -757,7 +858,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -788,25 +889,27 @@
       ]
     },
     {
-      "id": "discovery:explainers::data_discovery",
-      "subjectId": "discovery:explainers",
-      "contentType": "data_discovery",
+      "id": "explainer:reported-projected-estimated::explainer",
+      "subjectId": "explainer:reported-projected-estimated",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "ImmigrationClock explains",
+      "headline": "How ImmigrationClock labels a number",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "ImmigrationClock — Methodology",
+      "sourceUrl": "https://immigrationclock.com/methodology",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:explained",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "c15d5822d00b1ad8",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:how-we-work",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "ccae3862f5a31652",
+      "whyItMatters": [
+        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained",
-      "ogImage": "/og/page/explained.png",
+      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
+      "ogImage": "/og/explainer/reported-projected-estimated.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -824,7 +927,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
         }
       ]
     },
@@ -841,7 +944,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -882,7 +985,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -923,7 +1026,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -964,9 +1067,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
-      "factsHash": "9434697dbb031880",
+      "factsHash": "0ab146137d58c004",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1005,7 +1108,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1046,7 +1149,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1071,6 +1174,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/pulse"
+        }
+      ]
+    },
+    {
+      "id": "discovery:explainers::data_discovery",
+      "subjectId": "discovery:explainers",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "ImmigrationClock explains",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:explained",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "c15d5822d00b1ad8",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained",
+      "ogImage": "/og/page/explained.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
         }
       ]
     },
@@ -2572,52 +2716,6 @@
           "at": "2026-09-15T17:39:11.072Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-15"
-        }
-      ]
-    },
-    {
-      "id": "keydate:dv-lottery::key_date",
-      "subjectId": "keydate:dv-lottery",
-      "contentType": "key_date",
-      "tier": "follow_up",
-      "status": "rejected",
-      "headline": "Diversity Visa (green-card) lottery (14 days away)",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "deadline",
-      "topicKey": "topic:green-card",
-      "priority": 63106,
-      "readerValue": 78,
-      "factsHash": "57ea9f293191a1b3",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-17",
-        "expiresAt": "2026-09-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-17T17:36:19.231Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-17T17:36:19.231Z",
-          "status": "verified",
-          "reason": "reader value 78/100 clears the floor; share page https://immigrationclock.com/key-dates"
-        },
-        {
-          "at": "2026-09-18T17:03:06.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-18"
         }
       ]
     },
