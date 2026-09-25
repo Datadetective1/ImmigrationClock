@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-24T18:02:34.963Z",
+  "generatedAt": "2026-09-25T14:22:07.143Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -32,10 +32,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1517,
-      "employeesTotal": 243732,
-      "latestNotice": "2026-09-21",
-      "withNoticeDate": 1517,
+      "noticeCount": 1521,
+      "employeesTotal": 244391,
+      "latestNotice": "2026-09-22",
+      "withNoticeDate": 1521,
       "withEffectiveOnly": 0
     },
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 268,
-      "employeesTotal": 13264,
-      "latestNotice": "2026-09-18",
-      "withNoticeDate": 268,
+      "noticeCount": 288,
+      "employeesTotal": 13572,
+      "latestNotice": "2026-09-23",
+      "withNoticeDate": 288,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 11970,
-  "employeesTotal": 1537183,
-  "employerCount": 8901,
+  "noticeCount": 11994,
+  "employeesTotal": 1538150,
+  "employerCount": 8918,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-09-21",
+  "maxNoticeDate": "2026-09-23",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -124,12 +124,12 @@
       "normalized": "MICROSOFT",
       "name": "Microsoft",
       "slug": "microsoft",
-      "notices": 21,
-      "employees": 11907,
+      "notices": 22,
+      "employees": 12184,
       "states": [
         "WA"
       ],
-      "latestNotice": "2026-07-06"
+      "latestNotice": "2026-09-22"
     },
     {
       "normalized": "DELTA AIR LINES",
@@ -1942,6 +1942,17 @@
       "latestNotice": "2016-08-16"
     },
     {
+      "normalized": "EXPEDIA",
+      "name": "Expedia, Inc.",
+      "slug": "expedia-inc",
+      "notices": 7,
+      "employees": 1079,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-22"
+    },
+    {
       "normalized": "HUDSON HOSPITAL OPCO D/B/A CAREPOINT HEALTH ¿ CHRIST HOSPITAL",
       "name": "Hudson Hospital Opco LLC, d/b/a CarePoint Health ¿ Christ Hospital",
       "slug": "hudson-hospital-opco-llc-d-b-a-carepoint-health-christ-hospital",
@@ -2076,17 +2087,6 @@
         "VA"
       ],
       "latestNotice": "2018-06-19"
-    },
-    {
-      "normalized": "EXPEDIA",
-      "name": "Expedia, Inc.",
-      "slug": "expedia-inc",
-      "notices": 6,
-      "employees": 1021,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-01-28"
     },
     {
       "normalized": "BAYONNE MEDICAL CTR",
@@ -4538,6 +4538,17 @@
         "WA"
       ],
       "latestNotice": "2006-08-17"
+    },
+    {
+      "normalized": "BM ADMINISTRATIVE",
+      "name": "BM Administrative Services",
+      "slug": "bm-administrative-services",
+      "notices": 2,
+      "employees": 589,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-21"
     },
     {
       "normalized": "MEDSTAR MOBILE HEALTHCARE",
@@ -12748,17 +12759,6 @@
       "latestNotice": "2007-11-06"
     },
     {
-      "normalized": "BM ADMINISTRATIVE",
-      "name": "BM Administrative Services",
-      "slug": "bm-administrative-services",
-      "notices": 1,
-      "employees": 268,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-09-30"
-    },
-    {
       "normalized": "MOLINA HEALTHCARE OF VIRGINIA",
       "name": "Molina Healthcare of Virginia Inc.",
       "slug": "molina-healthcare-of-virginia-inc",
@@ -19504,6 +19504,17 @@
       "latestNotice": "2000-03-20"
     },
     {
+      "normalized": "PROVIDENCE HEALTH",
+      "name": "Providence Health & Services",
+      "slug": "providence-health-services",
+      "notices": 4,
+      "employees": 191,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-18"
+    },
+    {
       "normalized": "AMERICAN BAR ASSOCIATION (PROBAR)",
       "name": "American Bar Association (ProBAR)",
       "slug": "american-bar-association-probar",
@@ -19845,17 +19856,6 @@
         "NJ"
       ],
       "latestNotice": "2026-11-09"
-    },
-    {
-      "normalized": "PROVIDENCE HEALTH",
-      "name": "Providence Health & Services",
-      "slug": "providence-health-services",
-      "notices": 3,
-      "employees": 188,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-11-21"
     },
     {
       "normalized": "AAC HOLDING",
@@ -38460,6 +38460,17 @@
       "latestNotice": "1996-01-12"
     },
     {
+      "normalized": "CAPSTONE DELIVERY",
+      "name": "Capstone Delivery Inc.",
+      "slug": "capstone-delivery-inc",
+      "notices": 1,
+      "employees": 106,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-23"
+    },
+    {
       "normalized": "CHS NORTHWEST",
       "name": "CHS Northwest",
       "slug": "chs-northwest",
@@ -55124,6 +55135,17 @@
         "GA"
       ],
       "latestNotice": "1998-05-15"
+    },
+    {
+      "normalized": "KAISER (8954 RIO SAN DIEGO DR )",
+      "name": "Kaiser (8954 Rio San Diego Dr.)",
+      "slug": "kaiser-8954-rio-san-diego-dr",
+      "notices": 1,
+      "employees": 72,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
     },
     {
       "normalized": "LEVINE MANAGEMENT GROUP",
@@ -79530,6 +79552,17 @@
       "latestNotice": "1994-09-09"
     },
     {
+      "normalized": "QUIXOTE STUDIO - NORTH VALLEY",
+      "name": "Quixote Studio Services - North Valley",
+      "slug": "quixote-studio-services-north-valley",
+      "notices": 1,
+      "employees": 29,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-15"
+    },
+    {
       "normalized": "STEALTH MONITORING",
       "name": "Stealth Monitoring",
       "slug": "stealth-monitoring",
@@ -80885,6 +80918,17 @@
       "latestNotice": "2000-03-29"
     },
     {
+      "normalized": "KAISER",
+      "name": "Kaiser",
+      "slug": "kaiser",
+      "notices": 3,
+      "employees": 25,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
       "normalized": "SMBC MANUBANK",
       "name": "SMBC Manubank",
       "slug": "smbc-manubank",
@@ -81434,6 +81478,17 @@
         "GA"
       ],
       "latestNotice": "2000-03-29"
+    },
+    {
+      "normalized": "QUIXOTE STUDIO - NORTH VALLEY CAMPUS A",
+      "name": "Quixote Studio Services - North Valley Campus A",
+      "slug": "quixote-studio-services-north-valley-campus-a",
+      "notices": 1,
+      "employees": 24,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-15"
     },
     {
       "normalized": "YELLOW TRUCKING (YRC FREIGHT) TEAMSTERS LOCAL 29",
@@ -82578,6 +82633,17 @@
         "GA"
       ],
       "latestNotice": "2009-12-17"
+    },
+    {
+      "normalized": "KAISER (99 S OAKLAND AVE )",
+      "name": "Kaiser (99 S. Oakland Ave.)",
+      "slug": "kaiser-99-s-oakland-ave",
+      "notices": 1,
+      "employees": 20,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
     },
     {
       "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MEMORIAL HOSPITAL",
@@ -86402,6 +86468,17 @@
       "latestNotice": "2000-03-13"
     },
     {
+      "normalized": "KAISER (ONE KAISER PLAZA)",
+      "name": "Kaiser (One Kaiser Plaza)",
+      "slug": "kaiser-one-kaiser-plaza",
+      "notices": 1,
+      "employees": 11,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
       "normalized": "COUCHBASE",
       "name": "Couchbase, Inc.",
       "slug": "couchbase-inc",
@@ -88539,6 +88616,17 @@
       "latestNotice": "2004-07-23"
     },
     {
+      "normalized": "RTX",
+      "name": "RTX",
+      "slug": "rtx",
+      "notices": 2,
+      "employees": 8,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-22"
+    },
+    {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (12015 E WATERFRONT DR )",
       "name": "University of Southern California (12015 E Waterfront Dr.)",
       "slug": "university-of-southern-california-12015-e-waterfront-dr",
@@ -89264,17 +89352,6 @@
         "CA"
       ],
       "latestNotice": "2026-09-09"
-    },
-    {
-      "normalized": "RTX",
-      "name": "RTX",
-      "slug": "rtx",
-      "notices": 1,
-      "employees": 7,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-08-25"
     },
     {
       "normalized": "SHARP METROPOLITAN MEDICAL CAMPUS - SHARP MARY BIRCH HOSPITAL",
@@ -92153,6 +92230,17 @@
       "latestNotice": "2000-04-19"
     },
     {
+      "normalized": "KAISER (1840 CALIFORNIA AVE )",
+      "name": "Kaiser (1840 California Ave.)",
+      "slug": "kaiser-1840-california-ave",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
       "normalized": "SAFEWAY - STONERIDGE MALL ROAD",
       "name": "Safeway, Inc. - Stoneridge Mall Road",
       "slug": "safeway-inc-stoneridge-mall-road",
@@ -93440,6 +93528,28 @@
       "latestNotice": "2005-05-17"
     },
     {
+      "normalized": "KAISER (75N FAIR OAKS AVE )",
+      "name": "Kaiser (75N. Fair Oaks Ave.)",
+      "slug": "kaiser-75n-fair-oaks-ave",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
+      "normalized": "QUIXOTE STUDIO - SYLMAR SOUTH",
+      "name": "Quixote Studio Services - Sylmar South",
+      "slug": "quixote-studio-services-sylmar-south",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-15"
+    },
+    {
       "normalized": "GRAIN CRAFT",
       "name": "Grain Craft, LLC",
       "slug": "grain-craft-llc",
@@ -94463,6 +94573,39 @@
         "GA"
       ],
       "latestNotice": "2005-05-13"
+    },
+    {
+      "normalized": "KAISER (393 E WALNUT ST )",
+      "name": "Kaiser (393 E. Walnut St.)",
+      "slug": "kaiser-393-e-walnut-st",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
+      "normalized": "KAISER (1830 CALIFORNIA AVE )",
+      "name": "Kaiser (1830 California Ave.)",
+      "slug": "kaiser-1830-california-ave",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
+      "normalized": "KAISER (3840 MURPHY CANYON RD )",
+      "name": "Kaiser (3840 Murphy Canyon Rd.)",
+      "slug": "kaiser-3840-murphy-canyon-rd",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
     },
     {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (3740 MCCLINTOCK AVE)",
@@ -95677,6 +95820,39 @@
       "latestNotice": "2008-01-24"
     },
     {
+      "normalized": "KAISER (1800 HARRISON ST )",
+      "name": "Kaiser (1800 Harrison St.)",
+      "slug": "kaiser-1800-harrison-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
+      "normalized": "KAISER (74 N PASADENA AVE )",
+      "name": "Kaiser (74 N. Pasadena Ave.)",
+      "slug": "kaiser-74-n-pasadena-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
+      "normalized": "KAISER (17140 BERNARDO CENTER DR )",
+      "name": "Kaiser (17140 Bernardo Center Dr.)",
+      "slug": "kaiser-17140-bernardo-center-dr",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-21"
+    },
+    {
       "normalized": "INTEL - SC-11",
       "name": "Intel Corporation - SC-11",
       "slug": "intel-corporation-sc-11",
@@ -95686,6 +95862,17 @@
         "CA"
       ],
       "latestNotice": "2026-09-18"
+    },
+    {
+      "normalized": "QUIXOTE STUDIO - SYLMAR NORTH",
+      "name": "Quixote Studio Services - Sylmar North",
+      "slug": "quixote-studio-services-sylmar-north",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-15"
     },
     {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1149 S HILL STREET)",
@@ -98840,6 +99027,222 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Capstone Delivery Inc.",
+      "normalized": "CAPSTONE DELIVERY",
+      "city": "South Gate",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-23",
+      "effectiveDate": "2026-11-21",
+      "employees": 106,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "RTX",
+      "normalized": "RTX",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-22",
+      "effectiveDate": "2026-11-27",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Expedia, Inc.",
+      "normalized": "EXPEDIA",
+      "city": "Seattle",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-22",
+      "effectiveDate": "2026-11-21",
+      "employees": 58,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Microsoft",
+      "normalized": "MICROSOFT",
+      "city": "Redmond",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-22",
+      "effectiveDate": "2026-11-21",
+      "employees": 277,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Kaiser (1800 Harrison St.)",
+      "normalized": "KAISER (1800 HARRISON ST )",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (One Kaiser Plaza)",
+      "normalized": "KAISER (ONE KAISER PLAZA)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 11,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser",
+      "normalized": "KAISER",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 22,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser",
+      "normalized": "KAISER",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (393 E. Walnut St.)",
+      "normalized": "KAISER (393 E WALNUT ST )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (74 N. Pasadena Ave.)",
+      "normalized": "KAISER (74 N PASADENA AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (75N. Fair Oaks Ave.)",
+      "normalized": "KAISER (75N FAIR OAKS AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (99 S. Oakland Ave.)",
+      "normalized": "KAISER (99 S OAKLAND AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 20,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser",
+      "normalized": "KAISER",
+      "city": "Irvine",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (1830 California Ave.)",
+      "normalized": "KAISER (1830 CALIFORNIA AVE )",
+      "city": "Corona",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (1840 California Ave.)",
+      "normalized": "KAISER (1840 CALIFORNIA AVE )",
+      "city": "Corona",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (17140 Bernardo Center Dr.)",
+      "normalized": "KAISER (17140 BERNARDO CENTER DR )",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (3840 Murphy Canyon Rd.)",
+      "normalized": "KAISER (3840 MURPHY CANYON RD )",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser (8954 Rio San Diego Dr.)",
+      "normalized": "KAISER (8954 RIO SAN DIEGO DR )",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-20",
+      "employees": 72,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "DNS Farm Services LLC",
       "normalized": "DNS FARM",
       "city": "Grant and Chelan Counties",
@@ -98860,6 +99263,18 @@
       "noticeDate": "2026-09-21",
       "effectiveDate": "2026-09-30",
       "employees": 120,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "BM Administrative Services",
+      "normalized": "BM ADMINISTRATIVE",
+      "city": "Yakima County",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-21",
+      "effectiveDate": "2026-11-30",
+      "employees": 321,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
@@ -98980,6 +99395,18 @@
       "noticeDate": "2026-09-18",
       "effectiveDate": "2026-11-21",
       "employees": 92,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Providence Health & Services",
+      "normalized": "PROVIDENCE HEALTH",
+      "city": "Olympia",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-18",
+      "effectiveDate": "2026-11-18",
+      "employees": 3,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
@@ -99149,6 +99576,54 @@
       "effectiveDate": "2026-11-04",
       "employees": 19,
       "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Quixote Studio Services - North Valley Campus A",
+      "normalized": "QUIXOTE STUDIO - NORTH VALLEY CAMPUS A",
+      "city": "Pacoima",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-14",
+      "employees": 24,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Quixote Studio Services - North Valley",
+      "normalized": "QUIXOTE STUDIO - NORTH VALLEY",
+      "city": "Pacoima",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-14",
+      "employees": 29,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Quixote Studio Services - Sylmar South",
+      "normalized": "QUIXOTE STUDIO - SYLMAR SOUTH",
+      "city": "Sylmar",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-14",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Quixote Studio Services - Sylmar North",
+      "normalized": "QUIXOTE STUDIO - SYLMAR NORTH",
+      "city": "Sylmar",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-15",
+      "effectiveDate": "2026-11-14",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -100684,7 +101159,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Relocation Permanent",
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
