@@ -1,7 +1,98 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-26T00:33:50.303Z",
+  "updatedAt": "2026-09-26T17:06:26.193Z",
   "items": [
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "b0b89280bdedefa5",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-20"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-22"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-25T17:55:10.852Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-25"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
     {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
@@ -15,7 +106,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -56,7 +147,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -107,7 +198,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -158,7 +249,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "d6b450474ad70548",
       "whyItMatters": [],
@@ -233,7 +324,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -282,6 +373,94 @@
       ]
     },
     {
+      "id": "event:federal_courts:10983722::what_changed",
+      "subjectId": "event:federal_courts:10983722",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Department of Homeland Security v. League of Women Voters",
+      "suggestedHeadline": null,
+      "sourceName": "Federal court decisions",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
+      "eventId": "federal_courts:10983722",
+      "category": "explainer",
+      "topicKey": "source:federal_courts",
+      "priority": 24578.994444444445,
+      "readerValue": 34,
+      "factsHash": "b6cddfddda7a35c3",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
+      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
+      "freshness": {
+        "publishedAt": "2026-09-25",
+        "discoveredAt": "2026-09-26",
+        "expiresAt": "2026-10-06"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_courts:10983722::why_it_matters",
+      "subjectId": "event:federal_courts:10983722",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Department of Homeland Security v. League of Women Voters",
+      "suggestedHeadline": null,
+      "sourceName": "Federal court decisions",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
+      "eventId": "federal_courts:10983722",
+      "category": "explainer",
+      "topicKey": "source:federal_courts",
+      "priority": 23728.994444444445,
+      "readerValue": 34,
+      "factsHash": "289a3d4de16ea3ba",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
+      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
+      "freshness": {
+        "publishedAt": "2026-09-25",
+        "discoveredAt": "2026-09-26",
+        "expiresAt": "2026-10-17"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
+        }
+      ]
+    },
+    {
       "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::what_changed",
       "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
       "contentType": "what_changed",
@@ -294,7 +473,7 @@
       "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 24308.98888888889,
+      "priority": 23608.983333333334,
       "readerValue": 30,
       "factsHash": "2a063738d66dc74a",
       "whyItMatters": [
@@ -326,49 +505,6 @@
       ]
     },
     {
-      "id": "explainer:effective-date-vs-publication-date::explainer",
-      "subjectId": "explainer:effective-date-vs-publication-date",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "An effective date is not a publication date",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 22014,
-      "readerValue": 60,
-      "factsHash": "4bb7139aa31c33a9",
-      "whyItMatters": [
-        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
-      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-approvals-vs-workers::explainer",
       "subjectId": "explainer:h1b-approvals-vs-workers",
       "contentType": "explainer",
@@ -381,7 +517,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -412,6 +548,49 @@
       ]
     },
     {
+      "id": "explainer:effective-date-vs-publication-date::explainer",
+      "subjectId": "explainer:effective-date-vs-publication-date",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "An effective date is not a publication date",
+      "suggestedHeadline": null,
+      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 22001,
+      "readerValue": 60,
+      "factsHash": "4bb7139aa31c33a9",
+      "whyItMatters": [
+        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
+      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+        }
+      ]
+    },
+    {
       "id": "explainer:interim-final-rule::explainer",
       "subjectId": "explainer:interim-final-rule",
       "contentType": "explainer",
@@ -424,7 +603,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -467,7 +646,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -510,7 +689,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -553,7 +732,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -596,7 +775,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -639,7 +818,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -682,7 +861,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -725,7 +904,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -756,47 +935,6 @@
       ]
     },
     {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Key dates, counted down",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
-        }
-      ]
-    },
-    {
       "id": "discovery:following::data_discovery",
       "subjectId": "discovery:following",
       "contentType": "data_discovery",
@@ -809,7 +947,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -850,9 +988,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "0ab146137d58c004",
+      "factsHash": "60a9066272eeabe2",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -891,7 +1029,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -932,7 +1070,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -973,7 +1111,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1014,7 +1152,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1039,6 +1177,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
         }
       ]
     },
@@ -1154,6 +1333,64 @@
         },
         {
           "at": "2026-09-12T16:13:48.006Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_courts:10983722::breaking_change",
+      "subjectId": "event:federal_courts:10983722",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Department of Homeland Security v. League of Women Voters",
+      "suggestedHeadline": "Supreme Court issues decision in DHS v. League of Women Voters",
+      "sourceName": "Federal court decisions",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
+      "eventId": "federal_courts:10983722",
+      "category": "development",
+      "topicKey": "source:federal_courts",
+      "priority": 74578.99444444444,
+      "readerValue": 34,
+      "factsHash": "b7a63aadfc007fee",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "The Supreme Court issued a decision in DHS v. League of Women Voters.\n\nPublished decision; no court summary. Read the opinion for the holding. Reach depends on the order and any stay or appeal.\n\nPublished Sept. 25, 2026.\n\nhttps://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3A9mzbbh",
+        "linkedin": "",
+        "structure": "news"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
+      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
+      "freshness": {
+        "publishedAt": "2026-09-25",
+        "discoveredAt": "2026-09-26",
+        "expiresAt": "2026-09-29"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-26T17:05:48.741Z",
+      "externalUrl": "https://x.com/i/web/status/2103893971885814231",
+      "history": [
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -2754,92 +2991,6 @@
           "at": "2026-09-08T17:13:43.310Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-08"
-        }
-      ]
-    },
-    {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "The next recurring immigration date on the calendar",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30008,
-      "readerValue": 65,
-      "factsHash": "5f14e6630f8cc0f6",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-20"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-22"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-25T17:55:10.852Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-25"
         }
       ]
     },
