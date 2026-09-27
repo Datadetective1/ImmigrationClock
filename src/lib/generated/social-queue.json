@@ -1,190 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-27T01:20:27.570Z",
+  "updatedAt": "2026-09-27T17:41:20.960Z",
   "items": [
-    {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The next recurring immigration date on the calendar",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "b0b89280bdedefa5",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-20"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-22"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-25T17:55:10.852Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-25"
-        },
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30008,
-      "readerValue": 65,
-      "factsHash": "0ff89fa3afb66520",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-sponsors-by-state::data_signal",
-      "subjectId": "signal:h1b-sponsors-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Where the H-1B sponsors are",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "a1c08d31ca1d2321",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
-      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
-        },
-        {
-          "at": "2026-09-19T16:23:39.906Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
     {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
@@ -198,7 +15,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -249,7 +66,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "d6b450474ad70548",
       "whyItMatters": [],
@@ -324,7 +141,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:border",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "e88f8ee75bd6e891",
       "whyItMatters": [],
@@ -373,6 +190,98 @@
       ]
     },
     {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30002,
+      "readerValue": 65,
+      "factsHash": "0ff89fa3afb66520",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-sponsors-by-state::data_signal",
+      "subjectId": "signal:h1b-sponsors-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Where the H-1B sponsors are",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "a1c08d31ca1d2321",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
+      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
+        },
+        {
+          "at": "2026-09-19T16:23:39.906Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        }
+      ]
+    },
+    {
       "id": "event:federal_courts:10983722::what_changed",
       "subjectId": "event:federal_courts:10983722",
       "contentType": "what_changed",
@@ -385,7 +294,7 @@
       "eventId": "federal_courts:10983722",
       "category": "explainer",
       "topicKey": "source:federal_courts",
-      "priority": 24578.994444444445,
+      "priority": 24428.98888888889,
       "readerValue": 34,
       "factsHash": "b6cddfddda7a35c3",
       "whyItMatters": [
@@ -429,7 +338,7 @@
       "eventId": "federal_courts:10983722",
       "category": "explainer",
       "topicKey": "source:federal_courts",
-      "priority": 23728.994444444445,
+      "priority": 23728.98888888889,
       "readerValue": 34,
       "factsHash": "289a3d4de16ea3ba",
       "whyItMatters": [
@@ -473,7 +382,7 @@
       "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 23608.983333333334,
+      "priority": 23608.977777777778,
       "readerValue": 30,
       "factsHash": "2a063738d66dc74a",
       "whyItMatters": [
@@ -517,7 +426,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 22012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "026994ea743c7a2f",
       "whyItMatters": [
@@ -560,7 +469,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22001,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -591,49 +500,6 @@
       ]
     },
     {
-      "id": "explainer:interim-final-rule::explainer",
-      "subjectId": "explainer:interim-final-rule",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What an interim final rule is",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "9be7ed770182669c",
-      "whyItMatters": [
-        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
-      "ogImage": "/og/explainer/interim-final-rule.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -646,7 +512,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -689,7 +555,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -732,7 +598,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -775,7 +641,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -818,7 +684,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -861,7 +727,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -904,7 +770,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -935,25 +801,27 @@
       ]
     },
     {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
+      "id": "explainer:interim-final-rule::explainer",
+      "subjectId": "explainer:interim-final-rule",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
+      "headline": "What an interim final rule is",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "9be7ed770182669c",
+      "whyItMatters": [
+        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
+      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
+      "ogImage": "/og/explainer/interim-final-rule.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -971,7 +839,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
         }
       ]
     },
@@ -988,7 +856,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "60a9066272eeabe2",
       "whyItMatters": [],
@@ -1029,7 +897,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1070,7 +938,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1111,7 +979,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1152,7 +1020,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1193,7 +1061,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1218,6 +1086,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
         }
       ]
     },
@@ -2991,6 +2900,102 @@
           "at": "2026-09-08T17:13:43.310Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-08"
+        }
+      ]
+    },
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "b0b89280bdedefa5",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-20"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-22"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-25T17:55:10.852Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-25"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-27T17:41:20.960Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-27"
         }
       ]
     },
