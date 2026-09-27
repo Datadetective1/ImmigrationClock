@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-27T17:41:20.960Z",
+  "updatedAt": "2026-09-27T21:17:26.356Z",
   "items": [
     {
       "id": "signal:h1b-approval-rate::data_signal",
@@ -410,49 +410,6 @@
           "at": "2026-09-24T17:50:34.528Z",
           "status": "verified",
           "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
-        }
-      ]
-    },
-    {
-      "id": "explainer:h1b-approvals-vs-workers::explainer",
-      "subjectId": "explainer:h1b-approvals-vs-workers",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Why an H-1B approval count is not the number of workers",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 22013,
-      "readerValue": 60,
-      "factsHash": "026994ea743c7a2f",
-      "whyItMatters": [
-        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
-      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
         }
       ]
     },
@@ -2318,6 +2275,63 @@
         },
         {
           "at": "2026-09-20T19:22:17.227Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "explainer:h1b-approvals-vs-workers::explainer",
+      "subjectId": "explainer:h1b-approvals-vs-workers",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "Why an H-1B approval count is not the number of workers",
+      "suggestedHeadline": "H-1B approvals vs. workers — what the number actually counts",
+      "sourceName": "USCIS — H-1B Employer Data Hub; USCIS — Understanding our H-1B Employer Data Hub data; USCIS — Change my nonimmigrant status; U.S. Department of State — Visa statistics",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:work-visas",
+      "priority": 22013,
+      "readerValue": 60,
+      "factsHash": "026994ea743c7a2f",
+      "whyItMatters": [
+        "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point."
+      ],
+      "suggestedPost": {
+        "x": "H-1B approval count is not workers.\n\nUSCIS counts first petition decisions, not people; one person can have more than one. It’s not visas; the State Department issues those. ImmigrationClock labels USCIS counts as reported and keeps them separate.\n\nhttps://immigrationclock.com/explained/h1b-approvals-vs-workers?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Ah1b-approvals-vs-workers",
+        "linkedin": "",
+        "structure": "distinction"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/h1b-approvals-vs-workers",
+      "ogImage": "/og/explainer/h1b-approvals-vs-workers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-27T21:16:47.247Z",
+      "externalUrl": "https://x.com/i/web/status/2104319526682710222",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-approvals-vs-workers"
+        },
+        {
+          "at": "2026-09-27T21:16:47.247Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-27T21:16:47.247Z",
           "status": "published",
           "reason": "published on x"
         }
