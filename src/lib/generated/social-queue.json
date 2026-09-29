@@ -1,7 +1,60 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-28T20:06:14.846Z",
+  "updatedAt": "2026-09-29T00:22:05.811Z",
   "items": [
+    {
+      "id": "event:federal_courts:10983722::what_changed",
+      "subjectId": "event:federal_courts:10983722",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "ready",
+      "headline": "Department of Homeland Security v. League of Women Voters",
+      "suggestedHeadline": "Supreme Court decision in DHS v. League of Women Voters",
+      "sourceName": "Federal court decisions",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
+      "eventId": "federal_courts:10983722",
+      "category": "explainer",
+      "topicKey": "source:federal_courts",
+      "priority": 23728.983333333334,
+      "readerValue": 34,
+      "factsHash": "b6cddfddda7a35c3",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "The Supreme Court issued a decision in DHS v. League of Women Voters on Sept. 25.\n\nWhat changed: A precedential ruling. Impact depends on the order. What ImmigrationClock is watching: any stay or appeal, and DHS’s compliance notice.\n\nhttps://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3A9mzbbh",
+        "linkedin": "",
+        "structure": "what_changed"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
+      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
+      "freshness": {
+        "publishedAt": "2026-09-25",
+        "discoveredAt": "2026-09-26",
+        "expiresAt": "2026-10-06"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
+        },
+        {
+          "at": "2026-09-29T00:21:33.269Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        }
+      ]
+    },
     {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
@@ -318,50 +371,6 @@
           "at": "2026-09-28T20:05:54.008Z",
           "status": "verified",
           "reason": "re-entered the candidates"
-        }
-      ]
-    },
-    {
-      "id": "event:federal_courts:10983722::what_changed",
-      "subjectId": "event:federal_courts:10983722",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Department of Homeland Security v. League of Women Voters",
-      "suggestedHeadline": null,
-      "sourceName": "Federal court decisions",
-      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
-      "eventId": "federal_courts:10983722",
-      "category": "explainer",
-      "topicKey": "source:federal_courts",
-      "priority": 23728.983333333334,
-      "readerValue": 34,
-      "factsHash": "b6cddfddda7a35c3",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
-      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
-      "freshness": {
-        "publishedAt": "2026-09-25",
-        "discoveredAt": "2026-09-26",
-        "expiresAt": "2026-10-06"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
         }
       ]
     },
@@ -2937,6 +2946,16 @@
         },
         {
           "at": "2026-09-28T20:05:54.008Z",
+          "status": "rejected",
+          "reason": "expired on 2026-09-24"
+        },
+        {
+          "at": "2026-09-29T00:21:33.269Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-29T00:21:33.269Z",
           "status": "rejected",
           "reason": "expired on 2026-09-24"
         }
