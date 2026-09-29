@@ -1,7 +1,62 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-29T00:22:05.811Z",
+  "updatedAt": "2026-09-29T18:35:24.360Z",
   "items": [
+    {
+      "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::breaking_change",
+      "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "ready",
+      "headline": "USCIS Adjusts EB-5 Fees to Cover Program Costs and Strengthen Integrity Measures",
+      "suggestedHeadline": "USCIS announces EB-5 fee adjustments; no effective date posted",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-measures",
+      "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "category": "development",
+      "topicKey": "visa:eb-5",
+      "priority": 76121,
+      "readerValue": 58,
+      "factsHash": "f0a6393035d7f72f",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS announced it will adjust EB-5 fees to cover program costs.\n\nThe agency says the fees support statutory processing time goals and integrity steps like audits and site visits; no separate effective date posted. Source: USCIS newsroom.\n\nhttps://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Ayofwwf",
+        "linkedin": "",
+        "structure": "direct"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf",
+      "ogImage": "/og/change/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf.png",
+      "freshness": {
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-02"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "verified",
+          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        }
+      ]
+    },
     {
       "id": "event:federal_courts:10983722::what_changed",
       "subjectId": "event:federal_courts:10983722",
@@ -15,7 +70,7 @@
       "eventId": "federal_courts:10983722",
       "category": "explainer",
       "topicKey": "source:federal_courts",
-      "priority": 23728.983333333334,
+      "priority": 23728.977777777778,
       "readerValue": 34,
       "factsHash": "b6cddfddda7a35c3",
       "whyItMatters": [
@@ -56,6 +111,98 @@
       ]
     },
     {
+      "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::what_changed",
+      "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "USCIS Adjusts EB-5 Fees to Cover Program Costs and Strengthen Integrity Measures",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-measures",
+      "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "category": "actionable",
+      "topicKey": "visa:eb-5",
+      "priority": 56121,
+      "readerValue": 58,
+      "factsHash": "6bb10bef3491d5a8",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf",
+      "ogImage": "/og/change/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf.png",
+      "freshness": {
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-09"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "verified",
+          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::why_it_matters",
+      "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "USCIS Adjusts EB-5 Fees to Cover Program Costs and Strengthen Integrity Measures",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-measures",
+      "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "category": "actionable",
+      "topicKey": "visa:eb-5",
+      "priority": 55121,
+      "readerValue": 58,
+      "factsHash": "8569b10223e9cc30",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf",
+      "ogImage": "/og/change/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf.png",
+      "freshness": {
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-20"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "verified",
+          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf"
+        }
+      ]
+    },
+    {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
       "contentType": "data_signal",
@@ -68,7 +215,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -109,7 +256,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -160,7 +307,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -211,9 +358,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
-      "factsHash": "d6b450474ad70548",
+      "factsHash": "7c45aaa967ff8c4a",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -286,9 +433,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
-      "factsHash": "e93f11858cfe6857",
+      "factsHash": "b1d18aced9fd772a",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -375,6 +522,50 @@
       ]
     },
     {
+      "id": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1::what_changed",
+      "subjectId": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "USCIS Assists Florida Investigation Leading to Charges for Unlawful Voting",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-voting",
+      "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24701,
+      "readerValue": 34,
+      "factsHash": "9ce01d9407d7ab68",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq",
+      "ogImage": "/og/change/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq.png",
+      "freshness": {
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-09"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq"
+        }
+      ]
+    },
+    {
       "id": "event:federal_courts:10983722::why_it_matters",
       "subjectId": "event:federal_courts:10983722",
       "contentType": "why_it_matters",
@@ -387,7 +578,7 @@
       "eventId": "federal_courts:10983722",
       "category": "explainer",
       "topicKey": "source:federal_courts",
-      "priority": 23728.983333333334,
+      "priority": 23728.977777777778,
       "readerValue": 34,
       "factsHash": "289a3d4de16ea3ba",
       "whyItMatters": [
@@ -419,46 +610,46 @@
       ]
     },
     {
-      "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::what_changed",
-      "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
-      "contentType": "what_changed",
-      "tier": "news",
+      "id": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1::why_it_matters",
+      "subjectId": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
       "status": "verified",
-      "headline": "Policy alert: Controlled Substance Trafficking, Significant Trafficking in Persons, and Money Laundering Grounds of Inadmissibility",
+      "headline": "USCIS Assists Florida Investigation Leading to Charges for Unlawful Voting",
       "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260923-CriminalInadmissibility.pdf",
-      "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-voting",
+      "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
       "category": "explainer",
-      "topicKey": "source:uscis_policy_manual",
-      "priority": 23608.972222222223,
-      "readerValue": 30,
-      "factsHash": "2a063738d66dc74a",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23701,
+      "readerValue": 34,
+      "factsHash": "914978e2e82aefc4",
       "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
         "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia",
-      "ogImage": "/og/change/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq",
+      "ogImage": "/og/change/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq.png",
       "freshness": {
-        "publishedAt": "2026-09-23",
-        "discoveredAt": "2026-09-24",
-        "expiresAt": "2026-10-04"
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-20"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-24T17:50:34.528Z",
+          "at": "2026-09-29T18:34:58.015Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-24T17:50:34.528Z",
+          "at": "2026-09-29T18:34:58.015Z",
           "status": "verified",
-          "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq"
         }
       ]
     },
@@ -475,7 +666,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -518,7 +709,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -561,7 +752,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -604,7 +795,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -647,7 +838,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -690,7 +881,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -733,7 +924,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -776,7 +967,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -819,7 +1010,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -862,7 +1053,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -903,7 +1094,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -944,7 +1135,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -985,7 +1176,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1026,7 +1217,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1067,7 +1258,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1108,9 +1299,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
-      "factsHash": "320321fce6b410dc",
+      "factsHash": "9b698910d5894bdc",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -3256,6 +3447,55 @@
           "at": "2026-09-05T15:59:08.628Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-05"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20260923-criminalinadmissibility::what_changed",
+      "subjectId": "event:uscis_policy_manual:20260923-criminalinadmissibility",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "Policy alert: Controlled Substance Trafficking, Significant Trafficking in Persons, and Money Laundering Grounds of Inadmissibility",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20260923-CriminalInadmissibility.pdf",
+      "eventId": "uscis_policy_manual:20260923-criminalinadmissibility",
+      "category": "explainer",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 23608.972222222223,
+      "readerValue": 30,
+      "factsHash": "2a063738d66dc74a",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia",
+      "ogImage": "/og/change/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia.png",
+      "freshness": {
+        "publishedAt": "2026-09-23",
+        "discoveredAt": "2026-09-24",
+        "expiresAt": "2026-10-04"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-24T17:50:34.528Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-24T17:50:34.528Z",
+          "status": "verified",
+          "reason": "reader value 30/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-controlled-substance-trafficking-significant-trafficking-a1niia"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-29"
         }
       ]
     }
