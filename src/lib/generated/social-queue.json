@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-30T18:25:04.528Z",
+  "updatedAt": "2026-09-30T22:58:00.033Z",
   "items": [
     {
       "id": "event:federal_register:2026-20016::breaking_change",
@@ -3391,6 +3391,16 @@
         },
         {
           "at": "2026-09-30T18:24:49.049Z",
+          "status": "rejected",
+          "reason": "expired on 2026-09-24"
+        },
+        {
+          "at": "2026-09-30T22:57:59.973Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-30T22:57:59.973Z",
           "status": "rejected",
           "reason": "expired on 2026-09-24"
         }
