@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T17:11:19.604Z",
+  "generatedAt": "2026-10-01T19:07:31.672Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 300,
-      "employeesTotal": 15905,
-      "latestNotice": "2026-09-28",
-      "withNoticeDate": 300,
+      "noticeCount": 332,
+      "employeesTotal": 16294,
+      "latestNotice": "2026-09-30",
+      "withNoticeDate": 332,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12007,
-  "employeesTotal": 1543928,
-  "employerCount": 8928,
+  "noticeCount": 12039,
+  "employeesTotal": 1544317,
+  "employerCount": 8960,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-09-28",
+  "maxNoticeDate": "2026-09-30",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -3393,17 +3393,6 @@
       "latestNotice": "2026-08-31"
     },
     {
-      "normalized": "DREYER'S GRAND ICE CREAM",
-      "name": "Dreyer's Grand Ice Cream",
-      "slug": "dreyer-s-grand-ice-cream",
-      "notices": 3,
-      "employees": 737,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-09-24"
-    },
-    {
       "normalized": "KRAFT GENERAL FOODS",
       "name": "Kraft General Foods, Inc.",
       "slug": "kraft-general-foods-inc",
@@ -5411,6 +5400,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-21"
+    },
+    {
+      "normalized": "RANDSTAD INHOUSE (DREYER'S)",
+      "name": "Randstad Inhouse Services, LLC (Dreyer's)",
+      "slug": "randstad-inhouse-services-llc-dreyer-s",
+      "notices": 2,
+      "employees": 516,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-24"
     },
     {
       "normalized": "SPIRIT AIRLINES (IAH) MAY 2026",
@@ -16194,6 +16194,17 @@
         "GA"
       ],
       "latestNotice": "1996-08-16"
+    },
+    {
+      "normalized": "DREYER'S GRAND ICE CREAM",
+      "name": "Dreyer's Grand Ice Cream",
+      "slug": "dreyer-s-grand-ice-cream",
+      "notices": 1,
+      "employees": 221,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-22"
     },
     {
       "normalized": "ATLANTA EVERGREEN MARRIOTT CONFERENCE RESORT",
@@ -28291,6 +28302,17 @@
         "NJ"
       ],
       "latestNotice": "2026-12-07"
+    },
+    {
+      "normalized": "WORKDAY",
+      "name": "Workday Inc.",
+      "slug": "workday-inc",
+      "notices": 1,
+      "employees": 142,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
     },
     {
       "normalized": "PRUDENTIAL INSURANCE OF AMERICA",
@@ -62797,6 +62819,17 @@
       "latestNotice": "1996-05-14"
     },
     {
+      "normalized": "DLVR (A )",
+      "name": "DLVR (A Corp)",
+      "slug": "dlvr-a-corp",
+      "notices": 1,
+      "employees": 60,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
+    },
+    {
       "normalized": "BLUUM",
       "name": "Bluum USA Inc.",
       "slug": "bluum-usa-inc",
@@ -73244,6 +73277,17 @@
         "GA"
       ],
       "latestNotice": "1990-01-04"
+    },
+    {
+      "normalized": "MCKINLEY PAPER AND PACKAGING",
+      "name": "McKinley Paper and Packaging Company",
+      "slug": "mckinley-paper-and-packaging-company",
+      "notices": 1,
+      "employees": 45,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "SOUTHWEST KEY PROGRAMS (SWK NATIONAL HEADQUARTERS)",
@@ -91192,6 +91236,314 @@
       "latestNotice": "2007-05-23"
     },
     {
+      "normalized": "CONSTELLIS (1060 N EASTERN AVE )",
+      "name": "Constellis, LLC (1060 N Eastern Ave.)",
+      "slug": "constellis-llc-1060-n-eastern-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (1104 N EASTERN AVE )",
+      "name": "Constellis, LLC (1104 N. Eastern Ave.)",
+      "slug": "constellis-llc-1104-n-eastern-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (11515 S COLIMA RD )",
+      "name": "Constellis, LLC (11515 S. Colima Rd.)",
+      "slug": "constellis-llc-11515-s-colima-rd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (11700 S ALAMEDA ST )",
+      "name": "Constellis, LLC (11700 S. Alameda St.)",
+      "slug": "constellis-llc-11700-s-alameda-st",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (11703 S ALAMEDA ST )",
+      "name": "Constellis, LLC (11703 S. Alameda St.)",
+      "slug": "constellis-llc-11703-s-alameda-st",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (11703 W ALAMEDA ST )",
+      "name": "Constellis, LLC (11703 W. Alameda St.)",
+      "slug": "constellis-llc-11703-w-alameda-st",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (12335 CIVIC CENTER DR )",
+      "name": "Constellis, LLC (12335 Civic Center Dr.)",
+      "slug": "constellis-llc-12335-civic-center-dr",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (1310 W IMPERIAL HWY)",
+      "name": "Constellis, LLC (1310 W Imperial Hwy)",
+      "slug": "constellis-llc-1310-w-imperial-hwy",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (13483 FIJI WAY)",
+      "name": "Constellis, LLC (13483 Fiji Way)",
+      "slug": "constellis-llc-13483-fiji-way",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (1445 MCKINLEY AVE )",
+      "name": "Constellis, LLC (1445 McKinley Ave.)",
+      "slug": "constellis-llc-1445-mckinley-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (150 N HUDSON AVE )",
+      "name": "Constellis, LLC (150 N Hudson Ave.)",
+      "slug": "constellis-llc-150-n-hudson-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (21356 S AVALON BLVD )",
+      "name": "Constellis, LLC (21356 S. Avalon Blvd.)",
+      "slug": "constellis-llc-21356-s-avalon-blvd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (21695 VALLEY BLVD )",
+      "name": "Constellis, LLC (21695 Valley Blvd.)",
+      "slug": "constellis-llc-21695-valley-blvd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (26123 S NARBONNE AVE )",
+      "name": "Constellis, LLC (26123 S. Narbonne Ave.)",
+      "slug": "constellis-llc-26123-s-narbonne-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (26201 GOLDEN VALLEY RD )",
+      "name": "Constellis, LLC (26201 Golden Valley Rd.)",
+      "slug": "constellis-llc-26201-golden-valley-rd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (270 S WALNUT AVE )",
+      "name": "Constellis, LLC (270 S. Walnut Ave.)",
+      "slug": "constellis-llc-270-s-walnut-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (270 W WALNUT AVE )",
+      "name": "Constellis, LLC (270 W. Walnut Ave.)",
+      "slug": "constellis-llc-270-w-walnut-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (27050 AGOURA RD )",
+      "name": "Constellis, LLC (27050 Agoura Rd.)",
+      "slug": "constellis-llc-27050-agoura-rd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (29380 THE OLD ROAD)",
+      "name": "Constellis, LLC (29380 The Old Road)",
+      "slug": "constellis-llc-29380-the-old-road",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (441 BAUCHET ST )",
+      "name": "Constellis, LLC (441 Bauchet St.)",
+      "slug": "constellis-llc-441-bauchet-st",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (4554 N BRIGGS AVE )",
+      "name": "Constellis, LLC (4554 N. Briggs Ave.)",
+      "slug": "constellis-llc-4554-n-briggs-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (501 W LANCASTER BLVD )",
+      "name": "Constellis, LLC (501 W. Lancaster Blvd.)",
+      "slug": "constellis-llc-501-w-lancaster-blvd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (5019 E 3RD ST )",
+      "name": "Constellis, LLC (5019 E 3rd St.)",
+      "slug": "constellis-llc-5019-e-3rd-st",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (5130 N CLARK AVE )",
+      "name": "Constellis, LLC (5130 N. Clark Ave.)",
+      "slug": "constellis-llc-5130-n-clark-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (6631 S PASSONS AVE )",
+      "name": "Constellis, LLC (6631 S Passons Ave.)",
+      "slug": "constellis-llc-6631-s-passons-ave",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (750 E AVE Q)",
+      "name": "Constellis, LLC (750 E Ave Q)",
+      "slug": "constellis-llc-750-e-ave-q",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (780 N SAN VICENTA BLVD )",
+      "name": "Constellis, LLC (780 N. San Vicenta Blvd.)",
+      "slug": "constellis-llc-780-n-san-vicenta-blvd",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
+      "normalized": "CONSTELLIS (8838 E LAS TUNAS DR )",
+      "name": "Constellis, LLC (8838 E. Las Tunas Dr.)",
+      "slug": "constellis-llc-8838-e-las-tunas-dr",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1150 S OLIVE STREET)",
       "name": "University of Southern California (1150 S. Olive Street)",
       "slug": "university-of-southern-california-1150-s-olive-street",
@@ -92316,6 +92668,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-19"
+    },
+    {
+      "normalized": "CORTEVA AGRISCIENCE",
+      "name": "Corteva Agriscience LLC",
+      "slug": "corteva-agriscience-llc",
+      "notices": 2,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "CITY NATIONAL BANK - FLOWER STREET",
@@ -94771,17 +95134,6 @@
         "CA"
       ],
       "latestNotice": "2026-08-19"
-    },
-    {
-      "normalized": "CORTEVA AGRISCIENCE",
-      "name": "Corteva Agriscience LLC",
-      "slug": "corteva-agriscience-llc",
-      "notices": 1,
-      "employees": 2,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-08-18"
     },
     {
       "normalized": "LEVINE MANAGEMENT GROUPS - CANDLEWOOD",
@@ -99101,6 +99453,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "DLVR (A Corp)",
+      "normalized": "DLVR (A )",
+      "city": "Culver City",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-12-04",
+      "employees": 60,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Samsung Electronics America, Inc.",
       "normalized": "SAMSUNG ELECTRONICS AMERICA",
       "city": "Englewood Cliffs",
@@ -99113,6 +99477,354 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Workday Inc.",
+      "normalized": "WORKDAY",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-11-30",
+      "employees": 142,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (1060 N Eastern Ave.)",
+      "normalized": "CONSTELLIS (1060 N EASTERN AVE )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (1104 N. Eastern Ave.)",
+      "normalized": "CONSTELLIS (1104 N EASTERN AVE )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (11515 S. Colima Rd.)",
+      "normalized": "CONSTELLIS (11515 S COLIMA RD )",
+      "city": "Whittier",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (11700 S. Alameda St.)",
+      "normalized": "CONSTELLIS (11700 S ALAMEDA ST )",
+      "city": "Lynwood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (11703 S. Alameda St.)",
+      "normalized": "CONSTELLIS (11703 S ALAMEDA ST )",
+      "city": "Lynwood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (11703 W. Alameda St.)",
+      "normalized": "CONSTELLIS (11703 W ALAMEDA ST )",
+      "city": "Lynwood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (12335 Civic Center Dr.)",
+      "normalized": "CONSTELLIS (12335 CIVIC CENTER DR )",
+      "city": "Norwalk",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (1310 W Imperial Hwy)",
+      "normalized": "CONSTELLIS (1310 W IMPERIAL HWY)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (13483 Fiji Way)",
+      "normalized": "CONSTELLIS (13483 FIJI WAY)",
+      "city": "Marina Del Rey",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (1445 McKinley Ave.)",
+      "normalized": "CONSTELLIS (1445 MCKINLEY AVE )",
+      "city": "Pomona",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (150 N Hudson Ave.)",
+      "normalized": "CONSTELLIS (150 N HUDSON AVE )",
+      "city": "Industry",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (21356 S. Avalon Blvd.)",
+      "normalized": "CONSTELLIS (21356 S AVALON BLVD )",
+      "city": "Carson",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (21695 Valley Blvd.)",
+      "normalized": "CONSTELLIS (21695 VALLEY BLVD )",
+      "city": "Walnut",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (26123 S. Narbonne Ave.)",
+      "normalized": "CONSTELLIS (26123 S NARBONNE AVE )",
+      "city": "Lomita",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (26201 Golden Valley Rd.)",
+      "normalized": "CONSTELLIS (26201 GOLDEN VALLEY RD )",
+      "city": "Santa Clarita",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (270 S. Walnut Ave.)",
+      "normalized": "CONSTELLIS (270 S WALNUT AVE )",
+      "city": "San Dimas",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (270 W. Walnut Ave.)",
+      "normalized": "CONSTELLIS (270 W WALNUT AVE )",
+      "city": "San Dimas",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (27050 Agoura Rd.)",
+      "normalized": "CONSTELLIS (27050 AGOURA RD )",
+      "city": "Agoura",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (29380 The Old Road)",
+      "normalized": "CONSTELLIS (29380 THE OLD ROAD)",
+      "city": "Castaic",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (441 Bauchet St.)",
+      "normalized": "CONSTELLIS (441 BAUCHET ST )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (4554 N. Briggs Ave.)",
+      "normalized": "CONSTELLIS (4554 N BRIGGS AVE )",
+      "city": "La Crescenta",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (501 W. Lancaster Blvd.)",
+      "normalized": "CONSTELLIS (501 W LANCASTER BLVD )",
+      "city": "Lancaster",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (5019 E 3rd St.)",
+      "normalized": "CONSTELLIS (5019 E 3RD ST )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (5130 N. Clark Ave.)",
+      "normalized": "CONSTELLIS (5130 N CLARK AVE )",
+      "city": "Lakewood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (6631 S Passons Ave.)",
+      "normalized": "CONSTELLIS (6631 S PASSONS AVE )",
+      "city": "Pico Riva",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (750 E Ave Q)",
+      "normalized": "CONSTELLIS (750 E AVE Q)",
+      "city": "Palmdale",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (780 N. San Vicenta Blvd.)",
+      "normalized": "CONSTELLIS (780 N SAN VICENTA BLVD )",
+      "city": "W. Hollywood",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Constellis, LLC (8838 E. Las Tunas Dr.)",
+      "normalized": "CONSTELLIS (8838 E LAS TUNAS DR )",
+      "city": "Temple City",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-10-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Covenant Aviation Security, LLC",
       "normalized": "COVENANT AVIATION SECURITY",
       "city": "San Francisco",
@@ -99122,6 +99834,30 @@
       "effectiveDate": "2026-11-30",
       "employees": 1279,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Corteva Agriscience LLC",
+      "normalized": "CORTEVA AGRISCIENCE",
+      "city": "Pittsburg",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-10-30",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "McKinley Paper and Packaging Company",
+      "normalized": "MCKINLEY PAPER AND PACKAGING",
+      "city": "Cerritos",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 45,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -99149,8 +99885,8 @@
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
-      "employer": "Dreyer's Grand Ice Cream",
-      "normalized": "DREYER'S GRAND ICE CREAM",
+      "employer": "Randstad Inhouse Services, LLC (Dreyer's)",
+      "normalized": "RANDSTAD INHOUSE (DREYER'S)",
       "city": "Bakersfield",
       "county": "Kern",
       "state": "CA",
@@ -99161,8 +99897,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Dreyer's Grand Ice Cream",
-      "normalized": "DREYER'S GRAND ICE CREAM",
+      "employer": "Randstad Inhouse Services, LLC (Dreyer's)",
+      "normalized": "RANDSTAD INHOUSE (DREYER'S)",
       "city": "Tulare",
       "county": "Tulare",
       "state": "CA",
