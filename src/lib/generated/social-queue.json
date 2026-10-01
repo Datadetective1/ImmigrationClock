@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-01T18:49:29.212Z",
+  "updatedAt": "2026-10-01T23:06:08.799Z",
   "items": [
     {
       "id": "event:federal_register:2026-20016::breaking_change",
@@ -459,7 +459,7 @@
       "topicKey": "topic:layoffs",
       "priority": 30009,
       "readerValue": 65,
-      "factsHash": "c1ece54de1be51ed",
+      "factsHash": "36d4cb3d7a34a654",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
