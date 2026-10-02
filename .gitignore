@@ -31,6 +31,10 @@ yarn-error.log*
 .env
 .env*.local
 
+# business-email drafts (scripts/send-business-email.ts) — private
+# correspondence, and this repository is public.
+/outbox/
+
 # secrets — never commit credentials. Use .env (ignored above) or the host's
 # environment-variable settings. `.env.example` is the ONLY file that may
 # describe these keys, and only with placeholder values.
