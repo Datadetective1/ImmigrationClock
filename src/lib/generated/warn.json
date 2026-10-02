@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T19:07:31.672Z",
+  "generatedAt": "2026-10-02T15:14:43.201Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -20,11 +20,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2312,
-      "employeesTotal": 372750,
-      "latestNotice": "2026-12-31",
+      "noticeCount": 2315,
+      "employeesTotal": 373067,
+      "latestNotice": "2027-04-01",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2301
+      "withEffectiveOnly": 2304
     },
     {
       "code": "WA",
@@ -32,10 +32,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1522,
-      "employeesTotal": 247836,
-      "latestNotice": "2026-09-25",
-      "withNoticeDate": 1522,
+      "noticeCount": 1533,
+      "employeesTotal": 250271,
+      "latestNotice": "2026-10-01",
+      "withNoticeDate": 1533,
       "withEffectiveOnly": 0
     },
     {
@@ -56,10 +56,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1120,
-      "employeesTotal": 131363,
-      "latestNotice": "2026-09-16",
-      "withNoticeDate": 1120,
+      "noticeCount": 1122,
+      "employeesTotal": 131498,
+      "latestNotice": "2026-09-28",
+      "withNoticeDate": 1122,
       "withEffectiveOnly": 0
     },
     {
@@ -76,11 +76,11 @@
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12039,
-  "employeesTotal": 1544317,
-  "employerCount": 8960,
+  "noticeCount": 12055,
+  "employeesTotal": 1547204,
+  "employerCount": 8972,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-09-30",
+  "maxNoticeDate": "2026-10-01",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -625,6 +625,17 @@
         "TX"
       ],
       "latestNotice": "2021-02-21"
+    },
+    {
+      "normalized": "FIRSTFRUITS",
+      "name": "FirstFruits, LLC",
+      "slug": "firstfruits-llc",
+      "notices": 2,
+      "employees": 2400,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "KMART",
@@ -1690,17 +1701,6 @@
       "latestNotice": "2026-06-17"
     },
     {
-      "normalized": "FIRSTFRUITS",
-      "name": "FirstFruits, LLC",
-      "slug": "firstfruits-llc",
-      "notices": 1,
-      "employees": 1200,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2025-10-16"
-    },
-    {
       "normalized": "INACOM",
       "name": "Inacom Corporation",
       "slug": "inacom-corporation",
@@ -2222,6 +2222,18 @@
       "latestNotice": "2024-08-08"
     },
     {
+      "normalized": "NOVO NORDISK",
+      "name": "Novo Nordisk",
+      "slug": "novo-nordisk",
+      "notices": 3,
+      "employees": 982,
+      "states": [
+        "NJ",
+        "WA"
+      ],
+      "latestNotice": "2026-12-31"
+    },
+    {
       "normalized": "FRED MEYER",
       "name": "Fred Meyer",
       "slug": "fred-meyer",
@@ -2627,18 +2639,6 @@
         "GA"
       ],
       "latestNotice": "2006-01-13"
-    },
-    {
-      "normalized": "NOVO NORDISK",
-      "name": "Novo Nordisk",
-      "slug": "novo-nordisk",
-      "notices": 2,
-      "employees": 874,
-      "states": [
-        "NJ",
-        "WA"
-      ],
-      "latestNotice": "2025-12-31"
     },
     {
       "normalized": "COLUMBUS HOSPITAL",
@@ -6408,19 +6408,6 @@
       "latestNotice": "2019-10-10"
     },
     {
-      "normalized": "BASF",
-      "name": "BASF Corporation",
-      "slug": "basf-corporation",
-      "notices": 7,
-      "employees": 452,
-      "states": [
-        "GA",
-        "NJ",
-        "VA"
-      ],
-      "latestNotice": "2026-11-01"
-    },
-    {
       "normalized": "BIOREFERENCE HEALTH",
       "name": "BioReference Health",
       "slug": "bioreference-health",
@@ -7881,6 +7868,19 @@
       "latestNotice": "2012-03-12"
     },
     {
+      "normalized": "BASF",
+      "name": "BASF Corporation",
+      "slug": "basf-corporation",
+      "notices": 6,
+      "employees": 390,
+      "states": [
+        "GA",
+        "NJ",
+        "VA"
+      ],
+      "latestNotice": "2026-11-01"
+    },
+    {
       "normalized": "VISA",
       "name": "Visa",
       "slug": "visa",
@@ -9214,6 +9214,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-04"
+    },
+    {
+      "normalized": "LEIDOS",
+      "name": "Leidos",
+      "slug": "leidos",
+      "notices": 6,
+      "employees": 350,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "BOSTON SCIENTIFIC",
@@ -12336,6 +12347,17 @@
       "latestNotice": "2004-10-14"
     },
     {
+      "normalized": "MANSON GROWERS",
+      "name": "Manson Growers LLC",
+      "slug": "manson-growers-llc",
+      "notices": 1,
+      "employees": 275,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-10-01"
+    },
+    {
       "normalized": "TYSON FOODS (FORT WORTH DISTRIBUTION CENTER)",
       "name": "Tyson Foods (Fort Worth Distribution Center)",
       "slug": "tyson-foods-fort-worth-distribution-center",
@@ -12825,6 +12847,17 @@
       "latestNotice": "2001-04-24"
     },
     {
+      "normalized": "PRUDENTIAL INSURANCE OF AMERICA",
+      "name": "Prudential Insurance Company of America",
+      "slug": "prudential-insurance-company-of-america",
+      "notices": 3,
+      "employees": 267,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-11-28"
+    },
+    {
       "normalized": "CERTECH",
       "name": "Certech, Inc.",
       "slug": "certech-inc",
@@ -12900,17 +12933,6 @@
         "TX"
       ],
       "latestNotice": "2026-03-05"
-    },
-    {
-      "normalized": "LEIDOS",
-      "name": "Leidos",
-      "slug": "leidos",
-      "notices": 5,
-      "employees": 266,
-      "states": [
-        "VA"
-      ],
-      "latestNotice": "2026-01-21"
     },
     {
       "normalized": "PUNCH BOWL SOCIAL",
@@ -15433,6 +15455,17 @@
         "GA"
       ],
       "latestNotice": "1996-07-17"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
+      "name": "Maverick Washington LLC / Great American Casino",
+      "slug": "maverick-washington-llc-great-american-casino",
+      "notices": 2,
+      "employees": 229,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "AMERICAN AIRLINES-HDQ",
@@ -24584,6 +24617,17 @@
       "latestNotice": "1997-02-06"
     },
     {
+      "normalized": "MAVERICK WASHINGTON / ALL STAR CASINO",
+      "name": "Maverick Washington LLC / All Star Casino",
+      "slug": "maverick-washington-llc-all-star-casino",
+      "notices": 1,
+      "employees": 159,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
+    },
+    {
       "normalized": "FORTREX",
       "name": "Fortrex",
       "slug": "fortrex",
@@ -28315,17 +28359,6 @@
       "latestNotice": "2026-09-29"
     },
     {
-      "normalized": "PRUDENTIAL INSURANCE OF AMERICA",
-      "name": "Prudential Insurance Company of America",
-      "slug": "prudential-insurance-company-of-america",
-      "notices": 2,
-      "employees": 142,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2026-09-18"
-    },
-    {
       "normalized": "MAVERICK WASHINGTON / RIVERSIDE CASINO",
       "name": "Maverick Washington LLC / Riverside Casino",
       "slug": "maverick-washington-llc-riverside-casino",
@@ -29640,6 +29673,17 @@
         "GA"
       ],
       "latestNotice": "1998-05-12"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / CRAZY MOOSE CASINO",
+      "name": "Maverick Washington LLC / Crazy Moose Casino",
+      "slug": "maverick-washington-llc-crazy-moose-casino",
+      "notices": 1,
+      "employees": 137,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "SPIRAL BINDING",
@@ -31076,6 +31120,17 @@
         "GA"
       ],
       "latestNotice": "2000-03-29"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / CHIPS CASINO",
+      "name": "Maverick Washington LLC / Chips Casino",
+      "slug": "maverick-washington-llc-chips-casino",
+      "notices": 1,
+      "employees": 131,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "THE BARTELL DRUG (RITE AID)",
@@ -36951,6 +37006,17 @@
       "latestNotice": "1991-08-12"
     },
     {
+      "normalized": "HAAK ADMINISTRATIVE",
+      "name": "Haak Administrative Services LLC",
+      "slug": "haak-administrative-services-llc",
+      "notices": 1,
+      "employees": 110,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-29"
+    },
+    {
       "normalized": "EVEREST GROUP",
       "name": "Everest Group",
       "slug": "everest-group",
@@ -38513,6 +38579,17 @@
         "GA"
       ],
       "latestNotice": "1996-01-12"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / MACAU CASINO",
+      "name": "Maverick Washington LLC / Macau Casino",
+      "slug": "maverick-washington-llc-macau-casino",
+      "notices": 1,
+      "employees": 106,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "CAPSTONE DELIVERY",
@@ -40289,6 +40366,17 @@
         "GA"
       ],
       "latestNotice": "1996-05-28"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / CASINO CARIBBEAN",
+      "name": "Maverick Washington LLC / Casino Caribbean",
+      "slug": "maverick-washington-llc-casino-caribbean",
+      "notices": 1,
+      "employees": 101,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "I Q DATA INTERNATIONAL",
@@ -43006,17 +43094,6 @@
         "VA"
       ],
       "latestNotice": "2026-09-10"
-    },
-    {
-      "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
-      "name": "Maverick Washington LLC / Great American Casino",
-      "slug": "maverick-washington-llc-great-american-casino",
-      "notices": 1,
-      "employees": 96,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-08-31"
     },
     {
       "normalized": "ONPOINT LOGISTICS",
@@ -53288,6 +53365,17 @@
       "latestNotice": "1994-12-31"
     },
     {
+      "normalized": "CULINAIRE",
+      "name": "Culinaire",
+      "slug": "culinaire",
+      "notices": 1,
+      "employees": 75,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2026-12-31"
+    },
+    {
       "normalized": "TT COMMERCE GLOBAL",
       "name": "TT Commerce & Global Services",
       "slug": "tt-commerce-global-services",
@@ -55732,6 +55820,17 @@
       "latestNotice": "1995-05-15"
     },
     {
+      "normalized": "EWC CONTROLS",
+      "name": "EWC Controls, LLC",
+      "slug": "ewc-controls-llc",
+      "notices": 1,
+      "employees": 71,
+      "states": [
+        "NJ"
+      ],
+      "latestNotice": "2027-04-01"
+    },
+    {
       "normalized": "VENTURA COASTAL",
       "name": "Ventura Coastal",
       "slug": "ventura-coastal",
@@ -57888,6 +57987,17 @@
         "WA"
       ],
       "latestNotice": "2026-10-08"
+    },
+    {
+      "normalized": "MAVERICK WASHINGTON / COYOTE BOBS CASINO",
+      "name": "Maverick Washington LLC / Coyote Bobs Casino",
+      "slug": "maverick-washington-llc-coyote-bobs-casino",
+      "notices": 1,
+      "employees": 68,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "EUROFINS PROFESSIONAL SCIENTIFIC",
@@ -69368,6 +69478,17 @@
         "GA"
       ],
       "latestNotice": "1996-03-07"
+    },
+    {
+      "normalized": "KAY AND ASSOCIATES",
+      "name": "Kay and Associates Inc",
+      "slug": "kay-and-associates-inc",
+      "notices": 1,
+      "employees": 51,
+      "states": [
+        "VA"
+      ],
+      "latestNotice": "2026-09-28"
     },
     {
       "normalized": "RALEY'S STORE NO 336",
@@ -84759,6 +84880,17 @@
       "latestNotice": "2000-03-29"
     },
     {
+      "normalized": "MAVERICK WASHINGTON / PALACE CASINO",
+      "name": "Maverick Washington LLC / Palace Casino",
+      "slug": "maverick-washington-llc-palace-casino",
+      "notices": 1,
+      "employees": 15,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-28"
+    },
+    {
       "normalized": "CITY NATIONAL BANK - GRAND AVE",
       "name": "City National Bank - Grand Ave.",
       "slug": "city-national-bank-grand-ave",
@@ -99177,6 +99309,18 @@
   ],
   "notices": [
     {
+      "employer": "EWC Controls, LLC",
+      "normalized": "EWC CONTROLS",
+      "city": "Englishtown",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2027-04-01",
+      "employees": 71,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "Enablx, Inc.",
       "normalized": "ENABLX",
       "city": "Rockaway Twp.",
@@ -99185,6 +99329,30 @@
       "noticeDate": null,
       "effectiveDate": "2026-12-31",
       "employees": 187,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Novo Nordisk",
+      "normalized": "NOVO NORDISK",
+      "city": "Plainsboro",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-31",
+      "employees": 108,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Culinaire",
+      "normalized": "CULINAIRE",
+      "city": "Newark",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-12-31",
+      "employees": 75,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
@@ -99273,6 +99441,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Prudential Insurance Company of America",
+      "normalized": "PRUDENTIAL INSURANCE OF AMERICA",
+      "city": "Newark",
+      "county": null,
+      "state": "NJ",
+      "noticeDate": null,
+      "effectiveDate": "2026-11-28",
+      "employees": 125,
+      "layoffType": null,
+      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
       "employer": "UBS",
       "normalized": "UBS",
       "city": "Weehawken",
@@ -99340,7 +99520,7 @@
       "state": "NJ",
       "noticeDate": null,
       "effectiveDate": "2026-11-01",
-      "employees": 62,
+      "employees": 66,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
@@ -99451,6 +99631,18 @@
       "employees": 79,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "Manson Growers LLC",
+      "normalized": "MANSON GROWERS",
+      "city": "Manson",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-10-01",
+      "effectiveDate": "2026-10-01",
+      "employees": 275,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "DLVR (A Corp)",
@@ -99825,6 +100017,18 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "Haak Administrative Services LLC",
+      "normalized": "HAAK ADMINISTRATIVE",
+      "city": "Yakima County",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-29",
+      "effectiveDate": "2026-11-30",
+      "employees": 110,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
       "employer": "Covenant Aviation Security, LLC",
       "normalized": "COVENANT AVIATION SECURITY",
       "city": "San Francisco",
@@ -99859,6 +100063,138 @@
       "employees": 45,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kay and Associates Inc",
+      "normalized": "KAY AND ASSOCIATES",
+      "city": "Virginia Beach VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": null,
+      "employees": 51,
+      "layoffType": "Layoff",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Leidos",
+      "normalized": "LEIDOS",
+      "city": "Ashburn VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": null,
+      "employees": 84,
+      "layoffType": "Layoff",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "FirstFruits, LLC",
+      "normalized": "FIRSTFRUITS",
+      "city": "Prescott",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-18",
+      "employees": 1200,
+      "layoffType": "Temporary",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Chips Casino",
+      "normalized": "MAVERICK WASHINGTON / CHIPS CASINO",
+      "city": "Lakewood",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 131,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Macau Casino",
+      "normalized": "MAVERICK WASHINGTON / MACAU CASINO",
+      "city": "Lakewood",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 106,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Palace Casino",
+      "normalized": "MAVERICK WASHINGTON / PALACE CASINO",
+      "city": "Lakewood",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 15,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Great American Casino",
+      "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
+      "city": "Everett",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 133,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / All Star Casino",
+      "normalized": "MAVERICK WASHINGTON / ALL STAR CASINO",
+      "city": "Silverdale",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 159,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Coyote Bobs Casino",
+      "normalized": "MAVERICK WASHINGTON / COYOTE BOBS CASINO",
+      "city": "Kennewick",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 68,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Crazy Moose Casino",
+      "normalized": "MAVERICK WASHINGTON / CRAZY MOOSE CASINO",
+      "city": "Pasco",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 137,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Maverick Washington LLC / Casino Caribbean",
+      "normalized": "MAVERICK WASHINGTON / CASINO CARIBBEAN",
+      "city": "Yakima",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-09-28",
+      "effectiveDate": "2026-11-30",
+      "employees": 101,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "Automatic Data Processing, Inc.",
@@ -107561,18 +107897,6 @@
       "noticeDate": null,
       "effectiveDate": "2025-12-31",
       "employees": 811,
-      "layoffType": null,
-      "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
-    },
-    {
-      "employer": "BASF",
-      "normalized": "BASF",
-      "city": "Florham Park",
-      "county": null,
-      "state": "NJ",
-      "noticeDate": null,
-      "effectiveDate": "2025-12-31",
-      "employees": 66,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },

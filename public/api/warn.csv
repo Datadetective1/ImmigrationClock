@@ -1,5 +1,8 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
+"EWC Controls, LLC",EWC CONTROLS,Englishtown,,NJ,,2027-04-01,71,,https://www.nj.gov/labor/employer-services/warn/
 "Enablx, Inc.",ENABLX,Rockaway Twp.,,NJ,,2026-12-31,187,,https://www.nj.gov/labor/employer-services/warn/
+Novo Nordisk,NOVO NORDISK,Plainsboro,,NJ,,2026-12-31,108,,https://www.nj.gov/labor/employer-services/warn/
+Culinaire,CULINAIRE,Newark,,NJ,,2026-12-31,75,,https://www.nj.gov/labor/employer-services/warn/
 Johnson & Johnson Services Inc,JOHNSON JOHNSON,New Brunswick,,NJ,,2026-12-18,87,,https://www.nj.gov/labor/employer-services/warn/
 Bristol Myers Squibb,BRISTOL MYERS SQUIBB,Princeton,,NJ,,2026-12-17,265,,https://www.nj.gov/labor/employer-services/warn/
 "Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL,Atlantic City,,NJ,,2026-12-15,91,,https://www.nj.gov/labor/employer-services/warn/
@@ -7,12 +10,13 @@ Bristol Myers Squibb,BRISTOL MYERS SQUIBB,Princeton,,NJ,,2026-12-17,265,,https:/
 Barrette Outdoor Living,BARRETTE OUTDOOR LIVING,Egg Harbor City,,NJ,,2026-12-13,59,,https://www.nj.gov/labor/employer-services/warn/
 Merck & Co,MERCK,Rahway,,NJ,,2026-12-11,54,,https://www.nj.gov/labor/employer-services/warn/
 Optum,OPTUM,Basking Ridge,,NJ,,2026-12-07,57,,https://www.nj.gov/labor/employer-services/warn/
+Prudential Insurance Company of America,PRUDENTIAL INSURANCE OF AMERICA,Newark,,NJ,,2026-11-28,125,,https://www.nj.gov/labor/employer-services/warn/
 UBS,UBS,Weehawken,,NJ,,2026-11-25,41,,https://www.nj.gov/labor/employer-services/warn/
 Cellares Corporation,CELLARES,Bridgewater,,NJ,,2026-11-19,68,,https://www.nj.gov/labor/employer-services/warn/
 "Grocery Delivery E-Services USA, Inc DBA Hello Fresh",GROCERY DELIVERY E- DBA HELLO FRESH,Swedesboro,,NJ,,2026-11-17,374,,https://www.nj.gov/labor/employer-services/warn/
 Educational Testing Service,EDUCATIONAL TESTING SERVICE,Princeton,,NJ,,2026-11-09,62,,https://www.nj.gov/labor/employer-services/warn/
 UBS,UBS,Weehawken,,NJ,,2026-11-04,58,,https://www.nj.gov/labor/employer-services/warn/
-BASF Corporation,BASF,Florham Park,,NJ,,2026-11-01,62,,https://www.nj.gov/labor/employer-services/warn/
+BASF Corporation,BASF,Florham Park,,NJ,,2026-11-01,66,,https://www.nj.gov/labor/employer-services/warn/
 "Citibank, N.A.",CITIBANK N A,Hudson County,,NJ,,2026-10-31,59,,https://www.nj.gov/labor/employer-services/warn/
 "Mars WrigleyConfectionary US, LLC",MARS WRIGLEYCONFECTIONARY,Newark,,NJ,,2026-10-16,307,,https://www.nj.gov/labor/employer-services/warn/
 Verizon Corp Resources Group LLC,VERIZON RESOURCES GROUP,Basking Ridge,,NJ,,2026-10-16,282,,https://www.nj.gov/labor/employer-services/warn/
@@ -22,6 +26,7 @@ Novartis Pharmaceuticals Corporation,NOVARTIS PHARMACEUTICALS,East Hanover,,NJ,,
 "Samsung SDS America, Inc",SAMSUNG SDS AMERICA,Ridgefield Park,,NJ,,2026-10-01,179,,https://www.nj.gov/labor/employer-services/warn/
 "Headquarters Hotel Mgmt, LLC d/b/a Sheraton Atlantic City Convention Center Hotel",HEADQUARTERS HOTEL MGMT D/B/A SHERATON ATLANTIC CITY CONVENTION CENTER HOTEL,Atlantic City,,NJ,,2026-10-01,99,,https://www.nj.gov/labor/employer-services/warn/
 Fusion Transport LLC,FUSION TRANSPORT,Piscataway,,NJ,,2026-10-01,79,,https://www.nj.gov/labor/employer-services/warn/
+Manson Growers LLC,MANSON GROWERS,Manson,,WA,2026-10-01,2026-10-01,275,Permanent,https://esd.wa.gov/about-employees/WARN
 DLVR (A Corp),DLVR (A ),Culver City,Los Angeles,CA,2026-09-30,2026-12-04,60,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Samsung Electronics America, Inc.",SAMSUNG ELECTRONICS AMERICA,Englewood Cliffs,,NJ,,2026-09-30,739,,https://www.nj.gov/labor/employer-services/warn/
 Workday Inc.,WORKDAY,Pleasanton,Alameda,CA,2026-09-29,2026-11-30,142,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -53,9 +58,21 @@ Workday Inc.,WORKDAY,Pleasanton,Alameda,CA,2026-09-29,2026-11-30,142,Layoff Perm
 "Constellis, LLC (750 E Ave Q)",CONSTELLIS (750 E AVE Q),Palmdale,Los Angeles,CA,2026-09-29,2026-10-31,5,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Constellis, LLC (780 N. San Vicenta Blvd.)",CONSTELLIS (780 N SAN VICENTA BLVD ),W. Hollywood,Los Angeles,CA,2026-09-29,2026-10-31,5,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Constellis, LLC (8838 E. Las Tunas Dr.)",CONSTELLIS (8838 E LAS TUNAS DR ),Temple City,Los Angeles,CA,2026-09-29,2026-10-31,5,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Haak Administrative Services LLC,HAAK ADMINISTRATIVE,Yakima County,,WA,2026-09-29,2026-11-30,110,Permanent,https://esd.wa.gov/about-employees/WARN
 "Covenant Aviation Security, LLC",COVENANT AVIATION SECURITY,San Francisco,San Francisco,CA,2026-09-28,2026-11-30,1279,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Corteva Agriscience LLC,CORTEVA AGRISCIENCE,Pittsburg,Contra Costa,CA,2026-09-28,2026-10-30,2,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 McKinley Paper and Packaging Company,MCKINLEY PAPER AND PACKAGING,Cerritos,Los Angeles,CA,2026-09-28,2026-11-30,45,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Kay and Associates Inc,KAY AND ASSOCIATES,Virginia Beach VA,,VA,2026-09-28,,51,Layoff,https://www.vec.virginia.gov/warn-notices
+Leidos,LEIDOS,Ashburn VA,,VA,2026-09-28,,84,Layoff,https://www.vec.virginia.gov/warn-notices
+"FirstFruits, LLC",FIRSTFRUITS,Prescott,,WA,2026-09-28,2026-11-18,1200,Temporary,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Chips Casino,MAVERICK WASHINGTON / CHIPS CASINO,Lakewood,,WA,2026-09-28,2026-11-30,131,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Macau Casino,MAVERICK WASHINGTON / MACAU CASINO,Lakewood,,WA,2026-09-28,2026-11-30,106,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Palace Casino,MAVERICK WASHINGTON / PALACE CASINO,Lakewood,,WA,2026-09-28,2026-11-30,15,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Great American Casino,MAVERICK WASHINGTON / GREAT AMERICAN CASINO,Everett,,WA,2026-09-28,2026-11-30,133,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / All Star Casino,MAVERICK WASHINGTON / ALL STAR CASINO,Silverdale,,WA,2026-09-28,2026-11-30,159,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Coyote Bobs Casino,MAVERICK WASHINGTON / COYOTE BOBS CASINO,Kennewick,,WA,2026-09-28,2026-11-30,68,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Crazy Moose Casino,MAVERICK WASHINGTON / CRAZY MOOSE CASINO,Pasco,,WA,2026-09-28,2026-11-30,137,Permanent,https://esd.wa.gov/about-employees/WARN
+Maverick Washington LLC / Casino Caribbean,MAVERICK WASHINGTON / CASINO CARIBBEAN,Yakima,,WA,2026-09-28,2026-11-30,101,Permanent,https://esd.wa.gov/about-employees/WARN
 "Automatic Data Processing, Inc.",AUTOMATIC DATA PROCESSING,Roseland,,NJ,,2026-09-25,76,,https://www.nj.gov/labor/employer-services/warn/
 "Gebbers Farms, Etal",GEBBERS FARMS ETAL,Brewster,,WA,2026-09-25,2026-11-25,3445,Permanent,https://esd.wa.gov/about-employees/WARN
 "Randstad Inhouse Services, LLC (Dreyer's)",RANDSTAD INHOUSE (DREYER'S),Bakersfield,Kern,CA,2026-09-24,2026-11-19,426,Closure Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -698,7 +715,6 @@ Swedish Health Services,SWEDISH HEALTH,King and Snohomish Counties,,WA,2026-01-0
 TD Bank N.A.,TD BANK N A,Mount Laurel,,NJ,,2026-01-02,74,,https://www.nj.gov/labor/employer-services/warn/
 Harrison Sportservice Inc.,HARRISON SPORTSERVICE,Harrison,,NJ,,2026-01-01,467,,https://www.nj.gov/labor/employer-services/warn/
 Novo Nordisk,NOVO NORDISK,Plainsboro,,NJ,,2025-12-31,811,,https://www.nj.gov/labor/employer-services/warn/
-BASF,BASF,Florham Park,,NJ,,2025-12-31,66,,https://www.nj.gov/labor/employer-services/warn/
 Club Wyndham Atlantic City Skyline,CLUB WYNDHAM ATLANTIC CITY SKYLINE,Atlantic City,,NJ,,2025-12-31,116,,https://www.nj.gov/labor/employer-services/warn/
 FedEx Corporation Facility (Ft. Worth),FEDEX FACILITY (FT WORTH),Ft. Worth,Tarrant,TX,2025-12-29,2026-03-02,89,,https://data.texas.gov/d/8w53-c4f6
 Doosan GridTech,DOOSAN GRIDTECH,Bellevue,,WA,2025-12-29,2026-02-27,24,Permanent,https://esd.wa.gov/about-employees/WARN
