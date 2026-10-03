@@ -1,103 +1,33 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-03T01:52:58.916Z",
+  "updatedAt": "2026-10-03T17:12:43.544Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-20016::breaking_change",
-      "subjectId": "event:federal_register:2026-20016",
-      "contentType": "breaking_change",
-      "tier": "news",
-      "status": "ready",
-      "headline": "U.S. Citizenship and Immigration Services Employment-Based Immigrant Visa, Fifth Preference (EB-5) Fee Rule",
-      "suggestedHeadline": "USCIS final EB-5 fee rule effective Nov. 30, 2026",
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/30/2026-20016/us-citizenship-and-immigration-services-employment-based-immigrant-visa-fifth-preference-eb-5-fee",
-      "eventId": "federal_register:2026-20016",
-      "category": "development",
-      "topicKey": "visa:eb-5",
-      "priority": 78952.98888888888,
-      "readerValue": 100,
-      "factsHash": "953a35945cf4e843",
-      "whyItMatters": [
-        "The rule is final but does not apply until November 30, 2026, 59 days from today. Until then the rules in force today stay in force.",
-        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching the November 30, 2026 effective date."
-      ],
-      "suggestedPost": {
-        "x": "Nov. 30, 2026: USCIS’s final EB-5 fee rule takes effect. EB-5 immigration benefit request fees will change. It also codifies provisions of the EB-5 Reform and Integrity Act of 2022.\n\nUntil then, today’s fees and rules stay in force.\n\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Arav4au",
-        "linkedin": "",
-        "structure": "date_lede"
-      },
-      "shareUrl": "https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au",
-      "ogImage": "/og/change/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au.png",
-      "freshness": {
-        "publishedAt": "2026-09-30",
-        "discoveredAt": "2026-09-30",
-        "expiresAt": "2026-10-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-30T18:24:49.049Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-30T18:24:49.049Z",
-          "status": "verified",
-          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au"
-        },
-        {
-          "at": "2026-09-30T18:24:49.049Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        },
-        {
-          "at": "2026-10-01T18:49:06.225Z",
-          "status": "verified",
-          "reason": "fact set changed (dbaaebb52075a829 → 3d119d8bd3c6d50e); stored copy discarded"
-        },
-        {
-          "at": "2026-10-01T18:49:06.225Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        },
-        {
-          "at": "2026-10-02T18:21:36.279Z",
-          "status": "verified",
-          "reason": "fact set changed (3d119d8bd3c6d50e → 953a35945cf4e843); stored copy discarded"
-        },
-        {
-          "at": "2026-10-02T18:21:36.279Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-20016::what_changed",
       "subjectId": "event:federal_register:2026-20016",
       "contentType": "what_changed",
       "tier": "news",
-      "status": "verified",
+      "status": "ready",
       "headline": "U.S. Citizenship and Immigration Services Employment-Based Immigrant Visa, Fifth Preference (EB-5) Fee Rule",
-      "suggestedHeadline": null,
+      "suggestedHeadline": "USCIS final EB-5 fee rule takes effect Nov. 30, 2026",
       "sourceName": "Federal Register",
       "sourceUrl": "https://www.federalregister.gov/documents/2026/09/30/2026-20016/us-citizenship-and-immigration-services-employment-based-immigrant-visa-fifth-preference-eb-5-fee",
       "eventId": "federal_register:2026-20016",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 58952.98888888889,
+      "priority": 58252.98333333333,
       "readerValue": 100,
-      "factsHash": "bfc3b76cfe55d0b5",
+      "factsHash": "b3da31bff4096ce6",
       "whyItMatters": [
-        "The rule is final but does not apply until November 30, 2026, 59 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until November 30, 2026, 58 days from today. Until then the rules in force today stay in force.",
         "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the November 30, 2026 effective date."
       ],
-      "suggestedPost": null,
+      "suggestedPost": {
+        "x": "EB-5 immigrant investors: USCIS finalized a fee rule, effective Nov. 30, 2026.\n\nWhat changed: EB-5 request fees are adjusted, and 2022 Reform and Integrity Act provisions are codified.\n\nWhat ImmigrationClock is watching: Nov. 30, 2026.\n\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3Arav4au",
+        "linkedin": "",
+        "structure": "what_changed"
+      },
       "shareUrl": "https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au",
       "ogImage": "/og/change/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au.png",
       "freshness": {
@@ -118,6 +48,11 @@
           "at": "2026-09-30T18:24:49.049Z",
           "status": "verified",
           "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au"
+        },
+        {
+          "at": "2026-10-03T17:12:19.469Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
         }
       ]
     },
@@ -134,11 +69,11 @@
       "eventId": "federal_register:2026-20016",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 58252.98888888889,
+      "priority": 58252.98333333333,
       "readerValue": 100,
-      "factsHash": "d454094ee8364045",
+      "factsHash": "6dff5d22ad78ea9d",
       "whyItMatters": [
-        "The rule is final but does not apply until November 30, 2026, 59 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until November 30, 2026, 58 days from today. Until then the rules in force today stay in force.",
         "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the November 30, 2026 effective date."
       ],
@@ -179,7 +114,7 @@
       "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 55120.98333333333,
+      "priority": 55120.97777777778,
       "readerValue": 58,
       "factsHash": "6bb10bef3491d5a8",
       "whyItMatters": [
@@ -225,7 +160,7 @@
       "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 55120.98333333333,
+      "priority": 55120.97777777778,
       "readerValue": 58,
       "factsHash": "8569b10223e9cc30",
       "whyItMatters": [
@@ -271,7 +206,7 @@
       "eventId": "uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 54620.98888888889,
+      "priority": 53920.98333333333,
       "readerValue": 34,
       "factsHash": "ccbd53eda796de9e",
       "whyItMatters": [
@@ -316,7 +251,7 @@
       "eventId": "uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 53920.98888888889,
+      "priority": 53920.98333333333,
       "readerValue": 34,
       "factsHash": "292e67fec01a6863",
       "whyItMatters": [
@@ -361,7 +296,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "415f51d9d75d6e4c",
       "whyItMatters": [],
@@ -436,9 +371,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
-      "factsHash": "1c674c1966c21716",
+      "factsHash": "f5eecb4ef47e706e",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -537,7 +472,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -578,7 +513,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -629,7 +564,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -668,50 +603,6 @@
       ]
     },
     {
-      "id": "event:federal_courts:10983722::why_it_matters",
-      "subjectId": "event:federal_courts:10983722",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Department of Homeland Security v. League of Women Voters",
-      "suggestedHeadline": null,
-      "sourceName": "Federal court decisions",
-      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
-      "eventId": "federal_courts:10983722",
-      "category": "explainer",
-      "topicKey": "source:federal_courts",
-      "priority": 23728.96111111111,
-      "readerValue": 34,
-      "factsHash": "289a3d4de16ea3ba",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
-      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
-      "freshness": {
-        "publishedAt": "2026-09-25",
-        "discoveredAt": "2026-09-26",
-        "expiresAt": "2026-10-17"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1::what_changed",
       "subjectId": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
       "contentType": "what_changed",
@@ -724,7 +615,7 @@
       "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.983333333334,
+      "priority": 23700.977777777778,
       "readerValue": 34,
       "factsHash": "9ce01d9407d7ab68",
       "whyItMatters": [
@@ -768,7 +659,7 @@
       "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.983333333334,
+      "priority": 23700.977777777778,
       "readerValue": 34,
       "factsHash": "914978e2e82aefc4",
       "whyItMatters": [
@@ -812,7 +703,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -855,7 +746,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -898,7 +789,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -941,7 +832,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -984,7 +875,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1027,7 +918,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -1070,7 +961,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -1113,7 +1004,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -1156,7 +1047,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -1187,47 +1078,6 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The H-1B employer directory",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
-        }
-      ]
-    },
-    {
       "id": "discovery:key-dates::data_discovery",
       "subjectId": "discovery:key-dates",
       "contentType": "data_discovery",
@@ -1240,7 +1090,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1281,7 +1131,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1322,9 +1172,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
-      "factsHash": "c536944aed4cd1b7",
+      "factsHash": "5eb0fc760b34ea50",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1363,7 +1213,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1404,7 +1254,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1445,7 +1295,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1470,6 +1320,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
         }
       ]
     },
@@ -3025,6 +2916,85 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-20016::breaking_change",
+      "subjectId": "event:federal_register:2026-20016",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "U.S. Citizenship and Immigration Services Employment-Based Immigrant Visa, Fifth Preference (EB-5) Fee Rule",
+      "suggestedHeadline": "USCIS final EB-5 fee rule effective Nov. 30, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/30/2026-20016/us-citizenship-and-immigration-services-employment-based-immigrant-visa-fifth-preference-eb-5-fee",
+      "eventId": "federal_register:2026-20016",
+      "category": "development",
+      "topicKey": "visa:eb-5",
+      "priority": 78952.98888888888,
+      "readerValue": 100,
+      "factsHash": "953a35945cf4e843",
+      "whyItMatters": [
+        "The rule is final but does not apply until November 30, 2026, 59 days from today. Until then the rules in force today stay in force.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching the November 30, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Nov. 30, 2026: USCIS’s final EB-5 fee rule takes effect. EB-5 immigration benefit request fees will change. It also codifies provisions of the EB-5 Reform and Integrity Act of 2022.\n\nUntil then, today’s fees and rules stay in force.\n\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Arav4au",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au",
+      "ogImage": "/og/change/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au.png",
+      "freshness": {
+        "publishedAt": "2026-09-30",
+        "discoveredAt": "2026-09-30",
+        "expiresAt": "2026-10-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au"
+        },
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-01T18:49:06.225Z",
+          "status": "verified",
+          "reason": "fact set changed (dbaaebb52075a829 → 3d119d8bd3c6d50e); stored copy discarded"
+        },
+        {
+          "at": "2026-10-01T18:49:06.225Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-02T18:21:36.279Z",
+          "status": "verified",
+          "reason": "fact set changed (3d119d8bd3c6d50e → 953a35945cf4e843); stored copy discarded"
+        },
+        {
+          "at": "2026-10-02T18:21:36.279Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-03T17:12:19.469Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-03"
+        }
+      ]
+    },
+    {
       "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::breaking_change",
       "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
       "contentType": "breaking_change",
@@ -3731,6 +3701,55 @@
           "at": "2026-10-01T18:49:06.225Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-01"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_courts:10983722::why_it_matters",
+      "subjectId": "event:federal_courts:10983722",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Department of Homeland Security v. League of Women Voters",
+      "suggestedHeadline": null,
+      "sourceName": "Federal court decisions",
+      "sourceUrl": "https://www.courtlistener.com/opinion/10983722/department-of-homeland-security-v-league-of-women-voters/",
+      "eventId": "federal_courts:10983722",
+      "category": "explainer",
+      "topicKey": "source:federal_courts",
+      "priority": 23728.96111111111,
+      "readerValue": 34,
+      "factsHash": "289a3d4de16ea3ba",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh",
+      "ogImage": "/og/change/department-of-homeland-security-v-league-of-women-voters-9mzbbh.png",
+      "freshness": {
+        "publishedAt": "2026-09-25",
+        "discoveredAt": "2026-09-26",
+        "expiresAt": "2026-10-17"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/department-of-homeland-security-v-league-of-women-voters-9mzbbh"
+        },
+        {
+          "at": "2026-10-03T17:12:19.469Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-03"
         }
       ]
     },
