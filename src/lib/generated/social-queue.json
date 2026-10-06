@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-05T00:48:11.071Z",
+  "updatedAt": "2026-10-06T01:45:55.598Z",
   "items": [
     {
       "id": "event:federal_register:2026-20016::what_changed",
@@ -15,16 +15,16 @@
       "eventId": "federal_register:2026-20016",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 58252.97777777778,
+      "priority": 58252.97222222222,
       "readerValue": 100,
-      "factsHash": "2c7cccda524970d9",
+      "factsHash": "67ae3a39d5917eef",
       "whyItMatters": [
-        "The rule is final but does not apply until November 30, 2026, 57 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until November 30, 2026, 56 days from today. Until then the rules in force today stay in force.",
         "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the November 30, 2026 effective date."
       ],
       "suggestedPost": {
-        "x": "USCIS finalized EB-5 rule. Effective Nov. 30, 2026.\n\nWhat changed: EB-5 fees will be adjusted, codifying EB-5 Reform and Integrity Act provisions and implementing new requirements.\n\nWhat ImmigrationClock is watching: Nov. 30, 2026.\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3Arav4au",
+        "x": "EB-5 investors and regional centers: USCIS finalized an EB-5 fee rule, effective Nov. 30, 2026.\n\nWhat changed: EB-5 fees are adjusted; USCIS codifies 2022 Reform and Integrity Act.\n\nWhat ImmigrationClock is watching: Nov. 30, 2026.\n\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3Arav4au",
         "linkedin": "",
         "structure": "what_changed"
       },
@@ -63,6 +63,16 @@
           "at": "2026-10-04T17:27:22.483Z",
           "status": "ready",
           "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-06T01:44:38.448Z",
+          "status": "verified",
+          "reason": "fact set changed (2c7cccda524970d9 → 67ae3a39d5917eef); stored copy discarded"
+        },
+        {
+          "at": "2026-10-06T01:44:38.448Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
         }
       ]
     },
@@ -79,11 +89,11 @@
       "eventId": "federal_register:2026-20016",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 58252.97777777778,
+      "priority": 58252.97222222222,
       "readerValue": 100,
-      "factsHash": "00b6002a1a5befbd",
+      "factsHash": "4aab49489bc53b41",
       "whyItMatters": [
-        "The rule is final but does not apply until November 30, 2026, 57 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until November 30, 2026, 56 days from today. Until then the rules in force today stay in force.",
         "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching the November 30, 2026 effective date."
       ],
@@ -112,52 +122,6 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::what_changed",
-      "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "USCIS Adjusts EB-5 Fees to Cover Program Costs and Strengthen Integrity Measures",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-measures",
-      "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
-      "category": "actionable",
-      "topicKey": "visa:eb-5",
-      "priority": 55120.97222222222,
-      "readerValue": 58,
-      "factsHash": "6bb10bef3491d5a8",
-      "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf",
-      "ogImage": "/og/change/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf.png",
-      "freshness": {
-        "publishedAt": "2026-09-29",
-        "discoveredAt": "2026-09-29",
-        "expiresAt": "2026-10-09"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-29T18:34:58.015Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-29T18:34:58.015Z",
-          "status": "verified",
-          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::why_it_matters",
       "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
       "contentType": "why_it_matters",
@@ -170,7 +134,7 @@
       "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
       "category": "actionable",
       "topicKey": "visa:eb-5",
-      "priority": 55120.97222222222,
+      "priority": 55120.96666666667,
       "readerValue": 58,
       "factsHash": "8569b10223e9cc30",
       "whyItMatters": [
@@ -216,7 +180,7 @@
       "eventId": "uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 53920.97777777778,
+      "priority": 53920.97222222222,
       "readerValue": 34,
       "factsHash": "ccbd53eda796de9e",
       "whyItMatters": [
@@ -261,7 +225,7 @@
       "eventId": "uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 53920.97777777778,
+      "priority": 53920.97222222222,
       "readerValue": 34,
       "factsHash": "292e67fec01a6863",
       "whyItMatters": [
@@ -294,57 +258,6 @@
       ]
     },
     {
-      "id": "signal:h1b-approval-rate::data_signal",
-      "subjectId": "signal:h1b-approval-rate",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How often H-1B petitions were approved in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "18b61ebf2981afed",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
-      "ogImage": "/og/signal/h1b-approval-rate.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
       "id": "signal:warn-by-state::data_signal",
       "subjectId": "signal:warn-by-state",
       "contentType": "data_signal",
@@ -357,7 +270,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "415f51d9d75d6e4c",
       "whyItMatters": [],
@@ -432,7 +345,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -473,7 +386,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -512,46 +425,53 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1::what_changed",
-      "subjectId": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
-      "contentType": "what_changed",
-      "tier": "news",
+      "id": "signal:h1b-approval-rate::data_signal",
+      "subjectId": "signal:h1b-approval-rate",
+      "contentType": "data_signal",
+      "tier": "evergreen",
       "status": "verified",
-      "headline": "USCIS Assists Florida Investigation Leading to Charges for Unlawful Voting",
+      "headline": "How often H-1B petitions were approved in the latest USCIS export",
       "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-voting",
-      "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
-      "category": "explainer",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 23700.972222222223,
-      "readerValue": 34,
-      "factsHash": "9ce01d9407d7ab68",
-      "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "18b61ebf2981afed",
+      "whyItMatters": [],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq",
-      "ogImage": "/og/change/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq.png",
+      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
+      "ogImage": "/og/signal/h1b-approval-rate.png",
       "freshness": {
-        "publishedAt": "2026-09-29",
-        "discoveredAt": "2026-09-29",
-        "expiresAt": "2026-10-09"
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-29T18:34:58.015Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-29T18:34:58.015Z",
+          "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq"
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "deferred window passed"
         }
       ]
     },
@@ -568,7 +488,7 @@
       "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.972222222223,
+      "priority": 23700.966666666667,
       "readerValue": 34,
       "factsHash": "914978e2e82aefc4",
       "whyItMatters": [
@@ -612,7 +532,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22009,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -655,7 +575,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -698,7 +618,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -741,7 +661,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -784,7 +704,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -827,7 +747,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -870,7 +790,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -913,7 +833,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -956,7 +876,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -987,47 +907,6 @@
       ]
     },
     {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
-        }
-      ]
-    },
-    {
       "id": "discovery:change-archive-search::data_discovery",
       "subjectId": "discovery:change-archive-search",
       "contentType": "data_discovery",
@@ -1040,7 +919,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "5eb0fc760b34ea50",
       "whyItMatters": [],
@@ -1081,7 +960,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1122,7 +1001,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1163,7 +1042,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1204,7 +1083,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1245,7 +1124,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1270,6 +1149,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
         }
       ]
     },
@@ -3258,6 +3178,57 @@
       ]
     },
     {
+      "id": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f::what_changed",
+      "subjectId": "event:uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "USCIS Adjusts EB-5 Fees to Cover Program Costs and Strengthen Integrity Measures",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-measures",
+      "eventId": "uscis_newsroom:e3b09185-2103-43e8-89ec-743586eabf7f",
+      "category": "actionable",
+      "topicKey": "visa:eb-5",
+      "priority": 55120.97222222222,
+      "readerValue": 58,
+      "factsHash": "6bb10bef3491d5a8",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf",
+      "ogImage": "/og/change/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf.png",
+      "freshness": {
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-09"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "verified",
+          "reason": "reader value 58/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-adjusts-eb-5-fees-to-cover-program-costs-and-strengthen-integrity-yofwwf"
+        },
+        {
+          "at": "2026-10-06T01:44:38.448Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-05"
+        }
+      ]
+    },
+    {
       "id": "event:uscis_policy_manual:20260831-voterregnatzceremonies::what_changed",
       "subjectId": "event:uscis_policy_manual:20260831-voterregnatzceremonies",
       "contentType": "what_changed",
@@ -3765,6 +3736,55 @@
           "at": "2026-10-03T17:12:19.469Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-03"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1::what_changed",
+      "subjectId": "event:uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "USCIS Assists Florida Investigation Leading to Charges for Unlawful Voting",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-voting",
+      "eventId": "uscis_newsroom:e3f5c710-206e-4024-9aa0-8a4f61ff98c1",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23700.972222222223,
+      "readerValue": 34,
+      "factsHash": "9ce01d9407d7ab68",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq",
+      "ogImage": "/og/change/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq.png",
+      "freshness": {
+        "publishedAt": "2026-09-29",
+        "discoveredAt": "2026-09-29",
+        "expiresAt": "2026-10-09"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-29T18:34:58.015Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-assists-florida-investigation-leading-to-charges-for-unlawful-09essq"
+        },
+        {
+          "at": "2026-10-06T01:44:38.448Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-05"
         }
       ]
     },
