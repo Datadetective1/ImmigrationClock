@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-06T16:59:47.454Z",
+  "generatedAt": "2026-10-07T17:36:33.843Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,17 +56,17 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 332,
-      "employeesTotal": 16294,
-      "latestNotice": "2026-09-30",
-      "withNoticeDate": 332,
+      "noticeCount": 346,
+      "employeesTotal": 16654,
+      "latestNotice": "2026-10-05",
+      "withNoticeDate": 346,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7672,
-  "employeesTotal": 988938,
-  "employerCount": 6008,
+  "noticeCount": 7686,
+  "employeesTotal": 989298,
+  "employerCount": 6019,
   "minNoticeDate": "2004-01-12",
   "maxNoticeDate": "2026-10-05",
   "byEmployer": [
@@ -19550,6 +19550,17 @@
       "latestNotice": "2004-04-15"
     },
     {
+      "normalized": "AMF BOWLING CENTERS CASTLE PARK",
+      "name": "AMF Bowling Centers, Inc. Castle Park",
+      "slug": "amf-bowling-centers-inc-castle-park",
+      "notices": 1,
+      "employees": 130,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
+    },
+    {
       "normalized": "GAF MATERIALS",
       "name": "GAF Materials",
       "slug": "gaf-materials",
@@ -19835,6 +19846,19 @@
         "WA"
       ],
       "latestNotice": "2009-03-05"
+    },
+    {
+      "normalized": "MAGIC LEAP",
+      "name": "Magic Leap, Inc.",
+      "slug": "magic-leap-inc",
+      "notices": 4,
+      "employees": 128,
+      "states": [
+        "CA",
+        "TX",
+        "WA"
+      ],
+      "latestNotice": "2026-10-01"
     },
     {
       "normalized": "OVG HOSPITALITY",
@@ -20773,19 +20797,6 @@
         "WA"
       ],
       "latestNotice": "2005-09-06"
-    },
-    {
-      "normalized": "MAGIC LEAP",
-      "name": "Magic Leap, Inc.",
-      "slug": "magic-leap-inc",
-      "notices": 3,
-      "employees": 123,
-      "states": [
-        "CA",
-        "TX",
-        "WA"
-      ],
-      "latestNotice": "2026-07-17"
     },
     {
       "normalized": "ICIMS",
@@ -28448,6 +28459,17 @@
       "latestNotice": "2026-10-05"
     },
     {
+      "normalized": "TRUFUSION WEST HOLLYWOOD",
+      "name": "TruFusion West Hollywood LLC",
+      "slug": "trufusion-west-hollywood-llc",
+      "notices": 1,
+      "employees": 92,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-01"
+    },
+    {
       "normalized": "COMPREHENSIVE LIFE RESOURCES",
       "name": "Comprehensive Life Resources",
       "slug": "comprehensive-life-resources",
@@ -30045,6 +30067,17 @@
       "latestNotice": "2006-12-19"
     },
     {
+      "normalized": "BLUE DIAMOND GROWERS",
+      "name": "Blue Diamond Growers",
+      "slug": "blue-diamond-growers",
+      "notices": 3,
+      "employees": 87,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-02"
+    },
+    {
       "normalized": "NBCUNIVERSAL MEDIA -1440",
       "name": "NBCUniversal Media, LLC -1440",
       "slug": "nbcuniversal-media-llc-1440",
@@ -30749,6 +30782,17 @@
       "latestNotice": "2005-03-04"
     },
     {
+      "normalized": "BECTON DICKINSON AND (BD)",
+      "name": "Becton, Dickinson and Company (BD)",
+      "slug": "becton-dickinson-and-company-bd",
+      "notices": 1,
+      "employees": 85,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-24"
+    },
+    {
       "normalized": "FORTREX (JOHN SOULES FOODS )",
       "name": "Fortrex (John Soules Foods, Inc.)",
       "slug": "fortrex-john-soules-foods-inc",
@@ -31088,17 +31132,6 @@
         "NJ"
       ],
       "latestNotice": "2005-09-05"
-    },
-    {
-      "normalized": "BLUE DIAMOND GROWERS",
-      "name": "Blue Diamond Growers",
-      "slug": "blue-diamond-growers",
-      "notices": 2,
-      "employees": 84,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-08-28"
     },
     {
       "normalized": "VIRTEX ENTERPRISES",
@@ -54092,6 +54125,17 @@
       "latestNotice": "2008-04-25"
     },
     {
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - VALLEY VISTA",
+      "name": "Monroe Operations, LLC, dba Newport Healthcare - Valley Vista",
+      "slug": "monroe-operations-llc-dba-newport-healthcare-valley-vista",
+      "notices": 1,
+      "employees": 18,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
+    },
+    {
       "normalized": "JOHN MUIR HEALTH - 2540 EAST STREET",
       "name": "John Muir Health - 2540 East Street",
       "slug": "john-muir-health-2540-east-street",
@@ -58025,6 +58069,17 @@
       "latestNotice": "2026-10-02"
     },
     {
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - PRESILLA",
+      "name": "Monroe Operations, LLC, dba Newport Healthcare - Presilla",
+      "slug": "monroe-operations-llc-dba-newport-healthcare-presilla",
+      "notices": 1,
+      "employees": 8,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
+    },
+    {
       "normalized": "RTX",
       "name": "RTX",
       "slug": "rtx",
@@ -59226,6 +59281,17 @@
       "latestNotice": "2005-12-31"
     },
     {
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - READ",
+      "name": "Monroe Operations, LLC, dba Newport Healthcare - Read",
+      "slug": "monroe-operations-llc-dba-newport-healthcare-read",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
+    },
+    {
       "normalized": "SAPPORO U S A (2865 EXECUTIVE PLACE)",
       "name": "Sapporo U.S.A. (2865 Executive Place)",
       "slug": "sapporo-u-s-a-2865-executive-place",
@@ -60082,6 +60148,17 @@
         "NJ"
       ],
       "latestNotice": "2010-12-31"
+    },
+    {
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - ALHAMBRA",
+      "name": "Monroe Operations, LLC, dba Newport Healthcare - Alhambra",
+      "slug": "monroe-operations-llc-dba-newport-healthcare-alhambra",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
     },
     {
       "normalized": "CONSTELLIS (1060 N EASTERN AVE )",
@@ -62387,6 +62464,28 @@
       "latestNotice": "2005-11-01"
     },
     {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
+      "notices": 2,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
+    },
+    {
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - PIMLICO",
+      "name": "Monroe Operations, LLC, dba Newport Healthcare - Pimlico",
+      "slug": "monroe-operations-llc-dba-newport-healthcare-pimlico",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
+    },
+    {
       "normalized": "KAISER (75N FAIR OAKS AVE )",
       "name": "Kaiser (75N. Fair Oaks Ave.)",
       "slug": "kaiser-75n-fair-oaks-ave",
@@ -64193,6 +64292,28 @@
         "NJ"
       ],
       "latestNotice": "2009-06-30"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-74-n-pasadena-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (393 E WALNUT ST )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (393 E. Walnut St.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-393-e-walnut-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
     },
     {
       "normalized": "KAISER (1800 HARRISON ST )",
@@ -66743,6 +66864,66 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (393 E. Walnut St.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (393 E WALNUT ST )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "AMF Bowling Centers, Inc. Castle Park",
+      "normalized": "AMF BOWLING CENTERS CASTLE PARK",
+      "city": "Riverside",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 130,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Jack in the Box",
       "normalized": "JACK IN THE BOX",
       "city": "Kent",
@@ -66753,6 +66934,18 @@
       "employees": 15,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Blue Diamond Growers",
+      "normalized": "BLUE DIAMOND GROWERS",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-10-02",
+      "effectiveDate": "2026-12-04",
+      "employees": 3,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Novartis Pharmaceuticals Corporation",
@@ -66813,6 +67006,30 @@
       "employees": 439,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "TruFusion West Hollywood LLC",
+      "normalized": "TRUFUSION WEST HOLLYWOOD",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-01",
+      "effectiveDate": "2026-11-30",
+      "employees": 92,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Magic Leap, Inc.",
+      "normalized": "MAGIC LEAP",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-01",
+      "effectiveDate": "2026-12-01",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Samsung SDS America, Inc",
@@ -66896,6 +67113,66 @@
       "effectiveDate": "2026-12-04",
       "employees": 60,
       "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Monroe Operations, LLC, dba Newport Healthcare - Pimlico",
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - PIMLICO",
+      "city": "Moorpark",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-09-30",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Monroe Operations, LLC, dba Newport Healthcare - Alhambra",
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - ALHAMBRA",
+      "city": "Santa Rosa Valley",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-09-30",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Monroe Operations, LLC, dba Newport Healthcare - Presilla",
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - PRESILLA",
+      "city": "Santa Rosa Valley",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-09-30",
+      "employees": 8,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Monroe Operations, LLC, dba Newport Healthcare - Read",
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - READ",
+      "city": "Moorpark",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-09-30",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Monroe Operations, LLC, dba Newport Healthcare - Valley Vista",
+      "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - VALLEY VISTA",
+      "city": "Camarillo",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-09-30",
+      "employees": 18,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -67531,6 +67808,18 @@
       "noticeDate": "2026-09-24",
       "effectiveDate": "2026-12-04",
       "employees": 117,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Becton, Dickinson and Company (BD)",
+      "normalized": "BECTON DICKINSON AND (BD)",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-09-24",
+      "effectiveDate": "2026-09-01",
+      "employees": 85,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -69751,7 +70040,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Layoff Permanent",
+      "layoffType": "Relocation",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
