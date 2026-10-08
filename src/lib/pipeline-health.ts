@@ -260,7 +260,16 @@ export function evaluateHealth(health: PipelineHealth, now: string, live?: Pipel
     return { state: "stale", alert: true, reasons };
   }
 
-  const sig = health.latestSignificantRecord;
+  // The newest significant record comes from whichever copy checked sources
+  // last. The live build re-ingests at deploy time, so it can be a day ahead
+  // of the committed file; judging "new" from the older copy reported
+  // healthy_quiet on 2026-10-08 while the live homepage led with a same-day
+  // proposed rule.
+  const freshest =
+    live?.lastSuccessfulIngestion && live.lastSuccessfulIngestion > (health.lastSuccessfulIngestion ?? "")
+      ? live
+      : health;
+  const sig = freshest.latestSignificantRecord;
   if (sig && hoursBetween(`${sig.publishedAt}T00:00:00Z`, now) <= NEW_WINDOW_DAYS * 24) {
     reasons.push(`Newest significant change published ${sig.publishedAt}: ${sig.title}`);
     return { state: "healthy_new", alert: false, reasons };

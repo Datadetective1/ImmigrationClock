@@ -85,6 +85,15 @@ describe("evaluateHealth — the five states", () => {
     expect(evaluateHealth(repo, NOW, live).state).toBe("publish_failure");
   });
 
+  it("judges 'new' from the live build when it checked sources more recently", () => {
+    const repo = health({ events: [ev("old", "2026-09-20")] });
+    const live = {
+      ...health({ now: "2026-10-08T15:40:00.000Z", events: [ev("today", "2026-10-08")] }),
+      lastBuildAt: "2026-10-08T15:40:00.000Z",
+    };
+    expect(evaluateHealth(repo, "2026-10-08T16:00:00.000Z", live).state).toBe("healthy_new");
+  });
+
   it("does not call a fresh live build a publish failure", () => {
     const repo = health();
     expect(evaluateHealth(repo, NOW, { ...repo, lastBuildAt: NOW }).state).toBe("healthy_new");
