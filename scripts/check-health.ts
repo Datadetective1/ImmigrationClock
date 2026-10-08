@@ -81,6 +81,45 @@ async function probeFederalRegister(archiveIds: Map<string, string>): Promise<{ 
   return { missing };
 }
 
+
+/** Plain text of an HTML page, enough to find a title in it. */
+function pageText(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ");
+}
+
+/**
+ * Does the LIVE homepage show what the live health file says is newest?
+ * A deploy can succeed while a stale page is still served (cache, wrong alias);
+ * this checks the thing a reader actually sees.
+ */
+async function checkHomepage(expectedTitle: string | undefined): Promise<{ ok: boolean; note: string }> {
+  try {
+    const res = await fetch(`${SITE}/`, { headers: { ...FR_UA, "Cache-Control": "no-cache" }, signal: AbortSignal.timeout(30_000) });
+    if (!res.ok) return { ok: false, note: `Homepage answered ${res.status}.` };
+    const text = pageText(await res.text());
+    const at = text.indexOf("Latest immigration changes");
+    log("### Live homepage, latest changes");
+    log("");
+    log("> " + (at >= 0 ? text.slice(at, at + 1200) : "(section not found)"));
+    log("");
+    if (!expectedTitle) return { ok: true, note: "No significant record to look for." };
+    const shown = at >= 0 && text.slice(at, at + 4000).includes(pageText(expectedTitle).trim());
+    return shown
+      ? { ok: true, note: `Homepage shows the newest significant change: ${expectedTitle}` }
+      : { ok: false, note: `Homepage does not show the newest significant change (${expectedTitle}).` };
+  } catch (err) {
+    return { ok: false, note: `Homepage unreachable: ${(err as Error).message}` };
+  }
+}
+
 async function main() {
   const repo = JSON.parse(readFileSync("src/lib/generated/pipeline-health.json", "utf8")) as PipelineHealth;
   const live = await fetchJson<PipelineHealth>(`${SITE}/api/health.json`, { "Cache-Control": "no-cache" });
@@ -95,6 +134,16 @@ async function main() {
   }
 
   let verdict: HealthVerdict = evaluateHealth(repo, now, live.data);
+
+  // Only judged once production serves a health file; before that, there is no
+  // statement of what the page should show.
+  if (live.data) {
+    const home = await checkHomepage(live.data.latestSignificantRecord?.title);
+    log(`- Homepage check: ${home.note}`);
+    if (!home.ok && !verdict.alert) {
+      verdict = { state: "publish_failure", alert: true, reasons: [home.note] };
+    }
+  }
 
   if (PROBE) {
     const store = JSON.parse(readFileSync("src/lib/generated/events.json", "utf8")) as {
