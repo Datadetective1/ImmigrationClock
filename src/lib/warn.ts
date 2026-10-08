@@ -39,6 +39,10 @@ export interface WarnStateSummary {
   noticeCount: number;
   employeesTotal: number;
   latestNotice: string | null;
+  /** `live` = fetched at build time; `scraper` = parsed by the scheduled wide-net job. */
+  via?: "live" | "scraper";
+  /** ISO timestamp of when this state's portal was last actually read. */
+  asOf?: string;
 }
 
 export const WARN_NOTICES = warn.notices as WarnNotice[]; // date-desc
@@ -176,7 +180,7 @@ export function warnForEmployer(name: string): EmployerWarn | null {
 }
 
 export const WARN_PROVENANCE = {
-  sourceName: "State WARN Act notices (state open-data portals)",
+  sourceName: "State WARN Act notices (state agency portals)",
   sourceUrl: "https://www.dol.gov/agencies/eta/layoffs/warn",
   sourceUpdatedAt: (WARN_META.maxNoticeDate ?? WARN_META.generatedAt.slice(0, 10)) as string,
 };

@@ -255,7 +255,7 @@ export const SOURCES: SourceDef[] = [
   },
   {
     key: "warn_layoffs",
-    name: "State WARN Act notices (state open-data portals)",
+    name: "State WARN Act notices (state agency portals)",
     agency: "State labor and workforce agencies",
     tier: "official-aggregated",
     description:

@@ -41,6 +41,18 @@ export interface WarnStateSummaryRow {
   dateBasis: "notice" | "effective" | "mixed";
   withNoticeDate: number;
   withEffectiveOnly: number;
+  /**
+   * How the rows arrived. `live` states are fetched from an open-data feed on
+   * every build; `scraper` states are parsed from the agency's HTML, Excel or
+   * PDF listing by the scheduled wide-net job and read from its committed cache.
+   */
+  via?: "live" | "scraper";
+  /**
+   * When the state's portal was actually read (ISO timestamp). A scraper state
+   * whose portal failed on the latest run keeps its last good snapshot and this
+   * older date, so staleness is stated on the page rather than hidden.
+   */
+  asOf?: string;
 }
 
 export const WARN_SUMMARY = {
@@ -146,8 +158,13 @@ export function warnCoversState(stateCode: string): boolean {
 /**
  * One sentence naming exactly which states are represented. Used anywhere a WARN
  * total is displayed so a partial-coverage number is never read as national.
+ *
+ * It names every code on purpose, however long the list gets: the reader's
+ * question is "is my state in here?", and a count cannot answer it.
  */
+const COVERED_DC = WARN_SUMMARY.stateCodes.includes("DC");
 export const WARN_COVERAGE_SENTENCE =
-  `Covers ${WARN_SUMMARY.stateCount} states with a machine-readable WARN feed ` +
+  `Covers ${COVERED_DC ? WARN_SUMMARY.stateCount - 1 : WARN_SUMMARY.stateCount} states` +
+  `${COVERED_DC ? " and the District of Columbia" : ""} whose WARN portals we can read ` +
   `(${WARN_SUMMARY.stateCodes.join(", ")}). This is not a national total — ` +
-  `most states publish WARN notices only as HTML, Excel, or PDF.`;
+  `some states have no WARN portal, and a few publish in a form we cannot yet parse.`;
