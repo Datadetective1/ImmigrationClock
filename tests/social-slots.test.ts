@@ -1,13 +1,14 @@
 // =============================================================================
 // WINDOWS AND THE DST GATE
 //
-// GitHub Actions cron is always UTC, and GitHub delivers scheduled firings late
-// under load — measured against this workflow's own run log, hours late for a
-// week. So the publishing day is three WINDOWS of local hours, not three exact
-// hours, and the cron fires every UTC hour that can fall inside one in either
-// US offset. These tests pin the things that make that safe: the gate opens on
-// Chicago LOCAL time across the whole window, the crons cover every hour a
-// window can be open, and no cron fires at an hour that maps to nothing.
+// One post a day, opening at 09:00 America/Chicago, and a narrow breaking
+// window in the afternoon and evening. GitHub Actions cron is always UTC and
+// GitHub delivers scheduled firings late under load, so the daily window is a
+// SPAN of local hours and the cron fires every UTC hour that can fall inside
+// it in either US offset. These tests pin the things that make that safe: the
+// gate reads Chicago LOCAL time, the first firing of the day lands at 09:03 in
+// both CDT and CST, the crons cover every hour the daily window can be open,
+// and the breaking checks land inside the breaking window in both offsets.
 //
 // The two transition days are tested explicitly. They are the only days the
 // naive implementation (fixed UTC offset arithmetic) gets wrong, and they are
@@ -20,208 +21,120 @@ import { resolve } from "node:path";
 import {
   SLOTS,
   SLOT_BY_ID,
+  BREAKING_CHECK_UTC_HOURS,
+  CRON_MINUTE,
   currentSlot,
   chicagoParts,
   utcHoursFor,
-  allPublishingUtcHours,
+  scheduledUtcHours,
   inPublishingWindow,
   instantInWindow,
   slotCoversHour,
 } from "@/lib/social/slots";
 
-describe("window definitions", () => {
-  it("has exactly three windows, opening at 08:00, 13:00 and 17:00 local", () => {
-    expect(SLOTS.map((s) => s.id)).toEqual(["morning", "afternoon", "evening"]);
-    expect(SLOTS.map((s) => s.hours)).toEqual([
-      [8, 12],
-      [13, 16],
-      [17, 20],
-    ]);
-  });
+const daily = SLOT_BY_ID.get("daily")!;
+const breaking = SLOT_BY_ID.get("breaking")!;
 
-  it("keeps `hour` as the window's opening hour, for the ledger's older readers", () => {
+describe("window definitions", () => {
+  it("has one daily window opening at 09:00 and one breaking window after it", () => {
+    expect(SLOTS.map((s) => s.id)).toEqual(["daily", "breaking"]);
+    expect(daily.hours).toEqual([9, 13]);
+    expect(breaking.hours).toEqual([14, 20]);
     for (const slot of SLOTS) expect(slot.hour).toBe(slot.hours[0]);
   });
 
-  it("covers 08:00 through 20:59 local with no gap and no overlap", () => {
-    // A gap is an hour where a late firing is discarded; an overlap is an hour
-    // where two windows could both claim one firing. Neither is allowed.
-    for (let i = 1; i < SLOTS.length; i++) {
-      expect(SLOTS[i].hours[0]).toBe(SLOTS[i - 1].hours[1] + 1);
+  it("has windows that do not overlap, and nothing before 09:00 or after 20:59", () => {
+    for (let hour = 0; hour < 24; hour++) {
+      expect(SLOTS.filter((s) => slotCoversHour(s, hour)).length, `${hour}:00`).toBeLessThanOrEqual(1);
     }
-    for (let hour = 8; hour <= 20; hour++) {
-      expect(SLOTS.filter((s) => slotCoversHour(s, hour)), `${hour}:00`).toHaveLength(1);
-    }
-    expect(slotCoversHour(SLOTS[0], 7)).toBe(false);
-    expect(slotCoversHour(SLOTS[2], 21)).toBe(false);
+    expect(slotCoversHour(daily, 8)).toBe(false);
+    expect(slotCoversHour(breaking, 21)).toBe(false);
   });
 
-  it("gives each window a different nominal pool", () => {
-    expect(new Set(SLOTS.map((s) => s.pool)).size).toBe(3);
-  });
-
-  it("gives the news pool to the morning window and to no other", () => {
-    // The morning is news-only by the cadence policy; its nominal pool says so
-    // in the ledger's skip rows.
-    const primary = SLOTS.filter((s) => s.pool === "news");
-    expect(primary).toHaveLength(1);
-    expect(primary[0].id).toBe("morning");
-  });
-
-  it("carries no pool-era selection fields — one queue, not three pools", () => {
-    for (const slot of SLOTS) {
-      expect(slot).not.toHaveProperty("angles");
-      expect(slot).not.toHaveProperty("fallbackPools");
-    }
-  });
-});
-
-describe("chicagoParts", () => {
-  it("reads CDT (UTC-5) in summer", () => {
-    // 2026-07-15 14:00 UTC = 09:00 CDT
-    expect(chicagoParts(new Date("2026-07-15T14:00:00Z")).hour).toBe(9);
-  });
-
-  it("reads CST (UTC-6) in winter", () => {
-    // 2026-01-15 15:00 UTC = 09:00 CST
-    expect(chicagoParts(new Date("2026-01-15T15:00:00Z")).hour).toBe(9);
-  });
-
-  it("reports the local date, not the UTC date", () => {
-    // 03:00 UTC on the 5th is still 22:00 on the 4th in Chicago.
-    expect(chicagoParts(new Date("2026-08-05T03:00:00Z")).date).toBe("2026-08-04");
+  it("says in its purpose that the breaking window is for major developments only", () => {
+    expect(breaking.purpose).toMatch(/major development/i);
+    expect(breaking.purpose).toMatch(/never routine/i);
   });
 });
 
 describe("currentSlot", () => {
-  it("opens the morning window at 09:00 local in summer", () => {
-    expect(currentSlot(new Date("2026-07-15T14:00:00Z"))?.id).toBe("morning");
+  it("opens the daily window at 09:00 Chicago in summer (CDT, UTC-5)", () => {
+    expect(currentSlot(new Date("2026-07-15T14:00:00Z"))?.id).toBe("daily");
+    expect(currentSlot(new Date("2026-07-15T13:59:00Z"))).toBeNull(); // 08:59 CDT
   });
 
-  it("opens the morning window at 09:00 local in winter", () => {
-    expect(currentSlot(new Date("2026-01-15T15:00:00Z"))?.id).toBe("morning");
+  it("opens the daily window at 09:00 Chicago in winter (CST, UTC-6)", () => {
+    expect(currentSlot(new Date("2026-01-15T15:00:00Z"))?.id).toBe("daily");
+    expect(currentSlot(new Date("2026-01-15T14:59:00Z"))).toBeNull(); // 08:59 CST
   });
 
-  it("stays open across the WHOLE morning window, so a late firing still counts", () => {
-    // The failure the second design answers: 12:41 local was a discarded run.
-    // 13:00 UTC is 08:00 CDT and 17:41 UTC is 12:41 CDT — both are the morning.
-    for (const iso of ["2026-07-15T13:00:00Z", "2026-07-15T15:00:00Z", "2026-07-15T17:41:00Z"]) {
-      expect(currentSlot(new Date(iso))?.id, iso).toBe("morning");
-    }
-    // Winter: 14:00 UTC is 08:00 CST, 18:59 UTC is 12:59 CST.
-    for (const iso of ["2026-01-15T14:00:00Z", "2026-01-15T16:22:00Z", "2026-01-15T18:59:00Z"]) {
-      expect(currentSlot(new Date(iso))?.id, iso).toBe("morning");
-    }
+  it("keeps the daily window open through 13:59, so a late firing still counts", () => {
+    expect(currentSlot(new Date("2026-07-15T18:59:00Z"))?.id).toBe("daily"); // 13:59 CDT
+    expect(currentSlot(new Date("2026-01-15T19:59:00Z"))?.id).toBe("daily"); // 13:59 CST
   });
 
-  it("absorbs the wrong-offset firing instead of discarding it", () => {
-    // 15:00 UTC in July is 10:00 CDT — an exact-hour gate dropped it; a window
-    // keeps it. 14:00 UTC in January is 08:00 CST, likewise.
-    expect(currentSlot(new Date("2026-07-15T15:00:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-01-15T14:00:00Z"))?.id).toBe("morning");
+  it("is the breaking window from 14:00 to 20:59 and nothing after", () => {
+    expect(currentSlot(new Date("2026-07-15T19:00:00Z"))?.id).toBe("breaking"); // 14:00 CDT
+    expect(currentSlot(new Date("2026-07-16T01:59:00Z"))?.id).toBe("breaking"); // 20:59 CDT
+    expect(currentSlot(new Date("2026-07-16T02:00:00Z"))).toBeNull(); // 21:00 CDT
+    expect(currentSlot(new Date("2026-01-16T02:59:00Z"))?.id).toBe("breaking"); // 20:59 CST
+    expect(currentSlot(new Date("2026-01-16T03:00:00Z"))).toBeNull(); // 21:00 CST
   });
 
-  it("stays shut outside every window", () => {
-    // 12:00 UTC is 07:00 CDT; 03:00 UTC is 22:00 CDT the previous evening.
-    expect(currentSlot(new Date("2026-07-15T12:00:00Z"))).toBeNull();
-    expect(currentSlot(new Date("2026-07-16T03:00:00Z"))).toBeNull();
-    // 13:00 UTC is 07:00 CST; 04:00 UTC is 22:00 CST.
-    expect(currentSlot(new Date("2026-01-15T13:00:00Z"))).toBeNull();
-    expect(currentSlot(new Date("2026-01-16T04:00:00Z"))).toBeNull();
+  it("gets the day DST begins right (2026-03-08: CST until 02:00, then CDT)", () => {
+    expect(currentSlot(new Date("2026-03-08T14:00:00Z"))?.id).toBe("daily"); // 09:00 CDT
+    expect(currentSlot(new Date("2026-03-08T13:00:00Z"))).toBeNull(); // 08:00 CDT
+    expect(chicagoParts(new Date("2026-03-08T14:03:00Z")).time).toBe("09:03");
   });
 
-  it("tolerates a late cron start within the hour", () => {
-    expect(currentSlot(new Date("2026-07-15T14:47:00Z"))?.id).toBe("morning");
-  });
-
-  it("opens afternoon and evening across their local hours", () => {
-    // CDT: 18:00Z–21:59Z is 13:00–16:59 local; 22:00Z–01:59Z is 17:00–20:59.
-    expect(currentSlot(new Date("2026-07-15T18:00:00Z"))?.id).toBe("afternoon");
-    expect(currentSlot(new Date("2026-07-15T21:59:00Z"))?.id).toBe("afternoon");
-    expect(currentSlot(new Date("2026-07-15T22:00:00Z"))?.id).toBe("evening");
-    expect(currentSlot(new Date("2026-07-16T01:59:00Z"))?.id).toBe("evening");
-    expect(currentSlot(new Date("2026-07-16T02:00:00Z"))).toBeNull();
-    // CST, one hour later in UTC.
-    expect(currentSlot(new Date("2026-01-15T19:00:00Z"))?.id).toBe("afternoon");
-    expect(currentSlot(new Date("2026-01-15T22:59:00Z"))?.id).toBe("afternoon");
-    expect(currentSlot(new Date("2026-01-15T23:00:00Z"))?.id).toBe("evening");
-    expect(currentSlot(new Date("2026-01-16T02:59:00Z"))?.id).toBe("evening");
-    expect(currentSlot(new Date("2026-01-16T03:00:00Z"))).toBeNull();
-  });
-
-  it("handles the spring-forward transition day", () => {
-    // 2026-03-08: DST begins at 02:00 local. 14:00 UTC is 09:00 CDT and
-    // 15:00 UTC is 10:00 CDT — both inside the morning window. 12:00 UTC is
-    // 07:00 CDT, before it opens.
-    expect(currentSlot(new Date("2026-03-08T14:00:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-03-08T15:00:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-03-08T12:00:00Z"))).toBeNull();
-    // The evening on the transition day: 22:00 UTC is 17:00 CDT.
-    expect(currentSlot(new Date("2026-03-08T22:00:00Z"))?.id).toBe("evening");
-  });
-
-  it("handles the fall-back transition day", () => {
-    // 2026-11-01: DST ends at 02:00 local. 15:00 UTC is 09:00 CST and 14:00
-    // UTC is 08:00 CST — both inside the morning window. 13:00 UTC is 07:00.
-    expect(currentSlot(new Date("2026-11-01T15:00:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-11-01T14:00:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-11-01T13:00:00Z"))).toBeNull();
-    // The evening on the transition day: 23:00 UTC is 17:00 CST.
-    expect(currentSlot(new Date("2026-11-01T23:00:00Z"))?.id).toBe("evening");
-  });
-
-  it("covers exactly thirteen of the twenty-four hours on any given day", () => {
-    // 08:00 through 20:59 local, in either offset.
-    for (const day of ["2026-01-15", "2026-07-15"]) {
-      const open = Array.from({ length: 24 }, (_, h) =>
-        currentSlot(new Date(`${day}T${String(h).padStart(2, "0")}:00:00Z`))
-      ).filter(Boolean);
-      expect(open, day).toHaveLength(13);
-    }
+  it("gets the day DST ends right (2026-11-01: CDT until 02:00, then CST)", () => {
+    expect(currentSlot(new Date("2026-11-01T15:00:00Z"))?.id).toBe("daily"); // 09:00 CST
+    expect(currentSlot(new Date("2026-11-01T14:00:00Z"))).toBeNull(); // 08:00 CST
+    expect(chicagoParts(new Date("2026-11-01T15:03:00Z")).time).toBe("09:03");
   });
 });
 
 describe("utcHoursFor", () => {
-  it("gives every UTC hour a window can be open in either offset", () => {
-    // Morning 08–12: CDT +5 is 13–17, CST +6 is 14–18.
-    expect(utcHoursFor(SLOT_BY_ID.get("morning")!)).toEqual([13, 14, 15, 16, 17, 18]);
-    // Afternoon 13–16: 18–21 and 19–22.
-    expect(utcHoursFor(SLOT_BY_ID.get("afternoon")!)).toEqual([18, 19, 20, 21, 22]);
-    // Evening 17–20: 22–01 and 23–02, which wraps past midnight UTC.
-    expect(utcHoursFor(SLOT_BY_ID.get("evening")!)).toEqual([0, 1, 2, 22, 23]);
+  it("returns both offsets for every hour of the window", () => {
+    // daily 09–13 local: CDT 14–18Z, CST 15–19Z
+    expect(utcHoursFor(daily)).toEqual([14, 15, 16, 17, 18, 19]);
   });
+});
 
-  it("unions to the fourteen UTC hours the workflow must cover", () => {
-    expect(allPublishingUtcHours()).toEqual([0, 1, 2, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]);
-  });
-
-  it("never names a UTC hour that maps to no window on a real day", () => {
-    // Every listed hour must actually open a window on at least one of a summer
-    // and a winter day, or the workflow would be firing for nothing.
-    for (const hour of allPublishingUtcHours()) {
-      const opens = ["2026-01-15", "2026-07-15"].some((day) =>
-        Boolean(currentSlot(new Date(`${day}T${String(hour).padStart(2, "0")}:07:00Z`)))
-      );
-      expect(opens, `${hour}:07 UTC`).toBe(true);
+describe("the breaking checks", () => {
+  it("land inside the breaking window in both offsets", () => {
+    for (const hour of BREAKING_CHECK_UTC_HOURS) {
+      for (const day of ["2026-07-15", "2026-01-15"]) {
+        const at = new Date(`${day}T${String(hour).padStart(2, "0")}:${String(CRON_MINUTE).padStart(2, "0")}:00Z`);
+        expect(currentSlot(at)?.id, `${day} ${hour}:03Z`).toBe("breaking");
+      }
     }
+  });
+
+  it("are three a day, not one an hour — a major development is rare", () => {
+    expect(BREAKING_CHECK_UTC_HOURS).toHaveLength(3);
   });
 });
 
 describe("instantInWindow", () => {
-  it("lands inside the requested window on the requested Chicago date, in both offsets", () => {
-    for (const date of ["2026-01-15", "2026-07-15", "2026-03-08", "2026-11-01"]) {
+  it("lands inside its window on every kind of day", () => {
+    for (const date of ["2026-01-15", "2026-03-08", "2026-07-15", "2026-11-01"]) {
       for (const slot of SLOTS) {
         const at = instantInWindow(date, slot);
-        const p = chicagoParts(at);
-        expect(p.date, `${date} ${slot.id}`).toBe(date);
+        expect(chicagoParts(at).date, `${date} ${slot.id}`).toBe(date);
         expect(currentSlot(at)?.id, `${date} ${slot.id}`).toBe(slot.id);
       }
     }
   });
 
-  it("lands an hour past the window's opening, the way a first run of the day would", () => {
-    expect(chicagoParts(instantInWindow("2026-07-15", SLOT_BY_ID.get("morning")!)).hour).toBe(9);
-    expect(chicagoParts(instantInWindow("2026-07-15", SLOT_BY_ID.get("morning")!)).minute).toBe(5);
+  it("puts the daily post at 09:05, when the first firing of the day lands", () => {
+    expect(chicagoParts(instantInWindow("2026-07-15", daily)).time).toBe("09:05");
+    expect(chicagoParts(instantInWindow("2026-01-15", daily)).time).toBe("09:05");
+  });
+
+  it("moves later firings later, never past the window", () => {
+    expect(chicagoParts(instantInWindow("2026-07-15", daily, 5, 2)).hour).toBe(11);
+    expect(chicagoParts(instantInWindow("2026-07-15", daily, 5, 99)).hour).toBe(13);
   });
 });
 
@@ -233,7 +146,7 @@ describe("instantInWindow", () => {
 // the account simply never posts. An earlier draft scheduled "0 13,19,22",
 // which mapped to no slot in either offset, so the entire winter half of the
 // year had no valid firing. Comparing the real file against
-// allPublishingUtcHours() is the only check that catches it.
+// scheduledUtcHours() is the only check that catches it.
 // -----------------------------------------------------------------------------
 
 /** Expand one cron hour field — "13-23", "0-2", "7,9" — into hours. */
@@ -248,7 +161,7 @@ function expandHours(field: string): number[] {
   });
 }
 
-describe("the workflow crons cover every window in both offsets", () => {
+describe("the workflow crons", () => {
   const workflow = readFileSync(resolve(".github/workflows/social.yml"), "utf8");
 
   /**
@@ -269,26 +182,37 @@ describe("the workflow crons cover every window in both offsets", () => {
     expect(scheduledHours.size).toBeGreaterThan(0);
   });
 
-  it("fires at every UTC hour any window can be open, in either offset", () => {
-    for (const hour of allPublishingUtcHours()) {
-      expect(scheduledHours.has(hour), `needs ${hour}:00 UTC`).toBe(true);
-    }
-    for (const slot of SLOTS) {
-      for (const hour of utcHoursFor(slot)) {
-        expect(scheduledHours.has(hour), `${slot.id} needs ${hour}:00 UTC`).toBe(true);
-      }
+  it("fires at every UTC hour the daily window can be open, in either offset", () => {
+    for (const hour of utcHoursFor(daily)) {
+      expect(scheduledHours.has(hour), `daily needs ${hour}:00 UTC`).toBe(true);
     }
   });
 
-  it("schedules no hour that maps to no window — every firing has a purpose", () => {
-    const valid = new Set(allPublishingUtcHours());
+  it("covers exactly the scheduled hours and nothing more", () => {
+    expect([...scheduledHours].sort((a, b) => a - b)).toEqual(scheduledUtcHours());
+  });
+
+  it("schedules no hour that maps to no window in BOTH offsets", () => {
+    // 14:03Z is 08:03 CST — outside, by design: it is the CDT 09:03 firing,
+    // and the gate stops it in winter for free. Every hour must open a window
+    // in at least one offset, and none may be dead all year.
     for (const hour of scheduledHours) {
-      expect(valid.has(hour), `${hour}:00 UTC matches no window in either offset`).toBe(true);
+      const summer = currentSlot(new Date(`2026-07-15T${String(hour).padStart(2, "0")}:03:00Z`));
+      const winter = currentSlot(new Date(`2026-01-15T${String(hour).padStart(2, "0")}:03:00Z`));
+      expect(Boolean(summer || winter), `${hour}:03 UTC matches no window`).toBe(true);
     }
   });
 
-  it("covers exactly the publishing hours and nothing more", () => {
-    expect([...scheduledHours].sort((a, b) => a - b)).toEqual(allPublishingUtcHours());
+  it("fires within minutes of 09:00 Chicago all year", () => {
+    const first = (day: string) =>
+      [...scheduledHours]
+        .map((h) => new Date(`${day}T${String(h).padStart(2, "0")}:${String(CRON_MINUTE).padStart(2, "0")}:00Z`))
+        .filter((d) => currentSlot(d)?.id === "daily")
+        .map((d) => chicagoParts(d).time)
+        .sort()[0];
+    for (const day of ["2026-01-15", "2026-03-08", "2026-07-15", "2026-11-01", "2026-12-31"]) {
+      expect(first(day), day).toBe("09:03");
+    }
   });
 
   it("fires OFF the top of the hour, where Actions is less contended", () => {
@@ -297,18 +221,8 @@ describe("the workflow crons cover every window in both offsets", () => {
     // gates on the local window, not the minute.
     const minutes = cronLines.map((c) => c.minute);
     expect(minutes.length).toBeGreaterThan(0);
-    for (const m of minutes) expect(m, "cron minute must not be 0").toBeGreaterThan(0);
-    // One minute for every line, so the firings stay in step with each other.
-    expect(new Set(minutes).size).toBe(1);
-    expect(minutes[0]).toBe(7);
-  });
-
-  it("still opens the gate for a firing that is minutes past the hour", () => {
-    // The property that makes :07 safe. Asserted here rather than assumed.
-    expect(currentSlot(new Date("2026-07-15T14:07:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-01-15T15:07:00Z"))?.id).toBe("morning");
-    expect(currentSlot(new Date("2026-07-15T23:07:00Z"))?.id).toBe("evening");
-    expect(currentSlot(new Date("2026-01-16T00:07:00Z"))?.id).toBe("evening");
+    for (const m of minutes) expect(m, "cron minute must not be 0").toBe(CRON_MINUTE);
+    expect(CRON_MINUTE).toBeGreaterThan(0);
   });
 
   it("is ARMED — exactly two live cron lines, not commented out", () => {
@@ -318,17 +232,25 @@ describe("the workflow crons cover every window in both offsets", () => {
     const active = workflow.match(/^\s{4}- cron:/gm) ?? [];
     expect(active).toHaveLength(2);
     expect(workflow).toMatch(/^  schedule:$/m);
-    expect(workflow).toContain('- cron: "7 13-23 * * *"');
-    expect(workflow).toContain('- cron: "7 0-2 * * *"');
+    expect(workflow).toContain('- cron: "3 14-19 * * *"');
+    expect(workflow).toContain('- cron: "3 21,23,1 * * *"');
   });
 
   it("gates a scheduled firing on the window BEFORE installing dependencies", () => {
-    // Eleven or so no-op firings a day must cost seconds, not an `npm ci` each.
+    // No-op firings must cost seconds, not an `npm ci` each.
     const gate = workflow.indexOf("name: Is a window open, and unfilled?");
     const install = workflow.indexOf("name: Install dependencies");
     expect(gate).toBeGreaterThan(-1);
     expect(install).toBeGreaterThan(gate);
     expect(workflow).toContain("scripts/social-gate.ts");
+  });
+
+  it("spends no X request on a credential check during scheduled runs", () => {
+    // The X API is prepaid per request. The publish call reports a bad
+    // credential (401) or an empty balance (402) by name anyway.
+    const step = workflow.slice(workflow.indexOf("name: Verify the X credential (read-only)"));
+    const body = step.slice(0, step.indexOf("- name:", 10));
+    expect(body).toMatch(/if: github\.event_name == 'workflow_dispatch' && github\.event\.inputs\.dry_run_day != 'true'\s*$/m);
   });
 
   it("does not let a failed publish report success", () => {
@@ -338,6 +260,11 @@ describe("the workflow crons cover every window in both offsets", () => {
     const body = step.slice(0, step.indexOf("- name:", 10));
     expect(body).toContain("set -o pipefail");
     expect(body.indexOf("set -o pipefail")).toBeLessThan(body.indexOf("npm run social:post"));
+  });
+
+  it("only accepts a known window name when dispatched by hand", () => {
+    // A free-text input reached the shell verbatim; a choice cannot.
+    expect(workflow).toMatch(/slot:\s*\n\s+description:[^\n]*\n\s+type: choice\s*\n\s+options: \["", "daily", "breaking"\]/);
   });
 
   it("still commits the ledger and the queue when the publish step fails", () => {
@@ -411,12 +338,12 @@ describe("the workflow's platform wiring", () => {
 
 describe("inPublishingWindow", () => {
   it("agrees with currentSlot", () => {
-    // 09:00 CDT is inside the morning window; 07:00 CDT is before it.
+    // 09:00 CDT is inside the daily window; 07:00 CDT is before it.
     expect(inPublishingWindow(new Date("2026-07-15T14:00:00Z"))).toBe(true);
     expect(inPublishingWindow(new Date("2026-07-15T12:00:00Z"))).toBe(false);
-    // 11:00 CDT — an hour the exact-hour gate rejected — is now inside.
+    // 11:00 CDT — a late firing — is still inside.
     expect(inPublishingWindow(new Date("2026-07-15T16:00:00Z"))).toBe(true);
-    // 22:00 CDT is after the evening closes.
+    // 22:00 CDT is after the breaking window closes.
     expect(inPublishingWindow(new Date("2026-07-16T03:00:00Z"))).toBe(false);
   });
 });

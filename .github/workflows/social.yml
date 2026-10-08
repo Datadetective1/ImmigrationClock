@@ -1,47 +1,57 @@
-# ImmigrationClock social publishing — one editorial engine, three windows a day.
+# ImmigrationClock social publishing — one high-quality post a day.
 #
 # THE GOVERNING PRINCIPLE
 # -----------------------
 # ImmigrationClock never posts because the clock says it is time to post. It
 # posts because it has something useful, factual, timely or genuinely
-# interesting to tell someone. The schedule creates opportunities; the content
-# earns publication. A run that produces nothing is the system working.
+# interesting to tell someone. The schedule creates ONE opportunity a day; the
+# content earns publication. A run that produces nothing is the system working.
+#
+# THE SHAPE OF A DAY (since 2026-10-08; three windows a day before that)
+# ---------------------------------------------------------------------
+#   daily      09:00–13:59 America/Chicago. At most one post: the best eligible
+#              development, else (quiet day) a verified explainer or data
+#              insight within its weekly ceiling, else nothing.
+#   breaking   14:00–20:59. At most one more post, and only for a MAJOR
+#              development published today or yesterday. Never routine content.
+# See src/lib/social/slots.ts and src/lib/social/cadence.ts.
 #
 # WHAT A SCHEDULED RUN ACTUALLY DOES
 # ----------------------------------
-#   gate (is a window open, and unfilled?) → cadence → candidates → queue →
-#   rotation → subject/URL cooldown → LLM (or stored ready copy) → validate →
-#   opening + shape variety → wording dedupe → publish → commit ledger + queue
+#   gate (window open and unfilled? X balance not already refused today? in the
+#   breaking window, any major unposted development?) → cadence → candidates →
+#   queue → rotation → subject/URL cooldown → LLM (or stored ready copy) →
+#   validate → opening + shape variety → wording dedupe → publish → commit
+#   ledger + queue
 #
 # Every stage can end the run, and every refusal is a named row in the ledger.
 # Nothing here can publish a figure that is not in the fact set, a link that is
 # not whitelisted, a quotation that is not verbatim, or a post too similar to a
 # recent one.
 #
-# WHY THE CRON FIRES EVERY HOUR, AND WHY THAT IS SAFE
-# ---------------------------------------------------
-# The first schedule fired six times a day at three exact hours and gated on
-# the exact Chicago hour. Measured against this workflow's own run log for the
-# two weeks to 2026-09-01, GitHub delivered the morning and afternoon firings
-# hours late or not at all from 2026-08-26 onward, and the gate discarded every
-# late one. Six consecutive days with no morning run. GitHub documents that
-# scheduled workflows are delayed under load; the schedule assumed they were not.
-#
-# So the publishing day is three WINDOWS (08–12, 13–16, 17–20 America/Chicago)
-# and the cron fires at :07 every hour that can fall inside one, in either US
-# offset. A firing that arrives two hours late still lands inside its window.
-# What keeps that from posting twice is the ledger's rerun guard — one post per
-# window per day — checked by the gate step BEFORE dependencies are installed,
-# so the ten or so no-op firings a day cost seconds each.
+# WHY SEVERAL FIRINGS FOR ONE POST, AND WHY THAT IS SAFE
+# ------------------------------------------------------
+# GitHub delivers scheduled runs late under load — hours late, measured on this
+# workflow in 2026-08 — and sometimes not at all. So the cron fires every hour
+# the daily window can be open, and a late firing still lands inside it. The
+# ledger's rerun guard (one post per window per day) and the cadence ceiling
+# (one daily post) stop two firings from posting twice, and the gate answers
+# both BEFORE dependencies are installed, so a no-op firing costs seconds and
+# makes no API call.
 #
 # GitHub Actions cron is ALWAYS UTC and has no timezone key. The hours below are
-# allPublishingUtcHours() in src/lib/social/slots.ts, which the test suite pins
-# against this file.
+# scheduledUtcHours() in src/lib/social/slots.ts, which the tests pin against
+# this file, and the Chicago hour is read from the real tz database at run time,
+# so daylight saving needs no edit here:
 #
-#     window       Chicago        CDT (UTC-5)      CST (UTC-6)
-#     morning      08:00–12:59    13:07–17:07Z     14:07–18:07Z
-#     afternoon    13:00–16:59    18:07–21:07Z     19:07–22:07Z
-#     evening      17:00–20:59    22:07–01:07Z     23:07–02:07Z
+#     firing (UTC)   CDT (UTC-5, Mar–Nov)        CST (UTC-6, Nov–Mar)
+#     14:03          09:03  daily — first        08:03  outside; gate stops
+#     15:03          10:03  daily                09:03  daily — first
+#     16:03–18:03    11:03–13:03 daily (late)    10:03–12:03 daily (late)
+#     19:03          14:03  breaking             13:03  daily (late)
+#     21:03          16:03  breaking             15:03  breaking
+#     23:03          18:03  breaking             17:03  breaking
+#     01:03          20:03  breaking             19:03  breaking
 #
 # WHY THIS DOES NOT TOUCH THE NEWSLETTER
 # --------------------------------------
@@ -62,22 +72,26 @@ on:
   # │   1. Set the repository variable SOCIAL_POST_ENABLED to anything other   │
   # │      than "true". Runs continue, select, generate and validate; they     │
   # │      publish nothing. No code change, effective immediately.             │
-  # │   2. Comment out the two `- cron:` lines below. Stops the runs too.      │
+  # │   2. Comment out the `- cron:` lines below. Stops the runs too.          │
   # │                                                                          │
   # │ LinkedIn is NOT enabled. Its secrets are wired but unset, so it records  │
   # │ SKIPPED_CREDENTIAL_EXPIRED and can no longer make a subject "eligible":  │
   # │ selection only considers platforms that can actually publish.           │
   # └──────────────────────────────────────────────────────────────────────────┘
-  # WHY :07 AND NOT :00 — the top of the hour is the most contended minute on
-  # the platform. Safe because the gate matches on the window, not the minute.
+  # WHY :03 AND NOT :00 — GitHub documents the top of the hour as its most
+  # contended minute, when queued scheduled runs may be dropped. Safe because
+  # the gate matches on the window, not the minute.
   schedule:
-    # Every hour that can fall inside a window in CDT or CST. See the table above.
-    - cron: "7 13-23 * * *"
-    - cron: "7 0-2 * * *"
+    # The daily window, every hour it can be open in CDT or CST.
+    - cron: "3 14-19 * * *"
+    # Breaking checks — three a day, inside the breaking window in both offsets.
+    - cron: "3 21,23,1 * * *"
   workflow_dispatch:
     inputs:
       slot:
-        description: "Force a window: morning | afternoon | evening. Blank uses the current Chicago hour."
+        description: "Force a window. Blank uses the current Chicago hour."
+        type: choice
+        options: ["", "daily", "breaking"]
         required: false
         default: ""
       live:
@@ -85,7 +99,7 @@ on:
         type: boolean
         default: false
       dry_run_day:
-        description: "Preview a whole week (three windows a day) with the real model. Publishes NOTHING, ignores `live`."
+        description: "Preview a whole week (daily + breaking windows) with the real model. Publishes NOTHING, ignores `live`."
         type: boolean
         default: false
 
@@ -183,8 +197,13 @@ jobs:
       # Proves the X credential authenticates, using a read-only GET that cannot
       # publish. Non-blocking: a transient X outage here must not suppress a
       # post that would otherwise succeed.
+      #
+      # Manual dispatches only. X's API is prepaid per request, and a scheduled
+      # run learns the same thing from the publish call itself (401 and 402 are
+      # both recorded by name), so checking first on every scheduled run spent
+      # a request a day for nothing.
       - name: Verify the X credential (read-only)
-        if: github.event_name == 'workflow_dispatch' || steps.gate.outputs.open == 'true'
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run_day != 'true'
         continue-on-error: true
         run: npm run social:verify-x
 

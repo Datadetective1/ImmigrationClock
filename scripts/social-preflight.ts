@@ -26,7 +26,7 @@ import { EVENT_INDEX, INDEX_COVERAGE } from "../src/lib/event-index";
 import { SLOTS, chicagoParts, currentSlot, instantInWindow } from "../src/lib/social/slots";
 import { candidatesFor } from "../src/lib/social/select";
 import { isPublishingEnabled, hashFacts } from "../src/lib/social/run";
-import { decideCadence } from "../src/lib/social/cadence";
+import { creditsDepletedToday, decideCadence, eligibleGroups } from "../src/lib/social/cadence";
 import {
   DEFAULT_PROVIDER,
   DEFAULT_MODEL_BY_PROVIDER,
@@ -170,10 +170,18 @@ function main() {
       const cadence = decideCadence({ ledger, platform: "x", slot, localDate: parts.date, now: at });
       const open = currentSlot(now)?.id === slot.id;
       console.log(`  ${slot.id.padEnd(9)} ${String(slot.hours[0]).padStart(2, "0")}:00–${slot.hours[1]}:59  ${cadence.blocked ? "BLOCKED" : `may publish: ${cadence.allowedTiers.join(", ")}`}${open ? "   ← open now" : ""}`);
-      for (const tier of cadence.allowedTiers) {
-        const top = candidates.find((c) => c.tier === tier);
-        if (top) console.log(`             ${tier.padEnd(10)} top: ${top.label.slice(0, 66)} [${top.contentType}]`);
+      const groups = eligibleGroups(candidates, cadence, parts.date);
+      if (!cadence.blocked && groups.length === 0) console.log(`             nothing eligible${cadence.breakingOnly ? " (no major development from today or yesterday)" : ""}`);
+      for (const group of groups) {
+        const top = group[0];
+        console.log(`             ${top.tier.padEnd(10)} top: ${top.label.slice(0, 66)} [${top.contentType}]`);
       }
+    }
+    const depleted = creditsDepletedToday(ledger, parts.date, "x");
+    if (depleted) {
+      notes.push(
+        `X answered HTTP 402 (credits depleted) at ${depleted.localTime} today. Scheduled firings stop for the rest of the day; top up the balance, then dispatch the workflow by hand to publish today.`
+      );
     }
   }
   const refreshed = refreshQueue(queue, candidates, now, parts.date, hashFacts);

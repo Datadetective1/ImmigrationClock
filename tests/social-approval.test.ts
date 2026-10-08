@@ -44,7 +44,7 @@ import type { PublishResult, Publisher } from "@/lib/social/platforms/types";
 import type { Candidate, FactSet, GeneratedCopy, Platform } from "@/lib/social/types";
 
 // 23:05 UTC on 2026-08-09 is 18:05 America/Chicago — the evening window.
-const NOW = new Date("2026-08-09T23:05:00.000Z");
+const NOW = new Date("2026-08-09T15:05:00.000Z"); // 10:05 America/Chicago, the daily window
 const TODAY = "2026-08-09";
 
 /**
@@ -83,7 +83,7 @@ function envelopeFor(candidate = firstCandidate(), now = NOW): ApprovalEnvelope 
   return buildApproval({
     candidate,
     angle: "explainer",
-    slot: "evening",
+    slot: "daily",
     copy,
     facts: candidate.facts,
     factsHash: hashFacts(candidate.facts),
@@ -431,7 +431,7 @@ describe("the publish-time gate — the full pipeline runs again", () => {
       buildApproval({
         candidate,
         angle: "explainer",
-        slot: "evening",
+        slot: "daily",
         copy: {
           ...copy,
           x: `ImmigrationClock keeps this reference current across 4815 entries. ${candidate.facts.deepLink}`,
@@ -504,6 +504,19 @@ describe("the publish-time gate — the full pipeline runs again", () => {
 });
 
 describe("runApproved publishes the approved bytes and nothing else", () => {
+  it("cannot use the breaking window for something that is not a major development", async () => {
+    // An approval is a judgment about the words. It is not a way to put an
+    // explainer into the window that exists only for breaking news.
+    const later = new Date("2026-08-09T20:05:00.000Z"); // 15:05 America/Chicago
+    const e = approved(reseal({ ...envelopeFor(), slot: "breaking" }), ["x"], later);
+    const x = new FakePublisher("x");
+    const result = await runApproved({ envelope: e, events: EVENT_INDEX, ledger: EMPTY_POST_LEDGER, publishers: { x }, now: later, live: true });
+    const outcome = result.outcome.platforms.find((p) => p.platform === "x")!;
+    expect(outcome.decision).toBe("SKIPPED_CADENCE");
+    expect(outcome.reason).toMatch(/may not publish in the breaking window/);
+    expect(x.published).toEqual([]);
+  });
+
   it("cannot generate: it publishes with no engine and no API key", async () => {
     // The strongest available statement that this path makes no model call —
     // runApproved takes no CopyEngine, and this run succeeds with the key gone.

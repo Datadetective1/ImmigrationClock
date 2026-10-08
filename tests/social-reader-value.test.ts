@@ -341,22 +341,34 @@ describe("4 — a routine administrative notice produces SILENT, and costs nothi
     expect(eventCandidates([routineNotice()], TODAY)).toEqual([]);
   });
 
-  it("makes the morning window silent rather than filling it", async () => {
-    const engine = new CountingEngine();
-    const result = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+  it("never fills a window with it, and a window with nothing else to say is silent for free", async () => {
+    // The daily window may reach for an evergreen post on a quiet day, so the
+    // notice must lose to that or to nothing — never be the day's post.
+    const daily = await runSlot({
+      slot: SLOT_BY_ID.get("daily")!,
       events: [routineNotice()],
       ledger: EMPTY_POST_LEDGER,
-      engine,
+      engine: new CountingEngine(),
       publishers: {},
       now: new Date(`${TODAY}T14:05:00.000Z`),
       live: false,
       platforms: ["x"],
     });
+    expect(daily.outcome.subjectId).not.toBe(`event:${routineNotice().id}`);
 
-    // The queue still holds the evergreen tier, and the morning may not draw on
-    // it — so the window is silent by cadence rather than by an empty queue.
-    // Either way, nothing about the notice was chosen.
+    // The breaking window takes only a major development, so here the window
+    // is silent by cadence rather than by an empty queue.
+    const engine = new CountingEngine();
+    const result = await runSlot({
+      slot: SLOT_BY_ID.get("breaking")!,
+      events: [routineNotice()],
+      ledger: EMPTY_POST_LEDGER,
+      engine,
+      publishers: {},
+      now: new Date(`${TODAY}T20:05:00.000Z`),
+      live: false,
+      platforms: ["x"],
+    });
     expect(["SKIPPED_NO_QUALIFYING_CONTENT", "SKIPPED_CADENCE"]).toContain(
       result.outcome.platforms[0].decision
     );
@@ -487,7 +499,7 @@ describe("6 — a future effective date survives into the final copy", () => {
   it("names the date as uncuttable in the repair brief, so shortening cannot lose it", () => {
     const prompt = buildUserPrompt({
       facts: facts(),
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "breaking_change",
       avoidOpenings: [],
       validatorFeedback: ["[x] Too long for x: 300 chars (max 275)"],
@@ -671,7 +683,7 @@ describe("8 — the account does not keep opening posts the same way", () => {
 
     const prompt = buildUserPrompt({
       facts: buildEventFacts(event(), "/what-changed?q=fee", TODAY),
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "breaking_change",
       avoidOpenings: [],
       bannedOpenings: banned,
@@ -953,7 +965,7 @@ describe("a repeated opening is repaired, not paid for and thrown away", () => {
   it("spends the second attempt on the opening and publishes the repair", async () => {
     const engine = new TwoOpeningsEngine();
     const result = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [event({ effectiveAt: null })],
       ledger: stale(),
       engine,
@@ -982,7 +994,7 @@ describe("a repeated opening is repaired, not paid for and thrown away", () => {
     }
     const engine = new CapturingEngine();
     await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [event({ effectiveAt: null })],
       ledger: stale(),
       engine,
@@ -1154,7 +1166,7 @@ describe("the prompt asks the first sentence to earn its place", () => {
   it("renders the treatment and the derived reasons a reader would care", () => {
     const prompt = buildUserPrompt({
       facts,
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "breaking_change",
       treatment: "important_change",
       readerValue: value,
@@ -1171,7 +1183,7 @@ describe("the prompt asks the first sentence to earn its place", () => {
     // that carries no reader value must still produce a complete prompt.
     const prompt = buildUserPrompt({
       facts,
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "breaking_change",
       avoidOpenings: [],
     });

@@ -1,8 +1,8 @@
 // =============================================================================
 // scripts/social-approve.ts — the exact-copy approval path
 //
-//   npm run social:propose -- --slot=evening
-//   npm run social:show    -- --file=approvals/2026-08-09-evening.json
+//   npm run social:propose -- --slot=daily
+//   npm run social:show    -- --file=approvals/2026-08-09-daily.json
 //   npm run social:approve -- --file=... --by="Name" --digest=<from show> --platforms=x
 //
 // Three verbs, three commands, three separate human decisions. Splitting them is
@@ -25,7 +25,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { EVENT_INDEX } from "../src/lib/event-index";
 import { candidatesFor } from "../src/lib/social/select";
-import { SLOT_BY_ID, currentSlot, chicagoParts } from "../src/lib/social/slots";
+import { SLOT_BY_ID, SLOTS, currentSlot, chicagoParts } from "../src/lib/social/slots";
 import { createCopyEngine } from "../src/lib/social/copy-engine";
 import { checkSubject, checkWording } from "../src/lib/social/dedupe";
 import { validatePost } from "../src/lib/social/validate";
@@ -98,7 +98,7 @@ async function propose() {
   if (!slot) {
     fail(
       forced
-        ? `Unknown slot "${forced}". Use morning, afternoon or evening.`
+        ? `Unknown slot "${forced}". Use ${SLOTS.map((s) => s.id).join(" or ")}.`
         : `${parts.time} America/Chicago is not a slot. Pass --slot= to choose one.`
     );
   }

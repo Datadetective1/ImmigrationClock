@@ -167,9 +167,9 @@ describe("the hourly gate keeps no-op firings cheap", () => {
     expect(body).toContain("src/lib/generated/social-queue.json");
   });
 
-  it("fires at :07 every hour a window can be open, in either offset", () => {
-    expect(WORKFLOW).toContain('- cron: "7 13-23 * * *"');
-    expect(WORKFLOW).toContain('- cron: "7 0-2 * * *"');
+  it("fires at :03 every hour the daily window can be open, plus three breaking checks", () => {
+    expect(WORKFLOW).toContain('- cron: "3 14-19 * * *"');
+    expect(WORKFLOW).toContain('- cron: "3 21,23,1 * * *"');
     expect((WORKFLOW.match(/^\s{4}- cron:/gm) ?? []).length).toBe(2);
   });
 });

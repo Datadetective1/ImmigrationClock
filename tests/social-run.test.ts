@@ -96,7 +96,13 @@ const EXPIRED: PublishResult = { ok: false, credentialProblem: true, error: "tok
 const BROKEN: PublishResult = { ok: false, credentialProblem: false, error: "500", externalId: null, externalUrl: null };
 
 const NOW = new Date("2026-08-10T14:05:00Z");
-const morning = SLOT_BY_ID.get("morning")!;
+const morning = SLOT_BY_ID.get("daily")!;
+/**
+ * The breaking window, where only a major development from today or yesterday
+ * may publish. The tests below that need "nothing else may fill the window"
+ * use it: the daily window can always reach for an evergreen post.
+ */
+const breaking = { slot: SLOT_BY_ID.get("breaking")!, now: new Date("2026-08-10T19:05:00Z") };
 
 const base = {
   slot: morning,
@@ -193,11 +199,12 @@ describe("platforms are independent", () => {
 describe("gates run before the engine, so a silent window is free", () => {
   it("makes no engine call when the archive is empty", async () => {
     // An empty archive is not an empty queue any more — the evergreen tier is
-    // always there — but the morning may not draw on it, so the window is
-    // silent by cadence rather than by an empty queue. Either way: no call.
+    // always there — but the breaking window may not draw on it, so the window
+    // is silent by cadence rather than by an empty queue. Either way: no call.
     const engine = new StubEngine(goodCopy);
     const r = await runSlot({
       ...base,
+      ...breaking,
       events: [],
       ledger: EMPTY_POST_LEDGER,
       engine,
@@ -210,7 +217,7 @@ describe("gates run before the engine, so a silent window is free", () => {
   });
 
   it("makes no engine call when the cadence policy says nothing may publish", async () => {
-    // Three posts already today on X: the daily maximum. Selection never runs.
+    // Three posts already today on X, over the daily maximum. Selection never runs.
     const rows: PostRecord[] = [1, 2, 3].map((n) => ({
       category: "development",
       localDate: "2026-08-10",
@@ -307,7 +314,9 @@ describe("gates run before the engine, so a silent window is free", () => {
     ]);
 
     const engine = new StubEngine(goodCopy);
-    const r = await runSlot({ ...base, ledger, engine, publishers: {}, live: false });
+    // The breaking window, so the only candidate that may publish is the one
+    // already posted this morning and no evergreen post can stand in for it.
+    const r = await runSlot({ ...base, ...breaking, ledger, engine, publishers: {}, live: false });
     expect(engine.calls).toBe(0);
     expect(["SKIPPED_DUPLICATE", "SKIPPED_COOLDOWN"]).toContain(r.outcome.platforms[0].decision);
   });
@@ -373,7 +382,7 @@ describe("a platform that cannot publish cannot make a subject eligible", () => 
   it("LIVE with only an X publisher: a subject unavailable on X yields no post, not a LinkedIn ghost", async () => {
     const engine = new StubEngine(goodCopy);
     const x = new StubPublisher("x", OK);
-    const r = await runSlot({ ...base, ledger: standDownOnX(), engine, publishers: { x }, live: true });
+    const r = await runSlot({ ...base, ...breaking, ledger: standDownOnX(), engine, publishers: { x }, live: true });
 
     expect(engine.calls).toBe(0);
     expect(x.posts).toHaveLength(0);
@@ -387,7 +396,7 @@ describe("a platform that cannot publish cannot make a subject eligible", () => 
 
   it("DRY RUN over X alone: likewise, and for free", async () => {
     const engine = new StubEngine(goodCopy);
-    const r = await runSlot({ ...base, ledger: standDownOnX(), engine, publishers: {}, live: false, platforms: ["x"] });
+    const r = await runSlot({ ...base, ...breaking, ledger: standDownOnX(), engine, publishers: {}, live: false, platforms: ["x"] });
 
     expect(engine.calls).toBe(0);
     expect(r.outcome.subjectId).toBeNull();

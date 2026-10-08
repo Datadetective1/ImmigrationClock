@@ -48,13 +48,12 @@ import { VALIDATOR_VERSION } from "./validate";
 import { PROMPT_VERSION } from "./prompt";
 import { chicagoParts, SLOT_BY_ID } from "./slots";
 import { checkApproval, type ApprovalEnvelope } from "./approval";
-import { decideCadence, type CadenceDecision } from "./cadence";
+import { decideCadence, eligibleGroups, type CadenceDecision } from "./cadence";
 import {
   EMPTY_QUEUE,
   markPublished,
   markReady,
   markRejected,
-  markScheduled,
   readyCopy,
   refreshQueue,
   type EditorialQueue,
@@ -218,26 +217,28 @@ export async function runSlot(opts: RunOptions): Promise<RunResult> {
     );
   }
 
-  const inTier = candidates.filter((c) => cadence.allowedTiers.includes(c.tier));
-  if (inTier.length === 0) {
-    // The queue remembers what the morning could not take: the best evergreen
-    // candidate is marked for the afternoon, so a reader of the queue can see
-    // why the window was quiet and what will fill the day.
-    const deferred = candidates.find((c) => c.tier === "evergreen");
-    if (opts.queue && deferred && slot.id === "morning") {
-      queue = markScheduled(queue, deferred, "afternoon", "morning is news-only; evergreen waits for the afternoon", now);
-    }
+  // News first, then everything else; in the breaking window, breaking-grade
+  // news only. See eligibleGroups() in cadence.ts.
+  const groups = eligibleGroups(candidates, cadence, today);
+  if (groups.length === 0) {
     return finish(
       opts,
       queue,
       { ...emptyOutcome(base, slot, candidates.length), cadenceExplain: cadence.explain },
       "SKIPPED_CADENCE",
-      `${candidates.length} candidate(s) considered, none in a tier this window may publish. ${cadence.explain}`
+      cadence.breakingOnly
+        ? `${candidates.length} candidate(s) considered, none a major development from today or yesterday. ${cadence.explain}`
+        : `${candidates.length} candidate(s) considered, none in a tier this window may publish. ${cadence.explain}`
     );
   }
 
   // ---- gate 2: subject eligibility, per TARGET platform ----------------------
-  const chosen = chooseCandidate(inTier, ledger, now, today, targets, reference);
+  let chosen: Chosen | null = null;
+  for (const group of groups) {
+    chosen = chooseCandidate(group, ledger, now, today, targets, reference);
+    if (chosen) break;
+  }
+  const inTier = groups.flat();
   if (!chosen) {
     const why = firstRejection(inTier, ledger, now, reference);
     return finish(
@@ -1051,6 +1052,12 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
   // The same gates a generated post faces. An approval is a judgment about
   // the words, not a licence to post twice in a window or four times a day.
   const cadence = decideCadence({ ledger, platform: approvedPlatforms[0] ?? "x", slot, localDate: parts.date, now });
+  // Nor a way into the breaking window for something that is not breaking.
+  const cadenceRefusal = cadence.blocked
+    ? cadence.explain
+    : eligibleGroups([check.candidate], cadence, parts.date).length === 0
+      ? `This candidate may not publish in the ${slot.id} window. ${cadence.explain}`
+      : null;
 
   for (const platform of PLATFORMS) {
     const text = envelope.copy[platform];
@@ -1063,8 +1070,8 @@ export async function runApproved(opts: RunApprovedOptions): Promise<RunResult> 
       outcomes.push(skip(platform, "SKIPPED_DUPLICATE", `${platform} already published in the ${envelope.slot} window today`, text));
       continue;
     }
-    if (cadence.blocked) {
-      outcomes.push(skip(platform, "SKIPPED_CADENCE", cadence.explain, text));
+    if (cadenceRefusal) {
+      outcomes.push(skip(platform, "SKIPPED_CADENCE", cadenceRefusal, text));
       continue;
     }
     if (!check.eligible.includes(platform)) {

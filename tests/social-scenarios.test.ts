@@ -124,9 +124,16 @@ class CountingStub extends StubCopyEngine {
 async function window(
   state: { ledger: PostLedger; queue: EditorialQueue },
   date: string,
-  slotId: "morning" | "afternoon" | "evening",
+  slotId: "daily" | "breaking",
   events: IndexedEvent[],
-  opts: { engine?: CountingStub; publishers?: Partial<Record<"x" | "linkedin", Publisher>>; live?: boolean; minute?: number } = {}
+  opts: {
+    engine?: CountingStub;
+    publishers?: Partial<Record<"x" | "linkedin", Publisher>>;
+    live?: boolean;
+    minute?: number;
+    /** Hours after the window opens — a later (or late) cron firing. */
+    laterBy?: number;
+  } = {}
 ): Promise<{ outcome: SlotOutcome; state: { ledger: PostLedger; queue: EditorialQueue } }> {
   const slot = SLOT_BY_ID.get(slotId)!;
   const result = await runSlot({
@@ -135,7 +142,7 @@ async function window(
     ledger: state.ledger,
     engine: opts.engine ?? new CountingStub(),
     publishers: opts.publishers ?? {},
-    now: instantInWindow(date, slot, opts.minute ?? 5),
+    now: instantInWindow(date, slot, opts.minute ?? 5, opts.laterBy ?? 0),
     live: opts.live ?? false,
     queue: state.queue,
     platforms: ["x"],
@@ -154,8 +161,8 @@ const xDecision = (o: SlotOutcome) => o.platforms.find((p) => p.platform === "x"
 // -----------------------------------------------------------------------------
 
 describe("1. a major USCIS change", () => {
-  it("publishes as a breaking change in the morning window, on its own share page, in one of the offered shapes", async () => {
-    const { outcome } = await window(fresh(), "2026-09-01", "morning", [event()]);
+  it("publishes as a breaking change in the daily window, on its own share page, in one of the offered shapes", async () => {
+    const { outcome } = await window(fresh(), "2026-09-01", "daily", [event()]);
     expect(xDecision(outcome)).toBe("DRY_RUN");
     expect(outcome.contentType).toBe("breaking_change");
     expect(outcome.tier).toBe("news");
@@ -171,7 +178,7 @@ describe("1. a major USCIS change", () => {
 describe("2. a minor but useful update", () => {
   it("still publishes when it is the day's best, as a what-changed rather than a breaking change", async () => {
     // 2026-09-02: no recurring date is at a milestone, so nothing outranks it.
-    const { outcome } = await window(fresh(), "2026-09-02", "morning", [MINOR_UPDATE]);
+    const { outcome } = await window(fresh(), "2026-09-02", "daily", [MINOR_UPDATE]);
     expect(xDecision(outcome)).toBe("DRY_RUN");
     // Reader value is below the development floor, so it is not promoted as
     // breaking; it is still worth a plain-English what-changed.
@@ -181,24 +188,24 @@ describe("2. a minor but useful update", () => {
 });
 
 describe("3. a quiet-news day", () => {
-  it("stays silent in the morning, then fills the afternoon from the evergreen tier, and stays silent again in the evening", async () => {
+  it("fills the daily window from the evergreen tier, once, and leaves the breaking window silent", async () => {
     let s = fresh();
-    const morning = await window(s, "2026-09-10", "morning", []);
-    expect(xDecision(morning.outcome)).toBe("SKIPPED_CADENCE");
-    expect(morning.outcome.cadenceExplain).toMatch(/evergreen waits for the afternoon/);
-    // The queue remembers what the morning could not take.
-    expect(morning.state.queue.items.some((i) => i.status === "scheduled" && i.scheduledFor === "afternoon")).toBe(true);
-    s = morning.state;
+    const daily = await window(s, "2026-09-10", "daily", []);
+    expect(xDecision(daily.outcome)).toBe("DRY_RUN");
+    expect(daily.outcome.tier).toBe("evergreen");
+    expect(["data_signal", "explainer", "data_discovery"]).toContain(daily.outcome.contentType);
+    s = daily.state;
 
-    const afternoon = await window(s, "2026-09-10", "afternoon", []);
-    expect(xDecision(afternoon.outcome)).toBe("DRY_RUN");
-    expect(afternoon.outcome.tier).toBe("evergreen");
-    expect(["data_signal", "explainer", "data_discovery"]).toContain(afternoon.outcome.contentType);
-    s = afternoon.state;
+    // A late firing in the same window publishes nothing more.
+    const late = await window(s, "2026-09-10", "daily", [], { laterBy: 3 });
+    expect(xDecision(late.outcome)).toBe("SKIPPED_DUPLICATE");
+    s = late.state;
 
-    const evening = await window(s, "2026-09-10", "evening", []);
-    expect(xDecision(evening.outcome)).toBe("SKIPPED_CADENCE");
-    expect(publishedPosts(evening.state.ledger).filter((p) => p.platform === "x")).toHaveLength(1);
+    // Nothing breaking happened, so the breaking window is silent — never a
+    // second explainer.
+    const breaking = await window(s, "2026-09-10", "breaking", []);
+    expect(xDecision(breaking.outcome)).toBe("SKIPPED_CADENCE");
+    expect(publishedPosts(breaking.state.ledger).filter((p) => p.platform === "x")).toHaveLength(1);
   });
 
   it("publishes nothing at all when the evergreen allowance for the week is spent", async () => {
@@ -206,24 +213,24 @@ describe("3. a quiet-news day", () => {
     // quiet afternoon draws on the evergreen tier alone.
     let s = fresh();
     for (let d = 2; d <= 6; d++) {
-      const r = await window(s, `2026-09-0${d}`, "afternoon", []);
+      const r = await window(s, `2026-09-0${d}`, "daily", []);
       expect(xDecision(r.outcome)).toBe("DRY_RUN");
       expect(r.outcome.tier).toBe("evergreen");
       s = r.state;
     }
-    const sixth = await window(s, "2026-09-07", "afternoon", []);
+    const sixth = await window(s, "2026-09-07", "daily", []);
     expect(xDecision(sixth.outcome)).toBe("SKIPPED_CADENCE");
     expect(sixth.outcome.cadenceExplain).toMatch(/ceiling 5/);
   });
 });
 
 describe("4. an evergreen explainer", () => {
-  it("is offered on a quiet afternoon and cites its source in the permitted URLs", async () => {
+  it("is offered on a quiet day and cites its source in the permitted URLs", async () => {
     let s = fresh();
     // Two signals first, so the evergreen rotation reaches an explainer.
     let posted: SlotOutcome | null = null;
     for (let d = 1; d <= 4 && !posted; d++) {
-      const r = await window(s, `2026-09-0${d}`, "afternoon", []);
+      const r = await window(s, `2026-09-0${d}`, "daily", []);
       s = r.state;
       if (r.outcome.contentType === "explainer") posted = r.outcome;
     }
@@ -236,7 +243,7 @@ describe("4. an evergreen explainer", () => {
 
 describe("5. an ImmigrationClock data insight", () => {
   it("publishes a computed figure with its source, on its own page", async () => {
-    const r = await window(fresh(), "2026-09-02", "afternoon", []);
+    const r = await window(fresh(), "2026-09-02", "daily", []);
     // The first evergreen post of a fresh week is a data signal (highest tier).
     expect(r.outcome.contentType).toBe("data_signal");
     expect(r.outcome.shareUrl).toMatch(/^https:\/\/immigrationclock\.com\/insights\/[a-z0-9-]+$/);
@@ -251,18 +258,20 @@ describe("5. an ImmigrationClock data insight", () => {
 describe("6. a duplicate development", () => {
   it("does not publish the same record twice on the same day, and a second firing in the same window is a no-op", async () => {
     let s = fresh();
-    const first = await window(s, "2026-09-01", "morning", [event()]);
+    const first = await window(s, "2026-09-01", "daily", [event()]);
     expect(xDecision(first.outcome)).toBe("DRY_RUN");
     s = first.state;
 
-    const again = await window(s, "2026-09-01", "morning", [event()], { minute: 50 });
+    const again = await window(s, "2026-09-01", "daily", [event()], { minute: 50, laterBy: 3 });
     expect(xDecision(again.outcome)).toBe("SKIPPED_DUPLICATE");
     expect(again.outcome.platforms[0].reason).toMatch(/already published/);
     expect(again.outcome.attempts).toHaveLength(0);
 
-    // The same record, a different window, the same day: the subject block
-    // holds and the window either takes a different record or stays quiet.
-    const evening = await window(s, "2026-09-01", "evening", [event()]);
+    // The same record, the breaking window, the same day: it is still
+    // breaking-grade (major, published yesterday), but the subject block holds,
+    // so the window stays quiet rather than posting it twice.
+    const evening = await window(s, "2026-09-01", "breaking", [event()]);
+    expect(xDecision(evening.outcome)).not.toBe("DRY_RUN");
     expect(evening.outcome.subjectId === "event:uscis_policy_manual:20260831-voterreg" && xDecision(evening.outcome) === "DRY_RUN").toBe(false);
   });
 
@@ -281,7 +290,7 @@ describe("6. a duplicate development", () => {
         "The Department of Homeland Security (DHS) is establishing a $103,265 fee, payable at the time of filing, for all H-1B cap-subject petitions, including those eligible for the advanced degree exemption.",
       entityIds: ["agency:dhs", "topic:h1b", "visa:h-1b"],
     });
-    const r = await window(fresh(), "2026-09-01", "morning", [older, newer]);
+    const r = await window(fresh(), "2026-09-01", "daily", [older, newer]);
     expect(r.outcome.subjectId).toBe("event:federal_register:2026-99999");
     const olderItems = r.state.queue.items.filter((i) => i.eventId === older.id);
     expect(olderItems.length).toBeGreaterThan(0);
@@ -295,7 +304,7 @@ describe("7. a follow-up development", () => {
     const story: { date: string; contentType: string | null; text: string }[] = [];
     for (let d = 1; d <= 29; d++) {
       const date = `2026-09-${String(d).padStart(2, "0")}`;
-      for (const slotId of ["morning", "afternoon", "evening"] as const) {
+      for (const slotId of ["daily", "breaking"] as const) {
         const r = await window(s, date, slotId, [DOL_RULE]);
         if (r.outcome.subjectId === "event:federal_register:2026-17726" && xDecision(r.outcome) === "DRY_RUN") {
           story.push({ date, contentType: r.outcome.contentType ?? null, text: xText(r.outcome) ?? "" });
@@ -333,9 +342,12 @@ describe("7. a follow-up development", () => {
 describe("8. two stories sharing a destination", () => {
   it("never happens any more: two distinct records have two distinct share pages and two distinct cards", async () => {
     let s = fresh();
-    const first = await window(s, "2026-09-01", "morning", [DOL_RULE, event()]);
+    // Two major developments from yesterday: the daily post takes one, and the
+    // breaking window — which exists for exactly this — takes the other.
+    const first = await window(s, "2026-09-01", "daily", [DOL_RULE, event()]);
     s = first.state;
-    const second = await window(s, "2026-09-01", "evening", [DOL_RULE, event()]);
+    const second = await window(s, "2026-09-01", "breaking", [DOL_RULE, event()]);
+    s = second.state;
     expect(xDecision(first.outcome)).toBe("DRY_RUN");
     expect(xDecision(second.outcome)).toBe("DRY_RUN");
     expect(first.outcome.subjectId).not.toBe(second.outcome.subjectId);
@@ -349,7 +361,7 @@ describe("8. two stories sharing a destination", () => {
 
 describe("9. a failed card render", () => {
   it("cannot change what the post points at: the share URL and card path are derived from the record, not from a render", async () => {
-    const r = await window(fresh(), "2026-09-01", "morning", [event()]);
+    const r = await window(fresh(), "2026-09-01", "daily", [event()]);
     const item = r.state.queue.items.find((i) => i.subjectId === r.outcome.subjectId && i.contentType === r.outcome.contentType)!;
     expect(item.ogImage).toBe(`/og/change/${changePath(event()).replace("/what-changed/", "")}.png`);
     expect(item.shareUrl).toBe(r.outcome.shareUrl);
@@ -357,11 +369,11 @@ describe("9. a failed card render", () => {
 });
 
 describe("10. a failed X API request", () => {
-  it("records SKIPPED_PUBLISH_FAILED, keeps the validated copy ready, and the next window publishes it without a second model call", async () => {
+  it("records SKIPPED_PUBLISH_FAILED, keeps the validated copy ready, and the next firing publishes it without a second model call", async () => {
     let s = fresh();
     const engine = new CountingStub();
     const down = new StubPublisher("x", [DOWN]);
-    const first = await window(s, "2026-09-01", "morning", [event()], { engine, publishers: { x: down }, live: true });
+    const first = await window(s, "2026-09-01", "daily", [event()], { engine, publishers: { x: down }, live: true });
     expect(xDecision(first.outcome)).toBe("SKIPPED_PUBLISH_FAILED");
     expect(engine.calls).toBe(1);
     const ready = first.state.queue.items.find((i) => i.subjectId === first.outcome.subjectId && i.contentType === first.outcome.contentType)!;
@@ -370,7 +382,7 @@ describe("10. a failed X API request", () => {
     s = first.state;
 
     const up = new StubPublisher("x", [OK]);
-    const second = await window(s, "2026-09-01", "afternoon", [event()], { engine, publishers: { x: up }, live: true });
+    const second = await window(s, "2026-09-01", "daily", [event()], { engine, publishers: { x: up }, live: true, laterBy: 2 });
     expect(xDecision(second.outcome)).toBe("POSTED");
     expect(engine.calls).toBe(1);
     expect(second.outcome.usage?.model).toBe("queue:ready");
@@ -382,14 +394,14 @@ describe("10. a failed X API request", () => {
 
   it("names a depleted balance for what it is", async () => {
     const broke = new StubPublisher("x", [CREDITS]);
-    const r = await window(fresh(), "2026-09-01", "morning", [event()], { publishers: { x: broke }, live: true });
+    const r = await window(fresh(), "2026-09-01", "daily", [event()], { publishers: { x: broke }, live: true });
     expect(xDecision(r.outcome)).toBe("SKIPPED_PUBLISH_FAILED");
     expect(r.outcome.platforms.find((p) => p.platform === "x")?.reason).toMatch(/credits depleted/);
   });
 
   it("with no configured platform, nothing is generated at all", async () => {
     const engine = new CountingStub();
-    const r = await window(fresh(), "2026-09-01", "morning", [event()], { engine, publishers: {}, live: true });
+    const r = await window(fresh(), "2026-09-01", "daily", [event()], { engine, publishers: {}, live: true });
     expect(xDecision(r.outcome)).toBe("SKIPPED_CREDENTIAL_EXPIRED");
     expect(engine.calls).toBe(0);
   });
@@ -402,7 +414,7 @@ describe("the feed as a reader would scroll it", () => {
     const posts: SlotOutcome[] = [];
     for (let d = 1; d <= 12; d++) {
       const date = `2026-09-${String(d).padStart(2, "0")}`;
-      for (const slotId of ["morning", "afternoon", "evening"] as const) {
+      for (const slotId of ["daily", "breaking"] as const) {
         const r = await window(s, date, slotId, events);
         s = r.state;
         if (xDecision(r.outcome) === "DRY_RUN") posts.push(r.outcome);
@@ -411,11 +423,17 @@ describe("the feed as a reader would scroll it", () => {
     const texts = posts.map((p) => xText(p)!);
     expect(texts.length).toBeGreaterThanOrEqual(8);
 
-    // About one a day, never three.
+    // One a day; a second only from the breaking window, only for a major
+    // development, never three.
     const perDay = new Map<string, number>();
     for (const p of posts) perDay.set(p.localDate, (perDay.get(p.localDate) ?? 0) + 1);
-    for (const n of perDay.values()) expect(n).toBeLessThanOrEqual(3);
-    expect(texts.length / 12).toBeLessThanOrEqual(1.5);
+    for (const n of perDay.values()) expect(n).toBeLessThanOrEqual(2);
+    expect(posts.filter((p) => p.slot === "daily").length).toBeLessThanOrEqual(12);
+    for (const p of posts.filter((x) => x.slot === "breaking")) {
+      expect(p.contentType).toBe("breaking_change");
+      expect(events.find((e) => `event:${e.id}` === p.subjectId)?.severity).toBe("major");
+    }
+    expect(texts.length / 12).toBeLessThanOrEqual(1.25);
 
     // More than one kind of post, and more than one shape.
     expect(new Set(posts.map((p) => p.contentType)).size).toBeGreaterThanOrEqual(4);

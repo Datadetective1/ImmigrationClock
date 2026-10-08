@@ -31,38 +31,66 @@
 
 import type { SlotDef, SlotId } from "./types";
 
+// THE THIRD DESIGN (2026-10-08): ONE POST A DAY
+// ---------------------------------------------
+// Three windows a day made the account read as a feed: the ledger for the
+// weeks before shows morning, afternoon and evening rows nearly every day,
+// most of them reaching for follow-ups and explainers because a window was
+// open. ImmigrationClock is meant to be a trusted daily source, so the normal
+// day now has ONE window, opening at 09:00 Chicago time, and ONE post at most.
+//
+// The window still spans hours, for the reason above: GitHub delivers
+// scheduled runs late. 09:00–13:59 means a firing that arrives four hours late
+// still publishes the day's post; the rerun guard means two firings that both
+// arrive still publish one.
+//
+// The breaking window is the exception, and it is narrow by construction: it
+// exists only so that a major development published after the morning post
+// does not wait a day. It may publish at most once a day, only a major-severity
+// development from today or yesterday, and never routine, follow-up or
+// evergreen content. See isBreakingCandidate() in cadence.ts.
 export const SLOTS: SlotDef[] = [
   {
-    id: "morning",
-    hour: 8,
-    hours: [8, 12],
+    id: "daily",
+    hour: 9,
+    hours: [9, 13],
     purpose:
-      "THE MORNING WINDOW. Where a material change published overnight or this " +
-      "morning goes out first. News only: a quiet morning stays quiet, and the " +
-      "evergreen tier waits for the afternoon.",
+      "THE DAILY POST. The single most useful verified development available " +
+      "today; on a quiet day, a verified explainer or data insight if one is " +
+      "worth reading; otherwise nothing.",
     pool: "news",
   },
   {
-    id: "afternoon",
-    hour: 13,
-    hours: [13, 16],
+    id: "breaking",
+    hour: 14,
+    hours: [14, 20],
     purpose:
-      "THE AFTERNOON WINDOW. A change that landed during the day, a follow-up on " +
-      "a recent one, or — on a quiet day — the first opportunity for an " +
-      "explainer, a data signal or a tool.",
-    pool: "knowledge",
-  },
-  {
-    id: "evening",
-    hour: 17,
-    hours: [17, 20],
-    purpose:
-      "THE EVENING WINDOW. The last opportunity of the day: a change nothing " +
-      "earlier caught, a date ahead, or the day's evergreen post if the day was " +
-      "otherwise quiet.",
-    pool: "editorial",
+      "BREAKING ONLY. A second post exists for a major development published " +
+      "today or yesterday that the daily post did not cover. Never routine, " +
+      "never evergreen, at most once a day.",
+    pool: "news",
   },
 ];
+
+/**
+ * The minute past the hour every scheduled firing uses. Not :00: GitHub
+ * documents the top of the hour as its busiest time, when queued scheduled
+ * runs may be delayed or dropped, and the daily post is the one run a day
+ * that matters.
+ */
+export const CRON_MINUTE = 3;
+
+/**
+ * The UTC hours at which the breaking window is CHECKED.
+ *
+ * Every hour of the daily window is covered (a late firing must still find
+ * it), but the breaking window is checked three times, not seven: a major
+ * development is rare, and each firing costs a runner even when the gate
+ * stops it in seconds. 21, 23 and 01 UTC are 16:03, 18:03 and 20:03 CDT, and
+ * 15:03, 17:03 and 19:03 CST — inside the window in both offsets, which the
+ * tests pin.
+ */
+export const BREAKING_CHECK_UTC_HOURS = [21, 23, 1];
 
 export const SLOT_BY_ID = new Map<SlotId, SlotDef>(SLOTS.map((s) => [s.id, s]));
 
@@ -123,8 +151,8 @@ export function slotCoversHour(slot: SlotDef, hour: number): boolean {
  * Which window, if any, is open right now.
  *
  * Matches on the local HOUR against each window's span. A run that fires at
- * 09:07 and one that arrives at 12:41 are both the morning window; a run at
- * 07:00 or at 21:30 is nothing.
+ * 09:03 and one that arrives at 12:41 are both the daily window; a run at
+ * 08:03 (the CST twin of the CDT 09:03 firing) or at 21:30 is nothing.
  */
 export function currentSlot(at: Date = new Date()): SlotDef | null {
   const { hour } = chicagoParts(at);
@@ -146,11 +174,14 @@ export function utcHoursFor(slot: SlotDef): number[] {
   return [...out].sort((a, b) => a - b);
 }
 
-/** Every UTC hour at which ANY window can be open. What the cron must cover. */
-export function allPublishingUtcHours(): number[] {
-  const out = new Set<number>();
-  for (const slot of SLOTS) for (const h of utcHoursFor(slot)) out.add(h);
-  return [...out].sort((a, b) => a - b);
+/**
+ * Every UTC hour the workflow fires: each hour the daily window can be open in
+ * either offset, plus the breaking checks. What the cron must equal — the
+ * tests compare this with social.yml.
+ */
+export function scheduledUtcHours(): number[] {
+  const daily = SLOTS.find((s) => s.id === "daily")!;
+  return [...new Set([...utcHoursFor(daily), ...BREAKING_CHECK_UTC_HOURS])].sort((a, b) => a - b);
 }
 
 /**
@@ -166,16 +197,16 @@ export function inPublishingWindow(at: Date = new Date()): boolean {
 /**
  * A UTC instant that falls inside the given window on the given Chicago date.
  *
- * For simulations and previews, which have to construct "an afternoon on the
- * 14th" without knowing which offset that week is on. Tries the CDT arithmetic
+ * For simulations and previews, which have to construct "the daily window on
+ * the 14th" without knowing which offset that week is on. Tries the CDT arithmetic
  * first and falls back to CST, checking each against the real clock, so the
  * instant is right on both transition days too.
  */
 export function instantInWindow(localDate: string, slot: SlotDef, minute = 5, hourOffset = 0): Date {
-  // One hour past the window's opening hour, so "morning" is 09:05 local — the
-  // time a human would expect the first run of the day to land. `hourOffset`
-  // moves later firings into later hours, never past the window's last.
-  const targetHour = Math.min(slot.hours[0] + 1 + Math.max(0, hourOffset), slot.hours[1]);
+  // The window's opening hour, so the daily post is simulated at 09:05 local —
+  // when the first scheduled firing of the day lands. `hourOffset` moves later
+  // firings into later hours, never past the window's last.
+  const targetHour = Math.min(slot.hours[0] + Math.max(0, hourOffset), slot.hours[1]);
   for (const offset of [5, 6]) {
     const utcHour = targetHour + offset;
     const dayShift = utcHour >= 24 ? 1 : 0;

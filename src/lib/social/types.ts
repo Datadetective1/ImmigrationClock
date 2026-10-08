@@ -41,16 +41,23 @@ import type { CadenceTier, ContentType, Structure } from "./content-types";
 // -----------------------------------------------------------------------------
 
 /**
- * Three windows a day. A run may land anywhere inside one and still count.
+ * One editorial post a day, and a narrow exception for a genuinely breaking
+ * development. See slots.ts and cadence.ts.
  *
- * The ids are kept from the first design (morning, afternoon, evening) so the
- * ledger's history stays readable, but the meaning changed: a window is a span
- * of local hours, not an hour. See slots.ts for why that had to happen.
+ *   daily      the day's one post, 09:00–13:59 America/Chicago
+ *   breaking   at most one more, 14:00–20:59, and only for a major development
+ *              published today or yesterday — never routine content
+ *
+ * The three earlier ids (morning, afternoon, evening) stay in the type so the
+ * ledger's history, written under the three-window design until 2026-10-08,
+ * still parses and still counts toward cooldowns. No window uses them now.
  */
-export type SlotId = "morning" | "afternoon" | "evening";
+export type ActiveSlotId = "daily" | "breaking";
+export type LegacySlotId = "morning" | "afternoon" | "evening";
+export type SlotId = ActiveSlotId | LegacySlotId;
 
 export interface SlotDef {
-  id: SlotId;
+  id: ActiveSlotId;
   /** First local hour of the window (America/Chicago). Kept for compatibility. */
   hour: number;
   /** Inclusive local hours the window spans. */

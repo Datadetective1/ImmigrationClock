@@ -68,7 +68,7 @@ const TODAY = "2026-09-03";
 function request(over: Partial<CopyRequest> = {}): CopyRequest {
   return {
     facts: buildEventFacts(EVENT, undefined, TODAY, "what_changed"),
-    slot: SLOT_BY_ID.get("morning")!,
+    slot: SLOT_BY_ID.get("daily")!,
     angle: "what_changed",
     contentType: "what_changed",
     structures: ["what_changed", "direct"],
@@ -361,12 +361,12 @@ describe("E. a platform with no credential is never written for", () => {
     }
     const publishers = { x: new StubPublisher("x", [OK]) };
     const result = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [EVENT],
       ledger: EMPTY_POST_LEDGER,
       engine: new Recorder(),
       publishers,
-      now: instantInWindow(TODAY, SLOT_BY_ID.get("morning")!),
+      now: instantInWindow(TODAY, SLOT_BY_ID.get("daily")!),
       live: true,
       queue: EMPTY_QUEUE,
     });
@@ -392,12 +392,12 @@ describe("E. a platform with no credential is never written for", () => {
       }
     }
     const result = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [EVENT],
       ledger: EMPTY_POST_LEDGER,
       engine: new Failing(),
       publishers: { x: new StubPublisher("x", [OK]) },
-      now: instantInWindow(TODAY, SLOT_BY_ID.get("morning")!),
+      now: instantInWindow(TODAY, SLOT_BY_ID.get("daily")!),
       live: true,
       queue: EMPTY_QUEUE,
     });
@@ -415,12 +415,12 @@ describe("F. X stays eligible", () => {
   it("publishes on X when X has a credential", async () => {
     const x = new StubPublisher("x", [OK]);
     const result = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [EVENT],
       ledger: EMPTY_POST_LEDGER,
       engine: new StubCopyEngine(),
       publishers: { x },
-      now: instantInWindow(TODAY, SLOT_BY_ID.get("morning")!),
+      now: instantInWindow(TODAY, SLOT_BY_ID.get("daily")!),
       live: true,
       queue: EMPTY_QUEUE,
     });
@@ -462,18 +462,19 @@ const DOWN: PublishResult = {
 
 async function window(
   state: { ledger: PostLedger; queue: EditorialQueue },
-  slotId: "morning" | "afternoon",
+  /** Hours after the daily window opens: a later cron firing in the same window. */
+  laterBy: number,
   publishers: Partial<Record<Platform, Publisher>>,
   engine: StubCopyEngine
 ): Promise<{ outcome: SlotOutcome; state: { ledger: PostLedger; queue: EditorialQueue } }> {
-  const slot = SLOT_BY_ID.get(slotId)!;
+  const slot = SLOT_BY_ID.get("daily")!;
   const result = await runSlot({
     slot,
     events: [EVENT],
     ledger: state.ledger,
     engine,
     publishers,
-    now: instantInWindow(TODAY, slot),
+    now: instantInWindow(TODAY, slot, 5, laterBy),
     live: true,
     queue: state.queue,
   });
@@ -489,9 +490,9 @@ class CountingStub extends StubCopyEngine {
 }
 
 describe("G. validated copy outlives a failed publish", () => {
-  it("stays ready after a 503 and the next window publishes it without another model call", async () => {
+  it("stays ready after a 503 and the next firing publishes it without another model call", async () => {
     const engine = new CountingStub();
-    const first = await window({ ledger: EMPTY_POST_LEDGER, queue: EMPTY_QUEUE }, "morning", { x: new StubPublisher("x", [DOWN]) }, engine);
+    const first = await window({ ledger: EMPTY_POST_LEDGER, queue: EMPTY_QUEUE }, 0, { x: new StubPublisher("x", [DOWN]) }, engine);
 
     expect(first.outcome.platforms.find((p) => p.platform === "x")!.decision).toBe("SKIPPED_PUBLISH_FAILED");
     expect(engine.calls).toBe(1);
@@ -502,7 +503,7 @@ describe("G. validated copy outlives a failed publish", () => {
     expect(ready.suggestedPost?.x).toBeTruthy();
 
     const afternoon = new StubPublisher("x", [OK]);
-    const second = await window(first.state, "afternoon", { x: afternoon }, engine);
+    const second = await window(first.state, 2, { x: afternoon }, engine);
 
     expect(second.outcome.platforms.find((p) => p.platform === "x")!.decision).toBe("POSTED");
     expect(engine.calls, "the stored copy was reused, not regenerated").toBe(1);
@@ -514,12 +515,12 @@ describe("G. validated copy outlives a failed publish", () => {
 describe("H. a window publishes once", () => {
   it("refuses a second post in a window that already published, and spends nothing", async () => {
     const engine = new CountingStub();
-    const first = await window({ ledger: EMPTY_POST_LEDGER, queue: EMPTY_QUEUE }, "morning", { x: new StubPublisher("x", [OK]) }, engine);
+    const first = await window({ ledger: EMPTY_POST_LEDGER, queue: EMPTY_QUEUE }, 0, { x: new StubPublisher("x", [OK]) }, engine);
     expect(first.outcome.platforms.find((p) => p.platform === "x")!.decision).toBe("POSTED");
     const callsAfterFirst = engine.calls;
 
     const again = new StubPublisher("x", [OK]);
-    const second = await window(first.state, "morning", { x: again }, engine);
+    const second = await window(first.state, 1, { x: again }, engine);
 
     expect(second.outcome.platforms.find((p) => p.platform === "x")!.decision).toBe("SKIPPED_DUPLICATE");
     expect(second.outcome.platforms.find((p) => p.platform === "x")!.reason).toMatch(/already published/);
@@ -538,12 +539,12 @@ describe("H. a window publishes once", () => {
 
     const publisher = new StubPublisher("x", [OK]);
     const result = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [EVENT],
       ledger: EMPTY_POST_LEDGER,
       engine: new StubCopyEngine(),
       publishers: { x: publisher },
-      now: instantInWindow(TODAY, SLOT_BY_ID.get("morning")!),
+      now: instantInWindow(TODAY, SLOT_BY_ID.get("daily")!),
       live: true,
       queue: EMPTY_QUEUE,
     });

@@ -111,7 +111,7 @@ class ScriptedEngine implements CopyEngine {
 
 const run = (engine: CopyEngine) =>
   runSlot({
-    slot: SLOT_BY_ID.get("morning")!,
+    slot: SLOT_BY_ID.get("daily")!,
     events: EVENTS,
     ledger: EMPTY_POST_LEDGER,
     engine,
@@ -129,7 +129,7 @@ describe("one attempt", () => {
 
     expect(r.outcome.attempts).toHaveLength(1);
     const a = r.outcome.attempts[0];
-    expect(a.slot).toBe("morning");
+    expect(a.slot).toBe("daily");
     expect(a.attempt).toBe(1);
     expect(a.model).toBe("gpt-5-2026-01-01");
     expect(a.ok).toBe(true);
@@ -270,14 +270,15 @@ describe("aggregation does not double-count", () => {
   });
 
   it("reports no spend for a slot that never called the API", async () => {
-    // A slot skipped before generation costs nothing and must not appear.
+    // A slot skipped before generation costs nothing and must not appear. The
+    // breaking window with an empty archive: nothing may publish.
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("breaking")!,
       events: [],
       ledger: EMPTY_POST_LEDGER,
       engine: new ScriptedEngine([good], [usage()]),
       publishers: {},
-      now: NOW,
+      now: new Date(NOW.getTime() + 5 * 3_600_000), // 14:05 America/Chicago
       live: false,
     });
     expect(r.outcome.attempts).toEqual([]);
@@ -312,7 +313,7 @@ function posted(over: Partial<PostRecord>): PostRecord {
     localDate: "2026-08-14",
     localTime: "09:05",
     runAtUtc: NOW.toISOString(),
-    slot: "morning",
+    slot: "daily",
     pool: "news",
     platform: "x",
     decision: "POSTED",
@@ -350,17 +351,17 @@ function posted(over: Partial<PostRecord>): PostRecord {
 describe("a re-run does not re-post", () => {
   it("finds a prior publication for the same date, slot and platform", () => {
     const ledger = appendRecords(EMPTY_POST_LEDGER, [posted({})]);
-    expect(hasPostedInSlot(ledger, "2026-08-14", "morning", "x")).not.toBeNull();
+    expect(hasPostedInSlot(ledger, "2026-08-14", "daily", "x")).not.toBeNull();
     // and is specific about all three dimensions
-    expect(hasPostedInSlot(ledger, "2026-08-15", "morning", "x")).toBeNull();
-    expect(hasPostedInSlot(ledger, "2026-08-14", "evening", "x")).toBeNull();
-    expect(hasPostedInSlot(ledger, "2026-08-14", "morning", "linkedin")).toBeNull();
+    expect(hasPostedInSlot(ledger, "2026-08-15", "daily", "x")).toBeNull();
+    expect(hasPostedInSlot(ledger, "2026-08-14", "breaking", "x")).toBeNull();
+    expect(hasPostedInSlot(ledger, "2026-08-14", "daily", "linkedin")).toBeNull();
   });
 
   it("counts only what actually published", () => {
     for (const decision of ["DRY_RUN", "SKIPPED_PUBLISH_FAILED"] as const) {
       const ledger = appendRecords(EMPTY_POST_LEDGER, [posted({ decision })]);
-      expect(hasPostedInSlot(ledger, "2026-08-14", "morning", "x"), decision).toBeNull();
+      expect(hasPostedInSlot(ledger, "2026-08-14", "daily", "x"), decision).toBeNull();
     }
   });
 
@@ -372,7 +373,7 @@ describe("a re-run does not re-post", () => {
     const engine = new ScriptedEngine([good], [usage()]);
 
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: EVENTS,
       ledger,
       engine,
@@ -405,7 +406,7 @@ describe("a re-run does not re-post", () => {
     const engine = new ScriptedEngine([good], [usage()]);
 
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: EVENTS,
       ledger,
       engine,
@@ -459,7 +460,7 @@ describe("at most one X post per date and slot, even when re-run", () => {
 
     // First run — the real thing, live.
     const first = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: EVENTS,
       ledger: EMPTY_POST_LEDGER,
       engine,
@@ -476,12 +477,12 @@ describe("at most one X post per date and slot, even when re-run", () => {
     // workflow commits it. Two hours later — a later cron firing landing
     // inside the same window, which is exactly what hourly crons produce.
     const second = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: EVENTS,
       ledger: first.ledger,
       engine,
       publishers: { x: publisher },
-      now: new Date(NOW.getTime() + 2 * 3_600_000), // 11:05 America/Chicago, still the morning window
+      now: new Date(NOW.getTime() + 2 * 3_600_000), // 11:05 America/Chicago, still the daily window
       live: true,
     });
 
@@ -492,7 +493,7 @@ describe("at most one X post per date and slot, even when re-run", () => {
 
     // And exactly one POSTED row for x on that date+slot, forever.
     const postedX = second.ledger.posts.filter(
-      (p) => p.decision === "POSTED" && p.platform === "x" && p.slot === "morning"
+      (p) => p.decision === "POSTED" && p.platform === "x" && p.slot === "daily"
     );
     expect(postedX).toHaveLength(1);
     expect(postedX[0].externalId).toBe("id-1");
@@ -501,7 +502,7 @@ describe("at most one X post per date and slot, even when re-run", () => {
   it("a missing LinkedIn credential skips cleanly and never fails the run", async () => {
     const publisher = new CountingPublisher();
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: EVENTS,
       ledger: EMPTY_POST_LEDGER,
       engine: new ScriptedEngine([good], [usage()]),

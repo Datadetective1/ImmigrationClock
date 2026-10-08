@@ -24,7 +24,7 @@ import { EVENT_INDEX } from "../src/lib/event-index";
 import { candidatesFor } from "../src/lib/social/select";
 import { explainSelection } from "../src/lib/social/run";
 import { SLOTS, instantInWindow } from "../src/lib/social/slots";
-import { decideCadence } from "../src/lib/social/cadence";
+import { decideCadence, eligibleGroups } from "../src/lib/social/cadence";
 import { CATEGORY_LABEL } from "../src/lib/social/categories";
 import { CONTENT_TYPE_LABEL } from "../src/lib/social/content-types";
 import { bannedOpeningLines } from "../src/lib/social/dedupe";
@@ -59,7 +59,7 @@ function whyItLost(winner: Candidate, loser: Candidate, penaltyExplain: string):
 
 function main() {
   const from = arg("from") ?? new Date().toISOString().slice(0, 10);
-  const windowCount = Number(arg("windows", arg("slots", "3")));
+  const windowCount = Number(arg("windows", arg("slots", "2")));
   const jsonOut = arg("json");
 
   let ledger: PostLedger = EMPTY_POST_LEDGER;
@@ -99,8 +99,16 @@ function main() {
 
       const cadence = decideCadence({ ledger, platform: "x", slot, localDate: date, now: at });
       const all = candidatesFor(EVENT_INDEX, date);
-      const inTier = cadence.blocked ? [] : all.filter((c) => cadence.allowedTiers.includes(c.tier));
-      const { chosen, ranked, rejections } = explainSelection(inTier, ledger, at, date, ["x"]);
+      // The runner's order: news first, then the rest; breaking-grade only in
+      // the breaking window.
+      const groups = eligibleGroups(all, cadence, date);
+      const inTier = groups.flat();
+      let selection = explainSelection([], ledger, at, date, ["x"]);
+      for (const group of groups) {
+        selection = explainSelection(group, ledger, at, date, ["x"]);
+        if (selection.chosen) break;
+      }
+      const { chosen, ranked, rejections } = selection;
 
       console.log(`\n${rule}`);
       console.log(`${date}  ${slot.hours[0]}:00–${slot.hours[1]}:59 CT   ${slot.id.toUpperCase().padEnd(9)} candidates=${all.length} in allowed tiers=${inTier.length}   → ${chosen ? "WOULD PUBLISH" : "SILENT"}`);
@@ -113,7 +121,9 @@ function main() {
             cadence.blocked
               ? "the cadence policy blocked this window"
               : inTier.length === 0
-                ? "nothing in a tier this window may publish"
+                ? cadence.breakingOnly
+                  ? "no major development from today or yesterday"
+                  : "nothing in a tier this window may publish"
                 : "every candidate was inside a cooldown or repeated today's topic"
           }`
         );

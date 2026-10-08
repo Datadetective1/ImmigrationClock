@@ -6,9 +6,10 @@
 //   npm run social:simulate -- --days=3 --engine=transcript --transcript=fixtures/social-transcript.json
 //
 // Runs the REAL pipeline — selection, cadence, queue, rotation, dedupe,
-// validator and ledger — over a simulated calendar, three windows a day, with
-// the ledger and the queue carried forward from window to window so cooldowns
-// and the cadence policy behave exactly as they would in life.
+// validator and ledger — over a simulated calendar, the daily and breaking
+// windows each day, with the ledger and the queue carried forward from window
+// to window so cooldowns and the cadence policy behave exactly as they would
+// in life.
 //
 // Nothing is published: runSlot() is called with `publishers: {}` and
 // `live: false`, so there is no client to publish through whatever the

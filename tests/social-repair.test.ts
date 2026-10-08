@@ -119,7 +119,7 @@ class ScriptedEngine implements CopyEngine {
 
 const run = (engine: CopyEngine) =>
   runSlot({
-    slot: SLOT_BY_ID.get("afternoon")!,
+    slot: SLOT_BY_ID.get("daily")!,
     events: [event()],
     ledger: EMPTY_POST_LEDGER,
     engine,
@@ -334,7 +334,7 @@ describe("a repair may not buy compliance with a fact", () => {
     ]);
 
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("afternoon")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [proposedEvent],
       ledger: EMPTY_POST_LEDGER,
       engine,
@@ -374,7 +374,7 @@ describe("a repair may not buy compliance with a fact", () => {
     const facts = FACTS();
     const brief = buildUserPrompt({
       facts,
-      slot: SLOT_BY_ID.get("afternoon")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "effective_date_reminder",
       avoidOpenings: [],
       validatorFeedback: ["[x] Too long for x: 333 chars (max 275)"],
@@ -404,16 +404,17 @@ describe("no unnecessary repair", () => {
 
   it("spends nothing at all when nothing may publish in the window", async () => {
     // An empty archive still leaves the evergreen tier in the queue, and the
-    // afternoon may take it on a quiet day — so the window that is silent by
-    // construction is the morning, which is news-only. It must be silent for free.
+    // daily window may take it on a quiet day — so the window that is silent by
+    // construction is the breaking window, which takes only a major development
+    // from today or yesterday. It must be silent for free.
     const engine = new ScriptedEngine([() => ({ x: "", linkedin: "", deepLink: "" })]);
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("breaking")!,
       events: [],
       ledger: EMPTY_POST_LEDGER,
       engine,
       publishers: {},
-      now: new Date(`${TODAY}T14:07:00.000Z`),
+      now: new Date(`${TODAY}T20:07:00.000Z`),
       live: false,
     });
     expect(engine.calls).toBe(0);
@@ -524,9 +525,9 @@ describe("the surrounding guarantees are unchanged", () => {
     ]);
     const posted = {
       localDate: TODAY,
-      localTime: "15:07",
-      runAtUtc: `${TODAY}T20:07:00.000Z`,
-      slot: "afternoon" as const,
+      localTime: "09:07",
+      runAtUtc: `${TODAY}T14:07:00.000Z`,
+      slot: "daily" as const,
       pool: "knowledge" as const,
       readerValue: null,
       readerValueExplain: null,
@@ -559,7 +560,7 @@ describe("the surrounding guarantees are unchanged", () => {
     };
 
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("afternoon")!,
+      slot: SLOT_BY_ID.get("daily")!,
       events: [event()],
       ledger: {
         version: 1 as const,
@@ -570,7 +571,7 @@ describe("the surrounding guarantees are unchanged", () => {
       },
       engine,
       publishers: {},
-      now: new Date(`${TODAY}T20:07:00.000Z`),
+      now: new Date(`${TODAY}T16:07:00.000Z`), // 11:07, a later firing in the same daily window
       live: false,
     });
 

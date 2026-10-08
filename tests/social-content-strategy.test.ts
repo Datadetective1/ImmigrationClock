@@ -39,7 +39,7 @@ import { describe, it, expect } from "vitest";
 import { candidatesFor, eventCandidates } from "@/lib/social/select";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { applyRotation, buildMemory } from "@/lib/social/rotation";
-import { decideCadence } from "@/lib/social/cadence";
+import { decideCadence, eligibleGroups } from "@/lib/social/cadence";
 import { runSlot } from "@/lib/social/run";
 import { validatePost, LIMITS, subjectAnchors, mentionsDate, measuredLength } from "@/lib/social/validate";
 import { buildEventFacts, buildAssetFacts } from "@/lib/social/facts";
@@ -261,7 +261,7 @@ describe("2 — a proposal is never reported as a change", () => {
   it("tells the copy engine, in the prompt, that a proposal is not on a calendar", () => {
     const prompt = buildUserPrompt({
       facts: proposed,
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "breaking_change",
       avoidOpenings: [],
     });
@@ -470,21 +470,22 @@ describe("5 — a page about ImmigrationClock never displaces a development", ()
     expect(new Set(evergreen.map((c) => c.category)).size).toBeGreaterThanOrEqual(3);
   });
 
-  it("keeps the morning window's silence intact — nothing evergreen fills a quiet morning", () => {
-    // The cadence must not move. A morning with no qualifying development still
-    // posts nothing rather than reaching for an explainer: the queue holds the
-    // evergreen tier, and the morning window is not allowed to draw on it.
-    const morning = SLOT_BY_ID.get("morning")!;
-    const now = new Date(`${TODAY}T14:05:00.000Z`); // 09:05 America/Chicago
-    const cadence = decideCadence({ ledger: EMPTY_POST_LEDGER, platform: "x", slot: morning, localDate: TODAY, now });
-    expect(cadence.allowedTiers).not.toContain("evergreen");
+  it("keeps the breaking window's silence intact — nothing evergreen fills it", () => {
+    // The breaking window exists for a major development only. A day with none
+    // posts nothing there rather than reaching for an explainer, however much
+    // of the evergreen tier the queue holds.
+    const breaking = SLOT_BY_ID.get("breaking")!;
+    const now = new Date(`${TODAY}T20:05:00.000Z`); // 15:05 America/Chicago
+    const cadence = decideCadence({ ledger: EMPTY_POST_LEDGER, platform: "x", slot: breaking, localDate: TODAY, now });
+    expect(cadence.allowedTiers).toEqual(["news"]);
+    expect(cadence.breakingOnly).toBe(true);
 
     const quiet = candidatesFor([], TODAY);
     expect(quiet.length).toBeGreaterThan(0);
-    expect(quiet.every((c) => !cadence.allowedTiers.includes(c.tier))).toBe(true);
+    expect(eligibleGroups(quiet, cadence, TODAY)).toEqual([]);
   });
 
-  it("makes that silence free — a quiet morning never calls the engine", async () => {
+  it("makes that silence free — a quiet breaking window never calls the engine", async () => {
     class CountingEngine implements CopyEngine {
       readonly id = "test:counting";
       calls = 0;
@@ -495,39 +496,37 @@ describe("5 — a page about ImmigrationClock never displaces a development", ()
     }
     const engine = new CountingEngine();
     const r = await runSlot({
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("breaking")!,
       events: [],
       ledger: EMPTY_POST_LEDGER,
       engine,
       publishers: {},
-      now: new Date(`${TODAY}T14:05:00.000Z`),
+      now: new Date(`${TODAY}T20:05:00.000Z`),
       live: false,
       platforms: ["x"],
     });
     expect(engine.calls).toBe(0);
     expect(r.outcome.platforms[0].decision).toBe("SKIPPED_CADENCE");
-    expect(r.outcome.platforms[0].reason).toMatch(/none in a tier this window may publish/);
+    expect(r.outcome.platforms[0].reason).toMatch(/none a major development from today or yesterday/);
   });
 
-  it("lets the afternoon take the day's first evergreen post when the day is quiet", () => {
-    // The change from the first design, stated: a window with nothing new no
-    // longer stays silent by construction. The cadence opens the evergreen tier
-    // in the afternoon on a quiet day, and closes it again once anything has
-    // published.
-    const afternoon = SLOT_BY_ID.get("afternoon")!;
-    const now = new Date(`${TODAY}T20:05:00.000Z`); // 15:05 America/Chicago
-    const quiet = decideCadence({ ledger: EMPTY_POST_LEDGER, platform: "x", slot: afternoon, localDate: TODAY, now });
+  it("lets the daily window take an evergreen post when the day is quiet, and nothing once the day's post is out", () => {
+    // A quiet day may still carry one useful explainer or data insight. Once
+    // anything has published, the daily window is closed for the day.
+    const daily = SLOT_BY_ID.get("daily")!;
+    const now = new Date(`${TODAY}T16:05:00.000Z`); // 11:05 America/Chicago
+    const quiet = decideCadence({ ledger: EMPTY_POST_LEDGER, platform: "x", slot: daily, localDate: TODAY, now });
     expect(quiet.allowedTiers).toContain("evergreen");
 
     const busy = decideCadence({
-      ledger: appendRecords(EMPTY_POST_LEDGER, [record({ runAtUtc: `${TODAY}T14:07:00.000Z` })]),
+      ledger: appendRecords(EMPTY_POST_LEDGER, [record({ runAtUtc: `${TODAY}T11:07:00.000Z` })]),
       platform: "x",
-      slot: afternoon,
+      slot: daily,
       localDate: TODAY,
       now,
     });
-    expect(busy.allowedTiers).not.toContain("evergreen");
-    expect(busy.allowedTiers).toContain("news");
+    expect(busy.blocked).toBe(true);
+    expect(busy.allowedTiers).toEqual([]);
   });
 });
 
@@ -579,7 +578,7 @@ describe("6 — the cold reader test", () => {
     // and cannot see produces rejections nobody can act on.
     const prompt = buildUserPrompt({
       facts: methodologyFacts(),
-      slot: SLOT_BY_ID.get("evening")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "data_insight",
       avoidOpenings: [],
     });
@@ -592,7 +591,7 @@ describe("6 — the cold reader test", () => {
     // so the prompt must not invite a sentence reporting that it lacks one.
     const prompt = buildUserPrompt({
       facts: methodologyFacts(),
-      slot: SLOT_BY_ID.get("evening")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "data_insight",
       avoidOpenings: [],
     });
@@ -607,7 +606,7 @@ describe("6 — the cold reader test", () => {
     // not lead with it — which is the exact sentence that published.
     const prompt = buildUserPrompt({
       facts: buildEventFacts(event(), "/what-changed?q=fee", TODAY),
-      slot: SLOT_BY_ID.get("morning")!,
+      slot: SLOT_BY_ID.get("daily")!,
       angle: "breaking_change",
       avoidOpenings: [],
     });

@@ -203,7 +203,7 @@ for (const [f, n] of Object.entries(familyCounts).sort((a, b) => b[1] - a[1])) {
   console.log(`  ${f.padEnd(16)} ${"█".repeat(n)} ${n}`);
 }
 
-console.log(`\nDays whose three slots were all different families:`);
+console.log(`\nDays whose posts were all different families:`);
 const byDate = new Map<string, string[]>();
 for (const r of posted) byDate.set(r.date, [...(byDate.get(r.date) ?? []), r.family]);
 for (const [date, fams] of byDate) {

@@ -1,7 +1,7 @@
 # Social publishing
 
-One editorial engine, three windows a day, on X (LinkedIn is wired but not
-enabled). An LLM writes the wording; deterministic code decides everything
+One editorial engine, one high-quality post a day, on X (LinkedIn is wired but
+not enabled). Three windows a day until 2026-10-08; see [Cadence](#cadence-cadencets). An LLM writes the wording; deterministic code decides everything
 else, and a validator refuses anything the fact set does not support.
 
 **Status: live.** `SOCIAL_POST_ENABLED` is `true` in the repository's
@@ -72,17 +72,21 @@ against it. A model never decides a fact.
 
 | Target | Rule |
 |---|---|
-| Normal day | about one post |
-| Consequential day | two, occasionally three, when they are distinct developments |
-| Quiet day | one evergreen post, in the afternoon or evening |
+| Normal day | one post, in the daily window (09:00 Chicago) |
+| Breaking day | one more, at most, for a **major** development published today or yesterday that the daily post did not cover |
+| Quiet day | one verified explainer or data insight, only if nothing timelier is eligible, at most five a week |
 | Nothing worth saying | nothing |
 | A rule with a future date | the reminder — upcoming from 30 days out, imminent in the last fortnight — after what changed, never before |
 
-Enforced as ceilings, never floors: at most 3 posts a day, at least 3 hours
-apart; the news tier may publish in any window; follow-ups at most one a day
-and three a week; the evergreen tier only when the day has been quiet, only in
-the afternoon or evening, and at most five a week. Nothing here can promote a
-candidate or lower a quality gate.
+Enforced as ceilings, never floors: one post in the daily window, one in the
+breaking window, never more than two a day, at least 3 hours apart. In the
+daily window every eligible news candidate is tried before any follow-up or
+evergreen post (`eligibleGroups()`); follow-ups at most three a week; evergreen
+at most five a week. The breaking window accepts only `isBreakingCandidate()`:
+the selector's own `breaking_change` type, on a record the archive ranks
+`major`, published today or yesterday — never a notable notice, a follow-up, an
+explainer or a data insight. Nothing here can promote a candidate or lower a
+quality gate.
 
 ### Shapes (`content-types.ts`)
 
@@ -105,16 +109,23 @@ mentioned, plainly, or left out.
 
 ### Windows (`slots.ts`)
 
-| Window | Chicago hours | Cron (UTC, both offsets) |
+| Window | Chicago hours | Cron (UTC) |
 |---|---|---|
-| morning | 08:00–12:59 | 13–18 |
-| afternoon | 13:00–16:59 | 18–22 |
-| evening | 17:00–20:59 | 22–02 |
+| daily | 09:00–13:59 | 14:03–19:03, hourly — every hour the window can be open in CDT or CST |
+| breaking | 14:00–20:59 | 21:03, 23:03, 01:03 — inside the window in both offsets |
 
-The workflow fires at :07 every hour from 13:07 to 02:07 UTC. A firing that
-arrives two hours late still lands inside its window. `scripts/social-gate.ts`
-runs before `npm ci` and exits in seconds when no window is open or the open
-window already published today, so the no-op firings cost almost nothing.
+The first firing of the day lands at 09:03 Chicago time all year: 14:03 UTC in
+CDT, 15:03 UTC in CST (the 14:03 UTC firing is 08:03 CST in winter and the gate
+stops it). The Chicago hour is read from the real time-zone database, so DST
+needs no edit. A firing that arrives hours late still lands inside the daily
+window, and the rerun guard and the daily ceiling stop a second post.
+
+`scripts/social-gate.ts` runs before `npm ci` and before any API call, and
+exits in seconds when no window is open, the open window already published
+today, X already answered 402 (credits depleted) today, or — in the breaking
+window — no major development from today or yesterday is unposted. On most days
+every breaking check ends there. The read-only X credential check runs on
+manual dispatches only, because each X request spends prepaid credit.
 
 ---
 
@@ -162,7 +173,7 @@ the reason: expired, validation, cooldown) or `superseded` (a newer record
 with the same title stem — a final rule after its proposal).
 
 A `ready` item holds validated copy. A run that fails to publish it — X
-returned 503, or 402 credits depleted — leaves it ready, and the next window
+returned 503, or 402 credits depleted — leaves it ready, and the next firing
 publishes the stored copy without a second model call, provided the fact set
 has not moved (the hash is checked; the run's clock is not part of it, so
 copy survives midnight). An item deferred to a later window (`scheduled`)
@@ -299,7 +310,7 @@ npm run social:preflight
 ```
 
 ```bash
-npm run social:preview -- --windows=6
+npm run social:preview -- --windows=4
 ```
 
 ```bash
@@ -315,7 +326,7 @@ npm run social:queue -- --refresh
 ```
 
 ```bash
-npm run social:post -- --slot=afternoon
+npm run social:post -- --slot=daily
 ```
 
 ```bash
@@ -373,8 +384,10 @@ imports `src/lib/social`.
 
 **X is pay-per-use.** The API answered HTTP 402 "credits depleted" on
 2026-08-10. The publisher now names that case (`code: "credits"`), the ledger
-records it, and the validated copy stays in the queue for the next window; the
-balance itself has to be topped up in the X developer portal.
+records it, and the validated copy stays in the queue. After a 402 the gate
+stops the rest of that day's scheduled firings (another request would fail the
+same way); the balance has to be topped up in the X developer portal, and a
+manual dispatch then publishes today, or the next day's 09:03 firing does.
 
 ---
 
@@ -382,7 +395,7 @@ balance itself has to be topped up in the X developer portal.
 
 1. Set the repository variable `SOCIAL_POST_ENABLED` to anything other than
    `true`. Runs continue, select, generate and validate; they publish nothing.
-2. Or comment out the two `- cron:` lines in `.github/workflows/social.yml`.
+2. Or comment out the `- cron:` lines in `.github/workflows/social.yml`.
 
 ---
 

@@ -26,7 +26,7 @@ import { dirname, resolve } from "node:path";
 import { EVENT_INDEX } from "../src/lib/event-index";
 import { runSlot, runApproved, isPublishingEnabled } from "../src/lib/social/run";
 import { parseApproval } from "../src/lib/social/approval";
-import { currentSlot, SLOT_BY_ID, chicagoParts } from "../src/lib/social/slots";
+import { currentSlot, SLOT_BY_ID, SLOTS, chicagoParts } from "../src/lib/social/slots";
 import { createCopyEngine } from "../src/lib/social/copy-engine";
 import { parsePostLedger, serializePostLedger, type PostLedger } from "../src/lib/social/ledger";
 import { EMPTY_QUEUE, parseQueue, serializeQueue, summarizeQueue, type EditorialQueue } from "../src/lib/social/queue";
@@ -89,12 +89,14 @@ async function main() {
   const forced = arg("slot") as SlotId | undefined;
   const slot = forced ? SLOT_BY_ID.get(forced) : currentSlot(now);
 
-  if (forced && !slot) fail(`Unknown window "${forced}". Use morning, afternoon or evening.`);
+  if (forced && !slot) fail(`Unknown window "${forced}". Use ${SLOTS.map((s) => s.id).join(" or ")}.`);
 
   const parts = chicagoParts(now);
   if (!slot) {
     console.log(
-      `SKIPPED_OUTSIDE_WINDOW — ${parts.date} ${parts.time} America/Chicago is outside every publishing window (08:00–12:59, 13:00–16:59, 17:00–20:59).`
+      `SKIPPED_OUTSIDE_WINDOW — ${parts.date} ${parts.time} America/Chicago is outside every publishing window (` +
+        SLOTS.map((s) => `${s.id} ${String(s.hours[0]).padStart(2, "0")}:00–${s.hours[1]}:59`).join(", ") +
+        ").",
     );
     return;
   }
