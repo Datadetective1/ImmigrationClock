@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-07T17:36:30.431Z",
-  "startedAt": "2026-10-07T17:36:28.033Z",
-  "finishedAt": "2026-10-07T17:36:30.431Z",
+  "generatedAt": "2026-10-08T19:33:55.061Z",
+  "startedAt": "2026-10-08T19:33:53.155Z",
+  "finishedAt": "2026-10-08T19:33:55.061Z",
   "ok": true,
   "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
@@ -10,7 +10,7 @@
     "value": 4.2,
     "period": "September 2026",
     "sourceUpdatedAt": "2026-09-01",
-    "fetchedAt": "2026-10-07T17:36:28.639Z",
+    "fetchedAt": "2026-10-08T19:33:53.767Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
     "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
@@ -28,10 +28,10 @@
       "2025": 691906
     },
     "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-08/nationwide-encounters-fy23-fy26-jul-aor.csv",
-    "fetchedAt": "2026-10-07T17:36:29.242Z",
+    "fetchedAt": "2026-10-08T19:33:54.225Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-    "sourceUpdatedAt": "2026-10-07",
+    "sourceUpdatedAt": "2026-10-08",
     "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through July 2026."
   },
   "warn": {
@@ -159,11 +159,11 @@
         "count": 9
       }
     ],
-    "fetchedAt": "2026-10-07T17:36:30.431Z",
+    "fetchedAt": "2026-10-08T19:33:55.061Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
-    "sourceUpdatedAt": "2026-10-07",
+    "sourceUpdatedAt": "2026-10-08",
     "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 12234 employees across 69 notices. Texas only — not national."
   },
   "manifest": [
@@ -174,7 +174,7 @@
       "feed": "BLS Public Data API",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-10-07T17:36:28.639Z",
+      "lastFetchedAt": "2026-10-08T19:33:53.767Z",
       "lastError": null
     },
     {
@@ -184,7 +184,7 @@
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-10-07T17:36:29.242Z",
+      "lastFetchedAt": "2026-10-08T19:33:54.225Z",
       "lastError": null
     },
     {
@@ -234,7 +234,7 @@
       "feed": "Texas via data.texas.gov (Socrata) — TX only; other states curated",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-10-07T17:36:30.431Z",
+      "lastFetchedAt": "2026-10-08T19:33:55.061Z",
       "lastError": null
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T17:36:33.843Z",
+  "generatedAt": "2026-10-08T19:33:58.326Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 346,
-      "employeesTotal": 16654,
-      "latestNotice": "2026-10-05",
-      "withNoticeDate": 346,
+      "noticeCount": 351,
+      "employeesTotal": 16983,
+      "latestNotice": "2026-10-06",
+      "withNoticeDate": 351,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7686,
-  "employeesTotal": 989298,
-  "employerCount": 6019,
+  "noticeCount": 7691,
+  "employeesTotal": 989627,
+  "employerCount": 6024,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-10-05",
+  "maxNoticeDate": "2026-10-06",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -16726,6 +16726,17 @@
       "latestNotice": "2004-09-20"
     },
     {
+      "normalized": "NEOGEN CARE HOME HEALTH AGENCY",
+      "name": "Neogen Care Home Health Agency",
+      "slug": "neogen-care-home-health-agency",
+      "notices": 1,
+      "employees": 148,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-09-30"
+    },
+    {
       "normalized": "COMPASS CONNECTIONS",
       "name": "Compass Connections",
       "slug": "compass-connections",
@@ -30067,6 +30078,17 @@
       "latestNotice": "2006-12-19"
     },
     {
+      "normalized": "CARIBOU BIOSCIENCES",
+      "name": "Caribou Biosciences, Inc.",
+      "slug": "caribou-biosciences-inc",
+      "notices": 1,
+      "employees": 87,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-06"
+    },
+    {
       "normalized": "BLUE DIAMOND GROWERS",
       "name": "Blue Diamond Growers",
       "slug": "blue-diamond-growers",
@@ -32618,6 +32640,17 @@
         "WA"
       ],
       "latestNotice": "2009-05-28"
+    },
+    {
+      "normalized": "BEACHBODY",
+      "name": "Beachbody, LLC",
+      "slug": "beachbody-llc",
+      "notices": 1,
+      "employees": 80,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-06"
     },
     {
       "normalized": "XPRESS DELIVERY (DSJ9)",
@@ -55933,6 +55966,17 @@
       "latestNotice": "2004-12-31"
     },
     {
+      "normalized": "CAYUGA HOME FOR CHILDREN",
+      "name": "Cayuga Home for Children",
+      "slug": "cayuga-home-for-children",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
+    },
+    {
       "normalized": "BLUE SHIELD OF CALIFORNIA (BUILDING B)",
       "name": "Blue Shield of California (Building B)",
       "slug": "blue-shield-of-california-building-b",
@@ -63335,6 +63379,17 @@
       "latestNotice": "2010-09-21"
     },
     {
+      "normalized": "ODS AND BETFAIR INTERACTIVE",
+      "name": "ODS Technologies LP and Betfair Interactive US LLC",
+      "slug": "ods-technologies-lp-and-betfair-interactive-us-llc",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-01"
+    },
+    {
       "normalized": "KAISER (393 E WALNUT ST )",
       "name": "Kaiser (393 E. Walnut St.)",
       "slug": "kaiser-393-e-walnut-st",
@@ -66864,6 +66919,30 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Caribou Biosciences, Inc.",
+      "normalized": "CARIBOU BIOSCIENCES",
+      "city": "Berkeley",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-06",
+      "effectiveDate": "2026-12-07",
+      "employees": 87,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Beachbody, LLC",
+      "normalized": "BEACHBODY",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-06",
+      "effectiveDate": "2026-12-07",
+      "employees": 80,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
       "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
       "city": "Oakland",
@@ -66921,6 +67000,18 @@
       "effectiveDate": "2026-12-04",
       "employees": 130,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cayuga Home for Children",
+      "normalized": "CAYUGA HOME FOR CHILDREN",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2027-01-04",
+      "employees": 12,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -67028,6 +67119,18 @@
       "noticeDate": "2026-10-01",
       "effectiveDate": "2026-12-01",
       "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "ODS Technologies LP and Betfair Interactive US LLC",
+      "normalized": "ODS AND BETFAIR INTERACTIVE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-01",
+      "effectiveDate": "2026-11-30",
+      "employees": 2,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -67173,6 +67276,18 @@
       "effectiveDate": "2026-09-30",
       "employees": 18,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Neogen Care Home Health Agency",
+      "normalized": "NEOGEN CARE HOME HEALTH AGENCY",
+      "city": "Sherman Oaks",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-09-30",
+      "effectiveDate": "2026-09-11",
+      "employees": 148,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -70040,7 +70155,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Relocation",
+      "layoffType": "Relocation Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {

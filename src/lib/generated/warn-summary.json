@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T17:36:33.843Z",
+  "generatedAt": "2026-10-08T19:33:58.326Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "sourceName": "State WARN Act notices (state open-data portals)",
   "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
@@ -58,10 +58,10 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 346,
-      "employeesTotal": 16654,
-      "latestNotice": "2026-10-05",
-      "withNoticeDate": 346,
+      "noticeCount": 351,
+      "employeesTotal": 16983,
+      "latestNotice": "2026-10-06",
+      "withNoticeDate": 351,
       "withEffectiveOnly": 0
     }
   ],
@@ -73,13 +73,13 @@
     "VA",
     "WA"
   ],
-  "noticeCount": 7686,
-  "employeesTotal": 989298,
-  "employerCount": 6019,
+  "noticeCount": 7691,
+  "employeesTotal": 989627,
+  "employerCount": 6024,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-10-05",
+  "maxNoticeDate": "2026-10-06",
   "yearBasisNote": "Yearly totals date each notice by the state-published notice/received date where available, and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). Notices with neither date are excluded from yearly totals but included in the overall counts.",
-  "datedByNoticeDate": 5366,
+  "datedByNoticeDate": 5371,
   "datedByEffectiveDate": 2309,
   "noticesWithoutDate": 11,
   "byYear": [
@@ -195,8 +195,8 @@
     },
     {
       "year": 2026,
-      "employees": 81785,
-      "notices": 737
+      "employees": 82114,
+      "notices": 742
     },
     {
       "year": 2027,
@@ -357,13 +357,13 @@
     },
     {
       "month": "2026-09",
-      "employees": 22808,
-      "notices": 175
+      "employees": 22956,
+      "notices": 176
     },
     {
       "month": "2026-10",
-      "employees": 2755,
-      "notices": 25
+      "employees": 2936,
+      "notices": 29
     },
     {
       "month": "2026-11",
@@ -512,8 +512,8 @@
     "CA": [
       {
         "year": 2026,
-        "employees": 16654,
-        "notices": 346
+        "employees": 16983,
+        "notices": 351
       }
     ],
     "WA": [
