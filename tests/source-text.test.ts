@@ -26,6 +26,10 @@ import { EVENTS } from "@/lib/event-store";
 
 const ALL = EVENTS as unknown as ChangeInput[];
 const TODAY = "2026-09-04";
+// Freshness is judged against the real clock. TODAY stays fixed for the
+// deterministic toPublicChange assertions below; using it here made every
+// refresh after 2026-09-04 fail this test.
+const RETRIEVED_BY = new Date().toISOString().slice(0, 10);
 
 describe("the retained documents are what the index says they are", () => {
   it("hashes every stored file to the value recorded for it", () => {
@@ -51,7 +55,7 @@ describe("the retained documents are what the index says they are", () => {
       const d = e.sourceDocument!;
       expect(d.textUrl, e.id).toMatch(/^https?:\/\//);
       expect(d.retrievedAt, e.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      expect(d.retrievedAt <= TODAY, `${e.id} retrievedAt is not in the future`).toBe(true);
+      expect(d.retrievedAt <= RETRIEVED_BY, `${e.id} retrievedAt is not in the future`).toBe(true);
       expect(d.adapter, e.id).toBeTruthy();
       expect(d.contentHash, e.id).toMatch(/^sha256:[0-9a-f]{64}$/);
     }

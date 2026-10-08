@@ -232,10 +232,18 @@ describe("GET /api/v1/changes/{id}", () => {
   });
 
   it("omits the weak block entirely when there is nothing weak", async () => {
+    // "Nothing weak" means in EVERY dimension the weak block reports, not just
+    // visa categories: a record with strong visas and a weak country match does
+    // carry a weak block, and the archive gained one on 2026-10-07.
     const clean = ALL.find(
       (e) =>
         (e.impact?.visaCategories ?? []).length > 0 &&
-        (e.impact?.visaCategories ?? []).every((v) => v.method !== "derived_weak")
+        [
+          ...(e.impact?.visaCategories ?? []),
+          ...(e.impact?.countries ?? []),
+          ...((e.impact as { forms?: { method?: string }[] } | undefined)?.forms ?? []),
+          ...((e.impact as { processes?: { method?: string }[] } | undefined)?.processes ?? []),
+        ].every((v) => v.method !== "derived_weak")
     );
     const res = await getChange(new Request("https://example.com"), {
       params: { id: shortHash(clean!.id) },
