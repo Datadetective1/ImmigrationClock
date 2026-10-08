@@ -1,52 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08T19:28:57.828Z",
+  "updatedAt": "2026-10-08T19:31:07.711Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-20186::why_it_matters",
-      "subjectId": "event:federal_register:2026-20186",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20186/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
-      "eventId": "federal_register:2026-20186",
-      "category": "deadline",
-      "topicKey": "topic:enforcement",
-      "priority": 66320.9611111111,
-      "readerValue": 80,
-      "factsHash": "e98c1d712b9686fe",
-      "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "ImmigrationClock is watching the October 16, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4",
-      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4.png",
-      "freshness": {
-        "publishedAt": "2026-10-01",
-        "discoveredAt": "2026-10-08",
-        "expiresAt": "2026-10-29"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-08T19:28:31.316Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-08T19:28:31.316Z",
-          "status": "verified",
-          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-20187::effective_date",
       "subjectId": "event:federal_register:2026-20187",
@@ -1362,6 +1317,65 @@
         },
         {
           "at": "2026-09-06T16:11:02.555Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20186::why_it_matters",
+      "subjectId": "event:federal_register:2026-20186",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "suggestedHeadline": "DHS FY2027 HR-1 enforcement fee set to $5,300 on Oct. 16, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20186/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
+      "eventId": "federal_register:2026-20186",
+      "category": "deadline",
+      "topicKey": "topic:enforcement",
+      "priority": 66320.9611111111,
+      "readerValue": 80,
+      "factsHash": "e98c1d712b9686fe",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "DHS will start charging FY2027 HR-1 immigration enforcement fees of $5,300 on Oct. 16, 2026.\n\nWhy it matters: That amount is what applies from that date. Announcement only; legal details are separate. Source: Federal Register\n\nhttps://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Ax5i6j4",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4",
+      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-29"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-08T19:30:42.710Z",
+      "externalUrl": "https://x.com/i/web/status/2108279039207043383",
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4"
+        },
+        {
+          "at": "2026-10-08T19:30:42.710Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-08T19:30:42.710Z",
           "status": "published",
           "reason": "published on x"
         }
