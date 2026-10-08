@@ -1,0 +1,86 @@
+# Is the site fresh — and if it is quiet, is it quiet for the right reason?
+#
+# On 2026-10-08 the homepage's newest change had read September 30 for a week
+# while every workflow was green: ingestion worked, and a severity rule hid what
+# it ingested. Nothing could tell "healthy and quiet" from "broken", so a person
+# had to. This job does it every six hours (see scripts/check-health.ts and
+# src/lib/pipeline-health.ts):
+#
+#   healthy_new / healthy_quiet   no action; any open health alert is closed
+#   stale                         no successful source check for 36h
+#   source_failure                a core source failed twice in a row, or the
+#                                 Federal Register lists an immigration document
+#                                 older than two days that we never ingested
+#   publish_failure               the repo holds a newer check than production
+#                                 serves — the deploy did not happen
+#
+# One open issue per state at most; a repeat condition does not re-alert.
+# Read-only on the repository. Never sends email or posts anything.
+
+name: Pipeline health
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch: {}
+  pull_request:
+    paths:
+      - ".github/workflows/pipeline-health.yml"
+      - "scripts/check-health.ts"
+      - "scripts/build-health.ts"
+      - "src/lib/pipeline-health.ts"
+      - "src/domains/graph/adapters/federal-register.ts"
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: pipeline-health-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Evaluate health (repo, live site, Federal Register probe)
+        id: health
+        run: npm run health:check -- --probe
+
+      # Pull requests report only: a branch's committed health is not production's.
+      - name: Open alert (deduplicated)
+        if: github.event_name != 'pull_request' && steps.health.outputs.alert == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ steps.health.outputs.title }}
+          BODY: ${{ steps.health.outputs.body }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          OPEN=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number --jq 'length')
+          if [ "$OPEN" != "0" ]; then
+            echo "An open issue titled '$TITLE' already exists; not alerting again."
+            exit 0
+          fi
+          ALERT_LABEL=pipeline-health bash .github/scripts/alert-issue.sh "$TITLE" "$BODY
+
+          Workflow run: $RUN_URL"
+
+      - name: Close resolved alerts
+        if: github.event_name != 'pull_request' && steps.health.outputs.alert == 'false' && startsWith(steps.health.outputs.state, 'healthy')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATE: ${{ steps.health.outputs.state }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          for n in $(gh issue list --state open --search 'in:title "[pipeline-health]"' --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "Resolved: pipeline health is \`$STATE\` as of $RUN_URL." || true
+          done

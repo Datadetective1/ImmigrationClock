@@ -25,6 +25,8 @@
 // the truth may be that we lost a source.
 // =============================================================================
 
+import pipelineHealth from "@/lib/generated/pipeline-health.json";
+import { lastCheckedSentence } from "@/lib/pipeline-health";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
@@ -120,7 +122,9 @@ export default function WhatChangedPage() {
       <div className="container-page max-w-3xl space-y-8 py-10">
         {/* Coverage, stated up front. A reader should never have to guess how
             much of the landscape this represents. */}
-        <p className="text-xs leading-relaxed text-slate-400">{eventCoverageNote()}</p>
+        <p className="text-xs leading-relaxed text-slate-400">
+          {eventCoverageNote()} {lastCheckedSentence(pipelineHealth, formatDate)}
+        </p>
 
         {/* A lost source is not a quiet month, and must never be mistaken for
             one. This is the difference between silence and a gap. */}

@@ -11,6 +11,8 @@ import { buildMetrics, LAST_REFRESHED } from "@/lib/data";
 import { personaSummaries } from "@/lib/relevance";
 import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
 import { formatDate } from "@/lib/format";
+import pipelineHealth from "@/lib/generated/pipeline-health.json";
+import { lastCheckedSentence } from "@/lib/pipeline-health";
 import { RecentChanges } from "@/components/RecentChanges";
 import { EVENTS, EVENT_STORE_META, significantEvents, contributingAdapters } from "@/lib/event-store";
 import { ReportError } from "@/components/ReportError";
@@ -175,7 +177,12 @@ export default function HomePage() {
         <RecentChanges
           events={recent}
           heading="Latest immigration changes"
-          intro="Newest first. Routine paperwork is left out here and stays searchable in the archive."
+          intro={[
+            "Newest first. Routine paperwork is left out here and stays searchable in the archive.",
+            lastCheckedSentence(pipelineHealth, formatDate),
+          ]
+            .filter(Boolean)
+            .join(" ")}
           linkLabel={`See all ${EVENTS.length.toLocaleString()} recorded changes`}
         />
 

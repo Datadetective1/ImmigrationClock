@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-10-07T17:38:10.358Z",
+  "lastAttemptedIngestion": "2026-10-07T17:38:10.358Z",
+  "lastSuccessfulIngestion": "2026-10-07T17:38:10.358Z",
+  "lastSuccessfulSourceCheck": "2026-10-07T17:38:10.358Z",
+  "lastBuildAt": "2026-10-07T17:38:10.358Z",
+  "lastAcceptedRecord": null,
+  "latestSignificantRecord": {
+    "id": "federal_register:2026-20187",
+    "title": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
+    "publishedAt": "2026-10-01",
+    "severity": "notable"
+  },
+  "latestRecord": {
+    "id": "federal_register:2026-20550",
+    "title": "Title: Determinations Pursuant to Section 2(b)(2) of the Migration and Refugee Assistance Act of 1962",
+    "publishedAt": "2026-10-07",
+    "severity": "routine"
+  },
+  "counts": {
+    "archive": 628,
+    "significant": 341,
+    "sourcesConfigured": 7,
+    "sourcesFailing": 0,
+    "errorCount": 0
+  },
+  "sources": [
+    {
+      "key": "federal-register",
+      "name": "Federal Register",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:37:44.483Z",
+      "lastSuccessAt": "2026-10-07T17:37:44.483Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 96,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 1
+    },
+    {
+      "key": "executive-actions",
+      "name": "Executive Orders & Presidential Proclamations",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:37:53.328Z",
+      "lastSuccessAt": "2026-10-07T17:37:53.328Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 5,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 1
+    },
+    {
+      "key": "uscis-newsroom",
+      "name": "USCIS newsroom & policy alerts",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:37:53.598Z",
+      "lastSuccessAt": "2026-10-07T17:37:53.598Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 19,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 1
+    },
+    {
+      "key": "uscis-policy-manual",
+      "name": "USCIS Policy Manual",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:37:53.702Z",
+      "lastSuccessAt": "2026-10-07T17:37:53.702Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 15,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 0
+    },
+    {
+      "key": "federal-courts",
+      "name": "Federal court decisions",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:38:09.880Z",
+      "lastSuccessAt": "2026-10-07T17:38:09.880Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 3,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 1
+    },
+    {
+      "key": "congress",
+      "name": "Congress — bills and public laws",
+      "configured": false,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:38:09.881Z",
+      "lastSuccessAt": "2026-10-07T17:38:09.881Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 0,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 1
+    },
+    {
+      "key": "cbp-encounters",
+      "name": "CBP nationwide encounters",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:38:09.909Z",
+      "lastSuccessAt": "2026-10-07T17:38:09.909Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 1,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 1
+    },
+    {
+      "key": "dol-oflc",
+      "name": "DOL Office of Foreign Labor Certification",
+      "configured": true,
+      "ok": true,
+      "lastAttemptAt": "2026-10-07T17:38:10.341Z",
+      "lastSuccessAt": "2026-10-07T17:38:10.341Z",
+      "consecutiveFailures": 0,
+      "recordsInWindow": 1,
+      "newRecords": 0,
+      "latestPublishedAt": null,
+      "warningCount": 0
+    }
+  ],
+  "thresholds": {
+    "staleAfterHours": 36,
+    "sourceDownAfterHours": 72,
+    "sourceFailuresBeforeAlert": 2,
+    "publishLagHours": 6,
+    "newWindowDays": 7
+  }
+}

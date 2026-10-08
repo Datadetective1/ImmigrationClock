@@ -32,7 +32,8 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write # the only scope needed: commit + push generated data
+  contents: write # commit + push generated data
+  issues: write # open an alert issue when the refresh itself fails
 
 # Shared with every other workflow that writes generated files to `main`, so two
 # refreshes can never interleave their commits. `cancel-in-progress: false`
@@ -90,6 +91,7 @@ jobs:
           git show HEAD:src/lib/generated/history.json > /tmp/old-history.json 2>/dev/null || echo '{}' > /tmp/old-history.json
           git show HEAD:src/lib/generated/employers.json > /tmp/old-employers.json 2>/dev/null || echo '{}' > /tmp/old-employers.json
           git show HEAD:src/lib/generated/events.json > /tmp/old-events.json 2>/dev/null || echo '{}' > /tmp/old-events.json
+          git show HEAD:src/lib/generated/pipeline-health.json > /tmp/old-health.json 2>/dev/null || echo '{}' > /tmp/old-health.json
           CHANGED=$(node -e "
           const f=require('fs');
           const j=p=>{try{return JSON.parse(f.readFileSync(p,'utf8'))}catch{return {}}};
@@ -106,7 +108,18 @@ jobs:
             const ids=(e.events||[]).map(x=>x.id).sort();
             return [ids.length, require('crypto').createHash('sha1').update(ids.join('\n')).digest('hex')];
           };
-          const sig=(r,h,e,ev)=>JSON.stringify({
+          // Severity counts too: a corrected ranking keeps every id, and before
+          // 2026-10-08 such a fix could never deploy on its own.
+          //
+          // And the DAY of the last successful source check, so the public
+          // "Sources last checked" line advances once a day even when nothing
+          // changed. Without it a healthy, quiet site looks abandoned — which is
+          // how a week of correct-but-hidden data read as an outage. One extra
+          // commit a day at most; the social workflow already commits more.
+          const healthSig=x=>[(x.lastSuccessfulSourceCheck||'').slice(0,10),(x.sources||[]).map(s=>s.key+':'+s.ok).join(',')];
+          const sig=(r,h,e,ev,hl)=>JSON.stringify({
+            severity:(ev.counts&&ev.counts.bySeverity)||null,
+            health:healthSig(hl),
             bls:[r.bls&&r.bls.value, r.bls&&r.bls.period],
             cbp:[r.cbp&&r.cbp.currentFyYtd, r.cbp&&r.cbp.fyTotals],
             warn:[r.warn&&r.warn.ytdTotal, r.warn&&r.warn.ytdCount, r.warn&&r.warn.monthly],
@@ -114,8 +127,8 @@ jobs:
             emp:[e.fiscalYear, e.count],
             events:eventSig(ev),
           });
-          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'), j('/tmp/old-employers.json'), j('/tmp/old-events.json'));
-          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'), j('./src/lib/generated/employers.json'), j('./src/lib/generated/events.json'));
+          const a=sig(j('/tmp/old-refresh.json'), j('/tmp/old-history.json'), j('/tmp/old-employers.json'), j('/tmp/old-events.json'), j('/tmp/old-health.json'));
+          const b=sig(j('./src/lib/generated/refresh.json'), j('./src/lib/generated/history.json'), j('./src/lib/generated/employers.json'), j('./src/lib/generated/events.json'), j('./src/lib/generated/pipeline-health.json'));
           process.stdout.write(a===b?'false':'true');
           ")
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
@@ -140,6 +153,23 @@ jobs:
           else
             echo "No VERCEL_DEPLOY_HOOK set — relying on Vercel git integration to auto-deploy the pushed commit."
           fi
+
+      # A failed refresh used to be visible only as a red run in the Actions tab
+      # (2026-10-05 went unnoticed). The monitor workflow also catches the
+      # downstream staleness, but this names the cause the moment it happens.
+      - name: Alert on refresh failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if gh issue list --state open --search "in:title [pipeline-health] Daily refresh failed" --json number --jq 'length' | grep -qv '^0$'; then
+            echo "An open refresh-failure issue already exists; not opening another."
+            exit 0
+          fi
+          ALERT_LABEL=pipeline-health bash .github/scripts/alert-issue.sh \
+            "[pipeline-health] Daily refresh failed" \
+            "The scheduled data refresh failed: $RUN_URL. The site keeps serving the last good build. The pipeline-health monitor will also report staleness if this persists past ${STALE_HOURS:-36}h. Close this issue once a refresh succeeds."
 
       - name: No change — skip deploy
         if: steps.changed.outputs.changed != 'true'

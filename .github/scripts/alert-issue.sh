@@ -49,10 +49,19 @@ set -uo pipefail
 title="${1:?alert-issue.sh: a title is required}"
 body="${2:?alert-issue.sh: a body is required}"
 
+# The topic label. Defaults to the newsletter, which was this script's only
+# caller; the pipeline-health monitor sets ALERT_LABEL=pipeline-health.
+TOPIC="${ALERT_LABEL:-newsletter}"
+case "$TOPIC" in
+  newsletter) TOPIC_DESC="Immigration Pulse build and delivery" ;;
+  pipeline-health) TOPIC_DESC="Ingestion, freshness and deployment health" ;;
+  *) TOPIC_DESC="Automated alert" ;;
+esac
+
 # name:colour:description — GitHub's own grey for automation, blue for the topic.
 LABELS=(
   "automated:ededed:Opened automatically by a workflow"
-  "newsletter:1d76db:Immigration Pulse build and delivery"
+  "${TOPIC}:1d76db:${TOPIC_DESC}"
 )
 
 for spec in "${LABELS[@]}"; do
@@ -66,7 +75,7 @@ for spec in "${LABELS[@]}"; do
   gh label create "$name" --color "$colour" --description "$description" --force >/dev/null 2>&1 || true
 done
 
-if gh issue create --title "$title" --label "automated,newsletter" --body "$body"; then
+if gh issue create --title "$title" --label "automated,${TOPIC}" --body "$body"; then
   exit 0
 fi
 
