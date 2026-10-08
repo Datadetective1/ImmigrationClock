@@ -1,224 +1,184 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08T00:08:26.713Z",
+  "updatedAt": "2026-10-08T19:28:57.828Z",
   "items": [
     {
-      "id": "event:federal_register:2026-20016::why_it_matters",
-      "subjectId": "event:federal_register:2026-20016",
+      "id": "event:federal_register:2026-20186::why_it_matters",
+      "subjectId": "event:federal_register:2026-20186",
       "contentType": "why_it_matters",
       "tier": "follow_up",
-      "status": "ready",
-      "headline": "U.S. Citizenship and Immigration Services Employment-Based Immigrant Visa, Fifth Preference (EB-5) Fee Rule",
-      "suggestedHeadline": "USCIS finalizes EB-5 fee rule; effective Nov. 30, 2026",
+      "status": "verified",
+      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "suggestedHeadline": null,
       "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/30/2026-20016/us-citizenship-and-immigration-services-employment-based-immigrant-visa-fifth-preference-eb-5-fee",
-      "eventId": "federal_register:2026-20016",
-      "category": "actionable",
-      "topicKey": "visa:eb-5",
-      "priority": 58252.96111111111,
-      "readerValue": 100,
-      "factsHash": "ba592a4d515ad603",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20186/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
+      "eventId": "federal_register:2026-20186",
+      "category": "deadline",
+      "topicKey": "topic:enforcement",
+      "priority": 66320.9611111111,
+      "readerValue": 80,
+      "factsHash": "e98c1d712b9686fe",
       "whyItMatters": [
-        "The rule is final but does not apply until November 30, 2026, 54 days from today. Until then the rules in force today stay in force.",
-        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching the November 30, 2026 effective date."
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
       ],
-      "suggestedPost": {
-        "x": "USCIS finalized an EB-5 fee rule.\n\nEffective Nov. 30, 2026. Until then, today’s fees and rules remain.\n\nWhy it matters: It concerns EB-5 immigrant investors. We’re watching Nov. 30.\n\nSource: Federal Register\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Arav4au",
-        "linkedin": "",
-        "structure": "why_it_matters"
-      },
-      "shareUrl": "https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au",
-      "ogImage": "/og/change/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au.png",
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4",
+      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4.png",
       "freshness": {
-        "publishedAt": "2026-09-30",
-        "discoveredAt": "2026-09-30",
-        "expiresAt": "2026-10-21"
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-29"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-30T18:24:49.049Z",
+          "at": "2026-10-08T19:28:31.316Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-30T18:24:49.049Z",
+          "at": "2026-10-08T19:28:31.316Z",
           "status": "verified",
-          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au"
-        },
-        {
-          "at": "2026-10-06T18:53:21.566Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        },
-        {
-          "at": "2026-10-07T19:18:26.928Z",
-          "status": "verified",
-          "reason": "fact set changed (22009c5fe1cc95e2 → ba592a4d515ad603); stored copy discarded"
-        },
-        {
-          "at": "2026-10-07T19:18:26.928Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4"
         }
       ]
     },
     {
-      "id": "event:uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced::why_it_matters",
-      "subjectId": "event:uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
+      "id": "event:federal_register:2026-20187::effective_date",
+      "subjectId": "event:federal_register:2026-20187",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20187/fiscal-year-2027-inflation-adjustment-to-hr-1-immigration-fees",
+      "eventId": "federal_register:2026-20187",
+      "category": "deadline",
+      "topicKey": "source:federal_register",
+      "priority": 65040.96111111111,
+      "readerValue": 52,
+      "factsHash": "47f0b2c9b8dc85e9",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83",
+      "ogImage": "/og/change/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-16"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20187::why_it_matters",
+      "subjectId": "event:federal_register:2026-20187",
       "contentType": "why_it_matters",
       "tier": "follow_up",
       "status": "verified",
-      "headline": "USCIS Announces FY 2027 Inflation Increase for Certain Immigration-Related Fees",
+      "headline": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
       "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-related-fees",
-      "eventId": "uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20187/fiscal-year-2027-inflation-adjustment-to-hr-1-immigration-fees",
+      "eventId": "federal_register:2026-20187",
+      "category": "deadline",
+      "topicKey": "source:federal_register",
+      "priority": 64820.96111111111,
+      "readerValue": 52,
+      "factsHash": "f20616e84988da55",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83",
+      "ogImage": "/og/change/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-29"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20185::why_it_matters",
+      "subjectId": "event:federal_register:2026-20185",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20185/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
+      "eventId": "federal_register:2026-20185",
       "category": "actionable",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 53920.96111111111,
+      "topicKey": "source:federal_register",
+      "priority": 54020.96111111111,
       "readerValue": 34,
-      "factsHash": "292e67fec01a6863",
+      "factsHash": "3f095904ef540e50",
       "whyItMatters": [
         "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
         "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
         "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-x0w5m3",
-      "ogImage": "/og/change/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-x0w5m3.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1",
+      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1.png",
       "freshness": {
-        "publishedAt": "2026-09-30",
-        "discoveredAt": "2026-09-30",
-        "expiresAt": "2026-10-21"
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-29"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-30T18:24:49.049Z",
+          "at": "2026-10-08T19:28:31.316Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-30T18:24:49.049Z",
+          "at": "2026-10-08T19:28:31.316Z",
           "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-x0w5m3"
-        }
-      ]
-    },
-    {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The next recurring immigration date on the calendar",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "cbf494a69eb782fc",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-20"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-22"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-25T17:55:10.852Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-25"
-        },
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-27T17:41:20.960Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-27"
-        },
-        {
-          "at": "2026-09-28T20:05:54.008Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-04T17:27:22.483Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-10-04"
-        },
-        {
-          "at": "2026-10-06T18:53:21.566Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1"
         }
       ]
     },
@@ -235,7 +195,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -276,7 +236,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -327,7 +287,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -378,7 +338,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30004,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "0bbe8260e69a5985",
       "whyItMatters": [],
@@ -453,7 +413,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -484,49 +444,6 @@
       ]
     },
     {
-      "id": "explainer:reported-projected-estimated::explainer",
-      "subjectId": "explainer:reported-projected-estimated",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How ImmigrationClock labels a number",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock — Methodology",
-      "sourceUrl": "https://immigrationclock.com/methodology",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:how-we-work",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "ccae3862f5a31652",
-      "whyItMatters": [
-        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
-      "ogImage": "/og/explainer/reported-projected-estimated.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
-        }
-      ]
-    },
-    {
       "id": "explainer:interim-final-rule::explainer",
       "subjectId": "explainer:interim-final-rule",
       "contentType": "explainer",
@@ -539,7 +456,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -582,7 +499,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -625,7 +542,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -668,7 +585,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -711,7 +628,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -754,7 +671,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -797,7 +714,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -828,25 +745,27 @@
       ]
     },
     {
-      "id": "discovery:layoffs-vs-h1b::data_discovery",
-      "subjectId": "discovery:layoffs-vs-h1b",
-      "contentType": "data_discovery",
+      "id": "explainer:reported-projected-estimated::explainer",
+      "subjectId": "explainer:reported-projected-estimated",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "headline": "How ImmigrationClock labels a number",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "ImmigrationClock — Methodology",
+      "sourceUrl": "https://immigrationclock.com/methodology",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "73ae42753297c5d3",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:how-we-work",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "ccae3862f5a31652",
+      "whyItMatters": [
+        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
-      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
+      "ogImage": "/og/explainer/reported-projected-estimated.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -864,7 +783,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
         }
       ]
     },
@@ -881,7 +800,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -922,7 +841,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -963,7 +882,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1004,7 +923,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1045,7 +964,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1086,7 +1005,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "105770e384f41426",
       "whyItMatters": [],
@@ -1111,6 +1030,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+        }
+      ]
+    },
+    {
+      "id": "discovery:layoffs-vs-h1b::data_discovery",
+      "subjectId": "discovery:layoffs-vs-h1b",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "73ae42753297c5d3",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
+      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
         }
       ]
     },
@@ -2954,6 +2914,56 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-20186::effective_date",
+      "subjectId": "event:federal_register:2026-20186",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20186/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
+      "eventId": "federal_register:2026-20186",
+      "category": "deadline",
+      "topicKey": "topic:enforcement",
+      "priority": 66540.9611111111,
+      "readerValue": 80,
+      "factsHash": "517855d21202639d",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4",
+      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-16"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-x5i6j4"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "rejected",
+          "reason": "validation: [x] figure-ungrounded, [x] figure-ungrounded"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-14439::effective_date",
       "subjectId": "event:federal_register:2026-14439",
       "contentType": "effective_date",
@@ -3174,6 +3184,75 @@
           "at": "2026-10-06T18:53:21.566Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-06"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20016::why_it_matters",
+      "subjectId": "event:federal_register:2026-20016",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "U.S. Citizenship and Immigration Services Employment-Based Immigrant Visa, Fifth Preference (EB-5) Fee Rule",
+      "suggestedHeadline": "USCIS finalizes EB-5 fee rule; effective Nov. 30, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/30/2026-20016/us-citizenship-and-immigration-services-employment-based-immigrant-visa-fifth-preference-eb-5-fee",
+      "eventId": "federal_register:2026-20016",
+      "category": "actionable",
+      "topicKey": "visa:eb-5",
+      "priority": 58252.96111111111,
+      "readerValue": 100,
+      "factsHash": "ba592a4d515ad603",
+      "whyItMatters": [
+        "The rule is final but does not apply until November 30, 2026, 54 days from today. Until then the rules in force today stay in force.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching the November 30, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "USCIS finalized an EB-5 fee rule.\n\nEffective Nov. 30, 2026. Until then, today’s fees and rules remain.\n\nWhy it matters: It concerns EB-5 immigrant investors. We’re watching Nov. 30.\n\nSource: Federal Register\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Arav4au",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au",
+      "ogImage": "/og/change/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au.png",
+      "freshness": {
+        "publishedAt": "2026-09-30",
+        "discoveredAt": "2026-09-30",
+        "expiresAt": "2026-10-21"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au"
+        },
+        {
+          "at": "2026-10-06T18:53:21.566Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-07T19:18:26.928Z",
+          "status": "verified",
+          "reason": "fact set changed (22009c5fe1cc95e2 → ba592a4d515ad603); stored copy discarded"
+        },
+        {
+          "at": "2026-10-07T19:18:26.928Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-08"
         }
       ]
     },
@@ -3426,6 +3505,172 @@
           "at": "2026-10-06T18:53:21.566Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-06"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced::why_it_matters",
+      "subjectId": "event:uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "USCIS Announces FY 2027 Inflation Increase for Certain Immigration-Related Fees",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-related-fees",
+      "eventId": "uscis_newsroom:283fb4a7-98d9-42d7-bdb8-f01a02d82ced",
+      "category": "actionable",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 53920.96111111111,
+      "readerValue": 34,
+      "factsHash": "292e67fec01a6863",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-x0w5m3",
+      "ogImage": "/og/change/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-x0w5m3.png",
+      "freshness": {
+        "publishedAt": "2026-09-30",
+        "discoveredAt": "2026-09-30",
+        "expiresAt": "2026-10-21"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-30T18:24:49.049Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/uscis-announces-fy-2027-inflation-increase-for-certain-immigration-x0w5m3"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-08"
+        }
+      ]
+    },
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "cbf494a69eb782fc",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-20"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-22"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-25T17:55:10.852Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-25"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-27T17:41:20.960Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-27"
+        },
+        {
+          "at": "2026-09-28T20:05:54.008Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-04T17:27:22.483Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-04"
+        },
+        {
+          "at": "2026-10-06T18:53:21.566Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-08"
         }
       ]
     },
