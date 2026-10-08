@@ -34,7 +34,7 @@ import { fileURLToPath } from "node:url";
 
 import { runnableAdapters, ADAPTERS } from "../src/domains/graph/adapters";
 import { federalRegisterAdapter, __testing as frTesting } from "../src/domains/graph/adapters/federal-register";
-const { isImmigrationRelevant } = frTesting;
+const { isImmigrationRelevant, noticeChangesStatusOrFees } = frTesting;
 import { executiveActionsAdapter } from "../src/domains/graph/adapters/executive-actions";
 import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsroom";
 import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
@@ -183,6 +183,28 @@ const RETRACTION_RULES: { reason: string; applies: (e: ImmigrationEvent) => bool
   },
 ];
 
+/**
+ * Re-apply the Federal Register notice-severity rule to STORED events.
+ *
+ * Fresh fetches only cover the lookback window, so a severity fix in the adapter
+ * would otherwise never reach the archive older than that. Same shape as the
+ * retraction rules: re-runnable against stored fields (the title), a reviewed
+ * code change, and UPGRADE-ONLY — this never demotes anything, and it never
+ * lifts a notice above `notable`. See noticeChangesStatusOrFees for the list
+ * and why it is closed.
+ */
+function rescoreStoredNotice(e: ImmigrationEvent): ImmigrationEvent {
+  if (
+    e.sourceKey === "federal_register" &&
+    e.classification === "announcement" &&
+    e.severity === "routine" &&
+    noticeChangesStatusOrFees(e.title)
+  ) {
+    return { ...e, severity: "notable" };
+  }
+  return e;
+}
+
 function retractionReason(e: ImmigrationEvent): string | null {
   if (RETRACTED[e.id]) return RETRACTED[e.id];
   for (const rule of RETRACTION_RULES) {
@@ -203,11 +225,17 @@ interface EventStoreFile {
     lastRunAt: string | null;
     ok: boolean;
     eventCount: number;
+    /** Events this run produced that were not already in the store. */
+    newCount?: number;
+    /** Newest publishedAt among this run's valid events, or null. */
+    latestPublishedAt?: string | null;
     warnings: string[];
   }[];
   /** How far back this run looked. */
   since: string;
   counts: { total: number; bySeverity: Record<string, number>; byClassification: Record<string, number> };
+  /** Ids this run added to the store. Read by build-health.ts for "last accepted record". */
+  addedIds?: string[];
 }
 
 async function readExisting(): Promise<ImmigrationEvent[]> {
@@ -279,6 +307,8 @@ async function main() {
       lastRunAt: new Date().toISOString(),
       ok: !result.failed,
       eventCount: valid.length,
+      newCount: valid.filter((e) => !knownIds.has(e.id)).length,
+      latestPublishedAt: valid.reduce<string | null>((m, e) => (m && m >= e.publishedAt ? m : e.publishedAt), null),
       warnings: [...result.warnings, ...invalidMessages.slice(0, 10)],
     });
 
@@ -300,7 +330,7 @@ async function main() {
   // Merge: a freshly fetched event replaces its committed twin by stable id, and
   // everything previously recorded is retained. dedupeEvents keeps first-seen,
   // so fresh must come first.
-  const all = sortEvents(dedupeEvents([...fresh, ...existing]));
+  const all = sortEvents(dedupeEvents([...fresh, ...existing]).map(rescoreStoredNotice));
 
   // Apply retractions last, so a re-ingested event cannot sneak a retracted id
   // back into the store.
@@ -334,6 +364,7 @@ async function main() {
     since,
     adapters: report,
     counts: { total: merged.length, bySeverity, byClassification },
+    addedIds: merged.filter((e) => !knownIds.has(e.id)).map((e) => e.id),
     events: merged,
   };
 

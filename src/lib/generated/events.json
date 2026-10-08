@@ -90,9 +90,9 @@
   "counts": {
     "total": 628,
     "bySeverity": {
-      "routine": 327,
-      "major": 164,
-      "notable": 137
+      "routine": 287,
+      "notable": 177,
+      "major": 164
     },
     "byClassification": {
       "announcement": 396,
@@ -488,7 +488,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
       "summary": "U.S. Citizenship and Immigration Services (USCIS), a component of the Department of Homeland Security (DHS), is announcing inflationary adjustments to immigration-related fees administered by USCIS under the One Big Beautiful Bill Act (H.R. 1) for Fiscal Year (FY) 2027. H.R. 1 mandates that USCIS adjust the H.R. 1 fees annually. This notice outlines the adjusted fees and their effective date.",
       "publishedAt": "2026-10-01",
@@ -585,7 +585,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
       "summary": "The Department of Homeland Security (DHS) is announcing Fiscal Year (FY) 2027 inflationary adjustments for two of the immigration enforcement-related fees established by the One Big Beautiful Bill Act (HR-1). HR-1 requires that DHS annually adjust certain immigration enforcement-related fees for inflation. The adjusted fee amounts for FY 2027 for aliens ordered removed in absentia who are subsequently arrested and inadmissible aliens apprehended between ports of entry are $5,300. On October 16, 2026, DHS will begin assessing and collecting these new amounts.",
       "publishedAt": "2026-10-01",
@@ -651,7 +651,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
       "summary": "The Department of Homeland Security (DHS) is announcing Fiscal Year (FY) 2027 inflation adjustments to certain immigration-related fees required by the One Big Beautiful Bill Act (HR-1). HR-1 requires that DHS annually adjust certain immigration-related fees for inflation. This notice sets the inflation-adjusted FY 2027 fee amounts for the following immigration fees required by HR-1: the fee for parole of an alien into the United States, the Electronic System for Travel Authorization (ESTA) fees, and the fee for enrollment in the Electronic Visa Update System (EVUS). In accordance with the inflation adjustment rounding requirement in HR-1, the existing fee for Form I-94 Arrival/ Departure Record applications will not change for FY 2027.",
       "publishedAt": "2026-10-01",
@@ -1045,99 +1045,11 @@
       ]
     },
     {
-      "id": "federal_register:2026-19853",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:dhs",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Agency Information Collection Activities: Extension of a Currently Approved Collection; Designation of Attorney in Fact/Revocation of Attorney in Fact",
-      "summary": "In accordance with the Paperwork Reduction Act (PRA) of 1995 the Department of Homeland Security (DHS), U.S. Immigration and Customs Enforcement (ICE) will submit the following Information Collection Request (ICR) to the Office of Management and Budget (OMB) for review and clearance. This information collection was previously published in the Federal Register on December 15, 2025, allowing for a 60-day comment period. ICE received no comments. In the 60-day notice, the burden hours on the public were stated incorrectly. Those have now been changed to the correct values. Other information is available on www.reginfo.gov/public/do/PRAMain. The purpose of this notice is to allow an additional 30 days for public comments.",
-      "publishedAt": "2026-09-29",
-      "effectiveAt": null,
-      "lastVerifiedAt": "2026-10-07",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/29/2026-19853/agency-information-collection-activities-extension-of-a-currently-approved-collection-designation-of",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-19853?publication_date=2026-09-29",
-      "entities": [
-        {
-          "entityId": "agency:dhs",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "agency:ice",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:enforcement",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.8
-        }
-      ],
-      "impact": {
-        "countries": [],
-        "visaCategories": [],
-        "forms": [
-          {
-            "entityId": "form:i-352",
-            "basis": "stated",
-            "evidence": "…of Title 8 of the Code of Federal Regulations (CFR) provides for the posting of surety or cash bonds. All bonds posted in immigration cases shall be executed on Form I-352, Immigration Bond, and secured with some form of collateral by an Obligor. In the case of a cash bond, the Obligor will…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          },
-          {
-            "entityId": "form:i-312",
-            "basis": "stated",
-            "evidence": "…accept on their behalf the return of the collateral security deposited to secure the surety bond upon cancellation of the bond or performance of the Obligor. The Form I-312, Designation of Attorney in Fact, is the instrument used by the Obligor to officially designate their Attorney in Fact. Upon…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          },
-          {
-            "entityId": "form:i-312a",
-            "basis": "stated",
-            "evidence": "…fiduciary duties to the Obligor under the Form I-352 bond contract, and exercises due diligence in ensuring that remittances are made to the proper person, ICE uses Form I-312A as the document by which the Obligor could expressly indicate that a previously valid Form I-312 Attorney in Fact…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          }
-        ],
-        "processes": [],
-        "agencies": [
-          {
-            "entityId": "agency:dhs",
-            "basis": "derived",
-            "confidence": 0.99
-          },
-          {
-            "entityId": "agency:ice",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2026-19853.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/09/29/2026-19853.txt",
-        "contentHash": "sha256:14f3fe2e7b55a055993d8093d7bc5c2678de4e84353713347e463dcb7a1825fb",
-        "characters": 6495,
-        "retrievedAt": "2026-09-29",
-        "adapter": "federal-register@2"
-      }
-    },
-    {
       "id": "federal_register:2026-19841",
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:doj",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Inflation Adjustment for EOIR OBBBA Fees for Certain DHS Forms; Fiscal Year 2027",
       "summary": "The Department of Justice (\"Department\") is providing notice of statutorily required inflation adjustments to immigration-related fees for certain Department of Homeland Security (\"DHS\") forms filed with the Executive Office for Immigration Review (\"EOIR\") under the One Big Beautiful Bill Act for Fiscal Year (\"FY\") 2027.",
       "publishedAt": "2026-09-29",
@@ -1229,6 +1141,94 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/09/29/2026-19841.txt",
         "contentHash": "sha256:2b98686dfa26276fff670872f2ebed4b3cdab9a967a1533bd8a8efc3f547141f",
         "characters": 6883,
+        "retrievedAt": "2026-09-29",
+        "adapter": "federal-register@2"
+      }
+    },
+    {
+      "id": "federal_register:2026-19853",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities: Extension of a Currently Approved Collection; Designation of Attorney in Fact/Revocation of Attorney in Fact",
+      "summary": "In accordance with the Paperwork Reduction Act (PRA) of 1995 the Department of Homeland Security (DHS), U.S. Immigration and Customs Enforcement (ICE) will submit the following Information Collection Request (ICR) to the Office of Management and Budget (OMB) for review and clearance. This information collection was previously published in the Federal Register on December 15, 2025, allowing for a 60-day comment period. ICE received no comments. In the 60-day notice, the burden hours on the public were stated incorrectly. Those have now been changed to the correct values. Other information is available on www.reginfo.gov/public/do/PRAMain. The purpose of this notice is to allow an additional 30 days for public comments.",
+      "publishedAt": "2026-09-29",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-10-07",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/29/2026-19853/agency-information-collection-activities-extension-of-a-currently-approved-collection-designation-of",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-19853?publication_date=2026-09-29",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:ice",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:enforcement",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "forms": [
+          {
+            "entityId": "form:i-352",
+            "basis": "stated",
+            "evidence": "…of Title 8 of the Code of Federal Regulations (CFR) provides for the posting of surety or cash bonds. All bonds posted in immigration cases shall be executed on Form I-352, Immigration Bond, and secured with some form of collateral by an Obligor. In the case of a cash bond, the Obligor will…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          },
+          {
+            "entityId": "form:i-312",
+            "basis": "stated",
+            "evidence": "…accept on their behalf the return of the collateral security deposited to secure the surety bond upon cancellation of the bond or performance of the Obligor. The Form I-312, Designation of Attorney in Fact, is the instrument used by the Obligor to officially designate their Attorney in Fact. Upon…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          },
+          {
+            "entityId": "form:i-312a",
+            "basis": "stated",
+            "evidence": "…fiduciary duties to the Obligor under the Form I-352 bond contract, and exercises due diligence in ensuring that remittances are made to the proper person, ICE uses Form I-312A as the document by which the Obligor could expressly indicate that a previously valid Form I-312 Attorney in Fact…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          }
+        ],
+        "processes": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:ice",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2026-19853.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/09/29/2026-19853.txt",
+        "contentHash": "sha256:14f3fe2e7b55a055993d8093d7bc5c2678de4e84353713347e463dcb7a1825fb",
+        "characters": 6495,
         "retrievedAt": "2026-09-29",
         "adapter": "federal-register@2"
       }
@@ -13041,76 +13041,11 @@
       }
     },
     {
-      "id": "federal_register:2026-10716",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:dhs",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Agency Information Collection Activities; Revision of a Currently Approved Collection: Petition To Remove the Conditions on Residence",
-      "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) invites the general public and other Federal agencies to comment upon this proposed revision of a currently approved collection of information. In accordance with the Paperwork Reduction Act (PRA) of 1995, the information collection notice is published in the Federal Register to obtain comments regarding the nature of the information collection, the categories of respondents, the estimated burden (i.e. the time, effort, and resources used by the respondents to respond), the estimated cost to the respondent, and the actual information collection instruments.",
-      "publishedAt": "2026-05-29",
-      "effectiveAt": null,
-      "lastVerifiedAt": "2026-08-27",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10716/agency-information-collection-activities-revision-of-a-currently-approved-collection-petition-to",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-10716?publication_date=2026-05-29",
-      "entities": [
-        {
-          "entityId": "agency:dhs",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "agency:uscis",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:policy-changes",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.6
-        }
-      ],
-      "impact": {
-        "countries": [],
-        "visaCategories": [],
-        "agencies": [
-          {
-            "entityId": "agency:dhs",
-            "basis": "derived",
-            "confidence": 0.99
-          },
-          {
-            "entityId": "agency:uscis",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
-        "forms": []
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2026-10716.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/05/29/2026-10716.txt",
-        "contentHash": "sha256:9d3c5ed3798722bde38200b217a09d8a2dfcedc0234bc3a8262372d99cf6371e",
-        "characters": 6327,
-        "retrievedAt": "2026-09-04",
-        "adapter": "federal-register@backfill-1"
-      }
-    },
-    {
       "id": "federal_register:2026-10704",
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Extension of Lebanon Designation for Temporary Protected Status",
       "summary": "The designation of Lebanon for Temporary Protected Status (TPS), which was set to expire on May 27, 2026, is automatically extended to November 27, 2026. Under the TPS statute, if the Secretary does not determine whether a foreign state continues to meet the conditions for designation for TPS at least 60 days before the expiration of the country's current TPS designation, the period of designation is automatically extended for six months. Rapidly unfolding events in Lebanon in March 2026 impacted the Department's ability to conduct a thorough review of prevailing country conditions for the Secretary's timely consideration and determination.",
       "publishedAt": "2026-05-29",
@@ -13259,6 +13194,71 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/05/29/2026-10704.txt",
         "contentHash": "sha256:74c7425ce0777d7be4656680101d19a248fd698a4b05c8b6cd8d2bea96234b91",
         "characters": 40724,
+        "retrievedAt": "2026-09-04",
+        "adapter": "federal-register@backfill-1"
+      }
+    },
+    {
+      "id": "federal_register:2026-10716",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Revision of a Currently Approved Collection: Petition To Remove the Conditions on Residence",
+      "summary": "The Department of Homeland Security (DHS), U.S. Citizenship and Immigration Services (USCIS) invites the general public and other Federal agencies to comment upon this proposed revision of a currently approved collection of information. In accordance with the Paperwork Reduction Act (PRA) of 1995, the information collection notice is published in the Federal Register to obtain comments regarding the nature of the information collection, the categories of respondents, the estimated burden (i.e. the time, effort, and resources used by the respondents to respond), the estimated cost to the respondent, and the actual information collection instruments.",
+      "publishedAt": "2026-05-29",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-27",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/05/29/2026-10716/agency-information-collection-activities-revision-of-a-currently-approved-collection-petition-to",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2026-10716?publication_date=2026-05-29",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": []
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2026-10716.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/05/29/2026-10716.txt",
+        "contentHash": "sha256:9d3c5ed3798722bde38200b217a09d8a2dfcedc0234bc3a8262372d99cf6371e",
+        "characters": 6327,
         "retrievedAt": "2026-09-04",
         "adapter": "federal-register@backfill-1"
       }
@@ -16924,7 +16924,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Yemen for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Yemen for Temporary Protected Status (TPS). The designation of Yemen is set to expire on March 3, 2026. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Yemen no longer continues to meet the conditions for designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of Yemen as required by statute. This termination is effective May 4, 2026. After May 4, 2026, nationals of Yemen (and aliens having no nationality who last habitually resided in Yemen) who have been granted Temporary Protected Status under Yemen's designation will no longer have Temporary Protected Status.",
       "publishedAt": "2026-03-03",
@@ -18863,7 +18863,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:doj",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Inflation Adjustment for EOIR OBBBA Fees; Fiscal Year 2026",
       "summary": "The Department of Justice (\"Department\") is announcing inflationary adjustments to immigration-related fees for filings with the Executive Office for Immigration Review (\"EOIR\") under the One Big Beautiful Bill Act (\"OBBBA\") for Fiscal Year (\"FY\") 2026. OBBBA requires the Attorney General to annually adjust for inflation the OBBBA fees that EOIR collects. This notice sets out the EOIR-collected OBBBA fees for the remainder of FY 2026 and their effective dates.",
       "publishedAt": "2026-01-21",
@@ -19214,7 +19214,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Somalia for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Somalia for Temporary Protected Status. The designation of Somalia is set to expire on March 17, 2026. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Somalia no longer continues to meet the conditions for designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of Somalia as required by statute. This termination is effective March 17, 2026. After March 17, 2026, nationals of Somalia (and aliens having no nationality who last habitually resided in Somalia) who have been granted Temporary Protected Status under Somalia's designation will no longer have Temporary Protected Status.",
       "publishedAt": "2026-01-14",
@@ -21576,6 +21576,260 @@
       }
     },
     {
+      "id": "federal_register:2025-22746",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "Termination of the Designation of Ethiopia for Temporary Protected Status",
+      "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Ethiopia for Temporary Protected Status. The designation of Ethiopia is set to expire on December 12, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Ethiopia no longer continues to meet the conditions for the designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of Ethiopia as required by statute. This termination is effective February 13, 2026. After February 13, 2026, nationals of Ethiopia (and aliens having no nationality who last habitually resided in Ethiopia) who have been granted Temporary Protected Status under Ethiopia's designation will no longer have Temporary Protected Status.",
+      "publishedAt": "2025-12-15",
+      "effectiveAt": "2026-02-13",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2025/12/15/2025-22746/termination-of-the-designation-of-ethiopia-for-temporary-protected-status",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-22746?publication_date=2025-12-15",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "visa:tps",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "country:ethiopia",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        }
+      ],
+      "impact": {
+        "countries": [
+          {
+            "entityId": "country:ethiopia",
+            "basis": "stated",
+            "evidence": "Termination of the Designation of Ethiopia for Temporary Protected Status",
+            "method": "explicit_source",
+            "relation": "title_subject",
+            "confidence": 1
+          },
+          {
+            "entityId": "country:liberia",
+            "basis": "stated",
+            "evidence": "Government concerning (a) the conditions in Liberia; and (b) whether permitting nationals of Liberia . . . to remain temporarily in the United States is contrary to the national interest of the United States''). --------------------------------------------------------------------------- ``National interest'' is an…",
+            "method": "derived_weak",
+            "relation": "nationals_of",
+            "confidence": 0.5
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "After February 13, 2026, nationals of Ethiopia (and aliens having no nationality who last habitually resided in Ethiopia) who have been granted Temporary Protected Status under Ethiopia's designation will no longer have Temporary Protected Status.",
+            "confidence": 1,
+            "method": "explicit_source"
+          }
+        ],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "partial",
+        "forms": [
+          {
+            "entityId": "form:i-131",
+            "basis": "stated",
+            "evidence": "…Authorization Document rather than an Advance Parole Document. USCIS does not collect intended destination country from Temporary Protected Status beneficiaries on form I-131, Application for Travel Documents, Parole Documents, and Arrival/Departure Records. \\17\\ Cf., e.g., Termination of…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          }
+        ]
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2025-22746.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/12/15/2025-22746.txt",
+        "contentHash": "sha256:758a255b6f0f08da1d0eae815daa9b968e2889918e544366d35a4736d13d0186",
+        "characters": 33648,
+        "retrievedAt": "2026-09-04",
+        "adapter": "federal-register@backfill-1"
+      }
+    },
+    {
+      "id": "federal_register:2025-22744",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "Termination of Family Reunification Parole Processes for Colombians, Cubans, Ecuadorians, Guatemalans, Haitians, Hondurans, and Salvadorans",
+      "summary": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole processes for aliens from Colombia, Cuba, Ecuador, El Salvador, Guatemala, Haiti, and Honduras, and their immediate family members, under the Family Reunification Parole processes announced, or updated, by DHS in 2023 (hereinafter referred to as \"modernized FRP programs\"). DHS is also terminating the residual processing of legacy cases under the Cuban Family Reunification Parole program (\"legacy CFRP\") and the Haitian Family Reunification Parole program (\"legacy HFRP\") first implemented by USCIS in 2007 and 2014, respectively (collectively, the \"legacy FRP programs\"). This Federal Register notice is intended to provide context and guidance to the public regarding the termination of all nine programs (hereinafter \"the FRP programs\"), termination of parole for aliens paroled under the FRP programs, and revocation of employment authorization based on being an alien paroled under the FRP programs.",
+      "publishedAt": "2025-12-15",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2025/12/15/2025-22744/termination-of-family-reunification-parole-processes-for-colombians-cubans-ecuadorians-guatemalans",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-22744?publication_date=2025-12-15",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "country:el-salvador",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.85
+        },
+        {
+          "entityId": "country:guatemala",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:colombia",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:honduras",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:ecuador",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        },
+        {
+          "entityId": "country:haiti",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "country:cuba",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.6
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "processes": [
+          {
+            "entityId": "process:employment-authorization",
+            "basis": "stated",
+            "evidence": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole processes for aliens from Colombia, Cuba, Ecuador, El Salvador, Guatemala, Haiti, and Honduras, and their immediate family members, under the Family Reunification Parole processes announced, or updated, by DHS in 2023…",
+            "method": "derived_high_confidence",
+            "confidence": 0.9
+          }
+        ],
+        "forms": [
+          {
+            "entityId": "form:i-130",
+            "basis": "stated",
+            "evidence": "…implemented updates to the modernized FRP programs.\\1\\ The modernized FRP programs were available by invitation only to certain petitioners with approved Forms I-130, Petition for Alien Relative, filed on behalf of principal beneficiaries who were nationals of designated countries and their…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          },
+          {
+            "entityId": "form:i-131",
+            "basis": "stated",
+            "evidence": "…seven Form I-134A-reliant programs will be referred to as the ``modernized FRP programs.'' The FRP programs created in 2007, for Cuba, and 2014, for Haiti, utilized Form I-131, Application for Travel Documents, Parole Documents, and Arrival/Departure Records, to request parole from USCIS.…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          },
+          {
+            "entityId": "form:i-485",
+            "basis": "stated",
+            "evidence": "…not already expired by January 14, 2026 will terminate on that date. There are two circumstances where an alien's parole will not terminate: (1) the alien filed a Form I-485, Application to Register Permanent Residence or Adjust Status, that is postmarked or electronically filed as of December 15,…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          },
+          {
+            "entityId": "form:i-134a",
+            "basis": "stated",
+            "evidence": "…Colombia, Ecuador, El Salvador, Guatemala, and Honduras, and the two existing programs for Cuba and Haiti that were updated in August 2023, all utilize the online Form I-134A, Online Request to be a Supporter and Declaration of Financial Support, to initiate the process of being considered for…",
+            "method": "derived_weak",
+            "confidence": 0.5
+          }
+        ]
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2025-22744.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/12/15/2025-22744.txt",
+        "contentHash": "sha256:58dbc169b7b65d271597b2efe6606a62abbf6f1f5cbd043bbac4ac2356d837eb",
+        "characters": 122918,
+        "retrievedAt": "2026-09-04",
+        "adapter": "federal-register@backfill-1"
+      }
+    },
+    {
       "id": "federal_register:2025-22794",
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
@@ -21723,260 +21977,6 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/12/15/2025-22748.txt",
         "contentHash": "sha256:1cc07a212ae1335cb6826ce930769b05c1ee7522d4e8d5ad5267f40d340102d8",
         "characters": 4546,
-        "retrievedAt": "2026-09-04",
-        "adapter": "federal-register@backfill-1"
-      }
-    },
-    {
-      "id": "federal_register:2025-22746",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:dhs",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Termination of the Designation of Ethiopia for Temporary Protected Status",
-      "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Ethiopia for Temporary Protected Status. The designation of Ethiopia is set to expire on December 12, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Ethiopia no longer continues to meet the conditions for the designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of Ethiopia as required by statute. This termination is effective February 13, 2026. After February 13, 2026, nationals of Ethiopia (and aliens having no nationality who last habitually resided in Ethiopia) who have been granted Temporary Protected Status under Ethiopia's designation will no longer have Temporary Protected Status.",
-      "publishedAt": "2025-12-15",
-      "effectiveAt": "2026-02-13",
-      "lastVerifiedAt": "2026-08-02",
-      "sourceUrl": "https://www.federalregister.gov/documents/2025/12/15/2025-22746/termination-of-the-designation-of-ethiopia-for-temporary-protected-status",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-22746?publication_date=2025-12-15",
-      "entities": [
-        {
-          "entityId": "agency:dhs",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "agency:uscis",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:policy-changes",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.6
-        },
-        {
-          "entityId": "visa:tps",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.95
-        },
-        {
-          "entityId": "country:ethiopia",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.75
-        }
-      ],
-      "impact": {
-        "countries": [
-          {
-            "entityId": "country:ethiopia",
-            "basis": "stated",
-            "evidence": "Termination of the Designation of Ethiopia for Temporary Protected Status",
-            "method": "explicit_source",
-            "relation": "title_subject",
-            "confidence": 1
-          },
-          {
-            "entityId": "country:liberia",
-            "basis": "stated",
-            "evidence": "Government concerning (a) the conditions in Liberia; and (b) whether permitting nationals of Liberia . . . to remain temporarily in the United States is contrary to the national interest of the United States''). --------------------------------------------------------------------------- ``National interest'' is an…",
-            "method": "derived_weak",
-            "relation": "nationals_of",
-            "confidence": 0.5
-          }
-        ],
-        "visaCategories": [
-          {
-            "entityId": "visa:tps",
-            "basis": "stated",
-            "evidence": "After February 13, 2026, nationals of Ethiopia (and aliens having no nationality who last habitually resided in Ethiopia) who have been granted Temporary Protected Status under Ethiopia's designation will no longer have Temporary Protected Status.",
-            "confidence": 1,
-            "method": "explicit_source"
-          }
-        ],
-        "agencies": [
-          {
-            "entityId": "agency:dhs",
-            "basis": "derived",
-            "confidence": 0.99
-          },
-          {
-            "entityId": "agency:uscis",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "partial",
-        "forms": [
-          {
-            "entityId": "form:i-131",
-            "basis": "stated",
-            "evidence": "…Authorization Document rather than an Advance Parole Document. USCIS does not collect intended destination country from Temporary Protected Status beneficiaries on form I-131, Application for Travel Documents, Parole Documents, and Arrival/Departure Records. \\17\\ Cf., e.g., Termination of…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          }
-        ]
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2025-22746.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/12/15/2025-22746.txt",
-        "contentHash": "sha256:758a255b6f0f08da1d0eae815daa9b968e2889918e544366d35a4736d13d0186",
-        "characters": 33648,
-        "retrievedAt": "2026-09-04",
-        "adapter": "federal-register@backfill-1"
-      }
-    },
-    {
-      "id": "federal_register:2025-22744",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:dhs",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Termination of Family Reunification Parole Processes for Colombians, Cubans, Ecuadorians, Guatemalans, Haitians, Hondurans, and Salvadorans",
-      "summary": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole processes for aliens from Colombia, Cuba, Ecuador, El Salvador, Guatemala, Haiti, and Honduras, and their immediate family members, under the Family Reunification Parole processes announced, or updated, by DHS in 2023 (hereinafter referred to as \"modernized FRP programs\"). DHS is also terminating the residual processing of legacy cases under the Cuban Family Reunification Parole program (\"legacy CFRP\") and the Haitian Family Reunification Parole program (\"legacy HFRP\") first implemented by USCIS in 2007 and 2014, respectively (collectively, the \"legacy FRP programs\"). This Federal Register notice is intended to provide context and guidance to the public regarding the termination of all nine programs (hereinafter \"the FRP programs\"), termination of parole for aliens paroled under the FRP programs, and revocation of employment authorization based on being an alien paroled under the FRP programs.",
-      "publishedAt": "2025-12-15",
-      "effectiveAt": null,
-      "lastVerifiedAt": "2026-08-02",
-      "sourceUrl": "https://www.federalregister.gov/documents/2025/12/15/2025-22744/termination-of-family-reunification-parole-processes-for-colombians-cubans-ecuadorians-guatemalans",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-22744?publication_date=2025-12-15",
-      "entities": [
-        {
-          "entityId": "agency:dhs",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "agency:uscis",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:policy-changes",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.6
-        },
-        {
-          "entityId": "country:el-salvador",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.85
-        },
-        {
-          "entityId": "country:guatemala",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.75
-        },
-        {
-          "entityId": "country:colombia",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.75
-        },
-        {
-          "entityId": "country:honduras",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.75
-        },
-        {
-          "entityId": "country:ecuador",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.75
-        },
-        {
-          "entityId": "country:haiti",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.6
-        },
-        {
-          "entityId": "country:cuba",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.6
-        }
-      ],
-      "impact": {
-        "countries": [],
-        "visaCategories": [],
-        "agencies": [
-          {
-            "entityId": "agency:dhs",
-            "basis": "derived",
-            "confidence": 0.99
-          },
-          {
-            "entityId": "agency:uscis",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
-        "processes": [
-          {
-            "entityId": "process:employment-authorization",
-            "basis": "stated",
-            "evidence": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole processes for aliens from Colombia, Cuba, Ecuador, El Salvador, Guatemala, Haiti, and Honduras, and their immediate family members, under the Family Reunification Parole processes announced, or updated, by DHS in 2023…",
-            "method": "derived_high_confidence",
-            "confidence": 0.9
-          }
-        ],
-        "forms": [
-          {
-            "entityId": "form:i-130",
-            "basis": "stated",
-            "evidence": "…implemented updates to the modernized FRP programs.\\1\\ The modernized FRP programs were available by invitation only to certain petitioners with approved Forms I-130, Petition for Alien Relative, filed on behalf of principal beneficiaries who were nationals of designated countries and their…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          },
-          {
-            "entityId": "form:i-131",
-            "basis": "stated",
-            "evidence": "…seven Form I-134A-reliant programs will be referred to as the ``modernized FRP programs.'' The FRP programs created in 2007, for Cuba, and 2014, for Haiti, utilized Form I-131, Application for Travel Documents, Parole Documents, and Arrival/Departure Records, to request parole from USCIS.…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          },
-          {
-            "entityId": "form:i-485",
-            "basis": "stated",
-            "evidence": "…not already expired by January 14, 2026 will terminate on that date. There are two circumstances where an alien's parole will not terminate: (1) the alien filed a Form I-485, Application to Register Permanent Residence or Adjust Status, that is postmarked or electronically filed as of December 15,…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          },
-          {
-            "entityId": "form:i-134a",
-            "basis": "stated",
-            "evidence": "…Colombia, Ecuador, El Salvador, Guatemala, and Honduras, and the two existing programs for Cuba and Haiti that were updated in August 2023, all utilize the online Form I-134A, Online Request to be a Supporter and Declaration of Financial Support, to initiate the process of being considered for…",
-            "method": "derived_weak",
-            "confidence": 0.5
-          }
-        ]
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2025-22744.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/12/15/2025-22744.txt",
-        "contentHash": "sha256:58dbc169b7b65d271597b2efe6606a62abbf6f1f5cbd043bbac4ac2356d837eb",
-        "characters": 122918,
         "retrievedAt": "2026-09-04",
         "adapter": "federal-register@backfill-1"
       }
@@ -23087,7 +23087,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Haiti for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) newly announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Haiti for Temporary Protected Status. Because of interference by a federal district court judge, the designation of Haiti is set to expire on February 3, 2026. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Haiti no longer meets the conditions for the designation for Temporary Protected Status. The Secretary, therefore, is newly terminating the Temporary Protected Status designation of Haiti as required by statute. This termination is effective February 3, 2026. After February 3, 2026, nationals of Haiti (and aliens having no nationality who last habitually resided in Haiti) who have been granted Temporary Protected Status under Haiti's designation will no longer have Temporary Protected Status. This determination to terminate the TPS designation for Haiti supersedes the determination announced in the July 1, 2025 notice, \"Termination of the Designation of Haiti for Temporary Protected Status.\"",
       "publishedAt": "2025-11-28",
@@ -23385,7 +23385,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Burma (Myanmar) for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Burma (Myanmar) for Temporary Protected Status. The designation of Burma is set to expire on November 25, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Burma no longer continues to meet the conditions for designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of Burma as required by statute. This termination is effective January 26, 2026. After January 26, 2026, nationals of Burma (and aliens having no nationality who last habitually resided in Burma) who have been granted Temporary Protected Status under Burma's designation will no longer have Temporary Protected Status.",
       "publishedAt": "2025-11-25",
@@ -23865,86 +23865,11 @@
       }
     },
     {
-      "id": "federal_register:2025-20651",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:doj",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Agency Information Collection Activities; Proposed Collection eComments Requested; Revision and Extension of a Previously Approved Collection; Title-Application for Cancellation of Removal (Form EOIR-42A) for Certain Permanent Residents; and Application for Cancellation of Removal and Adjustment of Status (Form EOIR-42B) for Certain Nonpermanent Residents",
-      "summary": "The Executive Office for Immigration Review (EOIR), Department of Justice (DOJ), will be submitting the following information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995.",
-      "publishedAt": "2025-11-21",
-      "effectiveAt": null,
-      "lastVerifiedAt": "2026-08-02",
-      "sourceUrl": "https://www.federalregister.gov/documents/2025/11/21/2025-20651/agency-information-collection-activities-proposed-collection-ecomments-requested-revision-and",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-20651?publication_date=2025-11-21",
-      "entities": [
-        {
-          "entityId": "agency:doj",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:enforcement",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.8
-        },
-        {
-          "entityId": "agency:eoir",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.95
-        }
-      ],
-      "impact": {
-        "countries": [],
-        "visaCategories": [],
-        "agencies": [
-          {
-            "entityId": "agency:doj",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
-        "forms": [
-          {
-            "entityId": "form:eoir-42a",
-            "basis": "stated",
-            "evidence": "…Activities; Proposed Collection eComments Requested; Revision and Extension of a Previously Approved Collection; Title-Application for Cancellation of Removal (Form EOIR-42A) for Certain Permanent Residents; and Application for Cancellation of Removal and Adjustment of Status (Form EOIR-42B) for…",
-            "method": "explicit_source",
-            "confidence": 1
-          },
-          {
-            "entityId": "form:eoir-42b",
-            "basis": "stated",
-            "evidence": "…Title-Application for Cancellation of Removal (Form EOIR-42A) for Certain Permanent Residents; and Application for Cancellation of Removal and Adjustment of Status (Form EOIR-42B) for Certain Nonpermanent Residents",
-            "method": "explicit_source",
-            "confidence": 1
-          }
-        ]
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2025-20651.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/11/21/2025-20651.txt",
-        "contentHash": "sha256:ff6e3ac56db4e349f411053af06d6207fbe5ee120e30a132d5b3b31257d0d955",
-        "characters": 8282,
-        "retrievedAt": "2026-09-04",
-        "adapter": "federal-register@backfill-1"
-      }
-    },
-    {
       "id": "federal_register:2025-20622",
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Inflation Adjustment to HR-1 Immigration Fees",
       "summary": "U.S. Citizenship and Immigration Services (USCIS), a component of the Department of Homeland Security (DHS), is announcing inflationary adjustments to immigration-related fees administered by USCIS under the One Big Beautiful Bill Act (HR-1) for Fiscal Year (FY) 2026. HR-1 mandates that USCIS adjust the HR-1 fees. This notice outlines the adjusted fees and their effective date.",
       "publishedAt": "2025-11-21",
@@ -24043,6 +23968,81 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/11/21/2025-20622.txt",
         "contentHash": "sha256:ec5137bcec9dd948f9a05e95b253543e9340f86c68e651adf18f16a6e6be51f4",
         "characters": 11769,
+        "retrievedAt": "2026-09-04",
+        "adapter": "federal-register@backfill-1"
+      }
+    },
+    {
+      "id": "federal_register:2025-20651",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:doj",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Agency Information Collection Activities; Proposed Collection eComments Requested; Revision and Extension of a Previously Approved Collection; Title-Application for Cancellation of Removal (Form EOIR-42A) for Certain Permanent Residents; and Application for Cancellation of Removal and Adjustment of Status (Form EOIR-42B) for Certain Nonpermanent Residents",
+      "summary": "The Executive Office for Immigration Review (EOIR), Department of Justice (DOJ), will be submitting the following information collection request (ICR) to the Office of Management and Budget (OMB) for review and approval in accordance with the Paperwork Reduction Act of 1995.",
+      "publishedAt": "2025-11-21",
+      "effectiveAt": null,
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2025/11/21/2025-20651/agency-information-collection-activities-proposed-collection-ecomments-requested-revision-and",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-20651?publication_date=2025-11-21",
+      "entities": [
+        {
+          "entityId": "agency:doj",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:enforcement",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        },
+        {
+          "entityId": "agency:eoir",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:doj",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": [
+          {
+            "entityId": "form:eoir-42a",
+            "basis": "stated",
+            "evidence": "…Activities; Proposed Collection eComments Requested; Revision and Extension of a Previously Approved Collection; Title-Application for Cancellation of Removal (Form EOIR-42A) for Certain Permanent Residents; and Application for Cancellation of Removal and Adjustment of Status (Form EOIR-42B) for…",
+            "method": "explicit_source",
+            "confidence": 1
+          },
+          {
+            "entityId": "form:eoir-42b",
+            "basis": "stated",
+            "evidence": "…Title-Application for Cancellation of Removal (Form EOIR-42A) for Certain Permanent Residents; and Application for Cancellation of Removal and Adjustment of Status (Form EOIR-42B) for Certain Nonpermanent Residents",
+            "method": "explicit_source",
+            "confidence": 1
+          }
+        ]
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2025-20651.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/11/21/2025-20651.txt",
+        "contentHash": "sha256:ff6e3ac56db4e349f411053af06d6207fbe5ee120e30a132d5b3b31257d0d955",
+        "characters": 8282,
         "retrievedAt": "2026-09-04",
         "adapter": "federal-register@backfill-1"
       }
@@ -24173,7 +24173,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Certain Immigration Enforcement-Related Fees Required by HR-1 Reconciliation Bill: Fiscal Year 2026 Adjustments for Inflation",
       "summary": "The Department of Homeland Security (DHS) is announcing a new fee amount for Fiscal Year (FY) 2026 for two of the immigration enforcement-related fees that were established by the One Big Beautiful Bill Act (HR-1). HR-1 requires that DHS annually adjust the immigration enforcement-related fees for inflation. The adjusted fee amounts for FY 2026 for the aliens ordered removed in absentia and inadmissible alien apprehension fees are $5,130. On December 1, 2025, DHS will begin assessing and collecting these new amounts.",
       "publishedAt": "2025-11-20",
@@ -24341,7 +24341,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Certain DHS Immigration Fees Required by HR-1: Fiscal Year 2026 Adjustments for Inflation",
       "summary": "The Department of Homeland Security (DHS) is announcing Fiscal Year (FY) 2026 inflationary adjustments to certain immigration-related fees required by the One Big Beautiful Bill Act (HR-1). HR-1 requires that DHS annually adjust certain immigration-related fees for inflation. This notice sets the inflation-adjusted FY 2026 fee amounts for the following immigration fees required by HR-1: the fee for enrollment in the Electronic Visa Update System (EVUS), the Electronic System for Travel Authorization (ESTA) fee, and the fee for an alien paroled into the United States. In accordance with HR-1, the existing fee for Form I-94 Arrival/Departure Record applications will not change for FY 2026.",
       "publishedAt": "2025-11-19",
@@ -24811,7 +24811,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of South Sudan for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of South Sudan for Temporary Protected Status. The designation of South Sudan is set to expire on November 3, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that South Sudan no longer continues to meet the conditions for the designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of South Sudan as required by statute. This termination is effective January 5, 2026. After January 5, 2026, nationals of South Sudan (and aliens having no nationality who last habitually resided in South Sudan) who have been granted Temporary Protected Status under South Sudan's designation will no longer have Temporary Protected Status.",
       "publishedAt": "2025-11-06",
@@ -26214,7 +26214,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Immigration Parole Fee Required by HR-1 Reconciliation Bill",
       "summary": "The Department of Homeland Security (DHS) is announcing the implementation of the parole fee established in HR-1. Specifically, this notice announces the new immigration parole fee of $1,000 for any alien who is paroled into the United States who does not meet an exception. Through this notice, DHS notifies the public that DHS will begin assessing and collecting this fee as required by HR-1.",
       "publishedAt": "2025-10-16",
@@ -27876,7 +27876,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Syria for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Syria for Temporary Protected Status. The designation of Syria is set to expire on September 30, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Syria no longer continues to meet the conditions for the designation for Temporary Protected Status. The Secretary, therefore, is terminating the Temporary Protected Status designation of Syria as required by statute. This termination is effective November 21, 2025. After November 21, 2025, nationals of Syria (and aliens having no nationality who last habitually resided in Syria) who have been granted Temporary Protected Status under Syria's designation will no longer have Temporary Protected Status.",
       "publishedAt": "2025-09-22",
@@ -29116,7 +29116,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Certain DHS Immigration Enforcement-Related Fees Required by HR-1 Reconciliation Bill",
       "summary": "The Department of Homeland Security (DHS) is announcing fees established in HR-1 for certain immigration-related violations. This notice announces the new immigration enforcement-related fees that are administered by DHS and provides notice to the public that DHS will begin assessing and collecting these fees in accordance with HR-1.",
       "publishedAt": "2025-09-08",
@@ -29161,6 +29161,99 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/09/08/2025-17221.txt",
         "contentHash": "sha256:8451816e552a70d55b3ca95582583edb984914b13a82a5dd024753b38910a5e2",
         "characters": 8265,
+        "retrievedAt": "2026-09-04",
+        "adapter": "federal-register@backfill-1"
+      }
+    },
+    {
+      "id": "federal_register:2025-17087",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dhs",
+      "classification": "announcement",
+      "severity": "notable",
+      "title": "Termination of the 2021 Designation of Venezuela for Temporary Protected Status",
+      "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the 2021 designation of Venezuela for Temporary Protected Status (TPS). The 2021 designation of Venezuela is set to expire on September 10, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Venezuela no longer continues to meet the conditions for the 2021 designation for Temporary Protected Status. The Secretary, therefore, is terminating the 2021 Temporary Protected Status designation of Venezuela as required by statute. This termination is effective November 7, 2025. After November 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted Temporary Protected Status under Venezuela's 2021 designation will no longer have Temporary Protected Status.",
+      "publishedAt": "2025-09-08",
+      "effectiveAt": "2025-11-07",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2025/09/08/2025-17087/termination-of-the-2021-designation-of-venezuela-for-temporary-protected-status",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-17087?publication_date=2025-09-08",
+      "entities": [
+        {
+          "entityId": "agency:dhs",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "agency:uscis",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:policy-changes",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.6
+        },
+        {
+          "entityId": "visa:tps",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.95
+        },
+        {
+          "entityId": "country:venezuela",
+          "relation": "mentions",
+          "basis": "matched",
+          "confidence": 0.75
+        }
+      ],
+      "impact": {
+        "countries": [
+          {
+            "entityId": "country:venezuela",
+            "basis": "stated",
+            "evidence": "Termination of the 2021 Designation of Venezuela for Temporary Protected Status",
+            "method": "explicit_source",
+            "relation": "title_subject",
+            "confidence": 1
+          }
+        ],
+        "visaCategories": [
+          {
+            "entityId": "visa:tps",
+            "basis": "stated",
+            "evidence": "After November 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted Temporary Protected Status under Venezuela's 2021 designation will no longer have Temporary Protected Status.",
+            "confidence": 1,
+            "method": "explicit_source"
+          }
+        ],
+        "agencies": [
+          {
+            "entityId": "agency:dhs",
+            "basis": "derived",
+            "confidence": 0.99
+          },
+          {
+            "entityId": "agency:uscis",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "partial",
+        "forms": []
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2025-17087.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/09/08/2025-17087.txt",
+        "contentHash": "sha256:673fc5330b78ae47bbae17826e32f820379faced7f197e10c7060452460d9975",
+        "characters": 44996,
         "retrievedAt": "2026-09-04",
         "adapter": "federal-register@backfill-1"
       }
@@ -29299,99 +29392,6 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/09/08/2025-17120.txt",
         "contentHash": "sha256:857c4d686f69392a72ab51d5108b534ac8ebb4762a6b618690052e2a532ae30d",
         "characters": 6489,
-        "retrievedAt": "2026-09-04",
-        "adapter": "federal-register@backfill-1"
-      }
-    },
-    {
-      "id": "federal_register:2025-17087",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:dhs",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Termination of the 2021 Designation of Venezuela for Temporary Protected Status",
-      "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the 2021 designation of Venezuela for Temporary Protected Status (TPS). The 2021 designation of Venezuela is set to expire on September 10, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Venezuela no longer continues to meet the conditions for the 2021 designation for Temporary Protected Status. The Secretary, therefore, is terminating the 2021 Temporary Protected Status designation of Venezuela as required by statute. This termination is effective November 7, 2025. After November 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted Temporary Protected Status under Venezuela's 2021 designation will no longer have Temporary Protected Status.",
-      "publishedAt": "2025-09-08",
-      "effectiveAt": "2025-11-07",
-      "lastVerifiedAt": "2026-08-02",
-      "sourceUrl": "https://www.federalregister.gov/documents/2025/09/08/2025-17087/termination-of-the-2021-designation-of-venezuela-for-temporary-protected-status",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-17087?publication_date=2025-09-08",
-      "entities": [
-        {
-          "entityId": "agency:dhs",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "agency:uscis",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:policy-changes",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.6
-        },
-        {
-          "entityId": "visa:tps",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.95
-        },
-        {
-          "entityId": "country:venezuela",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.75
-        }
-      ],
-      "impact": {
-        "countries": [
-          {
-            "entityId": "country:venezuela",
-            "basis": "stated",
-            "evidence": "Termination of the 2021 Designation of Venezuela for Temporary Protected Status",
-            "method": "explicit_source",
-            "relation": "title_subject",
-            "confidence": 1
-          }
-        ],
-        "visaCategories": [
-          {
-            "entityId": "visa:tps",
-            "basis": "stated",
-            "evidence": "After November 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted Temporary Protected Status under Venezuela's 2021 designation will no longer have Temporary Protected Status.",
-            "confidence": 1,
-            "method": "explicit_source"
-          }
-        ],
-        "agencies": [
-          {
-            "entityId": "agency:dhs",
-            "basis": "derived",
-            "confidence": 0.99
-          },
-          {
-            "entityId": "agency:uscis",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "partial",
-        "forms": []
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2025-17087.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/09/08/2025-17087.txt",
-        "contentHash": "sha256:673fc5330b78ae47bbae17826e32f820379faced7f197e10c7060452460d9975",
-        "characters": 44996,
         "retrievedAt": "2026-09-04",
         "adapter": "federal-register@backfill-1"
       }
@@ -30803,7 +30803,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "CBP Immigration Fees Required by HR-1 for Fiscal Year 2025",
       "summary": "This notice advises the public that, pursuant to HR-1, U.S. Customs and Border Protection (CBP) will require aliens to pay a new fee to apply for a CBP Form I-94 Arrival/Departure Record, and to enroll in the Electronic Visa Update System. Additionally, pursuant to HR-1, the Electronic System for Travel Authorization (ESTA) fee for authorizations has increased. This notice advises the public of the HR- 1 applicable fees for Fiscal Year (FY) 2025.",
       "publishedAt": "2025-08-28",
@@ -32684,7 +32684,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dol",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Temporary Suspension of H-2A Certification Fees",
       "summary": "The Employment and Training Administration (ETA) of the Department of Labor (DOL or Department) is issuing this notice to announce that it is temporarily suspending the collection of H-2A labor certification fees. Implementing a temporary suspension period will allow ETA's Office of Foreign Labor Certification (OFLC) to move toward accepting electronic fees, as directed in President Trump's Executive Order 14247, Modernizing Payments To and From America's Bank Account (E.O. 14247). OFLC will be transitioning from collecting fees submitted in paper format (e.g., checks) to implementing a process to receive fee remittances electronically. The temporary suspension of H-2A certification fees will begin on September 2, 2025. During the temporary suspension period, OFLC will not issue invoices for certification fees for H-2A Applications for Temporary Certifications that are certified, and will not seek retroactive payment of fees for those certifications. Any employer that is issued an H-2A certification fee invoice prior to the effective date of the temporary suspension of collections must pay the invoice by the due date. OFLC will announce the end of the temporary suspension of H-2A certification fees via a Federal Register notice.",
       "publishedAt": "2025-07-31",
@@ -33023,7 +33023,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "USCIS Immigration Fees Required by HR-1 Reconciliation Bill",
       "summary": "U.S. Citizenship and Immigration Services (USCIS) is announcing a series of fees to be collected by USCIS. Recently enacted legislation that provided for reconciliation pursuant to Title II of House Concurrent Resolution 14, titled HR-1, establishes specific fees for various immigration-related forms, benefits, statuses, petitions, applications, and requests administered by multiple government agencies. This notice announces the new fees that are administered by USCIS, a component of the U.S. Department of Homeland Security (DHS), to whom those fees apply, when the new fees take effect, instructions on their payment, when and if the fees may be waived, and consequences of the failure to pay. This notice is intended to provide the information needed for the public to comply with the new law.",
       "publishedAt": "2025-07-22",
@@ -33826,7 +33826,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Nicaragua for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Nicaragua for Temporary Protected Status (TPS). The designation of Nicaragua is set to expire on July 5, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Nicaragua no longer continues to meet the conditions for designation for TPS. The Secretary, therefore, is terminating the TPS designation of Nicaragua as required by statute. This termination is effective September 8, 2025. After September 8, 2025, nationals of Nicaragua (and aliens having no nationality who last habitually resided in Nicaragua) who have been granted TPS under Nicaragua's designation will no longer have TPS.",
       "publishedAt": "2025-07-08",
@@ -33915,65 +33915,11 @@
       }
     },
     {
-      "id": "federal_register:2025-12670",
-      "sourceKey": "federal_register",
-      "issuingAgencyId": "agency:dos",
-      "classification": "announcement",
-      "severity": "routine",
-      "title": "Re-Delegation of Authority To Invoke the Law Enforcement Privilege for Information Relating to Security Vetting of Visa Applicants",
-      "summary": "The State Department is publishing a Delegation of Authority signed by the Assistant Secretary of Administration, pursuant to Department of State Delegations of Authority.",
-      "publishedAt": "2025-07-08",
-      "effectiveAt": "2025-06-27",
-      "lastVerifiedAt": "2026-08-02",
-      "sourceUrl": "https://www.federalregister.gov/documents/2025/07/08/2025-12670/re-delegation-of-authority-to-invoke-the-law-enforcement-privilege-for-information-relating-to",
-      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-12670?publication_date=2025-07-08",
-      "entities": [
-        {
-          "entityId": "agency:dos",
-          "relation": "issued_by",
-          "basis": "explicit",
-          "confidence": 1
-        },
-        {
-          "entityId": "topic:enforcement",
-          "relation": "categorized_as",
-          "basis": "matched",
-          "confidence": 0.8
-        }
-      ],
-      "impact": {
-        "countries": [],
-        "visaCategories": [],
-        "agencies": [
-          {
-            "entityId": "agency:dos",
-            "basis": "derived",
-            "confidence": 0.99
-          }
-        ],
-        "employers": [],
-        "universities": [],
-        "states": [],
-        "completeness": "unspecified",
-        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
-        "forms": []
-      },
-      "reviewStatus": "auto",
-      "sourceDocument": {
-        "file": "federal_register_2025-12670.txt",
-        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/07/08/2025-12670.txt",
-        "contentHash": "sha256:9a175f51a46740372efa7e96bba663adfcc2422eae05c698c6132ca35f8710a1",
-        "characters": 2398,
-        "retrievedAt": "2026-09-04",
-        "adapter": "federal-register@backfill-1"
-      }
-    },
-    {
       "id": "federal_register:2025-12621",
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Honduras for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Honduras for Temporary Protected Status (TPS). The designation of Honduras is set to expire on July 5, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary has determined that conditions in Honduras no longer support its designation for TPS. The Secretary, therefore, is terminating the TPS designation of Honduras as required by statute. This termination is effective September 8, 2025. After September 8, 2025, nationals of Honduras (and aliens having no nationality who last habitually resided in Honduras) who have been granted TPS under Honduras' designation will no longer have TPS.",
       "publishedAt": "2025-07-08",
@@ -34057,6 +34003,60 @@
         "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/07/08/2025-12621.txt",
         "contentHash": "sha256:fe08c5e01d418dd6f5f9042815d7c747802926ca99911e070abca9cd43621ed3",
         "characters": 25954,
+        "retrievedAt": "2026-09-04",
+        "adapter": "federal-register@backfill-1"
+      }
+    },
+    {
+      "id": "federal_register:2025-12670",
+      "sourceKey": "federal_register",
+      "issuingAgencyId": "agency:dos",
+      "classification": "announcement",
+      "severity": "routine",
+      "title": "Re-Delegation of Authority To Invoke the Law Enforcement Privilege for Information Relating to Security Vetting of Visa Applicants",
+      "summary": "The State Department is publishing a Delegation of Authority signed by the Assistant Secretary of Administration, pursuant to Department of State Delegations of Authority.",
+      "publishedAt": "2025-07-08",
+      "effectiveAt": "2025-06-27",
+      "lastVerifiedAt": "2026-08-02",
+      "sourceUrl": "https://www.federalregister.gov/documents/2025/07/08/2025-12670/re-delegation-of-authority-to-invoke-the-law-enforcement-privilege-for-information-relating-to",
+      "sourceDataUrl": "https://www.federalregister.gov/api/v1/documents/2025-12670?publication_date=2025-07-08",
+      "entities": [
+        {
+          "entityId": "agency:dos",
+          "relation": "issued_by",
+          "basis": "explicit",
+          "confidence": 1
+        },
+        {
+          "entityId": "topic:enforcement",
+          "relation": "categorized_as",
+          "basis": "matched",
+          "confidence": 0.8
+        }
+      ],
+      "impact": {
+        "countries": [],
+        "visaCategories": [],
+        "agencies": [
+          {
+            "entityId": "agency:dos",
+            "basis": "derived",
+            "confidence": 0.99
+          }
+        ],
+        "employers": [],
+        "universities": [],
+        "states": [],
+        "completeness": "unspecified",
+        "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
+        "forms": []
+      },
+      "reviewStatus": "auto",
+      "sourceDocument": {
+        "file": "federal_register_2025-12670.txt",
+        "textUrl": "https://www.federalregister.gov/documents/full_text/text/2025/07/08/2025-12670.txt",
+        "contentHash": "sha256:9a175f51a46740372efa7e96bba663adfcc2422eae05c698c6132ca35f8710a1",
+        "characters": 2398,
         "retrievedAt": "2026-09-04",
         "adapter": "federal-register@backfill-1"
       }
@@ -34610,7 +34610,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Haiti for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Haiti for Temporary Protected Status (TPS). The designation of Haiti is set to expire on August 3, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Haiti no longer continues to meet the conditions for designation for TPS. The Secretary, therefore, is terminating the TPS designation of Haiti as required by statute. This termination is effective September 2, 2025. After September 2, 2025, nationals of Haiti (and aliens having no nationality who last habitually resided in Haiti) who have been granted TPS under Haiti's designation will no longer have TPS.",
       "publishedAt": "2025-07-01",
@@ -35954,7 +35954,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Nepal for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Nepal for Temporary Protected Status (TPS). The designation of Nepal is set to expire on June 24, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary has determined that Nepal no longer continues to meet the conditions for its designation for TPS. The Secretary therefore is terminating the TPS designation of Nepal as required by statute. This termination is effective August 5, 2025. After August 5, 2025, nationals of Nepal (and aliens having no nationality who last habitually resided in Nepal) who have been granted TPS under Nepal's designation will no longer have TPS.",
       "publishedAt": "2025-06-06",
@@ -36442,7 +36442,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Cameroon for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Cameroon for Temporary Protected Status (TPS). The designation of Cameroon is set to expire on June 7, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Cameroon no longer continues to meet the conditions for the designation for TPS, and termination of the TPS designation of Cameroon is required by statute. This termination is effective August 4, 2025. After August 4, 2025, nationals of Cameroon (and aliens having no nationality who last habitually resided in Cameroon) who have been granted TPS under Cameroon's designation will no longer have TPS.",
       "publishedAt": "2025-06-04",
@@ -37711,7 +37711,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the Designation of Afghanistan for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is terminating the designation of Afghanistan for Temporary Protected Status (TPS). The designation of Afghanistan is set to expire on May 20, 2025. After reviewing country conditions and consulting with appropriate U.S. Government agencies, the Secretary determined that Afghanistan no longer continues to meet the conditions for designation for TPS. The Secretary therefore is terminating the TPS designation of Afghanistan as required by statute. This termination is effective July 14, 2025. After July 14, 2025, nationals of Afghanistan (and aliens having no nationality who last habitually resided in Afghanistan) who have been granted TPS under Afghanistan's designation will no longer have TPS.",
       "publishedAt": "2025-05-13",
@@ -37944,7 +37944,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Extension of South Sudan Designation for Temporary Protected Status",
       "summary": "The designation of South Sudan for Temporary Protected Status (TPS), which was set to expire on May 3, 2025, is automatically extended to November 3, 2025. Under the TPS statute, if the Secretary does not determine whether a foreign state continues to meet the conditions for designation for TPS at least 60 days before the current expiration of the country's TPS designation, the period of designation is automatically extended for six months. The Secretary was unable to make an informed determination on South Sudan's designation by the March 4, 2025 statutory deadline due to the lack of an updated analysis of current country conditions in South Sudan. Accordingly, the TPS designation of South Sudan is automatically extended for six months, from May 4, 2025, through November 3, 2025.",
       "publishedAt": "2025-05-06",
@@ -38904,7 +38904,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Implementation of Employment Authorization for Individuals Covered by Deferred Enforced Departure for Hong Kong",
       "summary": "On January 15, 2025, former President Joseph Biden issued a memorandum to the Secretary of State and the Secretary of Homeland Security (Secretary) determining it was in the foreign policy interest of the United States to expand and extend the deferral of removal of certain Hong Kong residents present in the United States through February 5, 2027, and to provide them with employment authorization documentation. This notice provides information about Deferred Enforced Departure (DED) for eligible Hong Kong residents and how eligible individuals may apply for DED-based Employment Authorization Documents (EADs) with USCIS, as well as for travel authorization.",
       "publishedAt": "2025-04-04",
@@ -39355,7 +39355,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of Parole Processes for Cubans, Haitians, Nicaraguans, and Venezuelans",
       "summary": "The Department of Homeland Security (\"DHS\") is terminating the categorical parole programs for inadmissible aliens from Cuba, Haiti, Nicaragua, and Venezuela and their immediate family members (hereinafter referred to as \"CHNV parole programs\") that DHS announced in 2022 and 2023. This Federal Register notice is intended to provide context and guidance to the public regarding the termination of the CHNV parole programs and related employment authorization.",
       "publishedAt": "2025-03-25",
@@ -41325,7 +41325,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Partial Vacatur of 2024 Temporary Protected Status Decision for Haiti",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) has decided to partially vacate the June 4, 2024, decision of former Secretary Alejandro Mayorkas regarding the extension of the designation of Haiti for Temporary Protected Status (TPS) and the new designation of Haiti for TPS. In the 2024 action, former Secretary Mayorkas again extended the designation of Haiti for TPS for the statutory maximum of 18 months (until February 3, 2026), which covered approximately 199,445 Haitian nationals; and again newly designated Haiti for TPS, which had the effect of allowing approximately 321,349 additional Haitian nationals to qualify for the same 18-month period. For the reasons described in this notice, the Secretary has determined to partially vacate the June 4, 2024, decision by reducing the designation period from 18 months to 12 months. The Secretary is also making a corresponding change to the registration deadline for new applicants under the new designation. Accordingly, by operation of this notice, the Haiti TPS extension and new designation will expire on August 3, 2025, instead of February 3, 2026, and the first-time registration will remain in effect until August 3, 2025, instead of February 3, 2026.",
       "publishedAt": "2025-02-24",
@@ -41622,7 +41622,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Termination of the October 3, 2023 Designation of Venezuela for Temporary Protected Status",
       "summary": "On October 3, 2023, Venezuela was newly designated for Temporary Protected Status (TPS) based on the determination that there were extraordinary and temporary conditions in that country that prevented the safe return of Venezuelan nationals, and that permitting such Venezuelan nationals to remain temporarily in the United States is not contrary to the U.S. national interest. The 2023 designation of Venezuela for TPS is set to expire on April 2, 2025. After reviewing country conditions and considering whether permitting Venezuelan nationals covered by the 2023 designation is contrary to the national interest of the United States, in consultation with the appropriate U.S. Government agencies, the Secretary of Homeland Security has determined that Venezuela no longer continues to meet the conditions for the 2023 designation. In particular, the Secretary has determined it is contrary to the national interest to permit the covered Venezuelan nationals to remain temporarily in the United States. The Secretary therefore is terminating the 2023 TPS designation of Venezuela. This termination is effective April 7, 2025. After April 7, 2025, nationals of Venezuela (and aliens having no nationality who last habitually resided in Venezuela) who have been granted TPS under the 2023 Venezuela designation will no longer have TPS. This termination determination does not apply to the 2021 designation of Venezuela for TPS, which remains in effect until September 10, 2025, or to individuals who are registered for TPS under the 2021 designation.",
       "publishedAt": "2025-02-05",
@@ -41910,7 +41910,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Vacatur of 2025 Temporary Protected Status Decision for Venezuela",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) has decided to vacate the January 10, 2025, decision of former Secretary of Homeland Security Alejandro Mayorkas regarding TPS for Venezuela. Former Secretary Mayorkas extended the 2023 designation of Venezuela for TPS for 18 months, allowed a consolidation of filing processes such that all eligible Venezuela TPS beneficiaries (whether under the 2021 or 2023 designations) may obtain TPS through the same extension date of October 2, 2026, and extended certain Employment Authorization Documents (EADs). All of this also had the effect of extending the 2021 designation. This notice vacates Mayorkas' notice immediately.",
       "publishedAt": "2025-02-03",
@@ -42392,7 +42392,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Designating Aliens for Expedited Removal",
       "summary": "This Notice rescinds the March 21, 2022 Notice, Rescission of the Notice of July 23, 2019, Designation for Expedited Removal. This Notice also restores the scope of expedited removal to the fullest extent authorized by Congress.",
       "publishedAt": "2025-01-24",
@@ -42718,7 +42718,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Extension of the Designation of Ukraine for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is extending the designation of Ukraine for Temporary Protected Status (TPS) for 18 months, beginning on April 20, 2025, and ending on October 19, 2026. Existing TPS beneficiaries who wish to extend their status through October 19, 2026, must re-register during the 60-day re- registration period described in this notice.",
       "publishedAt": "2025-01-17",
@@ -42876,7 +42876,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Extension of the Designation of Sudan for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is extending the designation of Sudan for Temporary Protected Status (TPS) for 18 months, beginning on April 20, 2025, and ending on October 19, 2026. Existing TPS beneficiaries who wish to extend their status through October 19, 2026, must re-register during the 60-day re-registration period described in this notice.",
       "publishedAt": "2025-01-17",
@@ -43034,7 +43034,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Extension of the 2023 Designation of Venezuela for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security (Secretary) is extending the 2023 designation of Venezuela for Temporary Protected Status (TPS) for 18 months, beginning on April 3, 2025, and ending on October 2, 2026. Existing TPS beneficiaries who wish to extend their status through October 2, 2026, must re-register during the re- registration period described in this notice.",
       "publishedAt": "2025-01-17",
@@ -43192,7 +43192,7 @@
       "sourceKey": "federal_register",
       "issuingAgencyId": "agency:dhs",
       "classification": "announcement",
-      "severity": "routine",
+      "severity": "notable",
       "title": "Extension of the Designation of El Salvador for Temporary Protected Status",
       "summary": "Through this notice, the Department of Homeland Security (DHS) announces that the Secretary of Homeland Security is extending the designation of El Salvador for Temporary Protected Status (TPS) for 18 months, beginning on March 10, 2025, and ending on September 9, 2026. This extension allows eligible TPS beneficiaries to retain TPS though September 9, 2026, so long as they otherwise continue to meet eligibility requirements for TPS.",
       "publishedAt": "2025-01-17",

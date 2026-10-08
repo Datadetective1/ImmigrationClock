@@ -132,7 +132,45 @@ function severity(doc: FrDocument, classification: EventClassification): EventSe
 
   if (inForce) return impact === "high" ? "major" : "notable";
   if (classification === "proposed_rule") return impact === "high" ? "notable" : "routine";
+  if (classification === "announcement" && noticeChangesStatusOrFees(doc.title)) return "notable";
   return "routine";
+}
+
+/**
+ * Federal Register NOTICES that change someone's legal position on their own.
+ *
+ * Until 2026-10-08 every Notice was `routine`, whatever it said. That is right
+ * for the bulk of them (information collections, meetings, border-construction
+ * environmental waivers, tariff duties) and wrong for a small, well-defined set
+ * that DHS publishes AS notices rather than rules: TPS designations, extensions
+ * and terminations; terminations of parole processes; DED work authorization;
+ * expedited-removal designations; and the HR-1 fee schedules that take effect
+ * on publication. The Yemen TPS termination this file's own severity comment
+ * holds up as the model of a material change was itself filed `routine` for
+ * exactly this reason — as were the FY2027 fee adjustments in force on
+ * 2026-10-01, which is why the homepage's newest change read September 30.
+ *
+ * Deliberately a closed list matched against the TITLE only. Letting the
+ * generic HIGH_IMPACT vocabulary (which reads abstracts too) promote notices
+ * would have lifted 93 archived notices — tariff duties, 40-odd wall-segment
+ * waivers, information collections — measured 2026-10-08. This lifts the ones
+ * that change status or fees, and caps them at `notable`: a notice never leads
+ * as `major`.
+ */
+const STATUS_OR_FEE_NOTICE: RegExp[] = [
+  /\btemporary protected status\b/,
+  /\bdeferred enforced departure\b/,
+  /\bparole (process|processes|program|programs)\b/,
+  /\bdesignating aliens for expedited removal\b/,
+  /\bfees?\b.*\b(adjustments?|inflation|required by)\b/,
+  /\b(adjustments?|inflation)\b.*\bfees?\b/,
+  /\bsuspension of\b.*\bfees?\b/,
+];
+
+export function noticeChangesStatusOrFees(title: string): boolean {
+  if (isNonSubstantive(title)) return false;
+  const t = title.toLowerCase();
+  return STATUS_OR_FEE_NOTICE.some((re) => re.test(t));
 }
 
 /**
@@ -424,6 +462,7 @@ export const federalRegisterAdapter: SourceAdapter = {
 export const __testing = {
   classify,
   severity,
+  noticeChangesStatusOrFees,
   isImmigrationRelevant,
   toEvent,
   topicLink,

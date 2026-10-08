@@ -394,6 +394,45 @@ describe("federal register rules", () => {
     expect(FR.severity(doc(inert), "final_rule")).toBe("notable");
   });
 
+  // Regression, 2026-10-08: every Federal Register NOTICE was routine whatever
+  // it said, so the FY2027 HR-1 fee adjustments in force on 2026-10-01 — and
+  // every TPS termination since 2025 — never reached the "what changed" feed,
+  // and the homepage's newest change read September 30 for a week.
+  it("ranks notices that change status or fees as notable, and only those", () => {
+    const notice = (title: string, abstract: string | null = null) => doc({ type: "Notice", title, abstract });
+    for (const title of [
+      "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
+      "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "Termination of the Designation of Yemen for Temporary Protected Status",
+      "Extension of the Designation of Ukraine for Temporary Protected Status",
+      "Termination of Parole Processes for Cubans, Haitians, Nicaraguans, and Venezuelans",
+      "Designating Aliens for Expedited Removal",
+    ]) {
+      const d = notice(title);
+      expect(FR.severity(d, FR.classify(d)), title).toBe("notable");
+    }
+  });
+
+  it("keeps the rest of the notice stream routine, even when the abstract sounds consequential", () => {
+    const notice = (title: string, abstract: string | null = null) => doc({ type: "Notice", title, abstract });
+    for (const [title, abstract] of [
+      // Border-wall environmental waivers: dozens a year, not a change to anyone's status.
+      ["Determination Pursuant to Section 102 of the Illegal Immigration Reform and Immigrant Responsibility Act of 1996, as Amended", "Waiver of legal requirements to ensure expeditious construction."],
+      ["Agency Information Collection Activities; Fee Waiver Request", "Requirement to collect information."],
+      ["30-Day Notice of Proposed Information Collection: Certificate of Eligibility for Exchange Visitor (J-1) Status", "Eligibility."],
+      ["Air Declaration Zone Test: Extension", "Requirements for travellers."],
+      ["Determinations Pursuant to Section 2(b)(2) of the Migration and Refugee Assistance Act of 1962", null],
+    ] as const) {
+      const d = notice(title, abstract);
+      expect(FR.severity(d, FR.classify(d)), title).toBe("routine");
+    }
+  });
+
+  it("never ranks a notice as major", () => {
+    const d = doc({ type: "Notice", title: "Termination of the Designation of Haiti for Temporary Protected Status", abstract: "Terminates eligibility and requires departure." });
+    expect(FR.severity(d, FR.classify(d))).toBe("notable");
+  });
+
   it("filters out non-immigration documents from tracked agencies", () => {
     expect(FR.isImmigrationRelevant(doc({ title: "Tariff Classification of Steel Fasteners", abstract: null }))).toBe(false);
     expect(FR.isImmigrationRelevant(doc({ title: "H-1B Cap Registration Process", abstract: null }))).toBe(true);
