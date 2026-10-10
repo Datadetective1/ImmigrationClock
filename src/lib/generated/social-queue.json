@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-08T19:31:07.711Z",
+  "updatedAt": "2026-10-10T18:14:21.173Z",
   "items": [
     {
       "id": "event:federal_register:2026-20187::effective_date",
@@ -15,7 +15,7 @@
       "eventId": "federal_register:2026-20187",
       "category": "deadline",
       "topicKey": "source:federal_register",
-      "priority": 65040.96111111111,
+      "priority": 65060.95,
       "readerValue": 52,
       "factsHash": "47f0b2c9b8dc85e9",
       "whyItMatters": [
@@ -48,133 +48,92 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-20187::why_it_matters",
-      "subjectId": "event:federal_register:2026-20187",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
+      "id": "event:federal_register:2026-20660::what_changed",
+      "subjectId": "event:federal_register:2026-20660",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "verified",
-      "headline": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
+      "headline": "Optional Practical Training Fees",
       "suggestedHeadline": null,
       "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20187/fiscal-year-2027-inflation-adjustment-to-hr-1-immigration-fees",
-      "eventId": "federal_register:2026-20187",
-      "category": "deadline",
-      "topicKey": "source:federal_register",
-      "priority": 64820.96111111111,
-      "readerValue": 52,
-      "factsHash": "f20616e84988da55",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
+      "eventId": "federal_register:2026-20660",
+      "category": "proposed",
+      "topicKey": "visa:j-1",
+      "priority": 46124.98888888889,
+      "readerValue": 64,
+      "factsHash": "430534fe1ba33f22",
       "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "ImmigrationClock is watching the October 16, 2026 effective date."
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83",
-      "ogImage": "/og/change/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
+      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
       "freshness": {
-        "publishedAt": "2026-10-01",
-        "discoveredAt": "2026-10-08",
-        "expiresAt": "2026-10-29"
+        "publishedAt": "2026-10-08",
+        "discoveredAt": "2026-10-10",
+        "expiresAt": "2026-10-20"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-10-08T19:28:31.316Z",
+          "at": "2026-10-10T18:14:08.693Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-10-08T19:28:31.316Z",
+          "at": "2026-10-10T18:14:08.693Z",
           "status": "verified",
-          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83"
+          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
         }
       ]
     },
     {
-      "id": "event:federal_register:2026-20185::why_it_matters",
-      "subjectId": "event:federal_register:2026-20185",
+      "id": "event:federal_register:2026-20660::why_it_matters",
+      "subjectId": "event:federal_register:2026-20660",
       "contentType": "why_it_matters",
       "tier": "follow_up",
       "status": "verified",
-      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "headline": "Optional Practical Training Fees",
       "suggestedHeadline": null,
       "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20185/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
-      "eventId": "federal_register:2026-20185",
-      "category": "actionable",
-      "topicKey": "source:federal_register",
-      "priority": 54020.96111111111,
-      "readerValue": 34,
-      "factsHash": "3f095904ef540e50",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
+      "eventId": "federal_register:2026-20660",
+      "category": "proposed",
+      "topicKey": "visa:j-1",
+      "priority": 45424.98888888889,
+      "readerValue": 64,
+      "factsHash": "a45fdd64697caea9",
       "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1",
-      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
+      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
       "freshness": {
-        "publishedAt": "2026-10-01",
-        "discoveredAt": "2026-10-08",
-        "expiresAt": "2026-10-29"
+        "publishedAt": "2026-10-08",
+        "discoveredAt": "2026-10-10",
+        "expiresAt": "2026-10-31"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-10-08T19:28:31.316Z",
+          "at": "2026-10-10T18:14:08.693Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-10-08T19:28:31.316Z",
+          "at": "2026-10-10T18:14:08.693Z",
           "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30006,
-      "readerValue": 65,
-      "factsHash": "0ff89fa3afb66520",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
         }
       ]
     },
@@ -191,7 +150,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -242,7 +201,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -293,9 +252,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30002,
+      "priority": 30004,
       "readerValue": 65,
-      "factsHash": "0bbe8260e69a5985",
+      "factsHash": "1f468b767c73f759",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -356,6 +315,90 @@
       ]
     },
     {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "0ff89fa3afb66520",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        }
+      ]
+    },
+    {
+      "id": "explainer:opt-in-plain-terms::explainer",
+      "subjectId": "explainer:opt-in-plain-terms",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "OPT, in plain terms",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:students",
+      "priority": 22010,
+      "readerValue": 60,
+      "factsHash": "ea08f20297a9dff5",
+      "whyItMatters": [
+        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
+      "ogImage": "/og/explainer/opt-in-plain-terms.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
+        }
+      ]
+    },
+    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -368,7 +411,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22013,
+      "priority": 22001,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -411,7 +454,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20012,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -454,7 +497,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20009,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -485,49 +528,6 @@
       ]
     },
     {
-      "id": "explainer:opt-in-plain-terms::explainer",
-      "subjectId": "explainer:opt-in-plain-terms",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "OPT, in plain terms",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:students",
-      "priority": 20008,
-      "readerValue": 60,
-      "factsHash": "ea08f20297a9dff5",
-      "whyItMatters": [
-        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
-      "ogImage": "/og/explainer/opt-in-plain-terms.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
-        }
-      ]
-    },
-    {
       "id": "explainer:visa-bulletin-priority-dates::explainer",
       "subjectId": "explainer:visa-bulletin-priority-dates",
       "contentType": "explainer",
@@ -540,7 +540,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20007,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -583,7 +583,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20005,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -626,7 +626,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20003,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -669,7 +669,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20002,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -712,7 +712,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20001,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -743,88 +743,6 @@
       ]
     },
     {
-      "id": "discovery:weekly-pulse::data_discovery",
-      "subjectId": "discovery:weekly-pulse",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Immigration Pulse, the weekly email",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:newsletter",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "a83ed36b36c81325",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/pulse",
-      "ogImage": "/og/page/pulse.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/pulse"
-        }
-      ]
-    },
-    {
-      "id": "discovery:explainers::data_discovery",
-      "subjectId": "discovery:explainers",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "ImmigrationClock explains",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:explained",
-      "priority": 15007,
-      "readerValue": 50,
-      "factsHash": "c15d5822d00b1ad8",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained",
-      "ogImage": "/og/page/explained.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
-        }
-      ]
-    },
-    {
       "id": "discovery:employer-directory::data_discovery",
       "subjectId": "discovery:employer-directory",
       "contentType": "data_discovery",
@@ -837,7 +755,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15006,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -878,7 +796,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15005,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -919,7 +837,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15004,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -960,9 +878,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15003,
+      "priority": 15005,
       "readerValue": 50,
-      "factsHash": "105770e384f41426",
+      "factsHash": "f8d3d2f42da72d4a",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1001,7 +919,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15001,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1026,6 +944,147 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+        }
+      ]
+    },
+    {
+      "id": "discovery:weekly-pulse::data_discovery",
+      "subjectId": "discovery:weekly-pulse",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Immigration Pulse, the weekly email",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:newsletter",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "a83ed36b36c81325",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/pulse",
+      "ogImage": "/og/page/pulse.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/pulse"
+        }
+      ]
+    },
+    {
+      "id": "discovery:explainers::data_discovery",
+      "subjectId": "discovery:explainers",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "ImmigrationClock explains",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:explained",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "c15d5822d00b1ad8",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained",
+      "ogImage": "/og/page/explained.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20660::breaking_change",
+      "subjectId": "event:federal_register:2026-20660",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Optional Practical Training Fees",
+      "suggestedHeadline": "DHS proposal: OPT fees of $70k initial, $30k subsequent (proposal)",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
+      "eventId": "federal_register:2026-20660",
+      "category": "development",
+      "topicKey": "visa:j-1",
+      "priority": 76124.98888888888,
+      "readerValue": 64,
+      "factsHash": "33237d1ebc803475",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
+      "suggestedPost": {
+        "x": "DHS has proposed new Optional Practical Training fees.\n\nIf finalized, F-1 students would pay $70,000 for initial OPT and $30,000 for subsequent OPT. Nothing changes yet; this is open for comment. Source: Federal Register\n\nhttps://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Apq1ao5",
+        "linkedin": "",
+        "structure": "direct"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
+      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
+      "freshness": {
+        "publishedAt": "2026-10-08",
+        "discoveredAt": "2026-10-10",
+        "expiresAt": "2026-10-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-10T18:14:08.693Z",
+      "externalUrl": "https://x.com/i/web/status/2108984493726171378",
+      "history": [
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "verified",
+          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
+        },
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "published",
+          "reason": "published on x"
         }
       ]
     },
@@ -2940,7 +2999,7 @@
       "eventId": "federal_register:2026-20186",
       "category": "deadline",
       "topicKey": "topic:enforcement",
-      "priority": 66540.9611111111,
+      "priority": 66560.95,
       "readerValue": 80,
       "factsHash": "517855d21202639d",
       "whyItMatters": [
@@ -3023,6 +3082,56 @@
           "at": "2026-09-15T17:39:11.072Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-15"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20187::why_it_matters",
+      "subjectId": "event:federal_register:2026-20187",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20187/fiscal-year-2027-inflation-adjustment-to-hr-1-immigration-fees",
+      "eventId": "federal_register:2026-20187",
+      "category": "deadline",
+      "topicKey": "source:federal_register",
+      "priority": 64820.96111111111,
+      "readerValue": 52,
+      "factsHash": "f20616e84988da55",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83",
+      "ogImage": "/og/change/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-29"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83"
+        },
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-10"
         }
       ]
     },
@@ -3469,6 +3578,56 @@
           "at": "2026-09-08T17:13:43.310Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-09-08"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20185::why_it_matters",
+      "subjectId": "event:federal_register:2026-20185",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Certain DHS Immigration-Related Fees Required by HR-1: Fiscal Year 2027 Adjustments for Inflation",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20185/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-adjustments-for-inflation",
+      "eventId": "federal_register:2026-20185",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 54020.96111111111,
+      "readerValue": 34,
+      "factsHash": "3f095904ef540e50",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1",
+      "ogImage": "/og/change/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-29"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/certain-dhs-immigration-related-fees-required-by-hr-1-fiscal-year-2027-xzgzm1"
+        },
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-10"
         }
       ]
     },
