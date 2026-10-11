@@ -1,52 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-10T18:14:21.173Z",
+  "updatedAt": "2026-10-11T18:38:01.099Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-20187::effective_date",
-      "subjectId": "event:federal_register:2026-20187",
-      "contentType": "effective_date",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20187/fiscal-year-2027-inflation-adjustment-to-hr-1-immigration-fees",
-      "eventId": "federal_register:2026-20187",
-      "category": "deadline",
-      "topicKey": "source:federal_register",
-      "priority": 65060.95,
-      "readerValue": 52,
-      "factsHash": "47f0b2c9b8dc85e9",
-      "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
-        "ImmigrationClock is watching the October 16, 2026 effective date."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83",
-      "ogImage": "/og/change/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83.png",
-      "freshness": {
-        "publishedAt": "2026-10-01",
-        "discoveredAt": "2026-10-08",
-        "expiresAt": "2026-10-16"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-08T19:28:31.316Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-08T19:28:31.316Z",
-          "status": "verified",
-          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-20660::what_changed",
       "subjectId": "event:federal_register:2026-20660",
@@ -60,7 +15,7 @@
       "eventId": "federal_register:2026-20660",
       "category": "proposed",
       "topicKey": "visa:j-1",
-      "priority": 46124.98888888889,
+      "priority": 45424.98333333333,
       "readerValue": 64,
       "factsHash": "430534fe1ba33f22",
       "whyItMatters": [
@@ -105,7 +60,7 @@
       "eventId": "federal_register:2026-20660",
       "category": "proposed",
       "topicKey": "visa:j-1",
-      "priority": 45424.98888888889,
+      "priority": 45424.98333333333,
       "readerValue": 64,
       "factsHash": "a45fdd64697caea9",
       "whyItMatters": [
@@ -138,57 +93,6 @@
       ]
     },
     {
-      "id": "signal:h1b-sponsors-by-state::data_signal",
-      "subjectId": "signal:h1b-sponsors-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Where the H-1B sponsors are",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "a1c08d31ca1d2321",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
-      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
-        },
-        {
-          "at": "2026-09-19T16:23:39.906Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
       "contentType": "data_signal",
@@ -201,7 +105,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -252,7 +156,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "1f468b767c73f759",
       "whyItMatters": [],
@@ -327,7 +231,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -356,6 +260,57 @@
       ]
     },
     {
+      "id": "signal:h1b-sponsors-by-state::data_signal",
+      "subjectId": "signal:h1b-sponsors-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Where the H-1B sponsors are",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "a1c08d31ca1d2321",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
+      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
+        },
+        {
+          "at": "2026-09-19T16:23:39.906Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        }
+      ]
+    },
+    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -368,7 +323,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -411,7 +366,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22001,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -442,49 +397,6 @@
       ]
     },
     {
-      "id": "explainer:interim-final-rule::explainer",
-      "subjectId": "explainer:interim-final-rule",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What an interim final rule is",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "9be7ed770182669c",
-      "whyItMatters": [
-        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
-      "ogImage": "/og/explainer/interim-final-rule.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -497,7 +409,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -540,7 +452,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -583,7 +495,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -626,7 +538,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -669,7 +581,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -712,7 +624,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -743,25 +655,27 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
+      "id": "explainer:interim-final-rule::explainer",
+      "subjectId": "explainer:interim-final-rule",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "The H-1B employer directory",
+      "headline": "What an interim final rule is",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "9be7ed770182669c",
+      "whyItMatters": [
+        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
+      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
+      "ogImage": "/og/explainer/interim-final-rule.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -779,7 +693,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
         }
       ]
     },
@@ -796,7 +710,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -837,7 +751,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -878,7 +792,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "f8d3d2f42da72d4a",
       "whyItMatters": [],
@@ -919,7 +833,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -960,7 +874,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1001,7 +915,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1026,6 +940,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
         }
       ]
     },
@@ -1435,6 +1390,65 @@
         },
         {
           "at": "2026-10-08T19:30:42.710Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20187::effective_date",
+      "subjectId": "event:federal_register:2026-20187",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Fiscal Year 2027 Inflation Adjustment to H.R. 1 Immigration Fees",
+      "suggestedHeadline": "USCIS FY2027 H.R. 1 fee inflation adjustments effective Oct. 16, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/01/2026-20187/fiscal-year-2027-inflation-adjustment-to-hr-1-immigration-fees",
+      "eventId": "federal_register:2026-20187",
+      "category": "deadline",
+      "topicKey": "source:federal_register",
+      "priority": 65070.944444444445,
+      "readerValue": 52,
+      "factsHash": "47f0b2c9b8dc85e9",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "The document changes what a filing costs. The amounts it states are the amounts that apply, from the date it gives.",
+        "ImmigrationClock is watching the October 16, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Oct. 16, 2026: USCIS inflation adjustments to H.R. 1 immigration fees for FY2027 take effect.\n\nUntil then, today’s fees still apply.\n\nThis is an agency announcement; it sets the amounts that apply from that date. Source: Federal Register\nhttps://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83?utm_source=x&utm_medium=social&utm_campaign=effective_date&utm_content=change%3Axfhs83",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83",
+      "ogImage": "/og/change/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83.png",
+      "freshness": {
+        "publishedAt": "2026-10-01",
+        "discoveredAt": "2026-10-08",
+        "expiresAt": "2026-10-16"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-11T18:37:42.659Z",
+      "externalUrl": "https://x.com/i/web/status/2109352837272699163",
+      "history": [
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "verified",
+          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/fiscal-year-2027-inflation-adjustment-to-h-r-1-immigration-fees-xfhs83"
+        },
+        {
+          "at": "2026-10-11T18:37:42.659Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-11T18:37:42.659Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -2999,7 +3013,7 @@
       "eventId": "federal_register:2026-20186",
       "category": "deadline",
       "topicKey": "topic:enforcement",
-      "priority": 66560.95,
+      "priority": 66570.94444444444,
       "readerValue": 80,
       "factsHash": "517855d21202639d",
       "whyItMatters": [
