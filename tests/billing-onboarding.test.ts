@@ -37,6 +37,8 @@ const ENV: Record<string, string> = {
   KV_REST_API_URL: "https://kv.example",
   KV_REST_API_TOKEN: "kv-token",
   RESEND_API_KEY: "re_placeholder",
+  CRON_SECRET: "cron_placeholder",
+  ALERTS_SEND: "true",
   RESEND_API_BASE: "https://resend.example",
   RESEND_SEGMENT_EN: SEGMENT,
   NEXT_PUBLIC_SITE_URL: "https://immigrationclock.com",

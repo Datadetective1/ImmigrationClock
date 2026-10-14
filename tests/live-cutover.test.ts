@@ -54,6 +54,8 @@ const env = (key: string): BillingEnv => ({
   KV_REST_API_URL: "https://kv.example",
   KV_REST_API_TOKEN: "tok",
   RESEND_API_KEY: "re_x",
+  CRON_SECRET: "cron_placeholder",
+  ALERTS_SEND: "true",
 });
 
 describe("the test-mode reassurances vanish by themselves at cutover", () => {
@@ -157,6 +159,8 @@ describe("a half-configured live deployment cannot sell", () => {
       "KV_REST_API_URL",
       "KV_REST_API_TOKEN",
       "RESEND_API_KEY",
+      "CRON_SECRET",
+      "ALERTS_SEND",
     ];
     for (const key of required) {
       const broken = { ...env("sk_live_abc"), [key]: "" };

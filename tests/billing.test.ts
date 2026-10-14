@@ -111,7 +111,7 @@ describe("the free/paid boundary", () => {
 
     // Anything paid that already works must be one we have deliberately shipped.
     const shipped = paid.filter((c) => c.existsToday).map((c) => c.id);
-    expect(shipped).toEqual(["watchlist_sync"]);
+    expect(shipped).toEqual(["watchlist_alerts", "watchlist_sync"]);
   });
 
   it("names the free platform's pillars explicitly", () => {
@@ -154,10 +154,9 @@ describe("the free/paid boundary", () => {
     // listed as things a subscriber gets while alerts.ts was imported by
     // nothing but its own test and no scheduler existed anywhere. They are now
     // roadmap: still described, no longer sold.
-    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync"]);
     expect(notYetAvailable("pro")).toEqual([]);
     expect(roadmap().map((c) => c.id)).toEqual([
-      "watchlist_alerts",
       "bulk_export",
       "advanced_filters",
       "employer_monitoring",
@@ -223,6 +222,8 @@ const FULL_ENV: BillingEnv = {
   KV_REST_API_URL: "https://kv.example",
   KV_REST_API_TOKEN: "kv-token-for-tests-only",
   RESEND_API_KEY: "re_test_placeholder",
+  CRON_SECRET: "cron_placeholder",
+  ALERTS_SEND: "true",
 };
 
 describe("billing configuration", () => {

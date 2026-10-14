@@ -129,6 +129,8 @@ environment only. Do not touch Production.
 | `BILLING_ENABLED` | `true` |
 | `KV_REST_API_URL` | the Upstash/Vercel KV REST URL |
 | `KV_REST_API_TOKEN` | the matching REST token |
+| `CRON_SECRET` | any long random string (generate it like B1). Authorizes the daily alert job |
+| `ALERTS_SEND` | leave unset in test mode (the job dry-runs); `true` in Production when you approve real alert email. Live checkout stays closed until it is `true` |
 
 Then redeploy the preview.
 
@@ -206,16 +208,19 @@ says so beside each line rather than in a footnote.
 | Capability | Pricing page says | Reality |
 |---|---|---|
 | Watchlist synced across devices | Available | The API route exists and works |
-| Email alerts on your watchlist | In build | **Not built.** No send path, no scheduler |
+| Email alerts on your watchlist | Available | Daily Vercel cron → `/api/billing/alerts/run`; one-click unsubscribe; on/off on `/account` |
 | Employer monitoring | In build | **Not built** |
 | Bulk export | Planned | Not built |
 | Professional search | Planned | Not built |
 
-**Test mode can be fully verified today. Production billing should not be turned
-on until at least one Pro-only capability a customer would notice actually
-works.** Watchlist sync alone is thin for $19/month. Email alerts are the obvious
-first one, and the intelligence inbox now supplies exactly the content such an
-email would carry — the brief for anything that lands in "needs attention".
+Email alerts now work: a subscriber following a visa, country, agency or topic
+gets one email when a recorded change touches it. To check the job without
+sending, call it with the cron secret while `ALERTS_SEND` is unset — it returns
+a dry-run report of how many subscribers would receive an alert:
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" https://<domain>/api/billing/alerts/run
+```
 
 ## Going live, later
 
