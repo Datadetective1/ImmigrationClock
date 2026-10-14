@@ -70,6 +70,11 @@ export interface Partner {
    * rel="sponsored".
    */
   kind: "official" | "partner";
+  /**
+   * The query parameter this partner's affiliate program reads a placement
+   * sub-id from. Defaults to `subid`. ImmiTranslate's dashboard reads `sub`.
+   */
+  subParam?: string;
 }
 
 export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: string }> = {
@@ -188,10 +193,15 @@ const CATALOG: Partner[] = [
     blurb: "USCIS-compliant certified translations of birth and marriage certificates, diplomas, and other records.",
     useWhen: "You're filing non-English documents with USCIS and need a certified English translation.",
     cta: "Get a translation quote",
-    url: "https://immitranslate.com",
+    // ImmigrationClock's own ImmiTranslate referral link (10% commission,
+    // 90-day attribution). Public by nature — it is the href every reader
+    // clicks — so it lives here rather than only in NEXT_PUBLIC_PARTNER_LINKS,
+    // and production earns from it without depending on an env var.
+    url: "https://immitranslate.com/?ref=948mg968",
     personas: ["eb-applicant", "h1b-worker", "f1-student", "general"],
     icon: "📄",
     kind: "partner",
+    subParam: "sub",
   },
   {
     id: "credit-builder",
