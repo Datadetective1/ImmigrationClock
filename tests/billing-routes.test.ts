@@ -29,6 +29,8 @@ const BILLING_VARS = [
   "KV_REST_API_URL",
   "KV_REST_API_TOKEN",
   "RESEND_API_KEY",
+  "CRON_SECRET",
+  "ALERTS_SEND",
 ] as const;
 
 const saved: Record<string, string | undefined> = {};
@@ -164,6 +166,7 @@ describe("with the switch on but a secret missing", () => {
     process.env.KV_REST_API_URL = "https://kv.example";
     process.env.KV_REST_API_TOKEN = "kv-token";
     process.env.RESEND_API_KEY = "re_test_placeholder";
+    process.env.CRON_SECRET = "cron_placeholder";
     // Prices and the session secret are absent.
     const { POST } = await import("@/app/api/billing/checkout/route");
     const res = await POST(post("https://immigrationclock.com/api/billing/checkout", { interval: "monthly" }));
@@ -179,6 +182,7 @@ describe("with the switch on but a secret missing", () => {
     process.env.KV_REST_API_URL = "https://kv.example";
     process.env.KV_REST_API_TOKEN = "kv-token";
     process.env.RESEND_API_KEY = "re_test_placeholder";
+    process.env.CRON_SECRET = "cron_placeholder";
     process.env.STRIPE_PRICE_PRO_MONTHLY = "price_m";
     process.env.STRIPE_PRICE_PRO_ANNUAL = "price_a";
     process.env.BILLING_SESSION_SECRET = "s".repeat(32);
@@ -202,6 +206,7 @@ describe("the webhook, once its secret exists", () => {
     process.env.KV_REST_API_URL = "https://kv.example";
     process.env.KV_REST_API_TOKEN = "kv-token";
     process.env.RESEND_API_KEY = "re_test_placeholder";
+    process.env.CRON_SECRET = "cron_placeholder";
     process.env.STRIPE_WEBHOOK_SECRET = "whsec_placeholder_for_tests";
   });
 
@@ -276,6 +281,7 @@ describe("activation refuses a session it has not verified", () => {
     process.env.KV_REST_API_URL = "https://kv.example";
     process.env.KV_REST_API_TOKEN = "kv-token";
     process.env.RESEND_API_KEY = "re_test_placeholder";
+    process.env.CRON_SECRET = "cron_placeholder";
     process.env.STRIPE_WEBHOOK_SECRET = "whsec_placeholder_for_tests";
     process.env.STRIPE_PRICE_PRO_MONTHLY = "price_m";
     process.env.STRIPE_PRICE_PRO_ANNUAL = "price_a";

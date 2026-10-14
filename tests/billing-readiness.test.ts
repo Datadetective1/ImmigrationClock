@@ -40,6 +40,8 @@ const FULL_ENV: BillingEnv = {
   KV_REST_API_URL: "https://kv.example",
   KV_REST_API_TOKEN: "kv-token",
   RESEND_API_KEY: "re_placeholder",
+  CRON_SECRET: "cron_placeholder",
+  ALERTS_SEND: "true",
 };
 
 // -----------------------------------------------------------------------------
@@ -640,6 +642,7 @@ describe("blocker 7 · readiness covers everything needed to take money safely",
       "KV_REST_API_URL",
       "KV_REST_API_TOKEN",
       "RESEND_API_KEY",
+      "CRON_SECRET",
     ] as const) {
       const env = { ...FULL_ENV, [name]: "" };
       expect(billingStatus(env).checkoutReady, `${name} did not gate selling`).toBe(false);
@@ -668,7 +671,7 @@ describe("blocker 7 · readiness covers everything needed to take money safely",
 describe("blocker 9 · Pro sells only what works", () => {
   it("offers nothing unfinished, and still shows the roadmap", async () => {
     const { availableNow, notYetAvailable, roadmap, capabilitiesFor } = await import("@/lib/billing/plans");
-    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_sync"]);
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync"]);
     expect(notYetAvailable("pro"), "an unfinished capability is still being sold").toEqual([]);
     for (const c of capabilitiesFor("pro")) expect(c.existsToday).toBe(true);
     // Removing the promise must not become hiding the plan.

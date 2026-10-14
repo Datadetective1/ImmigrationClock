@@ -160,13 +160,17 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
   },
   {
     id: "watchlist_alerts",
-    sold: false,
     label: "Email alerts on your watchlist",
     blurb:
-      "An email when something changes for the employers, visas, countries and topics you follow — not a digest of everything.",
+      "An email when a recorded change touches a visa, country, agency or topic you follow — checked daily, nothing sent when nothing changed.",
     plan: "pro",
-    existsToday: false,
-    status: "building",
+    // The daily job is /api/billing/alerts/run (Vercel cron, vercel.json),
+    // selection in alerts.ts, the email in alert-email.ts, one-click
+    // unsubscribe and an on/off switch on /account. billingStatus() refuses
+    // live checkout unless the job is authorized and allowed to send, so this
+    // line cannot be sold while the job is switched off.
+    existsToday: true,
+    status: "available",
   },
   {
     id: "watchlist_sync",

@@ -29,6 +29,7 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { AccountActivation } from "@/components/AccountActivation";
 import { ManageBillingButton } from "@/components/ManageBillingButton";
+import { AlertsToggle } from "@/components/AlertsToggle";
 import { SignInForm } from "@/components/SignInForm";
 import { SignOutButton } from "@/components/SignOutButton";
 import { COOKIE_NAME, verify } from "@/lib/billing/entitlement";
@@ -163,6 +164,12 @@ export default async function AccountPage() {
                   </>
                 )}
               </Row>
+
+              {account.isPro && account.confirmed ? (
+                <Row label="Email alerts">
+                  <AlertsToggle />
+                </Row>
+              ) : null}
 
               {/* THREE ANSWERS, NOT TWO. Collapsing "declined" and "never
                   asked" into "Not subscribed" states something we do not know:

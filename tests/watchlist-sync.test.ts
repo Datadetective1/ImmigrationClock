@@ -488,7 +488,7 @@ describe("sync is inert in the shipped configuration", () => {
 describe("watchlist sync is the first capability Pro can honestly sell", () => {
   it("is marked available, and it is the only one", () => {
     const now = availableNow("pro").map((c) => c.id);
-    expect(now).toEqual(["watchlist_sync"]);
+    expect(now).toEqual(["watchlist_alerts", "watchlist_sync"]);
   });
 
   it("says it exists today, so the two fields agree", () => {
@@ -498,9 +498,9 @@ describe("watchlist sync is the first capability Pro can honestly sell", () => {
   });
 
   it("leaves every unfinished capability unfinished", () => {
-    // The ones that must NOT be claimed: nothing here delivers an email, an
+    // The ones that must NOT be claimed: nothing here delivers an
     // export, a search or employer monitoring.
-    for (const id of ["watchlist_alerts", "bulk_export", "advanced_filters", "employer_monitoring"]) {
+    for (const id of ["bulk_export", "advanced_filters", "employer_monitoring"]) {
       const spec = CAPABILITY_SPECS.find((c) => c.id === id);
       if (!spec) continue;
       expect(spec.status, `${id} is claimed as available`).not.toBe("available");

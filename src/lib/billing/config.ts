@@ -43,6 +43,10 @@ export interface BillingEnv {
   KV_REST_API_TOKEN?: string;
   /** Sign-in email delivery — the only recovery path a subscriber has. */
   RESEND_API_KEY?: string;
+  /** Authorizes Vercel's cron call to the daily alert job. */
+  CRON_SECRET?: string;
+  /** Only "true" lets the alert job send; anything else is a dry run. */
+  ALERTS_SEND?: string;
 }
 
 export interface BillingStatus {
@@ -113,6 +117,13 @@ export function billingStatus(env: BillingEnv = process.env as BillingEnv): Bill
   // the entitlement cookie is deliberately short-lived — a path every
   // subscriber uses routinely rather than exceptionally.
   if (!has("RESEND_API_KEY")) missing.push("RESEND_API_KEY");
+  // Email alerts are sold. Without the cron secret the daily job refuses to
+  // run; on a live key it must also be allowed to send, or Pro is charging
+  // for alerts that never leave. Test keys may dry-run.
+  if (!has("CRON_SECRET")) missing.push("CRON_SECRET");
+  const alertsSending = (env.ALERTS_SEND ?? "").trim() === "true";
+  const testMode = isTestKey(env.STRIPE_SECRET_KEY);
+  if (!testMode && !alertsSending) missing.push("ALERTS_SEND");
 
   const enabled = billingEnabled(env);
   const sessionsReady = has("BILLING_SESSION_SECRET");
@@ -137,11 +148,13 @@ export function billingStatus(env: BillingEnv = process.env as BillingEnv): Bill
       // is how a subscriber gets back in after clearing cookies or changing
       // device. When Resend is unset the signin route still answers "a link is
       // on its way", so the failure is invisible to the person locked out.
-      has("RESEND_API_KEY"),
+      has("RESEND_API_KEY") &&
+      has("CRON_SECRET") &&
+      (testMode || alertsSending),
     webhookReady: enabled && has("STRIPE_SECRET_KEY") && has("STRIPE_WEBHOOK_SECRET"),
     sessionsReady,
     storeReady,
-    testMode: isTestKey(env.STRIPE_SECRET_KEY),
+    testMode,
     missing,
     disabledReason: enabled
       ? null

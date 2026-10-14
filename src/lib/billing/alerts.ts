@@ -81,6 +81,16 @@ export interface AlertCursor {
   lastChangeDate?: string;
   /** Alert ids already sent, most recent first. Bounded — see CURSOR_MEMORY. */
   sent?: string[];
+  /**
+   * Unix seconds when the subscriber turned alerts off, from the unsubscribe
+   * link or the account page. Absent means on.
+   *
+   * Kept in the cursor rather than on the subscriber record because
+   * mergeSubscriber rebuilds that record field by field on every Stripe event,
+   * and a preference stored there would be silently dropped by the next
+   * renewal. The cursor is written only by the alert job and by this choice.
+   */
+  pausedAt?: number;
 }
 
 /** How many alert ids to remember. Enough to cover any plausible backlog. */
@@ -90,7 +100,11 @@ export function parseCursor(raw: string | null): AlertCursor {
   if (!raw) return {};
   try {
     const parsed = JSON.parse(raw) as AlertCursor;
-    return { lastChangeDate: parsed.lastChangeDate, sent: Array.isArray(parsed.sent) ? parsed.sent : [] };
+    return {
+      lastChangeDate: parsed.lastChangeDate,
+      sent: Array.isArray(parsed.sent) ? parsed.sent : [],
+      ...(typeof parsed.pausedAt === "number" ? { pausedAt: parsed.pausedAt } : {}),
+    };
   } catch {
     // A damaged cursor must not stop alerts; the id memory below still prevents
     // a duplicate for anything it recognises, and worst case a reader sees one
@@ -103,7 +117,16 @@ export function serializeCursor(cursor: AlertCursor): string {
   return JSON.stringify({
     lastChangeDate: cursor.lastChangeDate,
     sent: (cursor.sent ?? []).slice(0, CURSOR_MEMORY),
+    ...(typeof cursor.pausedAt === "number" ? { pausedAt: cursor.pausedAt } : {}),
   });
+}
+
+/** Turn alerts off or on without losing what was already sent. */
+export function withPaused(cursor: AlertCursor, pausedAt: number | null): AlertCursor {
+  const next: AlertCursor = { ...cursor };
+  delete next.pausedAt;
+  if (pausedAt !== null) next.pausedAt = pausedAt;
+  return next;
 }
 
 /** Only these entity types can match a recorded change; "employer" cannot. */
@@ -278,6 +301,7 @@ export function buildAlertBatch(
     cursor: {
       lastChangeDate: newestChange ?? cursor.lastChangeDate,
       sent: [...alerts.map((a) => a.id), ...(cursor.sent ?? [])].slice(0, CURSOR_MEMORY),
+      ...(typeof cursor.pausedAt === "number" ? { pausedAt: cursor.pausedAt } : {}),
     },
   };
 }
