@@ -25,7 +25,7 @@ describe("disclosure matches how the site actually earns money", () => {
 
   it("sends certified-translation clicks to ImmiTranslate, labelled as a partner", () => {
     const translation = PARTNERS_ALL.find((p) => p.id === "document-translation");
-    expect(translation?.url).toBe("https://immitranslate.com");
+    expect(translation?.url).toBe("https://immitranslate.com/?ref=948mg968");
     expect(translation?.kind).toBe("partner");
   });
 });

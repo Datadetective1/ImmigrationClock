@@ -138,7 +138,7 @@ export function KeyDates({
                     {partners.map((p) => (
                       <a
                         key={p.id}
-                        href={withPlacement(p.href, place)}
+                        href={withPlacement(p.href, place, p.subParam)}
                         target="_blank"
                         rel="sponsored nofollow noopener noreferrer"
                         onClick={() => trackPartnerClick(p.id, place)}

@@ -12,7 +12,7 @@ function PartnerCard({ partner, placement }: { partner: ResolvedPartner; placeme
   const isPartner = partner.kind === "partner";
   return (
     <a
-      href={isPartner ? withPlacement(partner.href, placement) : partner.href}
+      href={isPartner ? withPlacement(partner.href, placement, partner.subParam) : partner.href}
       target="_blank"
       rel={isPartner ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"}
       onClick={isPartner ? () => trackPartnerClick(partner.id, placement) : undefined}
