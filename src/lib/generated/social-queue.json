@@ -1,49 +1,47 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-11T18:38:01.099Z",
+  "updatedAt": "2026-10-14T18:19:31.818Z",
   "items": [
     {
-      "id": "event:federal_register:2026-20660::what_changed",
-      "subjectId": "event:federal_register:2026-20660",
+      "id": "event:federal_register:2026-20956::what_changed",
+      "subjectId": "event:federal_register:2026-20956",
       "contentType": "what_changed",
       "tier": "news",
       "status": "verified",
-      "headline": "Optional Practical Training Fees",
+      "headline": "Removing 30-Day Refugee Termination Notice",
       "suggestedHeadline": null,
       "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
-      "eventId": "federal_register:2026-20660",
-      "category": "proposed",
-      "topicKey": "visa:j-1",
-      "priority": 45424.98333333333,
-      "readerValue": 64,
-      "factsHash": "430534fe1ba33f22",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20956/removing-30-day-refugee-termination-notice",
+      "eventId": "federal_register:2026-20956",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 55973,
+      "readerValue": 54,
+      "factsHash": "be849e8045039e9e",
       "whyItMatters": [
-        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
-        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+        "The rule has been in effect since October 14, 2026."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
-      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/removing-30-day-refugee-termination-notice-56was9",
+      "ogImage": "/og/change/removing-30-day-refugee-termination-notice-56was9.png",
       "freshness": {
-        "publishedAt": "2026-10-08",
-        "discoveredAt": "2026-10-10",
-        "expiresAt": "2026-10-20"
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-10-10T18:14:08.693Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-10-10T18:14:08.693Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "verified",
-          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
+          "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-30-day-refugee-termination-notice-56was9"
         }
       ]
     },
@@ -60,7 +58,7 @@
       "eventId": "federal_register:2026-20660",
       "category": "proposed",
       "topicKey": "visa:j-1",
-      "priority": 45424.98333333333,
+      "priority": 45424.96666666667,
       "readerValue": 64,
       "factsHash": "a45fdd64697caea9",
       "whyItMatters": [
@@ -93,53 +91,90 @@
       ]
     },
     {
-      "id": "signal:h1b-approval-rate::data_signal",
-      "subjectId": "signal:h1b-approval-rate",
-      "contentType": "data_signal",
-      "tier": "evergreen",
+      "id": "event:federal_register:2026-20941::what_changed",
+      "subjectId": "event:federal_register:2026-20941",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "verified",
-      "headline": "How often H-1B petitions were approved in the latest USCIS export",
+      "headline": "Removing Deference to Prior USCIS Determinations of Eligibility",
       "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "18b61ebf2981afed",
-      "whyItMatters": [],
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20941/removing-deference-to-prior-uscis-determinations-of-eligibility",
+      "eventId": "federal_register:2026-20941",
+      "category": "proposed",
+      "topicKey": "source:federal_register",
+      "priority": 45405,
+      "readerValue": 44,
+      "factsHash": "1d6ac6e30a1a6c5d",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
-      "ogImage": "/og/signal/h1b-approval-rate.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d",
+      "ogImage": "/og/change/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20941::why_it_matters",
+      "subjectId": "event:federal_register:2026-20941",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Removing Deference to Prior USCIS Determinations of Eligibility",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20941/removing-deference-to-prior-uscis-determinations-of-eligibility",
+      "eventId": "federal_register:2026-20941",
+      "category": "proposed",
+      "topicKey": "source:federal_register",
+      "priority": 44405,
+      "readerValue": 44,
+      "factsHash": "7fa2f952b4d5d7da",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d",
+      "ogImage": "/og/change/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-11-04"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "verified",
-          "reason": "deferred window passed"
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d"
         }
       ]
     },
@@ -156,9 +191,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30011,
       "readerValue": 65,
-      "factsHash": "1f468b767c73f759",
+      "factsHash": "4d911ad49c02b5bf",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -219,6 +254,127 @@
       ]
     },
     {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30006,
+      "readerValue": 65,
+      "factsHash": "06aa20c63e657000",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-20"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-22"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-25T17:55:10.852Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-25"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-27T17:41:20.960Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-27"
+        },
+        {
+          "at": "2026-09-28T20:05:54.008Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-04T17:27:22.483Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-04"
+        },
+        {
+          "at": "2026-10-06T18:53:21.566Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-08"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        }
+      ]
+    },
+    {
       "id": "signal:h1b-largest-sponsors::data_signal",
       "subjectId": "signal:h1b-largest-sponsors",
       "contentType": "data_signal",
@@ -231,7 +387,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -272,7 +428,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -311,6 +467,188 @@
       ]
     },
     {
+      "id": "signal:h1b-approval-rate::data_signal",
+      "subjectId": "signal:h1b-approval-rate",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "How often H-1B petitions were approved in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30002,
+      "readerValue": 65,
+      "factsHash": "18b61ebf2981afed",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
+      "ogImage": "/og/signal/h1b-approval-rate.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20955::what_changed",
+      "subjectId": "event:federal_register:2026-20955",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Removal of Automatic Extensions for Certain Employment Authorization Documents",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20955/removal-of-automatic-extensions-for-certain-employment-authorization-documents",
+      "eventId": "federal_register:2026-20955",
+      "category": "explainer",
+      "topicKey": "topic:enforcement",
+      "priority": 27053,
+      "readerValue": 80,
+      "factsHash": "fc119b34d8c60cd0",
+      "whyItMatters": [
+        "The rule has been in effect since October 14, 2026.",
+        "An extension moves a date that already existed. What was true before the change stays true for longer."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc",
+      "ogImage": "/og/change/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-21024::what_changed",
+      "subjectId": "event:federal_register:2026-21024",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Imposition and Collection of Civil Penalties for Certain Immigration-Related Violations",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-21024/imposition-and-collection-of-civil-penalties-for-certain-immigration-related-violations",
+      "eventId": "federal_register:2026-21024",
+      "category": "explainer",
+      "topicKey": "topic:enforcement",
+      "priority": 26313,
+      "readerValue": 66,
+      "factsHash": "6f91a0eea10d6c68",
+      "whyItMatters": [
+        "The rule has been in effect since October 14, 2026."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m",
+      "ogImage": "/og/change/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 66/100 clears the floor; share page https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20955::why_it_matters",
+      "subjectId": "event:federal_register:2026-20955",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Removal of Automatic Extensions for Certain Employment Authorization Documents",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20955/removal-of-automatic-extensions-for-certain-employment-authorization-documents",
+      "eventId": "federal_register:2026-20955",
+      "category": "explainer",
+      "topicKey": "topic:enforcement",
+      "priority": 26053,
+      "readerValue": 80,
+      "factsHash": "f74e555544c5a243",
+      "whyItMatters": [
+        "The rule has been in effect since October 14, 2026.",
+        "An extension moves a date that already existed. What was true before the change stays true for longer."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc",
+      "ogImage": "/og/change/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-11-04"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc"
+        }
+      ]
+    },
+    {
       "id": "explainer:opt-in-plain-terms::explainer",
       "subjectId": "explainer:opt-in-plain-terms",
       "contentType": "explainer",
@@ -323,7 +661,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 22011,
+      "priority": 22014,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -366,7 +704,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22002,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -397,27 +735,27 @@
       ]
     },
     {
-      "id": "explainer:h1b-cap-and-registration::explainer",
-      "subjectId": "explainer:h1b-cap-and-registration",
+      "id": "explainer:interim-final-rule::explainer",
+      "subjectId": "explainer:interim-final-rule",
       "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "How the H-1B cap works",
+      "headline": "What an interim final rule is",
       "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B cap season; USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
+      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       "eventId": null,
       "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 20012,
+      "topicKey": "explainer:rulemaking",
+      "priority": 22004,
       "readerValue": 60,
-      "factsHash": "4068f60d64f54dcd",
+      "factsHash": "9be7ed770182669c",
       "whyItMatters": [
-        "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
+        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-cap-and-registration",
-      "ogImage": "/og/explainer/h1b-cap-and-registration.png",
+      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
+      "ogImage": "/og/explainer/interim-final-rule.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -435,7 +773,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-cap-and-registration"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
         }
       ]
     },
@@ -452,7 +790,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20010,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -495,7 +833,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20008,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -538,7 +876,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20006,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -581,7 +919,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20005,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -624,7 +962,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20004,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -655,27 +993,27 @@
       ]
     },
     {
-      "id": "explainer:interim-final-rule::explainer",
-      "subjectId": "explainer:interim-final-rule",
+      "id": "explainer:h1b-cap-and-registration::explainer",
+      "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "What an interim final rule is",
+      "headline": "How the H-1B cap works",
       "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+      "sourceName": "USCIS — H-1B cap season; USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
       "eventId": null,
       "category": "explainer",
-      "topicKey": "explainer:rulemaking",
+      "topicKey": "explainer:work-visas",
       "priority": 20001,
       "readerValue": 60,
-      "factsHash": "9be7ed770182669c",
+      "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
-        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later."
+        "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
-      "ogImage": "/og/explainer/interim-final-rule.png",
+      "shareUrl": "https://immigrationclock.com/explained/h1b-cap-and-registration",
+      "ogImage": "/og/explainer/h1b-cap-and-registration.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -693,130 +1031,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
-        }
-      ]
-    },
-    {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Key dates, counted down",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
-        }
-      ]
-    },
-    {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15007,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
-        }
-      ]
-    },
-    {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Search the change archive",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15006,
-      "readerValue": 50,
-      "factsHash": "f8d3d2f42da72d4a",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-cap-and-registration"
         }
       ]
     },
@@ -833,7 +1048,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -874,7 +1089,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15003,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -915,7 +1130,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15002,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -956,7 +1171,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15001,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -981,6 +1196,129 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15003,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "34943f428bf78c22",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
@@ -1038,6 +1376,63 @@
         },
         {
           "at": "2026-10-10T18:14:08.693Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20956::breaking_change",
+      "subjectId": "event:federal_register:2026-20956",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Removing 30-Day Refugee Termination Notice",
+      "suggestedHeadline": "DHS cuts NOIT response to 10 days; effective Oct. 14, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20956/removing-30-day-refugee-termination-notice",
+      "eventId": "federal_register:2026-20956",
+      "category": "development",
+      "topicKey": "source:federal_register",
+      "priority": 75973,
+      "readerValue": 54,
+      "factsHash": "8f25beb8f2f1a119",
+      "whyItMatters": [
+        "The rule has been in effect since October 14, 2026."
+      ],
+      "suggestedPost": {
+        "x": "Refugees who receive a NOIT: DHS just made a final rule effective Oct. 14, 2026.\n\nResponse time drops from 30 to 10 days. DHS can expedite termination if it finds the person was not a refugee under INA 101(a)(42) at admission.\n\nhttps://immigrationclock.com/what-changed/removing-30-day-refugee-termination-notice-56was9?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3A56was9",
+        "linkedin": "",
+        "structure": "address"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/removing-30-day-refugee-termination-notice-56was9",
+      "ogImage": "/og/change/removing-30-day-refugee-termination-notice-56was9.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-17"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-14T18:19:07.137Z",
+      "externalUrl": "https://x.com/i/web/status/2110435348081705102",
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 54/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-30-day-refugee-termination-notice-56was9"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -3013,7 +3408,7 @@
       "eventId": "federal_register:2026-20186",
       "category": "deadline",
       "topicKey": "topic:enforcement",
-      "priority": 66570.94444444444,
+      "priority": 66600.92777777778,
       "readerValue": 80,
       "factsHash": "517855d21202639d",
       "whyItMatters": [
@@ -3746,118 +4141,52 @@
       ]
     },
     {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
+      "id": "event:federal_register:2026-20660::what_changed",
+      "subjectId": "event:federal_register:2026-20660",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "rejected",
-      "headline": "The next recurring immigration date on the calendar",
+      "headline": "Optional Practical Training Fees",
       "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "cbf494a69eb782fc",
-      "whyItMatters": [],
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
+      "eventId": "federal_register:2026-20660",
+      "category": "proposed",
+      "topicKey": "visa:j-1",
+      "priority": 45424.98333333333,
+      "readerValue": 64,
+      "factsHash": "430534fe1ba33f22",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
+      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
+        "publishedAt": "2026-10-08",
+        "discoveredAt": "2026-10-10",
+        "expiresAt": "2026-10-20"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-10-10T18:14:08.693Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T16:14:06.760Z",
+          "at": "2026-10-10T18:14:08.693Z",
           "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
         },
         {
-          "at": "2026-09-05T15:59:08.628Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-20"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-22"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-25T17:55:10.852Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-25"
-        },
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-27T17:41:20.960Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-27"
-        },
-        {
-          "at": "2026-09-28T20:05:54.008Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-04T17:27:22.483Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-10-04"
-        },
-        {
-          "at": "2026-10-06T18:53:21.566Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-08T19:28:31.316Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-10-08"
+          "reason": "expired: no longer a candidate on 2026-10-14"
         }
       ]
     },
