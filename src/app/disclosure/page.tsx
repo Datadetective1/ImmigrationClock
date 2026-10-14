@@ -11,7 +11,7 @@ export const metadata = buildMetadata({
   path: "/disclosure",
 });
 
-const UPDATED = "June 18, 2026";
+const UPDATED = "October 14, 2026";
 
 export default function DisclosurePage() {
   return (
@@ -31,32 +31,31 @@ export default function DisclosurePage() {
           <p>
             {SITE.name} is free to read and does not require an account. To cover the cost of building and
             maintaining it, we earn money two ways, both disclosed here in plain language as the U.S. Federal
-            Trade Commission (FTC) recommends.
+            Trade Commission (FTC) recommends. We do not run display advertising.
           </p>
         </section>
 
         <section className="space-y-3">
-          <h2>1. Display advertising</h2>
+          <h2>1. ImmigrationClock Pro</h2>
           <p>
-            We may show ads through Google AdSense and similar networks. These are labelled
-            &ldquo;Advertisement&rdquo; and are served by third parties — we don&rsquo;t hand-pick individual
-            ads. How advertising cookies work and how to opt out is covered in our{" "}
-            <Link href="/privacy">Privacy Policy</Link>.
+            Pro is an optional paid subscription, described with its price and exactly what it includes on
+            our <Link href="/pricing">pricing page</Link>. Billing terms are in our{" "}
+            <Link href="/terms">Terms</Link>. Nothing that is free on the site is ever moved behind Pro.
           </p>
         </section>
 
         <section className="space-y-3">
           <h2>2. Affiliate &amp; partner links</h2>
           <p>
-            On our <Link href="/resources">Resources</Link> page and in the &ldquo;Helpful services&rdquo;
-            modules beside our data, we link to independent third-party services — things like
-            attorney-reviewed immigration applications, international money transfer, nonresident tax filing,
-            newcomer banking, and student health insurance.
+            On our <Link href="/resources">Resources</Link> page and beside some{" "}
+            <Link href="/key-dates">key dates</Link>, we link to independent third-party services for
+            immigration needs — such as certified document translation, attorney-reviewed applications,
+            foreign degree evaluation and nonresident tax filing.
           </p>
           <p>
-            Some of those are <strong>affiliate partnerships</strong>: if you click through and sign up or
-            make a purchase, we may earn a commission or referral fee. <strong>It never costs you extra</strong>{" "}
-            — the price is the same as going direct, and in some cases partners offer our readers a better deal.
+            Some of those are <strong>affiliate partnerships</strong>: if you click through and buy, we may
+            earn a commission. <strong>It never costs you extra</strong> — the price is the same as going
+            direct.
           </p>
           <p>Partner placements are labelled <strong>&ldquo;Partner&rdquo;</strong> and open in a new tab.</p>
         </section>

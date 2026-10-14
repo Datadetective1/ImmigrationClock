@@ -6,7 +6,7 @@ import { SITE } from "@/lib/site";
 export const metadata = buildMetadata({
   title: "Privacy Policy",
   description:
-    "How ImmigrationClock handles data, cookies, and advertising — including Google AdSense and third-party ad partners.",
+    "How ImmigrationClock handles data, cookies, newsletter addresses and Pro billing.",
   path: "/privacy",
 });
 

@@ -112,7 +112,7 @@ jobs:
           // 2026-10-08 such a fix could never deploy on its own.
           //
           // And the DAY of the last successful source check, so the public
-          // "Sources last checked" line advances once a day even when nothing
+          // Sources-last-checked line advances once a day even when nothing
           // changed. Without it a healthy, quiet site looks abandoned — which is
           // how a week of correct-but-hidden data read as an outage. One extra
           // commit a day at most; the social workflow already commits more.
