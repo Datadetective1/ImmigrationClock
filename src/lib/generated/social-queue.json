@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-14T18:19:31.818Z",
+  "updatedAt": "2026-10-15T18:03:18.940Z",
   "items": [
     {
       "id": "event:federal_register:2026-20956::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "federal_register:2026-20956",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 55973,
+      "priority": 55822.99444444444,
       "readerValue": 54,
       "factsHash": "be849e8045039e9e",
       "whyItMatters": [
@@ -58,7 +58,7 @@
       "eventId": "federal_register:2026-20660",
       "category": "proposed",
       "topicKey": "visa:j-1",
-      "priority": 45424.96666666667,
+      "priority": 45424.96111111111,
       "readerValue": 64,
       "factsHash": "a45fdd64697caea9",
       "whyItMatters": [
@@ -91,50 +91,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-20941::what_changed",
-      "subjectId": "event:federal_register:2026-20941",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Removing Deference to Prior USCIS Determinations of Eligibility",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20941/removing-deference-to-prior-uscis-determinations-of-eligibility",
-      "eventId": "federal_register:2026-20941",
-      "category": "proposed",
-      "topicKey": "source:federal_register",
-      "priority": 45405,
-      "readerValue": 44,
-      "factsHash": "1d6ac6e30a1a6c5d",
-      "whyItMatters": [
-        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
-        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d",
-      "ogImage": "/og/change/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d.png",
-      "freshness": {
-        "publishedAt": "2026-10-14",
-        "discoveredAt": "2026-10-14",
-        "expiresAt": "2026-10-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "verified",
-          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d"
-        }
-      ]
-    },
-    {
       "id": "event:federal_register:2026-20941::why_it_matters",
       "subjectId": "event:federal_register:2026-20941",
       "contentType": "why_it_matters",
@@ -147,7 +103,7 @@
       "eventId": "federal_register:2026-20941",
       "category": "proposed",
       "topicKey": "source:federal_register",
-      "priority": 44405,
+      "priority": 44404.99444444444,
       "readerValue": 44,
       "factsHash": "7fa2f952b4d5d7da",
       "whyItMatters": [
@@ -179,81 +135,6 @@
       ]
     },
     {
-      "id": "signal:warn-by-state::data_signal",
-      "subjectId": "signal:warn-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
-      "suggestedHeadline": "Texas leads our WARN feed by notices: 2,358 on file",
-      "sourceName": "State WARN Act notices (state open-data portals)",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:layoffs",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "4d911ad49c02b5bf",
-      "whyItMatters": [],
-      "suggestedPost": {
-        "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
-        "linkedin": "",
-        "structure": "data_figure"
-      },
-      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
-      "ogImage": "/og/signal/warn-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": "2026-09-13T19:22:42.224Z",
-      "externalUrl": "https://x.com/i/web/status/2099217320631734706",
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-12T16:13:48.006Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        },
-        {
-          "at": "2026-09-13T19:22:42.224Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        },
-        {
-          "at": "2026-09-13T19:22:42.224Z",
-          "status": "published",
-          "reason": "published on x"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
       "id": "signal:next-key-date::data_signal",
       "subjectId": "signal:next-key-date",
       "contentType": "data_signal",
@@ -266,9 +147,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
-      "factsHash": "06aa20c63e657000",
+      "factsHash": "3ad8cb44617ce1da",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -387,7 +268,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -428,7 +309,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -479,7 +360,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -518,6 +399,81 @@
       ]
     },
     {
+      "id": "signal:warn-by-state::data_signal",
+      "subjectId": "signal:warn-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
+      "suggestedHeadline": "Texas leads our WARN feed by notices: 2,358 on file",
+      "sourceName": "State WARN Act notices (state open-data portals)",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:layoffs",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "8b12c3298cce002d",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
+        "linkedin": "",
+        "structure": "data_figure"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
+      "ogImage": "/og/signal/warn-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-13T19:22:42.224Z",
+      "externalUrl": "https://x.com/i/web/status/2099217320631734706",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-09-13T19:22:42.224Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-13T19:22:42.224Z",
+          "status": "published",
+          "reason": "published on x"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-20955::what_changed",
       "subjectId": "event:federal_register:2026-20955",
       "contentType": "what_changed",
@@ -530,7 +486,7 @@
       "eventId": "federal_register:2026-20955",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 27053,
+      "priority": 26902.994444444445,
       "readerValue": 80,
       "factsHash": "fc119b34d8c60cd0",
       "whyItMatters": [
@@ -574,7 +530,7 @@
       "eventId": "federal_register:2026-21024",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 26313,
+      "priority": 26162.994444444445,
       "readerValue": 66,
       "factsHash": "6f91a0eea10d6c68",
       "whyItMatters": [
@@ -617,7 +573,7 @@
       "eventId": "federal_register:2026-20955",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 26053,
+      "priority": 26052.994444444445,
       "readerValue": 80,
       "factsHash": "f74e555544c5a243",
       "whyItMatters": [
@@ -649,49 +605,6 @@
       ]
     },
     {
-      "id": "explainer:opt-in-plain-terms::explainer",
-      "subjectId": "explainer:opt-in-plain-terms",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "OPT, in plain terms",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:students",
-      "priority": 22014,
-      "readerValue": 60,
-      "factsHash": "ea08f20297a9dff5",
-      "whyItMatters": [
-        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
-      "ogImage": "/og/explainer/opt-in-plain-terms.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
-        }
-      ]
-    },
-    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -704,7 +617,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "4bb7139aa31c33a9",
       "whyItMatters": [
@@ -747,7 +660,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -778,6 +691,49 @@
       ]
     },
     {
+      "id": "explainer:opt-in-plain-terms::explainer",
+      "subjectId": "explainer:opt-in-plain-terms",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "OPT, in plain terms",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:students",
+      "priority": 22001,
+      "readerValue": 60,
+      "factsHash": "ea08f20297a9dff5",
+      "whyItMatters": [
+        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
+      "ogImage": "/og/explainer/opt-in-plain-terms.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
+        }
+      ]
+    },
+    {
       "id": "explainer:visa-bulletin-priority-dates::explainer",
       "subjectId": "explainer:visa-bulletin-priority-dates",
       "contentType": "explainer",
@@ -790,7 +746,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -833,7 +789,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -876,7 +832,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -919,7 +875,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -962,7 +918,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -1005,7 +961,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -1048,7 +1004,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1089,7 +1045,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1130,7 +1086,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1171,7 +1127,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1212,7 +1168,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1253,7 +1209,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1294,9 +1250,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
-      "factsHash": "34943f428bf78c22",
+      "factsHash": "2eafba054ebe03c3",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -2027,6 +1983,64 @@
         },
         {
           "at": "2026-09-05T15:59:08.628Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20941::what_changed",
+      "subjectId": "event:federal_register:2026-20941",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "published",
+      "headline": "Removing Deference to Prior USCIS Determinations of Eligibility",
+      "suggestedHeadline": "USCIS proposes ending deference to prior approvals on extensions",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20941/removing-deference-to-prior-uscis-determinations-of-eligibility",
+      "eventId": "federal_register:2026-20941",
+      "category": "proposed",
+      "topicKey": "source:federal_register",
+      "priority": 45254.99444444444,
+      "readerValue": 44,
+      "factsHash": "1d6ac6e30a1a6c5d",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
+      "suggestedPost": {
+        "x": "USCIS has proposed removing deference to prior approvals on extensions. Nothing changes unless a final rule publishes.\n\nWhat changed: Delete 8 CFR 214.1(c)(5); emphasize the filer’s burden.\n\nWhat ImmigrationClock is watching: Finalisation.\n\nhttps://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3A4cuc7d",
+        "linkedin": "",
+        "structure": "what_changed"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d",
+      "ogImage": "/og/change/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-15T18:00:58.791Z",
+      "externalUrl": "https://x.com/i/web/status/2110793655271178265",
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d"
+        },
+        {
+          "at": "2026-10-15T18:00:58.791Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-15T18:00:58.791Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -3408,7 +3422,7 @@
       "eventId": "federal_register:2026-20186",
       "category": "deadline",
       "topicKey": "topic:enforcement",
-      "priority": 66600.92777777778,
+      "priority": 66610.92222222223,
       "readerValue": 80,
       "factsHash": "517855d21202639d",
       "whyItMatters": [
