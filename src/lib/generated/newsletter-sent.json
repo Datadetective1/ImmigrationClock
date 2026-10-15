@@ -56,6 +56,13 @@
       "audienceId": "84934be1-58ef-41f1-8680-3cd665df4d32",
       "broadcastId": "6ab0bc63-66e9-483c-9936-0fd691b56546",
       "sentAt": "2026-10-08T19:35:26.153Z"
+    },
+    {
+      "issueId": "weekly-en-2026-10-15",
+      "locale": "en",
+      "audienceId": "84934be1-58ef-41f1-8680-3cd665df4d32",
+      "broadcastId": "8919714e-51e0-4467-8c82-9043ab375da0",
+      "sentAt": "2026-10-15T17:57:55.039Z"
     }
   ]
 }
