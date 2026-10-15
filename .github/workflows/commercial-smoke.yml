@@ -33,7 +33,16 @@ jobs:
           say "## Commercial smoke check: $SITE"
 
           HOME_HTML=$(get /) || { say "- homepage: UNREACHABLE"; exit 1; }
-          say "- analytics script on homepage (plausible.io): $(yes_no "$(grep -c 'plausible.io' <<<"$HOME_HTML")")"
+          # Plausible is injected by client JS, so it never appears in the HTML.
+          # Read the page's own script chunks instead: with the domain configured
+          # the bare string "immigrationclock.com" is compiled in next to the
+          # Plausible loader; without it the loader is dead code.
+          CHUNKS=""
+          for src in $(grep -oE '/_next/static/[^"]+\.js' <<<"$HOME_HTML" | sort -u); do
+            CHUNKS+=$(curl -fsSL --max-time 30 "$SITE$src" || true)
+          done
+          say "- Plausible loader in shipped JS: $(yes_no "$(grep -c 'plausible.io/js/script' <<<"$CHUNKS")")"
+          say "- Plausible domain compiled in (\"immigrationclock.com\"): $(yes_no "$(grep -c '"immigrationclock.com"' <<<"$CHUNKS")")"
 
           HEALTH=$(get /api/health.json || echo '{}')
           say "- data last ingested: $(jq -r '.lastSuccessfulIngestion // "unknown"' <<<"$HEALTH")"
@@ -42,7 +51,11 @@ jobs:
           say "- billing: $(jq -c '{checkoutReady,webhookReady,testMode}' <<<"$CHECKOUT" 2>/dev/null || echo unreadable)"
 
           ALERTS=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$SITE/api/billing/alerts/run")
-          say "- alert job route deployed (401 without the cron secret is correct): HTTP $ALERTS"
+          case "$ALERTS" in
+            401) say "- alert job: configured (cron secret set; refused this unauthenticated call) — HTTP 401" ;;
+            503) say "- alert job: NOT configured (cron secret unset) — HTTP 503" ;;
+            *)   say "- alert job: unexpected HTTP $ALERTS" ;;
+          esac
 
           PRICING=$(get /pricing || echo '')
           say "- pricing lists email alerts: $(yes_no "$(grep -c 'Email alerts on your watchlist' <<<"$PRICING")")"
