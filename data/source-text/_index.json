@@ -3727,6 +3727,24 @@
       "retrievedAt": "2026-10-14",
       "adapter": "federal-register@2"
     },
+    "federal_register:2026-21062": {
+      "id": "federal_register:2026-21062",
+      "file": "federal_register_2026-21062.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/15/2026-21062.txt",
+      "contentHash": "sha256:d69fddc2fed630144aa6116ad51a90eb83f27c1013d6efd0629f0c11287ee90c",
+      "characters": 25306,
+      "retrievedAt": "2026-10-15",
+      "adapter": "federal-register@2"
+    },
+    "federal_register:2026-21063": {
+      "id": "federal_register:2026-21063",
+      "file": "federal_register_2026-21063.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/15/2026-21063.txt",
+      "contentHash": "sha256:86ec5cfa67690e171c700996c8e85246cdb706cbca61c649c4f3c7a36c9d7429",
+      "characters": 17360,
+      "retrievedAt": "2026-10-15",
+      "adapter": "federal-register@2"
+    },
     "federal_register:C1-2026-09289": {
       "id": "federal_register:C1-2026-09289",
       "file": "federal_register_C1-2026-09289.txt",
