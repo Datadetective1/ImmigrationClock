@@ -257,7 +257,11 @@ describe("the routes", () => {
     const { GET } = await import("@/app/api/billing/alerts/run/route");
     const req = (auth?: string) =>
       new Request(`${ORIGIN}/api/billing/alerts/run`, auth ? { headers: { authorization: auth } } : {});
-    expect((await GET(req("Bearer anything"))).status).toBe(401);
+    // Unset: refused as not configured, so "switched off" is visible from outside.
+    const off = await GET(req("Bearer anything"));
+    expect(off.status).toBe(503);
+    expect(JSON.stringify(await off.json())).not.toMatch(/CRON_SECRET|process\.env/);
+    expect((await GET(req())).status).toBe(503);
     process.env.CRON_SECRET = "cron-secret";
     expect((await GET(req("Bearer wrong"))).status).toBe(401);
     expect(cronAuthorized("Bearer cron-secret", "cron-secret")).toBe(true);
@@ -278,17 +282,45 @@ describe("the routes", () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 
-  it("a signed unsubscribe link turns alerts off; a forged one changes nothing", async () => {
+  it("opening the link changes nothing, so mail scanners cannot unsubscribe anyone", async () => {
     await store.putAlertCursor("pro", serializeCursor({ lastChangeDate: "2026-10-01", sent: [] }));
-    const { GET, POST } = await import("@/app/api/billing/alerts/unsubscribe/route");
+    const { GET } = await import("@/app/api/billing/alerts/unsubscribe/route");
 
-    const forged = await POST(new Request(`${ORIGIN}/api/billing/alerts/unsubscribe?k=pro&t=nope`, { method: "POST" }));
+    const res = await GET(new Request(unsubscribeUrl(ORIGIN, "pro", SECRET)));
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain('method="post"');
+    expect(parseCursor(await store.getAlertCursor("pro")).pausedAt).toBeUndefined();
+
+    const forged = await GET(new Request(`${ORIGIN}/api/billing/alerts/unsubscribe?k=pro&t=nope`));
+    expect(forged.status).toBe(400);
+  });
+
+  it("the confirm button turns alerts off and lands on /account", async () => {
+    await store.putAlertCursor("pro", serializeCursor({ lastChangeDate: "2026-10-01", sent: [] }));
+    const { POST } = await import("@/app/api/billing/alerts/unsubscribe/route");
+    const res = await POST(new Request(unsubscribeUrl(ORIGIN, "pro", SECRET), { method: "POST", body: "" }));
+    expect(res.status).toBe(303);
+    expect(res.headers.get("location")).toContain("/account?alerts=off");
+    expect(typeof parseCursor(await store.getAlertCursor("pro")).pausedAt).toBe("number");
+  });
+
+  it("RFC 8058 one-click works; a forged token changes nothing", async () => {
+    await store.putAlertCursor("pro", serializeCursor({ lastChangeDate: "2026-10-01", sent: [] }));
+    const { POST } = await import("@/app/api/billing/alerts/unsubscribe/route");
+    const oneClick = (url: string) =>
+      new Request(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "List-Unsubscribe=One-Click",
+      });
+
+    const forged = await POST(oneClick(`${ORIGIN}/api/billing/alerts/unsubscribe?k=pro&t=nope`));
     expect(forged.status).toBe(400);
     expect(parseCursor(await store.getAlertCursor("pro")).pausedAt).toBeUndefined();
 
-    const res = await GET(new Request(unsubscribeUrl(ORIGIN, "pro", SECRET)));
-    expect(res.status).toBe(303);
-    expect(res.headers.get("location")).toContain("/account?alerts=off");
+    const res = await POST(oneClick(unsubscribeUrl(ORIGIN, "pro", SECRET)));
+    expect(res.status).toBe(200);
     expect(typeof parseCursor(await store.getAlertCursor("pro")).pausedAt).toBe("number");
   });
 });

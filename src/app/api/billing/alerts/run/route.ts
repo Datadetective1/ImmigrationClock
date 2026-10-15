@@ -22,6 +22,12 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 export async function GET(req: Request): Promise<Response> {
+  // Not configured and wrong credentials are different answers, so an operator
+  // (and the commercial smoke check) can tell "the job is switched off" from
+  // "the job is on and refused a caller". Neither names a variable.
+  if (!(process.env.CRON_SECRET ?? "").trim()) {
+    return json({ error: "not_configured", message: "The alert job is not configured." }, 503);
+  }
   if (!cronAuthorized(req.headers.get("authorization"), process.env.CRON_SECRET)) {
     return json({ error: "unauthorized" }, 401);
   }
