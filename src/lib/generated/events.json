@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-10-15T15:25:55.464Z",
+  "generatedAt": "2026-10-15T17:57:47.964Z",
   "since": "2026-07-17",
   "adapters": [
     {
       "key": "federal-register",
       "name": "Federal Register",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:46.956Z",
+      "lastRunAt": "2026-10-15T17:57:38.164Z",
       "ok": true,
       "eventCount": 101,
-      "newCount": 2,
+      "newCount": 0,
       "latestPublishedAt": "2026-10-15",
       "warnings": [
         "661 of 762 document(s) from tracked agencies were not immigration-related"
@@ -19,7 +19,7 @@
       "key": "executive-actions",
       "name": "Executive Orders & Presidential Proclamations",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:52.968Z",
+      "lastRunAt": "2026-10-15T17:57:43.970Z",
       "ok": true,
       "eventCount": 5,
       "newCount": 0,
@@ -32,7 +32,7 @@
       "key": "uscis-newsroom",
       "name": "USCIS newsroom & policy alerts",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:53.114Z",
+      "lastRunAt": "2026-10-15T17:57:44.184Z",
       "ok": true,
       "eventCount": 20,
       "newCount": 0,
@@ -45,7 +45,7 @@
       "key": "uscis-policy-manual",
       "name": "USCIS Policy Manual",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:53.403Z",
+      "lastRunAt": "2026-10-15T17:57:44.250Z",
       "ok": true,
       "eventCount": 13,
       "newCount": 0,
@@ -56,7 +56,7 @@
       "key": "federal-courts",
       "name": "Federal court decisions",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:54.798Z",
+      "lastRunAt": "2026-10-15T17:57:47.347Z",
       "ok": true,
       "eventCount": 3,
       "newCount": 0,
@@ -69,7 +69,7 @@
       "key": "congress",
       "name": "Congress — bills and public laws",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:54.798Z",
+      "lastRunAt": "2026-10-15T17:57:47.347Z",
       "ok": true,
       "eventCount": 0,
       "newCount": 0,
@@ -82,7 +82,7 @@
       "key": "cbp-encounters",
       "name": "CBP nationwide encounters",
       "status": "live",
-      "lastRunAt": "2026-10-15T15:25:54.824Z",
+      "lastRunAt": "2026-10-15T17:57:47.375Z",
       "ok": true,
       "eventCount": 1,
       "newCount": 0,
@@ -95,7 +95,7 @@
       "key": "dol-oflc",
       "name": "DOL Office of Foreign Labor Certification",
       "status": "ready",
-      "lastRunAt": "2026-10-15T15:25:55.450Z",
+      "lastRunAt": "2026-10-15T17:57:47.948Z",
       "ok": true,
       "eventCount": 1,
       "newCount": 0,
@@ -122,10 +122,7 @@
       "deadline": 12
     }
   },
-  "addedIds": [
-    "federal_register:2026-21063",
-    "federal_register:2026-21062"
-  ],
+  "addedIds": [],
   "events": [
     {
       "id": "federal_register:2026-21063",
