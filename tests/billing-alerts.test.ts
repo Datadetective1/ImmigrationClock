@@ -32,6 +32,7 @@ import {
   type WarnEmployerLike,
 } from "@/lib/billing/alerts";
 import type { IndexedEvent } from "@/lib/event-index";
+import { changePath } from "@/lib/share";
 
 function event(over: Partial<IndexedEvent> = {}): IndexedEvent {
   return {
@@ -73,7 +74,10 @@ describe("change alerts", () => {
     const alerts = changeAlerts(events, ["visa:h-1b"], EMPTY);
     expect(alerts).toHaveLength(1);
     expect(alerts[0].matched).toEqual(["visa:h-1b"]);
-    expect(alerts[0].href).toBe("/what-changed/federal_register:2026-1");
+    // The change page's real address: title slug plus a hash of the id. The
+    // bare id used to be emitted here and every alert link was a 404.
+    expect(alerts[0].href).toBe(changePath(events[0]));
+    expect(alerts[0].href).toMatch(/^\/what-changed\/a-rule-about-h-1b-petitions-[a-z0-9]{6}$/);
   });
 
   it("says nothing to an empty watchlist", () => {
