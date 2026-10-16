@@ -12,7 +12,8 @@
 // =============================================================================
 
 import { billingOrigin, billingStatus } from "@/lib/billing/config";
-import { cronAuthorized, resendSender, runAlerts } from "@/lib/billing/alert-run";
+import { cronAuthorized, resendSender, runAlerts, runWeeklySummaries } from "@/lib/billing/alert-run";
+import { buildWeeklySummary, renderWeeklyEmail } from "@/lib/pro/weekly";
 import { json } from "@/lib/billing/http";
 import { resolveStore } from "@/lib/billing/store";
 import { EVENT_INDEX } from "@/lib/event-index";
@@ -56,5 +57,23 @@ export async function GET(req: Request): Promise<Response> {
     sender: send ? resendSender(process.env as Record<string, string | undefined>) : undefined,
   });
   console.log(`[alerts] run · ${JSON.stringify(report)}`);
-  return json({ ok: true, report }, 200);
+
+  // The Monday intelligence summary: only with Briefing and Intelligence both
+  // on, and under the same ALERTS_SEND switch as every other email.
+  let summary = null;
+  if (flagOn("pro_briefing") && flagOn("pro_intelligence")) {
+    summary = await runWeeklySummaries({
+      store,
+      nowSeconds: Math.floor(Date.now() / 1000),
+      secret,
+      origin: billingOrigin(),
+      testMode: status.testMode,
+      send,
+      sender: send ? resendSender(process.env as Record<string, string | undefined>) : undefined,
+      build: (follows, savedIds, today) => buildWeeklySummary({ follows, savedIds, today }),
+      render: renderWeeklyEmail,
+    });
+    console.log(`[alerts] weekly summary · ${JSON.stringify(summary)}`);
+  }
+  return json({ ok: true, report, summary }, 200);
 }

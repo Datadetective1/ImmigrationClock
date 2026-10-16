@@ -12,6 +12,7 @@ export interface BriefingSettingsValue {
   frequency: "daily" | "weekly";
   relevance: "all" | "priority";
   reminders: boolean;
+  summary: boolean;
   calendarUrl: string;
 }
 
@@ -55,7 +56,15 @@ function Choice<T extends string>({
   );
 }
 
-export function BriefingSettings({ initial, alertsOn }: { initial: BriefingSettingsValue; alertsOn: boolean }) {
+export function BriefingSettings({
+  initial,
+  alertsOn,
+  intelligence = false,
+}: {
+  initial: BriefingSettingsValue;
+  alertsOn: boolean;
+  intelligence?: boolean;
+}) {
   const [value, setValue] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState("");
@@ -159,6 +168,25 @@ export function BriefingSettings({ initial, alertsOn }: { initial: BriefingSetti
           </span>
         </span>
       </label>
+
+      {intelligence ? (
+        <label className="flex items-start gap-3 text-sm text-slate-200">
+          <input
+            type="checkbox"
+            checked={value.summary}
+            disabled={busy}
+            onChange={(e) => save({ summary: e.target.checked }, "Saved.")}
+            className="mt-1"
+          />
+          <span>
+            Weekly intelligence summary
+            <span className="block text-xs text-slate-400">
+              Mondays: what changed for each follow, open proposals, dates in the next 90 days, and what we checked —
+              including in quiet weeks.
+            </span>
+          </span>
+        </label>
+      ) : null}
 
       <div>
         <p className="text-sm font-semibold text-white">Calendar feed</p>

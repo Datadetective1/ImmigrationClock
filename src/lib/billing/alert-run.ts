@@ -38,8 +38,9 @@ import { buildAlertEmail, type AlertEmail } from "./alert-email";
 import type { SubscriberStore } from "./store";
 import { accessFor } from "./subscription";
 import type { IndexedEvent } from "@/lib/event-index";
-import { appendHistory, parseHistory, serializeHistory } from "@/lib/pro/history";
-import { PRIORITY_EFFECTIVE_DAYS, digestDue, parsePrefs } from "@/lib/pro/prefs";
+import { appendHistory, appendSummaryHistory, parseHistory, serializeHistory } from "@/lib/pro/history";
+import { PRIORITY_EFFECTIVE_DAYS, WEEKLY_DAY, digestDue, parsePrefs } from "@/lib/pro/prefs";
+import { parseSaved } from "@/lib/pro/saved";
 
 /** Days ahead a reminder fires for a followed change's stated effective date. */
 export const REMIND_WITHIN_DAYS = 7;
@@ -267,4 +268,111 @@ export function resendSender(env: Record<string, string | undefined>, fetchImpl:
     });
     return res.ok ? { ok: true } : { ok: false, detail: `Resend returned ${res.status}` };
   };
+}
+
+// -----------------------------------------------------------------------------
+// THE WEEKLY INTELLIGENCE SUMMARY
+// -----------------------------------------------------------------------------
+
+export interface SummaryRunReport {
+  mode: "send" | "dry_run";
+  notDue: boolean;
+  subscribers: number;
+  notPro: number;
+  off: number;
+  noFollows: number;
+  alreadySent: number;
+  ready: number;
+  sent: number;
+  failed: number;
+}
+
+/**
+ * Monday's summary, once per subscriber per week.
+ *
+ * Same gates as alerts — paying, alerts not paused (the one-click unsubscribe
+ * stops this too) — plus the subscriber's own summary switch. A claim recorded
+ * only after Resend accepts the message makes it once per week even if the
+ * cron runs twice; a failed send is retried on the next run that day.
+ */
+export async function runWeeklySummaries(input: {
+  store: SubscriberStore;
+  nowSeconds: number;
+  secret: string;
+  origin: string;
+  testMode: boolean;
+  send?: boolean;
+  sender?: SendAlert;
+  build: (follows: string[], savedIds: string[], today: string) => import("@/lib/pro/weekly").WeeklySummary;
+  render: typeof import("@/lib/pro/weekly").renderWeeklyEmail;
+}): Promise<SummaryRunReport> {
+  const send = input.send === true;
+  if (send && !input.sender) throw new Error("runWeeklySummaries: send requested without a sender");
+  const today = new Date(input.nowSeconds * 1000).toISOString().slice(0, 10);
+  const report: SummaryRunReport = {
+    mode: send ? "send" : "dry_run",
+    notDue: new Date(input.nowSeconds * 1000).getUTCDay() !== WEEKLY_DAY,
+    subscribers: 0,
+    notPro: 0,
+    off: 0,
+    noFollows: 0,
+    alreadySent: 0,
+    ready: 0,
+    sent: 0,
+    failed: 0,
+  };
+  if (report.notDue) return report;
+
+  for (const key of await input.store.listSubscriberKeys()) {
+    report.subscribers += 1;
+    const record = await input.store.getSubscriber(key);
+    if (!accessFor(record, input.nowSeconds).pro || !record?.email) {
+      report.notPro += 1;
+      continue;
+    }
+    const cursor = parseCursor(await input.store.getAlertCursor(key));
+    const prefs = parsePrefs(await input.store.getProDoc("prefs", key));
+    if (typeof cursor.pausedAt === "number" || !prefs.summary) {
+      report.off += 1;
+      continue;
+    }
+    const follows = (await input.store.getWatchlist(key))?.entityIds ?? [];
+    if (follows.length === 0) {
+      report.noFollows += 1;
+      continue;
+    }
+    const claim = `weekly-summary:${key}:${today}`;
+    if (await input.store.wasClaimed(claim)) {
+      report.alreadySent += 1;
+      continue;
+    }
+    report.ready += 1;
+    if (!send) continue;
+
+    const savedIds = parseSaved(await input.store.getProDoc("saved", key)).map((s) => s.id);
+    const mail = input.render(input.build(follows, savedIds, today), {
+      origin: input.origin,
+      unsubscribeUrl: unsubscribeUrl(input.origin, key, input.secret),
+      testMode: input.testMode,
+    });
+    let result: { ok: true } | { ok: false; detail: string };
+    try {
+      result = await input.sender!(record.email, mail, `weekly-${key}-${today}`);
+    } catch (err) {
+      result = { ok: false, detail: err instanceof Error ? err.message : "send threw" };
+    }
+    if (!result.ok) {
+      report.failed += 1;
+      continue;
+    }
+    await input.store.claimOnce(claim, 14 * 86_400);
+    try {
+      const history = parseHistory(await input.store.getProDoc("history", key));
+      await input.store.putProDoc("history", key, serializeHistory(appendSummaryHistory(history, today, input.nowSeconds)));
+    } catch {
+      // The email went out; a missing history line must not resend it.
+    }
+    report.sent += 1;
+  }
+  return report;
 }

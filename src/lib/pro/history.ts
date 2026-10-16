@@ -13,7 +13,7 @@ export const MAX_HISTORY = 50;
 
 export interface HistoryItem {
   id: string;
-  kind: Alert["kind"];
+  kind: Alert["kind"] | "weekly_summary";
   title: string;
   href: string;
   date: string;
@@ -45,6 +45,15 @@ export function appendHistory(entries: readonly HistoryEntry[], alerts: readonly
   const entry: HistoryEntry = {
     sentAt,
     items: alerts.map((a) => ({ id: a.id, kind: a.kind, title: a.title, href: a.href, date: a.date })),
+  };
+  return [entry, ...entries].slice(0, MAX_HISTORY);
+}
+
+/** Record a sent weekly summary as one history entry. */
+export function appendSummaryHistory(entries: readonly HistoryEntry[], weekOf: string, sentAt: number): HistoryEntry[] {
+  const entry: HistoryEntry = {
+    sentAt,
+    items: [{ id: `summary:${weekOf}`, kind: "weekly_summary", title: `Weekly intelligence summary, week of ${weekOf}`, href: "/briefing", date: weekOf }],
   };
   return [entry, ...entries].slice(0, MAX_HISTORY);
 }

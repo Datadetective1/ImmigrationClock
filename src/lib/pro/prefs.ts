@@ -33,6 +33,8 @@ export interface BriefingPrefs {
   relevance: Relevance;
   /** One reminder a week before a followed change's stated effective date. */
   reminders: boolean;
+  /** The Monday intelligence summary (when Intelligence is on). */
+  summary: boolean;
   /**
    * Bumped to revoke the private calendar link. The link is signed over this
    * number, so the old one stops working the moment it changes.
@@ -44,6 +46,7 @@ export const DEFAULT_PREFS: BriefingPrefs = {
   frequency: "daily",
   relevance: "all",
   reminders: false,
+  summary: true,
   calendarVersion: 1,
 };
 
@@ -67,6 +70,7 @@ export function sanitizePrefs(input: unknown, base: BriefingPrefs): BriefingPref
     frequency: FREQUENCIES.includes(v.frequency as Frequency) ? (v.frequency as Frequency) : base.frequency,
     relevance: RELEVANCE.includes(v.relevance as Relevance) ? (v.relevance as Relevance) : base.relevance,
     reminders: typeof v.reminders === "boolean" ? v.reminders : base.reminders,
+    summary: typeof v.summary === "boolean" ? v.summary : base.summary,
     calendarVersion:
       typeof version === "number" && Number.isInteger(version) && version >= 1 && version < 1_000_000
         ? version
