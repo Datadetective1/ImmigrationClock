@@ -73,6 +73,9 @@ only) or "No new records this week · newest <date>", open proposals and what
 took effect; stated dates in the next 90 days; and what was checked, quiet or
 failed, and not covered. A quiet week is called a quiet week in our sources,
 never "nothing changed". Sent once per subscriber per week (claim recorded
-after Resend accepts), skipped when alerts are paused, the subscriber turned
-the summary off (settings), or the watchlist is empty. Recorded in alert
+after Resend accepts). Opt-in: the "Weekly intelligence summary" setting is
+off by default, including for subscribers whose preferences were saved before
+it existed, and is separate from the daily/weekly alert digest. Skipped when
+the subscriber has not turned it on, alerts are paused, or the watchlist is
+empty. Recorded in alert
 history. No AI is involved.

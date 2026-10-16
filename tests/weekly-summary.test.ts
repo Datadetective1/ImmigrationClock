@@ -74,7 +74,8 @@ describe("sending the summary", () => {
     await store.putSubscriber("k1", { email: "p@example.com", customerId: "c", status: "active", currentPeriodEnd: MONDAY + 86400 * 30, updatedAt: MONDAY });
     await store.putWatchlist("k1", { entityIds: over.follows ?? ["visa:h-1b"], updatedAt: MONDAY });
     await store.putAlertCursor("k1", serializeCursor({ lastChangeDate: "2026-10-01", sent: [], ...(over.paused ? { pausedAt: 1 } : {}) }));
-    if (over.prefs) await store.putProDoc("prefs", "k1", serializePrefs({ ...DEFAULT_PREFS, ...over.prefs }));
+    // The summary is opt-in; these tests start from a subscriber who turned it on.
+    await store.putProDoc("prefs", "k1", serializePrefs({ ...DEFAULT_PREFS, summary: true, ...over.prefs }));
     const sent: string[] = [];
     let fail = false;
     const sender: SendAlert = async (_to, mail, key) => {
@@ -112,6 +113,35 @@ describe("sending the summary", () => {
     expect((await (await setup({ prefs: { summary: false } })).run(MONDAY)).off).toBe(1);
     expect((await (await setup({ paused: true })).run(MONDAY)).off).toBe(1);
     expect((await (await setup({ follows: [] })).run(MONDAY)).noFollows).toBe(1);
+  });
+
+  it("is opt-in: nobody gets it without turning it on, including prefs saved before the setting existed", async () => {
+    expect(DEFAULT_PREFS.summary).toBe(false);
+    const fresh = new MemoryStore();
+    await fresh.putSubscriber("k1", { email: "p@example.com", customerId: "c", status: "active", currentPeriodEnd: MONDAY + 86400 * 30, updatedAt: MONDAY });
+    await fresh.putWatchlist("k1", { entityIds: ["visa:h-1b"], updatedAt: MONDAY });
+    await fresh.putAlertCursor("k1", serializeCursor({ lastChangeDate: "2026-10-01", sent: [] }));
+    const legacy = new MemoryStore();
+    await legacy.putSubscriber("k1", { email: "p@example.com", customerId: "c", status: "active", currentPeriodEnd: MONDAY + 86400 * 30, updatedAt: MONDAY });
+    await legacy.putWatchlist("k1", { entityIds: ["visa:h-1b"], updatedAt: MONDAY });
+    await legacy.putAlertCursor("k1", serializeCursor({ lastChangeDate: "2026-10-01", sent: [] }));
+    await legacy.putProDoc("prefs", "k1", JSON.stringify({ frequency: "weekly", relevance: "all", reminders: true, calendarVersion: 1 }));
+    for (const store of [fresh, legacy]) {
+      const sent: string[] = [];
+      const report = await runWeeklySummaries({
+        store,
+        nowSeconds: MONDAY,
+        secret: "s".repeat(64),
+        origin: ORIGIN,
+        testMode: false,
+        send: true,
+        sender: async (_to, mail, key) => (sent.push(`${key}|${mail.subject}`), { ok: true }),
+        build: (follows, savedIds, today) => buildWeeklySummary({ follows, savedIds, today }),
+        render: renderWeeklyEmail,
+      });
+      expect(report.off).toBe(1);
+      expect(sent).toEqual([]);
+    }
   });
 
   it("retries a failed send on the next run, and a dry run sends nothing", async () => {

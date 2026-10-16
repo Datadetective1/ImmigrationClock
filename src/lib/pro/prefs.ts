@@ -33,7 +33,11 @@ export interface BriefingPrefs {
   relevance: Relevance;
   /** One reminder a week before a followed change's stated effective date. */
   reminders: boolean;
-  /** The Monday intelligence summary (when Intelligence is on). */
+  /**
+   * The Monday intelligence summary (when Intelligence is on). Opt-in: off
+   * until the subscriber turns it on, including for prefs stored before this
+   * field existed. Independent of the daily/weekly alert digest.
+   */
   summary: boolean;
   /**
    * Bumped to revoke the private calendar link. The link is signed over this
@@ -46,7 +50,7 @@ export const DEFAULT_PREFS: BriefingPrefs = {
   frequency: "daily",
   relevance: "all",
   reminders: false,
-  summary: true,
+  summary: false,
   calendarVersion: 1,
 };
 

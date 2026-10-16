@@ -179,10 +179,11 @@ export function BriefingSettings({
             className="mt-1"
           />
           <span>
-            Weekly intelligence summary
+            Weekly intelligence summary (optional, separate email)
             <span className="block text-xs text-slate-400">
-              Mondays: what changed for each follow, open proposals, dates in the next 90 days, and what we checked —
-              including in quiet weeks.
+              Off unless you turn it on. Separate from your alerts above, which stay as they are. Mondays: what
+              changed for each follow, open proposals, dates in the next 90 days, and what we checked — including in
+              quiet weeks.
             </span>
           </span>
         </label>
