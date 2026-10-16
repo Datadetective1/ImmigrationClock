@@ -74,6 +74,8 @@ export interface Assessment {
   daysUntilEffective: number | null;
   /** Historical significance, kept separate from urgency. */
   recordedMajor: boolean;
+  /** What a reader could do next. General, never advice about anyone's case. */
+  nextStep: string;
 }
 
 /** How close "takes effect soon" is. */
@@ -196,6 +198,38 @@ export function statusText(change: PublicChange, today: string): string {
   }
 }
 
+/** Who to ask about one's own situation. Named once so every step says the same. */
+const ASK =
+  "For questions about your own situation, ask an immigration attorney or a DOJ-accredited representative.";
+
+/**
+ * A next step for someone following immigration policy for themselves or their
+ * family. The Monitor's brief speaks to teams and their procedures; this one
+ * speaks to a reader. It points at the official record and at qualified help,
+ * and says nothing about whether the change applies to anyone.
+ */
+export function readerNextStep(change: PublicChange, today: string): string {
+  if (change.status === "superseded" || change.amendedBy.length > 0) {
+    return "A later record amends this one. Read that record first; this one may no longer describe the current rule.";
+  }
+  switch (change.status) {
+    case "proposed":
+      return (
+        "This is a proposal, not a final rule. The official notice says whether and how the public can comment. " +
+        "A final rule, if one is published, would appear here as a separate record."
+      );
+    case "informational":
+      return "This is a data release, not a rule. The source explains how the figures were collected and what they cover.";
+    case "decided":
+      return `Court decisions can be appealed or limited to the parties in the case. Read the decision and any agency guidance that follows it. ${ASK}`;
+  }
+  const eff = change.effectiveDate;
+  if (eff && eff > today) {
+    return `Read the official notice before ${eff} to see who it covers and what changes. ${ASK}`;
+  }
+  return `Read the official source to confirm who it covers and what changed. ${ASK}`;
+}
+
 /** The document's own summary, cut at a sentence boundary. */
 /** The publisher's own placeholder when a document has no abstract. */
 const NO_ABSTRACT = /^no abstract was published with this document\.?$/i;
@@ -272,5 +306,6 @@ export function assessChange(
     dates,
     daysUntilEffective: daysUntil,
     recordedMajor: strong.severity === "major",
+    nextStep: readerNextStep(strong, today),
   };
 }
