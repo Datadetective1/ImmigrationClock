@@ -185,3 +185,14 @@ describe("a visitor is never shown configuration", () => {
     expect(withoutComments).not.toMatch(/BILLING_ENABLED|STRIPE_SECRET_KEY|KV_REST_API/);
   });
 });
+
+describe("the FAQ agrees with what Pro sells", () => {
+  // The follows answer still said alerts were "on the roadmap and not part of
+  // Pro today" after watchlist_alerts shipped and was listed as available a
+  // few lines above it — the page contradicted itself.
+  it("does not call a sold capability roadmap", () => {
+    const flat = source.replace(/\s+/g, " ");
+    expect(flat).not.toMatch(/alerts[^.]*not part of Pro today/i);
+    expect(flat).toMatch(/Pro also emails you when a recorded change touches something on that list/);
+  });
+});
