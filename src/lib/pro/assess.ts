@@ -76,8 +76,7 @@ export interface Assessment {
   recordedMajor: boolean;
 }
 
-/** How far ahead "upcoming" reaches, and how close "takes effect soon" is. */
-export const UPCOMING_DAYS = 180;
+/** How close "takes effect soon" is. */
 export const SOON_DAYS = 30;
 /** How long a change counts as current after publication or taking effect. */
 export const CURRENT_DAYS = 30;
@@ -240,7 +239,9 @@ export function assessChange(
   if (strong.status === "superseded") {
     section = "historical";
     urgency = { label: "Superseded", tone: "muted" };
-  } else if (daysUntil !== null && daysUntil >= 0 && daysUntil <= UPCOMING_DAYS) {
+  } else if (daysUntil !== null && daysUntil >= 0) {
+    // Every stated date ahead, however distant: a calendar subscription built
+    // from this section must not lose a date for being far away.
     section = "upcoming";
     const soon = daysUntil <= SOON_DAYS && primary;
     urgency = {
