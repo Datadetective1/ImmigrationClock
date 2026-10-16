@@ -41,19 +41,23 @@ export async function GET(req: Request): Promise<Response> {
   }
 
   const send = (process.env.ALERTS_SEND ?? "").trim() === "true";
+  const intelligence = flagOn("pro_briefing") && flagOn("pro_intelligence");
+  const data = { events: EVENT_INDEX, warnEmployers: [], h1bEmployers: [], fiscalYear: "" };
   const report = await runAlerts({
     store,
     nowSeconds: Math.floor(Date.now() / 1000),
     // Change alerts only. Employers are not followable (src/lib/follows.ts),
     // so a watchlist can never match the WARN or H-1B feeds; loading those
     // multi-megabyte files into this function would buy nothing.
-    data: { events: EVENT_INDEX, warnEmployers: [], h1bEmployers: [], fiscalYear: "" },
+    data,
     secret,
     origin: billingOrigin(),
     testMode: status.testMode,
     supportEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || undefined,
     send,
     briefing: flagOn("pro_briefing"),
+    // Weekly digests of subscribers who turned the summary on go inside it.
+    summary: intelligence,
     sender: send ? resendSender(process.env as Record<string, string | undefined>) : undefined,
   });
   console.log(`[alerts] run · ${JSON.stringify(report)}`);
@@ -61,7 +65,7 @@ export async function GET(req: Request): Promise<Response> {
   // The Monday intelligence summary: only with Briefing and Intelligence both
   // on, and under the same ALERTS_SEND switch as every other email.
   let summary = null;
-  if (flagOn("pro_briefing") && flagOn("pro_intelligence")) {
+  if (intelligence) {
     summary = await runWeeklySummaries({
       store,
       nowSeconds: Math.floor(Date.now() / 1000),
@@ -72,6 +76,7 @@ export async function GET(req: Request): Promise<Response> {
       sender: send ? resendSender(process.env as Record<string, string | undefined>) : undefined,
       build: (follows, savedIds, today) => buildWeeklySummary({ follows, savedIds, today }),
       render: renderWeeklyEmail,
+      alertData: data,
     });
     console.log(`[alerts] weekly summary · ${JSON.stringify(summary)}`);
   }

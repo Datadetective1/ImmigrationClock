@@ -181,9 +181,13 @@ export function BriefingSettings({
           <span>
             Weekly intelligence summary (optional, separate email)
             <span className="block text-xs text-slate-400">
-              Off unless you turn it on. Separate from your alerts above, which stay as they are. Mondays: what
-              changed for each follow, open proposals, dates in the next 90 days, and what we checked — including in
-              quiet weeks.
+              Off unless you turn it on. Mondays: what changed for each follow, open proposals, dates in the next 90
+              days, and what we checked — including in quiet weeks.
+            </span>
+            <span className="mt-1 block text-xs text-slate-300">
+              {value.frequency === "weekly"
+                ? "With the weekly digest, your digest's alerts come inside this summary: one email on Mondays, not two."
+                : "Sent in addition to your daily alerts, which stay as they are."}
             </span>
           </span>
         </label>

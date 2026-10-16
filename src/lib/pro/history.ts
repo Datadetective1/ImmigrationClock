@@ -49,11 +49,19 @@ export function appendHistory(entries: readonly HistoryEntry[], alerts: readonly
   return [entry, ...entries].slice(0, MAX_HISTORY);
 }
 
-/** Record a sent weekly summary as one history entry. */
-export function appendSummaryHistory(entries: readonly HistoryEntry[], weekOf: string, sentAt: number): HistoryEntry[] {
+/** Record a sent weekly summary, and any digest alerts it carried, as one history entry. */
+export function appendSummaryHistory(
+  entries: readonly HistoryEntry[],
+  weekOf: string,
+  sentAt: number,
+  alerts: readonly Alert[] = []
+): HistoryEntry[] {
   const entry: HistoryEntry = {
     sentAt,
-    items: [{ id: `summary:${weekOf}`, kind: "weekly_summary", title: `Weekly intelligence summary, week of ${weekOf}`, href: "/briefing", date: weekOf }],
+    items: [
+      { id: `summary:${weekOf}`, kind: "weekly_summary", title: `Weekly intelligence summary, week of ${weekOf}`, href: "/briefing", date: weekOf },
+      ...alerts.map((a) => ({ id: a.id, kind: a.kind, title: a.title, href: a.href, date: a.date })),
+    ],
   };
   return [entry, ...entries].slice(0, MAX_HISTORY);
 }

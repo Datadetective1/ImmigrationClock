@@ -3,7 +3,8 @@
 // =============================================================================
 
 import { describe, expect, it } from "vitest";
-import { runWeeklySummaries, type SendAlert } from "@/lib/billing/alert-run";
+import { runAlerts, runWeeklySummaries, type SendAlert } from "@/lib/billing/alert-run";
+import { EVENT_INDEX } from "@/lib/event-index";
 import { serializeCursor } from "@/lib/billing/alerts";
 import { MemoryStore } from "@/lib/billing/store";
 import { EVENTS } from "@/lib/event-store";
@@ -152,5 +153,84 @@ describe("sending the summary", () => {
     expect((await s.run(MONDAY)).failed).toBe(1);
     s.setFail(false);
     expect((await s.run(MONDAY)).sent).toBe(1);
+  });
+});
+
+describe("one Monday email: the weekly digest and the summary", () => {
+  const MONDAY = Date.UTC(2026, 9, 19, 13, 30) / 1000;
+  const DATA = { events: EVENT_INDEX, warnEmployers: [], h1bEmployers: [], fiscalYear: "" };
+
+  async function subscriber(prefs: object) {
+    const store = new MemoryStore();
+    await store.putSubscriber("k1", { email: "p@example.com", customerId: "c", status: "active", currentPeriodEnd: MONDAY + 86400 * 30, updatedAt: MONDAY });
+    await store.putWatchlist("k1", { entityIds: ["agency:uscis"], updatedAt: MONDAY });
+    await store.putAlertCursor("k1", serializeCursor({ lastChangeDate: "2026-10-01", sent: [] }));
+    await store.putProDoc("prefs", "k1", serializePrefs({ ...DEFAULT_PREFS, ...prefs }));
+    const mails: { key: string; subject: string; text: string }[] = [];
+    const sender: SendAlert = async (_to, mail, key) => (mails.push({ key, subject: mail.subject, text: mail.text }), { ok: true });
+    const common = { store, nowSeconds: MONDAY, secret: "s".repeat(64), origin: ORIGIN, testMode: false, send: true, sender };
+    // The order the cron runs them in.
+    const monday = async (intelligence = true) => {
+      const alerts = await runAlerts({ ...common, data: DATA, briefing: true, summary: intelligence });
+      const summary = intelligence
+        ? await runWeeklySummaries({
+            ...common,
+            build: (follows, savedIds, today) => buildWeeklySummary({ follows, savedIds, today }),
+            render: renderWeeklyEmail,
+            alertData: DATA,
+          })
+        : null;
+      return { alerts, summary };
+    };
+    return { store, mails, monday };
+  }
+
+  it("weekly digest + summary: one email that carries the digest, cursor and history advanced", async () => {
+    const s = await subscriber({ frequency: "weekly", summary: true });
+    const { alerts, summary } = await s.monday();
+    expect(alerts.inSummary).toBe(1);
+    expect(alerts.sent).toBe(0);
+    expect(summary!.sent).toBe(1);
+    expect(summary!.withDigest).toBe(1);
+    expect(s.mails).toHaveLength(1);
+    expect(s.mails[0].subject).toMatch(/\d+ alerts?/);
+    expect(s.mails[0].text).toContain("YOUR ALERTS THIS WEEK");
+
+    const h = parseHistory(await s.store.getProDoc("history", "k1"));
+    expect(h).toHaveLength(1);
+    expect(h[0].items[0].kind).toBe("weekly_summary");
+    expect(h[0].items.length).toBeGreaterThan(1);
+
+    // A second run the same day sends nothing more, and the alerts are not owed again.
+    await s.monday();
+    expect(s.mails).toHaveLength(1);
+    const cursor = JSON.parse((await s.store.getAlertCursor("k1"))!);
+    expect(cursor.lastChangeDate > "2026-10-01").toBe(true);
+  });
+
+  it("weekly digest without the summary: the digest goes as before, and no summary", async () => {
+    const s = await subscriber({ frequency: "weekly", summary: false });
+    const { alerts, summary } = await s.monday();
+    expect(alerts.sent).toBe(1);
+    expect(summary!.off).toBe(1);
+    expect(s.mails).toHaveLength(1);
+    expect(s.mails[0].text).not.toContain("YOUR ALERTS THIS WEEK");
+  });
+
+  it("daily alerts + summary: daily alerts unchanged, the summary is its own email", async () => {
+    const s = await subscriber({ frequency: "daily", summary: true });
+    const { alerts, summary } = await s.monday();
+    expect(alerts.inSummary).toBe(0);
+    expect(alerts.sent).toBe(1);
+    expect(summary!.sent).toBe(1);
+    expect(summary!.withDigest).toBe(0);
+    expect(s.mails[1].text).not.toContain("YOUR ALERTS THIS WEEK");
+  });
+
+  it("with Intelligence off, a weekly digest is sent as before whatever the stored setting", async () => {
+    const s = await subscriber({ frequency: "weekly", summary: true });
+    const { alerts } = await s.monday(false);
+    expect(alerts.inSummary).toBe(0);
+    expect(alerts.sent).toBe(1);
   });
 });

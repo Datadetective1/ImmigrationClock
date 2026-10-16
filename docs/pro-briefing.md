@@ -75,7 +75,14 @@ failed, and not covered. A quiet week is called a quiet week in our sources,
 never "nothing changed". Sent once per subscriber per week (claim recorded
 after Resend accepts). Opt-in: the "Weekly intelligence summary" setting is
 off by default, including for subscribers whose preferences were saved before
-it existed, and is separate from the daily/weekly alert digest. Skipped when
-the subscriber has not turned it on, alerts are paused, or the watchlist is
-empty. Recorded in alert
+it existed. Skipped when the subscriber has not turned it on, alerts are
+paused, or the watchlist is empty.
+
+One Monday email, not two: a subscriber whose alerts are a weekly digest and
+who turns the summary on gets the digest's alerts inside the summary
+("Your alerts this week"). `runAlerts` leaves those digests (`inSummary` in its
+report) and `runWeeklySummaries` sends them, then advances the alert cursor and
+history exactly as the digest would have. Daily alerts are unchanged; the
+summary is a separate email for daily subscribers. With Intelligence off,
+weekly digests go out as before. Recorded in alert
 history. No AI is involved.

@@ -94,6 +94,13 @@ export interface AlertRunInput {
   send?: boolean;
   sender?: SendAlert;
   /**
+   * The weekly intelligence summary is running (pro_intelligence). A weekly
+   * digest subscriber who turned the summary on gets one Monday email: the
+   * digest's alerts travel inside the summary (runWeeklySummaries), so this
+   * job leaves them for it rather than sending a second email.
+   */
+  summary?: boolean;
+  /**
    * The pro_briefing flag. When true, each subscriber's Briefing preferences
    * (frequency, relevance, reminders) shape the batch, and every accepted send
    * is recorded in their alert history. When false the job runs exactly as it
@@ -112,6 +119,8 @@ export interface AlertRunReport {
   nothingNew: number;
   /** Weekly subscribers on a day that is not their digest day. Briefing only. */
   notDue: number;
+  /** Weekly digests left for the intelligence summary to carry. */
+  inSummary: number;
   /** Batches that would go out (dry run) or went out (send). */
   ready: number;
   sent: number;
@@ -134,6 +143,7 @@ export async function runAlerts(input: AlertRunInput): Promise<AlertRunReport> {
     emptyWatchlist: 0,
     nothingNew: 0,
     notDue: 0,
+    inSummary: 0,
     ready: 0,
     sent: 0,
     failed: 0,
@@ -176,16 +186,11 @@ export async function runAlerts(input: AlertRunInput): Promise<AlertRunReport> {
       report.notDue += 1;
       continue;
     }
-    const batch = prefs
-      ? buildAlertBatch(input.data, follows, cursor, {
-          today,
-          // A weekly digest covers seven days, so it may carry more.
-          limit: prefs.frequency === "weekly" ? 25 : 12,
-          relevance: prefs.relevance,
-          priorityWithinDays: PRIORITY_EFFECTIVE_DAYS,
-          ...(prefs.reminders ? { remindWithinDays: REMIND_WITHIN_DAYS } : {}),
-        })
-      : buildAlertBatch(input.data, follows, cursor);
+    if (input.summary && prefs && foldsIntoSummary(prefs)) {
+      report.inSummary += 1;
+      continue;
+    }
+    const batch = alertBatchFor(input.data, follows, cursor, prefs, today);
     if (batch.alerts.length === 0) {
       report.nothingNew += 1;
       continue;
@@ -239,6 +244,31 @@ export async function runAlerts(input: AlertRunInput): Promise<AlertRunReport> {
   return report;
 }
 
+/** The batch a subscriber's preferences select; without Briefing, the original defaults. */
+function alertBatchFor(
+  data: AlertRunInput["data"],
+  follows: string[],
+  cursor: ReturnType<typeof parseCursor>,
+  prefs: ReturnType<typeof parsePrefs> | null,
+  today: string
+) {
+  return prefs
+    ? buildAlertBatch(data, follows, cursor, {
+        today,
+        // A weekly digest covers seven days, so it may carry more.
+        limit: prefs.frequency === "weekly" ? 25 : 12,
+        relevance: prefs.relevance,
+        priorityWithinDays: PRIORITY_EFFECTIVE_DAYS,
+        ...(prefs.reminders ? { remindWithinDays: REMIND_WITHIN_DAYS } : {}),
+      })
+    : buildAlertBatch(data, follows, cursor);
+}
+
+/** A weekly digest and the summary both fall on Monday; they go as one email. */
+export function foldsIntoSummary(prefs: ReturnType<typeof parsePrefs>): boolean {
+  return prefs.frequency === "weekly" && prefs.summary;
+}
+
 /** Send through Resend, as the welcome and sign-in emails already do. */
 export function resendSender(env: Record<string, string | undefined>, fetchImpl: typeof fetch = fetch): SendAlert {
   return async (to, mail, idempotencyKey) => {
@@ -285,6 +315,8 @@ export interface SummaryRunReport {
   ready: number;
   sent: number;
   failed: number;
+  /** Summaries that also carried the subscriber's weekly digest. */
+  withDigest: number;
 }
 
 /**
@@ -294,6 +326,10 @@ export interface SummaryRunReport {
  * stops this too) — plus the subscriber's own summary switch. A claim recorded
  * only after Resend accepts the message makes it once per week even if the
  * cron runs twice; a failed send is retried on the next run that day.
+ *
+ * A weekly digest subscriber's alerts are carried in the summary (runAlerts
+ * leaves them, see foldsIntoSummary): one Monday email, with the alert cursor
+ * and history advanced exactly as the digest would have done.
  */
 export async function runWeeklySummaries(input: {
   store: SubscriberStore;
@@ -304,6 +340,8 @@ export async function runWeeklySummaries(input: {
   send?: boolean;
   sender?: SendAlert;
   build: (follows: string[], savedIds: string[], today: string) => import("@/lib/pro/weekly").WeeklySummary;
+  /** The alert job's data; when given, weekly digests ride inside the summary. */
+  alertData?: AlertRunInput["data"];
   render: typeof import("@/lib/pro/weekly").renderWeeklyEmail;
 }): Promise<SummaryRunReport> {
   const send = input.send === true;
@@ -320,6 +358,7 @@ export async function runWeeklySummaries(input: {
     ready: 0,
     sent: 0,
     failed: 0,
+    withDigest: 0,
   };
   if (report.notDue) return report;
 
@@ -330,7 +369,8 @@ export async function runWeeklySummaries(input: {
       report.notPro += 1;
       continue;
     }
-    const cursor = parseCursor(await input.store.getAlertCursor(key));
+    const rawCursor = await input.store.getAlertCursor(key);
+    const cursor = parseCursor(rawCursor);
     const prefs = parsePrefs(await input.store.getProDoc("prefs", key));
     if (typeof cursor.pausedAt === "number" || !prefs.summary) {
       report.off += 1;
@@ -349,11 +389,18 @@ export async function runWeeklySummaries(input: {
     report.ready += 1;
     if (!send) continue;
 
+    // No cursor yet means alerts have not started for this subscriber; the
+    // alert job writes the first one and nothing is owed.
+    const digest =
+      input.alertData && rawCursor !== null && foldsIntoSummary(prefs)
+        ? alertBatchFor(input.alertData, follows, cursor, prefs, today)
+        : null;
     const savedIds = parseSaved(await input.store.getProDoc("saved", key)).map((s) => s.id);
     const mail = input.render(input.build(follows, savedIds, today), {
       origin: input.origin,
       unsubscribeUrl: unsubscribeUrl(input.origin, key, input.secret),
       testMode: input.testMode,
+      alerts: digest?.alerts ?? [],
     });
     let result: { ok: true } | { ok: false; detail: string };
     try {
@@ -366,9 +413,22 @@ export async function runWeeklySummaries(input: {
       continue;
     }
     await input.store.claimOnce(claim, 14 * 86_400);
+    if (digest && digest.alerts.length > 0) {
+      // As runAlerts does: re-read so an unsubscribe during the send stands.
+      const latest = parseCursor(await input.store.getAlertCursor(key));
+      await input.store.putAlertCursor(
+        key,
+        serializeCursor({ ...digest.cursor, ...(latest.pausedAt ? { pausedAt: latest.pausedAt } : {}) })
+      );
+      report.withDigest += 1;
+    }
     try {
       const history = parseHistory(await input.store.getProDoc("history", key));
-      await input.store.putProDoc("history", key, serializeHistory(appendSummaryHistory(history, today, input.nowSeconds)));
+      await input.store.putProDoc(
+        "history",
+        key,
+        serializeHistory(appendSummaryHistory(history, today, input.nowSeconds, digest?.alerts ?? []))
+      );
     } catch {
       // The email went out; a missing history line must not resend it.
     }

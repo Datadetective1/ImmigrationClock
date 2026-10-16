@@ -11,11 +11,14 @@
 //   • stated effective dates in the next 90 days, for primary matches only;
 //   • what was checked: the sources in the latest refresh, the ones that were
 //     quiet or failed, and the ones we cannot ingest. A quiet week in our
-//     sources is said to be exactly that, never "nothing changed".
+//     sources is said to be exactly that, never "nothing changed";
+//   • for a subscriber whose alerts are a weekly digest, that digest's alerts,
+//     so Monday brings one email rather than two.
 //
 // Deterministic: no AI calls.
 // =============================================================================
 
+import type { Alert } from "@/lib/billing/alerts";
 import type { ChangeInput } from "@/lib/intelligence/change";
 import { EVENTS } from "@/lib/event-store";
 import { SITE } from "@/lib/site";
@@ -98,18 +101,36 @@ function fmt(iso: string): string {
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 }
 
+const ALERT_LABEL: Record<Alert["kind"], string> = {
+  change: "New",
+  effective_reminder: "Takes effect soon",
+  warn_notice: "WARN notice",
+  h1b_export: "H-1B data",
+};
+
 export const QUIET_NOTE =
   "A quiet week in the sources we track is not proof that nothing changed. Sources we cannot ingest are listed below.";
 
 export function renderWeeklyEmail(
   summary: WeeklySummary,
-  input: { origin: string; unsubscribeUrl: string; testMode: boolean }
+  input: {
+    origin: string;
+    unsubscribeUrl: string;
+    testMode: boolean;
+    /** The subscriber's weekly digest, carried here so Monday is one email. */
+    alerts?: readonly Alert[];
+  }
 ): WeeklyEmail {
   const origin = input.origin.replace(/\/$/, "");
+  const alerts = input.alerts ?? [];
   const newCount = summary.follows.reduce((n, f) => n + f.newThisWeek.length, 0);
+  const counts = [
+    ...(alerts.length > 0 ? [`${alerts.length} alert${alerts.length === 1 ? "" : "s"}`] : []),
+    ...(newCount > 0 ? [`${newCount} new ${newCount === 1 ? "record" : "records"}`] : []),
+  ];
   const subject =
     (input.testMode ? "[TEST] " : "") +
-    `Your week in immigration policy: ${newCount === 0 ? "no new records" : `${newCount} new ${newCount === 1 ? "record" : "records"}`}` +
+    `Your week in immigration policy: ${counts.length > 0 ? counts.join(", ") : "no new records"}` +
     (summary.comingUp.length > 0 ? `, ${summary.comingUp.length} date${summary.comingUp.length === 1 ? "" : "s"} ahead` : "");
 
   const followLine = (f: WeeklyFollow) => {
@@ -127,7 +148,12 @@ export function renderWeeklyEmail(
   const t: string[] = [];
   if (input.testMode) t.push("TEST MODE — sent from a deployment running on Stripe test keys.", "");
   t.push(`Week of ${fmt(summary.weekOf)}`, "");
-  if (summary.quiet) t.push("No new records matched what you follow this week.", QUIET_NOTE, "");
+  if (summary.quiet && alerts.length === 0) t.push("No new records matched what you follow this week.", QUIET_NOTE, "");
+  if (alerts.length > 0) {
+    t.push("YOUR ALERTS THIS WEEK (your weekly digest, included here)");
+    for (const a of alerts) t.push(`• ${ALERT_LABEL[a.kind]}: ${a.title} (${fmt(a.date)}) ${origin}${a.href}`, `    ${a.detail}`);
+    t.push("");
+  }
   t.push("WHAT YOU FOLLOW");
   for (const f of summary.follows) {
     const { state, extra } = followLine(f);
@@ -173,6 +199,16 @@ export function renderWeeklyEmail(
       : `<ul style="margin:4px 0 0 16px;padding:0;font-size:13px">${summary.comingUp
           .map((c) => `<li>${esc(fmt(c.date))} (in ${c.daysUntil} days): <a href="${esc(origin + c.path)}" style="color:#0f172a">${esc(c.title)}</a></li>`)
           .join("")}</ul>`;
+  const alertHtml =
+    alerts.length === 0
+      ? ""
+      : `<h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">Your alerts this week · your weekly digest</h2>
+      <ul style="margin:4px 0 0 16px;padding:0;font-size:13px">${alerts
+        .map(
+          (a) =>
+            `<li style="margin:6px 0"><span style="color:#64748b">${esc(ALERT_LABEL[a.kind])}:</span> <a href="${esc(origin + a.href)}" style="color:#0f172a">${esc(a.title)}</a> <span style="color:#64748b">${esc(fmt(a.date))}</span><div style="color:#475569">${esc(a.detail)}</div></li>`
+        )
+        .join("")}</ul>`;
   const cov = summary.coverage;
   const html = `<div style="margin:0;padding:24px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden">
@@ -180,7 +216,8 @@ export function renderWeeklyEmail(
     <div style="padding:24px">
       <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#64748b">${esc(SITE.name)} Pro · Weekly intelligence</p>
       <h1 style="margin:0 0 8px;font-size:20px;line-height:1.3;color:#0f172a">Week of ${esc(fmt(summary.weekOf))}</h1>
-      ${summary.quiet ? `<p style="font-size:13px;color:#475569">No new records matched what you follow this week. ${esc(QUIET_NOTE)}</p>` : ""}
+      ${summary.quiet && alerts.length === 0 ? `<p style="font-size:13px;color:#475569">No new records matched what you follow this week. ${esc(QUIET_NOTE)}</p>` : ""}
+      ${alertHtml}
       <h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">What you follow</h2>
       <table style="width:100%;border-collapse:collapse">${followHtml}</table>
       <h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">Coming up · stated effective dates, next 90 days</h2>
