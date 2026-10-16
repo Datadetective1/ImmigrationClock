@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-15T18:03:18.940Z",
+  "updatedAt": "2026-10-16T17:49:24.283Z",
   "items": [
     {
       "id": "event:federal_register:2026-20956::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "federal_register:2026-20956",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 55822.99444444444,
+      "priority": 55672.98888888889,
       "readerValue": 54,
       "factsHash": "be849e8045039e9e",
       "whyItMatters": [
@@ -46,51 +46,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-20660::why_it_matters",
-      "subjectId": "event:federal_register:2026-20660",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Optional Practical Training Fees",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
-      "eventId": "federal_register:2026-20660",
-      "category": "proposed",
-      "topicKey": "visa:j-1",
-      "priority": 45424.96111111111,
-      "readerValue": 64,
-      "factsHash": "a45fdd64697caea9",
-      "whyItMatters": [
-        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
-        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
-      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
-      "freshness": {
-        "publishedAt": "2026-10-08",
-        "discoveredAt": "2026-10-10",
-        "expiresAt": "2026-10-31"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-10T18:14:08.693Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-10T18:14:08.693Z",
-          "status": "verified",
-          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
-        }
-      ]
-    },
-    {
       "id": "event:federal_register:2026-20941::why_it_matters",
       "subjectId": "event:federal_register:2026-20941",
       "contentType": "why_it_matters",
@@ -103,7 +58,7 @@
       "eventId": "federal_register:2026-20941",
       "category": "proposed",
       "topicKey": "source:federal_register",
-      "priority": 44404.99444444444,
+      "priority": 44404.98888888889,
       "readerValue": 44,
       "factsHash": "7fa2f952b4d5d7da",
       "whyItMatters": [
@@ -147,9 +102,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
-      "factsHash": "3ad8cb44617ce1da",
+      "factsHash": "f685f44fbb7db75f",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -268,7 +223,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -309,7 +264,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -360,7 +315,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -411,9 +366,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
-      "factsHash": "8b12c3298cce002d",
+      "factsHash": "a56bf3f0ca1b2960",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -474,93 +429,6 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-20955::what_changed",
-      "subjectId": "event:federal_register:2026-20955",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Removal of Automatic Extensions for Certain Employment Authorization Documents",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20955/removal-of-automatic-extensions-for-certain-employment-authorization-documents",
-      "eventId": "federal_register:2026-20955",
-      "category": "explainer",
-      "topicKey": "topic:enforcement",
-      "priority": 26902.994444444445,
-      "readerValue": 80,
-      "factsHash": "fc119b34d8c60cd0",
-      "whyItMatters": [
-        "The rule has been in effect since October 14, 2026.",
-        "An extension moves a date that already existed. What was true before the change stays true for longer."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc",
-      "ogImage": "/og/change/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc.png",
-      "freshness": {
-        "publishedAt": "2026-10-14",
-        "discoveredAt": "2026-10-14",
-        "expiresAt": "2026-10-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "verified",
-          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc"
-        }
-      ]
-    },
-    {
-      "id": "event:federal_register:2026-21024::what_changed",
-      "subjectId": "event:federal_register:2026-21024",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Imposition and Collection of Civil Penalties for Certain Immigration-Related Violations",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-21024/imposition-and-collection-of-civil-penalties-for-certain-immigration-related-violations",
-      "eventId": "federal_register:2026-21024",
-      "category": "explainer",
-      "topicKey": "topic:enforcement",
-      "priority": 26162.994444444445,
-      "readerValue": 66,
-      "factsHash": "6f91a0eea10d6c68",
-      "whyItMatters": [
-        "The rule has been in effect since October 14, 2026."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m",
-      "ogImage": "/og/change/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m.png",
-      "freshness": {
-        "publishedAt": "2026-10-14",
-        "discoveredAt": "2026-10-14",
-        "expiresAt": "2026-10-24"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "verified",
-          "reason": "reader value 66/100 clears the floor; share page https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m"
-        }
-      ]
-    },
-    {
       "id": "event:federal_register:2026-20955::why_it_matters",
       "subjectId": "event:federal_register:2026-20955",
       "contentType": "why_it_matters",
@@ -573,7 +441,7 @@
       "eventId": "federal_register:2026-20955",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 26052.994444444445,
+      "priority": 26052.98888888889,
       "readerValue": 80,
       "factsHash": "f74e555544c5a243",
       "whyItMatters": [
@@ -605,45 +473,45 @@
       ]
     },
     {
-      "id": "explainer:effective-date-vs-publication-date::explainer",
-      "subjectId": "explainer:effective-date-vs-publication-date",
-      "contentType": "explainer",
-      "tier": "evergreen",
+      "id": "event:federal_register:2026-21024::what_changed",
+      "subjectId": "event:federal_register:2026-21024",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "verified",
-      "headline": "An effective date is not a publication date",
+      "headline": "Imposition and Collection of Civil Penalties for Certain Immigration-Related Violations",
       "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-21024/imposition-and-collection-of-civil-penalties-for-certain-immigration-related-violations",
+      "eventId": "federal_register:2026-21024",
       "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 22006,
-      "readerValue": 60,
-      "factsHash": "4bb7139aa31c33a9",
+      "topicKey": "topic:enforcement",
+      "priority": 26012.98888888889,
+      "readerValue": 66,
+      "factsHash": "6f91a0eea10d6c68",
       "whyItMatters": [
-        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+        "The rule has been in effect since October 14, 2026."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
-      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m",
+      "ogImage": "/og/change/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-10-14T18:19:07.137Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+          "reason": "reader value 66/100 clears the floor; share page https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m"
         }
       ]
     },
@@ -660,7 +528,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22005,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "9be7ed770182669c",
       "whyItMatters": [
@@ -703,7 +571,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 22001,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -734,49 +602,6 @@
       ]
     },
     {
-      "id": "explainer:visa-bulletin-priority-dates::explainer",
-      "subjectId": "explainer:visa-bulletin-priority-dates",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How to read the Visa Bulletin",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:green-cards",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "73bd2eafafb2a189",
-      "whyItMatters": [
-        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
-      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
-        }
-      ]
-    },
-    {
       "id": "explainer:border-encounters-are-events::explainer",
       "subjectId": "explainer:border-encounters-are-events",
       "contentType": "explainer",
@@ -789,7 +614,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -832,7 +657,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -875,7 +700,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -918,7 +743,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -949,6 +774,49 @@
       ]
     },
     {
+      "id": "explainer:effective-date-vs-publication-date::explainer",
+      "subjectId": "explainer:effective-date-vs-publication-date",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "An effective date is not a publication date",
+      "suggestedHeadline": null,
+      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 20007,
+      "readerValue": 60,
+      "factsHash": "4bb7139aa31c33a9",
+      "whyItMatters": [
+        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
+      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+        }
+      ]
+    },
+    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -961,7 +829,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -992,25 +860,27 @@
       ]
     },
     {
-      "id": "discovery:layoffs-vs-h1b::data_discovery",
-      "subjectId": "discovery:layoffs-vs-h1b",
-      "contentType": "data_discovery",
+      "id": "explainer:visa-bulletin-priority-dates::explainer",
+      "subjectId": "explainer:visa-bulletin-priority-dates",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "headline": "How to read the Visa Bulletin",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "73ae42753297c5d3",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:green-cards",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "73bd2eafafb2a189",
+      "whyItMatters": [
+        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
-      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
+      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -1028,7 +898,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
         }
       ]
     },
@@ -1045,7 +915,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1086,7 +956,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1127,7 +997,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -1168,7 +1038,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -1209,7 +1079,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1250,7 +1120,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "2eafba054ebe03c3",
       "whyItMatters": [],
@@ -1275,6 +1145,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+        }
+      ]
+    },
+    {
+      "id": "discovery:layoffs-vs-h1b::data_discovery",
+      "subjectId": "discovery:layoffs-vs-h1b",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "73ae42753297c5d3",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
+      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
         }
       ]
     },
@@ -2486,6 +2397,64 @@
         },
         {
           "at": "2026-09-28T20:05:54.008Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20955::what_changed",
+      "subjectId": "event:federal_register:2026-20955",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "published",
+      "headline": "Removal of Automatic Extensions for Certain Employment Authorization Documents",
+      "suggestedHeadline": "DHS ends automatic EAD extensions; effective Oct. 14, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20955/removal-of-automatic-extensions-for-certain-employment-authorization-documents",
+      "eventId": "federal_register:2026-20955",
+      "category": "explainer",
+      "topicKey": "topic:enforcement",
+      "priority": 26752.98888888889,
+      "readerValue": 80,
+      "factsHash": "fc119b34d8c60cd0",
+      "whyItMatters": [
+        "The rule has been in effect since October 14, 2026.",
+        "An extension moves a date that already existed. What was true before the change stays true for longer."
+      ],
+      "suggestedPost": {
+        "x": "Before: certain EAD categories received automatic extensions of employment authorization after a timely renewal filing.\nNow: DHS has ended those automatic extensions.\n\nEffective Oct. 14, 2026.\n\nhttps://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3A4cxhpc",
+        "linkedin": "",
+        "structure": "before_after"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc",
+      "ogImage": "/og/change/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-16T17:49:08.528Z",
+      "externalUrl": "https://x.com/i/web/status/2111152542570971490",
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc"
+        },
+        {
+          "at": "2026-10-16T17:49:08.528Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-16T17:49:08.528Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4201,6 +4170,56 @@
           "at": "2026-10-14T18:19:07.137Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-14"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20660::why_it_matters",
+      "subjectId": "event:federal_register:2026-20660",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Optional Practical Training Fees",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/08/2026-20660/optional-practical-training-fees",
+      "eventId": "federal_register:2026-20660",
+      "category": "proposed",
+      "topicKey": "visa:j-1",
+      "priority": 45424.96111111111,
+      "readerValue": 64,
+      "factsHash": "a45fdd64697caea9",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "The record is linked to J-1 exchange visitor, F-1 academic student. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5",
+      "ogImage": "/og/change/optional-practical-training-fees-pq1ao5.png",
+      "freshness": {
+        "publishedAt": "2026-10-08",
+        "discoveredAt": "2026-10-10",
+        "expiresAt": "2026-10-31"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-10T18:14:08.693Z",
+          "status": "verified",
+          "reason": "reader value 64/100 clears the floor; share page https://immigrationclock.com/what-changed/optional-practical-training-fees-pq1ao5"
+        },
+        {
+          "at": "2026-10-16T17:49:08.528Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-16"
         }
       ]
     },
