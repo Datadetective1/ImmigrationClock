@@ -42,56 +42,138 @@ function formatDate(iso: string): string {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 }
 
-const BUCKET_TONE: Record<string, string> = {
-  needs_attention: "border-status-amber/40 text-status-amber",
-  effective_soon: "border-accent/40 text-accent",
-  potentially_relevant: "border-white/15 text-slate-400",
-  superseded: "border-white/15 text-slate-400",
+const TONE: Record<string, string> = {
+  attention: "border-status-amber/40 bg-status-amber/10 text-status-amber",
+  info: "border-accent/30 text-accent",
+  muted: "border-white/10 text-slate-400",
 };
 
+const STRENGTH_NOTE: Record<string, string> = {
+  named: "Named",
+  categorized: "Topic",
+  mentioned: "Body mention",
+  weak: "Possible",
+};
+
+/**
+ * One record, compact. The explanation comes first and is the document's own
+ * summary plus why it is here; the evidence, source and limitations are one
+ * tap away rather than the first thing a reader has to parse.
+ */
 function FeedCard({ item }: { item: FeedItem }) {
-  const quote = item.brief.evidence.find((e) => e.quote && e.quote !== "(no quote stored)");
+  const a = item.assessment;
   return (
     <li className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-      <div className="flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-wide">
-        <span className={`rounded-full border px-2 py-0.5 ${BUCKET_TONE[item.bucket] ?? "border-white/15 text-slate-300"}`}>
-          {item.bucket === "recently_changed" ? "Recent" : item.bucket.replace(/_/g, " ")}
-        </span>
-        {item.saved ? <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">Saved</span> : null}
+      <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
+        <span className={`rounded-full border px-2 py-0.5 font-semibold ${TONE[a.urgency.tone]}`}>{a.urgency.label}</span>
         {item.change.status === "proposed" ? (
-          <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">Proposed — not in force</span>
+          <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">Proposed rule</span>
+        ) : null}
+        {item.saved ? <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">Saved</span> : null}
+        {a.relevance === "mentioned" || a.relevance === "weak" ? (
+          <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-400">Possibly incidental</span>
         ) : null}
       </div>
-      <Link href={item.path} className="mt-2 block text-sm font-semibold text-white hover:underline">
+
+      <Link href={item.path} className="mt-2 block text-[15px] font-semibold leading-snug text-white hover:underline">
         {item.change.title}
       </Link>
-      <p className="mt-1 text-xs text-slate-400">{item.because}</p>
-      <dl className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400">
+
+      <dl className="mt-2 space-y-1.5 text-[13px] leading-snug">
         <div>
-          <dt className="inline">Published </dt>
-          <dd className="inline text-slate-200">{formatDate(item.change.publishedDate)}</dd>
+          <dt className="text-[11px] uppercase tracking-wide text-slate-500">What changed</dt>
+          <dd className="text-slate-300">{a.whatChanged}</dd>
         </div>
         <div>
-          <dt className="inline">Effective </dt>
-          <dd className="inline text-slate-200">
-            {item.change.effectiveDate ? formatDate(item.change.effectiveDate) : "not stated"}
+          <dt className="text-[11px] uppercase tracking-wide text-slate-500">Why it&rsquo;s here</dt>
+          <dd className="text-slate-300">
+            {a.matches.length > 0 ? a.matches[0].reason : "You saved this record."}
+            {a.matches.length > 1 ? (
+              <span className="text-slate-500"> Also matches {a.matches.slice(1).map((m) => m.label).join(", ")}.</span>
+            ) : null}
           </dd>
         </div>
         <div>
-          <dt className="sr-only">Source</dt>
-          <dd>
-            <a href={item.change.source.url} className="underline decoration-dotted hover:text-white" rel="noopener noreferrer">
-              {item.change.source.name}
-            </a>
+          <dt className="text-[11px] uppercase tracking-wide text-slate-500">Status</dt>
+          <dd className="text-slate-300">
+            {a.status}
+            {a.recordedMajor && a.section === "historical" ? (
+              <span className="text-slate-500"> Recorded as a major change when published.</span>
+            ) : null}
           </dd>
+        </div>
+        <div className="flex flex-wrap gap-x-4 text-xs text-slate-400">
+          {a.dates.map((d) => (
+            <span key={d.label}>
+              {d.label} <span className="text-slate-200">{formatDate(d.date)}</span>
+            </span>
+          ))}
+          {!item.change.effectiveDate && item.change.status !== "proposed" ? <span>No effective date stated</span> : null}
         </div>
       </dl>
-      {quote ? (
-        <p className="mt-2 border-l-2 border-white/10 pl-3 text-xs italic text-slate-400">
-          “{quote.quote.length > 240 ? `${quote.quote.slice(0, 237)}…` : quote.quote}”
-        </p>
-      ) : null}
+
+      <details className="mt-3 text-xs text-slate-400">
+        <summary className="cursor-pointer select-none text-slate-300 hover:text-white">Review next, evidence and source</summary>
+        <div className="mt-2 space-y-2">
+          <p>
+            <span className="text-slate-300">Review next: </span>
+            {item.brief.suggestedProfessionalAction}
+          </p>
+          {a.matches.length > 0 ? (
+            <ul className="space-y-1.5">
+              {a.matches.map((m) => (
+                <li key={m.follow}>
+                  <span className="text-slate-300">
+                    {m.label} · {STRENGTH_NOTE[m.strength]}
+                  </span>{" "}
+                  — {m.reason}
+                  {m.quote ? (
+                    <q className="mt-1 block border-l-2 border-white/10 pl-2 italic">
+                      {m.quote.length > 300 ? `${m.quote.slice(0, 297)}…` : m.quote}
+                    </q>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          <p>
+            Source:{" "}
+            <a href={item.change.source.url} className="underline decoration-dotted hover:text-white" rel="noopener noreferrer">
+              {item.change.source.name}
+            </a>{" "}
+            · <Link href={item.path} className="underline decoration-dotted hover:text-white">Full record</Link>
+          </p>
+          {item.brief.limitations.length > 0 ? (
+            <ul className="list-disc space-y-0.5 pl-4 text-slate-500">
+              {item.brief.limitations.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      </details>
     </li>
+  );
+}
+
+function FeedSection({ id, title, hint, items, empty }: { id: string; title: string; hint: string; items: FeedItem[]; empty: string }) {
+  return (
+    <section aria-labelledby={id}>
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 id={id} className="section-title">{title}</h2>
+        <span className="text-xs text-slate-500">{items.length}</span>
+      </div>
+      <p className="mt-1 text-xs text-slate-400">{hint}</p>
+      {items.length === 0 ? (
+        <p className="mt-3 rounded-xl border border-white/5 p-4 text-sm text-slate-400">{empty}</p>
+      ) : (
+        <ul className="mt-3 space-y-3">
+          {items.map((item) => (
+            <FeedCard key={item.change.recordId} item={item} />
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
 
@@ -159,8 +241,8 @@ export default async function BriefingPage() {
   const alertsOn = typeof parseCursor(cursorRaw).pausedAt !== "number";
 
   const briefing = buildBriefing({ follows, savedIds: saved.map((s) => s.id), today });
-  const attention = briefing.feed.filter((i) => i.bucket === "needs_attention").length;
-  const soon = briefing.timeline.filter((t) => t.daysUntil <= 30).length;
+  const { upcoming, current, historical } = briefing.sections;
+  const soon = upcoming.filter((i) => i.assessment.urgency.tone === "attention").length;
 
   return (
     <div>
@@ -168,8 +250,8 @@ export default async function BriefingPage() {
       <div className="container-page max-w-3xl space-y-6 py-8">
         <section aria-label="Summary" className="grid grid-cols-3 gap-2 text-center">
           {[
-            [attention, "need attention"],
             [soon, "take effect in 30 days"],
+            [current.length, "new or recent"],
             [saved.length, "saved"],
           ].map(([n, label]) => (
             <div key={label as string} className="rounded-xl border border-white/5 bg-white/[0.02] p-3">
@@ -202,49 +284,41 @@ export default async function BriefingPage() {
           )}
         </section>
 
-        <section aria-labelledby="feed-heading">
-          <h2 id="feed-heading" className="section-title">Your feed</h2>
+        <FeedSection
+          id="upcoming-heading"
+          title="Coming up"
+          hint="Followed or saved changes with an effective date the document states, in date order. Proposals are never dated here."
+          items={upcoming}
+          empty="No stated effective dates ahead for what you follow."
+        />
+
+        <FeedSection
+          id="current-heading"
+          title="Current"
+          hint="Published, or took effect, in the last 30 days."
+          items={current}
+          empty="Nothing new in the last 30 days for what you follow — not that nothing happened."
+        />
+
+        <details className="group">
+          <summary className="cursor-pointer select-none list-none">
+            <span className="section-title">Historical research</span>{" "}
+            <span className="text-xs text-slate-500">
+              {historical.length} older record{historical.length === 1 ? "" : "s"} · tap to show
+            </span>
+          </summary>
           <p className="mt-1 text-xs text-slate-400">
-            Followed or saved changes, most urgent first. Published in the last 30 days, taking effect in the next 30,
-            or recorded as major.
+            Older records that match what you follow. Kept for research; none of them is due now because of its age or
+            how significant it was when published.
           </p>
-          {briefing.feed.length === 0 ? (
-            <p className="mt-3 rounded-xl border border-white/5 p-4 text-sm text-slate-400">
-              Nothing matched. That means no recorded change touched what you follow in that window — not that nothing
-              happened.
-            </p>
-          ) : (
+          {historical.length > 0 ? (
             <ul className="mt-3 space-y-3">
-              {briefing.feed.map((item) => (
+              {historical.map((item) => (
                 <FeedCard key={item.change.recordId} item={item} />
               ))}
             </ul>
-          )}
-        </section>
-
-        <section className="panel panel-pad" aria-labelledby="timeline-heading">
-          <h2 id="timeline-heading" className="section-title">Coming into effect</h2>
-          <p className="mt-1 text-xs text-slate-400">
-            Stated effective dates still ahead, for changes you follow or saved. Also in your calendar feed below.
-          </p>
-          {briefing.timeline.length === 0 ? (
-            <p className="mt-3 text-sm text-slate-400">No stated effective dates ahead.</p>
-          ) : (
-            <ol className="mt-3 space-y-2">
-              {briefing.timeline.slice(0, 30).map((t) => (
-                <li key={t.recordId} className="flex gap-3 text-sm">
-                  <span className="w-24 shrink-0 text-xs text-slate-400">
-                    {formatDate(t.effectiveDate)}
-                    <span className="block">{t.daysUntil === 0 ? "today" : `in ${t.daysUntil} d`}</span>
-                  </span>
-                  <Link href={t.path} className="text-slate-200 hover:underline">
-                    {t.title}
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          )}
-        </section>
+          ) : null}
+        </details>
 
         <section className="panel panel-pad" aria-labelledby="research-heading">
           <h2 id="research-heading" className="section-title">Saved research</h2>

@@ -40,6 +40,8 @@
 
 import type { IndexedEvent } from "@/lib/event-index";
 import { changePath } from "@/lib/share";
+import { isNotInForce } from "@/lib/event-labels";
+import type { EventClassification } from "@/domains/graph/events";
 
 export type AlertKind = "change" | "warn_notice" | "h1b_export" | "effective_reminder";
 
@@ -288,6 +290,9 @@ export function reminderAlerts(
   const out: Alert[] = [];
   for (const event of events) {
     if (!event.effectiveAt) continue;
+    // A proposal is not in force, and any date it carries is a proposed one.
+    // No reminder rests on it.
+    if (isNotInForce(event.classification as EventClassification)) continue;
     const days = daysBetween(today, event.effectiveAt);
     if (days < 0 || days > withinDays) continue;
     const matched = (event.entityIds ?? []).filter((id) => watched.has(id));
@@ -318,7 +323,7 @@ function daysBetween(from: string, to: string): number {
  */
 export function isPriorityEvent(event: IndexedEvent, today: string, withinDays: number): boolean {
   if (event.severity === "major") return true;
-  if (!event.effectiveAt) return false;
+  if (!event.effectiveAt || isNotInForce(event.classification as EventClassification)) return false;
   const days = daysBetween(today, event.effectiveAt);
   return days >= 0 && days <= withinDays;
 }

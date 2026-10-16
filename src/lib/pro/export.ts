@@ -20,6 +20,10 @@ export interface BriefEntry {
   brief: ImpactBrief;
   /** Site-relative path to the change's page. */
   path: string;
+  /** Why the record is in the subscriber's Briefing, one line per match. Feed briefs only. */
+  why?: string[];
+  /** Documented status in words. Feed briefs only. */
+  statusText?: string;
 }
 
 export interface BriefDocument {
@@ -62,11 +66,11 @@ export function renderBriefMarkdown(doc: BriefDocument): string {
     `> ${BRIEF_DISCLAIMER}`,
     "",
   ];
-  for (const { change, brief, path } of doc.entries) {
+  for (const { change, brief, path, why, statusText } of doc.entries) {
     lines.push(
       `## ${md(change.title)}`,
       "",
-      `- **Status:** ${statusLabel(change.status)}`,
+      `- **Status:** ${md(statusText ?? statusLabel(change.status))}`,
       `- **Published:** ${change.publishedDate}`,
       `- **Effective:** ${md(brief.effective)}`,
       `- **Source:** [${md(change.source.name)}](${change.source.url})`,
@@ -75,6 +79,11 @@ export function renderBriefMarkdown(doc: BriefDocument): string {
       ""
     );
     if (change.summary) lines.push(md(change.summary), "");
+    if (why && why.length > 0) {
+      lines.push("**Why it is in your Briefing:**", "");
+      for (const w of why) lines.push(`- ${md(w)}`);
+      lines.push("");
+    }
     if (brief.potentialRelevance) lines.push(`**Potential relevance.** ${md(brief.potentialRelevance)}`, "");
     if (brief.affectedDimensions.length > 0) {
       lines.push("**Affected, per the document's own words:**", "");
@@ -115,7 +124,7 @@ function safeHref(url: string): string | null {
 export function renderBriefHtml(doc: BriefDocument): string {
   const origin = doc.origin.replace(/\/$/, "");
   const sections = doc.entries
-    .map(({ change, brief, path }) => {
+    .map(({ change, brief, path, why, statusText }) => {
       const source = safeHref(change.source.url);
       const evidence = brief.evidence
         .map((e) => `<li>${esc(e.dimension)} — ${esc(e.value)}: <q>${esc(e.quote)}</q></li>`)
@@ -125,7 +134,7 @@ export function renderBriefHtml(doc: BriefDocument): string {
       return `<section>
 <h2>${esc(change.title)}</h2>
 <dl>
-<dt>Status</dt><dd>${esc(statusLabel(change.status))}</dd>
+<dt>Status</dt><dd>${esc(statusText ?? statusLabel(change.status))}</dd>
 <dt>Published</dt><dd>${esc(change.publishedDate)}</dd>
 <dt>Effective</dt><dd>${esc(brief.effective)}</dd>
 <dt>Source</dt><dd>${source ? `<a href="${source}">${esc(change.source.name)}</a>` : esc(change.source.name)}</dd>
@@ -133,6 +142,7 @@ export function renderBriefHtml(doc: BriefDocument): string {
 <dt>Review</dt><dd>${change.verification === "approved" ? "Reviewed by a person against its source" : "Classified automatically; not reviewed by a person"}</dd>
 </dl>
 ${change.summary ? `<p>${esc(change.summary)}</p>` : ""}
+${why && why.length > 0 ? `<h3>Why it is in your Briefing</h3><ul>${why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
 ${brief.potentialRelevance ? `<p><strong>Potential relevance.</strong> ${esc(brief.potentialRelevance)}</p>` : ""}
 ${dims ? `<h3>Affected, per the document's own words</h3><ul>${dims}</ul>` : ""}
 ${evidence ? `<h3>Evidence</h3><ul>${evidence}</ul>` : ""}
