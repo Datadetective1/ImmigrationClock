@@ -72,7 +72,9 @@ function realDatedRecord(): { input: ChangeInput; follow: string } {
   for (const e of EVENTS as unknown as ChangeInput[]) {
     if (!e.effectiveAt) continue;
     const pub = toPublicChange(e, "2000-01-01");
-    const follow = pub.visaCategories[0] ? `visa:${pub.visaCategories[0].id}` : pub.agency ? `agency:${pub.agency}` : null;
+    // The issuing agency is always a primary match, so the record is eligible
+    // for the timeline and the calendar.
+    const follow = pub.agency ? `agency:${pub.agency}` : null;
     if (follow) return { input: e, follow };
   }
   throw new Error("no dated, classified record in the archive");
@@ -279,7 +281,7 @@ describe("the Briefing feed", () => {
   it("holds only followed or saved changes, each linked to a real page", () => {
     const { input, follow } = realDatedRecord();
     const today = input.effectiveAt!.slice(0, 10);
-    const b = buildBriefing({ follows: [follow], savedIds: [], today, recentDays: 365, horizonDays: 365 });
+    const b = buildBriefing({ follows: [follow], savedIds: [], today });
     expect(b.feed.length).toBeGreaterThan(0);
     for (const item of b.feed) {
       expect(item.matched.length > 0 || item.saved).toBe(true);

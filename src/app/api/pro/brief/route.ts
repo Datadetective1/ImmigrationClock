@@ -37,7 +37,13 @@ export async function GET(req: Request): Promise<Response> {
     entries = savedBriefs(savedIds, today);
   } else {
     const follows = (await caller.store.getWatchlist(caller.key))?.entityIds ?? [];
-    entries = buildBriefing({ follows, savedIds, today }).feed.map((i) => ({ change: i.change, brief: i.brief, path: i.path }));
+    entries = buildBriefing({ follows, savedIds, today }).feed.map((i) => ({
+      change: i.change,
+      brief: i.brief,
+      path: i.path,
+      why: i.assessment.matches.length > 0 ? i.assessment.matches.map((m) => m.reason) : ["You saved this record."],
+      statusText: i.assessment.status,
+    }));
   }
 
   const doc = {

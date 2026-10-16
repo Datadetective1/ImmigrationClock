@@ -5,8 +5,10 @@ signed-in Pro subscriber:
 
 | Part | What it does | Built from |
 |---|---|---|
-| Feed | Followed or saved changes, most urgent first, each with why it is here, published and effective dates, source link and an evidence quote | `buildInbox` / `buildBrief` over the full event store and the synced watchlist |
-| Coming into effect | Stated effective dates still ahead, for followed (strong match) or saved changes | `PublicChange.effectiveDate` — never inferred |
+| Feed | Followed or saved changes in three sections: **Coming up** (a stated effective date ahead), **Current** (published or took effect in the last 30 days) and **Historical research** (older, collapsed). Each card leads with what changed (the document's own summary), why it matches, its documented status and dates; evidence quotes, source and limitations are one tap away | `src/lib/pro/assess.ts` over the full event store and the synced watchlist |
+| Urgency | Only from stated dates: "Takes effect in N days" is highlighted when a followed record is named (not merely mentioned) and takes effect within 30 days. Severity is shown as history ("recorded as major when published"), never as urgency. Proposals are never dated | `assessChange` |
+| Relevance | Each match says where the document names the followed item: title, summary or structured data (named), issuing agency, topic (classifier), or only the body ("may be incidental", with the quote). Body-only matches never drive urgency, reminders or the calendar | `explainMatches` |
+| Coming into effect | Stated effective dates ahead for primary (named, agency, topic or saved) matches; proposals excluded | `buildBriefing().timeline` |
 | Saved research | Save any change from its page; download a brief of saved changes or the feed as Markdown or a printable page (browser "Save as PDF") | `src/lib/pro/export.ts` |
 | Calendar feed | Private `.ics` URL with those effective dates; reset revokes old copies; re-checks the subscription on every fetch | `src/lib/pro/calendar.ts` |
 | Alert settings | Daily or weekly (Monday) digest; every match or priority only (major, or effective within 30 days); reminders 7 days before a followed change's stated effective date | `src/lib/pro/prefs.ts`, `buildAlertBatch` options |
