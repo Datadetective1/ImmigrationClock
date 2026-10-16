@@ -15,6 +15,9 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { BriefingSettings } from "@/components/BriefingSettings";
+import { LandscapeSection } from "@/components/LandscapeSection";
+import { flagOn } from "@/lib/flags";
+import { buildLandscape } from "@/lib/pro/landscape";
 import { COOKIE_NAME } from "@/lib/billing/entitlement";
 import { parseCursor } from "@/lib/billing/alerts";
 import { billingOrigin } from "@/lib/billing/config";
@@ -241,6 +244,7 @@ export default async function BriefingPage() {
   const alertsOn = typeof parseCursor(cursorRaw).pausedAt !== "number";
 
   const briefing = buildBriefing({ follows, savedIds: saved.map((s) => s.id), today });
+  const intelligence = flagOn("pro_intelligence");
   const { upcoming, current, historical } = briefing.sections;
   const soon = upcoming.filter((i) => i.assessment.urgency.tone === "attention").length;
 
@@ -261,28 +265,32 @@ export default async function BriefingPage() {
           ))}
         </section>
 
-        <section className="panel panel-pad" aria-labelledby="following-heading">
-          <div className="flex items-baseline justify-between gap-2">
-            <h2 id="following-heading" className="section-title">You follow</h2>
-            <Link href="/following" className="text-xs text-slate-400 underline decoration-dotted hover:text-white">
-              Edit
-            </Link>
-          </div>
-          {follows.length === 0 ? (
-            <p className="mt-2 text-sm text-slate-300">
-              Nothing yet. <Link href="/following" className="underline">Choose visas, countries, agencies or topics</Link>{" "}
-              and your Briefing fills with the changes that touch them.
-            </p>
-          ) : (
-            <ul className="mt-2 flex flex-wrap gap-1.5">
-              {follows.map((f) => (
-                <li key={f} className="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-slate-300">
-                  {labelForEntity(f)}
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+        {intelligence && follows.length > 0 ? (
+          <LandscapeSection landscape={buildLandscape({ follows, today })} />
+        ) : (
+          <section className="panel panel-pad" aria-labelledby="following-heading">
+            <div className="flex items-baseline justify-between gap-2">
+              <h2 id="following-heading" className="section-title">You follow</h2>
+              <Link href="/following" className="text-xs text-slate-400 underline decoration-dotted hover:text-white">
+                Edit
+              </Link>
+            </div>
+            {follows.length === 0 ? (
+              <p className="mt-2 text-sm text-slate-300">
+                Nothing yet. <Link href="/following" className="underline">Choose visas, countries, agencies or topics</Link>{" "}
+                and your Briefing fills with the changes that touch them.
+              </p>
+            ) : (
+              <ul className="mt-2 flex flex-wrap gap-1.5">
+                {follows.map((f) => (
+                  <li key={f} className="rounded-full border border-white/10 px-2.5 py-0.5 text-xs text-slate-300">
+                    {labelForEntity(f)}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
 
         <FeedSection
           id="upcoming-heading"

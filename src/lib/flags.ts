@@ -14,6 +14,8 @@
 export const FLAGS = {
   /** /briefing, saved changes, brief export, the calendar feed and the alert settings that go with them. */
   pro_briefing: "FEATURE_PRO_BRIEFING",
+  /** ImmigrationClock Intelligence inside Briefing: the per-follow landscape, then the weekly summary. Needs pro_briefing. */
+  pro_intelligence: "FEATURE_PRO_INTELLIGENCE",
 } as const;
 
 export type FlagName = keyof typeof FLAGS;

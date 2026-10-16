@@ -52,3 +52,14 @@ get today: daily, every match, no reminders.
   dimension for an empty feed to mean nothing happened; the page says this.
 - Before/after comparison of source documents is not possible yet: the source
   text store overwrites in place. Keeping prior versions is the next step.
+
+## Intelligence: the landscape (`FEATURE_PRO_INTELLIGENCE`)
+
+At the top of `/briefing`, one collapsed card per follow showing what the
+archive holds for it (`src/lib/pro/landscape.ts`): final rules and executive
+actions whose stated effective date has passed ("took effect", never "in
+force"), stated dates ahead, proposals with no later amending record ("no final
+rule in our archive", never "pending"), and a count of final rules with no
+stated date. Only primary matches count. A "What this covers" note lists the
+sources in the latest refresh, the ones that returned nothing, and the ones we
+cannot ingest (Visa Bulletin, State Department). No AI is involved.
