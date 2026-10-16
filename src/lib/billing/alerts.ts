@@ -383,8 +383,12 @@ export function buildAlertBatch(
         )
       : [];
 
+  // One record, one line: a newly published change that also takes effect
+  // within the reminder window is sent as the reminder only, and its change
+  // id is recorded as sent so it never arrives later as "new".
+  const reminded = new Set(reminders.map((r) => r.id.split(":").slice(1, -1).join(":")));
   const news = [
-    ...changeAlerts(changeEvents, follows, cursor),
+    ...changeAlerts(changeEvents, follows, cursor).filter((a) => !reminded.has(a.id.slice("change:".length))),
     ...warnAlerts(input.warnEmployers, follows, cursor),
     ...h1bAlerts(input.h1bEmployers, follows, input.fiscalYear, cursor),
   ].sort((a, b) => b.date.localeCompare(a.date));
@@ -397,7 +401,11 @@ export function buildAlertBatch(
     alerts,
     cursor: {
       lastChangeDate: newestChange ?? cursor.lastChangeDate,
-      sent: [...alerts.map((a) => a.id), ...(cursor.sent ?? [])].slice(0, CURSOR_MEMORY),
+      sent: [
+        ...alerts.map((a) => a.id),
+        ...alerts.filter((a) => a.kind === "effective_reminder").map((a) => `change:${a.id.split(":").slice(1, -1).join(":")}`),
+        ...(cursor.sent ?? []),
+      ].slice(0, CURSOR_MEMORY),
       ...(typeof cursor.pausedAt === "number" ? { pausedAt: cursor.pausedAt } : {}),
     },
   };

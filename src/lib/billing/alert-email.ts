@@ -60,6 +60,18 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
     (input.testMode ? "[TEST] " : "") +
     (n === 1 ? `Watchlist: ${lead}`.slice(0, 140) : `${n} ${noun} on your ${SITE.name} watchlist`);
 
+  // A reminder is not news: it is about a change already published. The
+  // headline says which is which instead of calling everything "new".
+  const reminders = input.alerts.filter((a) => a.kind === "effective_reminder").length;
+  const fresh = n - reminders;
+  const headline =
+    [
+      fresh > 0 ? `${fresh} new ${fresh === 1 ? "update" : "updates"}` : "",
+      reminders > 0 ? `${reminders} effective-date ${reminders === 1 ? "reminder" : "reminders"}` : "",
+    ]
+      .filter(Boolean)
+      .join(" and ") + " on what you follow";
+
   const items = input.alerts.map((a) => ({
     ...a,
     url: `${origin}${a.href}`,
@@ -68,7 +80,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
 
   const lines: string[] = [];
   if (input.testMode) lines.push("TEST MODE — sent from a deployment running on Stripe test keys.", "");
-  lines.push(`${n} new ${noun} on what you follow:`, "");
+  lines.push(`${headline}:`, "");
   for (const it of items) {
     lines.push(
       `• ${it.title}`,
@@ -109,7 +121,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
     }
     <div style="padding:24px">
       <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#64748b">${escapeHtml(SITE.name)} Pro · Watchlist</p>
-      <h1 style="margin:0 0 8px;font-size:20px;line-height:1.3;color:#0f172a">${n} new ${noun} on what you follow</h1>
+      <h1 style="margin:0 0 8px;font-size:20px;line-height:1.3;color:#0f172a">${escapeHtml(headline)}</h1>
       <table style="width:100%;border-collapse:collapse">${itemHtml}</table>
       <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#64748b">
         Each change links to its official source. This is information, not legal advice.
