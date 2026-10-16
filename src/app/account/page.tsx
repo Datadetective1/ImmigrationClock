@@ -37,6 +37,7 @@ import { billingStatus } from "@/lib/billing/config";
 import { availableNow, capabilitiesAddedBy, roadmap } from "@/lib/billing/plans";
 import { emailKey, resolveStore, storeConfigured, type SubscriberRecord } from "@/lib/billing/store";
 import { ANONYMOUS_ACCOUNT, accountStateFor, accountStatusLabel } from "@/lib/billing/account-state";
+import { flagOn } from "@/lib/flags";
 
 export const dynamic = "force-dynamic";
 
@@ -168,6 +169,17 @@ export default async function AccountPage() {
               {account.isPro && account.confirmed ? (
                 <Row label="Email alerts">
                   <AlertsToggle />
+                </Row>
+              ) : null}
+
+              {account.isPro && account.confirmed && flagOn("pro_briefing") ? (
+                <Row label="Briefing">
+                  <Link href="/briefing" className="text-accent underline decoration-dotted hover:text-white">
+                    Open your Briefing
+                  </Link>
+                  <span className="mt-0.5 block text-xs text-slate-500">
+                    Your feed, effective dates, saved research, alert settings and history.
+                  </span>
                 </Row>
               ) : null}
 

@@ -1,0 +1,52 @@
+# Pro Briefing
+
+The first Pro release built on the Monitor. One page, `/briefing`, for a
+signed-in Pro subscriber:
+
+| Part | What it does | Built from |
+|---|---|---|
+| Feed | Followed or saved changes, most urgent first, each with why it is here, published and effective dates, source link and an evidence quote | `buildInbox` / `buildBrief` over the full event store and the synced watchlist |
+| Coming into effect | Stated effective dates still ahead, for followed (strong match) or saved changes | `PublicChange.effectiveDate` — never inferred |
+| Saved research | Save any change from its page; download a brief of saved changes or the feed as Markdown or a printable page (browser "Save as PDF") | `src/lib/pro/export.ts` |
+| Calendar feed | Private `.ics` URL with those effective dates; reset revokes old copies; re-checks the subscription on every fetch | `src/lib/pro/calendar.ts` |
+| Alert settings | Daily or weekly (Monday) digest; every match or priority only (major, or effective within 30 days); reminders 7 days before a followed change's stated effective date | `src/lib/pro/prefs.ts`, `buildAlertBatch` options |
+| Alert history | Every alert email Resend accepted, newest first, last 50 | `src/lib/pro/history.ts` |
+| Erase | Removes saved changes, history and settings and revokes the calendar link; keeps the watchlist and subscription | `DELETE /api/pro/data` |
+
+## What is stored, per subscriber (keyed by an HMAC of the email)
+
+- `pro:prefs:<key>` — frequency, relevance, reminders on/off, calendar link version
+- `pro:saved:<key>` — change ids and when they were saved
+- `pro:history:<key>` — titles and links of alerts sent
+
+No immigration status, case data, personal dates or free text. Notes on saved
+items were left out on purpose: a free-text box on an immigration site is
+where a case number ends up.
+
+## Defaults keep production unchanged
+
+With the flag off, every `/api/pro/*` route and `/briefing` answer 404, the
+Save button never appears, and the alert job ignores preferences and writes no
+history. With the flag on and no settings saved, a subscriber gets what they
+get today: daily, every match, no reminders.
+
+## Rollout
+
+1. Merge. Nothing changes in production while `FEATURE_PRO_BRIEFING` is unset.
+2. In Vercel, set `FEATURE_PRO_BRIEFING=true` for **Preview** only, open a
+   preview deployment signed in as a Pro subscriber, and check: the feed lists
+   followed changes; Save on a change page works; both brief downloads open;
+   the calendar URL subscribes in a calendar app; Reset link makes the old URL
+   404; Erase clears saved and history.
+3. Set it for **Production** and redeploy. Re-check the same list once.
+4. Only then add Briefing to `CAPABILITY_SPECS` in `src/lib/billing/plans.ts`
+   so `/pricing` sells it.
+
+## Known limits
+
+- Effective dates and classifications come from automatic extraction; no record
+  has been reviewed by a person yet, and every surface says so.
+- The feed is a filter over recorded changes. Recall is not high enough on any
+  dimension for an empty feed to mean nothing happened; the page says this.
+- Before/after comparison of source documents is not possible yet: the source
+  text store overwrites in place. Keeping prior versions is the next step.

@@ -120,7 +120,7 @@ export const NAV: NavItem[] = [
   {
     label: "For Professionals",
     href: "/monitor",
-    match: ["/monitor", "/developers", "/pricing"],
+    match: ["/monitor", "/developers", "/pricing", "/briefing"],
     children: [
       {
         href: "/monitor",

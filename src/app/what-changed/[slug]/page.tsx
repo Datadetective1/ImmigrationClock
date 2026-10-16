@@ -33,6 +33,7 @@ import { SITE } from "@/lib/site";
 import { PageHeader } from "@/components/PageHeader";
 import { EventCard } from "@/components/EventCard";
 import { ShareButton } from "@/components/ShareButton";
+import { SaveChangeButton } from "@/components/SaveChangeButton";
 import { StoryAnalytics } from "@/components/StoryAnalytics";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TrackedLink } from "@/components/TrackedLink";
@@ -265,6 +266,8 @@ export default function ChangePage({ params }: { params: { slug: string } }) {
             Follow what matters →
           </Link>
         </section>
+
+        <SaveChangeButton recordId={event.id} />
 
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4">
           <div>
