@@ -1,9 +1,11 @@
 // =============================================================================
 // "Your landscape" on /briefing — one compact card per follow
 //
-// Closed, each card is one line: the follow and what the record holds for it.
-// Open, it shows at most three entries per list, with the full archive one tap
-// away. Server-rendered <details>, so it costs no client JavaScript.
+// Closed, each card answers "where does this stand?" at a glance: the next
+// stated date, open proposals, what took effect, and how recent the newest
+// record is. Open, it shows at most three entries per list, with the full
+// archive one tap away. Server-rendered <details>, so it costs no client
+// JavaScript.
 // =============================================================================
 
 import Link from "next/link";
@@ -20,14 +22,28 @@ function plural(n: number, one: string, many = `${one}s`) {
   return `${n} ${n === 1 ? one : many}`;
 }
 
-function summaryLine(l: FollowLandscape): string {
-  if (l.totalCount === 0) return "No matching records in our archive";
-  const parts: string[] = [];
-  if (l.comingUp.length) parts.push(`${l.comingUp.length} coming up`);
-  if (l.tookEffect.length) parts.push(`${l.tookEffect.length} took effect`);
-  if (l.proposals.length) parts.push(plural(l.proposals.length, "open proposal"));
-  if (parts.length === 0) parts.push(l.recentCount > 0 ? `${l.recentCount} in the last 30 days` : plural(l.totalCount, "earlier record"));
-  return parts.join(" · ");
+type Chip = { text: string; tone: "date" | "plain" | "muted" };
+
+const CHIP_TONE: Record<Chip["tone"], string> = {
+  date: "border-accent/30 text-accent",
+  plain: "border-white/15 text-slate-300",
+  muted: "border-white/10 text-slate-500",
+};
+
+/** The closed card: only counts and dates the lists below already hold. */
+function chips(l: FollowLandscape): Chip[] {
+  if (l.totalCount === 0) return [{ text: "No matching records in our archive", tone: "muted" }];
+  const out: Chip[] = [];
+  if (l.comingUp.length) {
+    const more = l.comingUp.length - 1;
+    out.push({ text: `Next date ${formatDate(l.comingUp[0].date)}${more > 0 ? ` · +${more}` : ""}`, tone: "date" });
+  }
+  if (l.proposals.length) out.push({ text: plural(l.proposals.length, "open proposal"), tone: "plain" });
+  if (l.tookEffect.length) out.push({ text: `${l.tookEffect.length} took effect`, tone: "plain" });
+  if (l.undatedFinalCount) out.push({ text: `${l.undatedFinalCount} undated`, tone: "muted" });
+  if (l.recentCount) out.push({ text: `${l.recentCount} in last 30 days`, tone: "plain" });
+  if (l.latestRecord) out.push({ text: `Newest ${formatDate(l.latestRecord)}`, tone: "muted" });
+  return out;
 }
 
 function EntryList({ title, hint, entries }: { title: string; hint?: string; entries: LandscapeEntry[] }) {
@@ -62,9 +78,18 @@ function FollowCard({ l }: { l: FollowLandscape }) {
   return (
     <li className="rounded-xl border border-white/5 bg-white/[0.02]">
       <details>
-        <summary className="flex cursor-pointer select-none list-none items-baseline justify-between gap-3 p-3">
-          <span className="text-sm font-semibold text-white">{l.label}</span>
-          <span className="text-right text-xs text-slate-400">{summaryLine(l)}</span>
+        <summary className="block cursor-pointer select-none list-none p-3">
+          <span className="flex items-baseline justify-between gap-3">
+            <span className="text-sm font-semibold text-white">{l.label}</span>
+            <span className="text-xs text-slate-500">Details</span>
+          </span>
+          <span className="mt-1.5 flex flex-wrap gap-1.5 text-[11px]">
+            {chips(l).map((c) => (
+              <span key={c.text} className={`rounded-full border px-2 py-0.5 ${CHIP_TONE[c.tone]}`}>
+                {c.text}
+              </span>
+            ))}
+          </span>
         </summary>
         <div className="space-y-3 border-t border-white/5 p-3">
           <EntryList title="Coming up" hint="stated effective dates" entries={l.comingUp} />
@@ -72,7 +97,7 @@ function FollowCard({ l }: { l: FollowLandscape }) {
           <EntryList title="Proposals" hint="no final rule in our archive" entries={l.proposals} />
           {l.undatedFinalCount > 0 ? (
             <p className="text-xs text-slate-500">
-              {plural(l.undatedFinalCount, "final rule")} with no stated effective date — not dated here.
+              Undated: {plural(l.undatedFinalCount, "final rule")} with no stated effective date — not dated here.
             </p>
           ) : null}
           <p className="text-xs text-slate-400">

@@ -58,20 +58,28 @@ const STRENGTH_NOTE: Record<string, string> = {
   weak: "Possible",
 };
 
+/** What kind of record this is, when the urgency label does not already say so. */
+const KIND: Record<string, string> = {
+  proposed: "Proposed rule",
+  informational: "Data release",
+  decided: "Court decision",
+};
+
 /**
- * One record, compact. The explanation comes first and is the document's own
- * summary plus why it is here; the evidence, source and limitations are one
- * tap away rather than the first thing a reader has to parse.
+ * One record, compact. On a phone the card reads as: what it is and when
+ * (badges), the title, the document's own summary, then one line of dates,
+ * matches and source. Status in full, why it matched with the quotes, a next
+ * step and the limitations are in one collapsed panel: nothing is dropped,
+ * only moved one tap away.
  */
 function FeedCard({ item }: { item: FeedItem }) {
   const a = item.assessment;
+  const kind = KIND[item.change.status];
   return (
     <li className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
       <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
         <span className={`rounded-full border px-2 py-0.5 font-semibold ${TONE[a.urgency.tone]}`}>{a.urgency.label}</span>
-        {item.change.status === "proposed" ? (
-          <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">Proposed rule</span>
-        ) : null}
+        {kind ? <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">{kind}</span> : null}
         {item.saved ? <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-300">Saved</span> : null}
         {a.relevance === "mentioned" || a.relevance === "weak" ? (
           <span className="rounded-full border border-white/15 px-2 py-0.5 text-slate-400">Possibly incidental</span>
@@ -82,45 +90,34 @@ function FeedCard({ item }: { item: FeedItem }) {
         {item.change.title}
       </Link>
 
-      <dl className="mt-2 space-y-1.5 text-[13px] leading-snug">
-        <div>
-          <dt className="text-[11px] uppercase tracking-wide text-slate-500">What changed</dt>
-          <dd className="text-slate-300">{a.whatChanged}</dd>
-        </div>
-        <div>
-          <dt className="text-[11px] uppercase tracking-wide text-slate-500">Why it&rsquo;s here</dt>
-          <dd className="text-slate-300">
-            {a.matches.length > 0 ? a.matches[0].reason : "You saved this record."}
-            {a.matches.length > 1 ? (
-              <span className="text-slate-500"> Also matches {a.matches.slice(1).map((m) => m.label).join(", ")}.</span>
-            ) : null}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-[11px] uppercase tracking-wide text-slate-500">Status</dt>
-          <dd className="text-slate-300">
-            {a.status}
-            {a.recordedMajor && a.section === "historical" ? (
-              <span className="text-slate-500"> Recorded as a major change when published.</span>
-            ) : null}
-          </dd>
-        </div>
-        <div className="flex flex-wrap gap-x-4 text-xs text-slate-400">
-          {a.dates.map((d) => (
-            <span key={d.label}>
-              {d.label} <span className="text-slate-200">{formatDate(d.date)}</span>
-            </span>
-          ))}
-          {!item.change.effectiveDate && item.change.status !== "proposed" ? <span>No effective date stated</span> : null}
-        </div>
-      </dl>
+      <p className="mt-1.5 line-clamp-3 text-[13px] leading-snug text-slate-300" title={a.whatChanged}>
+        {a.whatChanged}
+      </p>
 
-      <details className="mt-3 text-xs text-slate-400">
-        <summary className="cursor-pointer select-none text-slate-300 hover:text-white">Review next, evidence and source</summary>
-        <div className="mt-2 space-y-2">
+      <p className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-slate-400">
+        {a.dates.map((d) => (
+          <span key={d.label}>
+            {d.label} <span className="text-slate-200">{formatDate(d.date)}</span>
+          </span>
+        ))}
+        {!item.change.effectiveDate && item.change.status !== "proposed" ? <span>No effective date stated</span> : null}
+        {a.matches.length > 0 ? <span>Matches {a.matches.map((m) => m.label).join(", ")}</span> : null}
+        <a href={item.change.source.url} className="underline decoration-dotted hover:text-white" rel="noopener noreferrer">
+          {item.change.source.name}
+        </a>
+      </p>
+
+      <details className="mt-2 text-xs text-slate-400">
+        <summary className="cursor-pointer select-none py-1 text-slate-300 hover:text-white">Status, evidence and next step</summary>
+        <div className="mt-1 space-y-2">
           <p>
-            <span className="text-slate-300">Review next: </span>
-            {item.brief.suggestedProfessionalAction}
+            <span className="text-slate-300">Status: </span>
+            {a.status}
+            {a.recordedMajor && a.section === "historical" ? " Recorded as a major change when published." : null}
+          </p>
+          <p>
+            <span className="text-slate-300">Next step: </span>
+            {a.nextStep}
           </p>
           {a.matches.length > 0 ? (
             <ul className="space-y-1.5">
@@ -138,7 +135,9 @@ function FeedCard({ item }: { item: FeedItem }) {
                 </li>
               ))}
             </ul>
-          ) : null}
+          ) : (
+            <p>You saved this record.</p>
+          )}
           <p>
             Source:{" "}
             <a href={item.change.source.url} className="underline decoration-dotted hover:text-white" rel="noopener noreferrer">
@@ -295,7 +294,7 @@ export default async function BriefingPage() {
         <FeedSection
           id="upcoming-heading"
           title="Coming up"
-          hint="Followed or saved changes with an effective date the document states, in date order. Proposals are never dated here."
+          hint="Stated effective dates ahead, soonest first. Proposals are never dated here."
           items={upcoming}
           empty="No stated effective dates ahead for what you follow."
         />

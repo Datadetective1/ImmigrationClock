@@ -9,11 +9,13 @@
 //
 // Two renderings of one structure: Markdown, for notes and tickets, and a
 // self-contained HTML page that prints cleanly — a browser's "Save as PDF" is
-// the PDF export, with no server-side renderer to run or pay for.
+// the PDF export, with no server-side renderer to run or pay for. The next
+// step is written for a reader (readerNextStep), not for a team's procedures.
 // =============================================================================
 
 import type { PublicChange } from "@/lib/intelligence/change";
 import type { ImpactBrief } from "@/lib/intelligence/brief";
+import { readerNextStep } from "./assess";
 
 export interface BriefEntry {
   change: PublicChange;
@@ -84,7 +86,6 @@ export function renderBriefMarkdown(doc: BriefDocument): string {
       for (const w of why) lines.push(`- ${md(w)}`);
       lines.push("");
     }
-    if (brief.potentialRelevance) lines.push(`**Potential relevance.** ${md(brief.potentialRelevance)}`, "");
     if (brief.affectedDimensions.length > 0) {
       lines.push("**Affected, per the document's own words:**", "");
       for (const d of brief.affectedDimensions) lines.push(`- ${d.label}: ${md(d.value)}`);
@@ -98,7 +99,7 @@ export function renderBriefMarkdown(doc: BriefDocument): string {
     if (change.amendedBy.length > 0) {
       lines.push(`**Note:** a later record amends this one. Read the newer record first.`, "");
     }
-    lines.push(`**Suggested next step.** ${md(brief.suggestedProfessionalAction)}`, "");
+    lines.push(`**Suggested next step.** ${md(readerNextStep(change, doc.generatedAt))}`, "");
     if (brief.limitations.length > 0) {
       lines.push("**Limitations:**", "");
       for (const l of brief.limitations) lines.push(`- ${md(l)}`);
@@ -143,11 +144,10 @@ export function renderBriefHtml(doc: BriefDocument): string {
 </dl>
 ${change.summary ? `<p>${esc(change.summary)}</p>` : ""}
 ${why && why.length > 0 ? `<h3>Why it is in your Briefing</h3><ul>${why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
-${brief.potentialRelevance ? `<p><strong>Potential relevance.</strong> ${esc(brief.potentialRelevance)}</p>` : ""}
 ${dims ? `<h3>Affected, per the document's own words</h3><ul>${dims}</ul>` : ""}
 ${evidence ? `<h3>Evidence</h3><ul>${evidence}</ul>` : ""}
 ${change.amendedBy.length > 0 ? `<p class="warn">A later record amends this one. Read the newer record first.</p>` : ""}
-<p><strong>Suggested next step.</strong> ${esc(brief.suggestedProfessionalAction)}</p>
+<p><strong>Suggested next step.</strong> ${esc(readerNextStep(change, doc.generatedAt))}</p>
 ${limits ? `<h3>Limitations</h3><ul class="limits">${limits}</ul>` : ""}
 </section>`;
     })
