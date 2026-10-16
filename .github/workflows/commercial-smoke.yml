@@ -93,6 +93,15 @@ jobs:
           PAGE=$(jq -r '.data[0].url // empty' <<<"$LATEST" | sed -E 's#^https?://[^/]+##')
           RECORD=$(jq -r '.data[0].recordId // empty' <<<"$LATEST")
           if [ -n "$PAGE" ]; then
+            # Is the Briefing release deployed at all? Its Save button ships in
+            # every change page's JS whether or not the flag is on, so this
+            # tells "flag off" apart from "code not deployed yet".
+            CHANGE_HTML=$(curl -sS --max-time 30 "$SITE$PAGE" || echo '')
+            CHANGE_JS=""
+            for src in $(grep -oE '/_next/static/[^"]+\.js' <<<"$CHANGE_HTML" | sort -u); do
+              CHANGE_JS+=$(curl -fsSL --max-time 30 "$SITE$src" || true)
+            done
+            say "- Briefing release deployed (Save button in change-page JS): $(yes_no "$(grep -c 'Save to your Briefing' <<<"$CHANGE_JS")")"
             say "- alert link $PAGE (expect 200): $(code "$SITE$PAGE")"
             say "- old-style alert link /what-changed/$RECORD (was emailed before the fix; 404): $(code "$SITE/what-changed/$RECORD")"
           else
