@@ -389,8 +389,9 @@ export default function PricingPage() {
               <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
                 They stay in your browser exactly as they are now. Pro keeps the same list on every
-                device you use, and keeps it if you clear your browser. Email alerts on that list are
-                on the roadmap and are not part of Pro today.
+                device you use, and keeps it if you clear your browser. Pro also emails you when a
+                recorded change touches something on that list, at most once a day, and you can turn
+                those emails off from your account or from any alert.
               </p>
             </div>
             <div className="panel panel-pad">
