@@ -48,7 +48,7 @@ describe("the pricing page cannot sell what does not exist", () => {
     // BILLING_ENABLED is deliberately unset, and a Subscribe button that
     // answers "subscriptions are not open yet" is the same contradiction this
     // branch exists to remove, one click later. Both halves are required.
-    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync"]);
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync", "pro_briefing"]);
     expect(source).toContain('const hasSomethingToSell = availableNow("pro").length > 0;');
     expect(source).toContain("hasSomethingToSell && builtReady");
     expect(source).toContain("billingStatus().checkoutReady");

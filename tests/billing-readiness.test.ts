@@ -671,7 +671,7 @@ describe("blocker 7 · readiness covers everything needed to take money safely",
 describe("blocker 9 · Pro sells only what works", () => {
   it("offers nothing unfinished, and still shows the roadmap", async () => {
     const { availableNow, notYetAvailable, roadmap, capabilitiesFor } = await import("@/lib/billing/plans");
-    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync"]);
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync", "pro_briefing"]);
     expect(notYetAvailable("pro"), "an unfinished capability is still being sold").toEqual([]);
     for (const c of capabilitiesFor("pro")) expect(c.existsToday).toBe(true);
     // Removing the promise must not become hiding the plan.

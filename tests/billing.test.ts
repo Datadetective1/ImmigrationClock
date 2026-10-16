@@ -111,7 +111,7 @@ describe("the free/paid boundary", () => {
 
     // Anything paid that already works must be one we have deliberately shipped.
     const shipped = paid.filter((c) => c.existsToday).map((c) => c.id);
-    expect(shipped).toEqual(["watchlist_alerts", "watchlist_sync"]);
+    expect(shipped).toEqual(["watchlist_alerts", "watchlist_sync", "pro_briefing"]);
   });
 
   it("names the free platform's pillars explicitly", () => {
@@ -154,7 +154,7 @@ describe("the free/paid boundary", () => {
     // listed as things a subscriber gets while alerts.ts was imported by
     // nothing but its own test and no scheduler existed anywhere. They are now
     // roadmap: still described, no longer sold.
-    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync"]);
+    expect(availableNow("pro").map((c) => c.id)).toEqual(["watchlist_alerts", "watchlist_sync", "pro_briefing"]);
     expect(notYetAvailable("pro")).toEqual([]);
     expect(roadmap().map((c) => c.id)).toEqual([
       "bulk_export",

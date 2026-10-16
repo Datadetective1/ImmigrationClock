@@ -488,7 +488,7 @@ describe("sync is inert in the shipped configuration", () => {
 describe("watchlist sync is the first capability Pro can honestly sell", () => {
   it("is marked available, and it is the only one", () => {
     const now = availableNow("pro").map((c) => c.id);
-    expect(now).toEqual(["watchlist_alerts", "watchlist_sync"]);
+    expect(now).toEqual(["watchlist_alerts", "watchlist_sync", "pro_briefing"]);
   });
 
   it("says it exists today, so the two fields agree", () => {

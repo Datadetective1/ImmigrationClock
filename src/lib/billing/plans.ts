@@ -59,6 +59,7 @@ export const CAPABILITIES = [
   "page_csv",
   "watchlist_alerts",
   "watchlist_sync",
+  "pro_briefing",
   "bulk_export",
   "advanced_filters",
   "employer_monitoring",
@@ -189,6 +190,19 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     // These two fields are asserted to agree, and availableNow("pro") is
     // asserted to contain exactly this one id, so the next capability cannot be
     // marked available by accident.
+    existsToday: true,
+    status: "available",
+  },
+  {
+    id: "pro_briefing",
+    label: "Your Briefing",
+    blurb:
+      "One page with the recorded changes that touch what you follow, upcoming stated effective dates, and changes you save — each with its source and dates. Download a brief as Markdown or a printable page, subscribe to effective dates in your calendar, choose daily or weekly alerts and a priority-only filter, and see every alert you were sent.",
+    plan: "pro",
+    // /briefing, /api/pro/*, the Save button on change pages and the alert
+    // job's preferences, behind FEATURE_PRO_BRIEFING. Marked available only
+    // after the flag was on in production and the signed-in flows were
+    // checked there (docs/pro-briefing.md).
     existsToday: true,
     status: "available",
   },
