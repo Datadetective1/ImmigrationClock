@@ -39,8 +39,9 @@
 // =============================================================================
 
 import type { IndexedEvent } from "@/lib/event-index";
+import { changePath } from "@/lib/share";
 
-export type AlertKind = "change" | "warn_notice" | "h1b_export";
+export type AlertKind = "change" | "warn_notice" | "h1b_export" | "effective_reminder";
 
 export interface Alert {
   kind: AlertKind;
@@ -165,7 +166,9 @@ export function changeAlerts(
       detail: event.effectiveAt
         ? `${labelFor(event)} · takes effect ${event.effectiveAt}`
         : labelFor(event),
-      href: `/what-changed/${event.id}`,
+      // The change's own page. Its address is the title slug plus a hash of the
+      // id; a bare id is not a route and answered 404.
+      href: changePath(event),
       date: event.publishedAt,
     });
   }
@@ -263,9 +266,77 @@ export function h1bAlerts(
   return out;
 }
 
+/**
+ * A reminder that a followed change takes effect soon.
+ *
+ * Only changes whose record STATES an effective date, and only within the
+ * window — never a guessed date. The id carries the effective date, so a
+ * change whose date is later corrected reminds once more for the new date,
+ * and never twice for the same one.
+ */
+export function reminderAlerts(
+  events: readonly IndexedEvent[],
+  follows: readonly string[],
+  cursor: AlertCursor,
+  today: string,
+  withinDays: number
+): Alert[] {
+  const watched = new Set(follows.filter((f) => CHANGE_MATCHABLE.test(f)));
+  if (watched.size === 0) return [];
+  const already = new Set(cursor.sent ?? []);
+
+  const out: Alert[] = [];
+  for (const event of events) {
+    if (!event.effectiveAt) continue;
+    const days = daysBetween(today, event.effectiveAt);
+    if (days < 0 || days > withinDays) continue;
+    const matched = (event.entityIds ?? []).filter((id) => watched.has(id));
+    if (matched.length === 0) continue;
+    const id = `effective:${event.id}:${event.effectiveAt.slice(0, 10)}`;
+    if (already.has(id)) continue;
+    out.push({
+      kind: "effective_reminder",
+      id,
+      matched,
+      title: `Takes effect ${days === 0 ? "today" : `in ${days} day${days === 1 ? "" : "s"}`}: ${event.title}`,
+      detail: `Stated effective date ${event.effectiveAt.slice(0, 10)} · ${labelFor(event)}`,
+      href: changePath(event),
+      date: event.effectiveAt.slice(0, 10),
+    });
+  }
+  return out;
+}
+
+function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(to.slice(0, 10)) - Date.parse(from.slice(0, 10))) / 86_400_000);
+}
+
+/**
+ * Is this change a priority for a subscriber who asked for "priority" only?
+ * Major in the archive's own severity field, or a stated effective date within
+ * the window. Nothing else is inferred.
+ */
+export function isPriorityEvent(event: IndexedEvent, today: string, withinDays: number): boolean {
+  if (event.severity === "major") return true;
+  if (!event.effectiveAt) return false;
+  const days = daysBetween(today, event.effectiveAt);
+  return days >= 0 && days <= withinDays;
+}
+
 export interface AlertBatch {
   alerts: Alert[];
   cursor: AlertCursor;
+}
+
+export interface AlertBatchOptions {
+  limit?: number;
+  /** ISO date. Required for "priority" relevance and for reminders. */
+  today?: string;
+  /** "all" (the default) or "priority" — see src/lib/pro/prefs.ts. */
+  relevance?: "all" | "priority";
+  priorityWithinDays?: number;
+  /** Days ahead to remind about followed changes' effective dates. Off when unset. */
+  remindWithinDays?: number;
 }
 
 /**
@@ -274,6 +345,9 @@ export interface AlertBatch {
  * `limit` is a kindness and a safeguard: a watchlist of sixty entities on a
  * busy week could otherwise produce an email nobody reads, and a first run for
  * a new subscriber would replay the whole archive.
+ *
+ * With no options this behaves exactly as it did before Briefing: every change
+ * match, no reminders, twelve at most.
  */
 export function buildAlertBatch(
   input: {
@@ -284,15 +358,33 @@ export function buildAlertBatch(
   },
   follows: readonly string[],
   cursor: AlertCursor,
-  limit = 12
+  limitOrOptions: number | AlertBatchOptions = 12
 ): AlertBatch {
-  const alerts = [
-    ...changeAlerts(input.events, follows, cursor),
+  const options: AlertBatchOptions =
+    typeof limitOrOptions === "number" ? { limit: limitOrOptions } : limitOrOptions;
+  const limit = options.limit ?? 12;
+  const today = options.today;
+
+  const changeEvents =
+    options.relevance === "priority" && today
+      ? input.events.filter((e) => isPriorityEvent(e, today, options.priorityWithinDays ?? 30))
+      : input.events;
+
+  // Reminders go first: a date that is about to pass outranks news.
+  const reminders =
+    today && options.remindWithinDays !== undefined
+      ? reminderAlerts(input.events, follows, cursor, today, options.remindWithinDays).sort((a, b) =>
+          a.date.localeCompare(b.date)
+        )
+      : [];
+
+  const news = [
+    ...changeAlerts(changeEvents, follows, cursor),
     ...warnAlerts(input.warnEmployers, follows, cursor),
     ...h1bAlerts(input.h1bEmployers, follows, input.fiscalYear, cursor),
-  ]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, limit);
+  ].sort((a, b) => b.date.localeCompare(a.date));
+
+  const alerts = [...reminders, ...news].slice(0, limit);
 
   const newestChange = alerts.filter((a) => a.kind === "change").map((a) => a.date).sort().pop();
 

@@ -16,6 +16,7 @@ import { cronAuthorized, resendSender, runAlerts } from "@/lib/billing/alert-run
 import { json } from "@/lib/billing/http";
 import { resolveStore } from "@/lib/billing/store";
 import { EVENT_INDEX } from "@/lib/event-index";
+import { flagOn } from "@/lib/flags";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -51,6 +52,7 @@ export async function GET(req: Request): Promise<Response> {
     testMode: status.testMode,
     supportEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || undefined,
     send,
+    briefing: flagOn("pro_briefing"),
     sender: send ? resendSender(process.env as Record<string, string | undefined>) : undefined,
   });
   console.log(`[alerts] run · ${JSON.stringify(report)}`);

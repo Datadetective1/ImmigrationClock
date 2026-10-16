@@ -240,6 +240,16 @@ export interface SubscriberStore {
 
   /** Every subscriber key, for the alert job. Small by construction. */
   listSubscriberKeys(): Promise<string[]>;
+
+  /**
+   * Pro Briefing documents: delivery preferences, saved changes and alert
+   * history, one JSON string per kind per subscriber. Shapes and limits live
+   * in src/lib/pro; the store only holds the string. deleteProDoc exists so a
+   * subscriber can erase what Briefing keeps about them.
+   */
+  getProDoc(kind: ProDocKind, emailKey: string): Promise<string | null>;
+  putProDoc(kind: ProDocKind, emailKey: string, value: string): Promise<void>;
+  deleteProDoc(kind: ProDocKind, emailKey: string): Promise<void>;
 }
 
 // -----------------------------------------------------------------------------
@@ -269,6 +279,10 @@ export function tokenHash(token: string, secret: string): string {
   return createHmac("sha256", secret).update(token).digest("base64url");
 }
 
+/** What Pro Briefing stores per subscriber. Nothing about a person's case or status. */
+export const PRO_DOC_KINDS = ["prefs", "saved", "history"] as const;
+export type ProDocKind = (typeof PRO_DOC_KINDS)[number];
+
 export const KEYS = {
   subscriber: (k: string) => `sub:${k}`,
   watchlist: (k: string) => `watch:${k}`,
@@ -281,6 +295,8 @@ export const KEYS = {
   checkout: (id: string) => `cs:${id}`,
   /** A one-time action that has already happened. See claimOnce. */
   once: (token: string) => `once:${token}`,
+  /** A Pro Briefing document. See PRO_DOC_KINDS. */
+  proDoc: (kind: ProDocKind, k: string) => `pro:${kind}:${k}`,
   /** The index of subscriber keys, so the alert job can iterate without SCAN. */
   index: "subs:index",
 } as const;
@@ -378,6 +394,15 @@ export class MemoryStore implements SubscriberStore {
   }
   async listSubscriberKeys(): Promise<string[]> {
     return JSON.parse(this.read(KEYS.index) ?? "[]") as string[];
+  }
+  async getProDoc(kind: ProDocKind, k: string): Promise<string | null> {
+    return this.read(KEYS.proDoc(kind, k));
+  }
+  async putProDoc(kind: ProDocKind, k: string, value: string): Promise<void> {
+    this.write(KEYS.proDoc(kind, k), value);
+  }
+  async deleteProDoc(kind: ProDocKind, k: string): Promise<void> {
+    this.data.delete(KEYS.proDoc(kind, k));
   }
 
   /** Test helper: everything, so an assertion can look at raw state. */
@@ -611,6 +636,15 @@ export class RedisStore implements SubscriberStore {
   }
   async listSubscriberKeys(): Promise<string[]> {
     return (await this.command<string[]>(["SMEMBERS", KEYS.index])) ?? [];
+  }
+  async getProDoc(kind: ProDocKind, k: string): Promise<string | null> {
+    return this.get(KEYS.proDoc(kind, k));
+  }
+  async putProDoc(kind: ProDocKind, k: string, value: string): Promise<void> {
+    await this.set(KEYS.proDoc(kind, k), value);
+  }
+  async deleteProDoc(kind: ProDocKind, k: string): Promise<void> {
+    await this.command(["DEL", KEYS.proDoc(kind, k)]);
   }
 }
 

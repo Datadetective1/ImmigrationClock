@@ -38,6 +38,11 @@ import { buildAlertEmail, type AlertEmail } from "./alert-email";
 import type { SubscriberStore } from "./store";
 import { accessFor } from "./subscription";
 import type { IndexedEvent } from "@/lib/event-index";
+import { appendHistory, parseHistory, serializeHistory } from "@/lib/pro/history";
+import { PRIORITY_EFFECTIVE_DAYS, digestDue, parsePrefs } from "@/lib/pro/prefs";
+
+/** Days ahead a reminder fires for a followed change's stated effective date. */
+export const REMIND_WITHIN_DAYS = 7;
 
 /** A signed, per-subscriber token for the one-click unsubscribe link. */
 export function unsubscribeToken(key: string, secret: string): string {
@@ -87,6 +92,13 @@ export interface AlertRunInput {
   /** False (the default) is a dry run: nothing is sent, no cursor advances. */
   send?: boolean;
   sender?: SendAlert;
+  /**
+   * The pro_briefing flag. When true, each subscriber's Briefing preferences
+   * (frequency, relevance, reminders) shape the batch, and every accepted send
+   * is recorded in their alert history. When false the job runs exactly as it
+   * did before Briefing existed.
+   */
+  briefing?: boolean;
 }
 
 export interface AlertRunReport {
@@ -97,10 +109,14 @@ export interface AlertRunReport {
   paused: number;
   emptyWatchlist: number;
   nothingNew: number;
+  /** Weekly subscribers on a day that is not their digest day. Briefing only. */
+  notDue: number;
   /** Batches that would go out (dry run) or went out (send). */
   ready: number;
   sent: number;
   failed: number;
+  /** Sent, but the history entry could not be written. Briefing only. */
+  historyFailed: number;
   alerts: number;
 }
 
@@ -116,9 +132,11 @@ export async function runAlerts(input: AlertRunInput): Promise<AlertRunReport> {
     paused: 0,
     emptyWatchlist: 0,
     nothingNew: 0,
+    notDue: 0,
     ready: 0,
     sent: 0,
     failed: 0,
+    historyFailed: 0,
     alerts: 0,
   };
   const today = new Date(input.nowSeconds * 1000).toISOString().slice(0, 10);
@@ -152,7 +170,21 @@ export async function runAlerts(input: AlertRunInput): Promise<AlertRunReport> {
       continue;
     }
 
-    const batch = buildAlertBatch(input.data, follows, cursor);
+    const prefs = input.briefing ? parsePrefs(await input.store.getProDoc("prefs", key)) : null;
+    if (prefs && !digestDue(prefs, input.nowSeconds)) {
+      report.notDue += 1;
+      continue;
+    }
+    const batch = prefs
+      ? buildAlertBatch(input.data, follows, cursor, {
+          today,
+          // A weekly digest covers seven days, so it may carry more.
+          limit: prefs.frequency === "weekly" ? 25 : 12,
+          relevance: prefs.relevance,
+          priorityWithinDays: PRIORITY_EFFECTIVE_DAYS,
+          ...(prefs.reminders ? { remindWithinDays: REMIND_WITHIN_DAYS } : {}),
+        })
+      : buildAlertBatch(input.data, follows, cursor);
     if (batch.alerts.length === 0) {
       report.nothingNew += 1;
       continue;
@@ -191,6 +223,16 @@ export async function runAlerts(input: AlertRunInput): Promise<AlertRunReport> {
       key,
       serializeCursor({ ...batch.cursor, ...(latest.pausedAt ? { pausedAt: latest.pausedAt } : {}) })
     );
+    if (input.briefing) {
+      // History is a record of what was said, so it is written only after the
+      // send was accepted, and a failure here must not undo a delivered email.
+      try {
+        const history = parseHistory(await input.store.getProDoc("history", key));
+        await input.store.putProDoc("history", key, serializeHistory(appendHistory(history, batch.alerts, input.nowSeconds)));
+      } catch {
+        report.historyFailed += 1;
+      }
+    }
     report.sent += 1;
   }
   return report;
