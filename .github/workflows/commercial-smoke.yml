@@ -71,3 +71,34 @@ jobs:
 
           TERMS=$(get /terms || echo '')
           say "- contact email configured on /terms: $(yes_no "$(grep -c 'mailto:' <<<"$TERMS")")"
+
+          # PRO BRIEFING, seen from outside. Signed out, the page shows its
+          # sign-in gate and every API answers 401; a 404 means the
+          # FEATURE_PRO_BRIEFING flag is off in this deployment.
+          code() { curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$@"; }
+          BRIEF=$(code "$SITE/briefing")
+          BRIEF_HTML=$(curl -sS --max-time 30 "$SITE/briefing" || echo '')
+          case "$BRIEF" in
+            200) say "- briefing: flag ON — signed-out gate shown: $(yes_no "$(grep -c 'Sign in to see your Briefing' <<<"$BRIEF_HTML")")" ;;
+            404) say "- briefing: flag OFF (HTTP 404)" ;;
+            *)   say "- briefing: unexpected HTTP $BRIEF" ;;
+          esac
+          say "- briefing APIs signed out (expect 401): saved $(code "$SITE/api/pro/saved") · prefs $(code "$SITE/api/pro/prefs") · brief $(code "$SITE/api/pro/brief") · erase $(code -X DELETE "$SITE/api/pro/data")"
+          say "- briefing API with a forged session cookie (expect 401): $(code -H 'Cookie: ic_ent=forged.value' "$SITE/api/pro/saved")"
+          say "- calendar feed with a bad token (expect 404): $(code "$SITE/api/pro/calendar/AAAAAAAAAAAAAAAAAAAAAAAA.1.BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB.ics")"
+
+          # ALERT LINKS. Alerts link to the change page's address (title slug
+          # plus hash). Before the fix they used the bare record id, a 404.
+          LATEST=$(curl -sS --max-time 30 "$SITE/api/v1/changes?limit=1" || echo '{}')
+          PAGE=$(jq -r '.data[0].url // empty' <<<"$LATEST" | sed -E 's#^https?://[^/]+##')
+          RECORD=$(jq -r '.data[0].recordId // empty' <<<"$LATEST")
+          if [ -n "$PAGE" ]; then
+            say "- alert link $PAGE (expect 200): $(code "$SITE$PAGE")"
+            say "- old-style alert link /what-changed/$RECORD (was emailed before the fix; 404): $(code "$SITE/what-changed/$RECORD")"
+          else
+            say "- alert link: could not read /api/v1/changes"
+          fi
+
+          PRICING_HTML=${PRICING:-}
+          say "- pricing names Briefing: $(yes_no "$(grep -c 'Briefing' <<<"$PRICING_HTML")")"
+
