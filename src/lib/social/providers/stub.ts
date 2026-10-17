@@ -57,7 +57,7 @@ function stageVerb(f: FactSet): string {
 function timingLine(f: FactSet): string {
   if (f.classification === "proposed_rule") return "It is a proposal: nothing changes unless it is finalised.";
   if (f.effectiveAt && f.effectiveAt > f.today) return `It takes effect ${dateWords(f.effectiveAt)}.`;
-  if (f.effectiveAt) return `It has been in effect since ${dateWords(f.effectiveAt)}.`;
+  if (f.effectiveAt) return `Its stated effective date, ${dateWords(f.effectiveAt)}, has passed.`;
   if (f.subjectKind === "document") return `${agency(f)} has not posted a separate effective date.`;
   return "";
 }
