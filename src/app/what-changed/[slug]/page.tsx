@@ -35,6 +35,9 @@ import { EventCard } from "@/components/EventCard";
 import { ShareButton } from "@/components/ShareButton";
 import { SaveChangeButton } from "@/components/SaveChangeButton";
 import { ChangeRecordV2 } from "@/components/ChangeRecordV2";
+import { connectionsFor } from "@/lib/connections";
+import { EVENT_INDEX } from "@/lib/event-index";
+import { isFollowableId } from "@/lib/follows";
 import { flagOn } from "@/lib/flags";
 import { amendmentIndex, type ChangeInput } from "@/lib/intelligence/change";
 import { StoryAnalytics } from "@/components/StoryAnalytics";
@@ -56,6 +59,10 @@ import { relatedChanges, relationTo, storyDescription, storyKey, storyTitle } fr
 // reader on to the canonical address with a permanent redirect. A slug whose
 // hash names nothing is a 404. Both are rendered once and cached, so the
 // on-demand path costs one render per address, not one per visit.
+
+/** Ids the Following picker offers: followable and present in the archive index. */
+const FOLLOWABLE: ReadonlySet<string> = new Set(EVENT_INDEX.flatMap((e) => e.entityIds).filter(isFollowableId));
+
 export const dynamicParams = true;
 
 export function generateStaticParams() {
@@ -166,6 +173,7 @@ export default function ChangePage({ params }: { params: { slug: string } }) {
           related={related}
           context={context}
           amendedBy={AMENDMENTS.get(event.id) ?? []}
+          connections={connectionsFor(event.impact, FOLLOWABLE)}
         />
       </>
     );

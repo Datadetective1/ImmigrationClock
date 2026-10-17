@@ -15,6 +15,8 @@
 // =============================================================================
 
 import Link from "next/link";
+import { FollowChips } from "./FollowChips";
+import type { Connections } from "@/lib/connections";
 import { ChangeCard } from "./ChangeCard";
 import { entityName } from "./EventCard";
 import { PageHeader } from "./PageHeader";
@@ -210,7 +212,10 @@ export function ChangeRecordV2({
   related,
   context,
   amendedBy = [],
+  connections,
 }: {
+  /** Onward links from the document's stated scope (lib/connections.ts). */
+  connections?: Connections;
   event: ImmigrationEvent;
   /** Ids of later records in the archive that amend this one. */
   amendedBy?: string[];
@@ -308,11 +313,51 @@ export function ChangeRecordV2({
           <h2 id="summary-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-400">
             What the document says
           </h2>
-          <p className="text-[15px] leading-relaxed text-slate-200">{summary}</p>
+          <p className="text-[15px] leading-relaxed text-slate-200 [overflow-wrap:anywhere]">{summary}</p>
           {event.whyItMatters ? <p className="text-sm leading-relaxed text-slate-400">{event.whyItMatters}</p> : null}
         </section>
 
         {event.impact ? <WhoItNames impact={event.impact} /> : null}
+
+        {connections && (connections.data.length > 0 || connections.follows.length > 0 || connections.dates.length > 0) ? (
+          <section aria-labelledby="connected-heading" className="space-y-3">
+            <h2 id="connected-heading" className="text-base font-semibold text-white">
+              Follow and explore
+            </h2>
+            <p className="-mt-2 text-xs text-slate-500">From the countries and visa categories the document names.</p>
+            {connections.data.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {connections.data.map((d) => (
+                  <TrackedLink
+                    key={d.href}
+                    href={d.href}
+                    surface="story-context"
+                    relation="stated-scope"
+                    className="rounded-lg border border-white/10 px-3 py-1.5 text-sm text-accent transition-colors hover:border-accent/40"
+                  >
+                    {d.label} data →
+                  </TrackedLink>
+                ))}
+              </div>
+            ) : null}
+            {connections.dates.length > 0 ? (
+              <div>
+                <ul className="space-y-1">
+                  {connections.dates.map((d) => (
+                    <li key={d.id} className="text-sm">
+                      <Link href={`/key-dates#${d.id}`} className="font-medium text-slate-200 hover:text-accent">
+                        {d.title}
+                      </Link>{" "}
+                      <span className="text-xs text-slate-500">· recurs each year for {d.forLabel}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-1 text-xs text-slate-500">Annual dates, shown for context. This document does not set them.</p>
+              </div>
+            ) : null}
+            {connections.follows.length > 0 ? <FollowChips follows={connections.follows} /> : null}
+          </section>
+        ) : null}
 
         {related.length > 0 ? (
           <section aria-labelledby="related-heading" className="space-y-2">
