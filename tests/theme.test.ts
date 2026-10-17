@@ -56,6 +56,11 @@ describe("light: legible, and only behind the flag", () => {
     expect(media.slice(0, 120)).toMatch(/:root\[data-theme="auto"\]/);
     expect(flagOn("ux_v2", {})).toBe(false);
     expect(flagOn("ux_v2", { FEATURE_UX_V2: "true" })).toBe(true);
+    // On in Vercel previews for review; never in production unless set; "false" turns a preview off.
+    expect(flagOn("ux_v2", { VERCEL_ENV: "preview" })).toBe(true);
+    expect(flagOn("ux_v2", { VERCEL_ENV: "production" })).toBe(false);
+    expect(flagOn("ux_v2", { VERCEL_ENV: "preview", FEATURE_UX_V2: "false" })).toBe(false);
+    expect(flagOn("pro_briefing", { VERCEL_ENV: "preview" })).toBe(false);
     expect(readFileSync(join(process.cwd(), "src/app/layout.tsx"), "utf8")).toMatch(/data-theme=\{themed \? "auto" : undefined\}/);
   });
 
