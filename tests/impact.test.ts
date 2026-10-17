@@ -869,6 +869,34 @@ describe("evidence integrity", () => {
     expect(impact.actionRequired?.evidence).not.toMatch(/docket/i);
   });
 
+  it("does not present a comment deadline, an agency duty or rhetoric as an obligation", () => {
+    // REGRESSION: "Removing 30-Day Refugee Termination Notice" showed "Written
+    // comments and related materials must be submitted on or before November
+    // 13, 2026" under "what the document says may be required".
+    for (const abstract of [
+      "Written comments and related materials must be submitted on or before November 13, 2026.",
+      "Written comments on the notice of proposed rulemaking (NPRM) must be submitted on or before November 10, 2026.",
+      "Comments are encouraged and must be submitted (no later than September 3, 2026) to be assured of consideration.",
+      "Mailed items must be postmarked or otherwise indicate a shipping date on or before the submission deadline.",
+      "DHS is required to adjust the HR-1 parole fee for inflation in each fiscal year.",
+      "The Regulatory Flexibility Act requires preparation of an initial regulatory flexibility analysis.",
+      "More can and must be done, however.",
+    ]) {
+      expect(extractImpact({ title: "Rule", abstract, agencyIds: [] }).actionRequired, abstract).toBeUndefined();
+    }
+  });
+
+  it("keeps obligations on the people a document covers, active or passive", () => {
+    for (const abstract of [
+      "Under the IFR, an alien must file a notice of appeal within 15 business days of service of the initial decision.",
+      "Each Form I-526E filer is required to pay $1,000 to the EB-5 Integrity Fund, in addition to any form fees.",
+      "Any application, petition, or request postmarked on or after this date must be accompanied by the fees established by this final rule.",
+      "A premium processing request must be submitted on USCIS Form I-907.",
+    ]) {
+      expect(extractImpact({ title: "Rule", abstract, agencyIds: [] }).actionRequired?.evidence, abstract).toBeTruthy();
+    }
+  });
+
   // ---------------------------------------------------------------------------
   // The extractor being correct is not the same as the SHIPPED data being clean.
   // The store is committed and merge-never-replace, so an event ingested under
@@ -892,7 +920,7 @@ describe("evidence integrity", () => {
 
   it("ships no comment-submission boilerplate as a stated obligation", () => {
     const bad = EVENTS.filter((e) =>
-      /submit comments|regulations\.gov|regulatory identification number/i.test(
+      /submit comments|regulations\.gov|regulatory identification number|comments?\b.{0,160}must be (received|submitted)/i.test(
         e.impact?.actionRequired?.evidence ?? ""
       )
     );
