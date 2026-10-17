@@ -25,7 +25,7 @@ export const SITE = {
   // NEXT_PUBLIC_CONTACT_EMAIL once the account and inbox genuinely exist.
   twitter: process.env.NEXT_PUBLIC_TWITTER_HANDLE || "",
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
-  searchPlaceholder: "Search a visa, country, employer, deadline or topic",
+  searchPlaceholder: "Search a visa, country or topic",
   heroDisclaimer:
     "Figures come from official U.S. government releases (USCIS, ICE, CBP, the State Department, and BLS). This is not a real-time feed: most datasets are published monthly to yearly. We show the latest available period and label every number reported, projected, or estimated.",
   footerDisclaimer:

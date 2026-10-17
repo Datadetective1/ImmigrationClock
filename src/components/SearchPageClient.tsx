@@ -118,7 +118,7 @@ export function SearchPageClient() {
           autoFocus
           value={q}
           onChange={(e) => update(e.target.value)}
-          placeholder="Search a visa, country, employer, deadline or topic…"
+          placeholder="Search a visa, country or topic"
           aria-label="Search"
           className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
         />

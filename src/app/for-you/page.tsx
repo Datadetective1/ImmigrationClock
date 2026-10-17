@@ -44,7 +44,7 @@ export default function ForYouPage() {
             look up their own visa, country or topic, and follow it. */}
         <section className="space-y-3">
           <h2 className="section-title">Or look up anything</h2>
-          <SearchBar placeholder="A visa, country, employer, deadline or topic" />
+          <SearchBar />
         </section>
 
         <FollowingPanel />

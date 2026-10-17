@@ -70,7 +70,7 @@ export default function WorkVisasHubPage() {
             Search any of 2,600+ H-1B sponsors, plus states, countries, visa types, and job titles.
           </p>
           <div className="mt-3">
-            <SearchBar />
+            <SearchBar placeholder="Employer or job title" />
           </div>
         </section>
 
