@@ -234,6 +234,16 @@ export interface SubscriberStore {
    */
   wasClaimed(token: string): Promise<boolean>;
 
+  /**
+   * Count one event in a fixed window and return the count, atomically.
+   *
+   * The first hit creates the counter with a TTL of `windowSeconds`; later hits
+   * in the window only increment it. Atomic server side, so N concurrent callers
+   * see 1..N and exactly as many as the caller allows get through — a GET then
+   * SET would let a burst all read "0" and all send. See the sign-in route.
+   */
+  incrementWindow(key: string, windowSeconds: number): Promise<number>;
+
   /** The last change id we alerted this person about, so we never repeat one. */
   getAlertCursor(emailKey: string): Promise<string | null>;
   putAlertCursor(emailKey: string, cursor: string): Promise<void>;
@@ -279,6 +289,28 @@ export function tokenHash(token: string, secret: string): string {
   return createHmac("sha256", secret).update(token).digest("base64url");
 }
 
+/**
+ * The key a sign-in send is counted against: the INBOX, not the string typed.
+ *
+ * Gmail ignores dots and everything after "+", and most providers deliver
+ * "+tag" mail to the same inbox, so "a.b.c@gmail.com" and "abc+x@gmail.com"
+ * are one victim. Abuse seen in production rotated exactly those variants. This
+ * folding is for the limiter only; the identity key (emailKey) is unchanged.
+ *
+ * HMAC under its own label, so the result is neither a raw address nor equal to
+ * the identity key, and a key listing cannot be dictionary-attacked without the
+ * secret.
+ */
+export function signinLimitKey(email: string, secret: string): string {
+  const normalized = email.trim().toLowerCase();
+  const at = normalized.lastIndexOf("@");
+  let local = normalized.slice(0, at).split("+")[0];
+  let domain = normalized.slice(at + 1);
+  if (domain === "googlemail.com") domain = "gmail.com";
+  if (domain === "gmail.com") local = local.replace(/\./g, "");
+  return createHmac("sha256", secret).update(`signin-limit:${local}@${domain}`).digest("base64url").slice(0, 32);
+}
+
 /** What Pro Briefing stores per subscriber. Nothing about a person's case or status. */
 export const PRO_DOC_KINDS = ["prefs", "saved", "history"] as const;
 export type ProDocKind = (typeof PRO_DOC_KINDS)[number];
@@ -297,6 +329,8 @@ export const KEYS = {
   once: (token: string) => `once:${token}`,
   /** A Pro Briefing document. See PRO_DOC_KINDS. */
   proDoc: (kind: ProDocKind, k: string) => `pro:${kind}:${k}`,
+  /** A sign-in send counter for one hashed recipient. See signinLimitKey. */
+  signinLimit: (window: string, k: string) => `signin:${window}:${k}`,
   /** The index of subscriber keys, so the alert job can iterate without SCAN. */
   index: "subs:index",
 } as const;
@@ -385,6 +419,12 @@ export class MemoryStore implements SubscriberStore {
   }
   async wasClaimed(token: string): Promise<boolean> {
     return this.read(KEYS.once(token)) !== null;
+  }
+  async incrementWindow(key: string, windowSeconds: number): Promise<number> {
+    const hit = this.read(key) === null ? null : this.data.get(key)!;
+    const n = (hit ? Number(hit.value) : 0) + 1;
+    this.data.set(key, { value: String(n), expiresAt: hit ? hit.expiresAt : Date.now() + windowSeconds * 1000 });
+    return n;
   }
   async getAlertCursor(k: string): Promise<string | null> {
     return this.read(KEYS.cursor(k));
@@ -627,6 +667,16 @@ export class RedisStore implements SubscriberStore {
   }
   async wasClaimed(token: string): Promise<boolean> {
     return (await this.get(KEYS.once(token))) !== null;
+  }
+  /** INCR and, on the first hit, EXPIRE — one script, so no hit can land between them. */
+  private static readonly WINDOW_SCRIPT = [
+    "local n = redis.call('INCR', KEYS[1])",
+    "if n == 1 then redis.call('EXPIRE', KEYS[1], ARGV[1]) end",
+    "return n",
+  ].join("\n");
+
+  async incrementWindow(key: string, windowSeconds: number): Promise<number> {
+    return this.command<number>(["EVAL", RedisStore.WINDOW_SCRIPT, 1, key, windowSeconds]);
   }
   async getAlertCursor(k: string): Promise<string | null> {
     return this.get(KEYS.cursor(k));
