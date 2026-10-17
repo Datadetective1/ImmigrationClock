@@ -32,6 +32,8 @@ export interface KeyDate {
   sourceUrl: string;
   /** Partner ids surfaced as "get help" beside the date. */
   partnerIds: string[];
+  /** An explainer for this deadline, by slug. */
+  explainerSlug?: string;
 }
 
 export const CATEGORY_LABEL: Record<KeyDateCategory, string> = {
@@ -60,6 +62,7 @@ export const KEY_DATES: KeyDate[] = [
     sourceUrl:
       "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations/h-1b-electronic-registration-process",
     partnerIds: ["boundless", "attorney-match"],
+    explainerSlug: "h1b-cap-and-registration",
   },
   {
     id: "tax-deadline",
@@ -77,11 +80,13 @@ export const KEY_DATES: KeyDate[] = [
   {
     id: "dv-lottery",
     title: "Diversity Visa (green-card) lottery",
+    // No countdown: the State Department deferred the DV-2027 entry period
+    // (final rule 2026-04737, March 11, 2026) and has set no date we can
+    // verify. A $1 registration fee applies from September 16, 2025 (final
+    // rule 2025-17851), so the entry is no longer "free".
     detail:
-      "The DV lottery registration opens for about one month in the fall, free, for nationals of eligible countries. A rare path to a green card with no employer or family sponsor.",
-    month: 10,
-    day: 1,
-    approx: true,
+      "The State Department sets each year's entry period and announces it on its official DV page. It deferred the opening of the DV-2027 entry period, and entries now need a valid, unexpired passport and a $1 registration fee. Confirm current dates on the official page; no date is shown here until one is announced.",
+    cadence: "Dates set by the State Department · check the official page",
     category: "green-card",
     personas: ["general", "eb-applicant"],
     sourceName: "U.S. Dept. of State — DV Program",
@@ -112,6 +117,7 @@ export const KEY_DATES: KeyDate[] = [
     sourceName: "U.S. Dept. of State — Visa Bulletin",
     sourceUrl: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
     partnerIds: ["boundless", "attorney-match"],
+    explainerSlug: "visa-bulletin-priority-dates",
   },
   {
     id: "opt-window",
@@ -124,6 +130,7 @@ export const KEY_DATES: KeyDate[] = [
     sourceName: "USCIS — Optional Practical Training",
     sourceUrl: "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
     partnerIds: ["visa-jobs", "credential-evaluation"],
+    explainerSlug: "opt-in-plain-terms",
   },
 ];
 

@@ -136,6 +136,14 @@ export function KeyDates({
                 >
                   {d.sourceName} ↗
                 </a>
+                {d.explainerSlug ? (
+                  <Link
+                    href={`/explained/${d.explainerSlug}`}
+                    className="text-xs font-medium text-accent hover:text-accent-soft"
+                  >
+                    Explained →
+                  </Link>
+                ) : null}
                 {partners.length > 0 ? (
                   <span className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
                     <span>Get help:</span>

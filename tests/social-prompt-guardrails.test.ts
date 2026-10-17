@@ -50,12 +50,12 @@ import {
   xWeightedLength,
 } from "@/lib/social/validate";
 import { buildKeyDateFacts, buildEventFacts } from "@/lib/social/facts";
-import { KEY_DATES } from "@/lib/key-dates";
+import { DV_KEY_DATE_2026_08 } from "./fixtures/dv-key-date-2026-08";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import type { IndexedEvent } from "@/lib/event-index";
 import type { FactSet } from "@/lib/social/types";
 
-const DV = KEY_DATES.find((k) => k.id === "dv-lottery")!;
+const DV = DV_KEY_DATE_2026_08;
 
 /** The exact fact set the failing proposal was generated from. */
 function dvFacts(): FactSet {

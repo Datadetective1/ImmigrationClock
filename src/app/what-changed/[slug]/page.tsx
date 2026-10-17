@@ -46,6 +46,7 @@ import { TrackedLink } from "@/components/TrackedLink";
 import { EVENTS } from "@/lib/event-store";
 import { changePath, changeSlug, explainerPath, matchesChangeSlug, ogImagePath } from "@/lib/share";
 import { explainersFor } from "@/lib/editorial/explainers";
+import { recordNote } from "@/lib/editorial/record-notes";
 import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { formatDate, siteDay } from "@/lib/format";
@@ -99,9 +100,12 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
     });
   }
   const source = SOURCE_BY_KEY[event.sourceKey];
+  // An editor's search title, where one exists; the page itself still leads
+  // with the document's own title. See lib/editorial/record-notes.ts.
+  const note = recordNote(event.id);
   return buildMetadata({
-    title: storyTitle(event),
-    description: storyDescription(event),
+    title: note?.searchTitle ?? storyTitle(event),
+    description: note?.searchDescription ?? storyDescription(event),
     // The canonical slug, even when the request arrived on an older one.
     path: changePath(event),
     image: ogImagePath("change", changeSlug(event)),

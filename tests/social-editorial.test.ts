@@ -28,6 +28,7 @@ import { validatePost, VALIDATOR_VERSION } from "@/lib/social/validate";
 import { buildEventFacts, buildKeyDateFacts } from "@/lib/social/facts";
 import { SLOT_BY_ID } from "@/lib/social/slots";
 import { KEY_DATES } from "@/lib/key-dates";
+import { DV_KEY_DATE_2026_08 } from "./fixtures/dv-key-date-2026-08";
 import type { IndexedEvent } from "@/lib/event-index";
 import type { Angle, FactSet, SlotId } from "@/lib/social/types";
 
@@ -141,7 +142,7 @@ describe("timing is rendered as a fact, in both directions", () => {
   });
 
   it("asks a recurring window for how far away it is, not a description of the programme", () => {
-    const dv = KEY_DATES.find((k) => k.id === "dv-lottery")!;
+    const dv = DV_KEY_DATE_2026_08;
     const prompt = buildUserPrompt({
       facts: buildKeyDateFacts(dv, 51, "2026-10-01", "2026-08-15"),
       slot: SLOT_BY_ID.get("evening")!,
