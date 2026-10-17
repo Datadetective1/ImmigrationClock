@@ -103,9 +103,11 @@ describe("change alerts", () => {
     expect(changeAlerts([event({ publishedAt: "2026-09-03" })], ["visa:h-1b"], cursor)).toHaveLength(1);
   });
 
-  it("carries the effective date when the record has one", () => {
+  it("carries the stated effective date, in words, and the official source", () => {
     const alerts = changeAlerts([event({ effectiveAt: "2026-10-01" })], ["visa:h-1b"], EMPTY);
-    expect(alerts[0].detail).toContain("takes effect 2026-10-01");
+    expect(alerts[0].detail).toContain("stated effective date Oct 1, 2026");
+    expect(alerts[0].detail).not.toMatch(/takes effect|\d{4}-\d{2}-\d{2}|_/);
+    expect(alerts[0].source?.url).toMatch(/^https:\/\//);
   });
 
   it("orders newest first", () => {

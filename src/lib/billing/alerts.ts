@@ -40,7 +40,8 @@
 
 import type { IndexedEvent } from "@/lib/event-index";
 import { changePath } from "@/lib/share";
-import { isNotInForce } from "@/lib/event-labels";
+import { CLASSIFICATION_LABEL, isNotInForce } from "@/lib/event-labels";
+import { SOURCE_BY_KEY } from "@/lib/sources";
 import type { EventClassification } from "@/domains/graph/events";
 
 export type AlertKind = "change" | "warn_notice" | "h1b_export" | "effective_reminder";
@@ -58,6 +59,8 @@ export interface Alert {
   href: string;
   /** ISO date the underlying thing happened or was published. */
   date: string;
+  /** The official document, for alerts about a recorded change. */
+  source?: { name: string; url: string };
 }
 
 /** An employer as the WARN feed knows it, narrowed to what an alert needs. */
@@ -165,9 +168,12 @@ export function changeAlerts(
       id,
       matched,
       title: event.title,
+      // "Stated", whether the date is ahead or has passed: the record states it,
+      // and a passed date does not show the rule still applies.
       detail: event.effectiveAt
-        ? `${labelFor(event)} · takes effect ${event.effectiveAt}`
+        ? `${labelFor(event)} · stated effective date ${dayLabel(event.effectiveAt)}`
         : labelFor(event),
+      source: sourceOf(event),
       // The change's own page. Its address is the title slug plus a hash of the
       // id; a bare id is not a route and answered 404.
       href: changePath(event),
@@ -178,8 +184,19 @@ export function changeAlerts(
 }
 
 function labelFor(event: IndexedEvent): string {
-  const source = event.sourceKey.replace(/_/g, " ");
-  return `${event.classification.replace(/_/g, " ")} · ${source}`;
+  const kind = CLASSIFICATION_LABEL[event.classification as EventClassification] ?? event.classification.replace(/_/g, " ");
+  return `${kind} · ${SOURCE_BY_KEY[event.sourceKey]?.name ?? event.sourceKey.replace(/_/g, " ")}`;
+}
+
+function sourceOf(event: IndexedEvent): Alert["source"] {
+  return event.sourceUrl ? { name: SOURCE_BY_KEY[event.sourceKey]?.name ?? "Official source", url: event.sourceUrl } : undefined;
+}
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+/** "Oct 14, 2026" — a reader's date, not a field value. */
+function dayLabel(iso: string): string {
+  const m = MONTHS[Number(iso.slice(5, 7)) - 1];
+  return m ? `${m} ${Number(iso.slice(8, 10))}, ${iso.slice(0, 4)}` : iso;
 }
 
 /**
@@ -304,8 +321,9 @@ export function reminderAlerts(
       id,
       matched,
       title: `Takes effect ${days === 0 ? "today" : `in ${days} day${days === 1 ? "" : "s"}`}: ${event.title}`,
-      detail: `Stated effective date ${event.effectiveAt.slice(0, 10)} · ${labelFor(event)}`,
+      detail: `Stated effective date ${dayLabel(event.effectiveAt)} · ${labelFor(event)}`,
       href: changePath(event),
+      source: sourceOf(event),
       date: event.effectiveAt.slice(0, 10),
     });
   }

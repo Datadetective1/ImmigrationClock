@@ -22,6 +22,7 @@ import type { Alert } from "@/lib/billing/alerts";
 import type { ChangeInput } from "@/lib/intelligence/change";
 import { EVENTS } from "@/lib/event-store";
 import { SITE } from "@/lib/site";
+import { EMAIL_COLOR, EMAIL_FONT } from "@/lib/email/style";
 import { buildBriefing } from "./feed";
 import { buildLandscape, type Landscape } from "./landscape";
 
@@ -181,8 +182,8 @@ export function renderWeeklyEmail(
   // ---- HTML: the redesign's light palette, one column, phone first ---------
   // Inline styles only (email clients drop <style>); tables for layout where
   // Outlook needs them. Colours are the site's light theme.
-  const C = { ink: "#0b1220", body: "#334155", muted: "#556274", line: "#e5e7eb", page: "#f6f7f9", accent: "#0369a1", amber: "#b45309" };
-  const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+  const C = EMAIL_COLOR;
+  const font = EMAIL_FONT;
   const h2 = (label: string) =>
     `<h2 style="margin:24px 0 8px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:${C.muted}">${esc(label)}</h2>`;
   const link = (href: string, text: string) =>

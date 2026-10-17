@@ -220,6 +220,31 @@ describe("the email", () => {
     expect(mail.html).not.toContain("<script>");
     expect(mail.html).toContain("Rule &lt;script&gt;");
   });
+
+  it("links each change's official source, in the redesign's style, with every way out", () => {
+    const sourced = buildAlertEmail({
+      alerts: [
+        {
+          kind: "change",
+          id: "change:y",
+          matched: ["visa:h-1b"],
+          title: "A rule",
+          detail: "Final rule · Federal Register · stated effective date Oct 1, 2026",
+          href: "/what-changed/y",
+          date: "2026-10-15",
+          source: { name: "Federal Register", url: "https://www.federalregister.gov/d/2026-1" },
+        },
+      ],
+      origin: ORIGIN,
+      unsubscribeUrl: unsubscribeUrl(ORIGIN, "pro", SECRET),
+      testMode: false,
+    });
+    expect(sourced.html).toContain('href="https://www.federalregister.gov/d/2026-1"');
+    expect(sourced.text).toContain("Source: Federal Register https://www.federalregister.gov/d/2026-1");
+    expect(sourced.html).toContain("#0369a1"); // the site's light accent
+    for (const way of ["/following", "/account", "/api/billing/alerts/unsubscribe"]) expect(sourced.html).toContain(way);
+    expect(sourced.html).toMatch(/not legal advice/);
+  });
 });
 
 describe("unsubscribe tokens", () => {
