@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { allPartners } from "@/lib/partners";
-import { placementSubId, withPlacement } from "@/lib/partner-link";
+import { listingLink, placementSubId, withPlacement } from "@/lib/partner-link";
 import { KEY_DATES } from "@/lib/key-dates";
 
 // The ImmiTranslate referral link is the only tracked affiliate link the site
@@ -13,13 +13,13 @@ import { KEY_DATES } from "@/lib/key-dates";
 const REF = "https://immitranslate.com/?ref=948mg968";
 const read = (p: string) => readFileSync(join(__dirname, "..", p), "utf8");
 
-describe("ImmiTranslate referral link", () => {
-  const translation = allPartners().find((p) => p.id === "document-translation")!;
+const translation = allPartners().find((p) => p.id === "document-translation")!;
 
-  it("resolves to the referral URL, uses `sub`, and stays a labelled partner", () => {
+describe("ImmiTranslate referral link", () => {
+  it("resolves to the referral URL, uses `sub`, and stays a labelled affiliate", () => {
     expect(translation.href).toBe(REF);
     expect(translation.subParam).toBe("sub");
-    expect(translation.kind).toBe("partner");
+    expect(translation.kind).toBe("affiliate");
   });
 
   it("appends the placement as `sub` and keeps `ref` intact", () => {
@@ -47,13 +47,23 @@ describe("placement sub-ids", () => {
   });
 });
 
-describe("every partner link keeps its disclosure and tracking", () => {
+describe("every listing link says what it is", () => {
+  it("tracks and marks sponsored only the affiliate, keeping its referral id", () => {
+    const aff = listingLink(translation, "resources-documents");
+    expect(aff.href).toBe("https://immitranslate.com/?ref=948mg968&sub=ic_resources_documents");
+    expect(aff.rel).toBe("sponsored nofollow noopener noreferrer");
+    expect(aff.onClick).toBeTypeOf("function");
+    for (const p of allPartners().filter((x) => x.kind !== "affiliate")) {
+      const plain = listingLink(p, "resources-x");
+      expect(plain.href, p.id).toBe(p.href);
+      expect(plain.rel, p.id).toBe("noopener noreferrer");
+      expect(plain.onClick, p.id).toBeUndefined();
+    }
+  });
+
   for (const file of ["src/components/ResourcePanel.tsx", "src/components/KeyDates.tsx"]) {
     it(file, () => {
-      const src = read(file);
-      expect(src).toMatch(/withPlacement\([^)]*\.subParam\)/);
-      expect(src).toContain('"sponsored nofollow noopener noreferrer"');
-      expect(src).toContain("trackPartnerClick(");
+      expect(read(file)).toContain("listingLink(");
     });
   }
 });

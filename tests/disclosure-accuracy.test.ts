@@ -23,9 +23,15 @@ describe("disclosure matches how the site actually earns money", () => {
     expect(disclosure).toMatch(/affiliate/i);
   });
 
-  it("sends certified-translation clicks to ImmiTranslate, labelled as a partner", () => {
+  it("sends certified-translation clicks to ImmiTranslate, labelled as an affiliate", () => {
     const translation = PARTNERS_ALL.find((p) => p.id === "document-translation");
     expect(translation?.url).toBe("https://immitranslate.com/?ref=948mg968");
-    expect(translation?.kind).toBe("partner");
+    expect(translation?.kind).toBe("affiliate");
+  });
+
+  it("explains all three labels, and says independent listings earn nothing", () => {
+    expect(disclosure).toContain("&ldquo;Affiliate&rdquo;");
+    expect(disclosure).toContain("&ldquo;Independent&rdquo;");
+    expect(disclosure).toMatch(/earn nothing/);
   });
 });

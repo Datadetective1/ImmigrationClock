@@ -57,7 +57,13 @@ export default function DisclosurePage() {
             earn a commission. <strong>It never costs you extra</strong> — the price is the same as going
             direct.
           </p>
-          <p>Partner placements are labelled <strong>&ldquo;Partner&rdquo;</strong> and open in a new tab.</p>
+          <p>
+            Every listing says what it is to us. <strong>&ldquo;Affiliate&rdquo;</strong> marks a program we are
+            enrolled in, which may pay us a commission. <strong>&ldquo;Independent&rdquo;</strong> marks a commercial
+            service we list because readers need it; we have no agreement with it and earn nothing from it.{" "}
+            <strong>&ldquo;Free · official&rdquo;</strong> marks a government or nonprofit resource. All open in a
+            new tab.
+          </p>
         </section>
 
         <section className="space-y-3">
@@ -79,7 +85,7 @@ export default function DisclosurePage() {
               your own case, consult a qualified professional.
             </li>
             <li>
-              <strong>You&rsquo;re always free to go direct.</strong> Every partner can be reached without our
+              <strong>You&rsquo;re always free to go direct.</strong> Every affiliate can be reached without our
               link; using ours is simply how readers can support the project at no cost to themselves.
             </li>
           </ul>

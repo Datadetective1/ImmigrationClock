@@ -1,114 +1,105 @@
 "use client";
 
-import Link from "next/link";
-import type { ResolvedPartner } from "@/lib/partners";
-import { withPlacement, trackPartnerClick } from "@/lib/partner-link";
+// =============================================================================
+// RESOURCES DIRECTORY — one grid, filtered by need
+//
+// Renders ONLY on /resources — never on a data page, employer page, topic page
+// or methodology page (see src/lib/partners.ts for why).
+//
+// Every card says what the listing is to us, before anyone clicks:
+//   • Free · official — government or nonprofit; no commercial relationship.
+//   • Independent     — a commercial service we list because readers need it;
+//                       no agreement, no commission, a plain link.
+//   • Affiliate       — a verified program we are enrolled in; it may pay us a
+//                       commission, so it is tracked and rel="sponsored".
+// Order is by need, then catalog order. Compensation never moves a card up.
+// =============================================================================
 
-function PartnerCard({ partner, placement }: { partner: ResolvedPartner; placement: string }) {
-  // An official/nonprofit resource has no commercial relationship, so it must not
-  // carry rel="sponsored" (that would misdescribe it to search engines), must not
-  // get a tracking parameter, and must not fire a revenue event. Only genuine
-  // commercial partners get any of those.
-  const isPartner = partner.kind === "partner";
+import { useState } from "react";
+import Link from "next/link";
+import { CATEGORY_META, type PartnerCategory, type ResolvedPartner } from "@/lib/partners";
+import { listingLink, RELATIONSHIP_LABEL } from "@/lib/partner-link";
+
+const LABEL_TONE: Record<ResolvedPartner["kind"], string> = {
+  official: "border-status-green/25 bg-status-green/10 text-status-green",
+  service: "border-white/15 text-slate-400",
+  affiliate: "border-accent/30 bg-accent/10 text-accent",
+};
+
+function ResourceCard({ partner, placement }: { partner: ResolvedPartner; placement: string }) {
+  const link = listingLink(partner, placement);
   return (
     <a
-      href={isPartner ? withPlacement(partner.href, placement, partner.subParam) : partner.href}
+      href={link.href}
       target="_blank"
-      rel={isPartner ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"}
-      onClick={isPartner ? () => trackPartnerClick(partner.id, placement) : undefined}
-      className="group flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-accent/40 hover:bg-accent/[0.04]"
+      rel={link.rel}
+      onClick={link.onClick}
+      className="group flex h-full flex-col rounded-xl border border-white/10 bg-white/[0.02] p-4 transition-colors hover:border-accent/40"
     >
-      <div className="flex items-start justify-between gap-2">
-        <span aria-hidden className="text-xl">
-          {partner.icon}
-        </span>
-        <span className="flex flex-wrap items-center justify-end gap-1.5">
-          {partner.badge ? (
-            <span className="rounded-full border border-accent/20 bg-accent/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent-soft">
-              {partner.badge}
-            </span>
-          ) : null}
-          <span
-            className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-              isPartner
-                ? "border-white/15 bg-white/5 text-slate-400"
-                : "border-status-green/20 bg-status-green/10 text-status-green"
-            }`}
-          >
-            {isPartner ? "Partner" : "Free · official"}
-          </span>
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11px] uppercase tracking-wide text-slate-500">{CATEGORY_META[partner.category].label}</span>
+        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${LABEL_TONE[partner.kind]}`}>
+          {RELATIONSHIP_LABEL[partner.kind]}
         </span>
       </div>
-      <h3 className="mt-2 text-sm font-semibold text-white">{partner.name}</h3>
-      <p className="mt-1 text-xs leading-relaxed text-slate-400">{partner.blurb}</p>
-      <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
-        <span className="font-medium text-slate-400">Use it when:</span> {partner.useWhen}
+      <h3 className="mt-2 flex items-center gap-2 text-[15px] font-semibold text-white">
+        <span aria-hidden>{partner.icon}</span>
+        {partner.name}
+      </h3>
+      <p className="mt-1 text-[13px] leading-snug text-slate-400">{partner.blurb}</p>
+      <p className="mt-2 text-xs leading-snug text-slate-500">
+        <span className="text-slate-400">Use it when</span> {partner.useWhen.charAt(0).toLowerCase() + partner.useWhen.slice(1)}
       </p>
-      <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-accent transition-colors group-hover:text-accent-soft">
-        {partner.cta}
-        <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-          →
-        </span>
+      <span className="mt-auto inline-flex items-center gap-1 pt-3 text-sm font-semibold text-accent group-hover:text-accent-soft">
+        {partner.cta} <span aria-hidden>↗</span>
       </span>
     </a>
   );
 }
 
-/**
- * Resources module. Renders ONLY on /resources — never on a data page, employer
- * page, topic page, or methodology page. See src/lib/partners.ts for why.
- *
- * Each card is labelled either "Free · official" (a government or nonprofit
- * resource with no commercial relationship) or "Partner" (commercial, disclosed),
- * so a reader can tell which is which before clicking rather than after.
- */
-export function ResourcePanel({
-  partners,
-  placement,
-  title = "Helpful services for your situation",
-  subtitle,
-  compact = false,
-}: {
-  partners: ResolvedPartner[];
-  placement: string;
-  title?: string;
-  subtitle?: string;
-  compact?: boolean;
-}) {
-  if (!partners.length) return null;
+export function ResourceDirectory({ partners }: { partners: ResolvedPartner[] }) {
+  const needs = Array.from(new Set(partners.map((p) => p.category))) as PartnerCategory[];
+  const [need, setNeed] = useState<PartnerCategory | "all">("all");
+  const shown = need === "all" ? partners : partners.filter((p) => p.category === need);
+
+  const chip = (value: PartnerCategory | "all", label: string) => (
+    <button
+      key={value}
+      type="button"
+      aria-pressed={need === value}
+      onClick={() => setNeed(value)}
+      className={`min-h-[36px] shrink-0 rounded-full border px-3.5 text-sm transition-colors ${
+        need === value ? "border-accent/60 bg-accent/10 text-white" : "border-white/10 text-slate-300 hover:border-accent/40"
+      }`}
+    >
+      {label}
+    </button>
+  );
 
   return (
-    <section className="panel relative overflow-hidden p-5 sm:p-6">
-      <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-accent/50 to-transparent" />
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <div className="eyebrow mb-1 text-accent">Resources</div>
-          <h2 className="text-base font-bold text-white sm:text-lg">{title}</h2>
-          {subtitle ? <p className="mt-0.5 text-sm text-slate-400">{subtitle}</p> : null}
-        </div>
+    <div className="space-y-4">
+      <div role="group" aria-label="Filter by need" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
+        {chip("all", "All")}
+        {needs.map((c) => chip(c, CATEGORY_META[c].label))}
       </div>
 
-      <div
-        className={`mt-4 grid gap-3 ${
-          compact ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3"
-        }`}
-      >
-        {partners.map((p) => (
-          <PartnerCard key={p.id} partner={p} placement={placement} />
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {shown.map((p) => (
+          <ResourceCard key={p.id} partner={p} placement={`resources-${p.category}`} />
         ))}
       </div>
 
-      <p className="mt-4 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-slate-500">
-        Cards marked <span className="font-medium text-status-green">Free · official</span> are government or
-        nonprofit resources with no commercial relationship to us. Cards marked{" "}
-        <span className="font-medium text-slate-400">Partner</span> are independent commercial services that
-        may pay ImmigrationClock a commission, at no extra cost to you. Compensation never affects what our
-        data shows or how anything is ranked, and these appear only here — never inside the data. Nothing
-        here is legal, immigration, or financial advice.{" "}
+      <p className="text-xs leading-relaxed text-slate-500">
+        <span className="font-medium text-status-green">Free · official</span>: government or nonprofit, no
+        commercial relationship. <span className="font-medium text-slate-400">Independent</span>: a commercial
+        service we list because readers need it; we have no agreement with it and earn nothing.{" "}
+        <span className="font-medium text-accent">Affiliate</span>: may pay us a commission if you buy, at no extra
+        cost to you. Compensation never affects our data or the order of this list. Nothing here is legal,
+        immigration, tax or financial advice.{" "}
         <Link href="/disclosure" className="link-accent">
-          How this works →
+          Disclosure
         </Link>
       </p>
-    </section>
+    </div>
   );
 }

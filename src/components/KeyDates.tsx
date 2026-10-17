@@ -9,7 +9,7 @@ import {
   daysUntil,
 } from "@/lib/key-dates";
 import { partnersByIds } from "@/lib/partners";
-import { withPlacement, trackPartnerClick } from "@/lib/partner-link";
+import { listingLink } from "@/lib/partner-link";
 
 function fmt(d: Date): string {
   return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -135,18 +135,22 @@ export function KeyDates({
                 {partners.length > 0 ? (
                   <span className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
                     <span>Get help:</span>
-                    {partners.map((p) => (
-                      <a
-                        key={p.id}
-                        href={withPlacement(p.href, place, p.subParam)}
-                        target="_blank"
-                        rel="sponsored nofollow noopener noreferrer"
-                        onClick={() => trackPartnerClick(p.id, place)}
-                        className="font-semibold text-accent hover:text-accent-soft"
-                      >
-                        {p.name}
-                      </a>
-                    ))}
+                    {partners.map((p) => {
+                      const link = listingLink(p, place);
+                      return (
+                        <a
+                          key={p.id}
+                          href={link.href}
+                          target="_blank"
+                          rel={link.rel}
+                          onClick={link.onClick}
+                          className="font-semibold text-accent hover:text-accent-soft"
+                        >
+                          {p.name}
+                          {p.kind === "affiliate" ? <span className="ml-1 font-normal text-slate-500">(affiliate)</span> : null}
+                        </a>
+                      );
+                    })}
                   </span>
                 ) : null}
               </div>
@@ -157,8 +161,8 @@ export function KeyDates({
 
       <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
         Dates recur each year; exact windows (H-1B registration, the DV lottery, the Visa Bulletin) are set
-        by the agency annually — always confirm with the official source. Not legal or tax advice. Some
-        &ldquo;get help&rdquo; links are partnerships.{" "}
+        by the agency annually — always confirm with the official source. Not legal or tax advice. Links
+        marked &ldquo;affiliate&rdquo; may earn us a commission; the others earn us nothing.{" "}
         <Link href="/disclosure" className="link-accent">
           How this works →
         </Link>
