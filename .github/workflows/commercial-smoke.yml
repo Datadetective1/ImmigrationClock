@@ -132,4 +132,11 @@ jobs:
           # comment deadline as something its subjects must do.
           REFUGEE=$(get /what-changed/removing-30-day-refugee-termination-notice-56was9 || true)
           say "- refugee record free of the comment-deadline quote (expect yes): $(if [ -n "$REFUGEE" ] && ! grep -q 'Written comments and related materials' <<<"$REFUGEE"; then echo yes; else echo NO; fi)"
+          # With the redesign on: the compact list and the record page's own
+          # blocks are served, and no internal field name reaches a reader.
+          WC=$(get /what-changed || true)
+          say "- What Changed redesign (coverage line, show-more): $(yes_no "$(grep -c 'changes recorded' <<<"$WC")") · $(yes_no "$(grep -c 'more from the last 30 days' <<<"$WC")")"
+          say "- record redesign (source button, About this record): $(yes_no "$(grep -cE 'Read on (<!-- -->)?Federal Register' <<<"$REFUGEE")") · $(yes_no "$(grep -c 'About this record' <<<"$REFUGEE")")"
+          say "- record shows no field names (expect NO): $(if grep -qE '\((effectiveAt|impact\.[a-zA-Z]+)' <<<"$REFUGEE"; then echo yes; else echo NO; fi)"
+          say "- record keeps structured data: $(yes_no "$(grep -c 'application/ld+json' <<<"$REFUGEE")")"
 
