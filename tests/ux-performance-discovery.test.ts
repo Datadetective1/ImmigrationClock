@@ -235,7 +235,6 @@ describe("the questions we said we would answer are actually measurable", () => 
       expect(analytics, `${e} is emitted but not in the AnalyticsEvent union`).toMatch(
         new RegExp(`\\| "${e}"`)
       );
-      expect(analytics, `${e} has no Plausible goal name`).toMatch(new RegExp(`\\b${e}:`));
     }
   });
 

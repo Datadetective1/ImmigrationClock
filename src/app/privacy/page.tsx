@@ -77,9 +77,9 @@ export default function PrivacyPage() {
             <a href="/disclosure">disclosure page</a>. They set no cookies here.
           </p>
           <p>
-            The only measurement we run is Plausible, which is cookieless and records no personal
-            data. If a Google Analytics id is ever configured for a deployment, it loads only after
-            you accept the cookie banner.
+            We count visits with Vercel Web Analytics, which is cookieless and records no personal
+            data. Google Analytics loads only after you accept the cookie banner, and not at all if
+            your browser sends Do Not Track or Global Privacy Control.
           </p>
         </section>
 

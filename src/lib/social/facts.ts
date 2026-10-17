@@ -128,7 +128,7 @@ export function storyKeyForEvent(event: { id: string }): string {
 
 /**
  * The URL a post must contain: the record's canonical address with the
- * attribution parameters Plausible reads. The clean address is also allowed,
+ * attribution parameters GA4 reads. The clean address is also allowed,
  * so a repair that drops the parameters is a wrong-destination failure and
  * not a whitelist failure — but the deep link the prompt hands over is the
  * tracked one.

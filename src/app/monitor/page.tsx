@@ -32,6 +32,7 @@
 // integrates against, which keeps the page and the product from drifting apart.
 // =============================================================================
 
+import { MonitorProCta } from "@/components/MonitorProCta";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
@@ -69,6 +70,8 @@ export default function MonitorPage() {
       <div className="mt-8">
         <MonitorInbox />
       </div>
+
+      <MonitorProCta />
 
       <section className="mt-10 rounded-xl border border-white/5 bg-white/[0.02] p-4">
         <h2 className="text-sm font-semibold text-white">How to read this</h2>

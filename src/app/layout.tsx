@@ -52,8 +52,7 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body className="min-h-screen">
-        {/* Plausible is cookieless and loads immediately. GA4 sets cookies and
-            loads only after consent. There is no advertising script: display ads
+        {/* GA4 sets cookies and loads only after consent. There is no advertising script: display ads
             were removed from the platform — see docs/founder-directive-gap-analysis.md
             (conflict C-2). */}
         <AnalyticsScripts />
@@ -78,8 +77,7 @@ export default function RootLayout({
         <div aria-hidden className="h-[calc(56px+env(safe-area-inset-bottom))] lg:hidden" />
         <TabBar />
         <ConsentBanner />
-        {/* Vercel Web Analytics. Loaded unconditionally, on the same reasoning as
-            Plausible above: it is cookieless, sets no identifier, and follows
+        {/* Vercel Web Analytics. Loaded unconditionally: it is cookieless, sets no identifier, and follows
             nobody between sites, so it does not require the consent gate that GA4
             does. It also needs no CSP change — the script and its beacon are both
             same-origin (/_vercel/insights/…), already covered by `script-src

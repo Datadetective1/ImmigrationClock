@@ -175,7 +175,14 @@ export function BriefingV2({
   intelligence,
   history,
   limitations,
+  example = false,
 }: {
+  /**
+   * The public sample at /briefing/example: a fixed watchlist over the real
+   * archive. Hides what needs an account (edit, saved, settings, alert
+   * history, downloads), so nothing on it calls a Pro API.
+   */
+  example?: boolean;
   today: string;
   follows: string[];
   upcoming: FeedItem[];
@@ -197,22 +204,27 @@ export function BriefingV2({
   const stats: [number, string, string][] = [
     [soon, "due in 30 days", "#upcoming-heading"],
     [current.length, "new", "#current-heading"],
-    [savedCount, "saved", "#saved-heading"],
+    ...(example ? [] : [[savedCount, "saved", "#saved-heading"] as [number, string, string]]),
   ];
 
   return (
     <div className="container-page max-w-3xl space-y-6 py-4">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-white">Your Briefing</h1>
+        <h1 className="text-2xl font-semibold tracking-tight text-white">{example ? "Example Briefing" : "Your Briefing"}</h1>
         <p className="mt-1 text-xs text-slate-400">
-          {formatDate(today)} · {follows.length} follow{follows.length === 1 ? "" : "s"} ·{" "}
-          <Link href="/following" className="text-accent hover:underline">
-            Edit
-          </Link>
+          {formatDate(today)} · {follows.length} follow{follows.length === 1 ? "" : "s"}
+          {example ? null : (
+            <>
+              {" · "}
+              <Link href="/following" className="text-accent hover:underline">
+                Edit
+              </Link>
+            </>
+          )}
         </p>
       </div>
 
-      <nav aria-label="Summary" className="grid grid-cols-3 gap-2">
+      <nav aria-label="Summary" className={`grid gap-2 ${example ? "grid-cols-2" : "grid-cols-3"}`}>
         {stats.map(([n, label, href]) => (
           <a key={label} href={href} className="rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2.5 hover:border-accent/40">
             <span className={`block text-2xl font-semibold ${label === "due in 30 days" && n > 0 ? "text-status-amber" : "text-white"}`}>{n}</span>
@@ -266,6 +278,7 @@ export function BriefingV2({
         </section>
       ) : null}
 
+      {example ? null : (
       <section aria-labelledby="saved-heading" className="scroll-mt-20">
         <SectionHead id="saved-heading" title="Saved" count={savedCount} />
         {savedCount === 0 ? (
@@ -309,6 +322,7 @@ export function BriefingV2({
           </p>
         ) : null}
       </section>
+      )}
 
       <div className="space-y-2">
         <Fold title="Earlier records" meta={`${historical.length}`}>
@@ -322,6 +336,8 @@ export function BriefingV2({
           )}
         </Fold>
 
+        {example ? null : (
+        <>
         <Fold title="Email alerts and calendar" meta={alertsOn ? "On" : "Off"}>
           <BriefingSettings alertsOn={alertsOn} intelligence={intelligence} initial={settings} />
         </Fold>
@@ -351,6 +367,8 @@ export function BriefingV2({
             </ul>
           )}
         </Fold>
+        </>
+        )}
 
         <Fold title="How your Briefing works">
           <div className="space-y-2 text-xs leading-relaxed text-slate-400">

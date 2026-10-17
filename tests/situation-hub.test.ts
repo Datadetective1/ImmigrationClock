@@ -134,3 +134,28 @@ describe("search beyond entities", () => {
     expect(plain).not.toContain(`id="${KEY_DATES[0].id}"`);
   });
 });
+
+describe("acquisition surfaces", () => {
+  it("offers the newsletter where social and search land, without a second form", () => {
+    for (const [file, placement] of [
+      ["src/components/ChangeRecordV2.tsx", "change"],
+      ["src/components/WhatChangedV2.tsx", "what_changed"],
+      ["src/app/for-you/page.tsx", "for_you"],
+    ]) {
+      expect(read(file), file).toContain(`<PulseSignup variant="inline" placement="${placement}" />`);
+    }
+  });
+
+  it("gives /monitor a route to Pro and to the example Briefing", () => {
+    expect(read("src/app/monitor/page.tsx")).toContain("<MonitorProCta />");
+    const cta = read("src/components/MonitorProCta.tsx");
+    expect(cta).toContain('href="/pricing"');
+    expect(cta).toContain('href="/briefing/example"');
+  });
+
+  it("serves the example Briefing without an account", () => {
+    const page = read("src/app/briefing/example/page.tsx");
+    expect(page).not.toMatch(/proGate|cookies\(\)/);
+    expect(page).toContain("example");
+  });
+});

@@ -3,7 +3,7 @@
 //
 // A click from one of our own posts is the one signal that says whether the
 // publisher is worth running. It must be counted exactly once per story per
-// session, it must not rewrite the URL Plausible reads its own attribution
+// session, it must not rewrite the URL GA4 reads its own attribution
 // from, and it must carry a public record key and a fixed content type —
 // never anything a person typed.
 // =============================================================================
@@ -41,12 +41,10 @@ const SEARCH = "?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm
 const EXPECTED = { platform: "x", contentType: "breaking_change", story: "change:abc123" };
 
 describe("taxonomy", () => {
-  it("adds both events to the event union and the Plausible goal list", () => {
+  it("adds both events to the event union", () => {
     const src = read("src/lib/analytics.ts");
     expect(src).toMatch(/\|\s*"social_post_click"/);
     expect(src).toMatch(/\|\s*"share_click"/);
-    expect(src).toMatch(/social_post_click:\s*"Social Post Click"/);
-    expect(src).toMatch(/share_click:\s*"Share Click"/);
     // Type-level: these compile only if the union carries them.
     const events: AnalyticsEvent[] = ["social_post_click", "share_click"];
     expect(events).toHaveLength(2);
@@ -114,34 +112,33 @@ describe("the events reach the provider with fixed, non-identifying props", () =
   });
 
   function withProvider() {
-    const plausible = vi.fn();
-    (globalThis as { window?: unknown }).window = { plausible };
-    return plausible;
+    // GA4's gtag("event", name, props) — the provider events go to.
+    const gtag = vi.fn();
+    (globalThis as { window?: unknown }).window = { gtag };
+    return gtag;
   }
 
   it("social_post_click carries platform, type, story and path", () => {
-    const plausible = withProvider();
+    const gtag = withProvider();
     trackSocialArrival({ platform: "x", contentType: "explainer", story: "explainer:opt" }, "/explained/opt");
-    expect(plausible).toHaveBeenCalledWith("Social Post Click", {
-      props: { platform: "x", content_type: "explainer", story: "explainer:opt", path: "/explained/opt" },
+    expect(gtag).toHaveBeenCalledWith("event", "social_post_click", {
+      platform: "x", content_type: "explainer", story: "explainer:opt", path: "/explained/opt",
     });
   });
 
   it("share_click drops an absent story rather than sending an empty dimension", () => {
-    const plausible = withProvider();
+    const gtag = withProvider();
     trackShare("page");
-    expect(plausible).toHaveBeenCalledWith("Share Click", { props: { surface: "page" } });
+    expect(gtag).toHaveBeenCalledWith("event", "share_click", { surface: "page" });
     trackShare("change", "change:abc123");
-    expect(plausible).toHaveBeenLastCalledWith("Share Click", {
-      props: { surface: "change", story: "change:abc123" },
-    });
+    expect(gtag).toHaveBeenLastCalledWith("event", "share_click", { surface: "change", story: "change:abc123" });
   });
 
   it("a story view is the feed's own event, marked as a story entry", () => {
-    const plausible = withProvider();
+    const gtag = withProvider();
     trackStoryView("change:abc123", "final_rule");
-    expect(plausible).toHaveBeenCalledWith("What Changed View", {
-      props: { entry: "story", story: "change:abc123", category: "final_rule" },
+    expect(gtag).toHaveBeenCalledWith("event", "what_changed_view", {
+      entry: "story", story: "change:abc123", category: "final_rule",
     });
   });
 
@@ -170,8 +167,8 @@ describe("analytics never carry a reader's selection", () => {
   function capture() {
     const calls: { name: string; props: Record<string, unknown> }[] = [];
     (globalThis as { window?: unknown }).window = {
-      plausible: (name: string, opts?: { props?: Record<string, unknown> }) =>
-        calls.push({ name, props: opts?.props ?? {} }),
+      gtag: (_kind: string, name: string, props?: Record<string, unknown>) =>
+        calls.push({ name, props: props ?? {} }),
     };
     return calls;
   }

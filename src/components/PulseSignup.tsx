@@ -85,7 +85,9 @@ export function PulseSignup({
         </div>
         {open ? (
           <Link
-            href="/pulse#subscribe"
+            // ?from= names the surface for GA4's landing-page report; /pulse
+            // ignores it. The form itself records placement "pulse".
+            href={`/pulse?from=${encodeURIComponent(placement)}#subscribe`}
             className="shrink-0 rounded-lg bg-accent px-3 py-1.5 text-center text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft"
           >
             Subscribe

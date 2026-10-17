@@ -16,6 +16,7 @@
 
 import Link from "next/link";
 import { FollowChips } from "./FollowChips";
+import { PulseSignup } from "./PulseSignup";
 import type { Connections } from "@/lib/connections";
 import { ChangeCard } from "./ChangeCard";
 import { entityName } from "./EventCard";
@@ -402,6 +403,8 @@ export function ChangeRecordV2({
           </Link>
           .
         </p>
+
+        <PulseSignup variant="inline" placement="change" />
 
         <section aria-labelledby="about-heading" className="rounded-xl border border-white/10 p-4 text-xs leading-relaxed text-slate-400">
           <h2 id="about-heading" className="text-sm font-semibold text-slate-200">
