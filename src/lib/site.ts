@@ -32,10 +32,14 @@ export const SITE = {
     "This platform uses public datasets for informational and research purposes only. It does not provide legal, immigration, employment, or financial advice. It is not a real-time feed — datasets are refreshed on a schedule and lag official reporting. Every figure is labelled reported, projected, or estimated.",
 };
 
-// Grouped navigation. Top-level items are either a single link or a hub with a
-// dropdown of related trackers. This keeps the bar to ~6 items (down from 14) and
-// gives each audience a clear home — the two data hubs (Enforcement & Border, Work
-// & Visas) are also the natural seams for a future site split.
+// Task-first navigation. Five destinations a reader can name, one dropdown,
+// and the professional tools in a small "Pro" menu beside search and the
+// account, so they stay one tap away without dominating the public bar.
+//
+// Every route that used to be in the bar is still reachable: the data hubs and
+// directories under "Data & trends", Timeline and Pulse from What Changed and
+// Data & trends, Following and Explained from For you, and every page from the
+// footer. Nothing was removed; only where the links live changed.
 export interface NavChild {
   href: string;
   label: string;
@@ -56,31 +60,23 @@ export interface NavItem {
    * from Google, with the least idea where they have landed.
    */
   match?: string[];
+  /** Rendered beside search and account rather than in the main bar. */
+  utility?: boolean;
 }
 
 export const NAV: NavItem[] = [
-  { href: "/", label: "Dashboard" },
-  // Second position, deliberately. "What changed" is the platform's flagship
-  // answer and the reason a reader comes back; burying it under a section menu
-  // would make the recurring question the hardest one to reach.
-  { href: "/what-changed", label: "What changed" },
+  // First, deliberately: the platform's flagship answer and the reason a
+  // reader comes back.
+  { href: "/what-changed", label: "What changed", match: ["/what-changed", "/timeline"] },
+  { href: "/for-you", label: "For you", match: ["/for-you", "/following", "/explained"] },
   {
-    label: "Enforcement & Border",
-    href: "/enforcement",
-    match: ["/enforcement", "/immigration", "/border", "/timeline"],
-    children: [
-      { href: "/enforcement", label: "Section overview", desc: "The enforcement & border picture at a glance" },
-      { href: "/immigration/enforcement-trends", label: "Enforcement trends", desc: "ICE arrests, removals, detention" },
-      { href: "/border/encounters", label: "Border encounters", desc: "CBP encounters & demographics" },
-      { href: "/timeline", label: "Policy timeline", desc: "Events overlaid on the data" },
-    ],
-  },
-  {
-    label: "Work & Visas",
-    href: "/work-visas",
+    label: "Data & trends",
+    href: "/insights",
     // Every generated employer, company, state, country and salary page lives
-    // under this section — together the large majority of the site's URLs.
+    // here — together the large majority of the site's URLs.
     match: [
+      "/insights",
+      "/pulse",
       "/work-visas",
       "/h1b",
       "/visa",
@@ -91,100 +87,87 @@ export const NAV: NavItem[] = [
       "/migration-map",
       "/layoffs",
       "/layoffs-vs-h1b",
+      "/enforcement",
+      "/immigration",
+      "/border",
     ],
     children: [
-      { href: "/work-visas", label: "Section overview", desc: "Visas, sponsors & the workforce at a glance" },
-      { href: "/migration-map", label: "Origin map", desc: "Where H-1B & F-1 visa holders come from" },
-      { href: "/h1b/top-sponsors", label: "Top H-1B sponsors", desc: "Approvals, denials, offered wages" },
-      { href: "/h1b/employers", label: "Employer directory", desc: "Search 2,600+ real sponsors" },
-      { href: "/visa/f1-student-visas", label: "F-1 student visas", desc: "Issuances by year & country" },
-      { href: "/layoffs", label: "Live layoffs", desc: "Real WARN notices from state portals" },
-      { href: "/layoffs-vs-h1b", label: "Layoffs vs H-1B", desc: "Sponsorship & WARN, side by side" },
-    ],
-  },
-  {
-    label: "For Immigrants",
-    href: "/for-you",
-    match: ["/for-you", "/key-dates", "/resources", "/explained", "/following"],
-    children: [
-      { href: "/for-you", label: "What this means for you", desc: "The data read for your situation" },
-      { href: "/key-dates", label: "Key dates & deadlines", desc: "H-1B, tax, DV lottery, OPT — counted down" },
-      // The follow feature had exactly one entry point on the whole site — a
-      // single homepage CTA — so a reader who arrived on any other page could
-      // not find it at all.
-      { href: "/following", label: "Follow what matters", desc: "Pick countries, visas & topics to track" },
-      { href: "/resources", label: "Resources & services", desc: "Legal, tax, money transfer & more" },
-      { href: "/explained", label: "Explained", desc: "Plain-English definitions" },
+      { href: "/work-visas", label: "Work visas & sponsors", desc: "H-1B sponsors, salaries, F-1 and the employer directory" },
+      { href: "/enforcement", label: "Enforcement & border", desc: "ICE arrests, removals, detention and CBP encounters" },
+      { href: "/layoffs", label: "Layoffs", desc: "WARN notices, and layoffs beside H-1B sponsorship" },
+      { href: "/insights", label: "Insights", desc: "What the numbers say, in plain language" },
+      { href: "/pulse", label: "Monthly Pulse", desc: "How the data moved this month" },
     ],
   },
+  { href: "/key-dates", label: "Key dates" },
+  { href: "/resources", label: "Resources" },
   {
-    label: "For Professionals",
-    href: "/monitor",
-    match: ["/monitor", "/developers", "/pricing", "/briefing"],
+    label: "Pro",
+    href: "/pricing",
+    utility: true,
+    match: ["/pricing", "/briefing", "/monitor", "/developers"],
     children: [
-      {
-        href: "/monitor",
-        label: "Monitor",
-        desc: "What changed that matters to your work, with the evidence",
-      },
-      {
-        href: "/developers",
-        label: "API & integration",
-        desc: "The same intelligence as JSON. Free, no key",
-      },
+      { href: "/briefing", label: "Your Briefing", desc: "Your follows, dates ahead and saved research" },
+      { href: "/monitor", label: "Monitor", desc: "What changed that matters to your work, with the evidence" },
+      { href: "/developers", label: "API", desc: "The same intelligence as JSON. Free, no key" },
       { href: "/pricing", label: "Pricing", desc: "What Pro adds, and what stays free" },
     ],
   },
-  { href: "/insights", label: "Insights" },
-  { href: "/pulse", label: "Pulse" },
+];
+
+/** The mobile tab bar: the four things a returning reader opens most. */
+export const TAB_BAR: { href: string; label: string; icon: "home" | "changes" | "dates" | "following" }[] = [
+  { href: "/", label: "Home", icon: "home" },
+  { href: "/what-changed", label: "What changed", icon: "changes" },
+  { href: "/key-dates", label: "Key dates", icon: "dates" },
+  { href: "/following", label: "Following", icon: "following" },
 ];
 
 export const FOOTER_SECTIONS = [
   {
-    title: "Dashboards",
+    title: "Data & trends",
     links: [
-      { href: "/enforcement", label: "Enforcement & Border hub" },
-      { href: "/immigration/enforcement-trends", label: "Enforcement trends" },
-      { href: "/border/encounters", label: "Border encounters" },
-      { href: "/work-visas", label: "Work & Visas hub" },
-      { href: "/migration-map", label: "Visa origin map" },
+      { href: "/work-visas", label: "Work visas & sponsors" },
       { href: "/h1b/top-sponsors", label: "Top H-1B sponsors" },
       { href: "/h1b/employers", label: "H-1B employer directory" },
+      { href: "/h1b/salaries/software-engineer", label: "H-1B salaries" },
       { href: "/visa/f1-student-visas", label: "F-1 student visas" },
+      { href: "/migration-map", label: "Visa origin map" },
+      { href: "/enforcement", label: "Enforcement & border" },
+      { href: "/immigration/enforcement-trends", label: "Enforcement trends" },
+      { href: "/border/encounters", label: "Border encounters" },
       { href: "/layoffs", label: "Live layoffs (WARN)" },
       { href: "/layoffs-vs-h1b", label: "Layoffs vs H-1B" },
-    ],
-  },
-  {
-    title: "Explore",
-    links: [
-      { href: "/for-you", label: "What this means for you" },
-      { href: "/key-dates", label: "Key dates & deadlines" },
-      { href: "/resources", label: "Resources for immigrants" },
-      { href: "/insights", label: "Insights" },
-      { href: "/timeline", label: "Timeline" },
       { href: "/state/CA", label: "State pages" },
       { href: "/country/india", label: "Country pages" },
       { href: "/company/amazon", label: "Employer pages" },
-      { href: "/h1b/salaries/software-engineer", label: "H-1B salaries" },
+    ],
+  },
+  {
+    title: "Stay informed",
+    links: [
+      { href: "/what-changed", label: "What changed" },
+      { href: "/timeline", label: "Timeline" },
+      { href: "/for-you", label: "What this means for you" },
+      { href: "/key-dates", label: "Key dates & deadlines" },
+      { href: "/following", label: "Following" },
+      { href: "/resources", label: "Resources for immigrants" },
+      { href: "/insights", label: "Insights" },
+      // Was /admin/pulse-email — the operator's build dashboard, which under
+      // this label is exactly what a reader looking for the weekly email
+      // clicks. The page a reader wants is /pulse, where the sign-up form is.
+      { href: "/pulse#subscribe", label: "Weekly Pulse email" },
     ],
   },
   {
     title: "About the data",
     links: [
       { href: "/explained", label: "Explained (plain English)" },
+      { href: "/methodology", label: "Methodology" },
+      { href: "/sources", label: "Sources" },
       { href: "/data", label: "Data & freshness" },
       { href: "/data-manifest", label: "Data manifest" },
-      { href: "/methodology", label: "Methodology" },
-      { href: "/developers", label: "Free WARN API" },
-      { href: "/sources", label: "Sources" },
-      // Was /admin/pulse-email — the operator's build dashboard, which under
-      // this label is exactly what a reader looking for the weekly email
-      // clicks. It answers with an eleven-column table of spam flags and byte
-      // sizes and an instruction to set RESEND_AUDIENCE_<LOCALE>. The page a
-      // reader wants is /pulse, where the sign-up form actually is. The route
-      // itself is unchanged and still reachable by typing it.
-      { href: "/pulse#subscribe", label: "Weekly Pulse email" },
+      { href: "/developers", label: "Free API" },
     ],
   },
 ];

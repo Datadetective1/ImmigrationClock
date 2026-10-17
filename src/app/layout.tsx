@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
+import { Navbar, TabBar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 import { ConsentBanner } from "@/components/ConsentBanner";
@@ -73,6 +73,10 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        {/* Room under the footer for the phone tab bar, so it never covers the
+            last line of the page. */}
+        <div aria-hidden className="h-[calc(56px+env(safe-area-inset-bottom))] lg:hidden" />
+        <TabBar />
         <ConsentBanner />
         {/* Vercel Web Analytics. Loaded unconditionally, on the same reasoning as
             Plausible above: it is cookieless, sets no identifier, and follows
