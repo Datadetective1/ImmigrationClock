@@ -106,7 +106,13 @@ function forceClause(e: ImmigrationEvent, today: string): ExplanationClause | nu
       }
       if (e.effectiveAt && ISO.test(e.effectiveAt)) {
         return isPast(e.effectiveAt, today)
-          ? { text: `This rule has been in effect since ${e.effectiveAt}.`, basis: "effectiveAt" }
+          ? // A passed effective date is what the document stated, not proof the
+            // rule still applies: a later rule, court order or withdrawal can
+            // change that, and the archive may not hold the later record.
+            {
+              text: `The document states an effective date of ${e.effectiveAt}, which has passed. A later rule, court order or withdrawal can change whether it still applies.`,
+              basis: "effectiveAt",
+            }
           : { text: `This rule is final but does not take effect until ${e.effectiveAt}.`, basis: "effectiveAt" };
       }
       return {
