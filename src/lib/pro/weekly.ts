@@ -6,8 +6,8 @@
 // page says, and nothing the records do not:
 //
 //   • per follow: records published in the last seven days, or plainly "no new
-//     records" with the date of the newest one; open proposals; what took
-//     effect;
+//     records" with the date of the newest one; open proposals; records
+//     whose stated effective date has passed (never "in force");
 //   • stated effective dates in the next 90 days, for primary matches only;
 //   • what was checked: the sources in the latest refresh, the ones that were
 //     quiet or failed, and the ones we cannot ingest. A quiet week in our
@@ -140,7 +140,7 @@ export function renderWeeklyEmail(
         : `No new records this week${f.latestRecord ? ` · newest ${fmt(f.latestRecord)}` : " · none in our archive"}`;
     const extra = [
       f.openProposals ? `${f.openProposals} open proposal${f.openProposals === 1 ? "" : "s"} (no final rule in our archive)` : "",
-      f.tookEffect ? `${f.tookEffect} took effect (stated date passed)` : "",
+      f.tookEffect ? `${f.tookEffect} with a stated effective date that has passed` : "",
     ].filter(Boolean);
     return { state, extra };
   };
@@ -178,59 +178,91 @@ export function renderWeeklyEmail(
     `${SITE.name} — ${SITE.tagline}`
   );
 
+  // ---- HTML: the redesign's light palette, one column, phone first ---------
+  // Inline styles only (email clients drop <style>); tables for layout where
+  // Outlook needs them. Colours are the site's light theme.
+  const C = { ink: "#0b1220", body: "#334155", muted: "#556274", line: "#e5e7eb", page: "#f6f7f9", accent: "#0369a1", amber: "#b45309" };
+  const font = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif";
+  const h2 = (label: string) =>
+    `<h2 style="margin:24px 0 8px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:${C.muted}">${esc(label)}</h2>`;
+  const link = (href: string, text: string) =>
+    `<a href="${esc(href)}" style="color:${C.ink};font-weight:600;text-decoration:none">${esc(text)}</a>`;
+  const pill = (text: string, color: string) =>
+    `<span style="display:inline-block;margin:0 6px 6px 0;padding:3px 10px;border:1px solid ${color}33;border-radius:999px;font-size:12px;font-weight:600;color:${color}">${esc(text)}</span>`;
+
+  const pills = [
+    ...(alerts.length ? [pill(`${alerts.length} alert${alerts.length === 1 ? "" : "s"}`, C.accent)] : []),
+    pill(newCount > 0 ? `${newCount} new` : "No new records", newCount > 0 ? C.accent : C.muted),
+    ...(summary.comingUp.length ? [pill(`${summary.comingUp.length} date${summary.comingUp.length === 1 ? "" : "s"} ahead`, C.amber)] : []),
+  ].join("");
+
+  const alertHtml =
+    alerts.length === 0
+      ? ""
+      : h2("Your alerts this week") +
+        alerts
+          .map(
+            (a) => `<div style="padding:12px 0;border-top:1px solid ${C.line}">
+          <div style="font-size:12px;color:${C.muted}">${esc(ALERT_LABEL[a.kind])} · ${esc(fmt(a.date))}</div>
+          <div style="margin-top:2px;font-size:15px;line-height:1.35">${link(origin + a.href, a.title)}</div>
+          <div style="margin-top:2px;font-size:13px;line-height:1.45;color:${C.body}">${esc(a.detail)}</div>
+        </div>`
+          )
+          .join("");
+
+  const comingHtml =
+    summary.comingUp.length === 0
+      ? `<p style="margin:0;font-size:13px;color:${C.muted}">No stated effective dates in the next 90 days for what you follow.</p>`
+      : summary.comingUp
+          .map(
+            (c) => `<table role="presentation" style="width:100%;border-collapse:collapse;border-top:1px solid ${C.line}"><tr>
+          <td style="width:74px;padding:12px 12px 12px 0;vertical-align:top">
+            <div style="font-size:13px;font-weight:700;color:${C.ink}">${esc(fmt(c.date).replace(/, \d{4}$/, ""))}</div>
+            <div style="font-size:12px;color:${c.daysUntil <= 30 ? C.amber : C.muted}">in ${c.daysUntil} day${c.daysUntil === 1 ? "" : "s"}</div>
+          </td>
+          <td style="padding:12px 0;vertical-align:top;font-size:14px;line-height:1.4">${link(origin + c.path, c.title)}</td>
+        </tr></table>`
+          )
+          .join("");
+
   const followHtml = summary.follows
     .map((f) => {
       const { state, extra } = followLine(f);
       const items = f.newThisWeek
         .slice(0, 3)
-        .map((n) => `<li><a href="${esc(origin + n.path)}" style="color:#0f172a">${esc(n.title)}</a> <span style="color:#64748b">${esc(fmt(n.date))}</span></li>`)
+        .map((n) => `<div style="margin-top:6px;font-size:14px;line-height:1.4">${link(origin + n.path, n.title)} <span style="color:${C.muted};font-size:12px">${esc(fmt(n.date))}</span></div>`)
         .join("");
-      return `<tr><td style="padding:10px 0;border-top:1px solid #e2e8f0">
-        <div style="font-size:14px;font-weight:600;color:#0f172a">${esc(f.label)}</div>
-        <div style="font-size:13px;color:#475569">${esc(state)}</div>
-        ${items ? `<ul style="margin:4px 0 0 16px;padding:0;font-size:13px">${items}</ul>` : ""}
-        ${extra.length ? `<div style="margin-top:4px;font-size:12px;color:#64748b">${esc(extra.join(" · "))}</div>` : ""}
-      </td></tr>`;
+      return `<div style="padding:12px 0;border-top:1px solid ${C.line}">
+        <div style="font-size:14px;font-weight:600;color:${C.ink}">${esc(f.label)} <span style="font-weight:400;color:${f.newThisWeek.length ? C.accent : C.muted}">· ${esc(state)}</span></div>
+        ${items}
+        ${extra.length ? `<div style="margin-top:4px;font-size:12px;color:${C.muted}">${esc(extra.join(" · "))}</div>` : ""}
+      </div>`;
     })
     .join("");
-  const comingHtml =
-    summary.comingUp.length === 0
-      ? `<p style="font-size:13px;color:#475569;margin:4px 0">None stated for what you follow.</p>`
-      : `<ul style="margin:4px 0 0 16px;padding:0;font-size:13px">${summary.comingUp
-          .map((c) => `<li>${esc(fmt(c.date))} (in ${c.daysUntil} days): <a href="${esc(origin + c.path)}" style="color:#0f172a">${esc(c.title)}</a></li>`)
-          .join("")}</ul>`;
-  const alertHtml =
-    alerts.length === 0
-      ? ""
-      : `<h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">Your alerts this week · your weekly digest</h2>
-      <ul style="margin:4px 0 0 16px;padding:0;font-size:13px">${alerts
-        .map(
-          (a) =>
-            `<li style="margin:6px 0"><span style="color:#64748b">${esc(ALERT_LABEL[a.kind])}:</span> <a href="${esc(origin + a.href)}" style="color:#0f172a">${esc(a.title)}</a> <span style="color:#64748b">${esc(fmt(a.date))}</span><div style="color:#475569">${esc(a.detail)}</div></li>`
-        )
-        .join("")}</ul>`;
+
   const cov = summary.coverage;
-  const html = `<div style="margin:0;padding:24px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
-  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden">
-    ${input.testMode ? `<div style="background:#fef3c7;padding:12px 24px;color:#92400e;font-size:13px"><strong>Test mode.</strong></div>` : ""}
-    <div style="padding:24px">
-      <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#64748b">${esc(SITE.name)} Pro · Weekly intelligence</p>
-      <h1 style="margin:0 0 8px;font-size:20px;line-height:1.3;color:#0f172a">Week of ${esc(fmt(summary.weekOf))}</h1>
-      ${summary.quiet && alerts.length === 0 ? `<p style="font-size:13px;color:#475569">No new records matched what you follow this week. ${esc(QUIET_NOTE)}</p>` : ""}
+  const html = `<div style="margin:0;padding:16px 12px;background:${C.page};font-family:${font}">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid ${C.line};border-radius:16px;overflow:hidden">
+    ${input.testMode ? `<div style="background:#fef3c7;padding:10px 20px;color:#92400e;font-size:13px"><strong>Test mode.</strong></div>` : ""}
+    <div style="padding:20px 20px 4px">
+      <div style="font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;color:${C.ink}">Immigration<span style="color:${C.accent}">Clock</span> <span style="font-family:${font};font-weight:600;color:${C.muted}">Pro</span></div>
+      <h1 style="margin:12px 0 10px;font-size:22px;line-height:1.25;color:${C.ink}">Your week, ${esc(fmt(summary.weekOf))}</h1>
+      <div>${pills}</div>
+      ${summary.quiet && alerts.length === 0 ? `<p style="margin:8px 0 0;font-size:13px;line-height:1.5;color:${C.body}">No new records matched what you follow this week. ${esc(QUIET_NOTE)}</p>` : ""}
       ${alertHtml}
-      <h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">What you follow</h2>
-      <table style="width:100%;border-collapse:collapse">${followHtml}</table>
-      <h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">Coming up · stated effective dates, next 90 days</h2>
+      ${h2("Coming up")}
       ${comingHtml}
-      <h2 style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#64748b;margin:16px 0 0">What we checked</h2>
-      <p style="font-size:12px;line-height:1.6;color:#64748b;margin:4px 0">Latest refresh ${esc(fmt(cov.lastRefresh))}: ${esc(cov.checked.join(", "))}.${
+      ${h2("What you follow")}
+      ${followHtml}
+      <div style="margin:24px 0 20px">
+        <a href="${esc(origin + "/briefing")}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:${C.accent};color:#ffffff;font-size:14px;font-weight:600;text-decoration:none">Open your Briefing</a>
+      </div>
+    </div>
+    <div style="padding:14px 20px 18px;background:${C.page};border-top:1px solid ${C.line};font-size:12px;line-height:1.55;color:${C.muted}">
+      <p style="margin:0">Checked ${esc(fmt(cov.lastRefresh))}: ${esc(cov.checked.join(", "))}.${
         cov.quietOrFailed.length ? ` Returned nothing or failed: ${esc(cov.quietOrFailed.join(", "))}.` : ""
       }${cov.notCovered.length ? ` Not covered: ${esc(cov.notCovered.join(", "))}.` : ""}</p>
-      <p style="font-size:12px;color:#64748b;margin:12px 0 0">Information about published government records, not legal advice.</p>
-    </div>
-    <div style="padding:16px 24px 24px;border-top:1px solid #e2e8f0;font-size:12px;color:#64748b">
-      <a href="${esc(origin + "/briefing")}" style="color:#0f172a">Open your Briefing</a> ·
-      <a href="${esc(input.unsubscribeUrl)}" style="color:#0f172a">Stop these emails</a>
+      <p style="margin:8px 0 0">Information about published government records, not legal advice. <a href="${esc(input.unsubscribeUrl)}" style="color:${C.muted}">Stop these emails</a></p>
     </div>
   </div>
 </div>`;
