@@ -17,7 +17,7 @@
 // =============================================================================
 
 import { billingOrigin, billingStatus } from "@/lib/billing/config";
-import { emailKey, resolveStore, tokenHash } from "@/lib/billing/store";
+import { KEYS, emailKey, resolveStore, signinLimitKey, tokenHash, type SubscriberStore } from "@/lib/billing/store";
 import {
   LOGIN_TTL_SECONDS,
   buildSignInEmail,
@@ -34,8 +34,23 @@ export const dynamic = "force-dynamic";
 /** Tight: each attempt can send an email to an address the sender chose. */
 const MAX_PER_MINUTE = 3;
 
+/**
+ * PER RECIPIENT, SHARED ACROSS INSTANCES. The per-IP limit above is per
+ * serverless instance and per sender; it let bots send exactly three links a
+ * minute to addresses they chose — 2026-09-18 onward, ~70 bursts of three.
+ * These counters live in the store, so every instance sees the same count, and
+ * they key on the inbox (signinLimitKey), so dotted and +tag variants of one
+ * address share a budget.
+ *
+ * Generous enough for a real person: a link that expired (15 minutes) or never
+ * arrived can be requested again a minute later, up to a handful a day.
+ */
+const SIGNIN_COOLDOWN_SECONDS = 60;
+const SIGNIN_DAILY_MAX = 5;
+
 /** The same words on every path, so timing is the only thing left to differ. */
-const ALWAYS = "Check your inbox — a sign-in link is on its way. It expires in 15 minutes.";
+const ALWAYS =
+  "Check your inbox — a sign-in link is on its way. It expires in 15 minutes. If it does not arrive, you can request another in a minute.";
 
 export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();
@@ -58,9 +73,11 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   let email = "";
+  let trap = "";
   try {
-    const body = (await req.json()) as { email?: unknown };
+    const body = (await req.json()) as { email?: unknown; ic_hp?: unknown };
     if (typeof body.email === "string") email = body.email.trim();
+    if (typeof body.ic_hp === "string") trap = body.ic_hp;
   } catch {
     // Falls through to the shape check.
   }
@@ -73,6 +90,21 @@ export async function POST(req: Request): Promise<Response> {
 
   const secret = process.env.BILLING_SESSION_SECRET as string;
   const key = emailKey(email, secret);
+
+  // A hidden field no person sees (SignInForm). Filled means a form-filling bot:
+  // same answer, no email. A convenience, not the protection — the limit is.
+  if (trap) return json({ ok: true, message: ALWAYS }, 200);
+
+  // FAIL CLOSED. If the store cannot count, nothing is sent: an outage must not
+  // turn into unlimited sending. Same answer either way, so a suppressed send
+  // says nothing about the address.
+  let allowed = false;
+  try {
+    allowed = await recipientAllowed(store, signinLimitKey(email, secret));
+  } catch (err) {
+    console.error(`[billing] signin limiter unavailable, link not sent: ${err instanceof Error ? err.message : String(err)}`);
+  }
+  if (!allowed) return json({ ok: true, message: ALWAYS }, 200);
 
   try {
     // A LINK GOES TO ANY VALID ADDRESS, NOT ONLY TO EXISTING SUBSCRIBERS.
@@ -105,6 +137,16 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   return json({ ok: true, message: ALWAYS }, 200);
+}
+
+/**
+ * Cooldown first, then the daily budget — so requests refused by the cooldown
+ * do not spend the day's allowance. Both are atomic counters, so a concurrent
+ * burst cannot all read "not yet sent".
+ */
+async function recipientAllowed(store: SubscriberStore, k: string): Promise<boolean> {
+  if ((await store.incrementWindow(KEYS.signinLimit("cd", k), SIGNIN_COOLDOWN_SECONDS)) > 1) return false;
+  return (await store.incrementWindow(KEYS.signinLimit("day", k), 86_400)) <= SIGNIN_DAILY_MAX;
 }
 
 /**

@@ -24,6 +24,7 @@ type State = "idle" | "sending" | "sent" | "verifying" | "failed";
 export function SignInForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [trap, setTrap] = useState("");
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState("");
 
@@ -101,7 +102,7 @@ export function SignInForm() {
       const res = await fetch("/api/billing/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, ic_hp: trap }),
       });
       const body = (await res.json()) as { ok?: boolean; message?: string };
       // The same words on success and on "we have never heard of you", because
@@ -137,6 +138,17 @@ export function SignInForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-base text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/40"
+        />
+        {/* Honeypot: hidden from people and screen readers, filled only by bots. */}
+        <input
+          type="text"
+          name="ic_hp"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          value={trap}
+          onChange={(e) => setTrap(e.target.value)}
+          className="absolute -left-[9999px] h-px w-px opacity-0"
         />
         <button
           type="submit"
