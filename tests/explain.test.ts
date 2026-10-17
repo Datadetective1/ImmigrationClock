@@ -42,9 +42,10 @@ describe("is it in force", () => {
     expect(c.text).toMatch(/changes nothing today/);
   });
 
-  it("distinguishes a rule already in effect from one that is not yet", () => {
+  it("distinguishes a passed stated effective date from one ahead, without claiming the rule still applies", () => {
     const past = explainEvent(makeEvent({ effectiveAt: "2026-01-01" }), TODAY)[0];
-    expect(past.text).toMatch(/has been in effect since 2026-01-01/);
+    expect(past.text).toMatch(/states an effective date of 2026-01-01, which has passed/);
+    expect(past.text).not.toMatch(/in effect|in force/);
 
     const future = explainEvent(makeEvent({ effectiveAt: "2026-12-01" }), TODAY)[0];
     expect(future.text).toMatch(/does not take effect until 2026-12-01/);
