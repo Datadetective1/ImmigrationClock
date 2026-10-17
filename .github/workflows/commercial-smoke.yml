@@ -139,4 +139,11 @@ jobs:
           say "- record redesign (source button, About this record): $(yes_no "$(grep -cE 'Read on (<!-- -->)?Federal Register' <<<"$REFUGEE")") · $(yes_no "$(grep -c 'About this record' <<<"$REFUGEE")")"
           say "- record shows no field names (expect NO): $(if grep -qE '\((effectiveAt|impact\.[a-zA-Z]+)' <<<"$REFUGEE"; then echo yes; else echo NO; fi)"
           say "- record keeps structured data: $(yes_no "$(grep -c 'application/ld+json' <<<"$REFUGEE")")"
+          # Navigation and the task-first pages (PRs 1-3 of the navigation work).
+          say "- phone tab bar served: $(yes_no "$(grep -c 'aria-label="Quick"' <<<"$HOME_HTML")")"
+          say "- task-first homepage: $(yes_no "$(grep -c 'What do you need help with?' <<<"$HOME_HTML")")"
+          FORYOU=$(get /for-you || true)
+          say "- For You situation hub: $(yes_no "$(grep -c 'role="tabpanel"' <<<"$FORYOU")")"
+          H1B_REC=$(get /what-changed/fy-2026-h-1b-cap-initial-registration-period-opens-on-march-7-5lk5tx || true)
+          say "- record links its stated scope (Follow and explore): $(yes_no "$(grep -c 'Follow and explore' <<<"$H1B_REC")")"
 
