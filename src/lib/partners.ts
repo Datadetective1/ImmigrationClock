@@ -35,7 +35,8 @@ export type PartnerCategory =
   | "insurance"
   | "connectivity"
   | "relocation"
-  | "education";
+  | "education"
+  | "citizenship";
 
 export type PersonaKey =
   | "h1b-worker"
@@ -63,13 +64,19 @@ export interface Partner {
   /** Emoji icon (kept text-only so the static export has zero image weight). */
   icon: string;
   /**
-   * `official` — a free government or nonprofit resource. No commercial
-   * relationship exists or may exist. Carries no "Partner" label, needs no
-   * affiliate disclosure, and is never rel="sponsored".
-   * `partner` — a commercial service. Always labelled, always disclosed, always
-   * rel="sponsored".
+   * The relationship, and nothing more than we can show:
+   * `official`  — a free government or nonprofit resource. No commercial
+   *               relationship exists or may exist.
+   * `service`   — an independent commercial service we list because readers
+   *               need it. We have NO agreement with it and earn nothing: no
+   *               "Affiliate" label, no tracking, never rel="sponsored".
+   * `affiliate` — a verified affiliate program we are enrolled in, with a
+   *               referral URL in this file. Always labelled "Affiliate",
+   *               always disclosed, always rel="sponsored", placement-tracked.
+   * A service becomes an affiliate only when the program has approved us and
+   * its referral URL is set here; a homepage link never earns a commission.
    */
-  kind: "official" | "partner";
+  kind: "official" | "service" | "affiliate";
   /**
    * The query parameter this partner's affiliate program reads a placement
    * sub-id from. Defaults to `subid`. ImmiTranslate's dashboard reads `sub`.
@@ -89,6 +96,10 @@ export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: stri
   career: {
     label: "Jobs & visa sponsorship",
     blurb: "Find employers with a track record of sponsoring work visas and green cards.",
+  },
+  "citizenship": {
+    label: "Citizenship test",
+    blurb: "Free official study materials for the naturalization interview.",
   },
   "money-transfer": {
     label: "Send money internationally",
@@ -134,18 +145,31 @@ const CATALOG: Partner[] = [
     personas: ["eb-applicant", "h1b-worker", "general"],
     badge: "Attorney-reviewed",
     icon: "⚖️",
-    kind: "partner",
+    kind: "service",
   },
   {
     id: "attorney-match",
-    name: "Find an immigration attorney",
+    name: "ABA lawyer referral directory",
     category: "legal",
-    blurb: "Connect with a licensed immigration lawyer for complex cases — RFEs, denials, appeals, employment-based filings.",
+    blurb: "The American Bar Association's directory of local lawyer referral services, for finding a licensed immigration attorney.",
     useWhen: "Your case is complicated, time-sensitive, or you've had a denial or RFE.",
-    cta: "Get matched with a lawyer",
+    cta: "Find a referral service",
     url: "https://www.americanbar.org/groups/legal_services/flh-home/flh-lawyer-referral-directory/",
     personas: ["h1b-worker", "eb-applicant", "employer", "general"],
     icon: "🧑‍⚖️",
+    kind: "official",
+  },
+  {
+    id: "uscis-legal-services",
+    name: "USCIS: find legal services",
+    category: "legal",
+    blurb: "USCIS's own guide to authorized help: licensed attorneys, accredited representatives, and how to avoid immigration scams.",
+    useWhen: "You want free or low-cost help, or to check that someone helping you is authorized.",
+    cta: "See who can help",
+    url: "https://www.uscis.gov/avoid-scams/find-legal-services",
+    personas: ["eb-applicant", "h1b-worker", "f1-student", "general"],
+    badge: "Free",
+    icon: "🏛️",
     kind: "official",
   },
   {
@@ -159,12 +183,12 @@ const CATALOG: Partner[] = [
     personas: ["f1-student", "general"],
     badge: "For students",
     icon: "🧾",
-    kind: "partner",
+    kind: "service",
   },
   {
     id: "citizenship-prep",
-    name: "Citizenship test prep",
-    category: "education",
+    name: "USCIS citizenship study materials",
+    category: "citizenship",
     blurb: "Practice the official USCIS civics questions and English test, free, before your naturalization interview.",
     useWhen: "You're preparing for the naturalization (N-400) interview and civics test.",
     cta: "Practice the civics test",
@@ -184,7 +208,7 @@ const CATALOG: Partner[] = [
     url: "https://www.wes.org",
     personas: ["h1b-worker", "eb-applicant", "f1-student", "general"],
     icon: "📜",
-    kind: "partner",
+    kind: "service",
   },
   {
     id: "document-translation",
@@ -200,16 +224,16 @@ const CATALOG: Partner[] = [
     url: "https://immitranslate.com/?ref=948mg968",
     personas: ["eb-applicant", "h1b-worker", "f1-student", "general"],
     icon: "📄",
-    kind: "partner",
+    kind: "affiliate",
     subParam: "sub",
   },
   {
     id: "credit-builder",
-    name: "Build your U.S. credit score",
+    name: "CFPB guide to building credit",
     category: "banking",
-    blurb: "Credit-builder accounts and secured cards that report to the bureaus, so you can establish a U.S. score from scratch.",
+    blurb: "The Consumer Financial Protection Bureau's free guide to establishing a U.S. credit history from scratch.",
     useWhen: "You have little or no U.S. credit history and want to start building a score.",
-    cta: "Start building credit",
+    cta: "Read the guide",
     url: "https://www.consumerfinance.gov/consumer-tools/building-credit/",
     personas: ["f1-student", "h1b-worker", "eb-applicant", "general"],
     icon: "📈",
@@ -265,6 +289,7 @@ export function partnersByCategory(): { category: PartnerCategory; partners: Res
     "connectivity",
     "relocation",
     "education",
+    "citizenship",
   ];
   return order
     .map((category) => ({

@@ -1,41 +1,38 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { ResourcePanel } from "@/components/ResourcePanel";
-import { MethodologyNote } from "@/components/MethodologyNote";
-import { partnersByCategory, CATEGORY_META } from "@/lib/partners";
+import { ResourceDirectory } from "@/components/ResourcePanel";
+import { partnersByCategory } from "@/lib/partners";
 
 export const metadata = buildMetadata({
-  title: "Resources for Immigrants — Legal Help, Money Transfer, Taxes & More",
+  title: "Immigration Resources — Legal Help, Translations, Taxes & Credit",
   description:
-    "Services newcomers to the U.S. actually use: immigration applications, money transfer, nonresident tax filing, banking, health insurance and eSIMs.",
+    "Official help and independent services for immigration paperwork: finding a lawyer, certified translations, degree evaluation, nonresident taxes, credit and the citizenship test.",
   path: "/resources",
   keywords: [
     "immigration resources",
     "immigration lawyer help",
-    "send money abroad",
+    "certified translation USCIS",
     "nonresident tax filing",
-    "international student insurance",
-    "newcomer bank account",
+    "foreign degree evaluation",
+    "citizenship test study",
   ],
 });
 
-const PERSONA_LINKS = [
-  { href: "/for-you", label: "H-1B worker" },
-  { href: "/for-you", label: "International student" },
-  { href: "/for-you", label: "Green-card applicant" },
-  { href: "/for-you", label: "Employer" },
-];
-
 export default function ResourcesPage() {
-  const groups = partnersByCategory();
+  // Grouped by need; within a need, free official help first, then catalog
+  // order. Compensation never moves a listing up.
+  const partners = partnersByCategory().flatMap((g) => [
+    ...g.partners.filter((p) => p.kind === "official"),
+    ...g.partners.filter((p) => p.kind !== "official"),
+  ]);
 
   return (
     <div>
       <PageHeader
-        eyebrow="Resources"
-        title="Services for your immigration journey"
-        description="A curated directory of the services newcomers most often need — vetted, organized by what you're trying to do, and labelled honestly. Some are partnerships that help keep ImmigrationClock free."
+        compact
+        title="Resources"
+        description="Services and official help for immigration paperwork, legal questions, taxes and credit, each labelled with what it is to us."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/resources", label: "Resources" },
@@ -43,54 +40,15 @@ export default function ResourcesPage() {
         share
       />
 
-      <div className="container-page max-w-5xl space-y-8 py-10">
-        <section className="panel p-5 sm:p-6">
-          <h2 className="text-base font-semibold text-white">Not sure where to start?</h2>
-          <p className="mt-1 text-sm text-slate-400">
-            See the data and the services tailored to your situation on the{" "}
-            <Link href="/for-you" className="link-accent">
-              For You
-            </Link>{" "}
-            page.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {PERSONA_LINKS.map((l) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:border-accent/40 hover:text-accent-soft"
-              >
-                {l.label} →
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {groups.map((group) => (
-          <div key={group.category} className="space-y-3">
-            <div>
-              <h2 className="text-lg font-bold text-white">{CATEGORY_META[group.category].label}</h2>
-              <p className="mt-0.5 text-sm text-slate-400">{CATEGORY_META[group.category].blurb}</p>
-            </div>
-            <ResourcePanel
-              partners={group.partners}
-              placement={`resources-${group.category}`}
-              title={CATEGORY_META[group.category].label}
-              subtitle={CATEGORY_META[group.category].blurb}
-            />
-          </div>
-        ))}
-
-        <MethodologyNote>
-          ImmigrationClock is a data project, not a law firm or financial advisor. This directory points to
-          independent third-party services; some links are partnerships that may earn us a commission at no
-          extra cost to you. We list only services a newcomer would plausibly want, but inclusion is not an
-          endorsement of any specific outcome. See our{" "}
-          <Link href="/disclosure" className="link-accent">
-            advertising &amp; affiliate disclosure
+      <div className="container-page max-w-5xl space-y-6 py-5">
+        <ResourceDirectory partners={partners} />
+        <p className="text-sm text-slate-400">
+          Looking for the data on your situation instead?{" "}
+          <Link href="/for-you" className="link-accent">
+            See For You
           </Link>
           .
-        </MethodologyNote>
+        </p>
       </div>
     </div>
   );

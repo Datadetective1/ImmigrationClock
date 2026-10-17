@@ -28,7 +28,7 @@ const APP_PAGES = walk("src/app").filter((p) => p.endsWith("page.tsx"));
 describe("editorial separation", () => {
   it("renders affiliate resources on /resources only", () => {
     const offenders = APP_PAGES.filter(
-      (p) => !p.includes("app/resources/") && read(p).includes("<ResourcePanel")
+      (p) => !p.includes("app/resources/") && read(p).includes("<ResourceDirectory")
     );
     expect(offenders, `affiliate panel outside /resources: ${offenders.join(", ")}`).toEqual([]);
   });
@@ -59,17 +59,24 @@ describe("editorial separation", () => {
     ]) {
       expect(ids, `${removed} should have been removed from the catalog`).not.toContain(removed);
     }
-    expect(ids.length).toBeLessThanOrEqual(8);
+    expect(ids.length).toBeLessThanOrEqual(9);
   });
 
-  it("labels every catalog entry official or partner", () => {
+  it("labels every catalog entry official, independent or affiliate, and claims only what is verified", () => {
     for (const p of PARTNERS_ALL) {
-      expect(["official", "partner"], `${p.id} has kind "${p.kind}"`).toContain(p.kind);
+      expect(["official", "service", "affiliate"], `${p.id} has kind "${p.kind}"`).toContain(p.kind);
+      // An affiliate needs a referral URL of its own; a bare homepage earns nothing.
+      if (p.kind === "affiliate") expect(new URL(p.url).search, `${p.id} is an affiliate with no referral id`).not.toBe("");
     }
-    // Free government/nonprofit resources must never be tracked or rel=sponsored.
-    const panel = read("src/components/ResourcePanel.tsx");
-    expect(panel).toContain('partner.kind === "partner"');
-    expect(panel).toContain('isPartner ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"');
+    // The only program we are enrolled in.
+    expect(PARTNERS_ALL.filter((p) => p.kind === "affiliate").map((p) => p.id)).toEqual(["document-translation"]);
+    // Only an affiliate is tracked or rel=sponsored, through one helper.
+    const link = read("src/lib/partner-link.ts");
+    expect(link).toContain('if (p.kind !== "affiliate") return { href: p.href, rel: "noopener noreferrer" };');
+    for (const f of ["src/components/ResourcePanel.tsx", "src/components/KeyDates.tsx"]) {
+      expect(read(f), f).toContain("listingLink(");
+      expect(read(f), f).not.toContain('"sponsored nofollow noopener noreferrer"');
+    }
   });
 
   it("shows a cookie banner only when something actually sets cookies", () => {
