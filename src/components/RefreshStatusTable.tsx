@@ -1,5 +1,5 @@
 import { formatDate, formatNumber } from "@/lib/format";
-import { FreshnessBadge } from "./FreshnessBadge";
+import { SourcePeriodBadge } from "./FreshnessBadge";
 import type { RefreshRow, RefreshStatus } from "@/lib/types";
 
 const STATUS_STYLE: Record<RefreshStatus, string> = {
@@ -56,7 +56,7 @@ export function RefreshStatusTable({ rows }: { rows: RefreshRow[] }) {
               </td>
               <td className="px-4 py-3 font-medium text-slate-200">{r.latestPeriod}</td>
               <td className="px-4 py-3">
-                <FreshnessBadge completeness={r.completeness} />
+                <SourcePeriodBadge completeness={r.completeness} />
               </td>
               <td className="px-4 py-3">
                 <span

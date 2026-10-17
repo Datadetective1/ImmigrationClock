@@ -1,4 +1,4 @@
-import type { Completeness } from "@/lib/types";
+import type { Completeness, SourceCompleteness } from "@/lib/types";
 
 // Color is carried by a small dot only; the pill itself stays neutral so it
 // doesn't compete with the number it describes.
@@ -28,6 +28,23 @@ export function FreshnessBadge({
       {m.label}
     </span>
   );
+}
+
+/**
+ * A source's period completeness: the metric badge, or plainly "Continuous
+ * feed" / "Not collected" for sources that have no period to be complete.
+ */
+export function SourcePeriodBadge({ completeness, className = "" }: { completeness: SourceCompleteness; className?: string }) {
+  if (completeness === "continuous" || completeness === "not_collected") {
+    return (
+      <span
+        className={`inline-flex items-center rounded-md border border-white/10 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-slate-500 ${className}`}
+      >
+        {completeness === "continuous" ? "Continuous feed" : "Not collected"}
+      </span>
+    );
+  }
+  return <FreshnessBadge completeness={completeness} className={className} />;
 }
 
 export function freshnessLabel(completeness: Completeness): string {
