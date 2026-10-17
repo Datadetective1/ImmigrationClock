@@ -111,3 +111,16 @@ describe("the purchase surface links to the terms it sells under", () => {
     expect(src("src/app/pricing/page.tsx")).toMatch(/href="\/terms"/);
   });
 });
+
+// =============================================================================
+// Pro copy names what Pro sells today — no capability shipped and still
+// described as future, no shipped one left out.
+// =============================================================================
+describe("Pro copy matches what Pro sells", () => {
+  const read = (p: string) => require("node:fs").readFileSync(require("node:path").join(process.cwd(), p), "utf8") as string;
+  it("describes alerts as working, everywhere Pro is described", () => {
+    expect(read("src/app/pricing/page.tsx")).toContain("Pro adds email alerts on what you follow, your Briefing");
+    expect(read("src/app/following/page.tsx")).not.toContain("Pro will email you");
+    expect(read("src/app/terms/page.tsx")).toMatch(/currently email alerts, the\s+Briefing and syncing your follows/);
+  });
+});

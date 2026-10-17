@@ -108,6 +108,25 @@ describe("who receives an alert", () => {
     expect(report.sent).toBe(1);
   });
 
+  it("keeps alerting a subscriber who cancelled, until the paid period ends", async () => {
+    // Cancelling in the portal sets cancel_at_period_end; Stripe keeps the
+    // status "active" until the period ends. The pricing page and the terms
+    // promise Pro until then, so alerts must keep arriving until then.
+    const store = new MemoryStore();
+    const cursor = { lastChangeDate: "2026-10-01", sent: [] };
+    await seed(store, "cancelling", subscriber({ cancelAtPeriodEnd: true }), ["visa:h-1b"], cursor);
+    const { calls, sender } = recorder();
+    await runAlerts({ ...base(store), send: true, sender });
+    expect(calls.map((c) => c.to)).toEqual(["pro@example.com"]);
+
+    const after = new MemoryStore();
+    await seed(after, "ended", subscriber({ cancelAtPeriodEnd: true, currentPeriodEnd: NOW - 1 }), ["visa:h-1b"], cursor);
+    const later = recorder();
+    const report = await runAlerts({ ...base(after), send: true, sender: later.sender });
+    expect(later.calls).toEqual([]);
+    expect(report.notPro).toBe(1);
+  });
+
   it("starts a new subscriber from today and sends nothing on the first run", async () => {
     const store = new MemoryStore();
     await seed(store, "new", subscriber(), ["visa:h-1b"]);

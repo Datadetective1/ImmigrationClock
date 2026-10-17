@@ -146,4 +146,6 @@ jobs:
           say "- For You situation hub: $(yes_no "$(grep -c 'role="tabpanel"' <<<"$FORYOU")")"
           H1B_REC=$(get /what-changed/fy-2026-h-1b-cap-initial-registration-period-opens-on-march-7-5lk5tx || true)
           say "- record links its stated scope (Follow and explore): $(yes_no "$(grep -c 'Follow and explore' <<<"$H1B_REC")")"
+          # Acquisition: the newsletter form must be open, not the "not open yet" note.
+          say "- newsletter signup open on the homepage (expect yes): $(if grep -q 'open for signups yet' <<<"$HOME_HTML"; then echo NO; else echo yes; fi)"
 

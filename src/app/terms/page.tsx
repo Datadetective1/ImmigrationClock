@@ -143,8 +143,8 @@ export default function TermsPage() {
             saved is deleted.
           </p>
           <p>
-            <strong>When access ends.</strong> Losing Pro stops paid features — currently syncing your
-            follows across devices — and nothing else. Your account, your email address and the follows
+            <strong>When access ends.</strong> Losing Pro stops paid features — currently email alerts, the
+            Briefing and syncing your follows across devices — and nothing else. Your account, your email address and the follows
             saved in your browser are unaffected, and you can subscribe again at any time.
           </p>
         </section>

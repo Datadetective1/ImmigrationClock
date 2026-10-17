@@ -115,7 +115,7 @@ export default function FollowingPage() {
 
       <div className="container-page max-w-3xl pb-10">
         <ProCallout capability="watchlist_alerts" placement="following">
-          Following something tells you what changed when you come back. Pro will email you instead, so you do not have to.
+          Following something tells you what changed when you come back. Pro emails you when a recorded change touches it, so you do not have to check.
         </ProCallout>
       </div>
     </div>

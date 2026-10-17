@@ -108,7 +108,7 @@ export default function PricingPage() {
       <PageHeader
         eyebrow="Pricing"
         title="The public platform is free. Pro is for watching it professionally."
-        description="Nothing that is free today becomes paid. Pro adds one thing today: the watchlist you build here follows you to every device, and survives clearing your browser."
+        description="Nothing that is free today becomes paid. Pro adds email alerts on what you follow, your Briefing, and the same watchlist on every device."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/pricing", label: "Pricing" },
