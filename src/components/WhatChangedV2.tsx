@@ -18,6 +18,7 @@ import { ChangeCard } from "./ChangeCard";
 import { EventExplorer } from "./EventExplorer";
 import { FollowingPanel } from "./FollowingPanel";
 import { PageHeader } from "./PageHeader";
+import { PulseSignup } from "./PulseSignup";
 import { ReportError } from "./ReportError";
 import { formatDate } from "@/lib/format";
 import type { ImmigrationEvent } from "@/domains/graph/events";
@@ -194,6 +195,8 @@ export function WhatChangedV2({
             <FollowingPanel />
           </div>
         </details>
+
+        <PulseSignup variant="inline" placement="what_changed" />
 
         {methodology}
 

@@ -7,8 +7,7 @@ import { getConsent } from "./ConsentBanner";
 /**
  * Privacy-first analytics with accurate App Router pageview tracking.
  *
- *   • NEXT_PUBLIC_PLAUSIBLE_DOMAIN — Plausible (cookieless). Loaded immediately;
- *     its script auto-tracks SPA navigations.
+ *   • Vercel Web Analytics (cookieless) is mounted separately in layout.tsx.
  *   • NEXT_PUBLIC_GA_ID — Google Analytics 4 (uses cookies). Loaded ONLY after the
  *     visitor accepts the cookie banner.
  *
@@ -21,32 +20,18 @@ import { getConsent } from "./ConsentBanner";
  *     `page_view` on each subsequent route change — skipping the first one so the
  *     initial view isn't double-counted.
  */
-const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-
-/**
- * Plausible's global: callable, and carrying the pre-load queue on `.q`.
- *
- * The `.q` property is Plausible's contract, not ours — its script reads that
- * exact name when it loads and replays whatever it finds.
- */
-type PlausibleQueue = {
-  (...args: unknown[]): void;
-  q?: unknown[];
-};
 
 type Win = {
   dataLayer?: unknown[];
   gtag?: (...args: unknown[]) => void;
-  plausible?: PlausibleQueue;
 };
 
 /**
  * Respect Do Not Track / Global Privacy Control.
  *
- * Plausible is cookieless and sets nothing, so this is not legally required —
- * it is honoured because a reader who has asked not to be measured has asked
- * clearly, and the Founder Directive treats public trust as a security feature.
+ * Honoured because a reader who has asked not to be measured has asked clearly,
+ * and the Founder Directive treats public trust as a security feature.
  */
 function readerOptedOut(): boolean {
   if (typeof navigator === "undefined") return false;
@@ -55,58 +40,11 @@ function readerOptedOut(): boolean {
   return n.doNotTrack === "1" || w.doNotTrack === "1" || n.globalPrivacyControl === true;
 }
 
-function loadPlausible() {
-  if (!PLAUSIBLE_DOMAIN || document.getElementById("plausible-js")) return;
-  if (readerOptedOut()) return;
-
-  const w = window as unknown as Win;
-
-  // THE QUEUE IS DEFINED BEFORE THE SCRIPT IS REQUESTED, AND UNDER THE NAME
-  // PLAUSIBLE ACTUALLY DRAINS.
-  //
-  // The script is deferred, so anything the page fires before it arrives has to
-  // be held somewhere. Plausible's own snippet holds it on `window.plausible.q`
-  // and its script drains exactly that property on load. This used to queue onto
-  // a private `window.__plq` instead — a name nothing in Plausible knows about
-  // and nothing in this codebase ever read. Every event fired before the script
-  // finished loading went into that array and stayed there.
-  //
-  // Same class of mistake the GA block below is commented against: a provider's
-  // queue contract is the provider's to define, not ours to rename. The stub is
-  // also installed before the request rather than after it, so the window where
-  // `plausible` is undefined closes as early as it can.
-  //
-  // `|| ` guards a real script that somehow loaded first: never clobber it.
-  const stub = function (...args: unknown[]) {
-    (stub.q = stub.q || []).push(args);
-  } as PlausibleQueue;
-  w.plausible = w.plausible || stub;
-
-  const s = document.createElement("script");
-  s.id = "plausible-js";
-  s.defer = true;
-  s.setAttribute("data-domain", PLAUSIBLE_DOMAIN);
-  s.src = "https://plausible.io/js/script.tagged-events.js";
-  // A blocked, failed or ad-blocked script must never surface as an error or
-  // leave a half-initialised global: drop the stub back to a no-op so later
-  // track() calls stay silent instead of growing an array nobody drains.
-  s.onerror = () => {
-    const q = w.plausible as PlausibleQueue | undefined;
-    if (q && q.q) q.q.length = 0;
-  };
-  document.head.appendChild(s);
-}
-
 function AnalyticsInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [gaReady, setGaReady] = useState(false);
   const lastTracked = useRef<string | null>(null);
-
-  // Plausible — cookieless, safe to load without consent.
-  useEffect(() => {
-    loadPlausible();
-  }, []);
 
   // GA4 — uses cookies, so load only after cookie consent (re-checked on the
   // consent-change event the banner dispatches on Accept).

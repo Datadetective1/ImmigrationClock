@@ -5,6 +5,7 @@ import { SourceBadge } from "@/components/SourceBadge";
 import { LAST_REFRESHED } from "@/lib/data";
 import { FollowingPanel } from "@/components/FollowingPanel";
 import { SearchBar } from "@/components/SearchBar";
+import { PulseSignup } from "@/components/PulseSignup";
 import { SituationHub } from "@/components/SituationHub";
 import { buildSituationHub } from "@/lib/situation-hub";
 
@@ -48,6 +49,8 @@ export default function ForYouPage() {
         </section>
 
         <FollowingPanel />
+
+        <PulseSignup variant="inline" placement="for_you" />
 
         <SourceBadge
           sourceName="All sources used on this site"

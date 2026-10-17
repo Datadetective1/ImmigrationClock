@@ -128,7 +128,7 @@ export function ogImagePath(kind: OgKind, key: string): string {
 // -----------------------------------------------------------------------------
 // TRACKING — how a click from a social post is attributed
 //
-// Standard UTM parameters, so Plausible attributes the visit without any custom
+// Standard UTM parameters, so GA4 attributes the visit without any custom
 // code, plus the same values read back by the arrival tracker to fire the
 // `social_post_click` event with its properties. Nothing here identifies a
 // person: the content type is one of a handful of fixed strings and the story

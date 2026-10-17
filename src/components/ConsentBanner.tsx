@@ -19,10 +19,10 @@ export function getConsent(): string | null {
  * cookies.
  *
  * Today that means Google Analytics 4 and nothing else: display advertising was
- * removed from the platform, and Plausible is cookieless. Showing a consent
+ * removed from the platform, and Vercel Web Analytics is cookieless. Showing a consent
  * prompt when no cookie is set would be theatre — it interrupts the reader,
  * teaches them to dismiss notices without reading, and asks permission for
- * something that isn't happening. So with only Plausible configured, no banner
+ * something that isn't happening. So without a GA4 id configured, no banner
  * appears at all.
  */
 const NEEDS_CONSENT = Boolean(process.env.NEXT_PUBLIC_GA_ID);

@@ -25,7 +25,7 @@
 //
 // SOCIAL ARRIVALS
 // A click from a social post lands with standard UTM parameters (see
-// src/lib/share.ts). Plausible attributes the visit from those on its own; the
+// src/lib/share.ts). GA4 attributes the visit from those on its own; the
 // `social_post_click` event below adds the STORY, so an editor can see which
 // record a post actually moved readers to rather than only which network sent
 // them. The story key is a public record's own identifier and the content type
@@ -119,38 +119,8 @@ export type EventProps = Record<string, string | number | boolean | undefined>;
 
 interface AnalyticsWindow {
   gtag?: (...args: unknown[]) => void;
-  plausible?: (event: string, opts?: { props?: EventProps }) => void;
 }
 
-/** Human-readable names for Plausible's goal list. */
-const PLAUSIBLE_NAME: Record<AnalyticsEvent, string> = {
-  source_link_click: "Source Link Click",
-  methodology_open: "Methodology Open",
-  chart_interact: "Chart Interact",
-  explainer_open: "Explainer Open",
-  data_export: "Data Export",
-  search_no_results: "Search — No Results",
-  search_results: "Search — Results",
-  coverage_gap_shown: "Coverage Gap Shown",
-  related_link_click: "Related Link Click",
-  newsletter_signup_started: "Newsletter Signup Started",
-  newsletter_signup_submitted: "Newsletter Signup Submitted",
-  what_changed_view: "What Changed View",
-  topic_view: "Topic View",
-  entity_follow: "Entity Follow",
-  social_post_click: "Social Post Click",
-  share_click: "Share Click",
-  intelligence_page_view: "Intelligence Page View",
-  sample_report_view: "Sample Report View",
-  briefing_request_submitted: "Briefing Request Submitted",
-  partner_click: "Partner Click",
-  premium_interest: "Premium Interest",
-  pricing_view: "Pricing View",
-  checkout_started: "Checkout Started",
-  checkout_completed: "Checkout Completed",
-  subscription_active: "Subscription Active",
-  billing_portal_open: "Billing Portal Open",
-};
 
 /**
  * Normalize a free-text search term before it leaves the browser.
@@ -206,7 +176,6 @@ export function track(event: AnalyticsEvent, props: EventProps = {}): void {
   const clean: EventProps = {};
   for (const [k, v] of Object.entries(props)) if (v !== undefined) clean[k] = v;
   try {
-    w.plausible?.(PLAUSIBLE_NAME[event], Object.keys(clean).length ? { props: clean } : undefined);
     w.gtag?.("event", event, clean);
   } catch {
     /* provider not ready — measurement must never break a page */
@@ -297,7 +266,7 @@ export interface OnceStore {
  * event is still fired (an arrival counted twice is a smaller error than an
  * arrival never counted, and a browser with no sessionStorage is rare).
  *
- * The query string is READ, never rewritten: Plausible reads the utm_*
+ * The query string is READ, never rewritten: GA4 reads the utm_*
  * parameters itself, so stripping them would break the attribution this event
  * exists to extend.
  */

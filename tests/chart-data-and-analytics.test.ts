@@ -3,14 +3,8 @@
 //
 // WHAT THESE TESTS EXIST FOR
 // --------------------------
-// 1. THE QUEUE NOBODY DRAINED. Plausible's script replays whatever it finds on
-//    `window.plausible.q` when it loads. The loader queued onto a private
-//    `window.__plq` instead — a name Plausible knows nothing about and nothing
-//    in this codebase ever read. Every event fired before the deferred script
-//    arrived went into that array and stayed there. The GA block two functions
-//    below carries a comment about exactly this class of mistake ("Must push the
-//    `arguments` object … Google requirement"); the same care had not been
-//    applied to Plausible's contract.
+// 1. CONSENT. GA4 is the only event provider (Plausible's subscription lapsed
+//    and its loader was removed); Do Not Track and GPC still stop it.
 //
 // 2. SEARCH TERMS BECOME TRANSMITTED DATA. The terms readers type are the one
 //    free-text field that leaves the browser, and the privacy design explicitly
@@ -62,46 +56,16 @@ function chartCallSites(): { file: string; jsx: string }[] {
 
 // --- MEAS-1: the analytics queue --------------------------------------------
 
-describe("events fired before Plausible loads are not thrown away", () => {
+describe("analytics honour the reader's choice", () => {
   const loader = read("components", "AnalyticsScripts.tsx");
-
-  it("queues onto window.plausible.q, the property Plausible actually drains", () => {
-    expect(loader).toMatch(/stub\.q\s*=\s*stub\.q\s*\|\|\s*\[\]/);
-  });
-
-  it("no longer uses a private queue name nothing reads", () => {
-    // Code only: the comment above the fix names __plq deliberately, so that
-    // whoever reads this next knows what the bug was.
-    const code = loader
-      .split("\n")
-      .filter((l) => !/^\s*(\/\/|\*|\/\*)/.test(l))
-      .join("\n");
-    expect(code).not.toContain("__plq");
-  });
-
-  it("installs the queue before requesting the script, not after", () => {
-    // Otherwise there is a window where track() sees no global at all and the
-    // event is dropped rather than queued.
-    const stubAt = loader.indexOf("w.plausible = w.plausible || stub");
-    const appendAt = loader.indexOf("document.head.appendChild(s)");
-    expect(stubAt).toBeGreaterThan(-1);
-    expect(appendAt).toBeGreaterThan(-1);
-    expect(stubAt).toBeLessThan(appendAt);
-  });
-
-  it("never clobbers a real Plausible that loaded first", () => {
-    expect(loader).toMatch(/w\.plausible\s*=\s*w\.plausible\s*\|\|/);
-  });
 
   it("keeps honouring Do Not Track and Global Privacy Control", () => {
     expect(loader).toMatch(/if \(readerOptedOut\(\)\) return;/);
     expect(loader).toMatch(/globalPrivacyControl/);
   });
 
-  it("fails silently when the script cannot load", () => {
-    // Ad blockers and network failures must not surface an error or leave an
-    // array growing forever with nothing to drain it.
-    expect(loader).toMatch(/s\.onerror\s*=/);
+  it("no longer loads the expired Plausible script", () => {
+    expect(loader).not.toContain("plausible.io");
   });
 });
 

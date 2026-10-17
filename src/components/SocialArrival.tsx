@@ -10,7 +10,7 @@
 // the story key — once per story per browser session, guarded by
 // sessionStorage so a reload or a back-navigation does not count twice.
 //
-// It never touches the URL. Plausible reads utm_* itself; stripping them would
+// It never touches the URL. GA4 reads utm_* itself; stripping them would
 // remove the attribution this component exists to extend. sessionStorage is
 // wrapped because Safari private windows and some enterprise browsers throw on
 // access, and measurement must never break a page.

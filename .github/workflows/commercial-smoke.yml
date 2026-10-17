@@ -35,16 +35,15 @@ jobs:
           say "## Commercial smoke check: $SITE"
 
           HOME_HTML=$(get /) || { say "- homepage: UNREACHABLE"; exit 1; }
-          # Plausible is injected by client JS, so it never appears in the HTML.
-          # Read the page's own script chunks instead: with the domain configured
-          # the bare string "immigrationclock.com" is compiled in next to the
-          # Plausible loader; without it the loader is dead code.
+          # Analytics scripts are injected by client JS, so read the page's own
+          # script chunks: Vercel Web Analytics must ship; the expired Plausible
+          # loader must not.
           CHUNKS=""
           for src in $(grep -oE '/_next/static/[^"]+\.js' <<<"$HOME_HTML" | sort -u); do
             CHUNKS+=$(curl -fsSL --max-time 30 "$SITE$src" || true)
           done
-          say "- Plausible loader in shipped JS: $(yes_no "$(grep -c 'plausible.io/js/script' <<<"$CHUNKS")")"
-          say "- Plausible domain compiled in (\"immigrationclock.com\"): $(yes_no "$(grep -c '"immigrationclock.com"' <<<"$CHUNKS")")"
+          say "- Vercel Web Analytics in shipped JS: $(yes_no "$(grep -c '_vercel/insights' <<<"$CHUNKS")")"
+          say "- expired Plausible loader still shipped (expect NO): $(if grep -q 'plausible.io/js/script' <<<"$CHUNKS"; then echo yes; else echo NO; fi)"
           # Headline figures must be real numbers in the HTML (they once rendered
           # as 0 until scrolled into view), and homepage changes must open their
           # own record, not only the government site.
