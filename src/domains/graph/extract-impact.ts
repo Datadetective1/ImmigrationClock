@@ -531,8 +531,8 @@ export function extractImpact(src: ImpactSourceText): EventImpact {
 }
 
 /**
- * Instructions about the RULEMAKING PROCESS, not about anyone's immigration
- * obligations.
+ * Instructions about the RULEMAKING PROCESS (or duties on the agency itself),
+ * not about anyone's immigration obligations.
  *
  * Nearly every Federal Register document contains "you must submit comments,
  * identified by the agency name and referencing this rule's RIN…". That matches
@@ -547,12 +547,55 @@ function isProceduralBoilerplate(lower: string): boolean {
   return (
     /\bsubmit (written )?comments?\b/.test(lower) ||
     /\bcomments? must be (received|submitted|identified)\b/.test(lower) ||
+    // "Written comments and related materials must be submitted on or before…",
+    // "Comments on the NPRM must be…", "Comments are encouraged and must be…":
+    // a comment deadline is addressed to the public, not to the people covered.
+    /\bcomments?\b[^.]{0,160}\bmust be (received|submitted|identified|written|postmarked)\b/.test(lower) ||
+    /\bcomments?\b[^.]{0,40}\b(are|is) encouraged\b/.test(lower) ||
+    /\bmailed items must be postmarked\b/.test(lower) ||
+    /\brequests? for (a )?public hearing\b/.test(lower) ||
+    // Statutes that bind the AGENCY when it writes a rule (impact analyses).
+    /\b(regulatory flexibility act|administrative procedure act|unfunded mandates|congressional review act|executive order 1\d{4})\b/.test(lower) ||
+    /\bagenc(y|ies) (generally )?(must|is required|are required)\b/.test(lower) ||
+    /\b(dhs|uscis|eoir|ice|cbp|dol|the department|the secretary|the attorney general)( is| are)? required to\b/.test(lower) ||
+    /\brequires? the (secretary|department|attorney general)\b/.test(lower) ||
+    // Rhetoric, not a requirement.
+    /\bmore can and must be done\b/.test(lower) ||
     /\bregulatory identification number\b|\brin\b/.test(lower) ||
     /\bregulations\.gov\b/.test(lower) ||
     /\bfederal erulemaking portal\b/.test(lower) ||
     /\bdocket\b.*\bnumber\b/.test(lower) ||
     /\bpaperwork reduction act\b/.test(lower) ||
     /\bomb control number\b/.test(lower)
+  );
+}
+
+/** True when a candidate quote is rulemaking boilerplate, not a requirement. */
+export function isRequirementBoilerplate(sentence: string): boolean {
+  return isProceduralBoilerplate(sentence.toLowerCase());
+}
+
+/**
+ * The obligation falls on someone the document covers: "an alien must file",
+ * "employers must obtain", "applicants are required to submit". A requirement
+ * phrase on its own also matches duties on the agency ("DHS is required to
+ * adjust the fee"), on commenters, and background description ("fees … must be
+ * deposited into the general fund"), none of which is something a covered
+ * person may have to do.
+ */
+const COVERED_PARTY_OBLIGATION =
+  /\b(aliens?|applicants?|petitioners?|beneficiar(?:y|ies)|employers?|noncitizens?|registrants?|sponsors?|travell?ers?|students?|workers?|nonimmigrants?|immigrants?|refugees?|asylees?|requestors?|filers?|regional centers?|schools?|parties|party|holders?|visitors?|individuals?|households?|respondents?)\b[^.;:]{0,80}?\b(must|shall|will be required to|are required to|is required to|may be required to|required to)\b/;
+
+/** The same obligation in the passive: "a petition must be filed", "must be paid by employers". */
+const COVERED_FILING_OBLIGATION =
+  /\b(applications?|petitions?|requests?|registrations?|form [a-z]-?\d+[a-z]?)\b[^.;:]{0,80}?\bmust be (filed|submitted|accompanied|paid|signed)\b|\bmust be [^.;:]{0,80}?\bby (employers?|applicants?|petitioners?|aliens?|sponsors?|beneficiaries)\b/;
+
+export function isCoveredPartyRequirement(sentence: string): boolean {
+  const l = sentence.toLowerCase();
+  return (
+    REQUIREMENT_PHRASES.some((p) => l.includes(p)) &&
+    !isProceduralBoilerplate(l) &&
+    (COVERED_PARTY_OBLIGATION.test(l) || COVERED_FILING_OBLIGATION.test(l))
   );
 }
 
@@ -563,15 +606,17 @@ function isProceduralBoilerplate(lower: string): boolean {
  * guidance — see the advice guard in validateImpact(), which rejects anything
  * phrased as "you should" or "you must".
  */
+/** The action-required quote alone, by the same rules as extractImpact(). */
+export function actionRequiredFor(src: ImpactSourceText): ActionRequired | undefined {
+  const text = richText([src.title, src.abstract ?? "", src.body ?? ""].filter(Boolean).join(" "));
+  return text.trim() ? extractActionRequired(sentences(text), src.effectiveAt) : undefined;
+}
+
 function extractActionRequired(
   allSentences: string[],
   effectiveAt?: string | null
 ): ActionRequired | undefined {
-  const hit = allSentences.find((s) => {
-    const l = s.toLowerCase();
-    if (!REQUIREMENT_PHRASES.some((p) => l.includes(p))) return false;
-    return !isProceduralBoilerplate(l);
-  });
+  const hit = allSentences.find(isCoveredPartyRequirement);
   if (!hit) return undefined;
 
   return {
