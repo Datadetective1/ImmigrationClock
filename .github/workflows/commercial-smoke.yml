@@ -158,9 +158,14 @@ jobs:
           # so the endpoint answers normally and sends NOTHING.
           ACCOUNT=$(get /account || true)
           say "- /account sign-in form has the honeypot field (expect yes): $(yes_no "$(grep -c 'name="ic_hp"' <<<"$ACCOUNT")")"
-          SIGNIN=$(curl -s --max-time 30 -X POST -H 'Content-Type: application/json' \
+          SIGNIN=$(curl -s --max-time 30 -w '\n%{http_code}' -X POST -H 'Content-Type: application/json' \
             -d '{"email":"smoke-check@example.com","ic_hp":"smoke"}' "$SITE/api/billing/signin" || true)
-          say "- sign-in endpoint serves the per-recipient limit build (expect yes): $(yes_no "$(grep -c 'request another in a minute' <<<"$SIGNIN")")"
+          SIGNIN_CODE=$(tail -n1 <<<"$SIGNIN")
+          # GitHub runners share cloud egress IPs, so the per-IP limit can answer
+          # 429 for traffic that is not ours. That is inconclusive, not a failure.
+          if [ "$SIGNIN_CODE" = "429" ]; then SIGNIN_RESULT="inconclusive (HTTP 429: runner IP rate-limited)";
+          else SIGNIN_RESULT="$(yes_no "$(grep -c 'request another in a minute' <<<"$SIGNIN")") (HTTP $SIGNIN_CODE)"; fi
+          say "- sign-in endpoint serves the per-recipient limit build (expect yes): $SIGNIN_RESULT"
           # Accuracy and search copy (key dates, two open comment periods).
           KEYDATES=$(get /key-dates || true)
           say "- /key-dates lists open comment periods (expect yes): $(yes_no "$(grep -c 'Open comment periods' <<<"$KEYDATES")")"
