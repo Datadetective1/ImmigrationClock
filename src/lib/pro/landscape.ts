@@ -82,7 +82,7 @@ const days = (from: string, to: string) => Math.round((Date.parse(to.slice(0, 10
 
 export const LANDSCAPE_LIMITATIONS = [
   "Built only from records in ImmigrationClock's archive, matched where the document names what you follow. It is not a complete statement of current law.",
-  "“Took effect” means the document's stated effective date has passed. A later rule, a court order or a withdrawal can change whether it still applies — check the source.",
+  "“Stated date passed” means the document's stated effective date has passed. A later rule, a court order or a withdrawal can change whether it still applies — check the source.",
   "“No final rule in our archive” means we hold no later record amending the proposal. It does not prove the proposal is still pending.",
 ];
 

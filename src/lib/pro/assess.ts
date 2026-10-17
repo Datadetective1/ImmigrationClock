@@ -87,6 +87,7 @@ const DAY = 86_400_000;
 const days = (from: string, to: string) => Math.round((Date.parse(to.slice(0, 10)) - Date.parse(from.slice(0, 10))) / DAY);
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const longDay = (iso: string) => `${MONTHS[Number(iso.slice(5, 7)) - 1] ?? ""} ${Number(iso.slice(8, 10))}, ${iso.slice(0, 4)}`;
 const monthYear = (iso: string) => `${MONTHS[Number(iso.slice(5, 7)) - 1] ?? ""} ${iso.slice(0, 4)}`.trim();
 
 const STRENGTH_RANK: Record<MatchStrength, number> = { named: 0, categorized: 1, mentioned: 2, weak: 3 };
@@ -188,10 +189,10 @@ export function statusText(change: PublicChange, today: string): string {
     case "informational":
       return "Informational — a data release or correction, not a rule.";
     case "scheduled":
-      return eff ? `Published; stated to take effect ${eff}.` : "Scheduled.";
+      return eff ? `Published; stated to take effect ${longDay(eff)}.` : "Scheduled.";
     case "in_force":
       return eff && eff <= today
-        ? `In effect since ${eff}, per the document.`
+        ? `The document states an effective date of ${longDay(eff)}, which has passed. A later rule or court order can change whether it still applies.`
         : "Published. The document states no effective date — check the source.";
     default:
       return "See the source.";
@@ -266,7 +267,7 @@ export function assessChange(
   const publishedAgo = days(strong.publishedDate, today);
 
   const dates = [{ label: "Published", date: strong.publishedDate }];
-  if (eff) dates.push({ label: daysUntil !== null && daysUntil > 0 ? "Takes effect" : "Took effect", date: eff });
+  if (eff) dates.push({ label: daysUntil !== null && daysUntil > 0 ? "Takes effect" : "Stated effective date", date: eff });
 
   let section: Section;
   let urgency: Urgency;
@@ -284,7 +285,7 @@ export function assessChange(
     };
   } else if (daysUntil !== null && daysUntil < 0 && -daysUntil <= CURRENT_DAYS) {
     section = "current";
-    urgency = { label: `Took effect ${eff}`, tone: "info" };
+    urgency = { label: `Stated date passed ${longDay(eff!)}`, tone: "info" };
   } else if (publishedAgo >= 0 && publishedAgo <= CURRENT_DAYS) {
     section = "current";
     urgency = proposed

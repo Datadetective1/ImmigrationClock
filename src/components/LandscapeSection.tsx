@@ -39,7 +39,7 @@ function chips(l: FollowLandscape): Chip[] {
     out.push({ text: `Next date ${formatDate(l.comingUp[0].date)}${more > 0 ? ` · +${more}` : ""}`, tone: "date" });
   }
   if (l.proposals.length) out.push({ text: plural(l.proposals.length, "open proposal"), tone: "plain" });
-  if (l.tookEffect.length) out.push({ text: `${l.tookEffect.length} took effect`, tone: "plain" });
+  if (l.tookEffect.length) out.push({ text: `${l.tookEffect.length} stated date${l.tookEffect.length === 1 ? "" : "s"} passed`, tone: "plain" });
   if (l.undatedFinalCount) out.push({ text: `${l.undatedFinalCount} undated`, tone: "muted" });
   if (l.recentCount) out.push({ text: `${l.recentCount} in last 30 days`, tone: "plain" });
   if (l.latestRecord) out.push({ text: `Newest ${formatDate(l.latestRecord)}`, tone: "muted" });
@@ -93,7 +93,7 @@ function FollowCard({ l }: { l: FollowLandscape }) {
         </summary>
         <div className="space-y-3 border-t border-white/5 p-3">
           <EntryList title="Coming up" hint="stated effective dates" entries={l.comingUp} />
-          <EntryList title="Took effect" hint="stated date passed — check it still applies" entries={l.tookEffect} />
+          <EntryList title="Stated date passed" hint="check it still applies" entries={l.tookEffect} />
           <EntryList title="Proposals" hint="no final rule in our archive" entries={l.proposals} />
           {l.undatedFinalCount > 0 ? (
             <p className="text-xs text-slate-500">
@@ -116,17 +116,21 @@ function FollowCard({ l }: { l: FollowLandscape }) {
   );
 }
 
-export function LandscapeSection({ landscape }: { landscape: Landscape }) {
+export function LandscapeSection({ landscape, compact = false }: { landscape: Landscape; compact?: boolean }) {
   const { coverage } = landscape;
   return (
-    <section className="panel panel-pad" aria-labelledby="landscape-heading">
+    <section className={compact ? "" : "panel panel-pad"} aria-labelledby="landscape-heading">
       <div className="flex items-baseline justify-between gap-2">
-        <h2 id="landscape-heading" className="section-title">Your landscape</h2>
+        <h2 id="landscape-heading" className={compact ? "text-base font-semibold text-white" : "section-title"}>
+          {compact ? "Your follows" : "Your landscape"}
+        </h2>
         <Link href="/following" className="text-xs text-slate-400 underline decoration-dotted hover:text-white">
           Edit follows
         </Link>
       </div>
-      <p className="mt-1 text-xs text-slate-400">What the record shows for each thing you follow. Tap one to open it.</p>
+      {compact ? null : (
+        <p className="mt-1 text-xs text-slate-400">What the record shows for each thing you follow. Tap one to open it.</p>
+      )}
       <ul className="mt-3 space-y-2">
         {landscape.follows.map((l) => (
           <FollowCard key={l.follow} l={l} />

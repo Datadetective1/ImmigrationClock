@@ -129,8 +129,8 @@ export function BriefingSettings({
           disabled={busy}
           onChange={(frequency) => save({ frequency }, "Saved.")}
           options={[
-            { value: "daily", label: "Daily", hint: "One email on any day something you follow changed." },
-            { value: "weekly", label: "Weekly digest", hint: "One email on Mondays with the week's changes." },
+            { value: "daily", label: "Daily", hint: "On days something you follow changed." },
+            { value: "weekly", label: "Weekly digest", hint: "Mondays, the week's changes." },
           ]}
         />
       </div>
@@ -143,11 +143,11 @@ export function BriefingSettings({
           disabled={busy}
           onChange={(relevance) => save({ relevance }, "Saved.")}
           options={[
-            { value: "all", label: "Every match", hint: "Every recorded change that touches something you follow." },
+            { value: "all", label: "Every match", hint: "Every change that touches a follow." },
             {
               value: "priority",
               label: "Priority only",
-              hint: "Matches recorded as major, or with a stated effective date in the next 30 days.",
+              hint: "Major changes, or a stated date in the next 30 days.",
             },
           ]}
         />
@@ -159,13 +159,11 @@ export function BriefingSettings({
           checked={value.reminders}
           disabled={busy}
           onChange={(e) => save({ reminders: e.target.checked }, "Saved.")}
-          className="mt-1"
+          className="mt-0.5 h-5 w-5 shrink-0 accent-accent"
         />
         <span>
           Effective-date reminders
-          <span className="block text-xs text-slate-400">
-            One email a week before a followed change takes effect — only when its record states the date.
-          </span>
+          <span className="block text-xs text-slate-400">A week before a stated effective date.</span>
         </span>
       </label>
 
@@ -176,18 +174,15 @@ export function BriefingSettings({
             checked={value.summary}
             disabled={busy}
             onChange={(e) => save({ summary: e.target.checked }, "Saved.")}
-            className="mt-1"
+            className="mt-0.5 h-5 w-5 shrink-0 accent-accent"
           />
           <span>
-            Weekly intelligence summary (optional, separate email)
+            Weekly summary email
             <span className="block text-xs text-slate-400">
-              Off unless you turn it on. Mondays: what changed for each follow, open proposals, dates in the next 90
-              days, and what we checked — including in quiet weeks.
-            </span>
-            <span className="mt-1 block text-xs text-slate-300">
+              Optional, off by default. Mondays: each follow, dates in the next 90 days, and what we checked.{" "}
               {value.frequency === "weekly"
-                ? "With the weekly digest, your digest's alerts come inside this summary: one email on Mondays, not two."
-                : "Sent in addition to your daily alerts, which stay as they are."}
+                ? "Your weekly digest comes inside it: one email, not two."
+                : "Sent in addition to your daily alerts."}
             </span>
           </span>
         </label>
@@ -196,8 +191,8 @@ export function BriefingSettings({
       <div>
         <p className="text-sm font-semibold text-white">Calendar feed</p>
         <p className="mt-1 text-xs text-slate-400">
-          Subscribe in Google Calendar, Apple Calendar or Outlook to see stated effective dates of what you follow
-          and save. This link is private: anyone with it sees those dates, so reset it if it leaks.
+          Stated effective dates for what you follow and save, in Google, Apple or Outlook calendar. Keep the link
+          private; reset it if it leaks.
         </p>
         <div className="mt-2 flex flex-col gap-2 sm:flex-row">
           <input

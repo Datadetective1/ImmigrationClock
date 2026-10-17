@@ -62,7 +62,7 @@ describe("the status pill is derived from fields, in the order a reader asks", (
       "Effective Jan 15, 2027",
       "accent",
     ],
-    ["a past effective date", { effectiveAt: "2026-03-03" }, "In effect since Mar 3, 2026", "green"],
+    ["a past effective date", { effectiveAt: "2026-03-03" }, "Stated effective Mar 3, 2026", "green"],
     [
       "a rescission that restores earlier guidance",
       { summary: "This rule rescinds the 2025 guidance and restores the prior policy." },
@@ -97,12 +97,12 @@ describe("the status pill is derived from fields, in the order a reader asks", (
   it("lets an effective date outrank a rescission sentence", () => {
     // The date is the stronger fact: a rescission that is in effect is in effect.
     expect(changeStatus({ ...BASE, summary: "Rescission of X.", effectiveAt: "2026-03-03" }, TODAY).status).toBe(
-      "In effect since Mar 3, 2026"
+      "Stated effective Mar 3, 2026"
     );
   });
 
   it("treats today as not yet in the future", () => {
-    expect(changeStatus({ ...BASE, effectiveAt: TODAY }, TODAY).status).toBe("In effect since Sep 2, 2026");
+    expect(changeStatus({ ...BASE, effectiveAt: TODAY }, TODAY).status).toBe("Stated effective Sep 2, 2026");
   });
 });
 

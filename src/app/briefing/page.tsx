@@ -15,6 +15,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { BriefingSettings } from "@/components/BriefingSettings";
+import { BriefingV2 } from "@/components/BriefingV2";
 import { LandscapeSection } from "@/components/LandscapeSection";
 import { flagOn } from "@/lib/flags";
 import { buildLandscape } from "@/lib/pro/landscape";
@@ -29,6 +30,7 @@ import { buildBriefing, type FeedItem } from "@/lib/pro/feed";
 import { parseHistory } from "@/lib/pro/history";
 import { parsePrefs } from "@/lib/pro/prefs";
 import { parseSaved } from "@/lib/pro/saved";
+import { siteDay } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -199,8 +201,13 @@ function Gate({ title, body, href, cta }: { title: string; body: string; href: s
 export default async function BriefingPage() {
   const gate = await proGate(cookies().get(COOKIE_NAME)?.value);
   if (!gate.ok && gate.reason === "off") notFound();
+  const v2 = flagOn("ux_v2");
 
-  const header = (
+  const header = v2 ? (
+    <div className="container-page max-w-2xl pt-6">
+      <h1 className="text-2xl font-semibold tracking-tight text-white">Your Briefing</h1>
+    </div>
+  ) : (
     <PageHeader
       eyebrow="Pro"
       title="Your Briefing"
@@ -228,7 +235,8 @@ export default async function BriefingPage() {
   }
 
   const { store, key, now, secret } = gate;
-  const today = new Date(now * 1000).toISOString().slice(0, 10);
+  // The site's calendar (Eastern), so "due in N days" turns over at midnight there.
+  const today = siteDay(new Date(now * 1000));
   const [watch, savedRaw, prefsRaw, historyRaw, cursorRaw] = await Promise.all([
     store.getWatchlist(key),
     store.getProDoc("saved", key),
@@ -246,6 +254,34 @@ export default async function BriefingPage() {
   const intelligence = flagOn("pro_intelligence");
   const { upcoming, current, historical } = briefing.sections;
   const soon = upcoming.filter((i) => i.assessment.urgency.tone === "attention").length;
+  const settings = {
+    frequency: prefs.frequency,
+    relevance: prefs.relevance,
+    reminders: prefs.reminders,
+    summary: prefs.summary,
+    calendarUrl: calendarUrl(billingOrigin(), key, prefs.calendarVersion, secret),
+  };
+
+  if (v2) {
+    return (
+      <BriefingV2
+        today={today}
+        follows={follows}
+        upcoming={upcoming}
+        current={current}
+        historical={historical}
+        savedItems={briefing.feed.filter((i) => i.saved)}
+        savedCount={saved.length}
+        feedCount={briefing.feed.length}
+        landscape={intelligence && follows.length > 0 ? buildLandscape({ follows, today }) : null}
+        settings={settings}
+        alertsOn={alertsOn}
+        intelligence={intelligence}
+        history={history}
+        limitations={briefing.limitations}
+      />
+    );
+  }
 
   return (
     <div>
