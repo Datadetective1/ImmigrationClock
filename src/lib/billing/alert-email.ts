@@ -16,6 +16,8 @@
 import type { Alert } from "./alerts";
 import { labelForEntity } from "@/lib/entity-labels";
 import { SITE } from "@/lib/site";
+import { flagOn } from "@/lib/flags";
+import { EMAIL_COLOR, EMAIL_FONT, emailButton, emailPill, emailWordmark } from "@/lib/email/style";
 
 export interface AlertEmailInput {
   alerts: Alert[];
@@ -87,6 +89,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
       `  ${formatDate(it.date)} · ${it.detail}`,
       `  Matched: ${it.because}`,
       `  ${it.url}`,
+      ...(it.source ? [`  Source: ${it.source.name} ${it.source.url}`] : []),
       ""
     );
   }
@@ -100,46 +103,50 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
   if (input.supportEmail) lines.push(`Questions: ${input.supportEmail}`);
   lines.push("", `${SITE.name} — ${SITE.tagline}`);
 
+  // ---- HTML: the same look as the weekly summary (lib/email/style.ts) -----
+  const C = EMAIL_COLOR;
+  const kindLabel = (k: Alert["kind"]) =>
+    k === "effective_reminder" ? "Reminder" : k === "warn_notice" ? "WARN notice" : k === "h1b_export" ? "H-1B data" : "New";
   const itemHtml = items
     .map(
-      (it) => `<tr><td style="padding:14px 0;border-top:1px solid #e2e8f0">
-        <a href="${escapeHtml(it.url)}" style="font-size:15px;font-weight:600;color:#0f172a;text-decoration:none">${escapeHtml(it.title)}</a>
-        <div style="margin-top:4px;font-size:13px;line-height:1.5;color:#475569">${escapeHtml(formatDate(it.date))} · ${escapeHtml(it.detail)}</div>
-        <div style="margin-top:4px;font-size:12px;color:#64748b">Matched: ${escapeHtml(it.because)}</div>
-      </td></tr>`
+      (it) => `<div style="padding:14px 0;border-top:1px solid ${C.line}">
+        <div style="font-size:12px;color:${it.kind === "effective_reminder" ? C.amber : C.muted}">${escapeHtml(kindLabel(it.kind))} · ${escapeHtml(formatDate(it.date))}</div>
+        <a href="${escapeHtml(it.url)}" style="display:block;margin-top:3px;font-size:15px;line-height:1.35;font-weight:600;color:${C.ink};text-decoration:none">${escapeHtml(it.title)}</a>
+        <div style="margin-top:3px;font-size:13px;line-height:1.45;color:${C.body}">${escapeHtml(it.detail)}</div>
+        <div style="margin-top:6px;font-size:12px;color:${C.muted}">Matches ${escapeHtml(it.because)}${
+          it.source ? ` · <a href="${escapeHtml(it.source.url)}" style="color:${C.accent};font-weight:600;text-decoration:none">${escapeHtml(it.source.name)} ↗</a>` : ""
+        }</div>
+      </div>`
     )
     .join("");
 
-  const html = `<div style="margin:0;padding:24px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
-  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden">
-    ${
-      input.testMode
-        ? `<div style="background:#fef3c7;border-bottom:1px solid #fde68a;padding:12px 24px;color:#92400e;font-size:13px">
-      <strong>Test mode.</strong> Sent from a deployment running on Stripe test keys.
-    </div>`
-        : ""
-    }
-    <div style="padding:24px">
-      <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#64748b">${escapeHtml(SITE.name)} Pro · Watchlist</p>
-      <h1 style="margin:0 0 8px;font-size:20px;line-height:1.3;color:#0f172a">${escapeHtml(headline)}</h1>
-      <table style="width:100%;border-collapse:collapse">${itemHtml}</table>
-      <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#64748b">
-        Each change links to its official source. This is information, not legal advice.
-      </p>
+  const pills = [
+    ...(fresh > 0 ? [emailPill(`${fresh} new`, C.accent)] : []),
+    ...(reminders > 0 ? [emailPill(`${reminders} reminder${reminders === 1 ? "" : "s"}`, C.amber)] : []),
+  ].join("");
+
+  const html = `<div style="margin:0;padding:16px 12px;background:${C.page};font-family:${EMAIL_FONT}">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid ${C.line};border-radius:16px;overflow:hidden">
+    ${input.testMode ? `<div style="background:#fef3c7;padding:10px 20px;color:#92400e;font-size:13px"><strong>Test mode.</strong> Sent from a deployment running on Stripe test keys.</div>` : ""}
+    <div style="padding:20px 20px 4px">
+      ${emailWordmark()}
+      <h1 style="margin:12px 0 10px;font-size:22px;line-height:1.25;color:${C.ink}">${reminders > 0 && fresh === 0 ? "Coming up on what you follow" : "New on what you follow"}</h1>
+      <div>${pills}</div>
+      ${itemHtml}
+      <div style="margin:20px 0">${
+        // The Briefing exists only while its flag is on; otherwise the page the
+        // subscriber already uses is what they follow.
+        flagOn("pro_briefing") ? emailButton(`${origin}/briefing`, "Open your Briefing") : emailButton(`${origin}/following`, "See what you follow")
+      }</div>
     </div>
-    <div style="padding:16px 24px 24px;border-top:1px solid #e2e8f0">
-      <p style="margin:0 0 6px;font-size:12px;line-height:1.6;color:#64748b">
-        You get this because you subscribe to ${escapeHtml(SITE.name)} Pro and follow these topics.
-        <a href="${escapeHtml(`${origin}/following`)}" style="color:#0f172a">Change what you follow</a> ·
-        <a href="${escapeHtml(accountUrl)}" style="color:#0f172a">Manage subscription</a> ·
-        <a href="${escapeHtml(input.unsubscribeUrl)}" style="color:#0f172a">Stop these alerts</a>
-      </p>
-      ${
-        input.supportEmail
-          ? `<p style="margin:0 0 6px;font-size:12px;color:#64748b">Questions? <a href="mailto:${escapeHtml(input.supportEmail)}" style="color:#0f172a">${escapeHtml(input.supportEmail)}</a></p>`
-          : ""
-      }
-      <p style="margin:0;font-size:12px;color:#94a3b8">${escapeHtml(SITE.name)} — ${escapeHtml(SITE.tagline)}</p>
+    <div style="padding:14px 20px 18px;background:${C.page};border-top:1px solid ${C.line};font-size:12px;line-height:1.55;color:${C.muted}">
+      <p style="margin:0">Each item links to its record and its official source. Information about published government records, not legal advice.</p>
+      <p style="margin:8px 0 0">You follow these in ${escapeHtml(SITE.name)} Pro.
+        <a href="${escapeHtml(`${origin}/following`)}" style="color:${C.muted}">Change what you follow</a> ·
+        <a href="${escapeHtml(accountUrl)}" style="color:${C.muted}">Manage subscription</a> ·
+        <a href="${escapeHtml(input.unsubscribeUrl)}" style="color:${C.muted}">Stop these alerts</a>${
+          input.supportEmail ? ` · <a href="mailto:${escapeHtml(input.supportEmail)}" style="color:${C.muted}">${escapeHtml(input.supportEmail)}</a>` : ""
+        }</p>
     </div>
   </div>
 </div>`;

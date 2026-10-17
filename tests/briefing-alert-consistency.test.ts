@@ -103,7 +103,9 @@ describe("no duplicate or misleading notifications", () => {
     const mail = buildAlertEmail({ alerts: [reminder], origin: "https://immigrationclock.com", unsubscribeUrl: "https://immigrationclock.com/u", testMode: false });
     expect(mail.text).toContain("1 effective-date reminder on what you follow:");
     expect(mail.text).not.toMatch(/\bnew update/);
-    expect(mail.html).toContain("1 effective-date reminder on what you follow");
+    expect(mail.html).toContain("1 reminder");
+    expect(mail.html).toContain("Coming up on what you follow");
+    expect(mail.html).not.toMatch(/\bnew\b/i);
   });
 
   it("a mixed email names both", () => {
