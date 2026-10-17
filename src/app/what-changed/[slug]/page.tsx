@@ -34,6 +34,9 @@ import { PageHeader } from "@/components/PageHeader";
 import { EventCard } from "@/components/EventCard";
 import { ShareButton } from "@/components/ShareButton";
 import { SaveChangeButton } from "@/components/SaveChangeButton";
+import { ChangeRecordV2 } from "@/components/ChangeRecordV2";
+import { flagOn } from "@/lib/flags";
+import { amendmentIndex, type ChangeInput } from "@/lib/intelligence/change";
 import { StoryAnalytics } from "@/components/StoryAnalytics";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { TrackedLink } from "@/components/TrackedLink";
@@ -42,7 +45,7 @@ import { changePath, changeSlug, explainerPath, matchesChangeSlug, ogImagePath }
 import { explainersFor } from "@/lib/editorial/explainers";
 import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
 import { SOURCE_BY_KEY } from "@/lib/sources";
-import { formatDate } from "@/lib/format";
+import { formatDate, siteDay } from "@/lib/format";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
 import { relatedChanges, relationTo, storyDescription, storyKey, storyTitle } from "@/lib/stories";
 
@@ -109,6 +112,9 @@ function Fact({ label, value, emphasis = false }: { label: string; value: string
   );
 }
 
+/** Later records that amend each record, from the archive's own links. */
+const AMENDMENTS = amendmentIndex(EVENTS as unknown as ChangeInput[]);
+
 export default function ChangePage({ params }: { params: { slug: string } }) {
   const event = resolve(params.slug);
   if (!event) notFound();
@@ -144,6 +150,26 @@ export default function ChangePage({ params }: { params: { slug: string } }) {
     // The government document this record is a reading of.
     isBasedOn: event.sourceUrl,
   };
+
+  if (flagOn("ux_v2")) {
+    return (
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(article) }} />
+        <StoryAnalytics story={key} category={event.classification} />
+        <ChangeRecordV2
+          event={event}
+          title={title}
+          path={path}
+          canonical={canonical}
+          storyKey={key}
+          today={siteDay()}
+          related={related}
+          context={context}
+          amendedBy={AMENDMENTS.get(event.id) ?? []}
+        />
+      </>
+    );
+  }
 
   return (
     <div>

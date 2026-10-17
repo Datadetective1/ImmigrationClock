@@ -54,8 +54,8 @@ export default function AboutPage() {
           <h2>How it stays current</h2>
           <p>
             Headline figures reflect the latest published federal releases. An automated pipeline refreshes the
-            underlying datasets on a schedule, and the live <Link href="/admin/refresh-status">refresh status</Link>{" "}
-            page shows when each source was last updated.
+            underlying datasets on a schedule, and <Link href="/data">data &amp; freshness</Link> shows how current
+            each source is.
           </p>
         </section>
 

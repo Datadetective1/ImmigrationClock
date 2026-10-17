@@ -40,7 +40,7 @@ import { explainEvent } from "@/domains/graph/explain";
 import { labelForEntity } from "@/lib/entity-labels";
 import { changePath } from "@/lib/share";
 
-function entityName(entityId: string): string {
+export function entityName(entityId: string): string {
   const known = ENTITY_BY_ID.get(entityId as never);
   if (known) return known.name;
   // Unseeded nodes (Policy Manual parts, executive actions) still have to read
@@ -80,7 +80,7 @@ function ImpactGroup({ label, items }: { label: string; items: ImpactedEntity[] 
  * rendered as silence: `undetermined` explains WHY we cannot say, because an
  * empty list reads as "nobody" and that is a claim we have not earned.
  */
-function WhoIsAffected({ impact }: { impact: EventImpact }) {
+export function WhoIsAffected({ impact }: { impact: EventImpact }) {
   const stated = (xs: ImpactedEntity[]) => xs.filter((x) => x.basis !== "inferred");
   const inferred = [
     ...impact.countries,
@@ -160,7 +160,7 @@ function WhoIsAffected({ impact }: { impact: EventImpact }) {
  * Renders nothing when the event carries too little to say anything true. A
  * short explanation is the honest outcome; padding it would be inventing.
  */
-function WhatThisMeans({ event }: { event: ImmigrationEvent }) {
+export function WhatThisMeans({ event, footnote = true }: { event: ImmigrationEvent; footnote?: boolean }) {
   const clauses = explainEvent(event, undefined, labelForEntity);
   if (clauses.length === 0) return null;
 
@@ -177,10 +177,12 @@ function WhatThisMeans({ event }: { event: ImmigrationEvent }) {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-xs leading-relaxed text-slate-500">
-        Derived from this event&rsquo;s own recorded fields — not written by a model, and not an
-        interpretation of anyone&rsquo;s case.
-      </p>
+      {footnote ? (
+        <p className="mt-2 text-xs leading-relaxed text-slate-500">
+          Derived from this event&rsquo;s own recorded fields — not written by a model, and not an
+          interpretation of anyone&rsquo;s case.
+        </p>
+      ) : null}
     </div>
   );
 }

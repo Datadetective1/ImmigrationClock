@@ -238,6 +238,12 @@ describe("implications are restatements", () => {
     expect(lines.some((l) => l.includes("watching the September 30, 2026 effective date"))).toBe(true);
   });
 
+  it("give a passed effective date as stated, never as proof the rule still applies", () => {
+    const lines = implicationsFor(event({ classification: "final_rule", effectiveAt: "2026-01-15" }), TODAY).join(" ");
+    expect(lines).toMatch(/states an effective date of January 15, 2026, which has passed/);
+    expect(lines).not.toMatch(/in effect since|in force/);
+  });
+
   it("say a proposal is a proposal and never give it a date", () => {
     const lines = implicationsFor(event({ classification: "proposed_rule", effectiveAt: null }), TODAY);
     expect(lines[0]).toMatch(/proposal open for comment, not a rule/);

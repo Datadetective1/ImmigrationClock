@@ -27,7 +27,7 @@
 // =============================================================================
 
 import { useMemo, useState, useEffect, useId } from "react";
-import { formatDate } from "@/lib/format";
+import { formatDate, siteDay } from "@/lib/format";
 import { trackSearch } from "@/lib/analytics";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { labelForEntity } from "@/lib/entity-labels";
@@ -51,6 +51,7 @@ import {
   type SortOrder,
 } from "@/lib/event-index";
 import { isScheduled, type EventSeverity } from "@/domains/graph/events";
+import { ChangeCard } from "./ChangeCard";
 
 function Chip({
   active,
@@ -141,13 +142,46 @@ function ResultRow({ event }: { event: IndexedEvent }) {
  */
 const PAGE_SIZE = 25;
 
+/** One-tap filters for the compact view; the full facets sit under "More filters". */
+const QUICK_TYPES: { label: string; classes: string[] }[] = [
+  { label: "Rules", classes: ["final_rule", "executive_action"] },
+  { label: "Proposals", classes: ["proposed_rule"] },
+  { label: "Announcements", classes: ["announcement", "updated_information", "new_information"] },
+  { label: "Court", classes: ["court_decision"] },
+];
+
+function sameSet(a: readonly string[], b: readonly string[]): boolean {
+  const want = new Set(b);
+  return a.length > 0 && a.every((x) => want.has(x));
+}
+
+/** In the compact view the full facets are one tap away instead of filling the screen. */
+function FilterGroup({ compact, children }: { compact: boolean; children: React.ReactNode }) {
+  if (!compact) return <>{children}</>;
+  return (
+    <details className="group">
+      <summary className="flex min-h-[36px] cursor-pointer list-none items-center gap-1 text-sm text-slate-400 hover:text-white">
+        More filters <span aria-hidden className="group-open:rotate-180">▾</span>
+      </summary>
+      <div className="mt-2 space-y-3">{children}</div>
+    </details>
+  );
+}
+
 const SORT_LABEL: Record<SortOrder, string> = {
   newest: "Newest first",
   oldest: "Oldest first",
   importance: "Most important first",
 };
 
-export function EventExplorer({ children }: { children: React.ReactNode }) {
+export function EventExplorer({
+  children,
+  compact = false,
+}: {
+  children: React.ReactNode;
+  /** Render results as compact change cards (the redesign, FEATURE_UX_V2). */
+  compact?: boolean;
+}) {
   const [q, setQ] = useState("");
   const [severity, setSeverity] = useState<EventSeverity[]>([]);
   const [sources, setSources] = useState<string[]>([]);
@@ -291,7 +325,36 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
             Saying so is not optional: an unstated window makes an absent result
             look like an absent event, which is the one inference this platform
             must never invite. */}
-        {INDEX_COVERAGE.bounded ? (
+        {INDEX_COVERAGE.bounded && compact ? (
+          <p className="text-xs leading-relaxed text-slate-500">
+            Search reaches the newest {INDEX_COVERAGE.indexed} of {INDEX_COVERAGE.stored} recorded changes
+            {INDEX_COVERAGE.oldest ? ` (back to ${formatDate(INDEX_COVERAGE.oldest)})` : ""}; older ones are on the visa,
+            country and agency pages.
+          </p>
+        ) : null}
+
+        {compact ? (
+          <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1" role="group" aria-label="Show only">
+            {QUICK_TYPES.map((t) => {
+              const on = sameSet(classifications, t.classes);
+              return (
+                <button
+                  key={t.label}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setClassifications(on ? [] : t.classes.filter((c) => (availableClassifications as string[]).includes(c)))}
+                  className={`min-h-[36px] shrink-0 rounded-full border px-3 text-sm transition-colors ${
+                    on ? "border-accent bg-accent/15 text-white" : "border-white/10 text-slate-300 hover:border-accent/40"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
+
+        {INDEX_COVERAGE.bounded && !compact ? (
           <p className="text-xs leading-relaxed text-slate-500">
             Search covers the most recent {INDEX_COVERAGE.indexed} of{" "}
             {INDEX_COVERAGE.stored} recorded changes
@@ -302,6 +365,7 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
           </p>
         ) : null}
 
+        <FilterGroup compact={compact}>
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-slate-500">Importance</span>
           {(["major", "notable", "routine"] as EventSeverity[]).map((s) => (
@@ -343,6 +407,7 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
             </Chip>
           ))}
         </div>
+        </FilterGroup>
 
         {/* An entity filter applied from a URL must be VISIBLE and removable.
             A filtered result set that looks unfiltered is how a reader concludes
@@ -427,11 +492,19 @@ export function EventExplorer({ children }: { children: React.ReactNode }) {
                     {events.length} {events.length === 1 ? "change" : "changes"}
                   </span>
                 </h3>
-                <ul className="mt-1">
-                  {events.map((e) => (
-                    <ResultRow key={e.id} event={e} />
-                  ))}
-                </ul>
+                {compact ? (
+                  <div className="mt-2 space-y-2">
+                    {events.map((e) => (
+                      <ChangeCard key={e.id} event={e} today={siteDay()} />
+                    ))}
+                  </div>
+                ) : (
+                  <ul className="mt-1">
+                    {events.map((e) => (
+                      <ResultRow key={e.id} event={e} />
+                    ))}
+                  </ul>
+                )}
               </section>
             ))}
             {results.length > visible ? (

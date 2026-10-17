@@ -11,7 +11,8 @@ import {
 import { WARN_SUMMARY } from "./warn-summary";
 import { EMPLOYERS_META } from "./employers";
 import refresh from "./generated/refresh.json";
-import type { RefreshRow, Completeness } from "./types";
+import pipelineHealth from "./generated/pipeline-health.json";
+import type { RefreshRow, Completeness, SourceCompleteness } from "./types";
 
 // Latest reporting period in the dataset per source (what the freshness logic
 // surfaces on the cards).
@@ -120,12 +121,38 @@ function pipelineStatus(key: string): { status: RefreshRow["status"]; error?: st
       : { status: "FAILED", error: "Employer directory is empty." };
   }
 
+  // The change feeds (Federal Register, USCIS, courts, DOL announcements) are
+  // run by the event pipeline, which reports its own per-source outcome. They
+  // used to fall through to PENDING while supplying every change record daily.
+  const run = EVENT_RUNS.get(key.replace(/_/g, "-"));
+  if (!feed && run?.configured) {
+    if (run.ok) return { status: "SUCCESS" };
+    return run.lastSuccessAt
+      ? { status: "PARTIAL", error: "Last run failed; records from the last good run are still served." }
+      : { status: "FAILED", error: "The change pipeline has not completed a run for this source." };
+  }
+
   if (!feed) return { status: "PENDING" };
   if (feed.ok) return { status: "SUCCESS" };
   if (feed.stale) {
     return { status: "PARTIAL", error: "Last fetch failed; serving the last good snapshot." };
   }
   return { status: "FAILED", error: "Last scheduled fetch did not return usable data." };
+}
+
+const EVENT_RUNS = new Map(
+  (pipelineHealth as { sources: { key: string; configured: boolean; ok: boolean; lastSuccessAt: string | null }[] }).sources.map(
+    (s) => [s.key, s] as const
+  )
+);
+
+/**
+ * A source's period completeness, never defaulted to "complete": a source we
+ * do not collect has none, and a feed with no reporting period is continuous.
+ */
+function sourceCompleteness(key: string, fallback?: Completeness): SourceCompleteness {
+  if (SOURCE_BY_KEY[key]?.ingestion === "planned") return "not_collected";
+  return fallback ?? "continuous";
 }
 
 export function refreshRows(): RefreshRow[] {
@@ -146,7 +173,7 @@ export function refreshRows(): RefreshRow[] {
       agency: s.agency,
       cadence: s.cadence,
       latestPeriod: fresh?.period ?? "—",
-      completeness: fresh?.completeness ?? "complete",
+      completeness: sourceCompleteness(s.key, fresh?.completeness),
       sourceUpdatedAt,
       lastRefreshAt: s.ingestion === "curated" ? sourceUpdatedAt : lastRefreshAt,
       lastVerifiedAt: s.lastVerifiedAt,
@@ -173,7 +200,7 @@ export interface ManifestRow {
   auto: boolean;
   status: string; // ok | stale | manual
   latestPeriod: string;
-  completeness: Completeness;
+  completeness: SourceCompleteness;
   sourceUpdatedAt: string | null; // when the source last published
   lastFetchedAt: string | null; // when our pipeline last fetched it
   lastError?: string | null;
@@ -217,7 +244,7 @@ export function dataManifest(): ManifestRow[] {
       auto: r.auto,
       status: r.status,
       latestPeriod: isBls ? bls?.period ?? "—" : fresh?.period ?? "—",
-      completeness: isBls ? "point_in_time" : fresh?.completeness ?? "complete",
+      completeness: isBls ? "point_in_time" : sourceCompleteness(r.key, fresh?.completeness),
       sourceUpdatedAt,
       lastFetchedAt: r.lastFetchedAt,
       lastError: r.lastError,

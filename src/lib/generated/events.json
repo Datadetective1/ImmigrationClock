@@ -299,7 +299,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "All requests for access to records must be made in writing and include a general description of the records sought and identifying information about the record subject, including but not limited to, the record subject's full name, date of birth, place of birth, and alien registration number (A-number), where applicable.",
+          "evidence": "The request must be signed and either notarized or submitted under penalty of perjury.",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
@@ -389,7 +389,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments and related materials must be submitted on or before November 13, 2026.",
+          "evidence": "In order to be eligible for refugee status, principal applicants must meet the requirements of the refugee definition in INA 101(a)(42), 8 U.S.C. 1101(a)(42), must be admissible to the United States, and must qualify under one of the designated USRAP processing priorities.\\17\\ USCIS may in turn terminate a derivative refugee's status if the principal's status is terminated.\\18\\…",
           "effectiveFrom": "2026-10-14"
         }
       },
@@ -625,7 +625,7 @@
         "completeness": "exhaustive",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…--------------------------------------------------------------------------- For aliens who are not employment authorized incident to their immigration status and who instead must obtain employment authorization from USCIS, pursuant to 8 CFR 274a.12(c) before accepting employment in the United States, such as adjustment of status applicants or aliens with a pending asylum application, USCIS…",
+          "evidence": "Rather, the INA makes clear that aliens, to lawfully work in the United States, must be so authorized by law or a grant of employment authorization by the Secretary.",
           "effectiveFrom": "2026-10-14"
         }
       },
@@ -705,7 +705,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on the notice of proposed rulemaking (NPRM) must be submitted on or before November 13, 2026.",
+          "evidence": "Section 214(c)(1) of the INA, 8 U.S.C. 1184(c)(1), which, inter alia, authorizes the Secretary to prescribe how an importing employer may petition for nonimmigrant workers, as well as the form of the petition and the information that an importing employer must provide in the petition;",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
@@ -1193,11 +1193,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "More can and must be done, however.",
-          "effectiveFrom": "2026-10-02"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -1520,7 +1515,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "DHS is required to adjust the HR-1 parole fee for inflation in each fiscal year.",
+          "evidence": "Electronic System for Travel Authorization (ESTA) ESTA is the online system through which aliens intending to enter the United States under the Visa Waiver Program (VWP) must obtain an electronic travel authorization in advance of travel to the United States.\\7\\ Each alien intending to travel by air, sea, or land to the United States under the VWP must receive a travel authorization via ESTA…",
           "effectiveFrom": null
         }
       },
@@ -2623,12 +2618,7 @@
         "employers": [],
         "universities": [],
         "states": [],
-        "completeness": "partial",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "I have determined that continued efforts must be made to protect and prioritize the American workforce.",
-          "effectiveFrom": null
-        }
+        "completeness": "partial"
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -2688,12 +2678,7 @@
         "employers": [],
         "universities": [],
         "states": [],
-        "completeness": "partial",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "(b) No later than 30 days following the completion of the H-1B lottery that immediately follows this proclamation, the Secretary of State, the Attorney General, the Secretary of Labor, and the Secretary of Homeland Security shall jointly submit to the President, through the Assistant to the President and Homeland Security Advisor, a recommendation on whether an additional extension or renewal of…",
-          "effectiveFrom": null
-        }
+        "completeness": "partial"
       },
       "reviewStatus": "auto",
       "limitations": [
@@ -2775,11 +2760,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The form can be completed online and must be submitted as directed by the National Visa Center (NVC) or by a consular officer abroad.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -3232,11 +3212,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "This delegation of authority is intended to be implemented to the extent authorized by law, including that the authority must be exercised by an Officer of the United States.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -6130,7 +6105,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on the notice of proposed rulemaking (NPRM) must be submitted on or before November 10, 2026.",
+          "evidence": "To qualify for the E-3 classification, the employer must file a Labor Condition Application (LCA) in accordance with section 212(t)(1) of the INA, 8 U.S.C. 1182(t)(1), and may then apply directly to the Department of State if the alien is outside of the United States or the employer may file a petition requesting E-3 status with USCIS if the alien is present in the United States in another…",
           "effectiveFrom": null
         }
       },
@@ -6354,11 +6329,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Comments must be written to receive consideration, and they will be summarized and included in the request for OMB approval of the final ICR.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -6738,7 +6708,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The collection of information required under 49 CFR part 1552 includes candidates' biographic information and fingerprints, which TSA uses to perform the STA. --------------------------------------------------------------------------- \\1\\ See also 49 U.S.C. 44939. --------------------------------------------------------------------------- Additionally, flight training providers are required to…",
+          "evidence": "This training, which is intended to increase awareness of suspicious circumstances and activities of individuals enrolling in, or attending, flight training, must be provided to certain employees within 60 days of being hired and on a biennial basis.",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
@@ -7048,12 +7018,7 @@
         "employers": [],
         "universities": [],
         "states": [],
-        "completeness": "exhaustive",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Review Under the Regulatory Flexibility Act The Regulatory Flexibility Act (5 U.S.C. 601 et seq.) requires preparation of an initial regulatory flexibility analysis and a final regulatory flexibility analysis (FRFA) for any rule that by law must be proposed for public comment, unless the agency certifies that the rule, if promulgated, will not have a significant economic impact on a substantial…",
-          "effectiveFrom": "2026-09-30"
-        }
+        "completeness": "exhaustive"
       },
       "reviewStatus": "auto",
       "sourceDocument": {
@@ -7720,11 +7685,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Administrative Procedure Act Under the Administrative Procedure Act (``APA''), agencies generally must provide ``notice of proposed rule making'' in the Federal Register and, after such notice, ``give interested persons an opportunity to participate in the rule making through submission of written data, views, or arguments.'' 5 U.S.C. 553(b)-(c).",
-          "effectiveFrom": "2026-10-01"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -7802,11 +7762,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "If the agency determines a regulation may negatively affect family well-being, then the agency must provide an adequate rationale for its implementation.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -8926,7 +8881,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…developed by the Secretary of Homeland Security, in consultation with the Attorney General and the Secretary of State (and with nongovernmental organizations with expertise on the legal rights of immigrant victims of battery, extreme cruelty, sexual assault, and other crimes). 8 U.S.C. 1375a(a)(1).\\6\\ Consular officers are required to provide this pamphlet to foreign fianc[eacute](e)s and…",
+          "evidence": "In every IMBRA case, the respondent must provide in its first responsive pleading an address within the United States at which the respondent will accept service of all pleadings, documents, written orders, and decisions relating to the case. * * * * * 0 9.",
           "effectiveFrom": "2026-09-10"
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
@@ -9028,7 +8983,7 @@
         "completeness": "exhaustive",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Although not all those seeking H-1B and L-1 classification are required to obtain a visa, the headings in the statute refer to temporary fee increases for H-1B and L-1 visas, and consequently the headings in the implementing regulations refer to fees for H-1B and L-1 visas.",
+          "evidence": "Second, with respect to the types of petitions for which the fees must be submitted, Congress inserted the phrase ``including an application \\6\\ for an extension of such status.'' Id.",
           "effectiveFrom": "2026-09-09"
         }
       },
@@ -9624,11 +9579,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Comments are encouraged and must be submitted (no later than September 3, 2026) to be assured of consideration.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -9892,7 +9842,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Any oral statements that were not recorded must be summarized in writing by the Immigration Judge for inclusion in the contempt Record of Proceeding.",
+          "evidence": "The individual's response will be required to include the following information:",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
@@ -10294,7 +10244,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on this interim final rule must be submitted on or before September 28, 2026.",
+          "evidence": "The alien is also told that he or she must be prepared to explain at the ``interview or hearing'' why he or she did not file the asylum application within the first year after arrival.",
           "effectiveFrom": "2026-07-28"
         }
       },
@@ -10413,11 +10363,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The original certificate must be retained by the person who owns or controls the facility or real property for 3 years and made available for inspection upon the Department's request.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -10473,11 +10418,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "More can and must be done, however.",
-          "effectiveFrom": "2026-07-27"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -10822,11 +10762,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "More can and must be done, however.",
-          "effectiveFrom": "2026-07-21"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -11730,11 +11665,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "This information collection is required to determine whether a physician meets the statutory and regulatory requirement for civil surgeon designation.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -11790,11 +11720,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "More can and must be done, however.",
-          "effectiveFrom": "2026-07-02"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
       },
       "reviewStatus": "auto",
@@ -12462,7 +12387,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Comments on the other potential changes relating to alien registration and fingerprinting described in section V, Request for Comments, of this preamble must be submitted on or before August 28, 2026.",
+          "evidence": "Each registration Form G-325R will undergo an individual review to determine if the alien has already complied with the registration requirements in some other way and does not need to submit Form G-325R or if the alien is required to appear for a biometric services appointment. --------------------------------------------------------------------------- \\14\\ See ``Address of Robert H.",
           "effectiveFrom": "2026-06-29"
         }
       },
@@ -12887,7 +12812,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The proposed changes will help address such public harms and reduce the quantity of information that the individual must provide and that the agency must process. 5.",
+          "evidence": "Section 239(a)(1)(F) of the INA, 8 U.S.C. 1229(a)(1)(F), specifically requires that the alien who is the subject of the EOIR proceedings must provide his or her own address and contact information, not the address or contact information of a main point of contact or third party.",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case."
@@ -13169,7 +13094,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "As such, the fees imposed by OBBBA do not replace EOIR's section 286(m) fees; rather, OBBBA fees are required to be charged ``in addition'' to these existing fees.",
+          "evidence": "When an application for relief is filed during the course of proceedings, the fee for that application must be paid in a manner and form authorized by EOIR.",
           "effectiveFrom": "2026-06-11"
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
@@ -13343,7 +13268,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Additionally, Sec. 501 of Public Law 110-293, reproduced at 8 U.S.C. 1351 (note), requires the Secretary of State to collect an additional $2 surcharge (the ``HIV/ AIDS/TB/Malaria surcharge'') on all MRVs and BCCs as part of the application processing fee; this surcharge must be deposited into the Treasury and goes to support programs to combat HIV/AIDS, tuberculosis, and malaria.",
+          "evidence": "Upon selection of an expedited appointment, applicants will be required to pay the expedite fee online prior to confirmation of the appointment.",
           "effectiveFrom": "2026-07-01"
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
@@ -14445,7 +14370,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…--------------------------------------------------------------------------- Pursuant to section 287(a)(1)-(2) of the INA, 8 U.S.C. 1357(a)(1)- (2), DHS immigration officers have the authority to interrogate and to arrest aliens for whom there is probable cause to believe are removable from the United States.\\7\\ Arrests made without a warrant must be accompanied by a determination that the alien…",
+          "evidence": "…such as ``battery or extreme cruelty to the alien or any child or parent of the alien, serious illness of the alien, or serious illness or death of the spouse, child, or parent of the alien, but not including less compelling circumstances,'' which are ``beyond the control of the alien.'' \\26\\ An alien must provide adequate evidence to support a claim of exceptional circumstances which…",
           "effectiveFrom": null
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
@@ -14881,7 +14806,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on the interim final rule must be submitted on or before July 10, 2026.",
+          "evidence": "Instead of filing a new application, the applicant is required to file a motion under 8 CFR 103.5.",
           "effectiveFrom": "2026-07-10"
         },
         "forms": [
@@ -15590,7 +15515,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…--------------------------------------------------------------------------- The USCIS notice also provides that USCIS will issue personal, individualized notice to each asylum applicant with an application pending with USCIS from whom the AAF is required, and that the notice will include the amount of the fee, when and how the fee must be paid, and the consequences of failure to pay.\\6\\ For the…",
+          "evidence": "…1807 fee requirement for applicants that submit a Form I-94 Arrival/Departure Record and that the fee must be submitted when the applicants request the Form I-94 in addition to the fee required by 8 CFR 106.2(a)(2).\\16\\ --------------------------------------------------------------------------- \\13\\ 8 U.S.C. 1807. \\14\\ Id; see also, 90 FR 52085 (Nov. 19, 2025) (adjusting the Form I-94 fee…",
           "effectiveFrom": "2026-05-29"
         },
         "forms": [
@@ -16497,11 +16422,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "(i) Proposed provisions specifying that all outbound ballot mail must be mailed in an envelope that:",
-          "effectiveFrom": null
-        },
         "undetermined": "This document does not state in structured terms who is affected. Read the original for scope.",
         "forms": []
       },
@@ -17295,11 +17215,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "In the absence of a specific statutory fee retention authority, fees collected for consular services must be deposited into the general fund of the Treasury pursuant to 31 U.S.C. 3302(b).",
-          "effectiveFrom": "2026-04-13"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -17422,7 +17337,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The Department's Electronic Diversity Visa website. https://dvprogram.state.gov/ . --------------------------------------------------------------------------- Under section 204(a)(1)(I)(iii) of the INA, petitions (also referred to as ``entries'') for the DV Program must be in the form prescribed in regulations by the Secretary of State (``Secretary'') and contain all information and be supported…",
+          "evidence": "Applicants who are selected for further processing must provide evidence of the claimed marital relationship, including a marriage certificate where available and, in some cases, additional documentation to establish the bona fides of the relationship.",
           "effectiveFrom": "2026-04-10"
         },
         "scopeDefinedElsewhere": {
@@ -17859,7 +17774,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Mailed items must be postmarked or otherwise indicate a shipping date on or before the submission deadline.",
+          "evidence": "However, for those cases in which one or more parties to the case have chosen not to participate in electronic filing, those parties who are enrolled in electronic filing will be required to serve electronically filed documents on parties not enrolled in electronic filing by another approved method of service, as discussed further in Section III.B of this preamble.",
           "effectiveFrom": "2026-03-02"
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
@@ -18064,11 +17979,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Mailed items must be postmarked or otherwise indicate a shipping date on or before the submission deadline.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -18142,7 +18052,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Comments on this proposed rule, including the proposed information collections, must be received on or before April 24, 2026.",
+          "evidence": "The stated justification was, ``[t]he increase in the EAD validity period will reduce the frequency with which affected noncitizens must file an Application for Employment Authorization (Form I-765) with USCIS if they wish to renew their EAD.'' \\83\\ The purpose of this policy change was to alleviate some operational pressure to adjudicate renewals prior to expiration solely based on USCIS…",
           "effectiveFrom": null
         },
         "processes": [
@@ -18790,7 +18700,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Mailed items must be postmarked or otherwise indicate a shipping date on or before the submission deadline.",
+          "evidence": "This view would not change any existing understandings regarding when a removal order becomes final or when a petition for review must be filed.",
           "effectiveFrom": "2026-03-09"
         },
         "forms": []
@@ -19083,11 +18993,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "However, there are several benefits that cannot be quantified and must be discussed qualitatively.",
-          "effectiveFrom": "2026-03-02"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -19363,11 +19268,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "First, this rule expands the scope of entities that are required to agree to relevant terms and conditions, beyond foreign NGOs, to include U.S.",
-          "effectiveFrom": "2026-02-26"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -19422,11 +19322,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Foreign NGOs and International Organizations Under this rule, any foreign NGO or international organization (IO) that receives or implements a grant or cooperative agreement for foreign assistance will be required to agree that, during the period of the award, it will not, outside the United States, promote discriminatory equity ideology, engage in unlawful DEI-related discrimination, or provide…",
-          "effectiveFrom": "2026-02-26"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -19487,11 +19382,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Foreign NGOs and International Organizations Under this rule, any foreign NGO or international organization (IO) that receives or implements a grant or cooperative agreement for foreign assistance will be required to agree that, during the period of the award, it will not, outside the United States, promote gender ideology, or provide financial support to any other foreign NGO or IO that promotes…",
-          "effectiveFrom": "2026-02-26"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -20907,11 +20797,6 @@
         "universities": [],
         "states": [],
         "completeness": "exhaustive",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Further, the RFA's regulatory flexibility analysis requirements apply only to those rules for which an agency is required to publish a general notice of proposed rulemaking pursuant to 5 U.S.C. 553 or any other law.",
-          "effectiveFrom": null
-        },
         "forms": []
       },
       "reviewStatus": "auto",
@@ -25078,7 +24963,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on the NPRM must be submitted on or before December 19, 2025.",
+          "evidence": "Under section 213A of the INA, 8 U.S.C. 1183a, certain aliens are required to submit a sufficient Affidavit of Support Under Section 213A of the INA executed by a sponsor who agrees to provide support to maintain the sponsored alien at an annual income that is not less than 125 percent of the Federal poverty line during the period in which the affidavit is enforceable.",
           "effectiveFrom": null
         },
         "scopeDefinedElsewhere": {
@@ -25925,7 +25810,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on the proposed rule must be submitted on or before January 2, 2026.",
+          "evidence": "For example, any applicant, petitioner, sponsor, beneficiary, or individual filing a benefit request, other request, or collection of information request may be required to appear for biometrics collection.",
           "effectiveFrom": null
         },
         "forms": [
@@ -26293,7 +26178,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…their employment-authorized status in the United States and in most cases do not file separate requests for evidence of employment authorization. --------------------------------------------------------------------------- \\7\\ See 8 CFR 274a.12(b). --------------------------------------------------------------------------- Aliens in the third class, described at 8 CFR 274a.12(c), are required to…",
+          "evidence": "For all current employees and certain former employees, employers are required to maintain for inspection original Forms I-9 on paper or as an electronic version generated by an electronic system that can produce legible and readable paper copies, among other requirements.\\18\\ --------------------------------------------------------------------------- \\18\\ See 8 CFR 274a.2(e)-(i).…",
           "effectiveFrom": "2025-10-30"
         },
         "processes": [
@@ -26732,7 +26617,7 @@
         "completeness": "exhaustive",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…2020) (stating, ``For the fees that DHS does not limit, we use the total cost for each form to reallocate the cost of limited fee increases or workload without fees.''); 75 FR 58962, 58973 (Sept. 24, 2010) (stating, ``To the extent not supported by appropriations, the cost of providing free or reduced services must be transferred to all other fee-paying applicants.''); 72 FR 29851, 29865 (May…",
+          "evidence": "Each Form I-526E filer is required to pay $1,000 to the EB-5 Integrity Fund, in addition to any form fees.",
           "effectiveFrom": null
         },
         "forms": [
@@ -27740,7 +27625,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…seeking to import foreign nationals to work in various crop activities (in that case, under the Bracero program) were required to pay not less than a wage established by DOL.'' \\19\\ The AEWR as a formal concept in the H-2 program was introduced in 1963, at which point the AEWR initially was based on the Census of Agriculture's average earnings for each state, which was conducted by the U.S.",
+          "evidence": "Because the statute uniquely mandates that qualifications contained in an employer's job offer must be ``normal and accepted qualifications required by non-H-2A-employers in the same or comparable occupations and crops,'' a Level III wage will continue to provide the most reasonable computation of the AEWRs in circumstances where the employer's desired qualifications align with what is normally…",
           "effectiveFrom": "2025-10-02"
         },
         "processes": [
@@ -28575,7 +28460,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments on the notice of proposed rulemaking (NPRM) must be submitted on or before October 24, 2025.",
+          "evidence": "Section 214(c)(1) of the INA, 8 U.S.C. 1184(c)(1), which, inter alia, authorizes the Secretary to prescribe how an importing employer may petition for nonimmigrant workers, including nonimmigrants described at section 101(a)(15)(H)(i)(b) of the INA, 8 U.S.C. 1101(a)(15)(H)(i)(b), as well as the form of the petition and the information that an importing employer must provide in the petition;",
           "effectiveFrom": null
         },
         "processes": [
@@ -28918,11 +28803,6 @@
         "universities": [],
         "states": [],
         "completeness": "partial",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "(b) No later than 30 days following the completion of the H-1B lottery that immediately follows this proclamation, the Secretary of State, the Attorney General, the Secretary of Labor, and the Secretary of Homeland Security shall jointly submit to the President, through the Assistant to the President and Homeland Security Advisor, a recommendation on whether an extension or renewal of the…",
-          "effectiveFrom": null
-        },
         "forms": []
       },
       "reviewStatus": "auto",
@@ -29326,7 +29206,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "In the absence of a specific statutory fee retention authority, fees collected for consular services must be deposited into the general fund of the Treasury pursuant to 31 U.S.C. 3302(b).",
+          "evidence": "A petition for consideration for visa issuance under INA 203(c) must be submitted to the Department of State by electronic entry to an internet website designated by the Department for that purpose.",
           "effectiveFrom": "2025-09-16"
         },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
@@ -30236,11 +30116,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The RFA's regulatory flexibility analysis requirements apply only to those rules for which an agency is required to publish a general notice of proposed rulemaking pursuant to 5 U.S.C. 553 or any other law.",
-          "effectiveFrom": "2025-10-06"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -31415,11 +31290,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "TIJs must be evaluated prior to any term extension.",
-          "effectiveFrom": "2025-08-28"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -32890,7 +32760,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Written comments and related materials must be received on or before midnight Eastern Daylight Time on September 19, 2025.",
+          "evidence": "An alien claiming to be entitled to compete for consideration under INA 203(c) must file a petition with the Department of State for such consideration.",
           "effectiveFrom": null
         },
         "scopeDefinedElsewhere": {
@@ -35250,7 +35120,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "…prosperity and national security and the highest possible quality of life for each citizen, the Department has determined that the regulatory requirements and policies contained in the 2024 H-2A Final Rule must be reconsidered and proposes revisions in this NPRM.",
+          "evidence": "The Department believes that employers' property rights must be weighed appropriately with agricultural workers' associational rights.",
           "effectiveFrom": null
         },
         "forms": []
@@ -35377,11 +35247,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "For instance, under the regulations, the National and Regional Committees, as well as the Regional Committees' annual public meetings, are required to be run, in part, by officers of an agency within the Department that no longer exists, ESA, which was dissolved in 2009.",
-          "effectiveFrom": null
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -35689,7 +35554,7 @@
         "completeness": "unspecified",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Additionally, when entering an order granting voluntary departure, the Immigration Judge is required to warn the alien of the consequences of failing to depart during the period specified, including that civil monetary penalties can be assessed.",
+          "evidence": "Aliens ordered removed through these processes, however, generally must be detained for removal, see INA 235(b)(1)(B)(ii), (B)(iii)(IV), 241(a)(2), 8 U.S.C. 1225(b)(1)(B)(ii), (B)(iii)(IV), 1231(a)(2), which reduces the likelihood of an alien's failure to depart.",
           "effectiveFrom": "2025-06-27"
         },
         "scopeDefinedElsewhere": {
@@ -39043,11 +38908,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "The Constitution provides the Federal Government with plenary authority regarding immigration to protect the sovereignty of our Nation and to conduct relations with other nations, who must be able to deal with one national Government on such matters.",
-          "effectiveFrom": null
-        },
         "undetermined": "This document does not state in structured terms who is affected. Read the original for scope.",
         "forms": []
       },
@@ -39566,11 +39426,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Mailed items must be postmarked or otherwise indicate a shipping date on or before the submission deadline.",
-          "effectiveFrom": "2025-04-14"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": []
       },
@@ -40900,7 +40755,7 @@
         "completeness": "partial",
         "actionRequired": {
           "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Comments on the rule must be received by April 11, 2025.",
+          "evidence": "Relying on this estimate may somewhat overstate those who need to fully comply as aliens under 14 years of age are required to be registered but do not need to provide fingerprinting.",
           "effectiveFrom": "2025-04-11"
         },
         "forms": [
@@ -42922,11 +42777,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Immediate action is required to address the national emergency I declared in Proclamation 10886 of January 20, 2025 (Declaring a National Emergency at the Southern Border of the United States), and to finally end the public [[Page 9118]] health crisis caused by opioid use and addiction, which will not happen unless the compliance and cooperation of the government of Mexico is assured.",
-          "effectiveFrom": null
-        },
         "undetermined": "This document does not state in structured terms who is affected. Read the original for scope.",
         "forms": []
       },
@@ -42979,11 +42829,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Immediate action is required to finally end this public health crisis and national emergency, which will not happen unless the compliance and cooperation of Canada is assured.",
-          "effectiveFrom": null
-        },
         "undetermined": "This document does not state in structured terms who is affected. Read the original for scope.",
         "forms": []
       },
@@ -45350,11 +45195,6 @@
         "universities": [],
         "states": [],
         "completeness": "unspecified",
-        "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
-          "evidence": "Specifically, a commenter stated DHS did not appraise the Treasury and General Government Appropriations Act, in which agencies assess the impact of proposed agency actions on the well-being of a family.\\31\\ The commenter stated that ICE must provide notifications to CeBONDS users that contain critical information about the posting or status of an immigration bond.",
-          "effectiveFrom": "2025-01-06"
-        },
         "undetermined": "The document does not name specific countries or visa categories in its scope language. Read the original to confirm whether it applies to a particular case.",
         "forms": [
           {

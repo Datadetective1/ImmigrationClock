@@ -16,10 +16,21 @@ export const FLAGS = {
   pro_briefing: "FEATURE_PRO_BRIEFING",
   /** ImmigrationClock Intelligence inside Briefing: the per-follow landscape, then the weekly summary. Needs pro_briefing. */
   pro_intelligence: "FEATURE_PRO_INTELLIGENCE",
+  /** The redesign: light and dark themes that follow the device, then the new layouts, phase by phase. */
+  ux_v2: "FEATURE_UX_V2",
 } as const;
 
 export type FlagName = keyof typeof FLAGS;
 
+/**
+ * Flags that are on in Vercel preview deployments without being set, so the
+ * redesign can be reviewed on a phone before anyone turns it on. Production
+ * (VERCEL_ENV "production") and local builds still need the variable itself.
+ */
+const ON_IN_PREVIEW: readonly FlagName[] = ["ux_v2"];
+
 export function flagOn(name: FlagName, env: Record<string, string | undefined> = process.env): boolean {
-  return (env[FLAGS[name]] ?? "").trim() === "true";
+  const set = (env[FLAGS[name]] ?? "").trim();
+  if (set === "true") return true;
+  return set === "" && env.VERCEL_ENV === "preview" && ON_IN_PREVIEW.includes(name);
 }

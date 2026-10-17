@@ -22,6 +22,8 @@ jobs:
     timeout-minutes: 5
     env:
       SITE: ${{ github.event.inputs.site || 'https://immigrationclock.com' }}
+      # Operator-only health (/api/admin/health). Unset: that line is skipped.
+      MONITOR_TOKEN: ${{ secrets.MONITOR_TOKEN }}
     steps:
       - name: Check live pages
         run: |
@@ -43,9 +45,19 @@ jobs:
           done
           say "- Plausible loader in shipped JS: $(yes_no "$(grep -c 'plausible.io/js/script' <<<"$CHUNKS")")"
           say "- Plausible domain compiled in (\"immigrationclock.com\"): $(yes_no "$(grep -c '"immigrationclock.com"' <<<"$CHUNKS")")"
+          # Headline figures must be real numbers in the HTML (they once rendered
+          # as 0 until scrolled into view), and homepage changes must open their
+          # own record, not only the government site.
+          say "- homepage figures in HTML (expect real numbers, not 0): $(grep -oE 'tabular-nums">[^<]+' <<<"$HOME_HTML" | head -4 | sed 's/.*">//' | tr '\n' ' ')"
+          say "- homepage change titles linking to their record: $(grep -oE 'href="/what-changed/[a-z0-9-]+"' <<<"$HOME_HTML" | sort -u | wc -l | tr -d ' ')"
 
-          HEALTH=$(get /api/health.json || echo '{}')
-          say "- data last ingested: $(jq -r '.lastSuccessfulIngestion // "unknown"' <<<"$HEALTH")"
+          if [ -n "${MONITOR_TOKEN:-}" ]; then
+            HEALTH=$(curl -fsSL --max-time 30 -H "Authorization: Bearer $MONITOR_TOKEN" "$SITE/api/admin/health" || echo '{}')
+            say "- data last ingested: $(jq -r '.pipeline.lastSuccessfulIngestion // "unknown"' <<<"$HEALTH")"
+            say "- billing readiness (operator): $(jq -c '.billing // "unreadable"' <<<"$HEALTH")"
+          else
+            say "- operator health: skipped (MONITOR_TOKEN not set)"
+          fi
 
           CHECKOUT=$(curl -sS --max-time 30 "$SITE/api/billing/checkout" || echo '{}')
           say "- billing: $(jq -c '{checkoutReady,webhookReady,testMode}' <<<"$CHECKOUT" 2>/dev/null || echo unreadable)"
@@ -83,6 +95,8 @@ jobs:
             404) say "- briefing: flag OFF (HTTP 404)" ;;
             *)   say "- briefing: unexpected HTTP $BRIEF" ;;
           esac
+          say "- admin workspace signed out (expect 404): refresh $(code "$SITE/admin/refresh-status") · newsletter $(code "$SITE/admin/pulse-email") · health API $(code "$SITE/api/admin/health")"
+          say "- retired public health file (expect 404): $(code "$SITE/api/health.json")"
           say "- briefing APIs signed out (expect 401): saved $(code "$SITE/api/pro/saved") · prefs $(code "$SITE/api/pro/prefs") · brief $(code "$SITE/api/pro/brief") · erase $(code -X DELETE "$SITE/api/pro/data")"
           say "- briefing API with a forged session cookie (expect 401): $(code -H 'Cookie: ic_ent=forged.value' "$SITE/api/pro/saved")"
           say "- calendar feed with a bad token (expect 404): $(code "$SITE/api/pro/calendar/AAAAAAAAAAAAAAAAAAAAAAAA.1.BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB.ics")"

@@ -156,9 +156,11 @@ describe("the committed archive", () => {
     expect(hidden.map((e) => e.id)).toEqual([]);
   });
 
-  it("ships a health record with the public endpoint", () => {
-    const pub = JSON.parse(readFileSync(resolve("public/api/health.json"), "utf8")) as PipelineHealth;
-    expect(pub.schema).toBe(1);
-    expect(pub.sources.length).toBeGreaterThan(0);
+  // The record is served to operators by /api/admin/health (tests/admin-access
+  // .test.ts), no longer as a public file.
+  it("ships a health record for the operator endpoint", () => {
+    const rec = JSON.parse(readFileSync(resolve("src/lib/generated/pipeline-health.json"), "utf8")) as PipelineHealth;
+    expect(rec.schema).toBe(1);
+    expect(rec.sources.length).toBeGreaterThan(0);
   });
 });

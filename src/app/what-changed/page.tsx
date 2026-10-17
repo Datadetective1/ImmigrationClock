@@ -34,7 +34,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { EventCard } from "@/components/EventCard";
 import { EventExplorer } from "@/components/EventExplorer";
 import { FollowingPanel } from "@/components/FollowingPanel";
-import { formatDate } from "@/lib/format";
+import { formatDate, siteDay } from "@/lib/format";
 import {
   EVENTS,
   EVENT_STORE_META,
@@ -44,6 +44,8 @@ import {
 import { INDEX_COVERAGE } from "@/lib/event-index";
 import { sortEvents } from "@/domains/graph/events";
 import { ReportError } from "@/components/ReportError";
+import { WhatChangedV2 } from "@/components/WhatChangedV2";
+import { flagOn } from "@/lib/flags";
 
 export const metadata = buildMetadata({
   title: "What Changed — U.S. Immigration Policy Tracker",
@@ -105,6 +107,38 @@ export default function WhatChangedPage() {
   const shownCount = days.reduce((n, [, evts]) => n + evts.length, 0);
   const olderCount = significant.length - shownCount;
   const failed = failedAdapters();
+
+  const methodology = (
+    <MethodologyNote>
+      Every event here comes from an official U.S. government source and links to the original
+      document. Classification and severity are assigned by explicit, published rules per source —
+      never by a language model, and never by how much attention an item might attract. Where a
+      document states who is affected, we quote it; where we inferred something, it is labelled as
+      our inference. We do not summarise legal requirements as advice. The store was last built{" "}
+      {formatDate(siteDay(EVENT_STORE_META.generatedAt))} (Eastern time)
+      {EVENT_STORE_META.earliestEvent
+        ? ` and holds documents published from ${formatDate(EVENT_STORE_META.earliestEvent)} onward`
+        : ""}
+      . The most recent build looked back over documents published since{" "}
+      {formatDate(EVENT_STORE_META.since)}; everything recorded before that is retained.
+    </MethodologyNote>
+  );
+
+  if (flagOn("ux_v2")) {
+    return (
+      <WhatChangedV2
+        days={days}
+        routine={sortEvents(routine)}
+        today={siteDay()}
+        totalRecorded={EVENTS.length}
+        earliest={EVENT_STORE_META.earliestEvent ?? null}
+        lastChecked={pipelineHealth.lastSuccessfulSourceCheck ? siteDay(pipelineHealth.lastSuccessfulSourceCheck) : null}
+        olderCount={olderCount}
+        failed={failed.map((a) => ({ key: a.key, name: a.name }))}
+        methodology={methodology}
+      />
+    );
+  }
 
   return (
     <div>
@@ -229,19 +263,7 @@ export default function WhatChangedPage() {
 
         <ReportError context="What Changed" />
 
-        <MethodologyNote>
-          Every event here comes from an official U.S. government source and links to the original
-          document. Classification and severity are assigned by explicit, published rules per source —
-          never by a language model, and never by how much attention an item might attract. Where a
-          document states who is affected, we quote it; where we inferred something, it is labelled as
-          our inference. We do not summarise legal requirements as advice. The store was last built{" "}
-          {formatDate(EVENT_STORE_META.generatedAt.slice(0, 10))}
-          {EVENT_STORE_META.earliestEvent
-            ? ` and holds documents published from ${formatDate(EVENT_STORE_META.earliestEvent)} onward`
-            : ""}
-          . The most recent build looked back over documents published since{" "}
-          {formatDate(EVENT_STORE_META.since)}; everything recorded before that is retained.
-        </MethodologyNote>
+        {methodology}
       </div>
     </div>
   );

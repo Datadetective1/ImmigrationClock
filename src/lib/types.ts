@@ -178,13 +178,22 @@ export interface LayoffRow extends SourceRef {
   reason?: string;
 }
 
+/**
+ * How complete a SOURCE's latest period is, for the source tables. Adds two
+ * answers a metric never needs: a continuous feed (the Federal Register has no
+ * reporting period to be complete or not) and a source we do not collect yet.
+ * Without them the tables defaulted to "complete" and showed COMPLETE beside
+ * "ingestion not built yet".
+ */
+export type SourceCompleteness = Completeness | "continuous" | "not_collected";
+
 export interface RefreshRow {
   key: string;
   name: string;
   agency: string;
   cadence: string;
   latestPeriod: string; // latest reporting period in the dataset, e.g. "FY2026 YTD"
-  completeness: Completeness;
+  completeness: SourceCompleteness;
   sourceUpdatedAt: string; // when the SOURCE published its latest release
   lastRefreshAt: string; // when WE last ingested it
   /** When a human last confirmed the source's URL, shape, and cadence. */

@@ -12,10 +12,10 @@
 //
 // WHY IT IS NOT REACHABLE FROM THE WEB
 // ------------------------------------
-// This site has no owner authentication. /admin/* pages are static and public,
-// and a billing session proves only that someone controls SOME address. An
-// endpoint that mails a caller-chosen recipient, behind either of those, is an
-// open relay on a verified domain — the fastest way to lose the domain's
+// /admin/* now requires an allowlisted admin session (src/lib/admin.ts), but a
+// billing session proves only that someone controls SOME address, and a stolen
+// admin cookie should not be able to send mail either. An endpoint that mails a
+// caller-chosen recipient is an open relay on a verified domain — the fastest way to lose the domain's
 // sending reputation, and with it every sign-in link and newsletter.
 //
 // So this module is called only by scripts/send-business-email.ts, run by the

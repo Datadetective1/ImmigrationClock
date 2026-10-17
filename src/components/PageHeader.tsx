@@ -32,6 +32,7 @@ export function PageHeader({
   shareSurface,
   shareStory,
   sharePath,
+  compact = false,
   children,
 }: {
   eyebrow?: string;
@@ -45,12 +46,14 @@ export function PageHeader({
   shareStory?: string;
   /** The canonical path to share, when the page can be reached by more than one. */
   sharePath?: string;
+  /** Tighter spacing and type, so content starts in the first screen (redesign). */
+  compact?: boolean;
   children?: React.ReactNode;
 }) {
   return (
     <header className="border-b border-white/5 bg-ink-900/40">
       {crumbs && crumbs.length > 0 ? <BreadcrumbJsonLd crumbs={crumbs} /> : null}
-      <div className="container-page py-8 sm:py-10">
+      <div className={`container-page ${compact ? "py-4 sm:py-7" : "py-8 sm:py-10"}`}>
         {crumbs && crumbs.length > 0 ? (
           <nav
             aria-label="Breadcrumb"
@@ -83,9 +86,9 @@ export function PageHeader({
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-3xl">
             {eyebrow ? <div className="eyebrow mb-2">{eyebrow}</div> : null}
-            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">{title}</h1>
+            <h1 className={`font-bold tracking-tight text-white ${compact ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"}`}>{title}</h1>
             {description ? (
-              <p className="mt-3 text-base leading-relaxed text-slate-400">{description}</p>
+              <p className={compact ? "mt-1.5 text-sm leading-relaxed text-slate-400" : "mt-3 text-base leading-relaxed text-slate-400"}>{description}</p>
             ) : null}
           </div>
           {share ? (

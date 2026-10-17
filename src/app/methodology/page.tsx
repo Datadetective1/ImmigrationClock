@@ -230,11 +230,11 @@ export default function MethodologyPage() {
             <Link href="/sources" className="link-accent">
               sources page
             </Link>{" "}
-            for the full list, and the{" "}
-            <Link href="/admin/refresh-status" className="link-accent">
-              refresh status page
+            for the full list, and{" "}
+            <Link href="/data" className="link-accent">
+              data &amp; freshness
             </Link>{" "}
-            for when each dataset was last updated.
+            for how current each dataset is.
           </p>
         </section>
       </div>
