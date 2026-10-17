@@ -10,6 +10,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { Analytics } from "@vercel/analytics/next";
 import { SITE } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
+import { flagOn } from "@/lib/flags";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -26,8 +27,16 @@ export const metadata: Metadata = {
   },
 };
 
+// With FEATURE_UX_V2 the site follows the device's light or dark setting.
+const themed = flagOn("ux_v2");
+
 export const viewport: Viewport = {
-  themeColor: "#05070d",
+  themeColor: themed
+    ? [
+        { media: "(prefers-color-scheme: light)", color: "#f6f7f9" },
+        { media: "(prefers-color-scheme: dark)", color: "#05070d" },
+      ]
+    : "#05070d",
   width: "device-width",
   initialScale: 1,
 };
@@ -38,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme={themed ? "auto" : undefined}>
       <head>
         <StructuredData />
       </head>

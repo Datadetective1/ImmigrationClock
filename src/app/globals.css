@@ -7,6 +7,78 @@
   --font-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Menlo, monospace;
 }
 
+/* THEME TOKENS (see tailwind.config.ts). Space-separated RGB so Tailwind's
+   opacity modifiers work (bg-white/5, border-accent/40).
+
+   Dark is the site as it has always looked, and stays the only theme while
+   FEATURE_UX_V2 is off. With it on, <html data-theme="auto"> follows the
+   device: light by default (and whenever the device states no preference),
+   dark when the device asks for it. (A device with no stated preference
+   reports "light".) */
+:root,
+:root[data-theme="auto"] {
+  --ink-950: 5 7 13;
+  --ink-900: 10 14 26;
+  --ink-850: 15 20 36;
+  --ink-800: 20 26 46;
+  --ink-700: 28 36 64;
+  --ink-600: 39 48 79;
+  --contrast: 255 255 255;
+  --slate-100: 241 245 249;
+  --slate-200: 226 232 240;
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  /* ACCESSIBILITY: not Tailwind's #64748b, which fails AA on these surfaces.
+     This value is 6.90:1 on ink-950 and 6.28:1 on ink-850. */
+  --slate-500: 139 152 173;
+  --slate-600: 71 85 105;
+  --slate-700: 51 65 85;
+  --accent: 56 189 248;
+  --accent-soft: 125 211 252;
+  --status-red: 244 63 94;
+  --status-amber: 245 158 11;
+  --status-green: 34 197 94;
+  --fuchsia-300: 240 171 252;
+  --fuchsia-400: 232 121 249;
+  --shadow-glow: 0 0 0 1px rgba(56, 189, 248, 0.15), 0 8px 40px -12px rgba(56, 189, 248, 0.25);
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset, 0 12px 30px -18px rgba(0, 0, 0, 0.9);
+  --page-glow: radial-gradient(1200px 600px at 70% -10%, rgba(56, 189, 248, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 0% 0%, rgba(244, 63, 94, 0.06), transparent 55%);
+  color-scheme: dark;
+}
+
+/* Light. Text greys meet WCAG AA on white and on the page background:
+   slate-500 #556274 is 6.3:1 on white, accent #0369a1 is 5.9:1. */
+@media (prefers-color-scheme: light) {
+  :root[data-theme="auto"] {
+    --ink-950: 246 247 249;
+    --ink-900: 241 243 246;
+    --ink-850: 255 255 255;
+    --ink-800: 238 241 245;
+    --ink-700: 227 231 238;
+    --ink-600: 213 219 229;
+    --contrast: 11 18 32;
+    --slate-100: 17 24 39;
+    --slate-200: 31 41 55;
+    --slate-300: 51 65 85;
+    --slate-400: 71 85 105;
+    --slate-500: 85 98 116;
+    --slate-600: 148 163 184;
+    --slate-700: 203 213 225;
+    --accent: 3 105 161;
+    --accent-soft: 7 89 133;
+    --status-red: 190 18 60;
+    --status-amber: 180 83 9;
+    --status-green: 21 128 61;
+    --fuchsia-300: 162 28 175;
+    --fuchsia-400: 192 38 211;
+    --shadow-glow: 0 0 0 1px rgba(3, 105, 161, 0.15), 0 8px 24px -16px rgba(16, 24, 40, 0.25);
+    --shadow-card: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+    --page-glow: none;
+    color-scheme: light;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   /* The header is 64px and sticky, so without this every anchor lands its
@@ -45,7 +117,7 @@ html {
    So this is an accessibility FLOOR, not a default: a component may restyle
    focus, but it may not remove it by accident. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid theme("colors.accent.DEFAULT") !important;
+  outline: 2px solid rgb(var(--accent)) !important;
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -61,12 +133,7 @@ html {
 
 body {
   @apply bg-ink-950 text-slate-200 antialiased;
-  background-image: radial-gradient(
-      1200px 600px at 70% -10%,
-      rgba(56, 189, 248, 0.08),
-      transparent 60%
-    ),
-    radial-gradient(900px 500px at 0% 0%, rgba(244, 63, 94, 0.06), transparent 55%);
+  background-image: var(--page-glow);
   background-attachment: fixed;
 }
 
