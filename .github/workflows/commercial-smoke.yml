@@ -136,7 +136,7 @@ jobs:
           # blocks are served, and no internal field name reaches a reader.
           WC=$(get /what-changed || true)
           say "- What Changed redesign (coverage line, show-more): $(yes_no "$(grep -c 'changes recorded' <<<"$WC")") · $(yes_no "$(grep -c 'more from the last 30 days' <<<"$WC")")"
-          say "- record redesign (source button, About this record): $(yes_no "$(grep -c 'Read on Federal Register' <<<"$REFUGEE")") · $(yes_no "$(grep -c 'About this record' <<<"$REFUGEE")")"
+          say "- record redesign (source button, About this record): $(yes_no "$(grep -cE 'Read on (<!-- -->)?Federal Register' <<<"$REFUGEE")") · $(yes_no "$(grep -c 'About this record' <<<"$REFUGEE")")"
           say "- record shows no field names (expect NO): $(if grep -qE '\((effectiveAt|impact\.[a-zA-Z]+)' <<<"$REFUGEE"; then echo yes; else echo NO; fi)"
           say "- record keeps structured data: $(yes_no "$(grep -c 'application/ld+json' <<<"$REFUGEE")")"
 
