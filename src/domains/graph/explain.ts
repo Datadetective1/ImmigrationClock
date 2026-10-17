@@ -87,7 +87,7 @@ function isPast(iso: string | null | undefined, today: string): boolean {
  * implementation, and a district court binds its parties rather than the
  * country.
  */
-function forceClause(e: ImmigrationEvent, today: string): ExplanationClause | null {
+export function forceClause(e: ImmigrationEvent, today: string): ExplanationClause | null {
   switch (e.classification) {
     case "proposed_rule":
       return {

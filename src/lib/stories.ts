@@ -14,7 +14,7 @@
 
 import { sortEvents, type ImmigrationEvent } from "@/domains/graph/events";
 import { shortHash } from "@/lib/share";
-import type { ExplainerGroup } from "@/lib/editorial/explainers";
+import { mentionsKeyword, type ExplainerGroup } from "@/lib/editorial/explainers";
 import type { SignalGroup } from "@/lib/editorial/signals";
 import { NAV, FOOTER_SECTIONS } from "@/lib/site";
 
@@ -108,12 +108,12 @@ export function changesForKeywords(
   all: ImmigrationEvent[],
   limit = 5
 ): ImmigrationEvent[] {
-  const terms = keywords.map((k) => k.toLowerCase()).filter(Boolean);
+  const terms = keywords.filter(Boolean);
   if (terms.length === 0) return [];
   const hits = all.filter((e) => {
     if (e.severity === "routine") return false;
-    const hay = `${e.title} ${e.summary}`.toLowerCase();
-    return terms.some((t) => hay.includes(t));
+    const hay = `${e.title} ${e.summary}`;
+    return terms.some((t) => mentionsKeyword(hay, t));
   });
   return sortEvents(hits).slice(0, limit);
 }

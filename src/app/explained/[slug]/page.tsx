@@ -47,7 +47,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
     description: e.kicker,
     path: explainerPath(e.slug),
     image: ogImagePath("explainer", e.slug),
-    keywords: e.keywords,
+    keywords: e.keywords.map((k) => k.replace(/\*$/, "")),
   });
 }
 

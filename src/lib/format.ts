@@ -40,6 +40,20 @@ export function formatDate(iso: string): string {
   });
 }
 
+/**
+ * The site's calendar is U.S. Eastern: the Federal Register and the agencies
+ * it covers publish on Washington time. A build or check at 01:00 UTC is still
+ * the previous evening there, so a UTC date would read a day ahead.
+ */
+export const SITE_TIME_ZONE = "America/New_York";
+
+/** "YYYY-MM-DD" for an instant, on the site's calendar (Eastern). */
+export function siteDay(at: Date | string = new Date()): string {
+  const d = typeof at === "string" ? new Date(at) : at;
+  // en-CA formats as YYYY-MM-DD.
+  return d.toLocaleDateString("en-CA", { timeZone: SITE_TIME_ZONE });
+}
+
 export function fiscalYearLabel(fy: number): string {
   return `FY${String(fy).slice(2)}`;
 }

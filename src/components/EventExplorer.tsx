@@ -27,7 +27,7 @@
 // =============================================================================
 
 import { useMemo, useState, useEffect, useId } from "react";
-import { formatDate } from "@/lib/format";
+import { formatDate, siteDay } from "@/lib/format";
 import { trackSearch } from "@/lib/analytics";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { labelForEntity } from "@/lib/entity-labels";
@@ -328,7 +328,7 @@ export function EventExplorer({
         {INDEX_COVERAGE.bounded && compact ? (
           <p className="text-xs leading-relaxed text-slate-500">
             Search reaches the newest {INDEX_COVERAGE.indexed} of {INDEX_COVERAGE.stored} recorded changes
-            {INDEX_COVERAGE.oldest ? ` (back to ${INDEX_COVERAGE.oldest})` : ""}; older ones are on the visa,
+            {INDEX_COVERAGE.oldest ? ` (back to ${formatDate(INDEX_COVERAGE.oldest)})` : ""}; older ones are on the visa,
             country and agency pages.
           </p>
         ) : null}
@@ -495,7 +495,7 @@ export function EventExplorer({
                 {compact ? (
                   <div className="mt-2 space-y-2">
                     {events.map((e) => (
-                      <ChangeCard key={e.id} event={e} today={new Date().toISOString().slice(0, 10)} />
+                      <ChangeCard key={e.id} event={e} today={siteDay()} />
                     ))}
                   </div>
                 ) : (

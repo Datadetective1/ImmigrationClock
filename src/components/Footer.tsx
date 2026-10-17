@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE, FOOTER_SECTIONS } from "@/lib/site";
 import { CookieSettingsButton } from "./ConsentBanner";
+import { flagOn } from "@/lib/flags";
 
 const LEGAL_LINKS = [
   { href: "/about", label: "About" },
@@ -20,10 +21,40 @@ const LEGAL_LINKS = [
 const SUPPORT_URL = process.env.NEXT_PUBLIC_SUPPORT_URL;
 
 export function Footer() {
+  // The redesign keeps every link and the disclaimer, but on a phone the link
+  // groups are one tap each instead of five screens of lists.
+  const v2 = flagOn("ux_v2");
   return (
-    <footer className="mt-16 border-t border-white/5 bg-ink-950">
-      <div className="container-page py-12">
-        <div className="grid gap-10 md:grid-cols-4">
+    <footer className={`${v2 ? "mt-10" : "mt-16"} border-t border-white/5 bg-ink-950`}>
+      <div className={`container-page ${v2 ? "py-8 md:py-12" : "py-12"}`}>
+        {v2 ? (
+          <div className="space-y-1 md:hidden">
+            <div className="pb-2 font-mono text-sm font-bold text-white">
+              Immigration<span className="text-accent">Clock</span>
+            </div>
+            {FOOTER_SECTIONS.map((section) => (
+              <details key={section.title} className="group border-b border-white/5">
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between text-sm text-slate-300">
+                  <h2 className="text-sm font-medium">{section.title}</h2>
+                  <span aria-hidden className="text-slate-500 group-open:rotate-180">
+                    ▾
+                  </span>
+                </summary>
+                <ul className="space-y-2 pb-3">
+                  {section.links.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="text-sm text-slate-400 hover:text-white">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+        ) : null}
+
+        <div className={`grid gap-10 md:grid-cols-4 ${v2 ? "hidden md:grid" : ""}`}>
           <div>
             <div className="font-mono text-sm font-bold text-white">
               Immigration<span className="text-accent">Clock</span>
@@ -53,9 +84,13 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 rounded-xl border border-white/5 bg-white/[0.02] p-4">
-          <p className="text-xs leading-relaxed text-slate-500">{SITE.footerDisclaimer}</p>
-        </div>
+        {v2 ? (
+          <p className="mt-6 text-xs leading-relaxed text-slate-500">{SITE.footerDisclaimer}</p>
+        ) : (
+          <div className="mt-10 rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <p className="text-xs leading-relaxed text-slate-500">{SITE.footerDisclaimer}</p>
+          </div>
+        )}
 
         <nav
           aria-label="Legal and policy"

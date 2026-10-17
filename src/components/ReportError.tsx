@@ -20,9 +20,12 @@ export function ReportError({
   /** What the reader is looking at, pre-filled into the subject line. */
   context,
   className = "",
+  compact = false,
 }: {
   context?: string;
   className?: string;
+  /** One line instead of a box, for pages where it is secondary (the redesign). */
+  compact?: boolean;
 }) {
   const email = SITE.contactEmail.trim();
   if (!email) return null;
@@ -43,6 +46,18 @@ export function ReportError({
   ].join("\n");
 
   const href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  if (compact) {
+    return (
+      <p className={`text-xs text-slate-500 ${className}`}>
+        Spotted something wrong?{" "}
+        <a href={href} className="link-accent">
+          Report an error
+        </a>{" "}
+        and we will check it against the source.
+      </p>
+    );
+  }
 
   return (
     <div className={`rounded-xl border border-white/10 bg-white/[0.02] p-4 ${className}`}>
