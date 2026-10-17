@@ -74,7 +74,9 @@ export function implicationsFor(e: IndexedEvent, today: string): string[] {
           `The rule is final but does not apply until ${longDate(e.effectiveAt!)}, ${daysBetween(today, e.effectiveAt!)} days from today. Until then the rules in force today stay in force.`
         );
       } else if (past) {
-        out.push(`The rule has been in effect since ${longDate(e.effectiveAt!)}.`);
+        out.push(
+          `The document states an effective date of ${longDate(e.effectiveAt!)}, which has passed. A later rule, court order or withdrawal can change whether it still applies.`
+        );
       } else {
         out.push(
           "The document does not state an effective date, so when it applies has to be read from the original."
