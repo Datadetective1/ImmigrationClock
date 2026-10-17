@@ -125,3 +125,11 @@ jobs:
           PRICING_HTML=${PRICING:-}
           say "- pricing names Briefing: $(yes_no "$(grep -c 'Briefing' <<<"$PRICING_HTML")")"
 
+          # The redesign (FEATURE_UX_V2) marks <html data-theme="auto">; off, the
+          # attribute is absent. Read after an activation to confirm it is live.
+          say "- redesign live (FEATURE_UX_V2): $(yes_no "$(grep -c 'data-theme="auto"' <<<"$HOME_HTML")")"
+          # The comment-deadline fix: this record must not present a public
+          # comment deadline as something its subjects must do.
+          REFUGEE=$(get /what-changed/removing-30-day-refugee-termination-notice-56was9 || true)
+          say "- refugee record free of the comment-deadline quote (expect yes): $(if [ -n "$REFUGEE" ] && ! grep -q 'Written comments and related materials' <<<"$REFUGEE"; then echo yes; else echo NO; fi)"
+
