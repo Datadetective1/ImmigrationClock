@@ -6,10 +6,11 @@
 // Reads what build-events just wrote, carries last-success timestamps forward
 // from the previous health file, and writes:
 //
-//   src/lib/generated/pipeline-health.json   read by the site at build time
-//   public/api/health.json                    the same record, served publicly
-//                                             so the monitor workflow can read
-//                                             what PRODUCTION actually deployed
+//   src/lib/generated/pipeline-health.json   read by the site at build time,
+//                                             and served to operators by
+//                                             /api/admin/health so the monitor
+//                                             workflow can read what PRODUCTION
+//                                             actually deployed (MONITOR_TOKEN)
 //
 // Never fails the build. Health reporting that can take the site down is worse
 // than none; a problem here is logged and the previous file is left in place.
@@ -22,7 +23,6 @@ import { buildHealth, evaluateHealth, type PipelineHealth } from "../src/lib/pip
 
 const EVENTS = resolve("src/lib/generated/events.json");
 const OUT = resolve("src/lib/generated/pipeline-health.json");
-const PUBLIC_OUT = resolve("public/api/health.json");
 
 function readJson<T>(path: string): T | null {
   try {
@@ -51,10 +51,8 @@ try {
   });
 
   const json = JSON.stringify(health, null, 2) + "\n";
-  for (const p of [OUT, PUBLIC_OUT]) {
-    mkdirSync(dirname(p), { recursive: true });
-    writeFileSync(p, json, "utf8");
-  }
+  mkdirSync(dirname(OUT), { recursive: true });
+  writeFileSync(OUT, json, "utf8");
 
   const verdict = evaluateHealth(health, health.generatedAt);
   console.log(

@@ -603,9 +603,10 @@ async function resolveKey(
 }
 
 /** An operator's readiness check. Never reveals the secret or its length. */
+// Readiness is operational detail and is reported to operators only, by
+// /api/admin/health. Stripe only ever POSTs here.
 export async function GET(): Promise<Response> {
-  const status = billingStatus();
-  return json({ webhookReady: status.webhookReady, testMode: status.testMode }, status.webhookReady ? 200 : 503);
+  return json({ error: "method_not_allowed", message: "Use POST." }, 405, { Allow: "POST" });
 }
 
 /**

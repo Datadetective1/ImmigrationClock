@@ -1,9 +1,13 @@
 import { buildMetadata } from "@/lib/seo";
+import { requireAdminPage } from "@/lib/admin";
 import { PageHeader } from "@/components/PageHeader";
 import { RefreshStatusTable } from "@/components/RefreshStatusTable";
 import { Stat, StatRow } from "@/components/Stat";
 import { refreshRows } from "@/lib/refresh";
 import { formatNumber } from "@/lib/format";
+
+// Admin only, checked per request (src/lib/admin.ts); never prerendered.
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   ...buildMetadata({
@@ -15,6 +19,7 @@ export const metadata = {
 };
 
 export default function RefreshStatusPage() {
+  requireAdminPage();
   const rows = refreshRows();
   const automated = rows.filter((r) => r.ingestion !== "curated" && r.ingestion !== "planned");
   const ok = automated.filter((r) => r.status === "SUCCESS").length;
