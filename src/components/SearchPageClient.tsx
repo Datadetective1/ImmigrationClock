@@ -4,25 +4,40 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { search, searchTotals, type SearchResult } from "@/lib/data";
-import { formatNumber } from "@/lib/format";
+import { formatDate, formatNumber } from "@/lib/format";
 import { trackSearch } from "@/lib/analytics";
+import { searchGuides } from "@/lib/site-search";
+import { EVENT_INDEX, filterEvents } from "@/lib/event-index";
+import { CLASSIFICATION_LABEL } from "@/lib/event-labels";
+import { changePath } from "@/lib/share";
 
-const TYPE_LABEL: Record<SearchResult["type"], string> = {
+type GroupType = SearchResult["type"] | "change" | "date" | "explainer";
+
+const TYPE_LABEL: Record<GroupType, string> = {
   company: "Employer profiles",
   employer: "H-1B sponsors",
   state: "States",
   country: "Countries",
   visa: "Visa types",
   occupation: "Job titles",
+  change: "Recorded changes",
+  date: "Deadlines",
+  explainer: "Explainers",
 };
-const TYPE_ORDER: SearchResult["type"][] = [
+/** Places and visas, then what changed and when, then organisations. */
+const TYPE_ORDER: GroupType[] = [
   "state",
   "country",
   "visa",
+  "change",
+  "date",
+  "explainer",
   "company",
   "employer",
   "occupation",
 ];
+/** Recorded changes listed here; the rest are one click away on /what-changed. */
+const CHANGES_SHOWN = 6;
 
 /** Per type, on the full results page. The dropdown shows far fewer. */
 const PER_TYPE = 24;
@@ -50,10 +65,24 @@ export function SearchPageClient() {
 
   const trimmed = q.trim();
   const results = trimmed ? search(q, { perType: PER_TYPE, limit: 200 }) : [];
-  const totals = trimmed ? searchTotals(q) : {};
+  const totals: Partial<Record<GroupType, number>> = trimmed ? { ...searchTotals(q) } : {};
+  const changes = trimmed.length >= 2 ? filterEvents(EVENT_INDEX, { q: trimmed }) : [];
+  totals.change = changes.length;
+  const guides = trimmed ? searchGuides(trimmed, 20) : [];
+  for (const g of guides) totals[g.type] = (totals[g.type] ?? 0) + 1;
+  const rows: { type: GroupType; label: string; sublabel: string; href: string }[] = [
+    ...results,
+    ...guides,
+    ...changes.slice(0, CHANGES_SHOWN).map((e) => ({
+      type: "change" as const,
+      label: e.title,
+      sublabel: `${CLASSIFICATION_LABEL[e.classification]} · ${formatDate(e.publishedAt)}`,
+      href: changePath(e),
+    })),
+  ];
   const grouped = TYPE_ORDER.map((type) => ({
     type,
-    items: results.filter((r) => r.type === type),
+    items: rows.filter((r) => r.type === type),
     total: totals[type] ?? 0,
   })).filter((g) => g.items.length > 0);
 
@@ -66,10 +95,10 @@ export function SearchPageClient() {
     if (!trimmed || trimmed === tracked.current) return;
     const t = setTimeout(() => {
       tracked.current = trimmed;
-      trackSearch(trimmed, results.length);
+      trackSearch(trimmed, rows.length);
     }, TRACK_DELAY_MS);
     return () => clearTimeout(t);
-  }, [trimmed, results.length]);
+  }, [trimmed, rows.length]);
 
   function update(v: string) {
     setQ(v);
@@ -89,7 +118,7 @@ export function SearchPageClient() {
           autoFocus
           value={q}
           onChange={(e) => update(e.target.value)}
-          placeholder="Search an employer, state, country, visa type, or job title…"
+          placeholder="Search a visa, country, employer, deadline or topic…"
           aria-label="Search"
           className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
         />
@@ -97,8 +126,8 @@ export function SearchPageClient() {
 
       {!trimmed ? (
         <p className="text-sm text-slate-400">
-          Type to look up any tracked employer, state, country, visa type, or occupation — every result is a
-          sourced, labelled data page.
+          Type to look up a visa, country, state, employer or job title, a deadline, an explainer, or the
+          recorded changes that mention it. Every result links its source.
         </p>
       ) : grouped.length === 0 ? (
         // A dead end should still offer a way forward. This page used to end on
@@ -108,8 +137,8 @@ export function SearchPageClient() {
         <div>
           <p className="text-sm text-slate-300">Nothing matches &ldquo;{trimmed}&rdquo;.</p>
           <p className="mt-1.5 text-sm leading-relaxed text-slate-500">
-            This page searches employers, states, countries, visa types and job titles. Policy changes —
-            rules, fees, deadlines, court decisions — live in the change archive.
+            Nothing in the data pages, deadlines, explainers or the searchable window of the change archive
+            matches. That is not evidence that nothing changed: try a shorter or different term.
           </p>
           <Link
             href={`/what-changed?q=${encodeURIComponent(trimmed)}`}
@@ -147,6 +176,14 @@ export function SearchPageClient() {
                   </li>
                 ))}
               </ul>
+              {g.type === "change" && g.total > g.items.length ? (
+                <Link
+                  href={`/what-changed?q=${encodeURIComponent(trimmed)}`}
+                  className="mt-2 inline-block text-xs font-semibold text-accent hover:underline"
+                >
+                  All {formatNumber(g.total)} changes mentioning &ldquo;{trimmed}&rdquo; &rarr;
+                </Link>
+              ) : null}
               {g.type === "employer" && g.total > g.items.length ? (
                 <Link
                   href={`/h1b/employers?q=${encodeURIComponent(trimmed)}`}

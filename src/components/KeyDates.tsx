@@ -62,12 +62,15 @@ export function KeyDates({
   title = "Key immigration dates",
   subtitle = "Real deadlines, counted down. Don't miss the window.",
   limit,
+  anchors = false,
 }: {
   dates: KeyDate[];
   placement: string;
   title?: string;
   subtitle?: string;
   limit?: number;
+  /** Give each date an id, so /key-dates#opt-window lands on it. One list per page. */
+  anchors?: boolean;
 }) {
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => setNow(new Date()), []);
@@ -108,7 +111,8 @@ export function KeyDates({
           return (
             <li
               key={d.id}
-              className="rounded-xl border border-white/10 bg-white/[0.02] p-3.5 transition-colors hover:border-white/20"
+              id={anchors ? d.id : undefined}
+              className="scroll-mt-24 rounded-xl border border-white/10 bg-white/[0.02] p-3.5 transition-colors hover:border-white/20"
             >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">

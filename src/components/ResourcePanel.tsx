@@ -15,7 +15,7 @@
 // Order is by need, then catalog order. Compensation never moves a card up.
 // =============================================================================
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CATEGORY_META, type PartnerCategory, type ResolvedPartner } from "@/lib/partners";
 import { listingLink, RELATIONSHIP_LABEL } from "@/lib/partner-link";
@@ -60,6 +60,12 @@ function ResourceCard({ partner, placement }: { partner: ResolvedPartner; placem
 export function ResourceDirectory({ partners }: { partners: ResolvedPartner[] }) {
   const needs = Array.from(new Set(partners.map((p) => p.category))) as PartnerCategory[];
   const [need, setNeed] = useState<PartnerCategory | "all">("all");
+  // /resources?need=legal — the For You hub links straight to one need.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get("need");
+    if (wanted && (needs as string[]).includes(wanted)) setNeed(wanted as PartnerCategory);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const shown = need === "all" ? partners : partners.filter((p) => p.category === need);
 
   const chip = (value: PartnerCategory | "all", label: string) => (

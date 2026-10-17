@@ -316,7 +316,7 @@ describe("the empty states say only what is true", () => {
 
 describe("the homepage sends people here", () => {
   it("routes the CTA to /following", () => {
-    expect(HOME).toMatch(/href: "\/following", label: "Follow a country or visa"/);
+    expect(HOME).toMatch(/href: "\/following",\s+title: "Track my situation"/);
   });
 
   it("no longer deep-links into another page's section", () => {
