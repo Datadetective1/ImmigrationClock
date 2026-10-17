@@ -35,7 +35,7 @@ import { join } from "node:path";
 import { search, searchTotals, squash, type SearchResult } from "@/lib/data";
 import { searchEmployers, EMPLOYERS } from "@/lib/employers";
 import { EVENT_INDEX, filterEvents } from "@/lib/event-index";
-import { NAV, FOOTER_SECTIONS, type NavItem } from "@/lib/site";
+import { NAV, FOOTER_SECTIONS, TAB_BAR, type NavItem } from "@/lib/site";
 import { buildInsights } from "@/lib/insights";
 import { countries } from "@/lib/dataset";
 
@@ -214,7 +214,7 @@ describe("the navbar says which section you are in", () => {
       "/h1b/state/CA",
     ];
     for (const url of generated) {
-      expect(sectionsFor(url), `${url} highlights nothing`).toEqual(["Work & Visas"]);
+      expect(sectionsFor(url), `${url} highlights nothing`).toEqual(["Data & trends"]);
     }
   });
 
@@ -243,6 +243,8 @@ describe("the navbar says which section you are in", () => {
     // should be able to see the monitoring surface beside it.
     const unlit = SAMPLE_URLS.filter((u) => sectionsFor(u).length === 0).sort();
     expect(unlit).toEqual([
+      // The logo is home; there is no "Dashboard" item to light.
+      "/",
       "/about",
       // Billing pages belong to no section on purpose: the paid tier gets one
       // footer link, not a nav slot. See docs/monetization.md.
@@ -279,8 +281,30 @@ describe("site chrome links somewhere real", () => {
 
   it("offers the follow feature somewhere other than the homepage", () => {
     // It had exactly one entry point on the whole site, so a reader who arrived
-    // anywhere else could not find a finished feature.
-    expect(navHrefs).toContain("/following");
+    // anywhere else could not find a finished feature. Phones: the tab bar.
+    // Desktop: the bookmark beside search. Both on every page.
+    expect(TAB_BAR.map((t) => t.href)).toContain("/following");
+    expect(readFileSync(join(process.cwd(), "src", "components", "Navbar.tsx"), "utf8")).toContain('href="/following"');
+  });
+
+  it("keeps the bar to five destinations, one dropdown, and Pro beside the account", () => {
+    const main = NAV.filter((i) => !i.utility);
+    expect(main.map((i) => i.label)).toEqual(["What changed", "For you", "Data & trends", "Key dates", "Resources"]);
+    expect(main.filter((i) => i.children).length).toBe(1);
+    const pro = NAV.find((i) => i.utility)!;
+    expect(pro.children!.map((c) => c.href)).toEqual(["/briefing", "/monitor", "/developers", "/pricing"]);
+    expect(TAB_BAR).toHaveLength(4);
+    for (const t of TAB_BAR) expect(routeExists(t.href), t.href).toBe(true);
+  });
+
+  it("still links every page the old bar did, from the bar or the footer", () => {
+    const reachable = new Set([...navHrefs, ...footerHrefs.map(bare), ...TAB_BAR.map((t) => t.href)]);
+    for (const old of [
+      "/what-changed", "/enforcement", "/immigration/enforcement-trends", "/border/encounters", "/timeline",
+      "/work-visas", "/migration-map", "/h1b/top-sponsors", "/h1b/employers", "/visa/f1-student-visas",
+      "/layoffs", "/layoffs-vs-h1b", "/for-you", "/key-dates", "/following", "/resources", "/explained",
+      "/monitor", "/developers", "/pricing", "/insights", "/pulse",
+    ]) expect(reachable.has(old), old).toBe(true);
   });
 
   it("does not send readers to an operator tool from the public footer", () => {

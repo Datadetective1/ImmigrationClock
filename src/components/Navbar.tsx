@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AccountNav } from "./AccountNav";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { NAV, SITE, type NavItem } from "@/lib/site";
+import { NAV, TAB_BAR, type NavItem } from "@/lib/site";
 
 /**
  * Is `pathname` inside `base`? Boundary-aware, so /layoffs does not claim
@@ -32,7 +32,7 @@ export function isActive(pathname: string, item: NavItem): boolean {
 }
 
 /** Desktop dropdown for a nav group. Opens on hover or keyboard focus. */
-function NavGroup({ item, pathname }: { item: NavItem; pathname: string }) {
+function NavGroup({ item, pathname, alignRight = false }: { item: NavItem; pathname: string; alignRight?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const panelId = useId();
@@ -109,7 +109,7 @@ function NavGroup({ item, pathname }: { item: NavItem; pathname: string }) {
       </Link>
 
       {open ? (
-        <div id={panelId} className="absolute left-0 top-full z-50 w-72 pt-2">
+        <div id={panelId} className={`absolute top-full z-50 w-72 pt-2 ${alignRight ? "right-0" : "left-0"}`}>
           <div className="overflow-hidden rounded-xl border border-white/10 bg-ink-850/95 p-1.5 shadow-glow backdrop-blur-md">
             {item.children!.map((c) => {
               const childActive = pathname === c.href;
@@ -133,6 +133,9 @@ function NavGroup({ item, pathname }: { item: NavItem; pathname: string }) {
     </div>
   );
 }
+
+const MAIN = NAV.filter((i) => !i.utility);
+const UTILITY = NAV.filter((i) => i.utility);
 
 export function Navbar() {
   const pathname = usePathname();
@@ -195,7 +198,7 @@ export function Navbar() {
             or the mobile menu, the breadcrumb, and the footer's legal row), and
             unnamed they all announce as plain "navigation". */}
         <nav aria-label="Main" className="hidden items-center gap-0.5 lg:flex">
-          {NAV.map((item) => {
+          {MAIN.map((item) => {
             if (item.children) return <NavGroup key={item.label} item={item} pathname={pathname} />;
             const active = isActive(pathname, item);
             return (
@@ -216,6 +219,11 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-1.5">
+          {UTILITY.map((item) => (
+            <div key={item.label} className="hidden lg:block">
+              <NavGroup item={item} pathname={pathname} alignRight />
+            </div>
+          ))}
           <Link
             href="/search"
             aria-label="Search immigration data"
@@ -234,6 +242,20 @@ export function Navbar() {
             >
               /
             </kbd>
+          </Link>
+
+          {/* Following: phones have it in the tab bar; on a desktop it sits
+              here, beside search, one click from any page. */}
+          <Link
+            href="/following"
+            aria-label="Following"
+            title="Following"
+            aria-current={pathname === "/following" ? "page" : undefined}
+            className="hidden rounded-lg border border-white/10 p-2 text-slate-300 transition-colors hover:border-accent/40 hover:text-accent-soft lg:flex"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden>
+              <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" />
+            </svg>
           </Link>
 
           {/* Signed out it says "Sign in"; signed in it becomes "Account". It
@@ -275,40 +297,90 @@ export function Navbar() {
             <AccountNav variant="mobile" onNavigate={() => setOpen(false)} />
           </div>
 
-          {NAV.map((item) =>
-            item.children ? (
-              <div key={item.label} className="mt-2 first:mt-0">
-                <div className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                  {item.label}
-                </div>
-                {item.children.map((c) => (
+          {/* Flat: the five destinations, each group's pages indented under
+              it, then Pro. No nested menus to open on a phone. */}
+          {NAV.map((item) => (
+            <div key={item.label} className={item.utility ? "mt-2 border-t border-white/5 pt-2" : ""}>
+              <Link
+                href={item.href!}
+                onClick={() => setOpen(false)}
+                className={`mt-1 block rounded-lg px-3 py-2.5 text-[15px] font-medium ${
+                  isActive(pathname, item) ? "bg-white/10 text-white" : "text-slate-200 hover:bg-white/5"
+                }`}
+              >
+                {item.label}
+              </Link>
+              {item.children
+                ?.filter((c) => c.href !== item.href)
+                .map((c) => (
                   <Link
                     key={c.href}
                     href={c.href}
                     onClick={() => setOpen(false)}
-                    className={`block rounded-lg px-3 py-2 text-sm font-medium ${
-                      pathname === c.href ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5"
+                    className={`block rounded-lg py-2 pl-6 pr-3 text-sm ${
+                      pathname === c.href ? "bg-white/10 text-white" : "text-slate-400 hover:bg-white/5"
                     }`}
                   >
                     {c.label}
                   </Link>
                 ))}
-              </div>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href!}
-                onClick={() => setOpen(false)}
-                className={`mt-1 block rounded-lg px-3 py-2 text-sm font-medium ${
-                  pathname === item.href ? "bg-white/10 text-white" : "text-slate-300 hover:bg-white/5"
-                }`}
-              >
-                {item.label}
-              </Link>
-            )
-          )}
+            </div>
+          ))}
         </nav>
       ) : null}
     </header>
+  );
+}
+
+const TAB_ICON: Record<(typeof TAB_BAR)[number]["icon"], React.ReactNode> = {
+  home: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
+  changes: (
+    <>
+      <path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z" />
+      <path d="M14 3v5h5M9 13h6M9 17h4" />
+    </>
+  ),
+  dates: (
+    <>
+      <rect x="4" y="5" width="16" height="16" rx="2" />
+      <path d="M8 3v4M16 3v4M4 10h16" />
+    </>
+  ),
+  following: <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z" />,
+};
+
+/**
+ * Phones only: the four places a returning reader opens most, one tap from
+ * anywhere. Everything else is in the menu; nothing here nests or scrolls.
+ */
+export function TabBar() {
+  const pathname = usePathname();
+  return (
+    <nav
+      aria-label="Quick"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink-950/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
+    >
+      <ul className="grid grid-cols-4">
+        {TAB_BAR.map((t) => {
+          const active = t.href === "/" ? pathname === "/" : pathname === t.href || pathname.startsWith(`${t.href}/`);
+          return (
+            <li key={t.href}>
+              <Link
+                href={t.href}
+                aria-current={active ? "page" : undefined}
+                className={`flex min-h-[56px] flex-col items-center justify-center gap-0.5 text-[11px] font-medium ${
+                  active ? "text-accent" : "text-slate-400"
+                }`}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round" aria-hidden>
+                  {TAB_ICON[t.icon]}
+                </svg>
+                {t.label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
