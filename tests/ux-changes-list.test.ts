@@ -26,7 +26,7 @@ describe("the change card", () => {
 
   it("never says in force, and dates a proposal only by publication", () => {
     // Our own words only: the document's title and summary may quote anything.
-    for (const e of EVENTS) expect(card({ ...e, title: "T", summary: null }), e.id).not.toMatch(/in force|in effect/i);
+    for (const e of EVENTS) expect(card({ ...e, title: "T", summary: "" }), e.id).not.toMatch(/in force|in effect/i);
     const proposal = EVENTS.find((e) => e.classification === "proposed_rule")!;
     const html = card(proposal);
     expect(html).toContain("Proposed rule");
