@@ -3,13 +3,11 @@ import { SITE } from "@/lib/site";
 import { buildMetadata } from "@/lib/seo";
 import { SearchBar } from "@/components/SearchBar";
 import { DashboardGrid } from "@/components/DashboardGrid";
-import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { KeyDates } from "@/components/KeyDates";
 import { KEY_DATES } from "@/lib/key-dates";
 import { PulseSignup } from "@/components/PulseSignup";
 import { buildMetrics, LAST_REFRESHED } from "@/lib/data";
-import { personaSummaries } from "@/lib/relevance";
-import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
+import { SITUATIONS } from "@/lib/situations";
 import { formatDate } from "@/lib/format";
 import pipelineHealth from "@/lib/generated/pipeline-health.json";
 import { lastCheckedSentence } from "@/lib/pipeline-health";
@@ -22,6 +20,38 @@ export const metadata = buildMetadata({
   description: SITE.subtitle,
   path: "/",
 });
+
+/**
+ * The four jobs a visitor arrives with. The homepage is organised around these
+ * rather than around the site's sections: someone asking "does this affect me?"
+ * should not have to know that the answer lives under "For you".
+ */
+const TASKS = [
+  {
+    href: "/what-changed",
+    title: "Understand a change",
+    body: "What's new, what changed, and who it affects.",
+    icon: "M4 6h16M4 12h10M4 18h7",
+  },
+  {
+    href: "/key-dates",
+    title: "Check deadlines",
+    body: "Relevant dates, requirements, and next steps.",
+    icon: "M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z",
+  },
+  {
+    href: "/following",
+    title: "Track my situation",
+    body: "Follow visas, countries, and topics; access personalized updates.",
+    icon: "M6 3h12a1 1 0 011 1v17l-7-4-7 4V4a1 1 0 011-1z",
+  },
+  {
+    href: "/resources",
+    title: "Find services",
+    body: "Discover relevant immigration services and resources.",
+    icon: "M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z",
+  },
+];
 
 // "Explore the data" — the homepage routes into the full sections instead of
 // rendering every chart inline. Each destination is its own focused page.
@@ -42,12 +72,11 @@ const EXPLORE = [
 
 export default function HomePage() {
   const metrics = buildMetrics();
-  const personas = personaSummaries();
 
   // The archive, surfaced. `significantEvents` already excludes routine
   // paperwork, so this is what actually CHANGED rather than what was merely
   // published.
-  const recent = significantEvents(5);
+  const recent = significantEvents(4);
 
   // The four headline numbers. Ordered deliberately rather than by whatever
   // buildMetrics() happens to return, so the row reads the same on every build.
@@ -60,110 +89,91 @@ export default function HomePage() {
     `${EVENTS.length.toLocaleString()} government changes recorded from ${contributing} official sources` +
     `${EVENT_STORE_META.earliestEvent ? `, back to ${formatDate(EVENT_STORE_META.earliestEvent)}` : ""}. ` +
     "Every figure is labelled reported, projected, or estimated, and this is not a real-time feed.";
-  const resourcesByPersona = personas.reduce<Record<string, ResolvedPartner[]>>((acc, p) => {
-    acc[p.key] = partnersForPersona(p.key as PersonaKey, 3);
-    return acc;
-  }, {});
 
   return (
     <div>
-      {/* Hero */}
+      {/* Hero — task-first. The question a visitor arrives with, one search
+          box that answers most of them, and the four jobs the site does. The
+          product's promise (every change traced to its official source) stays
+          directly under the question, so the page still says what it is. */}
       <section className="relative overflow-hidden border-b border-white/5">
-        <div className="container-page py-10 sm:py-14">
+        <div className="container-page py-9 sm:py-12">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
               <span className="pulse-live" />
               {SITE.tagline}
             </div>
-            {/* The headline says what the product DOES. "The Immigration Clock"
-                is the name, not an explanation — a first-time visitor met with
-                a brand word, a hedged paragraph and an H-1B origin map could not
-                tell what this site was for. The name still leads the wordmark in
-                the navbar; the homepage has one job, which is to be understood. */}
-            <h1 className="text-balance text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Track every U.S. immigration change,{" "}
-              <span className="bg-gradient-to-r from-accent via-accent-soft to-status-red bg-clip-text text-transparent">
+            <h1 className="text-balance text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+              What do you need help with?
+            </h1>
+            <p className="mx-auto mt-3 max-w-2xl text-balance text-base text-slate-300 sm:text-lg">
+              U.S. immigration rules, deadlines and data, each traced{" "}
+              <span className="bg-gradient-to-r from-accent via-accent-soft to-status-red bg-clip-text font-semibold text-transparent">
                 back to the official source
               </span>
-            </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-balance text-base text-slate-300 sm:text-lg">
-              Rules, executive actions, agency guidance and court decisions — each linked to the
-              government document it came from, and what that document says about who it affects.
+              .
             </p>
 
-            {/* CTA HIERARCHY. Four buttons of equal weight is four buttons of
-                no weight — the reader has to read all of them to choose. One
-                primary action, three quieter alternates: same four
-                destinations, but the eye now lands somewhere first.
+            <div className="mx-auto mt-6 max-w-2xl text-left">
+              <SearchBar size="hero" />
+            </div>
+          </div>
 
-                The primary is larger and carries the accent fill; the alternates
-                drop to a lighter border and no fill, and sit on their own row so
-                they read as "or" rather than as peers. */}
-            <div className="mx-auto mt-8 flex max-w-2xl flex-col items-center gap-3">
+          <nav aria-label="What you can do here" className="mx-auto mt-6 grid max-w-5xl grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+            {TASKS.map((t) => (
               <Link
-                href="/what-changed"
-                className="rounded-lg bg-accent px-6 py-3 text-base font-semibold text-ink-950 shadow-card transition-colors hover:bg-accent-soft"
+                key={t.href}
+                href={t.href}
+                className="group flex flex-col items-start gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-3.5 text-left sm:flex-row sm:gap-3 sm:p-4 transition-colors hover:border-accent/40 hover:bg-accent/[0.05]"
               >
-                See what changed
+                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d={t.icon} />
+                  </svg>
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[15px] font-semibold text-white group-hover:text-accent">{t.title}</span>
+                  <span className="mt-0.5 block text-xs leading-snug text-slate-400 sm:text-[13px]">{t.body}</span>
+                </span>
               </Link>
-              <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5">
-                {[
-                  { href: "/for-you", label: "Find changes affecting me" },
-                  { href: "/following", label: "Follow a country or visa" },
-                  { href: "/pulse#subscribe", label: "Get the weekly email" },
-                ].map((c) => (
-                  <Link
-                    key={c.href}
-                    href={c.href}
-                    className="rounded-lg px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
-                  >
-                    {c.label}
-                  </Link>
-                ))}
-              </div>
+            ))}
+          </nav>
 
-              {/* THE PROFESSIONAL DOOR.
-                  The three links above are written for someone navigating their
-                  own immigration. A law firm's knowledge lead is a different
-                  reader doing a different job, and until now the site gave them
-                  no entry point at all — /monitor, /developers and /pricing
-                  were reachable only by knowing they existed.
-                  One quiet line rather than a second hero: this is a public
-                  information site whose authority is the reason a professional
-                  would trust it, and a sales banner would spend that. */}
-              <p className="mt-4 text-sm text-slate-500">
-                Following this professionally?{" "}
-                <Link href="/monitor" className="link-accent font-medium">
-                  Monitor what changed for your caseload
-                </Link>{" "}
-                — free, sourced, with the evidence attached.
-              </p>
-            </div>
+          {/* Situations as starting points, not boxes: each opens its view on
+              /for-you, where any visa, country or topic can also be looked up. */}
+          <div className="mx-auto mt-5 flex max-w-5xl flex-wrap items-center justify-center gap-2">
+            <span className="text-sm text-slate-500">Start from a situation:</span>
+            {SITUATIONS.map((s) => (
+              <Link
+                key={s.key}
+                href={`/for-you?s=${s.key}`}
+                className="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 transition-colors hover:border-accent/40 hover:text-white"
+              >
+                {s.label}
+              </Link>
+            ))}
+          </div>
 
-            <div className="mx-auto mt-7 max-w-xl">
-              <SearchBar />
-            </div>
-
-            {/* Freshness and coverage in ONE line rather than a paragraph of
-                caveats. The full disclaimer still lives on /data and /methodology
-                — a hero is the wrong place to spend a reader's attention on it,
-                and burying the offer under hedging was costing more trust than
-                it bought. */}
-            {/* Freshness badge, kept from the statistics section header that this
-                restructure removed. It belongs in the hero anyway: "when was this
-                last updated" is a trust question, and trust questions are asked
-                before a reader scrolls, not after. */}
-            <div className="mt-6 flex justify-center">
-              <span className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-slate-400">
-                Last refreshed {formatDate(LAST_REFRESHED)}
-              </span>
-            </div>
-
-            <p className="mx-auto mt-4 max-w-2xl text-xs leading-relaxed text-slate-500">
+          <div className="mx-auto mt-6 max-w-2xl text-center">
+            <p className="text-xs leading-relaxed text-slate-500">
+              <span className="font-mono text-slate-400">Last refreshed {formatDate(LAST_REFRESHED)}</span>
+              {" · "}
               {heroCoverage}{" "}
               <Link href="/methodology" className="link-accent">
                 How we source and label every figure →
               </Link>
+            </p>
+            {/* THE PROFESSIONAL DOOR. One quiet line: discoverable, not a sales banner. */}
+            <p className="mt-3 text-sm text-slate-500">
+              Following this professionally?{" "}
+              <Link href="/monitor" className="link-accent font-medium">
+                Monitor what changed for your caseload
+              </Link>{" "}
+              or see the{" "}
+              <Link href="/briefing" className="link-accent font-medium">
+                Pro Briefing
+              </Link>
+              .
             </p>
           </div>
         </div>
@@ -176,7 +186,7 @@ export default function HomePage() {
         {/* SECTION 2 — Latest changes. Leads the body: it is the product. */}
         <RecentChanges
           events={recent}
-          heading="Latest immigration changes"
+          heading="Recent changes"
           intro={[
             "Newest first. Routine paperwork is left out here and stays searchable in the archive.",
             lastCheckedSentence(pipelineHealth, formatDate),
@@ -185,6 +195,12 @@ export default function HomePage() {
             .join(" ")}
           linkLabel={`See all ${EVENTS.length.toLocaleString()} recorded changes`}
         />
+
+        {/* SECTION 5 — The next three deadlines only. */}
+        {/* KeyDates renders its own "All dates →" link in the header, so the
+            brief's "View all dates" requirement is already met without a second
+            competing link below the list. */}
+        <KeyDates dates={KEY_DATES} placement="home" limit={3} />
 
         {/* SECTION 3 — Four headline numbers, not thirteen.
             The other nine are not deleted: /data now renders the complete grid
@@ -210,14 +226,6 @@ export default function HomePage() {
           </p>
         </section>
 
-        {/* SECTION 4 — Personal relevance, compressed to three bullets. */}
-        <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} compact />
-
-        {/* SECTION 5 — The next three deadlines only. */}
-        {/* KeyDates renders its own "All dates →" link in the header, so the
-            brief's "View all dates" requirement is already met without a second
-            competing link below the list. */}
-        <KeyDates dates={KEY_DATES} placement="home" limit={3} />
 
         {/* EXPLORE — was six large description cards taking most of a screen.
             Same six destinations, as a single wrapped row of links. Nothing is

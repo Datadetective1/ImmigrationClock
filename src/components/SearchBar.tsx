@@ -4,6 +4,8 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { search, type SearchResult } from "@/lib/data";
+import { searchGuides, type GuideResult } from "@/lib/site-search";
+import { mentionsKeyword } from "@/lib/editorial/explainers";
 import { trackSearch } from "@/lib/analytics";
 import { SITE } from "@/lib/site";
 
@@ -21,25 +23,47 @@ const TRACK_DELAY_MS = 800;
  * Clicking one types it. There is no new query path and no request: the same
  * client-side search() runs either way.
  */
-const SEARCH_EXAMPLES = ["H-1B", "F-1", "India", "Canada", "Amazon", "Google", "California", "Texas"];
+const SEARCH_EXAMPLES = ["H-1B", "F-1", "OPT", "India", "Amazon", "California", "Visa Bulletin", "Tax deadline"];
 
-const TYPE_LABEL: Record<SearchResult["type"], string> = {
+const TYPE_LABEL: Record<SearchResult["type"] | GuideResult["type"], string> = {
   company: "Profile",
   employer: "Sponsor",
   state: "State",
   country: "Country",
   visa: "Visa",
   occupation: "Job title",
+  date: "Deadline",
+  explainer: "Explainer",
 };
 
-export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
+type Row = { type: keyof typeof TYPE_LABEL; label: string; sublabel: string; href: string };
+
+export function SearchBar({
+  autoFocus = false,
+  size = "default",
+  placeholder = SITE.searchPlaceholder,
+}: {
+  autoFocus?: boolean;
+  /** "hero": the homepage's primary control — taller, larger text. */
+  size?: "default" | "hero";
+  placeholder?: string;
+}) {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  const results = useMemo(() => (q ? search(q) : []), [q]);
+  // A deadline or explainer whose title carries the query as a whole word
+  // ("OPT") answers it better than an employer that merely starts with it
+  // ("Optum"), so those lead; otherwise entities first. Recorded changes are
+  // one click away below the list, on /what-changed.
+  const results = useMemo<Row[]>(() => {
+    if (!q) return [];
+    const guides = searchGuides(q, 4);
+    const exact = guides.filter((g) => mentionsKeyword(g.label, q.trim()));
+    return [...exact, ...search(q, { limit: 8 }), ...guides.filter((g) => !exact.includes(g))];
+  }, [q]);
 
   // This box is the site's busiest search surface — it is on the homepage, the
   // 404 page and /work-visas — and it recorded nothing. Only /search and
@@ -87,7 +111,11 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
 
   return (
     <div ref={wrapRef} className="relative w-full">
-      <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-ink-850/80 px-3 py-2.5 shadow-card focus-within:border-accent/50">
+      <div
+        className={`flex items-center gap-2 rounded-xl border border-white/10 bg-ink-850/80 shadow-card focus-within:border-accent/50 ${
+          size === "hero" ? "px-4 py-3.5 sm:py-4" : "px-3 py-2.5"
+        }`}
+      >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-500">
           <circle cx="11" cy="11" r="7" />
           <path d="M21 21l-4.3-4.3" />
@@ -103,13 +131,15 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
           }}
           onFocus={() => setOpen(true)}
           onKeyDown={onKeyDown}
-          placeholder={SITE.searchPlaceholder}
+          placeholder={placeholder}
           aria-label="Search"
           // 16px, not 14px: iOS Safari zooms the viewport on focus for any input
           // below 16px, which on the site-wide search box means the page jumps
           // and the reader has to pinch back out. text-base everywhere an input
           // takes typed text.
-          className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
+          className={`w-full bg-transparent text-white placeholder:text-slate-500 focus:outline-none ${
+            size === "hero" ? "text-base sm:text-lg" : "text-base"
+          }`}
         />
         {q ? (
           <kbd className="hidden rounded border border-white/10 px-1.5 py-0.5 text-[10px] text-slate-500 sm:inline">
@@ -156,8 +186,8 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
                 Nothing matches &ldquo;{q}&rdquo;.
               </p>
               <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                This box searches employers, states, countries, visa types and job titles. Policy
-                changes live in the archive.
+                This box searches employers, states, countries, visa types, job titles, deadlines and
+                explainers. Policy changes live in the archive.
               </p>
               <Link
                 href={`/what-changed?q=${encodeURIComponent(q)}`}
@@ -191,13 +221,32 @@ export function SearchBar({ autoFocus = false }: { autoFocus?: boolean }) {
               ))}
             </ul>
           )}
-          <Link
-            href={`/search?q=${encodeURIComponent(q)}`}
-            onClick={() => setOpen(false)}
-            className="block border-t border-white/10 px-4 py-2.5 text-xs font-semibold text-accent transition-colors hover:bg-white/5 hover:text-accent-soft"
-          >
-            See all results for &ldquo;{q}&rdquo; &rarr;
-          </Link>
+          {results.length > 0 ? (
+            <div className="flex flex-wrap border-t border-white/10">
+              <Link
+                href={`/what-changed?q=${encodeURIComponent(q)}`}
+                onClick={() => setOpen(false)}
+                className="flex-1 px-4 py-2.5 text-xs font-semibold text-accent transition-colors hover:bg-white/5 hover:text-accent-soft"
+              >
+                Changes mentioning &ldquo;{q}&rdquo; &rarr;
+              </Link>
+              <Link
+                href={`/search?q=${encodeURIComponent(q)}`}
+                onClick={() => setOpen(false)}
+                className="px-4 py-2.5 text-xs font-semibold text-slate-400 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                All results &rarr;
+              </Link>
+            </div>
+          ) : (
+            <Link
+              href={`/search?q=${encodeURIComponent(q)}`}
+              onClick={() => setOpen(false)}
+              className="block border-t border-white/10 px-4 py-2.5 text-xs font-semibold text-accent transition-colors hover:bg-white/5 hover:text-accent-soft"
+            >
+              See all results for &ldquo;{q}&rdquo; &rarr;
+            </Link>
+          )}
         </div>
       ) : null}
     </div>

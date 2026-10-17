@@ -3,10 +3,10 @@ import { PageHeader } from "@/components/PageHeader";
 import { MethodologyNote } from "@/components/MethodologyNote";
 import { SourceBadge } from "@/components/SourceBadge";
 import { LAST_REFRESHED } from "@/lib/data";
-import { PersonaRelevance } from "@/components/PersonaRelevance";
 import { FollowingPanel } from "@/components/FollowingPanel";
-import { personaSummaries } from "@/lib/relevance";
-import { partnersForPersona, type PersonaKey, type ResolvedPartner } from "@/lib/partners";
+import { SearchBar } from "@/components/SearchBar";
+import { SituationHub } from "@/components/SituationHub";
+import { buildSituationHub } from "@/lib/situation-hub";
 
 export const metadata = buildMetadata({
   title: "What This Means For You — Immigration Data by Situation",
@@ -22,18 +22,14 @@ export const metadata = buildMetadata({
 });
 
 export default function ForYouPage() {
-  const personas = personaSummaries();
-  const resourcesByPersona = personas.reduce<Record<string, ResolvedPartner[]>>((acc, p) => {
-    acc[p.key] = partnersForPersona(p.key as PersonaKey, 3);
-    return acc;
-  }, {});
+  const situations = buildSituationHub();
 
   return (
     <div>
       <PageHeader
         eyebrow="For you"
         title="What does this mean for you?"
-        description="The same data, read for your situation. Choose who you are and get the figures that actually affect you — each one sourced and labelled. This is data context, not legal advice."
+        description="Start from a situation, or look up any visa, country or topic. Each change, date and figure links its source. Data and records, not legal advice."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/for-you", label: "For you" },
@@ -41,20 +37,18 @@ export default function ForYouPage() {
         share
       />
 
-      <div className="container-page max-w-3xl space-y-8 py-10">
-        {/* Personal tracking leads this page. "For you" previously meant four
-            fixed personas — useful, but not personal: a reader could not tell it
-            anything about themselves. Following is the only surface that adapts
-            to the individual, and the homepage CTA "Find changes affecting me"
-            lands here, so it has to be the first thing present. */}
+      <div className="container-page max-w-3xl space-y-8 py-8">
+        <SituationHub situations={situations} />
+
+        {/* Situations are starting points, not a box to fit into. Anyone can
+            look up their own visa, country or topic, and follow it. */}
+        <section className="space-y-3">
+          <h2 className="section-title">Or look up anything</h2>
+          <SearchBar placeholder="A visa, country, employer, deadline or topic" />
+        </section>
+
         <FollowingPanel />
 
-        <PersonaRelevance personas={personas} resourcesByPersona={resourcesByPersona} />
-
-
-        {/* Every figure above carries its own provenance tag, but the page as a
-            whole had no date and no link out. Trust signals must not require a
-            reader to already know where to look. */}
         <SourceBadge
           sourceName="All sources used on this site"
           sourceUrl="https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub"
@@ -62,8 +56,9 @@ export default function ForYouPage() {
         />
 
         <MethodologyNote>
-          These summaries are computed automatically from the same public datasets used across the site
-          (USCIS, the State Department, BLS, CBP, and Texas WARN). They describe direction and magnitude,
+          Changes are listed under a situation only when the document itself names that visa category
+          among those affected. Figures are computed from the same public datasets used across the site
+          (USCIS, the State Department, BLS, CBP, and Texas WARN); they describe direction and magnitude,
           not cause, and are not a substitute for advice from a qualified immigration professional.
         </MethodologyNote>
       </div>

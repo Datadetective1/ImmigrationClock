@@ -48,6 +48,7 @@ export default function KeyDatesPage() {
         <KeyDates
           dates={KEY_DATES}
           placement="key-dates-page"
+          anchors
           title="Every deadline, counted down"
           subtitle="Sorted soonest-first. Recurring monthly or per-person items are listed last."
         />
