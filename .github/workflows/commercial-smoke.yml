@@ -161,6 +161,9 @@ jobs:
           SIGNIN=$(curl -s --max-time 30 -X POST -H 'Content-Type: application/json' \
             -d '{"email":"smoke-check@example.com","ic_hp":"smoke"}' "$SITE/api/billing/signin" || true)
           say "- sign-in endpoint serves the per-recipient limit build (expect yes): $(yes_no "$(grep -c 'request another in a minute' <<<"$SIGNIN")")"
+          PROBE=$(curl -s -o /dev/null -w '%{http_code} %{content_type}' --max-time 30 -X POST -H 'Content-Type: application/json' \
+            -d '{"email":"smoke-check@example.com","ic_hp":"smoke"}' "$SITE/api/billing/signin" || true)
+          say "- DEBUG sign-in probe status: $PROBE · error field: $(grep -o '"error":"[a-z_]*"' <<<"$SIGNIN" || echo none) · body starts: $(head -c 60 <<<"$SIGNIN" | tr -dc '[:alnum:] :{}",._-')"
           # Accuracy and search copy (key dates, two open comment periods).
           KEYDATES=$(get /key-dates || true)
           say "- /key-dates lists open comment periods (expect yes): $(yes_no "$(grep -c 'Open comment periods' <<<"$KEYDATES")")"
