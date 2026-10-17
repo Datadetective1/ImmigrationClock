@@ -34,7 +34,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { EventCard } from "@/components/EventCard";
 import { EventExplorer } from "@/components/EventExplorer";
 import { FollowingPanel } from "@/components/FollowingPanel";
-import { formatDate } from "@/lib/format";
+import { formatDate, siteDay } from "@/lib/format";
 import {
   EVENTS,
   EVENT_STORE_META,
@@ -115,7 +115,7 @@ export default function WhatChangedPage() {
       never by a language model, and never by how much attention an item might attract. Where a
       document states who is affected, we quote it; where we inferred something, it is labelled as
       our inference. We do not summarise legal requirements as advice. The store was last built{" "}
-      {formatDate(EVENT_STORE_META.generatedAt.slice(0, 10))}
+      {formatDate(siteDay(EVENT_STORE_META.generatedAt))} (Eastern time)
       {EVENT_STORE_META.earliestEvent
         ? ` and holds documents published from ${formatDate(EVENT_STORE_META.earliestEvent)} onward`
         : ""}
@@ -129,10 +129,10 @@ export default function WhatChangedPage() {
       <WhatChangedV2
         days={days}
         routine={sortEvents(routine)}
-        today={new Date().toISOString().slice(0, 10)}
+        today={siteDay()}
         totalRecorded={EVENTS.length}
         earliest={EVENT_STORE_META.earliestEvent ?? null}
-        lastChecked={pipelineHealth.lastSuccessfulSourceCheck ? pipelineHealth.lastSuccessfulSourceCheck.slice(0, 10) : null}
+        lastChecked={pipelineHealth.lastSuccessfulSourceCheck ? siteDay(pipelineHealth.lastSuccessfulSourceCheck) : null}
         olderCount={olderCount}
         failed={failed.map((a) => ({ key: a.key, name: a.name }))}
         methodology={methodology}

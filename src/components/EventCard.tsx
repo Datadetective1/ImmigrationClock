@@ -40,7 +40,7 @@ import { explainEvent } from "@/domains/graph/explain";
 import { labelForEntity } from "@/lib/entity-labels";
 import { changePath } from "@/lib/share";
 
-function entityName(entityId: string): string {
+export function entityName(entityId: string): string {
   const known = ENTITY_BY_ID.get(entityId as never);
   if (known) return known.name;
   // Unseeded nodes (Policy Manual parts, executive actions) still have to read

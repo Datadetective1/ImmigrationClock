@@ -45,7 +45,7 @@ import { changePath, changeSlug, explainerPath, matchesChangeSlug, ogImagePath }
 import { explainersFor } from "@/lib/editorial/explainers";
 import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-labels";
 import { SOURCE_BY_KEY } from "@/lib/sources";
-import { formatDate } from "@/lib/format";
+import { formatDate, siteDay } from "@/lib/format";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
 import { relatedChanges, relationTo, storyDescription, storyKey, storyTitle } from "@/lib/stories";
 
@@ -162,7 +162,7 @@ export default function ChangePage({ params }: { params: { slug: string } }) {
           path={path}
           canonical={canonical}
           storyKey={key}
-          today={new Date().toISOString().slice(0, 10)}
+          today={siteDay()}
           related={related}
           context={context}
           amendedBy={AMENDMENTS.get(event.id) ?? []}

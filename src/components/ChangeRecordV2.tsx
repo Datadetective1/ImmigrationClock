@@ -4,19 +4,19 @@
 // The first screen answers the five questions: what it is (stage), the date
 // that matters, whether it is important, what it is called, and where to check
 // it (the source button). Then, in reading order: the document's own summary,
-// what the record shows, who it names (with the quoted evidence), where it
-// stands as a rule, related records, and one "About this record" block that
-// carries every provenance and limitation note the record has.
+// who it names with the document's own words for each, related records, and
+// one "About this record" block with provenance and every limitation.
 //
-// Nothing is dropped from the old page: the derived explanation, the impact
-// lists with their completeness note, the limitations, the dates and the
-// source check date are all here. What goes is repetition: the title, type and
-// dates used to appear three times before the source link.
+// EACH THING IS SAID ONCE. The key date is in the header and nowhere else
+// (the track appears only where it adds a step: a proposal, a date ahead).
+// The legal-status qualification is one line, specific to the record. The
+// "whether this applies to you" qualification is one line under who it
+// names. Field names and raw ISO dates never reach the reader.
 // =============================================================================
 
 import Link from "next/link";
 import { ChangeCard } from "./ChangeCard";
-import { WhatThisMeans, WhoIsAffected } from "./EventCard";
+import { entityName } from "./EventCard";
 import { PageHeader } from "./PageHeader";
 import { SaveChangeButton } from "./SaveChangeButton";
 import { StagePill } from "./StagePill";
@@ -26,40 +26,161 @@ import { SOURCE_BY_KEY } from "@/lib/sources";
 import { importanceOf, stageOf, type Stage } from "@/lib/stage";
 import { explainerPath } from "@/lib/share";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
+import { forceClause } from "@/domains/graph/explain";
+import type { EventImpact, ImpactedEntity } from "@/domains/graph/impact";
 
 const NO_SUMMARY = /^\s*no abstract was published with this document\.?\s*$/i;
 
 type Step = { label: string; value: string; state: "done" | "here" | "none" };
 
-/** Where a rule stands, from the record's own dates and links only. */
+/**
+ * Where a rule stands, from the record's own dates and links only. Shown only
+ * where it adds a step the header cannot: a proposal with no final rule, or a
+ * date still ahead. A passed or missing date is already the header's key date.
+ */
 function steps(stage: Stage, event: ImmigrationEvent): Step[] | null {
   const published = formatDate(event.publishedAt);
-  const eff = event.effectiveAt ? formatDate(event.effectiveAt) : null;
   switch (stage.kind) {
     case "proposed":
       return [
         { label: "Proposed", value: published, state: "here" },
         { label: "Final rule", value: stage.amended ? "A later record amends this" : "None in our archive", state: stage.amended ? "done" : "none" },
-        { label: "Effective date", value: "None stated", state: "none" },
       ];
     case "final_ahead":
       return [
         { label: "Published", value: published, state: "done" },
-        { label: "Takes effect", value: eff!, state: "here" },
-      ];
-    case "final_date_passed":
-      return [
-        { label: "Published", value: published, state: "done" },
-        { label: "Stated effective date", value: eff!, state: "here" },
-      ];
-    case "final_undated":
-      return [
-        { label: "Published", value: published, state: "here" },
-        { label: "Effective date", value: "None stated in the document", state: "none" },
+        { label: "Takes effect", value: formatDate(event.effectiveAt!), state: "here" },
       ];
     default:
       return null;
   }
+}
+
+/**
+ * Limitations that state what kind of document this is and what that means
+ * legally. When a record carries one it is the record's own, more specific
+ * wording of the status line, so it is shown there instead of being repeated
+ * at the foot of the page.
+ */
+const STATUS_LIMITATION =
+  /\bPROPOSED rule\b|\bdecision binds\b|\bbinding precedent\b|\bdecision's reach\b|\bannouncement describes\b|\bpresidential document directs\b|\bpolicy alert is USCIS guidance\b|\bcertification is not\b/;
+
+/** The one line on legal status, and the limitations left for "About this record". */
+const DATED_KINDS = new Set(["proposed", "final_ahead", "final_date_passed", "final_undated", "court"]);
+function statusAndLimitations(
+  stage: Stage,
+  event: ImmigrationEvent,
+  today: string,
+  summaryReplaced: boolean
+): { note: string | null; rest: string[] } {
+  let rest = (event.limitations ?? []).filter((l) => !(summaryReplaced && /published no abstract/i.test(l)));
+  // An amendment or a passed date is newer, record-specific information: it wins.
+  if (stage.amended || stage.kind === "final_date_passed") return { note: stage.caveat, rest };
+  const own = rest.find((l) => STATUS_LIMITATION.test(l));
+  if (own) {
+    rest = rest.filter((l) => l !== own);
+    return { note: own, rest };
+  }
+  if (stage.caveat) return { note: stage.caveat, rest };
+  return { note: DATED_KINDS.has(stage.kind) ? null : (forceClause(event, today)?.text ?? null), rest };
+}
+
+/**
+ * Rulemaking explainers match on words every rule contains ("final rule",
+ * "effective date"); on a record they are worth a tap only for the stage they
+ * explain. Topic explainers (OPT, H-1B, courts…) already match on the record's
+ * own subject words.
+ */
+const STAGE_EXPLAINERS: Record<string, readonly string[]> = {
+  "proposed-rule-vs-final-rule": ["proposed"],
+  "effective-date-vs-publication-date": ["final_ahead", "final_date_passed"],
+};
+function relevantToStage(slug: string, stage: Stage): boolean {
+  const kinds = STAGE_EXPLAINERS[slug];
+  return !kinds || kinds.includes(stage.kind);
+}
+
+/** "Countries", "Visa categories"… with the document's own words for each, readable on a phone. */
+function NamedGroup({ label, items }: { label: string; items: ImpactedEntity[] }) {
+  if (items.length === 0) return null;
+  const quoted = items.filter((i) => i.evidence);
+  return (
+    <div>
+      <p className="text-xs text-slate-500">{label}</p>
+      <p className="mt-0.5 text-sm text-slate-100">{items.map((i) => entityName(i.entityId)).join(", ")}</p>
+      {quoted.length > 0 ? (
+        <details className="mt-1 text-xs text-slate-400">
+          <summary className="cursor-pointer text-accent">Where the document says this</summary>
+          <ul className="mt-1.5 space-y-1.5">
+            {quoted.map((i) => (
+              <li key={i.entityId}>
+                <span className="text-slate-300">{entityName(i.entityId)}:</span> “{quote(i.evidence!)}”
+              </li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
+    </div>
+  );
+}
+
+/** Federal Register footnote markers ("\\17\\") are typesetting, not words. */
+const quote = (s: string) => s.replace(/\\\d+\\/g, "").replace(/\s{2,}/g, " ");
+
+/** One qualification for the whole section, specific to how complete the list is. */
+function scopeNote(completeness: EventImpact["completeness"]): string {
+  const applies = "Whether it applies to a particular person depends on facts this record does not have.";
+  if (completeness === "exhaustive") return `The document publishes this as a closed list. ${applies}`;
+  if (completeness === "partial") return `This list may be incomplete; the document may name others. ${applies}`;
+  return applies;
+}
+
+function WhoItNames({ impact }: { impact: EventImpact }) {
+  const stated = (xs: ImpactedEntity[]) => xs.filter((x) => x.basis !== "inferred");
+  const groups: [string, ImpactedEntity[]][] = [
+    ["Countries", stated(impact.countries)],
+    ["Visa categories", stated(impact.visaCategories)],
+    ["States", stated(impact.states)],
+    ["Employers", stated(impact.employers)],
+    ["Schools", stated(impact.universities)],
+  ];
+  const hasStated = groups.some(([, xs]) => xs.length > 0);
+  const inferred = [...impact.countries, ...impact.visaCategories, ...impact.states, ...impact.employers, ...impact.universities].filter(
+    (x) => x.basis === "inferred"
+  );
+  if (!hasStated && !impact.scopeDefinedElsewhere && !impact.actionRequired && !impact.undetermined && inferred.length === 0) return null;
+
+  return (
+    <section aria-labelledby="names-heading" className="space-y-3">
+      <h2 id="names-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Who the document names
+      </h2>
+      {groups.map(([label, xs]) => (
+        <NamedGroup key={label} label={label} items={xs} />
+      ))}
+      {impact.undetermined && !hasStated ? <p className="text-sm text-slate-400">{impact.undetermined}</p> : null}
+      {impact.scopeDefinedElsewhere ? (
+        <p className="text-sm text-slate-300">
+          {impact.scopeDefinedElsewhere.note}{" "}
+          <span className="text-slate-500">“{impact.scopeDefinedElsewhere.evidence}”</span>
+        </p>
+      ) : null}
+      {inferred.length > 0 ? (
+        <NamedGroup label="Referenced elsewhere in the document (our reading, not a stated scope)" items={inferred} />
+      ) : null}
+      {impact.actionRequired ? (
+        <div>
+          <p className="text-xs text-slate-500">A requirement the document states</p>
+          <blockquote className="mt-0.5 border-l-2 border-white/15 pl-3 text-sm italic text-slate-300">
+            “{quote(impact.actionRequired.evidence)}”
+          </blockquote>
+        </div>
+      ) : null}
+      {hasStated || impact.actionRequired || inferred.length > 0 ? (
+        <p className="text-xs leading-relaxed text-slate-500">{scopeNote(impact.completeness)}</p>
+      ) : null}
+    </section>
+  );
 }
 
 function StageTrack({ items }: { items: Step[] }) {
@@ -114,6 +235,9 @@ export function ChangeRecordV2({
   );
   const importance = importanceOf(event);
   const track = steps(stage, event);
+  const summaryReplaced = NO_SUMMARY.test(event.summary);
+  const { note, rest: limitations } = statusAndLimitations(stage, event, today, summaryReplaced);
+  const explainers = context.filter((x) => relevantToStage(x.slug, stage));
   const summary = NO_SUMMARY.test(event.summary)
     ? "The publisher gave no summary for this document. Its title is its own description; open the source for the full text."
     : event.summary;
@@ -147,7 +271,7 @@ export function ChangeRecordV2({
       </PageHeader>
 
       <div className="container-page max-w-3xl space-y-6 py-5">
-        {stage.caveat ? (
+        {note ? (
           <p
             className={`rounded-xl border px-3.5 py-2.5 text-sm ${
               stage.kind === "proposed" || stage.amended
@@ -155,7 +279,7 @@ export function ChangeRecordV2({
                 : "border-white/10 text-slate-300"
             }`}
           >
-            {stage.caveat}
+            {note}
           </p>
         ) : null}
 
@@ -182,15 +306,13 @@ export function ChangeRecordV2({
 
         <section aria-labelledby="summary-heading" className="space-y-2">
           <h2 id="summary-heading" className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-            The document&rsquo;s summary
+            What the document says
           </h2>
           <p className="text-[15px] leading-relaxed text-slate-200">{summary}</p>
           {event.whyItMatters ? <p className="text-sm leading-relaxed text-slate-400">{event.whyItMatters}</p> : null}
         </section>
 
-        <WhatThisMeans event={event} footnote={false} />
-
-        {event.impact ? <WhoIsAffected impact={event.impact} /> : null}
+        {event.impact ? <WhoItNames impact={event.impact} /> : null}
 
         {related.length > 0 ? (
           <section aria-labelledby="related-heading" className="space-y-2">
@@ -205,13 +327,13 @@ export function ChangeRecordV2({
           </section>
         ) : null}
 
-        {context.length > 0 ? (
+        {explainers.length > 0 ? (
           <section aria-labelledby="context-heading" className="space-y-2">
             <h2 id="context-heading" className="text-base font-semibold text-white">
               Explained
             </h2>
             <ul className="space-y-2">
-              {context.map((x) => (
+              {explainers.map((x) => (
                 <li key={x.slug}>
                   <TrackedLink
                     href={explainerPath(x.slug)}
@@ -241,10 +363,18 @@ export function ChangeRecordV2({
             About this record
           </h2>
           <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
-            <dt className="text-slate-500">{isScheduled(event) ? "Scheduled for" : "Published"}</dt>
-            <dd>{formatDate(event.publishedAt)}</dd>
-            <dt className="text-slate-500">Effective date</dt>
-            <dd>{event.effectiveAt ? `${formatDate(event.effectiveAt)} (as stated in the document)` : "None stated"}</dd>
+            {stage.kind === "final_ahead" || stage.kind === "final_date_passed" || stage.keyDate?.date !== event.publishedAt.slice(0, 10) ? (
+              <>
+                <dt className="text-slate-500">{isScheduled(event) ? "Scheduled for" : "Published"}</dt>
+                <dd>{formatDate(event.publishedAt)}</dd>
+              </>
+            ) : null}
+            {event.effectiveAt && stage.keyDate?.date !== event.effectiveAt.slice(0, 10) && stage.kind !== "proposed" ? (
+              <>
+                <dt className="text-slate-500">Effective date</dt>
+                <dd>{formatDate(event.effectiveAt)}, as stated in the document</dd>
+              </>
+            ) : null}
             {event.dataThrough ? (
               <>
                 <dt className="text-slate-500">Data through</dt>
@@ -258,17 +388,16 @@ export function ChangeRecordV2({
             <dt className="text-slate-500">Review</dt>
             <dd>{event.reviewStatus === "approved" ? "Reviewed by a person against its source" : "Classified automatically; not reviewed by a person"}</dd>
           </dl>
-          {event.limitations && event.limitations.length > 0 ? (
+          {limitations.length > 0 ? (
             <ul className="mt-2 list-disc space-y-0.5 pl-4">
-              {event.limitations.map((l, i) => (
+              {limitations.map((l, i) => (
                 <li key={i}>{l}</li>
               ))}
             </ul>
           ) : null}
           <p className="mt-2">
-            Built from the linked government document by published rules, not by a language model; explanations
-            restate the record&rsquo;s own fields. Information about a published document, not legal advice about
-            anyone&rsquo;s case.{" "}
+            Built from the linked government document by published rules, not by a language model. Information
+            about a published document, not legal advice about anyone&rsquo;s case.{" "}
             <Link href="/methodology" className="text-accent hover:underline">
               Methodology
             </Link>{" "}
@@ -277,7 +406,6 @@ export function ChangeRecordV2({
               Permalink
             </Link>
           </p>
-          <p className="mt-1 break-all font-mono text-[11px] text-slate-500">{canonical}</p>
         </section>
       </div>
     </div>

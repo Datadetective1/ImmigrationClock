@@ -182,11 +182,22 @@ export function WhatChangedV2({
           )}
         </EventExplorer>
 
-        <FollowingPanel />
-
-        <ReportError context="What Changed" />
+        {/* Secondary on a phone: one tap away, with everything it did before. */}
+        <details className="group rounded-xl border border-white/10">
+          <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 px-3.5 text-sm text-slate-200">
+            <span>Follow visas, countries or agencies</span>
+            <span aria-hidden className="text-slate-500 group-open:rotate-180">
+              ▾
+            </span>
+          </summary>
+          <div className="p-2 pt-0">
+            <FollowingPanel />
+          </div>
+        </details>
 
         {methodology}
+
+        <ReportError context="What Changed" compact />
       </div>
     </div>
   );
