@@ -147,4 +147,10 @@ jobs:
           say "- record links its stated scope (Follow and explore): $(yes_no "$(grep -c 'Follow and explore' <<<"$H1B_REC")")"
           # Acquisition: the newsletter form must be open, not the "not open yet" note.
           say "- newsletter signup open on the homepage (expect yes): $(if grep -q 'open for signups yet' <<<"$HOME_HTML"; then echo NO; else echo yes; fi)"
+          say "- newsletter row on a change page (expect yes): $(yes_no "$(grep -c 'pulse?from=change' <<<"$H1B_REC")")"
+          say "- newsletter row on For You (expect yes): $(yes_no "$(grep -c 'pulse?from=for_you' <<<"$FORYOU")")"
+          MONITOR=$(get /monitor || true)
+          say "- /monitor links Pro and the example Briefing (expect yes · yes): $(yes_no "$(grep -c 'href="/pricing"' <<<"$MONITOR")") · $(yes_no "$(grep -c 'href="/briefing/example"' <<<"$MONITOR")")"
+          EXAMPLE=$(get /briefing/example || true)
+          say "- example Briefing served without sign-in (expect yes): $(yes_no "$(grep -c 'Example Briefing' <<<"$EXAMPLE")")"
 
