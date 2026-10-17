@@ -100,7 +100,7 @@ describe("preferences", () => {
     expect(parsePrefs("{nope")).toEqual(DEFAULT_PREFS);
     const p = sanitizePrefs({ frequency: "hourly", relevance: "priority", reminders: "yes", extra: 1 }, DEFAULT_PREFS);
     expect(p).toEqual({ ...DEFAULT_PREFS, relevance: "priority" });
-    expect(Object.keys(p).sort()).toEqual(["calendarVersion", "frequency", "relevance", "reminders"]);
+    expect(Object.keys(p).sort()).toEqual(["calendarVersion", "frequency", "relevance", "reminders", "summary"]);
   });
 
   it("make a weekly digest due on Mondays only", () => {

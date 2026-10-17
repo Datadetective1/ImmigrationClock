@@ -63,3 +63,26 @@ rule in our archive", never "pending"), and a count of final rules with no
 stated date. Only primary matches count. A "What this covers" note lists the
 sources in the latest refresh, the ones that returned nothing, and the ones we
 cannot ingest (Visa Bulletin, State Department). No AI is involved.
+
+## Intelligence: the weekly summary (`FEATURE_PRO_INTELLIGENCE`)
+
+Mondays, from the existing alert cron and under the same `ALERTS_SEND` switch
+(`runWeeklySummaries` in `src/lib/billing/alert-run.ts`, content in
+`src/lib/pro/weekly.ts`). Per follow: records new this week (primary matches
+only) or "No new records this week · newest <date>", open proposals and what
+took effect; stated dates in the next 90 days; and what was checked, quiet or
+failed, and not covered. A quiet week is called a quiet week in our sources,
+never "nothing changed". Sent once per subscriber per week (claim recorded
+after Resend accepts). Opt-in: the "Weekly intelligence summary" setting is
+off by default, including for subscribers whose preferences were saved before
+it existed. Skipped when the subscriber has not turned it on, alerts are
+paused, or the watchlist is empty.
+
+One Monday email, not two: a subscriber whose alerts are a weekly digest and
+who turns the summary on gets the digest's alerts inside the summary
+("Your alerts this week"). `runAlerts` leaves those digests (`inSummary` in its
+report) and `runWeeklySummaries` sends them, then advances the alert cursor and
+history exactly as the digest would have. Daily alerts are unchanged; the
+summary is a separate email for daily subscribers. With Intelligence off,
+weekly digests go out as before. Recorded in alert
+history. No AI is involved.

@@ -20,6 +20,7 @@ function body(prefs: BriefingPrefs, key: string, secret: string) {
     frequency: prefs.frequency,
     relevance: prefs.relevance,
     reminders: prefs.reminders,
+    summary: prefs.summary,
     calendarUrl: calendarUrl(billingOrigin(), key, prefs.calendarVersion, secret),
   };
 }

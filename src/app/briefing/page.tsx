@@ -363,10 +363,12 @@ export default async function BriefingPage() {
           <div className="mt-3">
             <BriefingSettings
               alertsOn={alertsOn}
+              intelligence={intelligence}
               initial={{
                 frequency: prefs.frequency,
                 relevance: prefs.relevance,
                 reminders: prefs.reminders,
+                summary: prefs.summary,
                 calendarUrl: calendarUrl(billingOrigin(), key, prefs.calendarVersion, secret),
               }}
             />
