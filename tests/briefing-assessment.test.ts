@@ -73,7 +73,7 @@ describe("historical importance is not current urgency", () => {
     const input = record(BIOMETRIC_FEE);
     const soonAfter = "2026-09-20";
     let { strong, weak } = views(input, soonAfter);
-    expect(assessChange(input, strong, weak, ["visa:h-1b"], soonAfter, false).urgency.label).toBe("Took effect 2026-09-09");
+    expect(assessChange(input, strong, weak, ["visa:h-1b"], soonAfter, false).urgency.label).toBe("Stated date passed Sep 9, 2026");
     ({ strong, weak } = views(input, TODAY));
     expect(assessChange(input, strong, weak, ["visa:h-1b"], TODAY, false).section).toBe("historical");
   });
@@ -190,7 +190,7 @@ describe("presentation", () => {
 
   it("states status from the record, never more", () => {
     const { strong } = views(record(BIOMETRIC_FEE));
-    expect(statusText(strong, TODAY)).toBe("In effect since 2026-09-09, per the document.");
+    expect(statusText(strong, TODAY)).toBe("The document states an effective date of Sep 9, 2026, which has passed. A later rule or court order can change whether it still applies.");
     const undated = ALL.find((e) => !e.effectiveAt && e.classification === "final_rule");
     if (undated) expect(statusText(toPublicChange(undated, TODAY), TODAY)).toMatch(/states no effective date/);
   });

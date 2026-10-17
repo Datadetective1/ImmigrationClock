@@ -130,7 +130,7 @@ export function changeStatus(
     // misread in December.
     return { status: `Effective ${monthDay(effective, effective.slice(0, 4) !== today.slice(0, 4))}`, tone: "accent" };
   }
-  if (effective) return { status: `In effect since ${monthDay(effective, true)}`, tone: "green" };
+  if (effective) return { status: `Stated effective ${monthDay(effective, true)}`, tone: "green" };
 
   if (/rescind/i.test(e.summary) && /reinstat|revert|restor/i.test(e.summary)) {
     return { status: "Prior guidance restored", tone: "accent" };

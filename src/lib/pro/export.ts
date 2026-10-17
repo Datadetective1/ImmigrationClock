@@ -43,7 +43,7 @@ export const BRIEF_DISCLAIMER =
 const STATUS_LABEL: Record<string, string> = {
   proposed: "Proposed — not in force",
   scheduled: "Scheduled",
-  in_force: "In force",
+  in_force: "Final",
   decided: "Decided",
   superseded: "Superseded by a later record",
   informational: "Informational",
