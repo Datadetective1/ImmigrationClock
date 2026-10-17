@@ -40,7 +40,7 @@
 import { BUILD_DATE as SITE_DATA_DATE } from "@/lib/build-date";
 import type { IndexedEvent } from "@/lib/event-index";
 import { KEY_DATES, nextOccurrence, daysUntil, type KeyDate } from "@/lib/key-dates";
-import { EXPLAINERS, type Explainer } from "@/lib/editorial/explainers";
+import { EXPLAINERS, mentionsKeyword, type Explainer } from "@/lib/editorial/explainers";
 import { buildSignals, type DataSignal } from "@/lib/editorial/signals";
 import { buildDiscoveries, type Discovery } from "@/lib/editorial/discovery";
 import { changePath, explainerPath, signalPath } from "@/lib/share";
@@ -501,8 +501,8 @@ function topicalBoost(e: Explainer, events: IndexedEvent[], today: string): { bo
     if (ev.publishedAt < since || ev.publishedAt > today || ev.severity === "routine") return false;
     // A rule with a start date ahead makes the effective-date explainer
     // topical whether or not its summary uses the words.
-    const hay = `${ev.title} ${ev.summary}${ev.effectiveAt && ev.effectiveAt > today ? " effective date" : ""}`.toLowerCase();
-    return e.keywords.some((k) => hay.includes(k));
+    const hay = `${ev.title} ${ev.summary}${ev.effectiveAt && ev.effectiveAt > today ? " effective date" : ""}`;
+    return e.keywords.some((k) => mentionsKeyword(hay, k));
   });
   return hit ? { boost: 2000, why: `topical: "${hit.title.slice(0, 50)}" (${hit.publishedAt})` } : { boost: 0, why: "" };
 }

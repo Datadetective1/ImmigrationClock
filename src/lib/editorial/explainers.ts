@@ -60,7 +60,11 @@ export interface Explainer {
   sources: ExplainerSource[];
   /** ImmigrationClock pages that hold the underlying data or record. */
   relatedPaths: string[];
-  /** Lowercase terms; a change whose title or summary carries one is related. */
+  /**
+   * Lowercase terms; a change whose title or summary carries one as a whole
+   * word or phrase is related ("opt" is not "adopt"). A trailing "*" matches a
+   * stem: "enjoin*" also matches "enjoined".
+   */
   keywords: string[];
   group: ExplainerGroup;
   /** ISO date a person last checked the facts against the sources. */
@@ -98,7 +102,7 @@ export const EXPLAINERS: Explainer[] = [
     title: "An effective date is not a publication date",
     kicker: "A rule can be published, final, and still not apply for weeks.",
     facts: [
-      "A final rule published in the Federal Register carries a publication date and, separately, an effective date. Its requirements apply from the effective date.",
+      "A final rule published in the Federal Register carries a publication date and, separately, an effective date. Its requirements are set to apply from the effective date, unless that date is delayed, a court stays the rule, or a later rule changes it.",
       "Under the Administrative Procedure Act a substantive rule generally cannot take effect less than 30 days after it is published. The exceptions include rules that grant an exemption or relieve a restriction, and cases where the agency finds and states good cause.",
       "Some rules add a compliance date as well — a later date by which the people the rule covers must be in compliance.",
       "A document can appear on the Federal Register's public inspection list a day or more before it is published. Public inspection is not publication, and it is not effect.",
@@ -115,22 +119,22 @@ export const EXPLAINERS: Explainer[] = [
       { name: "National Archives — Public Inspection of Federal Register documents", url: "https://www.archives.gov/federal-register/public-inspection" },
     ],
     relatedPaths: ["/what-changed", "/key-dates"],
-    keywords: ["effective date", "effective", "compliance date", "public inspection"],
+    keywords: ["effective date", "compliance date", "public inspection"],
     group: "rulemaking",
     verifiedAt: "2026-09-02",
   },
   {
     slug: "interim-final-rule",
     title: "What an interim final rule is",
-    kicker: "In force first, comments after.",
+    kicker: "It can take effect first, with comments taken after.",
     facts: [
       "An interim final rule takes effect without a comment period beforehand. The agency invokes an exception to notice-and-comment rulemaking, most often a finding of good cause, and states its reasons in the rule.",
-      "It is binding from its effective date, like any final rule.",
+      "Like any final rule, it is set to apply from its stated effective date, unless that date is delayed, a court stays it, or a later rule revises or withdraws it.",
       "The agency generally accepts public comments after publication and may later issue a further final rule that confirms, revises or withdraws the interim one.",
-      "ImmigrationClock records an interim final rule as a rule in force from the effective date it states, and links the document so the comment instructions can be read in the original.",
+      "ImmigrationClock records the effective date an interim final rule states, without assuming the rule still applies today, and links the document so the comment instructions can be read in the original.",
     ],
     whyItMatters:
-      "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither. The rule applies now; what is still open is whether it changes later.",
+      "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither: the rule can apply from its stated date, and what is still open is whether it changes later.",
     sources: [
       {
         name: "5 U.S.C. § 553(b) — the exceptions to notice and comment",
@@ -191,7 +195,7 @@ export const EXPLAINERS: Explainer[] = [
       },
     ],
     relatedPaths: ["/h1b/employers", "/h1b/top-sponsors", "/work-visas"],
-    keywords: ["h-1b", "h1b", "petition", "approvals"],
+    keywords: ["h-1b", "h1b"],
     group: "work-visas",
     verifiedAt: "2026-09-02",
   },
@@ -219,7 +223,7 @@ export const EXPLAINERS: Explainer[] = [
       },
     ],
     relatedPaths: ["/key-dates", "/h1b/employers", "/work-visas"],
-    keywords: ["h-1b cap", "cap-subject", "registration", "lottery"],
+    keywords: ["h-1b cap", "cap-subject", "h-1b registration", "lottery"],
     group: "work-visas",
     verifiedAt: "2026-09-02",
   },
@@ -251,7 +255,7 @@ export const EXPLAINERS: Explainer[] = [
       },
     ],
     relatedPaths: ["/key-dates", "/visa/f1-student-visas"],
-    keywords: ["opt", "practical training", "f-1", "stem"],
+    keywords: ["opt", "practical training", "f-1", "stem opt"],
     group: "students",
     verifiedAt: "2026-09-02",
   },
@@ -279,7 +283,7 @@ export const EXPLAINERS: Explainer[] = [
       },
     ],
     relatedPaths: ["/key-dates"],
-    keywords: ["visa bulletin", "priority date", "retrogress", "final action"],
+    keywords: ["visa bulletin", "priority date", "retrogress*", "final action"],
     group: "green-cards",
     verifiedAt: "2026-09-02",
   },
@@ -301,7 +305,7 @@ export const EXPLAINERS: Explainer[] = [
       { name: "Supreme Court of the United States — Trump v. CASA, Inc. (June 27, 2025)", url: "https://www.supremecourt.gov/opinions/24pdf/24a884_8n59.pdf" },
     ],
     relatedPaths: ["/what-changed"],
-    keywords: ["injunction", "court order", "enjoin", "vacat", "stay"],
+    keywords: ["injunction", "court order", "enjoin*", "vacat*", "stay of", "stayed"],
     group: "courts",
     verifiedAt: "2026-09-02",
   },
@@ -376,7 +380,7 @@ export const EXPLAINERS: Explainer[] = [
       },
     ],
     relatedPaths: ["/layoffs", "/layoffs-vs-h1b", "/developers"],
-    keywords: ["warn", "layoff", "layoffs", "plant closing"],
+    keywords: ["warn act", "warn notice*", "layoff", "layoffs", "plant closing"],
     group: "workforce-data",
     verifiedAt: "2026-09-02",
   },
@@ -404,7 +408,7 @@ export const EXPLAINERS: Explainer[] = [
       },
     ],
     relatedPaths: ["/what-changed"],
-    keywords: ["naturalization ceremon", "oath of allegiance"],
+    keywords: ["naturalization ceremon*", "oath of allegiance"],
     group: "citizenship",
     verifiedAt: "2026-09-02",
   },
@@ -430,8 +434,15 @@ export const EXPLAINERS: Explainer[] = [
 
 export const EXPLAINER_BY_SLUG = new Map(EXPLAINERS.map((e) => [e.slug, e]));
 
+/** True when `text` carries `keyword` as a whole word or phrase (or as a stem, for "word*"). */
+export function mentionsKeyword(text: string, keyword: string): boolean {
+  const k = keyword.toLowerCase();
+  const stem = k.endsWith("*");
+  const body = (stem ? k.slice(0, -1) : k).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^a-z0-9])${body}${stem ? "" : "(?![a-z0-9])"}`).test(text.toLowerCase());
+}
+
 /** Explainers whose keywords appear in a piece of text. Used to link changes to context. */
 export function explainersFor(text: string, limit = 3): Explainer[] {
-  const hay = text.toLowerCase();
-  return EXPLAINERS.filter((e) => e.keywords.some((k) => hay.includes(k))).slice(0, limit);
+  return EXPLAINERS.filter((e) => e.keywords.some((k) => mentionsKeyword(text, k))).slice(0, limit);
 }
