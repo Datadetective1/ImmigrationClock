@@ -1,8 +1,9 @@
 # Commercial smoke check — what production actually serves, read-only.
 #
 # Run by hand (Actions → Commercial smoke check → Run workflow) after a deploy
-# or an environment-variable change. It reads public pages only: it never signs
-# in, starts a checkout, or sends anything. Each line of the job summary is one
+# or an environment-variable change. It reads public pages only (plus one
+# sign-in probe the honeypot short-circuits): it never signs in, starts a
+# checkout, or sends anything. Each line of the job summary is one
 # fact about the live site; nothing here needs a secret.
 name: Commercial smoke check
 
@@ -153,4 +154,11 @@ jobs:
           say "- /monitor links Pro and the example Briefing (expect yes · yes): $(yes_no "$(grep -c 'href="/pricing"' <<<"$MONITOR")") · $(yes_no "$(grep -c 'href="/briefing/example"' <<<"$MONITOR")")"
           EXAMPLE=$(get /briefing/example || true)
           say "- example Briefing served without sign-in (expect yes): $(yes_no "$(grep -c 'Example Briefing' <<<"$EXAMPLE")")"
+          # Sign-in abuse limit (#68). The probe fills the hidden honeypot field,
+          # so the endpoint answers normally and sends NOTHING.
+          ACCOUNT=$(get /account || true)
+          say "- /account sign-in form has the honeypot field (expect yes): $(yes_no "$(grep -c 'name="ic_hp"' <<<"$ACCOUNT")")"
+          SIGNIN=$(curl -s --max-time 30 -X POST -H 'Content-Type: application/json' \
+            -d '{"email":"smoke-check@example.com","ic_hp":"smoke"}' "$SITE/api/billing/signin" || true)
+          say "- sign-in endpoint serves the per-recipient limit build (expect yes): $(yes_no "$(grep -c 'request another in a minute' <<<"$SIGNIN")")"
 
