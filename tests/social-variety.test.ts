@@ -27,6 +27,7 @@ import {
 } from "@/lib/social/visuals";
 import { EMPTY_POST_LEDGER, appendRecords, type PostLedger, type PostRecord } from "@/lib/social/ledger";
 import { KEY_DATES } from "@/lib/key-dates";
+import { DV_KEY_DATE_2026_08 } from "./fixtures/dv-key-date-2026-08";
 import { EVENT_INDEX } from "@/lib/event-index";
 import type { IndexedEvent } from "@/lib/event-index";
 import type { Angle } from "@/lib/social/types";
@@ -166,7 +167,7 @@ describe("same-day variety", () => {
 });
 
 describe("which posts earn a card", () => {
-  const dv = KEY_DATES.find((k) => k.id === "dv-lottery")!;
+  const dv = DV_KEY_DATE_2026_08;
 
   it("gives prose angles no image at all", () => {
     for (const angle of [

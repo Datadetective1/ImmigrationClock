@@ -161,4 +161,10 @@ jobs:
           SIGNIN=$(curl -s --max-time 30 -X POST -H 'Content-Type: application/json' \
             -d '{"email":"smoke-check@example.com","ic_hp":"smoke"}' "$SITE/api/billing/signin" || true)
           say "- sign-in endpoint serves the per-recipient limit build (expect yes): $(yes_no "$(grep -c 'request another in a minute' <<<"$SIGNIN")")"
+          # Accuracy and search copy (key dates, two open comment periods).
+          KEYDATES=$(get /key-dates || true)
+          say "- /key-dates lists open comment periods (expect yes): $(yes_no "$(grep -c 'Open comment periods' <<<"$KEYDATES")")"
+          say "- /key-dates DV entry no longer says free (expect yes): $(yes_no "$(grep -c 'registration fee' <<<"$KEYDATES")")"
+          OPTREC=$(get /what-changed/optional-practical-training-fees-pq1ao5 || true)
+          say "- OPT fee record search title and deadline (expect yes · yes): $(yes_no "$(grep -c 'Comments Due Nov 9, 2026' <<<"$OPTREC")") · $(yes_no "$(grep -c 'docket ICEB-2026-0100' <<<"$OPTREC")")"
 

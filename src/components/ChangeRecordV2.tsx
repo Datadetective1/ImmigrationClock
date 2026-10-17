@@ -28,6 +28,7 @@ import { formatDate } from "@/lib/format";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { importanceOf, stageOf, type Stage } from "@/lib/stage";
 import { explainerPath } from "@/lib/share";
+import { recordNote } from "@/lib/editorial/record-notes";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
 import { forceClause } from "@/domains/graph/explain";
 import type { EventImpact, ImpactedEntity } from "@/domains/graph/impact";
@@ -41,12 +42,23 @@ type Step = { label: string; value: string; state: "done" | "here" | "none" };
  * where it adds a step the header cannot: a proposal with no final rule, or a
  * date still ahead. A passed or missing date is already the header's key date.
  */
-function steps(stage: Stage, event: ImmigrationEvent): Step[] | null {
+function steps(stage: Stage, event: ImmigrationEvent, today: string): Step[] | null {
   const published = formatDate(event.publishedAt);
+  // The comment deadline, where an editor copied it from the document's DATES.
+  const comments = recordNote(event.id)?.comments;
   switch (stage.kind) {
     case "proposed":
       return [
-        { label: "Proposed", value: published, state: "here" },
+        { label: "Proposed", value: published, state: comments ? "done" : "here" },
+        ...(comments
+          ? [
+              {
+                label: comments.closes >= today ? "Comments due" : "Comments closed",
+                value: `${formatDate(comments.closes)} · docket ${comments.docket}`,
+                state: comments.closes >= today ? ("here" as const) : ("done" as const),
+              },
+            ]
+          : []),
         { label: "Final rule", value: stage.amended ? "A later record amends this" : "None in our archive", state: stage.amended ? "done" : "none" },
       ];
     case "final_ahead":
@@ -240,7 +252,8 @@ export function ChangeRecordV2({
     today
   );
   const importance = importanceOf(event);
-  const track = steps(stage, event);
+  const track = steps(stage, event, today);
+  const editorial = recordNote(event.id);
   const summaryReplaced = NO_SUMMARY.test(event.summary);
   const { note, rest: limitations } = statusAndLimitations(stage, event, today, summaryReplaced);
   const explainers = context.filter((x) => relevantToStage(x.slug, stage));
@@ -317,6 +330,33 @@ export function ChangeRecordV2({
           <p className="text-[15px] leading-relaxed text-slate-200 [overflow-wrap:anywhere]">{summary}</p>
           {event.whyItMatters ? <p className="text-sm leading-relaxed text-slate-400">{event.whyItMatters}</p> : null}
         </section>
+
+        {editorial && editorial.readNext.length > 0 ? (
+          <nav aria-label="Read next" className="flex flex-wrap items-center gap-2 text-sm">
+            <span className="text-xs uppercase tracking-wide text-slate-500">Read next</span>
+            {editorial.readNext.map((l) => (
+              <TrackedLink
+                key={l.href}
+                href={l.href}
+                surface="story-context"
+                relation="editorial"
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-accent transition-colors hover:border-accent/40"
+              >
+                {l.label} →
+              </TrackedLink>
+            ))}
+            {editorial.comments && editorial.comments.closes >= today ? (
+              <a
+                href={editorial.comments.url}
+                rel="noopener"
+                target="_blank"
+                className="rounded-lg border border-white/10 px-3 py-1.5 text-accent transition-colors hover:border-accent/40"
+              >
+                Docket on regulations.gov ↗
+              </a>
+            ) : null}
+          </nav>
+        ) : null}
 
         {event.impact ? <WhoItNames impact={event.impact} /> : null}
 

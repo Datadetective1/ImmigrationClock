@@ -224,9 +224,10 @@ describe("the whole queue", () => {
   });
 
   it("includes key dates only at milestones", () => {
-    // 2026-09-02 is 29 days before the DV window — not a milestone (60/45/30/14/7/3/1).
-    expect(keyDateCandidates("2026-09-02").some((c) => c.subjectId === "keydate:dv-lottery")).toBe(false);
-    expect(keyDateCandidates("2026-09-01").some((c) => c.subjectId === "keydate:dv-lottery")).toBe(true);
+    // 2027-01-31 is 29 days before the approximate 1 March H-1B window — not a
+    // milestone (60/45/30/14/7/3/1); 2027-01-30 is 30 days out.
+    expect(keyDateCandidates("2027-01-31").some((c) => c.subjectId === "keydate:h1b-registration")).toBe(false);
+    expect(keyDateCandidates("2027-01-30").some((c) => c.subjectId === "keydate:h1b-registration")).toBe(true);
   });
 });
 

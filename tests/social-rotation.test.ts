@@ -267,27 +267,27 @@ describe("4 — a countdown is not news", () => {
     }
   });
 
-  it("keeps the DV window out of the queue on non-milestone days", () => {
-    // 2026-08-20 is 42 days from the 1 October window — not a milestone.
-    const pool = keyDateCandidates(TODAY).filter((c) => c.subjectId === "keydate:dv-lottery");
+  it("keeps an approximate window out of the queue on non-milestone days", () => {
+    // 2027-01-31 is 29 days from the approximate 1 March H-1B window — not a milestone.
+    const pool = keyDateCandidates("2027-01-31").filter((c) => c.subjectId === "keydate:h1b-registration");
     expect(pool).toHaveLength(0);
   });
 
   it("lets it back on a milestone day", () => {
-    // 2026-09-01 is 30 days out.
-    const pool = keyDateCandidates("2026-09-01").filter((c) => c.subjectId === "keydate:dv-lottery");
+    // 2027-01-30 is 30 days out.
+    const pool = keyDateCandidates("2027-01-30").filter((c) => c.subjectId === "keydate:h1b-registration");
     expect(pool.length).toBeGreaterThan(0);
     expect(pool[0].label).toContain("30 days away");
   });
 
-  it("does not publish the DV window on most days of a month", () => {
+  it("does not publish an approximate window on most days of a month", () => {
     // The failure being fixed: it used to qualify every single day.
     let qualifying = 0;
     for (let d = 0; d < 30; d++) {
-      const date = new Date(Date.parse("2026-08-15T00:00:00Z") + d * 86_400_000)
+      const date = new Date(Date.parse("2027-01-15T00:00:00Z") + d * 86_400_000)
         .toISOString()
         .slice(0, 10);
-      if (keyDateCandidates(date).some((c) => c.subjectId === "keydate:dv-lottery")) qualifying++;
+      if (keyDateCandidates(date).some((c) => c.subjectId === "keydate:h1b-registration")) qualifying++;
     }
     expect(qualifying).toBeGreaterThan(0);
     expect(qualifying).toBeLessThanOrEqual(KEY_DATE_MILESTONES.length);
