@@ -1,7 +1,11 @@
 import { buildMetadata } from "@/lib/seo";
+import { requireAdminPage } from "@/lib/admin";
 import { PageHeader } from "@/components/PageHeader";
 import manifest from "@/lib/generated/newsletter-latest.json";
 import { formatDate } from "@/lib/format";
+
+// Admin only, checked per request (src/lib/admin.ts); never prerendered.
+export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title: "Weekly Pulse Email",
@@ -47,6 +51,7 @@ const kb = (n: number) => `${(n / 1024).toFixed(1)} KB`;
  * what this answers.
  */
 export default function PulseEmailAdminPage() {
+  requireAdminPage();
   const editions = (manifest.editions ?? []) as Edition[];
   const failing = editions.filter((e) => e.errors.length > 0);
   const unconfigured = editions.filter((e) => !e.audienceConfigured);

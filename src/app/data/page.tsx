@@ -168,9 +168,7 @@ export default function DataPage() {
           <h2 className="section-title">More</h2>
           <p>
             See the <Link href="/methodology" className="link-accent">methodology</Link> for metric definitions, the{" "}
-            <Link href="/sources" className="link-accent">sources</Link> page for every dataset, and the{" "}
-            <Link href="/admin/refresh-status" className="link-accent">refresh status</Link> page for per-source
-            ingestion health.
+            <Link href="/sources" className="link-accent">sources</Link> page for every dataset.
           </p>
         </section>
       </div>

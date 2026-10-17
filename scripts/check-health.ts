@@ -8,8 +8,8 @@
 //
 // Run by .github/workflows/pipeline-health.yml every six hours. Reads:
 //   • the committed health record (what the last ingestion found),
-//   • the LIVE https://immigrationclock.com/api/health.json (what production
-//     actually deployed), and with --probe,
+//   • the LIVE record from https://immigrationclock.com/api/admin/health (what
+//     production actually deployed; needs MONITOR_TOKEN), and with --probe,
 //   • the Federal Register API itself, independently of the adapter.
 //
 // Writes a step summary and, under GITHUB_OUTPUT, `state`, `alert`, `title`,
@@ -122,14 +122,26 @@ async function checkHomepage(expectedTitle: string | undefined): Promise<{ ok: b
 
 async function main() {
   const repo = JSON.parse(readFileSync("src/lib/generated/pipeline-health.json", "utf8")) as PipelineHealth;
-  const live = await fetchJson<PipelineHealth>(`${SITE}/api/health.json`, { "Cache-Control": "no-cache" });
+  // Production's health record is operator-only (/api/admin/health). Without
+  // MONITOR_TOKEN the live comparison is skipped, not failed: the repository
+  // checks and the Federal Register probe below still run.
+  const token = (process.env.MONITOR_TOKEN ?? "").trim();
+  const admin = token
+    ? await fetchJson<{ pipeline?: PipelineHealth }>(`${SITE}/api/admin/health`, {
+        "Cache-Control": "no-cache",
+        Authorization: `Bearer ${token}`,
+      })
+    : null;
+  const live = { ok: Boolean(admin?.ok && admin.data?.pipeline), data: admin?.data?.pipeline ?? null };
 
   log(`## Pipeline health — ${now}`);
   log("");
-  if (!live.ok) {
+  if (!token) {
+    log("MONITOR_TOKEN is not set, so the live site's health record was not read; repository checks only.");
+  } else if (!live.ok) {
     log(
-      `Live health file not readable (${live.status || live.error}). Before the first deploy that ships ` +
-        "/api/health.json this is expected; after it, a persistent failure here means production is not serving the current build."
+      `Live health record not readable (${admin?.status || admin?.error}). A persistent failure here means ` +
+        "production is not serving the current build, or MONITOR_TOKEN differs between GitHub and Vercel."
     );
   }
 

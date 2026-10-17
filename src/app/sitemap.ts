@@ -100,7 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const [path, lm, freq, priority] of STATIC) add(path, lm, freq, priority);
 
   // NOTE: /search is intentionally excluded — it is a navigation utility with no
-  // standalone content, and /admin/* is excluded by robots.txt and noindex.
+  // standalone content, and /admin/* answers 404 to anyone but an admin.
 
   // ---- Editorial records ---------------------------------------------------
   // One page per recorded change, dated by the document's own publication.

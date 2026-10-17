@@ -54,6 +54,10 @@ jobs:
 
       - name: Evaluate health (repo, live site, Federal Register probe)
         id: health
+        env:
+          # Reads production's operator-only health record. Unset: the live
+          # comparison is skipped and the repository checks still run.
+          MONITOR_TOKEN: ${{ secrets.MONITOR_TOKEN }}
         run: npm run health:check -- --probe
 
       # Pull requests report only: a branch's committed health is not production's.

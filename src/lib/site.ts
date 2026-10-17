@@ -178,7 +178,6 @@ export const FOOTER_SECTIONS = [
       { href: "/methodology", label: "Methodology" },
       { href: "/developers", label: "Free WARN API" },
       { href: "/sources", label: "Sources" },
-      { href: "/admin/refresh-status", label: "Refresh status" },
       // Was /admin/pulse-email — the operator's build dashboard, which under
       // this label is exactly what a reader looking for the weekly email
       // clicks. It answers with an eleven-column table of spam flags and byte
