@@ -162,9 +162,12 @@ describe("accessibility baseline", () => {
   it("uses a slate-500 that passes WCAG AA on our darkest surfaces", () => {
     // Secondary text carries source names, dates, and freshness — the trust
     // signals. Tailwind's default slate-500 (#64748b) fails AA here.
+    // The palette is CSS variables now (tests/theme.test.ts checks the light
+    // theme): the dark slate-500 must still be #8b98ad = 139 152 173.
     const cfg = read("tailwind.config.ts");
-    expect(cfg).toContain("#8b98ad");
+    expect(cfg).toContain('500: "rgb(var(--slate-500) / <alpha-value>)"');
     expect(cfg).not.toMatch(/slate:\s*\{\s*500:\s*"#64748b"/);
+    expect(read("src/app/globals.css")).toMatch(/--slate-500: 139 152 173;/);
 
     const luminance = (hex: string) => {
       const c = hex

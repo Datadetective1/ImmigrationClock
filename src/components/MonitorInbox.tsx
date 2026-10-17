@@ -82,7 +82,7 @@ function Pill({ children, tone = "quiet" }: { children: React.ReactNode; tone?: 
     <span
       className={
         tone === "warn"
-          ? "rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[11px] font-medium text-amber-200"
+          ? "rounded-full border border-status-amber/30 bg-status-amber/10 px-2 py-0.5 text-[11px] font-medium text-status-amber"
           : "rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-slate-300"
       }
     >
@@ -232,7 +232,7 @@ export function MonitorInbox() {
     return <p className="text-sm text-slate-500">Reading the archive…</p>;
   }
   if (error) {
-    return <p className="text-sm text-amber-200">{error}</p>;
+    return <p className="text-sm text-status-amber">{error}</p>;
   }
   if (!payload) return null;
 
