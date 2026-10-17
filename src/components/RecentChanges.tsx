@@ -18,6 +18,7 @@
 
 import Link from "next/link";
 import { formatDate } from "@/lib/format";
+import { changePath } from "@/lib/share";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { CLASSIFICATION_LABEL, SEVERITY_SHORT, isNotInForce } from "@/lib/event-labels";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
@@ -51,9 +52,11 @@ function ChangeRow({ event }: { event: ImmigrationEvent }) {
         </span>
       </div>
 
-      {/* ROW 2 — the title, given its own line and the most weight on the card. */}
+      {/* ROW 2 — the title, given its own line and the most weight on the card.
+          It opens this change's own record (summary, evidence, dates, source),
+          so a reader can check it here before leaving for the original. */}
       <h3 className="mt-1.5 text-sm font-semibold leading-snug text-white">
-        <Link href="/what-changed" className="inline-block py-1 hover:text-accent">
+        <Link href={changePath(event)} className="inline-block py-1 hover:text-accent">
           {event.title}
         </Link>
       </h3>
