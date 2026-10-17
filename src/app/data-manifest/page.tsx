@@ -2,7 +2,7 @@ import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
-import { FreshnessBadge } from "@/components/FreshnessBadge";
+import { SourcePeriodBadge } from "@/components/FreshnessBadge";
 import { dataManifest, REFRESH_STATUS } from "@/lib/refresh";
 import { formatDate } from "@/lib/format";
 
@@ -103,7 +103,7 @@ export default function DataManifestPage() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="text-slate-200">{r.latestPeriod}</div>
-                    <FreshnessBadge completeness={r.completeness} className="mt-1" />
+                    <SourcePeriodBadge completeness={r.completeness} className="mt-1" />
                   </td>
                   <td className="px-4 py-3 text-slate-300">{r.sourceUpdatedAt ? formatDate(r.sourceUpdatedAt) : "—"}</td>
                   <td className="px-4 py-3 text-slate-400">{dt(r.lastFetchedAt)}</td>
