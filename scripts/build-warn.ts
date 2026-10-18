@@ -22,6 +22,7 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as XLSX from "xlsx";
 import { normalizeEmployer, slugify } from "../src/lib/format";
+import { STATE_SOURCE as WARN_STATE_SOURCE } from "./warn-states.mjs";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/warn.json", import.meta.url));
 // Compact rollup of the SAME notices, for surfaces that need real WARN totals
@@ -33,6 +34,8 @@ const SUMMARY_OUT = fileURLToPath(new URL("../src/lib/generated/warn-summary.jso
 // scripts/refresh-warn-scraper.mjs. Committed to the repo and refreshed on a
 // schedule; the site build just reads it (no Python at build time).
 const SCRAPED_CACHE = fileURLToPath(new URL("../src/lib/generated/warn-scraper.json", import.meta.url));
+// Agency + portal per scraped state, shared with the normalizer and the plan step.
+const STATE_SOURCE: Record<string, { agency: string; portal: string } | undefined> = WARN_STATE_SOURCE;
 const DOL_WARN = "https://www.dol.gov/agencies/eta/layoffs/warn";
 // Public, free, machine-readable API surface (served as static files by the
 // static-export host). WARN Tracker charges for this; we give it away.
@@ -276,9 +279,14 @@ interface StateMeta {
   agency: string;
   pageUrl: string;
   datasetUrl: string;
+  /** How the rows arrived: fetched live at build time, or read from the committed scraper cache. */
+  via: "live" | "scraper";
+  /** When the state's portal was actually read. Live states: this build. Scraped states: the run that last parsed them. */
+  asOf: string;
 }
 
 async function main() {
+  const runAt = new Date().toISOString();
   const stateMeta = new Map<string, StateMeta>();
   const all: Notice[] = [];
 
@@ -288,7 +296,7 @@ async function main() {
       const notices = await a.fetch();
       if (notices.length === 0) throw new Error("0 rows");
       all.push(...notices);
-      stateMeta.set(a.code, { agency: a.agency, pageUrl: a.pageUrl, datasetUrl: a.datasetUrl });
+      stateMeta.set(a.code, { agency: a.agency, pageUrl: a.pageUrl, datasetUrl: a.datasetUrl, via: "live", asOf: runAt });
       const employeesTotal = notices.reduce((s, n) => s + n.employees, 0);
       console.log(`[build-warn] ${a.code}: ${notices.length} notices, ${employeesTotal.toLocaleString()} employees`);
     } catch (err: any) {
@@ -303,8 +311,19 @@ async function main() {
     if (existsSync(SCRAPED_CACHE)) {
       const raw = JSON.parse(await readFile(SCRAPED_CACHE, "utf8"));
       let n = 0;
+      let droppedForLive = 0;
       for (const r of raw.notices ?? []) {
         const code = String(r.state || "").toUpperCase();
+        // A live adapter that succeeded owns its state outright. Its rows and
+        // the scraper's describe the same filings with different column
+        // conventions, and the dedupe key below (state + employer + notice
+        // date + size) cannot always tell them apart — so a state fetched live
+        // is never also read from the cache. Texas and California are excluded
+        // from the scrape list for the same reason (scripts/warn-states.mjs).
+        if (stateMeta.has(code)) {
+          droppedForLive++;
+          continue;
+        }
         const notice = mkNotice(code, r.sourceUrl || DOL_WARN, {
           employer: r.employer,
           city: r.city ?? null,
@@ -318,15 +337,25 @@ async function main() {
       }
       for (const s of raw.states ?? []) {
         // Live adapters win on metadata; only fill states they didn't cover.
-        if (!stateMeta.has(s.code)) {
+        if (!stateMeta.has(s.code) && (s.count ?? 0) > 0) {
           stateMeta.set(s.code, {
-            agency: "State WARN portal (via warn-scraper)",
-            pageUrl: s.portal || DOL_WARN,
-            datasetUrl: s.portal || DOL_WARN,
+            // A cache written before the normalizer recorded agencies has no
+            // `agency`; the shared table fills it so the page never shows a
+            // placeholder for a state it knows.
+            agency: s.agency || STATE_SOURCE[s.code]?.agency || "State WARN portal (via warn-scraper)",
+            pageUrl: s.portal || STATE_SOURCE[s.code]?.portal || DOL_WARN,
+            datasetUrl: s.portal || STATE_SOURCE[s.code]?.portal || DOL_WARN,
+            via: "scraper",
+            // The cache stamps each state with the run that last read its
+            // portal; a state kept from an earlier run keeps that earlier date.
+            asOf: s.scrapedAt || raw.generatedAt || runAt,
           });
         }
       }
-      console.log(`[build-warn] scraped cache: ${n} notices across ${(raw.states ?? []).length} states`);
+      console.log(
+        `[build-warn] scraped cache: ${n} notices across ${(raw.states ?? []).length} states` +
+          (droppedForLive ? ` (${droppedForLive} rows dropped for states a live adapter already fetched)` : "")
+      );
     }
   } catch (err: any) {
     console.warn(`[build-warn] scraped cache skipped: ${err?.message || err}`);
@@ -405,7 +434,13 @@ async function main() {
   }
   const stateSummaries = [...summaryByState.entries()]
     .map(([code, s]) => {
-      const m = stateMeta.get(code) ?? { agency: "State WARN portal", pageUrl: DOL_WARN, datasetUrl: DOL_WARN };
+      const m: StateMeta = stateMeta.get(code) ?? {
+        agency: "State WARN portal",
+        pageUrl: DOL_WARN,
+        datasetUrl: DOL_WARN,
+        via: "scraper",
+        asOf: runAt,
+      };
       // What kind of date this state actually publishes. Pages use this to word
       // "latest notice" correctly: an effective-date-only state can legitimately
       // carry a FUTURE latest date, which must not be described as a filing date.
@@ -415,17 +450,33 @@ async function main() {
           : s.withEffectiveOnly > 0
             ? "effective"
             : "notice";
-      return { code, agency: m.agency, pageUrl: m.pageUrl, datasetUrl: m.datasetUrl, dateBasis, ...s };
+      return { code, agency: m.agency, pageUrl: m.pageUrl, datasetUrl: m.datasetUrl, via: m.via, asOf: m.asOf, dateBasis, ...s };
     })
     .sort((a, b) => b.employeesTotal - a.employeesTotal);
 
   const dates = notices.map((n) => n.noticeDate).filter((d): d is string => !!d).sort();
   const employeesTotal = notices.reduce((s, n) => s + n.employees, 0);
 
+  // Derived from what this build actually holds, never a fixed list: the note
+  // once named "TX, OR, CA" as live while Oregon had been failing with HTTP 403
+  // for weeks and was absent from the data it described.
+  const liveCodes = stateSummaries.filter((s) => s.via === "live").map((s) => s.code).sort();
+  const scrapedCodes = stateSummaries.filter((s) => s.via === "scraper").map((s) => s.code).sort();
+  const routes: string[] = [];
+  if (liveCodes.length) routes.push(`structured open-data portals fetched live (${liveCodes.join(", ")})`);
+  if (scrapedCodes.length) {
+    routes.push(
+      `${scrapedCodes.length} state${scrapedCodes.length === 1 ? "" : "s"} parsed from agency portals ` +
+        `(HTML, Excel and PDF listings) via biglocalnews/warn-scraper`
+    );
+  }
+  const coverageNote =
+    `Real WARN notices aggregated from ${stateSummaries.length} state feeds — ${routes.join(" plus ")}. ` +
+    "Not every state has a WARN act or a public feed; this is a growing subset, not a national total.";
+
   const payload = {
     generatedAt: new Date().toISOString(),
-    coverageNote:
-      "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
+    coverageNote,
     states: stateSummaries,
     stateCount: stateSummaries.length,
     noticeCount: notices.length,
@@ -490,7 +541,7 @@ async function main() {
   const summary = {
     generatedAt: payload.generatedAt,
     coverageNote: payload.coverageNote,
-    sourceName: "State WARN Act notices (state open-data portals)",
+    sourceName: "State WARN Act notices (state agency portals)",
     sourceUrl: DOL_WARN,
     states: stateSummaries,
     stateCount: payload.stateCount,

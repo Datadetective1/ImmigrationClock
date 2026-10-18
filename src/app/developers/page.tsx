@@ -253,13 +253,13 @@ df.groupby("state")["employees"].sum().sort_values(ascending=False)`}</Code>
         <section className="panel panel-pad">
           <h2 className="mb-2 text-base font-semibold text-white">Coverage &amp; cadence</h2>
           <p className="text-sm leading-relaxed text-slate-300">
-            There is no national WARN feed. This covers the states that publish a structured, machine-readable
-            feed — currently {WARN_STATES.map((s) => s.code).join(", ")} — and grows as more states do. The data
-            refreshes on every site build. For wider (PDF/HTML) state coverage, see the
-            {" "}
-            <Link href="/layoffs-vs-h1b" className="link-accent">layoffs vs H-1B</Link> analysis and the
-            {" "}
-            <Link href="/layoffs" className="link-accent">live feed</Link>.
+            There is no national WARN feed. This covers every state whose WARN portal we can read — currently{" "}
+            {WARN_STATES.map((s) => s.code).join(", ")} — and grows as more become parseable. Open-data states
+            refresh on every site build; states parsed from HTML, Excel or PDF listings refresh on a twice-weekly
+            schedule, and each state&apos;s <code className="text-xs">asOf</code> field says when its portal was
+            last read. See the{" "}
+            <Link href="/layoffs" className="link-accent">live feed</Link> for per-state coverage and the{" "}
+            <Link href="/layoffs-vs-h1b" className="link-accent">layoffs vs H-1B</Link> analysis.
           </p>
         </section>
 

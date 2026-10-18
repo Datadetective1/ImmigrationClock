@@ -152,7 +152,7 @@ const OVERLAP_CAVEAT =
   "Appearing in both datasets does not imply that one caused the other. The two records are matched only on a normalized employer name.";
 
 const WARN_SOURCE = {
-  name: "State WARN Act notices (state open-data portals)",
+  name: "State WARN Act notices (state agency portals)",
   url: "https://www.dol.gov/agencies/eta/layoffs/warn",
 };
 

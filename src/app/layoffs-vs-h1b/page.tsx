@@ -142,7 +142,7 @@ export default function LayoffsVsH1bPage() {
           actions={<DownloadCsvButton rows={csvRows} filename="warn-x-h1b-employers" />}
         >
           {crossLinked.length === 0 ? (
-            <p className="text-sm text-slate-400">No overlap in the current feed. Coverage grows as more states publish machine-readable WARN data.</p>
+            <p className="text-sm text-slate-400">No overlap in the current feed. Coverage grows as more state WARN portals become parseable.</p>
           ) : (
             <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">
               <table className="w-full min-w-[720px] text-sm">
