@@ -26,6 +26,10 @@ jobs:
       # Operator-only health (/api/admin/health). Unset: that line is skipped.
       MONITOR_TOKEN: ${{ secrets.MONITOR_TOKEN }}
     steps:
+      - name: DEBUG mail DNS (temporary)
+        run: |
+          for q in "_dmarc.immigrationclock.com TXT" "immigrationclock.com TXT" "send.immigrationclock.com TXT" "resend._domainkey.immigrationclock.com TXT" "nd.edu MX" "georgetown.edu MX" "ucdavis.edu MX" "_dmarc.nd.edu TXT"; do
+            echo "== dig $q"; dig +short $q | head -5; done
       - name: Check live pages
         run: |
           set -u
