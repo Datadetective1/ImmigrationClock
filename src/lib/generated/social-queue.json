@@ -1,51 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-17T16:51:51.872Z",
+  "updatedAt": "2026-10-18T17:05:34.560Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-20941::why_it_matters",
-      "subjectId": "event:federal_register:2026-20941",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Removing Deference to Prior USCIS Determinations of Eligibility",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20941/removing-deference-to-prior-uscis-determinations-of-eligibility",
-      "eventId": "federal_register:2026-20941",
-      "category": "proposed",
-      "topicKey": "source:federal_register",
-      "priority": 44404.98333333333,
-      "readerValue": 44,
-      "factsHash": "7fa2f952b4d5d7da",
-      "whyItMatters": [
-        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
-        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d",
-      "ogImage": "/og/change/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d.png",
-      "freshness": {
-        "publishedAt": "2026-10-14",
-        "discoveredAt": "2026-10-14",
-        "expiresAt": "2026-11-04"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "verified",
-          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d"
-        }
-      ]
-    },
     {
       "id": "signal:next-key-date::data_signal",
       "subjectId": "signal:next-key-date",
@@ -59,9 +15,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
-      "factsHash": "30ec2fbcecc0563b",
+      "factsHash": "994644c70d654d7d",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -180,7 +136,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -221,7 +177,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -272,7 +228,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -323,7 +279,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "a56bf3f0ca1b2960",
       "whyItMatters": [],
@@ -398,7 +354,7 @@
       "eventId": "federal_register:2026-20955",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 26052.983333333334,
+      "priority": 26052.977777777778,
       "readerValue": 80,
       "factsHash": "b454651ea9a9dd8d",
       "whyItMatters": [
@@ -442,7 +398,7 @@
       "eventId": "federal_register:2026-21024",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 25312.983333333334,
+      "priority": 25312.977777777778,
       "readerValue": 66,
       "factsHash": "e09102c6a5a5a890",
       "whyItMatters": [
@@ -485,7 +441,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22007,
+      "priority": 22008,
       "readerValue": 60,
       "factsHash": "b0ffa3ed9df7671f",
       "whyItMatters": [
@@ -528,7 +484,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 22003,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -559,49 +515,6 @@
       ]
     },
     {
-      "id": "explainer:border-encounters-are-events::explainer",
-      "subjectId": "explainer:border-encounters-are-events",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "A border encounter is an event, not a person",
-      "suggestedHeadline": null,
-      "sourceName": "CBP — Nationwide Encounters; CBP — Enforcement Statistics",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:enforcement-data",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "11bb30720f7d357b",
-      "whyItMatters": [
-        "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/border-encounters-are-events",
-      "ogImage": "/og/explainer/border-encounters-are-events.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/border-encounters-are-events"
-        }
-      ]
-    },
-    {
       "id": "explainer:what-a-warn-notice-is::explainer",
       "subjectId": "explainer:what-a-warn-notice-is",
       "contentType": "explainer",
@@ -614,7 +527,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -657,7 +570,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -700,7 +613,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -743,7 +656,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "fd54d1b5e49ad1c4",
       "whyItMatters": [
@@ -786,7 +699,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -829,7 +742,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -860,25 +773,27 @@
       ]
     },
     {
-      "id": "discovery:explainers::data_discovery",
-      "subjectId": "discovery:explainers",
-      "contentType": "data_discovery",
+      "id": "explainer:border-encounters-are-events::explainer",
+      "subjectId": "explainer:border-encounters-are-events",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "ImmigrationClock explains",
+      "headline": "A border encounter is an event, not a person",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "CBP — Nationwide Encounters; CBP — Enforcement Statistics",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:explained",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "c15d5822d00b1ad8",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:enforcement-data",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "11bb30720f7d357b",
+      "whyItMatters": [
+        "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained",
-      "ogImage": "/og/page/explained.png",
+      "shareUrl": "https://immigrationclock.com/explained/border-encounters-are-events",
+      "ogImage": "/og/explainer/border-encounters-are-events.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -896,7 +811,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/border-encounters-are-events"
         }
       ]
     },
@@ -913,7 +828,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -954,7 +869,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -995,7 +910,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -1036,9 +951,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
-      "factsHash": "2eafba054ebe03c3",
+      "factsHash": "6642c67a79111d30",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1077,7 +992,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1118,7 +1033,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1143,6 +1058,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/pulse"
+        }
+      ]
+    },
+    {
+      "id": "discovery:explainers::data_discovery",
+      "subjectId": "discovery:explainers",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "ImmigrationClock explains",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:explained",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "c15d5822d00b1ad8",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained",
+      "ogImage": "/og/page/explained.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
         }
       ]
     },
@@ -1966,6 +1922,64 @@
         },
         {
           "at": "2026-10-15T18:00:58.791Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20941::why_it_matters",
+      "subjectId": "event:federal_register:2026-20941",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Removing Deference to Prior USCIS Determinations of Eligibility",
+      "suggestedHeadline": "USCIS proposes to remove deference to prior approvals in 8 CFR 214.1(c)(5)",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20941/removing-deference-to-prior-uscis-determinations-of-eligibility",
+      "eventId": "federal_register:2026-20941",
+      "category": "proposed",
+      "topicKey": "source:federal_register",
+      "priority": 44404.97777777778,
+      "readerValue": 44,
+      "factsHash": "7fa2f952b4d5d7da",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
+      "suggestedPost": {
+        "x": "USCIS has proposed removing 8 CFR 214.1(c)(5) deference to prior approvals.\n\nPublished Oct. 14, 2026.\n\nWhy it matters: Open for comment, not a rule. Nothing changes unless a final rule publishes.\n\nFederal Register.\nhttps://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3A4cuc7d",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d",
+      "ogImage": "/og/change/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-11-04"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-18T17:05:15.142Z",
+      "externalUrl": "https://x.com/i/web/status/2111866288356139324",
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/removing-deference-to-prior-uscis-determinations-of-eligibility-4cuc7d"
+        },
+        {
+          "at": "2026-10-18T17:05:15.142Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-18T17:05:15.142Z",
           "status": "published",
           "reason": "published on x"
         }
