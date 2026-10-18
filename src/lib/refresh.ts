@@ -269,6 +269,12 @@ export interface ReportingLagRow {
   lagMonths: number | null; // months between dataThrough and now
   labels: string[]; // honesty chips
   note?: string;
+  /**
+   * The newest release the agency itself has published, when it is newer than
+   * the copy this site uses — so the page never calls our copy "the latest".
+   * Checked by hand against the agency page; `checkedAt` says when.
+   */
+  officialLatest?: { period: string; url: string; checkedAt: string };
 }
 
 const MONTHS_IDX: Record<string, number> = {
@@ -295,6 +301,24 @@ function monthsBehind(iso: string | null): number | null {
 }
 
 const CURATED_LABELS = ["Latest official published figures", "Delayed reporting", "Curated / manual source"];
+const BEHIND_OFFICIAL_LABELS = ["Newer official release available", "Curated / manual source"];
+
+// The agencies' own newest releases, checked by hand (2026-10-18). Update these
+// when the site loads a newer file, or when the agency publishes again.
+//   USCIS: the Data Hub page states it "includes data from fiscal year 2009
+//          through fiscal year 2026 (quarter 3)".
+//   DOL:   OFLC announced the FY2026 Q3 disclosure files on Aug 14, 2026,
+//          covering determinations from Oct 1, 2025 through Jun 30, 2026.
+const USCIS_HUB_OFFICIAL_LATEST = {
+  period: "FY2026 through Q3",
+  url: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+  checkedAt: "2026-10-18",
+};
+const DOL_OFLC_OFFICIAL_LATEST = {
+  period: "FY2026 Q3 (determinations through Jun 30, 2026)",
+  url: "https://www.dol.gov/agencies/eta/foreign-labor/performance",
+  checkedAt: "2026-10-18",
+};
 
 export function reportingLagRows(): ReportingLagRow[] {
   const bls = (refresh as { bls?: { ok?: boolean; period?: string; sourceUpdatedAt?: string } }).bls;
@@ -371,10 +395,12 @@ export function reportingLagRows(): ReportingLagRow[] {
       agency: agency("uscis_h1b"),
       cadence: "annual",
       live: false,
-      latestPeriod: "FY2024 (latest release)",
-      dataThrough: "2024-09-30",
+      latestPeriod: `FY${EMPLOYERS_META.fiscalYear}`,
+      dataThrough: `${EMPLOYERS_META.fiscalYear}-09-30`,
       lagMonths: null,
-      labels: CURATED_LABELS,
+      labels: BEHIND_OFFICIAL_LABELS,
+      officialLatest: USCIS_HUB_OFFICIAL_LATEST,
+      note: `Employer pages, rankings and the top-sponsor figures use the FY${EMPLOYERS_META.fiscalYear} Employer Data Hub export. USCIS has published newer data that this site has not loaded yet.`,
     },
     {
       key: "dol_lca",
@@ -382,10 +408,12 @@ export function reportingLagRows(): ReportingLagRow[] {
       agency: agency("dol_lca"),
       cadence: "quarterly",
       live: false,
-      latestPeriod: "FY2024 (latest release)",
+      latestPeriod: "FY2024",
       dataThrough: "2024-09-30",
       lagMonths: null,
-      labels: CURATED_LABELS,
+      labels: BEHIND_OFFICIAL_LABELS,
+      officialLatest: DOL_OFLC_OFFICIAL_LATEST,
+      note: "Wage figures use FY2024 OFLC disclosure data. DOL has published newer quarterly disclosure files that this site has not loaded yet.",
     },
   ];
 

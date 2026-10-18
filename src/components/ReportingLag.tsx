@@ -25,9 +25,9 @@ export function ReportingLag({ only, compact = false }: { only?: string[]; compa
         <p className="text-sm leading-relaxed text-slate-300">
           Official immigration data is published on a delay — some sources monthly, others only once a
           year. Where an agency offers a machine-readable feed we fetch it{" "}
-          <strong className="text-white">live at build time</strong>; the rest we keep as the{" "}
-          <strong className="text-white">latest official published figures</strong>, clearly labelled and
-          never presented as more current than they are.
+          <strong className="text-white">live at build time</strong>; the rest we keep as{" "}
+          <strong className="text-white">curated copies of official published figures</strong>, clearly labelled,
+          never presented as more current than they are, and marked when the agency has published something newer.
         </p>
       ) : null}
 
@@ -57,9 +57,18 @@ export function ReportingLag({ only, compact = false }: { only?: string[]; compa
                 <div className="text-right">
                   <div className={`text-sm font-semibold ${lag.cls}`}>{lag.text}</div>
                   <div className="text-[11px] text-slate-500">
-                    Latest: {r.latestPeriod}
+                    {r.officialLatest ? "On this site" : "Latest"}: {r.latestPeriod}
                     {r.dataThrough ? ` · through ${formatDate(r.dataThrough)}` : ""}
                   </div>
+                  {r.officialLatest ? (
+                    <div className="text-[11px] text-slate-500">
+                      Latest official:{" "}
+                      <a href={r.officialLatest.url} target="_blank" rel="noopener noreferrer" className="link-accent">
+                        {r.officialLatest.period}
+                      </a>{" "}
+                      · checked {formatDate(r.officialLatest.checkedAt)}
+                    </div>
+                  ) : null}
                 </div>
               </div>
 

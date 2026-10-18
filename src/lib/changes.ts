@@ -137,8 +137,10 @@ export function buildChangeFeed(): ChangeItem[] {
   if (uscis && uscis.lagMonths != null) {
     items.push({
       key: "h1b-lag",
-      title: `H-1B employer data still lags ~${uscis.lagMonths} months behind the real economy`,
-      detail: `The latest official USCIS employer release is ${uscis.latestPeriod}. Layoffs and the labor market move months before the visa data catches up.`,
+      title: `H-1B employer pages use USCIS ${uscis.latestPeriod} data`,
+      detail: uscis.officialLatest
+        ? `USCIS has since published Employer Data Hub data through ${uscis.officialLatest.period}; this site's employer pages have not been updated to it yet.`
+        : `The latest official USCIS employer release is ${uscis.latestPeriod}. Layoffs and the labor market move months before the visa data catches up.`,
       direction: "none",
       group: "visa",
       provenance: "reported",

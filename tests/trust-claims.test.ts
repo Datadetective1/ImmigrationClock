@@ -340,3 +340,36 @@ describe("federal register relevance filter", () => {
     expect(junk.map((e) => `${e.id}: ${e.title}`)).toEqual([]);
   });
 });
+
+// =============================================================================
+// A curated copy is never "the latest release" once the agency has moved on.
+// USCIS and DOL published newer files than the ones this site loads; the /data
+// table must say which version powers the site and which is the agency's latest.
+// =============================================================================
+describe("freshness labels for curated datasets", () => {
+  it("describe the version the site uses, and the newer official release", async () => {
+    const { reportingLagRows } = await import("@/lib/refresh");
+    const { EMPLOYERS_META } = await import("@/lib/employers");
+    const rows = reportingLagRows();
+    const uscis = rows.find((r) => r.key === "uscis_h1b")!;
+    const dol = rows.find((r) => r.key === "dol_lca")!;
+
+    expect(uscis.latestPeriod).toBe(`FY${EMPLOYERS_META.fiscalYear}`);
+    expect(uscis.dataThrough).toBe(`${EMPLOYERS_META.fiscalYear}-09-30`);
+    expect(uscis.officialLatest?.period).toMatch(/FY2026/);
+    expect(dol.latestPeriod).toBe("FY2024");
+    expect(dol.officialLatest?.period).toMatch(/FY2026 Q3/);
+
+    for (const r of [uscis, dol]) {
+      expect(r.latestPeriod).not.toMatch(/latest release/i);
+      expect(r.labels).not.toContain("Latest official published figures");
+      expect(r.officialLatest?.url).toMatch(/^https:\/\/www\.(uscis|dol)\.gov\//);
+      expect(r.officialLatest?.checkedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    }
+  });
+
+  it("keep the H-1B lag item from calling our copy the latest USCIS release", async () => {
+    const s = src("lib/changes.ts");
+    expect(s).toContain("uscis.officialLatest");
+  });
+});
