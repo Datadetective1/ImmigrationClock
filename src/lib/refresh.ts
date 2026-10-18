@@ -314,6 +314,14 @@ const USCIS_HUB_OFFICIAL_LATEST = {
   url: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
   checkedAt: "2026-10-18",
 };
+// State Dept: the owner found monthly NIV issuance tables through August 2026
+// on travel.state.gov (2026-10-18); the site's figures were entered from the
+// tables through about April 2026 (see the note above VISA_REAL in source-data.ts).
+const DOS_VISA_OFFICIAL_LATEST = {
+  period: "Monthly tables through August 2026",
+  url: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics/nonimmigrant-visa-statistics/monthly-nonimmigrant-visa-issuances.html",
+  checkedAt: "2026-10-18",
+};
 const DOL_OFLC_OFFICIAL_LATEST = {
   period: "FY2026 Q3 (determinations through Jun 30, 2026)",
   url: "https://www.dol.gov/agencies/eta/foreign-labor/performance",
@@ -382,12 +390,13 @@ export function reportingLagRows(): ReportingLagRow[] {
       agency: agency("dos_visa"),
       cadence: "monthly",
       live: false,
-      latestPeriod: "Monthly tables to Sep 2025 · FY2024 annual",
-      dataThrough: "2025-09-30",
+      latestPeriod: "FY2026 year-to-date to about April 2026",
+      dataThrough: "2026-04-30",
       lagMonths: null,
-      labels: CURATED_LABELS,
+      labels: BEHIND_OFFICIAL_LABELS,
+      officialLatest: DOS_VISA_OFFICIAL_LATEST,
       note:
-        "The State Department publishes monthly issuances as PDFs on a lag (no machine-readable feed). Current-year figures shown on the site are clearly-labelled projections until the official tables catch up — we never present them as reported totals.",
+        "Visa figures were entered by hand from the State Department's monthly tables through about April 2026; some FY2025 and FY2026 values are rounded. The State Department has published newer monthly tables that this site has not loaded yet. Current-year figures are labelled projections, never reported totals.",
     },
     {
       key: "uscis_h1b",
@@ -413,7 +422,7 @@ export function reportingLagRows(): ReportingLagRow[] {
       lagMonths: null,
       labels: BEHIND_OFFICIAL_LABELS,
       officialLatest: DOL_OFLC_OFFICIAL_LATEST,
-      note: "Wage figures use FY2024 OFLC disclosure data. DOL has published newer quarterly disclosure files that this site has not loaded yet.",
+      note: "The average offered wage is modeled: approximate FY2024 offered wages for a curated set of large employers, entered by hand. It is not computed from the OFLC disclosure files, which DOL has since published through FY2026 Q3.",
     },
   ];
 

@@ -108,7 +108,7 @@ export default function StatePage({ params }: { params: { stateCode: string } })
             value={agg.avgWage > 0 ? formatCurrency(agg.avgWage) : "—"}
             sub={agg.avgWage > 0 ? "Tracked employers" : "No curated profile for this state"}
             provenance={agg.avgWage > 0 ? "modeled" : undefined}
-            tooltip="Average of offered wages across the same curated employer subset, derived from DOL LCA disclosure averages. Not a state-wide average wage."
+            tooltip="Modeled: average of approximate FY2024 offered wages entered by hand for the same curated employer subset. Not computed from the DOL disclosure files, and not a state-wide average wage."
           />
           <Stat
             label="ICE arrests"

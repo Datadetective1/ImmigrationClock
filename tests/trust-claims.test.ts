@@ -368,6 +368,26 @@ describe("freshness labels for curated datasets", () => {
     }
   });
 
+  it("separate the State Department's latest tables from the months the site's visa data covers", async () => {
+    const { reportingLagRows } = await import("@/lib/refresh");
+    const dos = reportingLagRows().find((r) => r.key === "dos_visa")!;
+    expect(dos.officialLatest?.period).toBe("Monthly tables through August 2026");
+    expect(dos.dataThrough).toBe("2026-04-30");
+    expect(dos.latestPeriod).not.toMatch(/August/);
+    expect(dos.labels).not.toContain("Latest official published figures");
+  });
+
+  it("call the average offered wage modeled, not computed from the DOL files", async () => {
+    const { reportingLagRows } = await import("@/lib/refresh");
+    const dol = reportingLagRows().find((r) => r.key === "dol_lca")!;
+    expect(dol.note).toMatch(/modeled/i);
+    expect(dol.note).toMatch(/not computed from the OFLC disclosure files/);
+    for (const f of ["lib/data.ts", "app/h1b/top-sponsors/page.tsx", "app/state/[stateCode]/page.tsx"]) {
+      expect(src(f), f).not.toContain("derived from DOL LCA disclosure averages");
+    }
+    expect(src("lib/data.ts")).toContain("It is not computed from the DOL OFLC disclosure files");
+  });
+
   it("keep the H-1B lag item from calling our copy the latest USCIS release", async () => {
     const s = src("lib/changes.ts");
     expect(s).toContain("uscis.officialLatest");
