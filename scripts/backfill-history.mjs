@@ -14,6 +14,7 @@
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { cbpAorCsvPaths, cbpMonthFromPath } from "./cbp-links.mjs";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/history.json", import.meta.url));
 const CBP_HOST = "https://www.cbp.gov";
@@ -78,19 +79,12 @@ async function main() {
   console.log("[backfill] fetching CBP landing page…");
   const page = await fetchText(CBP_LANDING);
   // All monthly "...-MON-aor.csv" links that include the in-progress FY (fy..26).
-  const links = [
-    ...new Set(
-      [...page.matchAll(/\/sites\/default\/files\/[^"']*nationwide-encounters-fy\d{2}-fy26-([a-z]{3})-aor\.csv/gi)].map(
-        (m) => m[0]
-      )
-    ),
-  ];
+  const links = cbpAorCsvPaths(page).filter((p) => /nationwide-encounters-fy\d{2}-fy26-[a-z]{3}-aor/i.test(p));
   console.log(`[backfill] found ${links.length} in-progress-FY monthly files`);
 
   const series = [];
   for (const rel of links) {
-    const monthM = rel.match(/-([a-z]{3})-aor\.csv$/i);
-    const month = monthM ? monthM[1].toUpperCase() : null;
+    const month = cbpMonthFromPath(rel);
     const folderM = rel.match(/files\/(\d{4}-\d{2})\//);
     try {
       const csv = await fetchText(CBP_HOST + rel);

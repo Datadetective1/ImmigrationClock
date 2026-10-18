@@ -24,6 +24,7 @@
 import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { latestCbpAorCsv } from "./cbp-links.mjs";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/refresh.json", import.meta.url));
 // Machine-readable manifest served as a static asset at /data-manifest.json
@@ -121,12 +122,12 @@ const MONTH_NAMES = {
 async function fetchCbpEncounters(prev) {
   try {
     const page = await (await fetchWithTimeout(CBP_LANDING)).text();
-    // The newest "...-aor.csv" link appears first on the page.
-    const m = page.match(/\/sites\/default\/files\/[^"']*nationwide-encounters-[^"']*-aor\.csv/i);
-    if (!m) throw new Error("no nationwide-encounters CSV link on landing page");
-    const csvUrl = CBP_HOST + m[0];
-    const monthM = m[0].match(/-([a-z]{3})-aor\.csv$/i);
-    const monthAbbr = monthM ? monthM[1].toUpperCase() : null;
+    // The newest "...-aor.csv" link appears first on the page (see cbp-links.mjs
+    // for the "_0" re-upload suffix CBP sometimes adds).
+    const latest = latestCbpAorCsv(page);
+    if (!latest) throw new Error("no nationwide-encounters CSV link on landing page");
+    const csvUrl = CBP_HOST + latest.path;
+    const monthAbbr = latest.monthAbbr;
 
     const csv = await (await fetchWithTimeout(csvUrl, {}, 30000)).text();
     const lines = csv.split(/\r?\n/).filter(Boolean);
