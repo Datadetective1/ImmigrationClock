@@ -60,7 +60,7 @@ export default function TopSponsorsPage() {
             value={formatCurrency(wAvg)}
             sub="Offered wage"
             provenance="modeled"
-            tooltip="Approval-weighted average across the same curated set, derived from DOL LCA disclosure averages."
+            tooltip="Modeled: approval-weighted average of approximate FY2024 offered wages entered by hand for the same curated set. Not computed from the DOL disclosure files."
           />
           <Stat label="Avg approval rate" value={formatRate(avgRate)} provenance="modeled" />
           <Stat label="Employers tracked" value={String(sponsors.length)} sub="Curated profiles" />

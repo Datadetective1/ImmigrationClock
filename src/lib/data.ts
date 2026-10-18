@@ -687,7 +687,7 @@ export function buildMetrics(): Metric[] {
       href: "/layoffs-vs-h1b",
       status: "GREEN",
       tooltip:
-        "Approval-weighted average offered wage across a curated set of large H-1B employers, derived from DOL LCA disclosure averages and anchored to FY2024. This is a modeled figure over a subset, not a published national average wage.",
+        "Modeled, not reported: an approval-weighted average of approximate FY2024 offered wages entered by hand for a curated set of large H-1B employers. It is not computed from the DOL OFLC disclosure files and is not a published national average wage.",
       latest: mp(avgWage, EMPLOYER_LATEST_FY, "complete", UPDATED.dol_lca, true, {
         provenance: "modeled",
       }),
