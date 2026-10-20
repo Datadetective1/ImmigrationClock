@@ -1,346 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-18T17:05:34.560Z",
+  "updatedAt": "2026-10-20T18:22:55.010Z",
   "items": [
-    {
-      "id": "signal:next-key-date::data_signal",
-      "subjectId": "signal:next-key-date",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The next recurring immigration date on the calendar",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Dept. of State — DV Program",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:green-card",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "994644c70d654d7d",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
-      "ogImage": "/og/signal/next-key-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T16:14:06.760Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
-        },
-        {
-          "at": "2026-09-05T15:59:08.628Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-05"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-13T16:56:55.352Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-13"
-        },
-        {
-          "at": "2026-09-15T17:39:11.072Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-20"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-22"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-25T17:55:10.852Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-25"
-        },
-        {
-          "at": "2026-09-26T17:05:48.741Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-09-27T17:41:20.960Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-09-27"
-        },
-        {
-          "at": "2026-09-28T20:05:54.008Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-04T17:27:22.483Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-10-04"
-        },
-        {
-          "at": "2026-10-06T18:53:21.566Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-08T19:28:31.316Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-10-08"
-        },
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30008,
-      "readerValue": 65,
-      "factsHash": "0ff89fa3afb66520",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-sponsors-by-state::data_signal",
-      "subjectId": "signal:h1b-sponsors-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Where the H-1B sponsors are",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30007,
-      "readerValue": 65,
-      "factsHash": "a1c08d31ca1d2321",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
-      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
-        },
-        {
-          "at": "2026-09-19T16:23:39.906Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-approval-rate::data_signal",
-      "subjectId": "signal:h1b-approval-rate",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How often H-1B petitions were approved in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30006,
-      "readerValue": 65,
-      "factsHash": "18b61ebf2981afed",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
-      "ogImage": "/og/signal/h1b-approval-rate.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
-    {
-      "id": "signal:warn-by-state::data_signal",
-      "subjectId": "signal:warn-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
-      "suggestedHeadline": "Texas leads our WARN feed by notices: 2,358 on file",
-      "sourceName": "State WARN Act notices (state open-data portals)",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "topic:layoffs",
-      "priority": 30004,
-      "readerValue": 65,
-      "factsHash": "a56bf3f0ca1b2960",
-      "whyItMatters": [],
-      "suggestedPost": {
-        "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
-        "linkedin": "",
-        "structure": "data_figure"
-      },
-      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
-      "ogImage": "/og/signal/warn-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": "2026-09-13T19:22:42.224Z",
-      "externalUrl": "https://x.com/i/web/status/2099217320631734706",
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
-        },
-        {
-          "at": "2026-09-11T17:00:30.411Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-12T16:13:48.006Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        },
-        {
-          "at": "2026-09-13T19:22:42.224Z",
-          "status": "ready",
-          "reason": "copy generated and validated"
-        },
-        {
-          "at": "2026-09-13T19:22:42.224Z",
-          "status": "published",
-          "reason": "published on x"
-        },
-        {
-          "at": "2026-09-22T17:37:03.066Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-23T17:49:49.297Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-20955::why_it_matters",
       "subjectId": "event:federal_register:2026-20955",
@@ -354,7 +15,7 @@
       "eventId": "federal_register:2026-20955",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 26052.977777777778,
+      "priority": 26052.966666666667,
       "readerValue": 80,
       "factsHash": "b454651ea9a9dd8d",
       "whyItMatters": [
@@ -386,45 +47,46 @@
       ]
     },
     {
-      "id": "event:federal_register:2026-21024::what_changed",
-      "subjectId": "event:federal_register:2026-21024",
-      "contentType": "what_changed",
-      "tier": "news",
+      "id": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc::why_it_matters",
+      "subjectId": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
       "status": "verified",
-      "headline": "Imposition and Collection of Civil Penalties for Certain Immigration-Related Violations",
+      "headline": "Massachusetts Man Charged for His Role in Marriage and Immigration Document Fraud",
       "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-21024/imposition-and-collection-of-civil-penalties-for-certain-immigration-related-violations",
-      "eventId": "federal_register:2026-21024",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-document-fraud",
+      "eventId": "uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
       "category": "explainer",
-      "topicKey": "topic:enforcement",
-      "priority": 25312.977777777778,
-      "readerValue": 66,
-      "factsHash": "e09102c6a5a5a890",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23700.994444444445,
+      "readerValue": 34,
+      "factsHash": "348a629e0bc3ae34",
       "whyItMatters": [
-        "The document states an effective date of October 14, 2026, which has passed. A later rule, court order or withdrawal can change whether it still applies."
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m",
-      "ogImage": "/og/change/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm",
+      "ogImage": "/og/change/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm.png",
       "freshness": {
-        "publishedAt": "2026-10-14",
-        "discoveredAt": "2026-10-14",
-        "expiresAt": "2026-10-24"
+        "publishedAt": "2026-10-19",
+        "discoveredAt": "2026-10-20",
+        "expiresAt": "2026-11-10"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-10-14T18:19:07.137Z",
+          "at": "2026-10-20T18:21:49.446Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-10-14T18:19:07.137Z",
+          "at": "2026-10-20T18:21:49.446Z",
           "status": "verified",
-          "reason": "reader value 66/100 clears the floor; share page https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m"
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm"
         }
       ]
     },
@@ -441,7 +103,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22008,
+      "priority": 22010,
       "readerValue": 60,
       "factsHash": "b0ffa3ed9df7671f",
       "whyItMatters": [
@@ -484,7 +146,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:students",
-      "priority": 22004,
+      "priority": 22006,
       "readerValue": 60,
       "factsHash": "ea08f20297a9dff5",
       "whyItMatters": [
@@ -515,49 +177,6 @@
       ]
     },
     {
-      "id": "explainer:what-a-warn-notice-is::explainer",
-      "subjectId": "explainer:what-a-warn-notice-is",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What a WARN notice is",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN); 29 U.S.C. § 2101 — WARN Act definitions; 29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:workforce-data",
-      "priority": 20013,
-      "readerValue": 60,
-      "factsHash": "da034e5d18b62a5b",
-      "whyItMatters": [
-        "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/what-a-warn-notice-is",
-      "ogImage": "/og/explainer/what-a-warn-notice-is.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/what-a-warn-notice-is"
-        }
-      ]
-    },
-    {
       "id": "explainer:naturalization-ceremony::explainer",
       "subjectId": "explainer:naturalization-ceremony",
       "contentType": "explainer",
@@ -570,7 +189,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20012,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -613,7 +232,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20011,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -656,7 +275,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20009,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "fd54d1b5e49ad1c4",
       "whyItMatters": [
@@ -699,7 +318,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20005,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -742,7 +361,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20003,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -785,7 +404,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20001,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -816,25 +435,27 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
+      "id": "explainer:what-a-warn-notice-is::explainer",
+      "subjectId": "explainer:what-a-warn-notice-is",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "The H-1B employer directory",
+      "headline": "What a WARN notice is",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN); 29 U.S.C. § 2101 — WARN Act definitions; 29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:workforce-data",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "da034e5d18b62a5b",
+      "whyItMatters": [
+        "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
+      "shareUrl": "https://immigrationclock.com/explained/what-a-warn-notice-is",
+      "ogImage": "/og/explainer/what-a-warn-notice-is.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -852,48 +473,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
-        }
-      ]
-    },
-    {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Key dates, counted down",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15007,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/what-a-warn-notice-is"
         }
       ]
     },
@@ -910,7 +490,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -951,9 +531,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "6642c67a79111d30",
+      "factsHash": "aff8e633a7ca0c2e",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -992,7 +572,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -1033,7 +613,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -1074,7 +654,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -1099,6 +679,88 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
         }
       ]
     },
@@ -2541,6 +2203,64 @@
         },
         {
           "at": "2026-09-15T17:39:11.072Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc::what_changed",
+      "subjectId": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "published",
+      "headline": "Massachusetts Man Charged for His Role in Marriage and Immigration Document Fraud",
+      "suggestedHeadline": "USCIS notes charges in Massachusetts marriage/document fraud case",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-document-fraud",
+      "eventId": "uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24550.994444444445,
+      "readerValue": 34,
+      "factsHash": "a83b5e74f3f87103",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS says it helped an investigation that led to charges against a Massachusetts man, 31, for alleged marriage and immigration document fraud.\n\nAnnouncement only—no policy change. Legal detail posts separately in the Federal Register.\nhttps://immigrationclock.com/what-changed/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3Azpfmwm",
+        "linkedin": "",
+        "structure": "direct"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm",
+      "ogImage": "/og/change/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm.png",
+      "freshness": {
+        "publishedAt": "2026-10-19",
+        "discoveredAt": "2026-10-20",
+        "expiresAt": "2026-10-30"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-20T18:21:49.446Z",
+      "externalUrl": "https://x.com/i/web/status/2112610527713386619",
+      "history": [
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/massachusetts-man-charged-for-his-role-in-marriage-and-immigration-zpfmwm"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4248,6 +3968,418 @@
           "at": "2026-10-16T17:49:08.528Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-16"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30010,
+      "readerValue": 65,
+      "factsHash": "0ff89fa3afb66520",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-sponsors-by-state::data_signal",
+      "subjectId": "signal:h1b-sponsors-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "Where the H-1B sponsors are",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30009,
+      "readerValue": 65,
+      "factsHash": "a1c08d31ca1d2321",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
+      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
+        },
+        {
+          "at": "2026-09-19T16:23:39.906Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-approval-rate::data_signal",
+      "subjectId": "signal:h1b-approval-rate",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "How often H-1B petitions were approved in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30008,
+      "readerValue": 65,
+      "factsHash": "18b61ebf2981afed",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
+      "ogImage": "/og/signal/h1b-approval-rate.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:warn-by-state::data_signal",
+      "subjectId": "signal:warn-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "Which states file the most WARN notices in ImmigrationClock's feed",
+      "suggestedHeadline": "Texas leads our WARN feed by notices: 2,358 on file",
+      "sourceName": "State WARN Act notices (state open-data portals)",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:layoffs",
+      "priority": 30006,
+      "readerValue": 65,
+      "factsHash": "a56bf3f0ca1b2960",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
+        "linkedin": "",
+        "structure": "data_figure"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/warn-by-state",
+      "ogImage": "/og/signal/warn-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-09-13T19:22:42.224Z",
+      "externalUrl": "https://x.com/i/web/status/2099217320631734706",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/warn-by-state"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-12T16:13:48.006Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-09-13T19:22:42.224Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-09-13T19:22:42.224Z",
+          "status": "published",
+          "reason": "published on x"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:next-key-date::data_signal",
+      "subjectId": "signal:next-key-date",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The next recurring immigration date on the calendar",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Dept. of State — DV Program",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/us-visas/immigrate/diversity-visa-program-entry.html",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "topic:green-card",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "61679a569149e7bb",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/next-key-date",
+      "ogImage": "/og/signal/next-key-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T16:14:06.760Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/next-key-date"
+        },
+        {
+          "at": "2026-09-05T15:59:08.628Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-05"
+        },
+        {
+          "at": "2026-09-11T17:00:30.411Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-13T16:56:55.352Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-13"
+        },
+        {
+          "at": "2026-09-15T17:39:11.072Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-20"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-22T17:37:03.066Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-22"
+        },
+        {
+          "at": "2026-09-23T17:49:49.297Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-25T17:55:10.852Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-25"
+        },
+        {
+          "at": "2026-09-26T17:05:48.741Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-09-27T17:41:20.960Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-09-27"
+        },
+        {
+          "at": "2026-09-28T20:05:54.008Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-04T17:27:22.483Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-04"
+        },
+        {
+          "at": "2026-10-06T18:53:21.566Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-08T19:28:31.316Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-08"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-21024::what_changed",
+      "subjectId": "event:federal_register:2026-21024",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "Imposition and Collection of Civil Penalties for Certain Immigration-Related Violations",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-21024/imposition-and-collection-of-civil-penalties-for-certain-immigration-related-violations",
+      "eventId": "federal_register:2026-21024",
+      "category": "explainer",
+      "topicKey": "topic:enforcement",
+      "priority": 25312.977777777778,
+      "readerValue": 66,
+      "factsHash": "e09102c6a5a5a890",
+      "whyItMatters": [
+        "The document states an effective date of October 14, 2026, which has passed. A later rule, court order or withdrawal can change whether it still applies."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m",
+      "ogImage": "/og/change/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-10-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 66/100 clears the floor; share page https://immigrationclock.com/what-changed/imposition-and-collection-of-civil-penalties-for-certain-immigration-npwi3m"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-20"
         }
       ]
     },
