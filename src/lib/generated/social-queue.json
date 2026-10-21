@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-20T18:22:55.010Z",
+  "updatedAt": "2026-10-21T18:25:27.912Z",
   "items": [
     {
       "id": "event:federal_register:2026-20955::why_it_matters",
@@ -15,7 +15,7 @@
       "eventId": "federal_register:2026-20955",
       "category": "explainer",
       "topicKey": "topic:enforcement",
-      "priority": 26052.966666666667,
+      "priority": 26052.96111111111,
       "readerValue": 80,
       "factsHash": "b454651ea9a9dd8d",
       "whyItMatters": [
@@ -59,7 +59,7 @@
       "eventId": "uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.994444444445,
+      "priority": 23700.98888888889,
       "readerValue": 34,
       "factsHash": "348a629e0bc3ae34",
       "whyItMatters": [
@@ -103,7 +103,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22010,
+      "priority": 22011,
       "readerValue": 60,
       "factsHash": "b0ffa3ed9df7671f",
       "whyItMatters": [
@@ -134,92 +134,6 @@
       ]
     },
     {
-      "id": "explainer:opt-in-plain-terms::explainer",
-      "subjectId": "explainer:opt-in-plain-terms",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "OPT, in plain terms",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:students",
-      "priority": 22006,
-      "readerValue": 60,
-      "factsHash": "ea08f20297a9dff5",
-      "whyItMatters": [
-        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
-      "ogImage": "/og/explainer/opt-in-plain-terms.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
-        }
-      ]
-    },
-    {
-      "id": "explainer:naturalization-ceremony::explainer",
-      "subjectId": "explainer:naturalization-ceremony",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What happens at a naturalization ceremony",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — Naturalization Ceremonies; USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
-      "sourceUrl": "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:citizenship",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "e47a11c97aa782bc",
-      "whyItMatters": [
-        "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/naturalization-ceremony",
-      "ogImage": "/og/explainer/naturalization-ceremony.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/naturalization-ceremony"
-        }
-      ]
-    },
-    {
       "id": "explainer:reported-projected-estimated::explainer",
       "subjectId": "explainer:reported-projected-estimated",
       "contentType": "explainer",
@@ -232,7 +146,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -275,7 +189,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "fd54d1b5e49ad1c4",
       "whyItMatters": [
@@ -318,7 +232,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -361,7 +275,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -404,7 +318,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -447,7 +361,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -478,25 +392,27 @@
       ]
     },
     {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
+      "id": "explainer:naturalization-ceremony::explainer",
+      "subjectId": "explainer:naturalization-ceremony",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
+      "headline": "What happens at a naturalization ceremony",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "USCIS — Naturalization Ceremonies; USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
+      "sourceUrl": "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:citizenship",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "e47a11c97aa782bc",
+      "whyItMatters": [
+        "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
+      "shareUrl": "https://immigrationclock.com/explained/naturalization-ceremony",
+      "ogImage": "/og/explainer/naturalization-ceremony.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -514,7 +430,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/naturalization-ceremony"
         }
       ]
     },
@@ -531,7 +447,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "aff8e633a7ca0c2e",
       "whyItMatters": [],
@@ -572,7 +488,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -613,7 +529,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -654,7 +570,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -695,7 +611,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -736,7 +652,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -761,6 +677,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
         }
       ]
     },
@@ -2784,6 +2741,63 @@
       ]
     },
     {
+      "id": "explainer:opt-in-plain-terms::explainer",
+      "subjectId": "explainer:opt-in-plain-terms",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "OPT, in plain terms",
+      "suggestedHeadline": "OPT vs. STEM OPT, in plain terms",
+      "sourceName": "USCIS — Optional Practical Training (OPT) for F-1 Students; USCIS — Optional Practical Training Extension for STEM Students (STEM OPT); DHS Study in the States — F-1 Optional Practical Training",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:students",
+      "priority": 22007,
+      "readerValue": 60,
+      "factsHash": "ea08f20297a9dff5",
+      "whyItMatters": [
+        "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part."
+      ],
+      "suggestedPost": {
+        "x": "OPT is not STEM OPT. OPT is up to 12 months of F‑1 work, filed on Form I‑765 in a 90‑before/60‑after/30‑from‑SEVIS window. STEM OPT adds 24 months and needs an E‑Verify employer and Form I‑983. ImmigrationClock tracks the OPT window.\nhttps://immigrationclock.com/explained/opt-in-plain-terms?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Aopt-in-plain-terms",
+        "linkedin": "",
+        "structure": "distinction"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/opt-in-plain-terms",
+      "ogImage": "/og/explainer/opt-in-plain-terms.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-21T18:24:06.723Z",
+      "externalUrl": "https://x.com/i/web/status/2112973556854456438",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/opt-in-plain-terms"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
       "id": "discovery:warn-api::data_discovery",
       "subjectId": "discovery:warn-api",
       "contentType": "data_discovery",
@@ -3984,7 +3998,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -4014,6 +4028,16 @@
           "at": "2026-10-20T18:21:49.446Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4030,7 +4054,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "a1c08d31ca1d2321",
       "whyItMatters": [],
@@ -4070,6 +4094,16 @@
           "at": "2026-10-20T18:21:49.446Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4086,7 +4120,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4126,6 +4160,16 @@
           "at": "2026-10-20T18:21:49.446Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4142,7 +4186,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "a56bf3f0ca1b2960",
       "whyItMatters": [],
@@ -4206,6 +4250,16 @@
           "at": "2026-10-20T18:21:49.446Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4222,9 +4276,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
-      "factsHash": "61679a569149e7bb",
+      "factsHash": "b42bfa0d3059fa84",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -4330,6 +4384,16 @@
         },
         {
           "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
