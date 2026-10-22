@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T15:44:00.207Z",
+  "generatedAt": "2026-10-22T18:12:57.373Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 363,
-      "employeesTotal": 17391,
-      "latestNotice": "2026-10-14",
-      "withNoticeDate": 363,
+      "noticeCount": 383,
+      "employeesTotal": 21034,
+      "latestNotice": "2026-10-21",
+      "withNoticeDate": 383,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12101,
-  "employeesTotal": 1550074,
-  "employerCount": 9006,
+  "noticeCount": 12121,
+  "employeesTotal": 1553717,
+  "employerCount": 9019,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-10-14",
+  "maxNoticeDate": "2026-10-21",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -950,6 +950,17 @@
         "GA"
       ],
       "latestNotice": "2006-05-24"
+    },
+    {
+      "normalized": "DREYER'S GRAND ICE CREAM",
+      "name": "Dreyer's Grand Ice Cream",
+      "slug": "dreyer-s-grand-ice-cream",
+      "notices": 4,
+      "employees": 1764,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-20"
     },
     {
       "normalized": "TYSON FOODS (AMARILLO B-SHIFT OPERATIONS) UPDATED",
@@ -4955,6 +4966,17 @@
       "latestNotice": "2018-04-08"
     },
     {
+      "normalized": "NETFLIX",
+      "name": "Netflix, Inc.",
+      "slug": "netflix-inc",
+      "notices": 3,
+      "employees": 553,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-16"
+    },
+    {
       "normalized": "WELLINGTON HOME PRODUCTS",
       "name": "Wellington Home Products, Inc.",
       "slug": "wellington-home-products-inc",
@@ -5131,6 +5153,17 @@
         "GA"
       ],
       "latestNotice": "2003-04-08"
+    },
+    {
+      "normalized": "FENDER MUSICAL INSTRUMENTS",
+      "name": "Fender Musical Instruments Corporation",
+      "slug": "fender-musical-instruments-corporation",
+      "notices": 1,
+      "employees": 533,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-15"
     },
     {
       "normalized": "YOKOHAMA TIRE MANUFACTURING VIRGINIA",
@@ -15469,6 +15502,17 @@
       "latestNotice": "1996-07-17"
     },
     {
+      "normalized": "EBAY",
+      "name": "eBay Inc.",
+      "slug": "ebay-inc",
+      "notices": 1,
+      "employees": 229,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-21"
+    },
+    {
       "normalized": "MAVERICK WASHINGTON / GREAT AMERICAN CASINO",
       "name": "Maverick Washington LLC / Great American Casino",
       "slug": "maverick-washington-llc-great-american-casino",
@@ -16239,17 +16283,6 @@
         "GA"
       ],
       "latestNotice": "1996-08-16"
-    },
-    {
-      "normalized": "DREYER'S GRAND ICE CREAM",
-      "name": "Dreyer's Grand Ice Cream",
-      "slug": "dreyer-s-grand-ice-cream",
-      "notices": 1,
-      "employees": 221,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-09-22"
     },
     {
       "normalized": "ATLANTA EVERGREEN MARRIOTT CONFERENCE RESORT",
@@ -17556,6 +17589,17 @@
         "NJ"
       ],
       "latestNotice": "2009-07-31"
+    },
+    {
+      "normalized": "MYERS POWER PRODUCTS",
+      "name": "Myers Power Products, Inc.",
+      "slug": "myers-power-products-inc",
+      "notices": 1,
+      "employees": 206,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-09"
     },
     {
       "normalized": "FULTON BANK",
@@ -19679,6 +19723,17 @@
         "NJ"
       ],
       "latestNotice": "2026-12-15"
+    },
+    {
+      "normalized": "FORMAGRID DBA AIRTABLE",
+      "name": "Formagrid Inc. dba Airtable",
+      "slug": "formagrid-inc-dba-airtable",
+      "notices": 1,
+      "employees": 190,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-15"
     },
     {
       "normalized": "YANG MING (AMERICA)",
@@ -29742,6 +29797,17 @@
       "latestNotice": "1998-05-12"
     },
     {
+      "normalized": "TREE SERVICE UNLIMITED",
+      "name": "Tree Service Unlimited Inc.",
+      "slug": "tree-service-unlimited-inc",
+      "notices": 1,
+      "employees": 137,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-13"
+    },
+    {
       "normalized": "MAVERICK WASHINGTON / CRAZY MOOSE CASINO",
       "name": "Maverick Washington LLC / Crazy Moose Casino",
       "slug": "maverick-washington-llc-crazy-moose-casino",
@@ -38681,6 +38747,17 @@
       "latestNotice": "1996-01-12"
     },
     {
+      "normalized": "BALOIAN FARMS",
+      "name": "Baloian Farms",
+      "slug": "baloian-farms",
+      "notices": 1,
+      "employees": 106,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-01"
+    },
+    {
       "normalized": "MAVERICK WASHINGTON / MACAU CASINO",
       "name": "Maverick Washington LLC / Macau Casino",
       "slug": "maverick-washington-llc-macau-casino",
@@ -44672,6 +44749,17 @@
       "latestNotice": "1996-11-04"
     },
     {
+      "normalized": "SAFEWAY",
+      "name": "Safeway, Inc.",
+      "slug": "safeway-inc",
+      "notices": 1,
+      "employees": 92,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-20"
+    },
+    {
       "normalized": "JACK IN THE BOX",
       "name": "Jack in the Box",
       "slug": "jack-in-the-box",
@@ -45232,6 +45320,17 @@
         "GA"
       ],
       "latestNotice": "1997-08-20"
+    },
+    {
+      "normalized": "RANDSTAD (DREYER'S GRAND ICE CREAM)",
+      "name": "Randstad (Dreyer's Grand Ice Cream)",
+      "slug": "randstad-dreyer-s-grand-ice-cream",
+      "notices": 1,
+      "employees": 91,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-20"
     },
     {
       "normalized": "INTEL - SC-12",
@@ -64272,17 +64371,6 @@
       "latestNotice": "1993-02-12"
     },
     {
-      "normalized": "NETFLIX",
-      "name": "Netflix, Inc.",
-      "slug": "netflix-inc",
-      "notices": 1,
-      "employees": 59,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-08-13"
-    },
-    {
       "normalized": "INTERNATIONAL BUSINESS MACHINES-COPPELL",
       "name": "International Business Machines-Coppell",
       "slug": "international-business-machines-coppell",
@@ -76725,6 +76813,17 @@
       "latestNotice": "2000-04-18"
     },
     {
+      "normalized": "DESIGNERX PHARMACEUTICALS",
+      "name": "DesigneRx Pharmaceuticals, Inc.",
+      "slug": "designerx-pharmaceuticals-inc",
+      "notices": 3,
+      "employees": 38,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-21"
+    },
+    {
       "normalized": "TIKTOK",
       "name": "TikTok, Inc.",
       "slug": "tiktok-inc",
@@ -78869,17 +78968,6 @@
         "GA"
       ],
       "latestNotice": "2005-03-31"
-    },
-    {
-      "normalized": "DESIGNERX PHARMACEUTICALS",
-      "name": "DesigneRx Pharmaceuticals, Inc.",
-      "slug": "designerx-pharmaceuticals-inc",
-      "notices": 2,
-      "employees": 32,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-09-14"
     },
     {
       "normalized": "CONN'S APPLIANCES (BEAUMONT SITE)",
@@ -86392,6 +86480,17 @@
       "latestNotice": "2004-12-31"
     },
     {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
+      "notices": 5,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
       "normalized": "CAYUGA HOME FOR CHILDREN",
       "name": "Cayuga Home for Children",
       "slug": "cayuga-home-for-children",
@@ -86951,17 +87050,6 @@
         "GA"
       ],
       "latestNotice": "2000-03-13"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
-      "notices": 4,
-      "employees": 11,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-12"
     },
     {
       "normalized": "KAISER (ONE KAISER PLAZA)",
@@ -89872,6 +89960,17 @@
       "latestNotice": "2005-11-29"
     },
     {
+      "normalized": "SILVERADO SENIOR LIVING MANAGMENT",
+      "name": "Silverado Senior Living Managment Inc.",
+      "slug": "silverado-senior-living-managment-inc",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-14"
+    },
+    {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (1042 DOWNEY WAY)",
       "name": "University of Southern California (1042 Downey Way)",
       "slug": "university-of-southern-california-1042-downey-way",
@@ -91642,6 +91741,17 @@
         "GA"
       ],
       "latestNotice": "2007-05-23"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (One Kaiser Plaza)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-one-kaiser-plaza",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
     },
     {
       "normalized": "PHILLIPS 66 - WILMINGTON",
@@ -96756,6 +96866,39 @@
       "latestNotice": "2008-01-24"
     },
     {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-1800-harrison-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (75 N FAIR OAKS AVE )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (75 N. Fair Oaks Ave.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-75-n-fair-oaks-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (99 S OAKLAND AVE )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (99 S. Oakland Ave.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-99-s-oakland-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
       "normalized": "SAPPORO U S A - EXECUTIVE PLACE",
       "name": "Sapporo U.S.A. - Executive Place",
       "slug": "sapporo-u-s-a-executive-place",
@@ -99960,6 +100103,174 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "eBay Inc.",
+      "normalized": "EBAY",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-21",
+      "effectiveDate": "2026-10-21",
+      "employees": 229,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "DesigneRx Pharmaceuticals, Inc.",
+      "normalized": "DESIGNERX PHARMACEUTICALS",
+      "city": "4941 Allison Parkway Suite B Vacaville",
+      "county": "Solano",
+      "state": "CA",
+      "noticeDate": "2026-10-21",
+      "effectiveDate": "2026-12-23",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Dreyer's Grand Ice Cream",
+      "normalized": "DREYER'S GRAND ICE CREAM",
+      "city": "Bakersfield",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-10-20",
+      "effectiveDate": "2026-12-19",
+      "employees": 380,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Safeway, Inc.",
+      "normalized": "SAFEWAY",
+      "city": "Richmond",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-10-20",
+      "effectiveDate": "2026-12-20",
+      "employees": 92,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Randstad (Dreyer's Grand Ice Cream)",
+      "normalized": "RANDSTAD (DREYER'S GRAND ICE CREAM)",
+      "city": "Tulare",
+      "county": "Tulare",
+      "state": "CA",
+      "noticeDate": "2026-10-20",
+      "effectiveDate": "2026-12-19",
+      "employees": 91,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (One Kaiser Plaza)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (75 N. Fair Oaks Ave.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (75 N FAIR OAKS AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (99 S. Oakland Ave.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (99 S OAKLAND AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "city": "San Rafael",
+      "county": "Marin",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Dreyer's Grand Ice Cream",
+      "normalized": "DREYER'S GRAND ICE CREAM",
+      "city": "Bakersfield",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-19",
+      "employees": 715,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Dreyer's Grand Ice Cream",
+      "normalized": "DREYER'S GRAND ICE CREAM",
+      "city": "Tulare",
+      "county": "Tulare",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-19",
+      "employees": 448,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Netflix, Inc.",
+      "normalized": "NETFLIX",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-16",
+      "effectiveDate": "2026-09-14",
+      "employees": 267,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Netflix, Inc.",
+      "normalized": "NETFLIX",
+      "city": "Los Gatos",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-16",
+      "effectiveDate": "2026-09-14",
+      "employees": 227,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Mars WrigleyConfectionary US, LLC",
       "normalized": "MARS WRIGLEYCONFECTIONARY",
       "city": "Newark",
@@ -99984,6 +100295,30 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Fender Musical Instruments Corporation",
+      "normalized": "FENDER MUSICAL INSTRUMENTS",
+      "city": "Corona",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-10-15",
+      "effectiveDate": "2026-12-14",
+      "employees": 533,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Formagrid Inc. dba Airtable",
+      "normalized": "FORMAGRID DBA AIRTABLE",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-10-15",
+      "effectiveDate": "2027-01-15",
+      "employees": 190,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "The Neil Jones Food Company dba Tomatek",
       "normalized": "THE NEIL JONES FOOD DBA TOMATEK",
       "city": "Firebaugh",
@@ -99993,6 +100328,18 @@
       "effectiveDate": "2026-12-14",
       "employees": 116,
       "layoffType": "Layoff Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Silverado Senior Living Managment Inc.",
+      "normalized": "SILVERADO SENIOR LIVING MANAGMENT",
+      "city": "Redondo Beach",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-14",
+      "effectiveDate": "2026-12-15",
+      "employees": 7,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -100016,6 +100363,18 @@
       "noticeDate": "2026-10-13",
       "effectiveDate": "2026-12-14",
       "employees": 18,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Tree Service Unlimited Inc.",
+      "normalized": "TREE SERVICE UNLIMITED",
+      "city": "Cameron Park",
+      "county": "El Dorado",
+      "state": "CA",
+      "noticeDate": "2026-10-13",
+      "effectiveDate": "2026-12-14",
+      "employees": 137,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -100100,6 +100459,18 @@
       "noticeDate": "2026-10-09",
       "effectiveDate": "2026-12-09",
       "employees": 3,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Myers Power Products, Inc.",
+      "normalized": "MYERS POWER PRODUCTS",
+      "city": "Ontario",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-10-09",
+      "effectiveDate": "2026-12-15",
+      "employees": 206,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -100401,6 +100772,18 @@
       "effectiveDate": "2026-11-30",
       "employees": 2,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Baloian Farms",
+      "normalized": "BALOIAN FARMS",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-10-01",
+      "effectiveDate": "2026-10-30",
+      "employees": 106,
+      "layoffType": "Layoff Temporary",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -103424,7 +103807,7 @@
       "noticeDate": "2026-08-19",
       "effectiveDate": "2026-11-02",
       "employees": 73,
-      "layoffType": "Layoff Permanent",
+      "layoffType": "Relocation Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
