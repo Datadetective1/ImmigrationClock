@@ -1,51 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-21T18:25:27.912Z",
+  "updatedAt": "2026-10-22T18:19:10.346Z",
   "items": [
-    {
-      "id": "event:federal_register:2026-20955::why_it_matters",
-      "subjectId": "event:federal_register:2026-20955",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Removal of Automatic Extensions for Certain Employment Authorization Documents",
-      "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20955/removal-of-automatic-extensions-for-certain-employment-authorization-documents",
-      "eventId": "federal_register:2026-20955",
-      "category": "explainer",
-      "topicKey": "topic:enforcement",
-      "priority": 26052.96111111111,
-      "readerValue": 80,
-      "factsHash": "b454651ea9a9dd8d",
-      "whyItMatters": [
-        "The document states an effective date of October 14, 2026, which has passed. A later rule, court order or withdrawal can change whether it still applies.",
-        "An extension moves a date that already existed. What was true before the change stays true for longer."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc",
-      "ogImage": "/og/change/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc.png",
-      "freshness": {
-        "publishedAt": "2026-10-14",
-        "discoveredAt": "2026-10-14",
-        "expiresAt": "2026-11-04"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-14T18:19:07.137Z",
-          "status": "verified",
-          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc"
-        }
-      ]
-    },
     {
       "id": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc::why_it_matters",
       "subjectId": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
@@ -59,7 +15,7 @@
       "eventId": "uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.98888888889,
+      "priority": 23700.983333333334,
       "readerValue": 34,
       "factsHash": "348a629e0bc3ae34",
       "whyItMatters": [
@@ -103,7 +59,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22011,
+      "priority": 22012,
       "readerValue": 60,
       "factsHash": "b0ffa3ed9df7671f",
       "whyItMatters": [
@@ -134,49 +90,6 @@
       ]
     },
     {
-      "id": "explainer:reported-projected-estimated::explainer",
-      "subjectId": "explainer:reported-projected-estimated",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How ImmigrationClock labels a number",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock — Methodology",
-      "sourceUrl": "https://immigrationclock.com/methodology",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:how-we-work",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "ccae3862f5a31652",
-      "whyItMatters": [
-        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
-      "ogImage": "/og/explainer/reported-projected-estimated.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
-        }
-      ]
-    },
-    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -189,7 +102,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "fd54d1b5e49ad1c4",
       "whyItMatters": [
@@ -232,7 +145,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -275,7 +188,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -318,7 +231,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -361,7 +274,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -404,7 +317,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -435,25 +348,27 @@
       ]
     },
     {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
+      "id": "explainer:reported-projected-estimated::explainer",
+      "subjectId": "explainer:reported-projected-estimated",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Search the change archive",
+      "headline": "How ImmigrationClock labels a number",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "ImmigrationClock — Methodology",
+      "sourceUrl": "https://immigrationclock.com/methodology",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "aff8e633a7ca0c2e",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:how-we-work",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "ccae3862f5a31652",
+      "whyItMatters": [
+        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
+      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
+      "ogImage": "/og/explainer/reported-projected-estimated.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -471,7 +386,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
         }
       ]
     },
@@ -488,7 +403,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -529,7 +444,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -570,7 +485,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -611,7 +526,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -652,7 +567,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -693,7 +608,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -718,6 +633,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "aff8e633a7ca0c2e",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
@@ -1599,6 +1555,96 @@
         },
         {
           "at": "2026-10-18T17:05:15.142Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-sponsors-by-state::data_signal",
+      "subjectId": "signal:h1b-sponsors-by-state",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "Where the H-1B sponsors are",
+      "suggestedHeadline": "409 sponsors concentrate approvals in California, out of 2,614 total",
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30011,
+      "readerValue": 65,
+      "factsHash": "a1c08d31ca1d2321",
+      "whyItMatters": [],
+      "suggestedPost": {
+        "x": "H-1B sponsors: 409 of 2,614 have most of their FY2023 approvals in California.\n\nSource: USCIS H-1B Employer Data Hub. Counts employers (10+ approvals) by each employer’s top state. It does not count petitions or workers.\n\nhttps://immigrationclock.com/insights/h1b-sponsors-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Ah1b-sponsors-by-state",
+        "linkedin": "",
+        "structure": "data_figure"
+      },
+      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
+      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-22T18:18:43.003Z",
+      "externalUrl": "https://x.com/i/web/status/2113334361114489092",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
+        },
+        {
+          "at": "2026-09-19T16:23:39.906Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -3986,128 +4032,6 @@
       ]
     },
     {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "0ff89fa3afb66520",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
-        },
-        {
-          "at": "2026-10-20T18:21:49.446Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-sponsors-by-state::data_signal",
-      "subjectId": "signal:h1b-sponsors-by-state",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "Where the H-1B sponsors are",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "a1c08d31ca1d2321",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-sponsors-by-state",
-      "ogImage": "/og/signal/h1b-sponsors-by-state.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-sponsors-by-state"
-        },
-        {
-          "at": "2026-09-19T16:23:39.906Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        },
-        {
-          "at": "2026-10-20T18:21:49.446Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
       "contentType": "data_signal",
@@ -4120,7 +4044,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4170,6 +4094,16 @@
           "at": "2026-10-21T18:24:06.723Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4186,9 +4120,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
-      "factsHash": "a56bf3f0ca1b2960",
+      "factsHash": "41c7597c5e8b264d",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -4260,6 +4194,16 @@
           "at": "2026-10-21T18:24:06.723Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4276,9 +4220,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
-      "factsHash": "b42bfa0d3059fa84",
+      "factsHash": "83f40a5d03e02276",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -4396,6 +4340,131 @@
           "at": "2026-10-21T18:24:06.723Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "0ff89fa3afb66520",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20955::why_it_matters",
+      "subjectId": "event:federal_register:2026-20955",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Removal of Automatic Extensions for Certain Employment Authorization Documents",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/10/14/2026-20955/removal-of-automatic-extensions-for-certain-employment-authorization-documents",
+      "eventId": "federal_register:2026-20955",
+      "category": "explainer",
+      "topicKey": "topic:enforcement",
+      "priority": 26052.96111111111,
+      "readerValue": 80,
+      "factsHash": "b454651ea9a9dd8d",
+      "whyItMatters": [
+        "The document states an effective date of October 14, 2026, which has passed. A later rule, court order or withdrawal can change whether it still applies.",
+        "An extension moves a date that already existed. What was true before the change stays true for longer."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc",
+      "ogImage": "/og/change/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc.png",
+      "freshness": {
+        "publishedAt": "2026-10-14",
+        "discoveredAt": "2026-10-14",
+        "expiresAt": "2026-11-04"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-14T18:19:07.137Z",
+          "status": "verified",
+          "reason": "reader value 80/100 clears the floor; share page https://immigrationclock.com/what-changed/removal-of-automatic-extensions-for-certain-employment-authorization-4cxhpc"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-22"
         }
       ]
     },
