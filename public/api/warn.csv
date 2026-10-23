@@ -1,5 +1,6 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
 "EWC Controls, LLC",EWC CONTROLS,Englishtown,,NJ,,2027-04-01,71,,https://www.nj.gov/labor/employer-services/warn/
+Mars Information Services,MARS INFORMATION,Newark,,NJ,,2027-01-31,55,,https://www.nj.gov/labor/employer-services/warn/
 Atlantic City Linen Supply LLC,ATLANTIC CITY LINEN SUPPLY,Atlantic City,,NJ,,2027-01-03,67,,https://www.nj.gov/labor/employer-services/warn/
 "FRC Balance LLC, DBA The Food Kitchen",FRC BALANCE DBA THE FOOD KITCHEN,Hackensack,,NJ,,2027-01-03,89,,https://www.nj.gov/labor/employer-services/warn/
 Acme Markets Inc.,ACME MARKETS,Hillsdale,,NJ,,2027-01-02,122,,https://www.nj.gov/labor/employer-services/warn/
@@ -24,6 +25,7 @@ BASF Corporation,BASF,Florham Park,,NJ,,2026-11-01,66,,https://www.nj.gov/labor/
 "Citibank, N.A.",CITIBANK N A,Hudson County,,NJ,,2026-10-31,59,,https://www.nj.gov/labor/employer-services/warn/
 eBay Inc.,EBAY,San Jose,Santa Clara,CA,2026-10-21,2026-10-21,229,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "DesigneRx Pharmaceuticals, Inc.",DESIGNERX PHARMACEUTICALS,4941 Allison Parkway Suite B Vacaville,Solano,CA,2026-10-21,2026-12-23,6,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+DSquared Hospitality Company dba Sidekicks Pub,DSQUARED HOSPITALITY DBA SIDEKICKS PUB,Bellevue,,WA,2026-10-21,2026-12-20,83,Permanent,https://esd.wa.gov/about-employees/WARN
 Dreyer's Grand Ice Cream,DREYER'S GRAND ICE CREAM,Bakersfield,Kern,CA,2026-10-20,2026-12-19,380,Closure Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Safeway, Inc.",SAFEWAY,Richmond,Contra Costa,CA,2026-10-20,2026-12-20,92,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 Randstad (Dreyer's Grand Ice Cream),RANDSTAD (DREYER'S GRAND ICE CREAM),Tulare,Tulare,CA,2026-10-20,2026-12-19,91,Closure Temporary,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -60,6 +62,7 @@ The Washington Post,THE WASHINGTON POST,Springfield VA,,VA,2026-10-07,,118,Closu
 Starbucks,STARBUCKS,"Seattle, Redmond, Vancouver, and Spokane",,WA,2026-10-07,2026-11-14,51,Permanent,https://esd.wa.gov/about-employees/WARN
 "Caribou Biosciences, Inc.",CARIBOU BIOSCIENCES,Berkeley,Alameda,CA,2026-10-06,2026-12-07,87,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Beachbody, LLC",BEACHBODY,El Segundo,Los Angeles,CA,2026-10-06,2026-12-07,80,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
+Digital Room LLC,DIGITAL ROOM,Saddle Brook,,NJ,,2026-10-06,69,,https://www.nj.gov/labor/employer-services/warn/
 "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN,Oakland,Alameda,CA,2026-10-05,2026-12-04,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN,Pleasanton,Alameda,CA,2026-10-05,2026-12-04,2,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
 "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE ),Pasadena,Los Angeles,CA,2026-10-05,2026-12-04,1,Layoff Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
@@ -193,7 +196,6 @@ Columbia Reach Chiawana Orchards,COLUMBIA REACH CHIAWANA ORCHARDS,"Yakima, Kitti
 PeaceHealth,PEACEHEALTH,"Clark, Skagit, and Whatcom Counties",,WA,2026-09-17,2026-11-20,150,Permanent,https://esd.wa.gov/about-employees/WARN
 Sagemoor Group Management Services Inc,SAGEMOOR GROUP MANAGEMENT,"Yakima, Franklin, and Adams Counties",,WA,2026-09-17,2026-11-14,443,Permanent,https://esd.wa.gov/about-employees/WARN
 Maya Cinemas Fresno 16,MAYA CINEMAS FRESNO 16,Fresno,Fresno,CA,2026-09-16,2026-09-15,86,Closure Permanent,https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/
-Digital Room LLC,DIGITAL ROOM,Saddle Brook,,NJ,,2026-09-16,69,,https://www.nj.gov/labor/employer-services/warn/
 "Wonder Group, Inc.",WONDER GROUP,Parsippany,,NJ,,2026-09-16,533,,https://www.nj.gov/labor/employer-services/warn/
 Owens &amp; Minor (Avid Medical LLC),OWENS AMP; MINOR (AVID MEDICAL ),Toano VA,,VA,2026-09-16,,419,Closure,https://www.vec.virginia.gov/warn-notices
 Pacific Ag Services LLC,PACIFIC AG,Grant and Franklin Counties,,WA,2026-09-16,2026-11-15,530,Permanent,https://esd.wa.gov/about-employees/WARN

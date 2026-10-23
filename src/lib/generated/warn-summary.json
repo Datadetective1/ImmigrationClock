@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22T18:12:57.373Z",
+  "generatedAt": "2026-10-23T13:59:37.905Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "sourceName": "State WARN Act notices (state open-data portals)",
   "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
@@ -22,11 +22,11 @@
       "pageUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "datasetUrl": "https://www.nj.gov/labor/employer-services/warn/",
       "dateBasis": "effective",
-      "noticeCount": 2320,
-      "employeesTotal": 373589,
+      "noticeCount": 2321,
+      "employeesTotal": 373644,
       "latestNotice": "2027-04-01",
       "withNoticeDate": 0,
-      "withEffectiveOnly": 2309
+      "withEffectiveOnly": 2310
     },
     {
       "code": "WA",
@@ -34,10 +34,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1538,
-      "employeesTotal": 251116,
-      "latestNotice": "2026-10-07",
-      "withNoticeDate": 1538,
+      "noticeCount": 1539,
+      "employeesTotal": 251199,
+      "latestNotice": "2026-10-21",
+      "withNoticeDate": 1539,
       "withEffectiveOnly": 0
     },
     {
@@ -86,14 +86,14 @@
     "VA",
     "WA"
   ],
-  "noticeCount": 12121,
-  "employeesTotal": 1553717,
-  "employerCount": 9019,
+  "noticeCount": 12123,
+  "employeesTotal": 1553855,
+  "employerCount": 9021,
   "minNoticeDate": "1989-08-17",
   "maxNoticeDate": "2026-10-21",
   "yearBasisNote": "Yearly totals date each notice by the state-published notice/received date where available, and fall back to the layoff effective date for states that publish only that (e.g. New Jersey). Notices with neither date are excluded from yearly totals but included in the overall counts.",
-  "datedByNoticeDate": 9801,
-  "datedByEffectiveDate": 2309,
+  "datedByNoticeDate": 9802,
+  "datedByEffectiveDate": 2310,
   "noticesWithoutDate": 11,
   "byYear": [
     {
@@ -283,13 +283,13 @@
     },
     {
       "year": 2026,
-      "employees": 86498,
-      "notices": 777
+      "employees": 86581,
+      "notices": 778
     },
     {
       "year": 2027,
-      "employees": 349,
-      "notices": 4
+      "employees": 404,
+      "notices": 5
     }
   ],
   "byMonth": [
@@ -445,13 +445,13 @@
     },
     {
       "month": "2026-09",
-      "employees": 22956,
-      "notices": 176
+      "employees": 22887,
+      "notices": 175
     },
     {
       "month": "2026-10",
-      "employees": 7238,
-      "notices": 64
+      "employees": 7390,
+      "notices": 66
     },
     {
       "month": "2026-11",
@@ -465,8 +465,8 @@
     },
     {
       "month": "2027-01",
-      "employees": 278,
-      "notices": 3
+      "employees": 333,
+      "notices": 4
     },
     {
       "month": "2027-04",
@@ -593,8 +593,8 @@
       },
       {
         "year": 2027,
-        "employees": 349,
-        "notices": 4
+        "employees": 404,
+        "notices": 5
       }
     ],
     "CA": [
@@ -602,93 +602,6 @@
         "year": 2026,
         "employees": 21034,
         "notices": 383
-      }
-    ],
-    "VA": [
-      {
-        "year": 2010,
-        "employees": 2774,
-        "notices": 23
-      },
-      {
-        "year": 2011,
-        "employees": 5629,
-        "notices": 61
-      },
-      {
-        "year": 2012,
-        "employees": 9099,
-        "notices": 79
-      },
-      {
-        "year": 2013,
-        "employees": 5886,
-        "notices": 65
-      },
-      {
-        "year": 2014,
-        "employees": 7079,
-        "notices": 68
-      },
-      {
-        "year": 2015,
-        "employees": 10139,
-        "notices": 54
-      },
-      {
-        "year": 2016,
-        "employees": 7529,
-        "notices": 59
-      },
-      {
-        "year": 2017,
-        "employees": 6180,
-        "notices": 61
-      },
-      {
-        "year": 2018,
-        "employees": 9608,
-        "notices": 94
-      },
-      {
-        "year": 2019,
-        "employees": 8984,
-        "notices": 66
-      },
-      {
-        "year": 2020,
-        "employees": 28893,
-        "notices": 223
-      },
-      {
-        "year": 2021,
-        "employees": 3926,
-        "notices": 37
-      },
-      {
-        "year": 2022,
-        "employees": 2610,
-        "notices": 30
-      },
-      {
-        "year": 2023,
-        "employees": 4857,
-        "notices": 54
-      },
-      {
-        "year": 2024,
-        "employees": 4349,
-        "notices": 31
-      },
-      {
-        "year": 2025,
-        "employees": 6640,
-        "notices": 63
-      },
-      {
-        "year": 2026,
-        "employees": 7722,
-        "notices": 59
       }
     ],
     "WA": [
@@ -804,8 +717,95 @@
       },
       {
         "year": 2026,
-        "employees": 27725,
-        "notices": 127
+        "employees": 27808,
+        "notices": 128
+      }
+    ],
+    "VA": [
+      {
+        "year": 2010,
+        "employees": 2774,
+        "notices": 23
+      },
+      {
+        "year": 2011,
+        "employees": 5629,
+        "notices": 61
+      },
+      {
+        "year": 2012,
+        "employees": 9099,
+        "notices": 79
+      },
+      {
+        "year": 2013,
+        "employees": 5886,
+        "notices": 65
+      },
+      {
+        "year": 2014,
+        "employees": 7079,
+        "notices": 68
+      },
+      {
+        "year": 2015,
+        "employees": 10139,
+        "notices": 54
+      },
+      {
+        "year": 2016,
+        "employees": 7529,
+        "notices": 59
+      },
+      {
+        "year": 2017,
+        "employees": 6180,
+        "notices": 61
+      },
+      {
+        "year": 2018,
+        "employees": 9608,
+        "notices": 94
+      },
+      {
+        "year": 2019,
+        "employees": 8984,
+        "notices": 66
+      },
+      {
+        "year": 2020,
+        "employees": 28893,
+        "notices": 223
+      },
+      {
+        "year": 2021,
+        "employees": 3926,
+        "notices": 37
+      },
+      {
+        "year": 2022,
+        "employees": 2610,
+        "notices": 30
+      },
+      {
+        "year": 2023,
+        "employees": 4857,
+        "notices": 54
+      },
+      {
+        "year": 2024,
+        "employees": 4349,
+        "notices": 31
+      },
+      {
+        "year": 2025,
+        "employees": 6640,
+        "notices": 63
+      },
+      {
+        "year": 2026,
+        "employees": 7722,
+        "notices": 59
       }
     ],
     "TX": [
