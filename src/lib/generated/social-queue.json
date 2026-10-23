@@ -1,7 +1,95 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-22T18:19:10.346Z",
+  "updatedAt": "2026-10-23T18:06:12.162Z",
   "items": [
+    {
+      "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::what_changed",
+      "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Aliens in Idaho Charged for Illegal Voting",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/aliens-in-idaho-charged-for-illegal-voting",
+      "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 24550.994444444445,
+      "readerValue": 34,
+      "factsHash": "33c67e245c2118ae",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm",
+      "ogImage": "/og/change/aliens-in-idaho-charged-for-illegal-voting-yharpm.png",
+      "freshness": {
+        "publishedAt": "2026-10-22",
+        "discoveredAt": "2026-10-23",
+        "expiresAt": "2026-11-02"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::why_it_matters",
+      "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Aliens in Idaho Charged for Illegal Voting",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/aliens-in-idaho-charged-for-illegal-voting",
+      "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23700.994444444445,
+      "readerValue": 34,
+      "factsHash": "ed3125f4892178a6",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm",
+      "ogImage": "/og/change/aliens-in-idaho-charged-for-illegal-voting-yharpm.png",
+      "freshness": {
+        "publishedAt": "2026-10-22",
+        "discoveredAt": "2026-10-23",
+        "expiresAt": "2026-11-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm"
+        }
+      ]
+    },
     {
       "id": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc::why_it_matters",
       "subjectId": "event:uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
@@ -15,7 +103,7 @@
       "eventId": "uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.983333333334,
+      "priority": 23700.977777777778,
       "readerValue": 34,
       "factsHash": "348a629e0bc3ae34",
       "whyItMatters": [
@@ -59,7 +147,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22012,
+      "priority": 22013,
       "readerValue": 60,
       "factsHash": "b0ffa3ed9df7671f",
       "whyItMatters": [
@@ -102,7 +190,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "fd54d1b5e49ad1c4",
       "whyItMatters": [
@@ -145,7 +233,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -188,7 +276,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -231,7 +319,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -274,7 +362,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -317,7 +405,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -360,7 +448,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -403,7 +491,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -444,7 +532,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -485,7 +573,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -526,7 +614,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -567,7 +655,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -608,7 +696,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -649,9 +737,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
-      "factsHash": "aff8e633a7ca0c2e",
+      "factsHash": "f324c79751d03797",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -4044,7 +4132,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4104,6 +4192,16 @@
           "at": "2026-10-22T18:18:43.003Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4120,9 +4218,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
-      "factsHash": "41c7597c5e8b264d",
+      "factsHash": "fba85ba869d07b4a",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -4204,6 +4302,16 @@
           "at": "2026-10-22T18:18:43.003Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4220,9 +4328,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
-      "factsHash": "83f40a5d03e02276",
+      "factsHash": "c98f386172d2e65a",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -4350,6 +4458,16 @@
           "at": "2026-10-22T18:18:43.003Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4366,7 +4484,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -4414,6 +4532,16 @@
         },
         {
           "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
