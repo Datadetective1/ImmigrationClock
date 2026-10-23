@@ -3745,6 +3745,51 @@
       "retrievedAt": "2026-10-15",
       "adapter": "federal-register@2"
     },
+    "federal_register:2026-21662": {
+      "id": "federal_register:2026-21662",
+      "file": "federal_register_2026-21662.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/23/2026-21662.txt",
+      "contentHash": "sha256:bf213987532e4f50dd86b4f2393a60f53d32ae4fb00852163e0980769d889f1a",
+      "characters": 6495,
+      "retrievedAt": "2026-10-23",
+      "adapter": "federal-register@2"
+    },
+    "federal_register:2026-21682": {
+      "id": "federal_register:2026-21682",
+      "file": "federal_register_2026-21682.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/23/2026-21682.txt",
+      "contentHash": "sha256:38a6abe694c295ea7eb53e12f810b59396c668e82c5168535a5054be8d9d8621",
+      "characters": 4930,
+      "retrievedAt": "2026-10-23",
+      "adapter": "federal-register@2"
+    },
+    "federal_register:2026-21683": {
+      "id": "federal_register:2026-21683",
+      "file": "federal_register_2026-21683.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/23/2026-21683.txt",
+      "contentHash": "sha256:2a5a050fbf760e35e252dc2bc247538db80fb2dd3d55610c566c560019e96100",
+      "characters": 4908,
+      "retrievedAt": "2026-10-23",
+      "adapter": "federal-register@2"
+    },
+    "federal_register:2026-21684": {
+      "id": "federal_register:2026-21684",
+      "file": "federal_register_2026-21684.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/23/2026-21684.txt",
+      "contentHash": "sha256:956d3173cfe8839bcd9edae50b0d5197d2d9df7f01d6180985c6bf0c03711c77",
+      "characters": 7476,
+      "retrievedAt": "2026-10-23",
+      "adapter": "federal-register@2"
+    },
+    "federal_register:2026-21698": {
+      "id": "federal_register:2026-21698",
+      "file": "federal_register_2026-21698.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/23/2026-21698.txt",
+      "contentHash": "sha256:1b2b0943ca41e4b0fe71f1cc7a34d81eec92ff2347d1b236e1aa1d0abc54551f",
+      "characters": 7878,
+      "retrievedAt": "2026-10-23",
+      "adapter": "federal-register@2"
+    },
     "federal_register:C1-2026-09289": {
       "id": "federal_register:C1-2026-09289",
       "file": "federal_register_C1-2026-09289.txt",
