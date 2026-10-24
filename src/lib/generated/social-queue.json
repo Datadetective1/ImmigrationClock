@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-23T18:06:12.162Z",
+  "updatedAt": "2026-10-24T17:13:55.140Z",
   "items": [
     {
       "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 24550.994444444445,
+      "priority": 24400.98888888889,
       "readerValue": 34,
       "factsHash": "33c67e245c2118ae",
       "whyItMatters": [
@@ -59,7 +59,7 @@
       "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.994444444445,
+      "priority": 23700.98888888889,
       "readerValue": 34,
       "factsHash": "ed3125f4892178a6",
       "whyItMatters": [
@@ -103,7 +103,7 @@
       "eventId": "uscis_newsroom:ed8ebf1e-b2b3-46ea-b6eb-3a1d9aac1bdc",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.977777777778,
+      "priority": 23700.972222222223,
       "readerValue": 34,
       "factsHash": "348a629e0bc3ae34",
       "whyItMatters": [
@@ -135,92 +135,6 @@
       ]
     },
     {
-      "id": "explainer:interim-final-rule::explainer",
-      "subjectId": "explainer:interim-final-rule",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What an interim final rule is",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 22013,
-      "readerValue": 60,
-      "factsHash": "b0ffa3ed9df7671f",
-      "whyItMatters": [
-        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither: the rule can apply from its stated date, and what is still open is whether it changes later."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
-      "ogImage": "/og/explainer/interim-final-rule.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
-        }
-      ]
-    },
-    {
-      "id": "explainer:effective-date-vs-publication-date::explainer",
-      "subjectId": "explainer:effective-date-vs-publication-date",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "An effective date is not a publication date",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
-      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "fd54d1b5e49ad1c4",
-      "whyItMatters": [
-        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
-      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -233,7 +147,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "4068f60d64f54dcd",
       "whyItMatters": [
@@ -276,7 +190,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -319,7 +233,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -362,7 +276,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -405,7 +319,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -448,7 +362,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -479,25 +393,27 @@
       ]
     },
     {
-      "id": "discovery:layoffs-vs-h1b::data_discovery",
-      "subjectId": "discovery:layoffs-vs-h1b",
-      "contentType": "data_discovery",
+      "id": "explainer:effective-date-vs-publication-date::explainer",
+      "subjectId": "explainer:effective-date-vs-publication-date",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "headline": "An effective date is not a publication date",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "73ae42753297c5d3",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "fd54d1b5e49ad1c4",
+      "whyItMatters": [
+        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
-      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
+      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -515,7 +431,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
         }
       ]
     },
@@ -532,7 +448,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -573,7 +489,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -614,7 +530,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -655,7 +571,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -696,7 +612,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -737,9 +653,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
-      "factsHash": "f324c79751d03797",
+      "factsHash": "3a9192d6e891eb8c",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -762,6 +678,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+        }
+      ]
+    },
+    {
+      "id": "discovery:layoffs-vs-h1b::data_discovery",
+      "subjectId": "discovery:layoffs-vs-h1b",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "73ae42753297c5d3",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
+      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
         }
       ]
     },
@@ -2647,6 +2604,63 @@
       ]
     },
     {
+      "id": "explainer:interim-final-rule::explainer",
+      "subjectId": "explainer:interim-final-rule",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "published",
+      "headline": "What an interim final rule is",
+      "suggestedHeadline": "Interim final rule: effective first, comments after",
+      "sourceName": "5 U.S.C. § 553(b) — the exceptions to notice and comment; Regulations.gov — Learn about the regulatory process",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 22014,
+      "readerValue": 60,
+      "factsHash": "b0ffa3ed9df7671f",
+      "whyItMatters": [
+        "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither: the rule can apply from its stated date, and what is still open is whether it changes later."
+      ],
+      "suggestedPost": {
+        "x": "What is an interim final rule? It can take effect before comments under a legal exception. Comments then open, and a later rule may confirm or change it. ImmigrationClock records the stated effective date and links the comment instructions.\nhttps://immigrationclock.com/explained/interim-final-rule?utm_source=x&utm_medium=social&utm_campaign=explainer&utm_content=explainer%3Ainterim-final-rule",
+        "linkedin": "",
+        "structure": "question_answer"
+      },
+      "shareUrl": "https://immigrationclock.com/explained/interim-final-rule",
+      "ogImage": "/og/explainer/interim-final-rule.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-24T17:13:19.070Z",
+      "externalUrl": "https://x.com/i/web/status/2114042715201556591",
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/interim-final-rule"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
       "id": "explainer:h1b-approvals-vs-workers::explainer",
       "subjectId": "explainer:h1b-approvals-vs-workers",
       "contentType": "explainer",
@@ -4120,92 +4134,6 @@
       ]
     },
     {
-      "id": "signal:h1b-approval-rate::data_signal",
-      "subjectId": "signal:h1b-approval-rate",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "How often H-1B petitions were approved in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "18b61ebf2981afed",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
-      "ogImage": "/og/signal/h1b-approval-rate.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
-        },
-        {
-          "at": "2026-09-20T16:45:57.736Z",
-          "status": "scheduled",
-          "reason": "morning is news-only; evergreen waits for the afternoon"
-        },
-        {
-          "at": "2026-09-21T18:37:50.557Z",
-          "status": "verified",
-          "reason": "deferred window passed"
-        },
-        {
-          "at": "2026-10-20T18:21:49.446Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        }
-      ]
-    },
-    {
       "id": "signal:warn-by-state::data_signal",
       "subjectId": "signal:warn-by-state",
       "contentType": "data_signal",
@@ -4218,7 +4146,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "fba85ba869d07b4a",
       "whyItMatters": [],
@@ -4312,6 +4240,16 @@
           "at": "2026-10-23T18:06:12.162Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4328,9 +4266,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:green-card",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
-      "factsHash": "c98f386172d2e65a",
+      "factsHash": "4b44c7da9fc1981d",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/next-key-date",
@@ -4468,6 +4406,16 @@
           "at": "2026-10-23T18:06:12.162Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4484,7 +4432,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -4542,6 +4490,112 @@
         },
         {
           "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-approval-rate::data_signal",
+      "subjectId": "signal:h1b-approval-rate",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "How often H-1B petitions were approved in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "18b61ebf2981afed",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-approval-rate",
+      "ogImage": "/og/signal/h1b-approval-rate.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-approval-rate"
+        },
+        {
+          "at": "2026-09-20T16:45:57.736Z",
+          "status": "scheduled",
+          "reason": "morning is news-only; evergreen waits for the afternoon"
+        },
+        {
+          "at": "2026-09-21T18:37:50.557Z",
+          "status": "verified",
+          "reason": "deferred window passed"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
