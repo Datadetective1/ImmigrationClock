@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-24T14:10:16.638Z",
-  "startedAt": "2026-10-24T14:10:12.290Z",
-  "finishedAt": "2026-10-24T14:10:16.638Z",
+  "generatedAt": "2026-10-25T14:40:41.725Z",
+  "startedAt": "2026-10-25T14:40:39.283Z",
+  "finishedAt": "2026-10-25T14:40:41.725Z",
   "ok": false,
   "errors": [
     "bls_unemployment: Last good value (fetch failed: HTTP 503)."
@@ -30,10 +30,10 @@
       "2025": 691906
     },
     "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-09/nationwide-encounters-fy23-fy26-aug-aor_0.csv",
-    "fetchedAt": "2026-10-24T14:10:13.758Z",
+    "fetchedAt": "2026-10-25T14:40:40.340Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-    "sourceUpdatedAt": "2026-10-24",
+    "sourceUpdatedAt": "2026-10-25",
     "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through August 2026."
   },
   "warn": {
@@ -161,11 +161,11 @@
         "count": 9
       }
     ],
-    "fetchedAt": "2026-10-24T14:10:16.638Z",
+    "fetchedAt": "2026-10-25T14:40:41.725Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
-    "sourceUpdatedAt": "2026-10-24",
+    "sourceUpdatedAt": "2026-10-25",
     "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 12234 employees across 69 notices. Texas only — not national."
   },
   "manifest": [
@@ -186,7 +186,7 @@
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-10-24T14:10:13.758Z",
+      "lastFetchedAt": "2026-10-25T14:40:40.340Z",
       "lastError": null
     },
     {
@@ -236,7 +236,7 @@
       "feed": "Texas via data.texas.gov (Socrata) — TX only; other states curated",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-10-24T14:10:16.638Z",
+      "lastFetchedAt": "2026-10-25T14:40:41.725Z",
       "lastError": null
     }
   ]
