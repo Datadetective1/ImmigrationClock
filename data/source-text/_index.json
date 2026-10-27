@@ -3799,6 +3799,15 @@
       "retrievedAt": "2026-10-24",
       "adapter": "federal-register@2"
     },
+    "federal_register:2026-21880": {
+      "id": "federal_register:2026-21880",
+      "file": "federal_register_2026-21880.txt",
+      "textUrl": "https://www.federalregister.gov/documents/full_text/text/2026/10/27/2026-21880.txt",
+      "contentHash": "sha256:d4641115c3d2033e3e9032b7ebd715830d8ec54e9198219f5368d522806b2fa0",
+      "characters": 21885,
+      "retrievedAt": "2026-10-27",
+      "adapter": "federal-register@2"
+    },
     "federal_register:C1-2026-09289": {
       "id": "federal_register:C1-2026-09289",
       "file": "federal_register_C1-2026-09289.txt",
