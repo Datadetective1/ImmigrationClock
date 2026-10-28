@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-27T19:14:28.491Z",
+  "updatedAt": "2026-10-28T00:15:27.171Z",
   "items": [
     {
       "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::what_changed",
@@ -4470,6 +4470,16 @@
           "at": "2026-10-27T19:14:28.491Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4584,6 +4594,16 @@
         },
         {
           "at": "2026-10-27T19:14:28.491Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
@@ -4724,6 +4744,16 @@
         },
         {
           "at": "2026-10-27T19:14:28.491Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
