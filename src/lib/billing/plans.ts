@@ -278,6 +278,15 @@ export function isInterval(value: string): value is Interval {
   return (INTERVALS as readonly string[]).includes(value);
 }
 
+/**
+ * The plan a buyer was choosing when they were sent to confirm their address,
+ * read back from a request body or a query string. Anything but a known
+ * interval is null: it is an allow-listed word, never a URL or a path.
+ */
+export function resumeIntervalFrom(value: unknown): Interval | null {
+  return typeof value === "string" && isInterval(value) ? value : null;
+}
+
 /** Two months free on the annual price, stated rather than implied. */
 export function annualSavingUsd(plan: PlanSpec): number | null {
   if (plan.monthlyUsd === null || plan.annualUsd === null) return null;

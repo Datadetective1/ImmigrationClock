@@ -972,3 +972,26 @@ describe("account behaviour across devices", () => {
     expect(setCookies.length).toBe(2);
   });
 });
+
+// =============================================================================
+// A BUYER RETURNS TO THE BUTTON THEY PRESSED
+// =============================================================================
+describe("the sign-in link a Subscribe button asked for", () => {
+  it("returns the buyer to a fixed pricing path, never to anything the URL named", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const read = (rel: string) => readFileSync(fileURLToPath(new URL("../" + rel, import.meta.url)), "utf8");
+    const form = read("src/components/SignInForm.tsx");
+    // The plan is parsed through the allow-list, read before the query is stripped...
+    expect(form).toContain('resumeIntervalFrom(params.get("resume"))');
+    expect(form.indexOf('params.get("resume")')).toBeLessThan(form.indexOf("window.history.replaceState"));
+    // ...and the only destination is the pricing page on this origin.
+    expect(form).toContain("router.replace(`/pricing?resume=${resume}#plan-pro`)");
+
+    const button = read("src/components/UpgradeButton.tsx");
+    // The button asks for a link that carries its own plan, and does not press itself.
+    expect(button).toContain("resume: interval");
+    const effect = button.slice(button.indexOf("useEffect("), button.indexOf("async function start"));
+    expect(effect).not.toContain("start()");
+  });
+});

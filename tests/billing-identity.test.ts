@@ -304,6 +304,16 @@ describe("the sign-in link", () => {
     expect(new URL(url).searchParams.get("signin")).toBe("abc+def/ghi");
   });
 
+  it("carries a buyer's chosen plan, and only a known plan", () => {
+    const annual = new URL(loginUrl("https://immigrationclock.com", "tok", "annual"));
+    expect(annual.pathname).toBe("/account");
+    expect(annual.searchParams.get("resume")).toBe("annual");
+    expect(new URL(loginUrl("https://immigrationclock.com", "tok", null)).searchParams.has("resume")).toBe(false);
+    expect(
+      new URL(loginUrl("https://immigrationclock.com", "tok", "//evil.example" as never)).searchParams.has("resume")
+    ).toBe(false);
+  });
+
   it("says it expires and what to do if you did not ask", () => {
     const mail = buildSignInEmail("https://immigrationclock.com/account?signin=x", "ImmigrationClock");
     expect(mail.subject).toContain("ImmigrationClock");

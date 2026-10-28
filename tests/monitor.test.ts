@@ -322,9 +322,15 @@ describe("GET /api/v1/monitor", () => {
   it("returns no personal data, because it holds none", async () => {
     const { body } = await monitor("?follow=visa:h-1b&limit=20");
     const json = JSON.stringify(body).toLowerCase();
-    for (const forbidden of ["email", "customer_", "cus_", "@gmail", "receipt number"]) {
+    for (const forbidden of ["customer_", "cus_", "@gmail", "receipt number"]) {
       expect(json, forbidden).not.toContain(forbidden);
     }
+    // THE WORD IS NOT THE DATA. Government records quote prose like "terminated
+    // via mass email", so a bare "email" substring failed this test on a data
+    // refresh while the response held no personal data at all. What must never
+    // appear is an email FIELD or an email ADDRESS.
+    expect(json, "an email field").not.toMatch(/"[a-z_]*email[a-z_]*"\s*:/);
+    expect(json, "an email address").not.toMatch(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/);
   });
 
   it("filters to one bucket when asked", async () => {
