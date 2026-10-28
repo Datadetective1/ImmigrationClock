@@ -1,7 +1,97 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T00:15:27.171Z",
+  "updatedAt": "2026-10-28T19:21:02.937Z",
   "items": [
+    {
+      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::what_changed",
+      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
+      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
+      "category": "actionable",
+      "topicKey": "visa:h-1b",
+      "priority": 59118.99444444444,
+      "readerValue": 100,
+      "factsHash": "3116edef8c58a1f7",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
+      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
+      "freshness": {
+        "publishedAt": "2026-10-27",
+        "discoveredAt": "2026-10-28",
+        "expiresAt": "2026-11-07"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
+      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
+      "category": "actionable",
+      "topicKey": "visa:h-1b",
+      "priority": 58268.99444444444,
+      "readerValue": 100,
+      "factsHash": "7ded1451dd8d0779",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
+      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
+      "freshness": {
+        "publishedAt": "2026-10-27",
+        "discoveredAt": "2026-10-28",
+        "expiresAt": "2026-11-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
+        }
+      ]
+    },
     {
       "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::what_changed",
       "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
@@ -15,7 +105,7 @@
       "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 55398.99444444444,
+      "priority": 55248.98888888889,
       "readerValue": 44,
       "factsHash": "bed36b8d64e83c53",
       "whyItMatters": [
@@ -59,7 +149,7 @@
       "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 54548.99444444444,
+      "priority": 54548.98888888889,
       "readerValue": 44,
       "factsHash": "1aab66072d2c0d8f",
       "whyItMatters": [
@@ -91,50 +181,6 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::what_changed",
-      "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Aliens in Idaho Charged for Illegal Voting",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/aliens-in-idaho-charged-for-illegal-voting",
-      "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
-      "category": "explainer",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 23700.972222222223,
-      "readerValue": 34,
-      "factsHash": "33c67e245c2118ae",
-      "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm",
-      "ogImage": "/og/change/aliens-in-idaho-charged-for-illegal-voting-yharpm.png",
-      "freshness": {
-        "publishedAt": "2026-10-22",
-        "discoveredAt": "2026-10-23",
-        "expiresAt": "2026-11-02"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::why_it_matters",
       "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
       "contentType": "why_it_matters",
@@ -147,7 +193,7 @@
       "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
       "category": "explainer",
       "topicKey": "source:uscis_newsroom",
-      "priority": 23700.972222222223,
+      "priority": 23700.966666666667,
       "readerValue": 34,
       "factsHash": "ed3125f4892178a6",
       "whyItMatters": [
@@ -179,49 +225,6 @@
       ]
     },
     {
-      "id": "explainer:h1b-cap-and-registration::explainer",
-      "subjectId": "explainer:h1b-cap-and-registration",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How the H-1B cap works",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS — H-1B cap season; USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
-      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:work-visas",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "4068f60d64f54dcd",
-      "whyItMatters": [
-        "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/h1b-cap-and-registration",
-      "ogImage": "/og/explainer/h1b-cap-and-registration.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-cap-and-registration"
-        }
-      ]
-    },
-    {
       "id": "explainer:visa-bulletin-priority-dates::explainer",
       "subjectId": "explainer:visa-bulletin-priority-dates",
       "contentType": "explainer",
@@ -234,7 +237,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "73bd2eafafb2a189",
       "whyItMatters": [
@@ -277,7 +280,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "11bb30720f7d357b",
       "whyItMatters": [
@@ -320,7 +323,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "da034e5d18b62a5b",
       "whyItMatters": [
@@ -363,7 +366,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "e47a11c97aa782bc",
       "whyItMatters": [
@@ -406,7 +409,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "ccae3862f5a31652",
       "whyItMatters": [
@@ -449,7 +452,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "fd54d1b5e49ad1c4",
       "whyItMatters": [
@@ -480,25 +483,27 @@
       ]
     },
     {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
+      "id": "explainer:h1b-cap-and-registration::explainer",
+      "subjectId": "explainer:h1b-cap-and-registration",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Key dates, counted down",
+      "headline": "How the H-1B cap works",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "USCIS — H-1B cap season; USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
+      "sourceUrl": "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:work-visas",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "4068f60d64f54dcd",
+      "whyItMatters": [
+        "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
+      "shareUrl": "https://immigrationclock.com/explained/h1b-cap-and-registration",
+      "ogImage": "/og/explainer/h1b-cap-and-registration.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -516,7 +521,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/h1b-cap-and-registration"
         }
       ]
     },
@@ -533,7 +538,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -574,9 +579,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "40902e4d4b81292e",
+      "factsHash": "2e2e261197d6dc9b",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -615,7 +620,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "73ae42753297c5d3",
       "whyItMatters": [],
@@ -656,7 +661,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "a83ed36b36c81325",
       "whyItMatters": [],
@@ -697,7 +702,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -738,7 +743,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -763,6 +768,106 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::breaking_change",
+      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
+      "suggestedHeadline": "USCIS revises L-1 fee guidance tied to 9-11 Biometric Fee rule",
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
+      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
+      "category": "development",
+      "topicKey": "visa:h-1b",
+      "priority": 79118.99444444444,
+      "readerValue": 100,
+      "factsHash": "20197d2372e6af23",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS just revised Policy Manual guidance on L-1 petition filing fees.\n\nThe update reflects the 9-11 Biometric Fee final rule for H-1B and L-1. This is officer guidance, not regulation.\n\nUSCIS has not posted a separate effective date.\n\nhttps://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Aliap4i",
+        "linkedin": "",
+        "structure": "news"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
+      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
+      "freshness": {
+        "publishedAt": "2026-10-27",
+        "discoveredAt": "2026-10-28",
+        "expiresAt": "2026-10-31"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-28T19:20:44.161Z",
+      "externalUrl": "https://x.com/i/web/status/2115524259972079646",
+      "history": [
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "published",
+          "reason": "published on x"
         }
       ]
     },
@@ -4380,7 +4485,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "0ff89fa3afb66520",
       "whyItMatters": [],
@@ -4480,6 +4585,16 @@
           "at": "2026-10-28T00:15:27.171Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4496,7 +4611,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4606,6 +4721,16 @@
           "at": "2026-10-28T00:15:27.171Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4622,9 +4747,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
-      "factsHash": "905b9c8aa1b8c1bd",
+      "factsHash": "572e00f5fff9ca37",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -4754,6 +4879,16 @@
         },
         {
           "at": "2026-10-28T00:15:27.171Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
@@ -5158,6 +5293,55 @@
           "at": "2026-10-03T17:12:19.469Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-03"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::what_changed",
+      "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "Aliens in Idaho Charged for Illegal Voting",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/aliens-in-idaho-charged-for-illegal-voting",
+      "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23700.972222222223,
+      "readerValue": 34,
+      "factsHash": "33c67e245c2118ae",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm",
+      "ogImage": "/og/change/aliens-in-idaho-charged-for-illegal-voting-yharpm.png",
+      "freshness": {
+        "publishedAt": "2026-10-22",
+        "discoveredAt": "2026-10-23",
+        "expiresAt": "2026-11-02"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-28"
         }
       ]
     },
