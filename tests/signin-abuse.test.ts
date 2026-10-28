@@ -222,3 +222,37 @@ describe("a real person can still sign in", () => {
     expect(await store.incrementWindow("w", 60)).toBe(1);
   });
 });
+
+// =============================================================================
+// A BUYER COMES BACK TO THE PLAN THEY CHOSE
+//
+// Subscribe asks for a verified address first. The link used to land on
+// /account with the chosen plan forgotten, leaving a first-time buyer to find
+// the pricing page and press Subscribe a second time. The plan now rides on the
+// link — as an allow-listed interval, never as a URL.
+// =============================================================================
+describe("a buyer's plan survives the sign-in link", () => {
+  const linkIn = (text: string) => /https:\/\/\S+\/account\?signin=\S+/.exec(text)![0];
+
+  it("carries the plan a Subscribe button asked for", async () => {
+    await requestLink("buyer@example.com", { resume: "annual" });
+    expect(sent).toHaveLength(1);
+    const link = new URL(linkIn(sent[0].text));
+    expect(link.pathname).toBe("/account");
+    expect(link.searchParams.get("resume")).toBe("annual");
+    expect(link.searchParams.get("signin")).toBeTruthy();
+  });
+
+  it("drops anything that is not a known plan, so a link cannot be pointed elsewhere", async () => {
+    for (const [i, junk] of ["//evil.example", "https://evil.example", "monthly&x=1", 7, { a: 1 }].entries()) {
+      await requestLink(`buyer${i}@example.com`, { resume: junk });
+    }
+    expect(sent).toHaveLength(5);
+    for (const mail of sent) expect(new URL(linkIn(mail.text)).searchParams.has("resume")).toBe(false);
+  });
+
+  it("leaves an ordinary sign-in link exactly as it was", async () => {
+    await requestLink("reader@example.com");
+    expect(linkIn(sent[0].text)).not.toContain("resume=");
+  });
+});

@@ -13,9 +13,9 @@
 // unnoticed.
 // =============================================================================
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { trackCheckoutStarted } from "@/lib/analytics";
-import type { Interval } from "@/lib/billing/plans";
+import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
 import { CONSENT_HINT, CONSENT_TEXT } from "@/lib/billing/consent";
 
 interface Props {
@@ -35,6 +35,17 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   // UNCHECKED BY DEFAULT, ALWAYS. A pre-ticked marketing box is not consent,
   // and the purchase must complete identically whether or not it is touched.
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+
+  // BACK FROM THE INBOX. The sign-in link a Subscribe button asked for returns
+  // here with ?resume=<this plan>. Say so and put the button in view — but do
+  // not press it for them: the opt-in above is theirs to answer, and Stripe is
+  // one deliberate click away.
+  useEffect(() => {
+    if (resumeIntervalFrom(new URLSearchParams(window.location.search).get("resume")) !== interval) return;
+    setMessage("Your email is confirmed. Continue to secure checkout when you are ready.");
+    root.current?.scrollIntoView({ block: "center" });
+  }, [interval]);
 
   async function start() {
     if (state === "starting") return;
@@ -98,7 +109,9 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       const res = await fetch("/api/billing/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        // The plan rides on the link, so opening it brings them back to this
+        // button rather than to an account page that has forgotten it.
+        body: JSON.stringify({ email, resume: interval }),
       });
       const body = (await res.json()) as { message?: string };
       setState(res.ok ? "sent" : "verify");
@@ -131,7 +144,8 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
         <p className="text-xs leading-relaxed text-slate-300">{message}</p>
         {state === "sent" ? (
           <p className="mt-2 text-xs text-slate-500">
-            Open the link, then come back and subscribe. It works once and expires in 15 minutes.
+            Open the link and it brings you straight back here to finish. It works once and expires
+            in 15 minutes.
           </p>
         ) : (
           <form onSubmit={requestLink} className="mt-2 flex flex-col gap-2 sm:flex-row">
@@ -162,7 +176,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   }
 
   return (
-    <div className={className}>
+    <div ref={root} className={className}>
       {/* BEFORE CHECKOUT, NOT AFTER. The question has to be asked while the
           person is still deciding — asking once money has moved makes it look
           like part of what they bought. Nothing about entitlement reads this

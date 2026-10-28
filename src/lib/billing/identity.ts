@@ -35,6 +35,7 @@
 // =============================================================================
 
 import { randomBytes } from "node:crypto";
+import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
 
 /** Long enough that guessing is hopeless, short enough to survive an email client. */
 export const LOGIN_TOKEN_BYTES = 32;
@@ -47,8 +48,18 @@ export function newLoginToken(): string {
 }
 
 /** The shape of a sign-in link. The token is a query parameter, never a path segment. */
-export function loginUrl(origin: string, token: string): string {
-  return `${origin.replace(/\/$/, "")}/account?signin=${encodeURIComponent(token)}`;
+export function loginUrl(origin: string, token: string, resume?: Interval | null): string {
+  const base = `${origin.replace(/\/$/, "")}/account?signin=${encodeURIComponent(token)}`;
+  // A BUYER'S CLICK SURVIVES THE DETOUR THROUGH THEIR INBOX.
+  //
+  // Someone who pressed Subscribe was sent to confirm an address first, then
+  // landed on /account with only an "Upgrade to Pro" link: the plan they chose
+  // forgotten and two more clicks between them and paying. The plan rides on
+  // the link instead. It is an allow-listed interval and nothing else: it
+  // grants nothing, carries no consent, and only decides which Subscribe
+  // button is waiting for them when they come back.
+  const plan = resumeIntervalFrom(resume);
+  return plan ? `${base}&resume=${plan}` : base;
 }
 
 /**
