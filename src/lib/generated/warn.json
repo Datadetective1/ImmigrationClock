@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-27T16:06:44.989Z",
+  "generatedAt": "2026-10-28T16:53:14.809Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 383,
-      "employeesTotal": 21034,
-      "latestNotice": "2026-10-21",
-      "withNoticeDate": 383,
+      "noticeCount": 390,
+      "employeesTotal": 22363,
+      "latestNotice": "2026-10-26",
+      "withNoticeDate": 390,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7731,
-  "employeesTotal": 994458,
-  "employerCount": 6048,
+  "noticeCount": 7738,
+  "employeesTotal": 995787,
+  "employerCount": 6052,
   "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-10-23",
+  "maxNoticeDate": "2026-10-26",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -684,6 +684,17 @@
         "NJ"
       ],
       "latestNotice": "2023-04-09"
+    },
+    {
+      "normalized": "24HR HOMECARE",
+      "name": "24Hr Homecare",
+      "slug": "24hr-homecare",
+      "notices": 2,
+      "employees": 1613,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-01"
     },
     {
       "normalized": "NEW CENTURY TRANSPORTATION",
@@ -2036,17 +2047,6 @@
       "latestNotice": "2026-09-30"
     },
     {
-      "normalized": "24HR HOMECARE",
-      "name": "24Hr Homecare, LLC",
-      "slug": "24hr-homecare-llc",
-      "notices": 1,
-      "employees": 738,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-08-31"
-    },
-    {
       "normalized": "PRIME FLIGHT AVIATION",
       "name": "Prime Flight Aviation Services, Inc.",
       "slug": "prime-flight-aviation-services-inc",
@@ -3062,6 +3062,20 @@
       "latestNotice": "2026-09-11"
     },
     {
+      "normalized": "INTEL",
+      "name": "Intel Corporation",
+      "slug": "intel-corporation",
+      "notices": 5,
+      "employees": 560,
+      "states": [
+        "CA",
+        "NJ",
+        "TX",
+        "WA"
+      ],
+      "latestNotice": "2026-10-22"
+    },
+    {
       "normalized": "STITCH FIX",
       "name": "Stitch Fix",
       "slug": "stitch-fix",
@@ -3548,19 +3562,6 @@
         "NJ"
       ],
       "latestNotice": "2021-01-31"
-    },
-    {
-      "normalized": "INTEL",
-      "name": "Intel Corporation",
-      "slug": "intel-corporation",
-      "notices": 4,
-      "employees": 493,
-      "states": [
-        "NJ",
-        "TX",
-        "WA"
-      ],
-      "latestNotice": "2025-07-09"
     },
     {
       "normalized": "PRUDENTIAL FINANCIAL",
@@ -13137,6 +13138,18 @@
         "WA"
       ],
       "latestNotice": "2008-09-07"
+    },
+    {
+      "normalized": "CONDUENT STATE LOCAL",
+      "name": "Conduent State & Local Solutions, Inc",
+      "slug": "conduent-state-local-solutions-inc",
+      "notices": 2,
+      "employees": 177,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2027-01-21"
     },
     {
       "normalized": "CAR TOYS",
@@ -23139,17 +23152,6 @@
       "latestNotice": "2007-10-22"
     },
     {
-      "normalized": "CONDUENT STATE LOCAL",
-      "name": "Conduent State & Local Solutions, Inc",
-      "slug": "conduent-state-local-solutions-inc",
-      "notices": 1,
-      "employees": 113,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2027-01-21"
-    },
-    {
       "normalized": "NO MEAT FACTORY",
       "name": "No Meat Factory USA Inc",
       "slug": "no-meat-factory-usa-inc",
@@ -24537,6 +24539,17 @@
         "NJ"
       ],
       "latestNotice": "2009-08-17"
+    },
+    {
+      "normalized": "GEORG FISCHER SIGNET",
+      "name": "Georg Fischer Signet LLC",
+      "slug": "georg-fischer-signet-llc",
+      "notices": 1,
+      "employees": 107,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-22"
     },
     {
       "normalized": "ACCELORE GROUP-AMAZON LOGISTICS (DDF2-BALCH SPRINGS)",
@@ -29261,6 +29274,17 @@
         "NJ"
       ],
       "latestNotice": "2004-04-16"
+    },
+    {
+      "normalized": "EVERIDGE",
+      "name": "Everidge Inc.",
+      "slug": "everidge-inc",
+      "notices": 1,
+      "employees": 90,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-25"
     },
     {
       "normalized": "DOUBLETREE BY HILTON",
@@ -34039,6 +34063,17 @@
         "NJ"
       ],
       "latestNotice": "2008-04-07"
+    },
+    {
+      "normalized": "THE MADRONA",
+      "name": "The Madrona",
+      "slug": "the-madrona",
+      "notices": 1,
+      "employees": 77,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-23"
     },
     {
       "normalized": "CHICK-FIL-A FIG",
@@ -46661,6 +46696,17 @@
         "NJ"
       ],
       "latestNotice": "2004-05-31"
+    },
+    {
+      "normalized": "TAWA DBA 99 RANCH MARKET",
+      "name": "Tawa, Inc. dba 99 Ranch Market",
+      "slug": "tawa-inc-dba-99-ranch-market",
+      "notices": 1,
+      "employees": 49,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-26"
     },
     {
       "normalized": "QUEEN CITY STAFFING",
@@ -67172,6 +67218,54 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Tawa, Inc. dba 99 Ranch Market",
+      "normalized": "TAWA DBA 99 RANCH MARKET",
+      "city": "Chino",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-10-26",
+      "effectiveDate": "2026-11-15",
+      "employees": 49,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Everidge Inc.",
+      "normalized": "EVERIDGE",
+      "city": "Rancho Cucamonga",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-10-25",
+      "effectiveDate": "2027-02-26",
+      "employees": 90,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Conduent State & Local Solutions, Inc.",
+      "normalized": "CONDUENT STATE LOCAL",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-10-23",
+      "effectiveDate": "2026-12-22",
+      "employees": 64,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "The Madrona",
+      "normalized": "THE MADRONA",
+      "city": "Healdsburg",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-10-23",
+      "effectiveDate": "2027-01-03",
+      "employees": 77,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Starbucks",
       "normalized": "STARBUCKS",
       "city": "Seatac, Seattle",
@@ -67182,6 +67276,30 @@
       "employees": 135,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Georg Fischer Signet LLC",
+      "normalized": "GEORG FISCHER SIGNET",
+      "city": "Baldwin Park",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-22",
+      "effectiveDate": "2026-12-21",
+      "employees": 107,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Intel Corporation",
+      "normalized": "INTEL",
+      "city": "Folsom",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-10-22",
+      "effectiveDate": "2026-10-31",
+      "employees": 67,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "eBay Inc.",
@@ -67600,7 +67718,7 @@
       "noticeDate": "2026-10-07",
       "effectiveDate": "2027-01-04",
       "employees": 74,
-      "layoffType": "Layoff Permanent",
+      "layoffType": "Relocation Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -67889,6 +68007,18 @@
       "effectiveDate": "2026-10-30",
       "employees": 106,
       "layoffType": "Layoff Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "24Hr Homecare",
+      "normalized": "24HR HOMECARE",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-01",
+      "effectiveDate": "2026-12-17",
+      "employees": 875,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
