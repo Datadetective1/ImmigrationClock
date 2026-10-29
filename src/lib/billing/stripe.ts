@@ -264,6 +264,16 @@ export class StripeClient {
      */
     clientReferenceId?: string;
     trialDays?: number;
+    /**
+     * A coupon attached for the buyer, from a partner offer.
+     *
+     * Stripe refuses a session that sets both `discounts` and
+     * `allow_promotion_codes`, so an offer session drops the promotion code
+     * box. The discount is already applied, so there is nothing to type.
+     */
+    couponId?: string;
+    /** The offer id, stamped on the subscription so it can be found later. */
+    offerId?: string;
   }): Promise<CheckoutSession> {
     return this.request<CheckoutSession>("POST", "/checkout/sessions", {
       mode: "subscription",
@@ -273,10 +283,13 @@ export class StripeClient {
       cancel_url: input.cancelUrl,
       client_reference_id: input.clientReferenceId,
       customer: input.customerId,
-      allow_promotion_codes: true,
+      ...(input.couponId
+        ? { "discounts[0][coupon]": input.couponId }
+        : { allow_promotion_codes: true }),
       // Stripe collects and verifies the email; we never build an email form.
       billing_address_collection: "auto",
       ...(input.trialDays ? { "subscription_data[trial_period_days]": input.trialDays } : {}),
+      ...(input.offerId ? { "subscription_data[metadata][offer]": input.offerId } : {}),
     });
   }
 

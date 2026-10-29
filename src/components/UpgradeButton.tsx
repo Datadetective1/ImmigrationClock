@@ -24,9 +24,11 @@ interface Props {
   placement: string;
   label?: string;
   className?: string;
+  /** A partner offer id. Sent with checkout and with the sign-in request. */
+  offer?: string;
 }
 
-export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", className = "" }: Props) {
+export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", className = "", offer }: Props) {
   const [state, setState] = useState<
     "idle" | "starting" | "unavailable" | "verify" | "sending" | "sent" | "subscribed"
   >("idle");
@@ -59,7 +61,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       const res = await fetch("/api/billing/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ interval, newsletterOptIn }),
+        body: JSON.stringify({ interval, newsletterOptIn, ...(offer ? { offer } : {}) }),
       });
       const body = (await res.json()) as { url?: string; message?: string; error?: string };
 
@@ -111,7 +113,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
         headers: { "Content-Type": "application/json" },
         // The plan rides on the link, so opening it brings them back to this
         // button rather than to an account page that has forgotten it.
-        body: JSON.stringify({ email, resume: interval }),
+        body: JSON.stringify({ email, resume: interval, ...(offer ? { offer } : {}) }),
       });
       const body = (await res.json()) as { message?: string };
       setState(res.ok ? "sent" : "verify");

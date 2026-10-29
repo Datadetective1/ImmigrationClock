@@ -59,9 +59,16 @@ export async function POST(req: Request): Promise<Response> {
   try {
     const session = await stripe.getCheckoutSession(sessionId);
 
-    // "paid" is the only answer that grants anything. An open session, an
-    // expired one, or one whose payment failed all land here.
-    if (session.payment_status !== "paid") {
+    // "paid" is the only answer that grants anything, with one exception: a
+    // subscription that starts on a free trial (a partner offer) completes with
+    // "no_payment_required", because nothing is owed today. That session only
+    // counts once Stripe confirms below that its subscription is trialing. An
+    // open session, an expired one, or one whose payment failed all land here.
+    const trialStart =
+      session.payment_status === "no_payment_required" &&
+      typeof session.subscription === "string" &&
+      session.subscription !== "";
+    if (session.payment_status !== "paid" && !trialStart) {
       return json(
         { error: "not_paid", message: "That checkout has not been paid.", paymentStatus: session.payment_status },
         402
@@ -105,6 +112,7 @@ export async function POST(req: Request): Promise<Response> {
     // would be cut off on day 30 by the very lookup meant to protect them.
     let exp = now + MAX_TTL_DAYS * 86_400;
     let periodFromStripe: number | undefined;
+    let subscriptionStatus: string | undefined;
     if (typeof session.subscription === "string" && session.subscription) {
       try {
         const subscription = await stripe.getSubscription(session.subscription);
@@ -114,6 +122,14 @@ export async function POST(req: Request): Promise<Response> {
             402
           );
         }
+        // Nothing was paid, so the trial is the only thing that can grant.
+        if (trialStart && subscription.status !== "trialing") {
+          return json(
+            { error: "not_paid", message: "That checkout has not been paid.", paymentStatus: session.payment_status },
+            402
+          );
+        }
+        subscriptionStatus = subscription.status;
         // Read through periodEndOf: Basil moved this onto the subscription
         // items, and reading only the old place would silently fall back to
         // the default window for every subscriber.
@@ -126,6 +142,14 @@ export async function POST(req: Request): Promise<Response> {
         // A readable paid session with an unreadable subscription still earns
         // the default window; the alternative is refusing someone who has paid.
         console.error(`[billing] subscription lookup failed: ${err instanceof Error ? err.message : String(err)}`);
+        // A trial session has not paid, so it gets no benefit of the doubt.
+        // The page can retry, and the webhook grants access once it lands.
+        if (trialStart) {
+          return json(
+            { error: "trial_unconfirmed", message: "We could not confirm your trial yet. Refresh the page in a minute." },
+            502
+          );
+        }
       }
     }
 
@@ -212,7 +236,7 @@ export async function POST(req: Request): Promise<Response> {
             current,
             {
               customerId,
-              status: "active",
+              status: subscriptionStatus === "trialing" ? "trialing" : "active",
               // Only a period Stripe actually stated. Omitting it lets
               // mergeSubscriber keep whatever the webhook already wrote, which
               // is the real period rather than our fallback.

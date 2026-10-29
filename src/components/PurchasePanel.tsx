@@ -56,9 +56,11 @@ interface Props {
   forSale: React.ReactNode;
   /** The "Not for sale yet" explanation, composed by the server component. */
   notForSale: React.ReactNode;
+  /** A partner offer id. The panel only sells when that offer is open too. */
+  offer?: string;
 }
 
-export function PurchasePanel({ initialReady, initialTestMode, forSale, notForSale }: Props) {
+export function PurchasePanel({ initialReady, initialTestMode, forSale, notForSale, offer }: Props) {
   const [ready, setReady] = useState(initialReady);
   const [testMode, setTestMode] = useState(initialTestMode);
 
@@ -70,9 +72,13 @@ export function PurchasePanel({ initialReady, initialTestMode, forSale, notForSa
         // 503 is a legitimate answer here, not a failure: it is how the route
         // reports that billing is switched off, and the body still carries the
         // flags. Only an unreadable response leaves the server's answer alone.
-        const body = (await res.json()) as { checkoutReady?: unknown; testMode?: unknown };
+        const body = (await res.json()) as { checkoutReady?: unknown; testMode?: unknown; openOffers?: unknown };
         if (cancelled) return;
-        if (typeof body.checkoutReady === "boolean") setReady(body.checkoutReady);
+        if (typeof body.checkoutReady === "boolean") {
+          const offerOpen =
+            !offer || (Array.isArray(body.openOffers) && body.openOffers.includes(offer));
+          setReady(body.checkoutReady && offerOpen);
+        }
         if (typeof body.testMode === "boolean") setTestMode(body.testMode);
       } catch {
         // Keep the server's answer. See the header.
@@ -81,7 +87,7 @@ export function PurchasePanel({ initialReady, initialTestMode, forSale, notForSa
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [offer]);
 
   if (!ready) return <>{notForSale}</>;
 

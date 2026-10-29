@@ -36,6 +36,7 @@
 
 import { randomBytes } from "node:crypto";
 import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
+import { offerFrom, type OfferSpec } from "@/lib/billing/offers";
 
 /** Long enough that guessing is hopeless, short enough to survive an email client. */
 export const LOGIN_TOKEN_BYTES = 32;
@@ -48,7 +49,12 @@ export function newLoginToken(): string {
 }
 
 /** The shape of a sign-in link. The token is a query parameter, never a path segment. */
-export function loginUrl(origin: string, token: string, resume?: Interval | null): string {
+export function loginUrl(
+  origin: string,
+  token: string,
+  resume?: Interval | null,
+  offer?: OfferSpec | null
+): string {
   const base = `${origin.replace(/\/$/, "")}/account?signin=${encodeURIComponent(token)}`;
   // A BUYER'S CLICK SURVIVES THE DETOUR THROUGH THEIR INBOX.
   //
@@ -59,7 +65,11 @@ export function loginUrl(origin: string, token: string, resume?: Interval | null
   // grants nothing, carries no consent, and only decides which Subscribe
   // button is waiting for them when they come back.
   const plan = resumeIntervalFrom(resume);
-  return plan ? `${base}&resume=${plan}` : base;
+  if (!plan) return base;
+  // A partner offer rides along the same way: an allow-listed id that only
+  // decides which page the buyer lands back on.
+  const known = offer ? offerFrom(offer.id) : null;
+  return known ? `${base}&resume=${plan}&offer=${known.id}` : `${base}&resume=${plan}`;
 }
 
 /**

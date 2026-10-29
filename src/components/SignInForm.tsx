@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { announceIdentityChange } from "@/lib/billing/identity-signal";
 import { resumeIntervalFrom } from "@/lib/billing/plans";
+import { offerFrom, offerResumePath } from "@/lib/billing/offers";
 
 type State = "idle" | "sending" | "sent" | "verifying" | "failed";
 
@@ -51,6 +52,9 @@ export function SignInForm() {
     // Read before the query is stripped: the plan a buyer pressed Subscribe on,
     // if this link was asked for from a Subscribe button. Allow-listed.
     const resume = resumeIntervalFrom(params.get("resume"));
+    // And the partner offer page they started on, if any. Allow-listed too:
+    // the path comes from the offer table, never from the URL.
+    const offer = offerFrom(params.get("offer"));
     window.history.replaceState({}, "", bare);
     setState("verifying");
 
@@ -89,6 +93,10 @@ export function SignInForm() {
           // A BUYER GOES BACK TO THE BUTTON THEY PRESSED. Landing on /account
           // left them an "Upgrade to Pro" link and the job of finding their
           // plan again. A fixed, same-origin path: never anything the URL said.
+          if (resume && offer) {
+            router.replace(offerResumePath(offer, resume));
+            return;
+          }
           if (resume) {
             router.replace(`/pricing?resume=${resume}#plan-pro`);
             return;

@@ -254,6 +254,8 @@ describe("the navbar says which section you are in", () => {
       "/data",
       "/data-manifest",
       "/disclosure",
+      // A partner offer page, reached from a link the partner shares.
+      "/join/nip",
       "/methodology",
       "/privacy",
       "/search",
