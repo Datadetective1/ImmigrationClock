@@ -212,7 +212,7 @@ describe("a newsletter whose numbers disagree cannot be sent", () => {
   it("rejects a subject that states the archive total instead of the story count", () => {
     if (issue.counts.recorded <= issue.counts.shown) return;
     const good = renderIssue(issue, BASE, CONTACT);
-    const broken = { ...good, subject: `Immigration Pulse — ${issue.counts.recorded} changes` };
+    const broken = { ...good, subject: `Immigration Pulse: ${issue.counts.recorded} changes` };
     expect(validateRendered(issue, broken, BASE).errors.join()).toMatch(/archive total/);
   });
 

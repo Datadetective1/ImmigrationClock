@@ -338,7 +338,7 @@ describe("the X budget is counted the way X counts", () => {
   });
 
   it("is recorded as a new prompt version, so ledger rows are traceable", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/9");
+    expect(PROMPT_VERSION).toBe("social-prompt/10");
   });
 });
 

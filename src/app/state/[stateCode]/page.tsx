@@ -31,7 +31,7 @@ export function generateMetadata({ params }: { params: { stateCode: string } }) 
   const agg = stateAggregate(params.stateCode);
   if (!agg) return buildMetadata({ title: "State not found", description: "", path: `/state/${params.stateCode}` });
   return buildMetadata({
-    title: `${agg.state.name} — Immigration & Workforce Data`,
+    title: `${agg.state.name}: Immigration & Workforce Data`,
     description: `H-1B sponsorship, top employers, offered wages, layoffs, and enforcement metrics for ${agg.state.name}.`,
     path: `/state/${agg.state.code}`,
     keywords: [agg.state.name, "H-1B by state", "layoffs", "ICE arrests"],
@@ -61,7 +61,7 @@ export default function StatePage({ params }: { params: { stateCode: string } })
       q: `Which employers sponsor H-1B visas in ${stateName}?`,
       a: `Tracked H-1B sponsors with worksites in ${stateName} include ${topCos.join(
         ", "
-      )}. About ${formatNumber(agg.totalApprovals)} approvals are attributable to tracked employers in the state — a curated subset, not a complete state total.`,
+      )}. About ${formatNumber(agg.totalApprovals)} approvals are attributable to tracked employers in the state. This is a curated subset, not a complete state total.`,
     });
   }
   if (agg.avgWage) {
@@ -101,7 +101,7 @@ export default function StatePage({ params }: { params: { stateCode: string } })
             value={agg.totalApprovals > 0 ? formatNumber(agg.totalApprovals) : "—"}
             sub={agg.totalApprovals > 0 ? "Curated employer subset" : "No curated profile for this state"}
             provenance={agg.totalApprovals > 0 ? "modeled" : undefined}
-            tooltip="Approvals attributable to a curated set of large sponsors by their published worksite shares. Not a complete state total, and not a figure USCIS publishes by state. A dash means none of the curated employers has a worksite here — not that the state has no H-1B sponsorship. Search the full directory for that."
+            tooltip="Approvals attributable to a curated set of large sponsors by their published worksite shares. Not a complete state total, and not a figure USCIS publishes by state. A dash means none of the curated employers has a worksite here, not that the state has no H-1B sponsorship. Search the full directory for that."
           />
           <Stat
             label="Avg offered wage"
@@ -115,7 +115,7 @@ export default function StatePage({ params }: { params: { stateCode: string } })
             value={agg.ice ? formatNumber(agg.ice.arrests) : "—"}
             sub={fiscalYearLabel(agg.fiscalYear)}
             provenance="modeled"
-            tooltip="ICE does not publish arrests by state. This apportions the national FY total using the state's share of tracked activity — a modeled figure, not an official state count. See methodology."
+            tooltip="ICE does not publish arrests by state. This apportions the national FY total using the state's share of tracked activity. It is a modeled figure, not an official state count. See methodology."
           />
           <Stat
             label="Layoffs (WARN)"
@@ -290,7 +290,7 @@ export default function StatePage({ params }: { params: { stateCode: string } })
         <MethodologyNote>
           <strong className="text-slate-200">Reported vs modeled on this page.</strong> WARN notices are
           reported records: each one was filed with a state agency and links back to that agency&rsquo;s
-          portal. The H-1B, wage, and ICE figures are <em>modeled</em> — neither USCIS nor ICE publishes
+          portal. The H-1B, wage, and ICE figures are <em>modeled</em>: neither USCIS nor ICE publishes
           these breakdowns by state, so we apportion national totals using our own weights and label every
           such figure. Modeled figures are illustrative of scale, not official state counts.{" "}
           {WARN_COVERAGE_SENTENCE} Enforcement and layoff figures come from separate public datasets and

@@ -35,7 +35,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-3">
-          <h2>Informational use only — not advice</h2>
+          <h2>Informational use only, not advice</h2>
           <p>
             {SITE.name} presents aggregated public datasets for informational and research purposes only. It
             does <strong>not</strong> provide legal, immigration, employment, tax, or financial advice, and is
@@ -118,8 +118,8 @@ export default function TermsPage() {
             record for these subscriptions. {SITE.name} never receives or stores your card details.
           </p>
           <p>
-            <strong>Automatic renewal.</strong> Pro renews automatically — monthly plans every month,
-            annual plans every twelve months — at the same price, until you cancel. Your card is charged
+            <strong>Automatic renewal.</strong> Pro renews automatically (monthly plans every month,
+            annual plans every twelve months) at the same price, until you cancel. Your card is charged
             at the start of each new period. Your current period end is shown on your{" "}
             <Link href="/account">account page</Link> at all times.
           </p>
@@ -143,8 +143,8 @@ export default function TermsPage() {
             saved is deleted.
           </p>
           <p>
-            <strong>When access ends.</strong> Losing Pro stops paid features — currently email alerts, the
-            Briefing and syncing your follows across devices — and nothing else. Your account, your email address and the follows
+            <strong>When access ends.</strong> Losing Pro stops paid features (currently email alerts, the
+            Briefing and syncing your follows across devices) and nothing else. Your account, your email address and the follows
             saved in your browser are unaffected, and you can subscribe again at any time.
           </p>
         </section>

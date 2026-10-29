@@ -19,7 +19,7 @@ export default function DisclosurePage() {
       <PageHeader
         eyebrow="Legal"
         title="Advertising & affiliate disclosure"
-        description={`How we keep the data free — and the line we hold so it stays trustworthy. Last updated ${UPDATED}.`}
+        description={`How we keep the data free, and the line we hold so it stays trustworthy. Last updated ${UPDATED}.`}
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/disclosure", label: "Disclosure" },
@@ -49,12 +49,12 @@ export default function DisclosurePage() {
           <p>
             On our <Link href="/resources">Resources</Link> page and beside some{" "}
             <Link href="/key-dates">key dates</Link>, we link to independent third-party services for
-            immigration needs — such as certified document translation, attorney-reviewed applications,
+            immigration needs, such as certified document translation, attorney-reviewed applications,
             foreign degree evaluation and nonresident tax filing.
           </p>
           <p>
             Some of those are <strong>affiliate partnerships</strong>: if you click through and buy, we may
-            earn a commission. <strong>It never costs you extra</strong> — the price is the same as going
+            earn a commission. <strong>It never costs you extra</strong>. The price is the same as going
             direct.
           </p>
           <p>

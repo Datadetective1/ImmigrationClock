@@ -23,7 +23,7 @@ export const EXPLAINERS: Explainer[] = [
     term: "Border encounters",
     group: "border",
     simple:
-      "An “encounter” is each time U.S. border officials stop someone at or near the border. The same person can be stopped more than once, so it counts events, not people — and it is not the same as a deportation.",
+      "An “encounter” is each time U.S. border officials stop someone at or near the border. The same person can be stopped more than once, so it counts events, not people. It is also not the same as a deportation.",
     technical:
       "CBP nationwide encounters combine U.S. Border Patrol apprehensions (between ports of entry) and Office of Field Operations inadmissibles (at ports of entry), across all U.S. borders, by month and fiscal year.",
     methodology:
@@ -45,7 +45,7 @@ export const EXPLAINERS: Explainer[] = [
     term: "H-1B petition approvals",
     group: "visa",
     simple:
-      "The H-1B lets a U.S. employer hire a foreign worker in a specialized job. An “approval” means the government approved an employer's petition — that is not the same as a visa being stamped at an embassy.",
+      "The H-1B lets a U.S. employer hire a foreign worker in a specialized job. An “approval” means the government approved an employer's petition. That is not the same as a visa being stamped at an embassy.",
     technical:
       "USCIS H-1B approvals count initial plus continuing petition approvals by fiscal year; the Employer Data Hub breaks them down by sponsoring employer.",
     methodology:
@@ -60,7 +60,7 @@ export const EXPLAINERS: Explainer[] = [
     technical:
       "USCIS approvals (petitions adjudicated in the U.S.) and Department of State issuances (visas issued at consular posts) capture different stages of the process and use different reporting calendars.",
     methodology:
-      "We show both and never combine them. State Department issuances come from monthly NIV/IV tables, which are published on a lag — see the reporting-lag breakdown on /data.",
+      "We show both and never combine them. State Department issuances come from monthly NIV/IV tables, which are published on a lag. See the reporting-lag breakdown on /data.",
   },
   {
     key: "f1",
@@ -100,7 +100,7 @@ export const EXPLAINERS: Explainer[] = [
     term: "Fiscal year & year-to-date",
     group: "data",
     simple:
-      "The government's year runs October 1 to September 30, not January to December. “Year-to-date” means only the part of the current year that has happened so far — so it is smaller than a full year.",
+      "The government's year runs October 1 to September 30, not January to December. “Year-to-date” means only the part of the current year that has happened so far, so it is smaller than a full year.",
     technical:
       "U.S. federal fiscal years run Oct 1–Sep 30 (FY2026 = Oct 2025–Sep 2026). Year-to-date figures cover only the elapsed portion of the current fiscal year.",
     methodology:

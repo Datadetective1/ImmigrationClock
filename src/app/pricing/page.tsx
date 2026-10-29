@@ -15,7 +15,7 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { UpgradeButton } from "@/components/UpgradeButton";
+import { NewsletterOptInGroup, UpgradeButton } from "@/components/UpgradeButton";
 import { PurchasePanel } from "@/components/PurchasePanel";
 import { PricingAnalytics } from "@/components/PricingAnalytics";
 import {
@@ -33,7 +33,7 @@ import { SITE } from "@/lib/site";
 import { billingStatus } from "@/lib/billing/config";
 
 export const metadata = buildMetadata({
-  title: "Pricing — ImmigrationClock Pro",
+  title: "Pricing: ImmigrationClock Pro",
   description:
     "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro keeps your watchlist on every device.",
   path: "/pricing",
@@ -161,7 +161,7 @@ export default function PricingPage() {
               <span className="text-sm text-slate-400">per month</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
-              or ${pro.annualUsd} a year{saving ? ` — two months free` : ""}. Cancel any time, from your
+              or ${pro.annualUsd} a year{saving ? `, which is two months free` : ""}. Cancel any time, from your
               own billing page.
             </p>
 
@@ -240,7 +240,7 @@ export default function PricingPage() {
 
             {later.length > 0 ? (
               <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2.5">
-                <p className="text-xs font-semibold text-slate-300">Not included — what we are building next</p>
+                <p className="text-xs font-semibold text-slate-300">Not included yet: what we are building next</p>
                 {/* THESE ARE NOT SOLD, AND THE HEADING HAS TO SAY SO. They were
                     listed as Pro capabilities with "in build" and "planned"
                     badges, which reads as "included, arriving shortly" — and a
@@ -289,21 +289,23 @@ export default function PricingPage() {
               initialTestMode={billingStatus().testMode}
               forSale={
                 <>
-                  <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe — $${pro.monthlyUsd}/month`} />
-                  <UpgradeButton
-                    interval="annual"
-                    placement="pricing_page"
-                    label={`Subscribe yearly — $${pro.annualUsd}`}
-                    className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
-                  />
+                  <NewsletterOptInGroup>
+                    <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe: $${pro.monthlyUsd} a month`} />
+                    <UpgradeButton
+                      interval="annual"
+                      placement="pricing_page"
+                      label={`Subscribe yearly: $${pro.annualUsd}`}
+                      className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
+                    />
+                  </NewsletterOptInGroup>
                   <p className="text-center text-[11px] text-slate-500">
                     Payment is handled by Stripe. {SITE.name} never sees your card. Prices are in
                     US dollars and exclude any sales tax or VAT, which Stripe calculates and shows
                     you before you pay.
                   </p>
                   <p className="text-center text-[11px] text-slate-500">
-                    Subscriptions renew automatically — monthly plans every month, yearly plans
-                    every twelve months — until you cancel. Cancel any time from your account; you
+                    Subscriptions renew automatically until you cancel: monthly plans every month,
+                    yearly plans every twelve months. Cancel any time from your account; you
                     keep Pro until the period you have paid for ends. Full{" "}
                     <Link href="/terms" className="link-accent">
                       billing terms
@@ -381,8 +383,8 @@ export default function PricingPage() {
               <h3 className="text-sm font-semibold text-white">Do I need an account to read the site?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
                 No. Everything public stays open with no account and no sign-in. Accounts exist
-                only for Pro, keeping your follows across devices, newsletter settings and billing —
-                you sign in with an emailed link, and there is no password.
+                only for Pro, keeping your follows across devices, newsletter settings and billing.
+                You sign in with an emailed link, and there is no password.
               </p>
             </div>
             <div className="panel panel-pad">

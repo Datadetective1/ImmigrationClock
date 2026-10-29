@@ -16,7 +16,7 @@ import { formatNumber, formatRate, formatDate } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Layoffs vs H-1B Sponsorship",
   description:
-    "Compare WARN layoff notices with H-1B sponsorship at the same employers — presented side-by-side, without claiming causation.",
+    "Compare WARN layoff notices with H-1B sponsorship at the same employers, presented side-by-side, without claiming causation.",
   path: "/layoffs-vs-h1b",
   image: ogImagePath("page", "layoffs-vs-h1b"),
   keywords: ["layoffs vs H-1B", "WARN notices", "H-1B sponsorship", "worker replacement"],
@@ -132,7 +132,7 @@ export default function LayoffsVsH1bPage() {
 
 
         <ChartCard
-          title="Every employer in both datasets — live"
+          title="Every employer in both datasets (live)"
           subtitle={`Matched from ${formatNumber(WARN_META.noticeCount)} real WARN notices across ${WARN_META.stateCount} states against the USCIS H-1B employer directory. Sorted by H-1B approvals.`}
           source={{
             sourceName: "USCIS H-1B Employer Data Hub + State WARN portals",
@@ -186,7 +186,7 @@ export default function LayoffsVsH1bPage() {
             <li>Correlation in these bars is not causation. Treat it as a prompt for questions, not a verdict.</li>
             <li>{WARN_COVERAGE_SENTENCE} An employer with no notice here may still have laid off workers in a state we don&rsquo;t yet cover.</li>
             <li>
-              Employers are matched by a normalized name. Matching is best-effort — verify against the state
+              Employers are matched by a normalized name. Matching is best-effort, so verify against the state
               portal link on any individual notice before relying on it.
             </li>
           </ul>

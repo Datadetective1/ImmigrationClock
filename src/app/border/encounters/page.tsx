@@ -94,7 +94,7 @@ export default function BorderEncountersPage() {
 
         <ChartCard
           title="Encounters by citizenship"
-          subtitle={`Nationwide · ${fiscalYearLabel(LATEST_COMPLETE_FY)} — apportioned from the reported total`}
+          subtitle={`Nationwide · ${fiscalYearLabel(LATEST_COMPLETE_FY)} · apportioned from the reported total`}
           tooltip="Encounters are events, not unique people. This citizenship split is apportioned from the reported nationwide total using our own country weights, so it shows relative scale rather than CBP's own published nationality counts."
           provenance="modeled"
           source={SOURCE}

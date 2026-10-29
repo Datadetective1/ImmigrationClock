@@ -45,7 +45,7 @@ export default function Error({
 
       <p className="mt-4 text-sm leading-relaxed text-slate-300">
         Something went wrong displaying this page. This is a fault in the site, not a statement about
-        immigration policy — no data has changed, and nothing has been added to or removed from the
+        immigration policy. No data has changed, and nothing has been added to or removed from the
         archive.
       </p>
 

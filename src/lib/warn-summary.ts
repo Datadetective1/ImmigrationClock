@@ -149,5 +149,5 @@ export function warnCoversState(stateCode: string): boolean {
  */
 export const WARN_COVERAGE_SENTENCE =
   `Covers ${WARN_SUMMARY.stateCount} states with a machine-readable WARN feed ` +
-  `(${WARN_SUMMARY.stateCodes.join(", ")}). This is not a national total — ` +
-  `most states publish WARN notices only as HTML, Excel, or PDF.`;
+  `(${WARN_SUMMARY.stateCodes.join(", ")}). This is not a national total. ` +
+  `Most states publish WARN notices only as HTML, Excel, or PDF.`;

@@ -107,8 +107,12 @@ import type { FactSet, Platform, ValidationResult } from "./types";
  * grounding corpora (derived restatements of the record's own fields, see
  * implications.ts), allows a single right arrow and a bullet as typography,
  * and bans "did you know".
+ *
+ * v9 rejects the em dash. A partner reading our copy took it as the mark of
+ * machine-written text, and the account publishes under the company's name.
+ * It is a mechanical failure: a repair swaps it for a period, comma or colon.
  */
-export const VALIDATOR_VERSION = "social-validator/8";
+export const VALIDATOR_VERSION = "social-validator/9";
 
 // -----------------------------------------------------------------------------
 // PLATFORM SHAPE
@@ -801,6 +805,7 @@ export type FailureCode =
   | "too-many-links"
   | "too-many-hashtags"
   | "emoji"
+  | "em-dash"
   | "x-linebreaks"
   | "linkedin-fold-link"
   | "effective-date-dropped"
@@ -842,6 +847,7 @@ export const REPAIRABLE_FAILURES: ReadonlySet<FailureCode> = new Set<FailureCode
   "too-many-links",
   "too-many-hashtags",
   "emoji",
+  "em-dash",
   "x-linebreaks",
   "linkedin-fold-link",
   "effective-date-dropped",
@@ -992,6 +998,11 @@ export function validatePost(
   checked.push("no-emoji");
   const emoji = trimmed.match(EMOJI);
   if (emoji) add("emoji", `Contains an emoji (${emoji[0]}) — this account does not use them`);
+
+  checked.push("no-em-dash");
+  if (trimmed.includes("\u2014")) {
+    add("em-dash", "Contains an em dash. Use a period, a comma or a colon instead");
+  }
 
   // --- the cold reader test --------------------------------------------------
   //

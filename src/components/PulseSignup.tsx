@@ -80,7 +80,7 @@ export function PulseSignup({
     return (
       <div className="flex flex-col gap-2 rounded-xl border border-accent/15 bg-accent/[0.04] p-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="text-sm text-slate-300">
-          <span aria-hidden>📬</span> <strong className="text-white">Immigration Pulse</strong> — the 5
+          <span aria-hidden>📬</span> <strong className="text-white">Immigration Pulse</strong>: the 5
           biggest changes each week.
         </div>
         {open ? (
@@ -109,7 +109,7 @@ export function PulseSignup({
           <div className="eyebrow mb-1 text-accent">Newsletter</div>
           <h2 className="text-lg font-bold text-white sm:text-xl">Get the weekly Immigration Pulse</h2>
           <p className="mt-1.5 text-sm leading-relaxed text-slate-400">
-            Five things that changed in U.S. immigration, every week — sourced and labelled, no spin.
+            Five things that changed in U.S. immigration, every week. Sourced and labelled, no spin.
           </p>
           {/* What a subscriber is actually agreeing to. "Five things, weekly" is
               a pitch; this is the contract, and a reader deciding whether to
@@ -120,25 +120,25 @@ export function PulseSignup({
               address, and how to stop. Each line answers exactly one. */}
           <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-slate-400">
             <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>—</span>
+              <span className="text-accent" aria-hidden>•</span>
               <span>
                 <strong className="text-slate-300">Five changes, once a week.</strong> About a two-minute
                 read.
               </span>
             </li>
             <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>—</span>
+              <span className="text-accent" aria-hidden>•</span>
               <span>Every item links to the government document it came from.</span>
             </li>
             <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>—</span>
+              <span className="text-accent" aria-hidden>•</span>
               <span>
                 Your address is stored with our email provider and used for this only. Never sold, never
                 shared.
               </span>
             </li>
             <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>—</span>
+              <span className="text-accent" aria-hidden>•</span>
               <span>Unsubscribe from any issue in one click.</span>
             </li>
           </ul>

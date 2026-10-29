@@ -139,10 +139,10 @@ describe("proposed rules", () => {
     const { strong, weak } = views(proposal!);
     const a = assessChange(proposal!, strong, weak, [`agency:${strong.agency}`], TODAY, false);
     expect(strong.status).toBe("proposed");
-    expect(a.status).toMatch(/^Proposed — not in force/);
+    expect(a.status).toMatch(/^Proposed: not in force/);
     expect(a.daysUntilEffective).toBeNull();
     expect(a.dates.map((d) => d.label)).toEqual(["Published"]);
-    expect(a.urgency.label).toMatch(/proposal — not in force/i);
+    expect(a.urgency.label).toMatch(/proposal: not in force/i);
   });
 
   it("never get a date or a reminder, even if a date were attached", () => {

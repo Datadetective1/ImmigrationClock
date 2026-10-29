@@ -260,7 +260,7 @@ export function toEvent(bill: CongressBill, stage: LegislativeStage, verifiedAt:
     sourceKey: SOURCE_KEY,
     classification: "legislative_action",
     severity: severity(stage),
-    title: `${STAGE_LABEL[stage]}: ${billLabel(bill)} — ${plainText(bill.title ?? "")}`,
+    title: `${STAGE_LABEL[stage]}: ${billLabel(bill)}, ${plainText(bill.title ?? "")}`,
     summary,
     publishedAt: bill.latestAction?.actionDate ?? bill.updateDate?.slice(0, 10) ?? "",
     // Enactment does not mean the provisions start today, and Congress.gov does
@@ -278,10 +278,10 @@ export function toEvent(bill: CongressBill, stage: LegislativeStage, verifiedAt:
     reviewStatus: "auto",
     limitations: [
       isLaw
-        ? "This bill was enacted. When its provisions take effect, and what agencies must do to implement them, are usually set out in the law itself and in later rulemaking — enactment is not the same as being in force."
+        ? "This bill was enacted. When its provisions take effect, and what agencies must do to implement them, are usually set out in the law itself and in later rulemaking. Enactment is not the same as being in force."
         : "This bill has NOT become law. It can still be amended, stalled, or fail entirely, and most bills do. Nothing about anyone's status changes because a chamber voted.",
       "Congress.gov publishes no effective date on a bill record, so this event does not assert one.",
-      "ImmigrationClock reports bills that have moved past introduction. Introduced and referred bills are excluded — any member can introduce any bill, and roughly 2% become law, so reporting introductions as change would be wrong nearly every time.",
+      "ImmigrationClock reports bills that have moved past introduction. Introduced and referred bills are excluded: any member can introduce any bill, and roughly 2% become law, so reporting introductions as change would be wrong nearly every time.",
     ],
   };
 }
@@ -459,11 +459,11 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
 
 export const congressAdapter: SourceAdapter = {
   key: "congress",
-  name: "Congress — bills and public laws",
+  name: "Congress: bills and public laws",
   sourceKey: SOURCE_KEY,
   status: "ready",
   coverage:
-    "Immigration laws ENACTED by Congress, read from the official /law endpoint so every item is unambiguously public law. Relevance comes from the CRS-assigned policy area rather than the title, because Congress names legislation after people and slogans — the Laken Riley Act is an immigration statute whose title contains no immigration word. Bills short of enactment are NOT comprehensively tracked: the API cannot filter by legislative stage, and a sweep of recently-updated bills returns almost entirely fresh introductions (measured: 250 of 250). Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing.",
+    "Immigration laws ENACTED by Congress, read from the official /law endpoint so every item is unambiguously public law. Relevance comes from the CRS-assigned policy area rather than the title, because Congress names legislation after people and slogans. The Laken Riley Act is an immigration statute whose title contains no immigration word. Bills short of enactment are NOT comprehensively tracked: the API cannot filter by legislative stage, and a sweep of recently-updated bills returns almost entirely fresh introductions (measured: 250 of 250). Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing.",
   fetchEvents,
 };
 

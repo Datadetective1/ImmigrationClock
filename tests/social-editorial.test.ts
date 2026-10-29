@@ -87,8 +87,8 @@ describe("the account knows what it is for", () => {
   });
 
   it("is versioned, so a change of voice is traceable in the ledger", () => {
-    expect(PROMPT_VERSION).toBe("social-prompt/9");
-    expect(VALIDATOR_VERSION).toBe("social-validator/8");
+    expect(PROMPT_VERSION).toBe("social-prompt/10");
+    expect(VALIDATOR_VERSION).toBe("social-validator/9");
   });
 });
 
@@ -230,7 +230,7 @@ describe("the validator refuses individual-case claims", () => {
     // the validator requires the date to survive into the copy. The test is
     // about the verb "track", and a sample that failed a different rule would
     // prove nothing about it either way.
-    const fine = `ImmigrationClock tracks the fee schedule and records when each change takes effect — this one on 2026-09-18 — with the source on every entry. ${link}`;
+    const fine = `ImmigrationClock tracks the fee schedule and records when each change takes effect (this one on 2026-09-18), with the source on every entry. ${link}`;
     expect(validatePost(fine, "x", facts).failures).toEqual([]);
   });
 

@@ -5,7 +5,7 @@ import { ResourceDirectory } from "@/components/ResourcePanel";
 import { partnersByCategory } from "@/lib/partners";
 
 export const metadata = buildMetadata({
-  title: "Immigration Resources — Legal Help, Translations, Taxes & Credit",
+  title: "Immigration Resources: Legal Help, Translations, Taxes & Credit",
   description:
     "Official help and independent services for immigration paperwork: finding a lawyer, certified translations, degree evaluation, nonresident taxes, credit and the citizenship test.",
   path: "/resources",

@@ -148,7 +148,7 @@ export function explainMatches(
             strength === "named"
               ? `You follow ${label}. The document names it ${where}.`
               : strength === "mentioned"
-                ? `You follow ${label}. It appears ${where}, not in the title or summary — this may be incidental. Read the quote before relying on it.`
+                ? `You follow ${label}. It appears ${where}, not in the title or summary, so this may be incidental. Read the quote before relying on it.`
                 : `You follow ${label}. It appears ${where}. This is a possible match only.`,
         });
       }
@@ -181,19 +181,19 @@ export function statusText(change: PublicChange, today: string): string {
   const eff = change.effectiveDate;
   switch (change.status) {
     case "proposed":
-      return "Proposed — not in force. A proposal can change or never be finalised.";
+      return "Proposed: not in force. A proposal can change or never be finalised.";
     case "superseded":
-      return "Superseded — a later record amends this one. Read the newer record first.";
+      return "Superseded: a later record amends this one. Read the newer record first.";
     case "decided":
       return "Court decision.";
     case "informational":
-      return "Informational — a data release or correction, not a rule.";
+      return "Informational: a data release or correction, not a rule.";
     case "scheduled":
       return eff ? `Published; stated to take effect ${longDay(eff)}.` : "Scheduled.";
     case "in_force":
       return eff && eff <= today
         ? `The document states an effective date of ${longDay(eff)}, which has passed. A later rule or court order can change whether it still applies.`
-        : "Published. The document states no effective date — check the source.";
+        : "Published. The document states no effective date. Check the source.";
     default:
       return "See the source.";
   }
@@ -289,7 +289,7 @@ export function assessChange(
   } else if (publishedAgo >= 0 && publishedAgo <= CURRENT_DAYS) {
     section = "current";
     urgency = proposed
-      ? { label: "New proposal — not in force", tone: "info" }
+      ? { label: "New proposal: not in force", tone: "info" }
       : { label: publishedAgo === 0 ? "New today" : `New · ${publishedAgo} day${publishedAgo === 1 ? "" : "s"} ago`, tone: "info" };
   } else {
     section = "historical";

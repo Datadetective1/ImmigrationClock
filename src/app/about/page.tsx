@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = buildMetadata({
   title: "About & Contact",
   description:
-    "About ImmigrationClock — a neutral, fact-based dashboard of U.S. immigration, visa, enforcement, and workforce data, with every number sourced.",
+    "About ImmigrationClock: a neutral, fact-based dashboard of U.S. immigration, visa, enforcement, and workforce data, with every number sourced.",
   path: "/about",
 });
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
           <p>
             {SITE.name} turns scattered U.S. government datasets into one readable dashboard: immigration
             enforcement, visas, border activity, H-1B sponsorship, wages, and layoffs. It is inspired by
-            live-counter sites like the U.S. Debt Clock, rebuilt with a modern interface and a strict rule —{" "}
+            live-counter sites like the U.S. Debt Clock, rebuilt with a modern interface and a strict rule:{" "}
             <strong>every number links to its official public source.</strong>
           </p>
         </section>

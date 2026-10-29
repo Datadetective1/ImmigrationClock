@@ -68,7 +68,7 @@
     },
     {
       "key": "congress",
-      "name": "Congress — bills and public laws",
+      "name": "Congress: bills and public laws",
       "status": "ready",
       "lastRunAt": "2026-10-28T16:54:37.528Z",
       "ok": true,
@@ -175,7 +175,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact."
       ]
     },
@@ -258,7 +258,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM L.7 (Nonimmigrants)."
       ]
     },
@@ -321,7 +321,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Background Generally, under the Immigration and Nationality Act (INA), 8 U.S.C. 1101 et. seq., aliens seeking admission to the United States, including nonimmigrants visiting temporarily for business or pleasure, must obtain a visa before traveling to the United States.",
           "effectiveFrom": "2026-10-30"
         }
@@ -888,8 +888,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.6 (General Policies and Procedures).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -1040,7 +1040,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact."
       ]
     },
@@ -1166,7 +1166,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The request must be signed and either notarized or submitted under penalty of perjury.",
           "effectiveFrom": null
         },
@@ -1256,7 +1256,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "In order to be eligible for refugee status, principal applicants must meet the requirements of the refugee definition in INA 101(a)(42), 8 U.S.C. 1101(a)(42), must be admissible to the United States, and must qualify under one of the designated USRAP processing priorities.\\17\\ USCIS may in turn terminate a derivative refugee's status if the principal's status is terminated.\\18\\…",
           "effectiveFrom": "2026-10-14"
         }
@@ -1360,7 +1360,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Under the IFR, an alien must file a notice of appeal within 15 business days of service of the initial decision and order. 8 CFR 281.1(e)(1).",
           "effectiveFrom": "2026-10-14"
         }
@@ -1492,7 +1492,7 @@
         "states": [],
         "completeness": "exhaustive",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Rather, the INA makes clear that aliens, to lawfully work in the United States, must be so authorized by law or a grant of employment authorization by the Secretary.",
           "effectiveFrom": "2026-10-14"
         }
@@ -1572,7 +1572,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Section 214(c)(1) of the INA, 8 U.S.C. 1184(c)(1), which, inter alia, authorizes the Secretary to prescribe how an importing employer may petition for nonimmigrant workers, as well as the form of the petition and the information that an importing employer must provide in the petition;",
           "effectiveFrom": null
         },
@@ -1802,7 +1802,7 @@
         "states": [],
         "completeness": "exhaustive",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Participating schools must be certified by U.S.",
           "effectiveFrom": null
         }
@@ -2133,8 +2133,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 10 USCIS-PM A.4 (Employment Authorization).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -2382,7 +2382,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Electronic System for Travel Authorization (ESTA) ESTA is the online system through which aliens intending to enter the United States under the Visa Waiver Program (VWP) must obtain an electronic travel authorization in advance of travel to the United States.\\7\\ Each alien intending to travel by air, sea, or land to the United States under the VWP must receive a travel authorization via ESTA…",
           "effectiveFrom": null
         }
@@ -2525,7 +2525,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Any application, petition, or request postmarked on or after this date must be accompanied by the fees established by this final rule.",
           "effectiveFrom": "2026-11-30"
         }
@@ -2895,7 +2895,7 @@
       "classification": "court_decision",
       "severity": "notable",
       "title": "Metropolitan Government of Nashville and Davidson County, Tennessee v. U.S. Department of Homeland Security",
-      "summary": "District Court, District of Columbia issued a decision in Metropolitan Government of Nashville and Davidson County, Tennessee v. U.S. Department of Homeland Security, filed 2026-09-28, docket Civil Action No. 2026-2886. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "District Court, District of Columbia issued a decision in Metropolitan Government of Nashville and Davidson County, Tennessee v. U.S. Department of Homeland Security, filed 2026-09-28, docket Civil Action No. 2026-2886. District-court decision in institutional litigation. It binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-09-28",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-10-27",
@@ -2934,10 +2934,10 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -2946,7 +2946,7 @@
       "classification": "court_decision",
       "severity": "notable",
       "title": "Human Rights Defense Center v. United States Immigration and Customs Enforcement",
-      "summary": "District Court, District of Columbia issued a decision in Human Rights Defense Center v. United States Immigration and Customs Enforcement, filed 2026-09-28, docket Civil Action No. 2025-1523. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "District Court, District of Columbia issued a decision in Human Rights Defense Center v. United States Immigration and Customs Enforcement, filed 2026-09-28, docket Civil Action No. 2025-1523. District-court decision in institutional litigation. It binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-09-28",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-10-27",
@@ -2985,10 +2985,10 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -3063,7 +3063,7 @@
       "classification": "court_decision",
       "severity": "major",
       "title": "Department of Homeland Security v. League of Women Voters",
-      "summary": "Supreme Court of the United States issued a decision in Department of Homeland Security v. League of Women Voters, filed 2026-09-25, docket 26A308. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "Supreme Court of the United States issued a decision in Department of Homeland Security v. League of Women Voters, filed 2026-09-25, docket 26A308. Published appellate decision, binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-09-25",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-10-27",
@@ -3105,7 +3105,7 @@
         "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -3263,7 +3263,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.6 (General Policies and Procedures)."
       ]
     },
@@ -3320,7 +3320,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 8 USCIS-PM D.10; 8 USCIS-PM D.14; 8 USCIS-PM D.15 (Admissibility)."
       ]
     },
@@ -3846,8 +3846,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 8 USCIS-PM G (Admissibility).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -4148,7 +4148,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM L (Citizenship and Naturalization)."
       ]
     },
@@ -4383,7 +4383,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Each approved regional center must file Form I-956G for each Federal fiscal year (October 1 through September 30) on or before December 29 of the calendar year in which the Federal fiscal year ended.",
           "effectiveFrom": null
         },
@@ -4462,7 +4462,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Before such family members may apply for adjustment of status or seek immigrant visas, the U-1 nonimmigrant who has been granted adjustment of status must file an immigrant petition on behalf of the qualifying family member using Form I-929.",
           "effectiveFrom": null
         },
@@ -5157,7 +5157,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Noncitizens are required to possess an EAD as evidence of work authorization.",
           "effectiveFrom": null
         },
@@ -6380,7 +6380,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Form I-129F must be filed with U.S.",
           "effectiveFrom": null
         },
@@ -6972,7 +6972,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "To qualify for the E-3 classification, the employer must file a Labor Condition Application (LCA) in accordance with section 212(t)(1) of the INA, 8 U.S.C. 1182(t)(1), and may then apply directly to the Department of State if the alien is outside of the United States or the employer may file a petition requesting E-3 status with USCIS if the alien is present in the United States in another…",
           "effectiveFrom": null
         }
@@ -7348,7 +7348,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "To register, the applicant must file Form I-485, Application to Register Permanent Residence or Adjust Status, and establish that he or she has not abandoned his or her residence in the United States.",
           "effectiveFrom": "2026-09-04"
         },
@@ -7423,7 +7423,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 7 USCIS-PM O.3; 12 USCIS-PM A.2 (Adjustment of Status; Citizenship and Naturalization)."
       ]
     },
@@ -7575,7 +7575,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "This training, which is intended to increase awareness of suspicious circumstances and activities of individuals enrolling in, or attending, flight training, must be provided to certain employees within 60 days of being hired and on a biennial basis.",
           "effectiveFrom": null
         },
@@ -7663,7 +7663,7 @@
       "classification": "court_decision",
       "severity": "notable",
       "title": "Advocates for Human Rights v. Bondi",
-      "summary": "District Court, District of Columbia issued a decision in Advocates for Human Rights v. Bondi, filed 2026-09-03, docket Civil Action No. 2026-0865. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "District Court, District of Columbia issued a decision in Advocates for Human Rights v. Bondi, filed 2026-09-03, docket Civil Action No. 2026-0865. District-court decision in institutional litigation. It binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-09-03",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-09-30",
@@ -7696,10 +7696,10 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -7832,7 +7832,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work. It is one prerequisite among several.",
         "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
@@ -7951,7 +7951,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM J.5 (Citizenship and Naturalization)."
       ]
     },
@@ -8023,7 +8023,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text.",
+        "The document does not state an effective date in its metadata. Check the rule text.",
         "The Federal Register published no abstract for this document; read the original."
       ],
       "sourceDocument": {
@@ -8213,7 +8213,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM B.1; 12 USCIS-PM B.2; 12 USCIS-PM B.3 (Citizenship and Naturalization)."
       ]
     },
@@ -8362,7 +8362,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The proposed fee, when required, would be in addition to any other applicable fees or payments,\\3\\ including any separate payment obligation required under a Presidential Proclamation.\\4\\ Accordingly, to the extent a petitioner is subject both to a proclamation-required payment and to the additional H-1B fee proposed in this rule, the petitioner would be required to pay both amounts.…",
           "effectiveFrom": null
         }
@@ -8995,7 +8995,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 8 USCIS-PM G (Admissibility)."
       ]
     },
@@ -9005,7 +9005,7 @@
       "classification": "court_decision",
       "severity": "major",
       "title": "Yearly Meeting of the Religious Society of Friends v. United States Department of Homeland Security",
-      "summary": "Court of Appeals for the Fourth Circuit issued a decision in Yearly Meeting of the Religious Society of Friends v. United States Department of Homeland Security, filed 2026-08-18, docket 25-1512. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "Court of Appeals for the Fourth Circuit issued a decision in Yearly Meeting of the Religious Society of Friends v. United States Department of Homeland Security, filed 2026-08-18, docket 25-1512. Published appellate decision, binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-18",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-09-29",
@@ -9047,7 +9047,7 @@
         "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -9143,7 +9143,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "To establish their eligibility for early adjustment with USCIS, applicants with less than 3 years of continuous physical presence as T visa holders ``must submit a document signed by the Attorney General or their designee, attesting that the investigation or prosecution is complete.'' 8 CFR 245.23(e)(2)(i)(B). 5.",
           "effectiveFrom": null
         },
@@ -9165,7 +9165,7 @@
       "classification": "court_decision",
       "severity": "major",
       "title": "Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services",
-      "summary": "Court of Appeals for the First Circuit issued a decision in Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services, filed 2026-08-14, docket 26-1703. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "Court of Appeals for the First Circuit issued a decision in Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services, filed 2026-08-14, docket 26-1703. Published appellate decision, binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-14",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-09-26",
@@ -9207,7 +9207,7 @@
         "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -9216,7 +9216,7 @@
       "classification": "court_decision",
       "severity": "major",
       "title": "Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services",
-      "summary": "Court of Appeals for the First Circuit issued a decision in Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services, filed 2026-08-14, docket 26-1703. Published appellate decision — binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "Court of Appeals for the First Circuit issued a decision in Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services, filed 2026-08-14, docket 26-1703. Published appellate decision, binding precedent in its circuit. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-14",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-09-26",
@@ -9258,7 +9258,7 @@
         "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -9382,7 +9382,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact."
       ]
     },
@@ -9439,7 +9439,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM J.5 (Citizenship and Naturalization)."
       ]
     },
@@ -9544,7 +9544,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "To be admitted into the United States as a C-1 transit nonimmigrant, an alien must obtain a C-1 visa (or C-1/D combination visa) from the U.S.",
           "effectiveFrom": "2026-08-11"
         },
@@ -9689,7 +9689,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "…permanent residents admitted to the United States each year travel from another country and must, therefore, apply for and obtain an immigrant visa from DOS.\\44\\ Those with a USCIS-approved immigrant petition file DOS form DS-260, Electronic Application for Immigrant Visa and Alien Registration.\\45\\ In addition to requiring online filing, applicants in some cases must submit supporting documents…",
           "effectiveFrom": "2026-08-11"
         }
@@ -9748,7 +9748,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "In every IMBRA case, the respondent must provide in its first responsive pleading an address within the United States at which the respondent will accept service of all pleadings, documents, written orders, and decisions relating to the case. * * * * * 0 9.",
           "effectiveFrom": "2026-09-10"
         },
@@ -9850,7 +9850,7 @@
         "states": [],
         "completeness": "exhaustive",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Second, with respect to the types of petitions for which the fees must be submitted, Congress inserted the phrase ``including an application \\6\\ for an extension of such status.'' Id.",
           "effectiveFrom": "2026-09-09"
         }
@@ -10037,7 +10037,7 @@
       "classification": "court_decision",
       "severity": "notable",
       "title": "Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment",
-      "summary": "District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "District Court, District of Columbia issued a decision in Louise Trauma Center, LLC v. United States Immigration and Customs Enforcment, filed 2026-08-07, docket Civil Action No. 2020-3787. District-court decision in institutional litigation. It binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-08-07",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-09-24",
@@ -10070,10 +10070,10 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -10194,7 +10194,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 7 USCIS-PM O.3; 12 USCIS-PM H.3 (Adjustment of Status; Citizenship and Naturalization)."
       ]
     },
@@ -10275,7 +10275,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.6; 4 USCIS-PM C.4; 5 USCIS-PM C.7; 5 USCIS-PM D.3; 12 USCIS-PM H.2 (General Policies and Procedures; Refugees and Asylees; Adoptions; Citizenship and Naturalization)."
       ]
     },
@@ -10381,7 +10381,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.6; 1 USCIS-PM E.9; 1 USCIS-PM E.10 (General Policies and Procedures)."
       ]
     },
@@ -10532,13 +10532,13 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "An alien applying for a visa as a temporary visitor for business or pleasure (B-1/B-2) may be required to submit a bond (\"visa bond\") to ensure that the alien maintains his or her nonimmigrant status and departs as required.",
           "effectiveFrom": "2026-08-03"
         },
         "scopeDefinedElsewhere": {
           "evidence": "…Under the Program, as discussed further below, visa bonds may be required from certain business/pleasure (B-1/B-2) visa applicants who are nationals of countries with high overstay rates, deficient information sharing, insufficient identity verification and criminal records, and that need improvement in the area of screening and vetting and the security of travel…",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         }
       },
       "reviewStatus": "auto",
@@ -10624,7 +10624,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "AEWRs are the minimum wage rates that must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment to ensure that the wages and working conditions of workers in the United States similarly employed are not adversely affected.",
           "effectiveFrom": "2026-08-03"
         }
@@ -10709,7 +10709,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The individual's response will be required to include the following information:",
           "effectiveFrom": null
         },
@@ -10807,7 +10807,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "However, consistent with existing regulations, if exchange visitors are seeking to extend beyond the permitted maximum duration, sponsors must obtain Department approval.",
           "effectiveFrom": null
         }
@@ -10956,7 +10956,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Customs and Border Protection (CBP) regulations, each traveler \\1\\ entering the United States must provide an oral or written declaration of all articles brought into the United States, to a CBP officer (CBPO).",
           "effectiveFrom": null
         },
@@ -11111,7 +11111,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The alien is also told that he or she must be prepared to explain at the ``interview or hearing'' why he or she did not file the asylum application within the first year after arrival.",
           "effectiveFrom": "2026-07-28"
         }
@@ -11464,7 +11464,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Prior to submitting requests for most labor certifications or a labor condition applications to the Secretary of Labor, employers must obtain a prevailing wage for the job opportunity based on the place of employment in order to ensure that wages are not being adversely affected by paying foreign workers less than a prevailing wage.",
           "effectiveFrom": null
         },
@@ -11678,7 +11678,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Under section 213A of the INA, 8 U.S.C. 1183a, certain aliens are required to submit a sufficient Affidavit of Support Under Section 213A of the INA (Form I-864) executed by a sponsor who agrees to provide support to maintain the sponsored alien at an annual income that is not less than 125 percent of the Federal poverty line \\9\\ during the period in which the affidavit is enforceable.",
           "effectiveFrom": "2026-09-18"
         },
@@ -11834,7 +11834,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Department of State (DoS) practice; [cir] Updating the evidence an alien must submit to demonstrate eligibility for the I nonimmigrant classification; [cir] Clarifying that J-1 nonimmigrants who are employment authorized with a specific employer incident to status continue to be authorized for such employment for up to 240 days under the existing regulatory provision at 8 CFR 274a.12(b)(20) if…",
           "effectiveFrom": "2026-09-15"
         }
@@ -12174,7 +12174,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM D.1; 1 USCIS-PM D.2; 1 USCIS-PM D.3; 1 USCIS-PM D.4; 1 USCIS-PM D.5 (General Policies and Procedures)."
       ]
     },
@@ -12237,7 +12237,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.2; 7 USCIS-PM A.3 (General Policies and Procedures; Adjustment of Status)."
       ]
     },
@@ -12328,7 +12328,7 @@
       "classification": "court_decision",
       "severity": "notable",
       "title": "League of Women Voters v. U.S. Department of Homeland Security",
-      "summary": "District Court, District of Columbia issued a decision in League of Women Voters v. U.S. Department of Homeland Security, filed 2026-07-08, docket Civil Action No. 2025-3501. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "District Court, District of Columbia issued a decision in League of Women Voters v. U.S. Department of Homeland Security, filed 2026-07-08, docket Civil Action No. 2025-3501. District-court decision in institutional litigation. It binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-07-08",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-08-13",
@@ -12366,10 +12366,10 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -12706,7 +12706,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Any entity seeking designation as a regional center must submit all information required by statute \\4\\ using forms designated by USCIS Prior to the RIA, entities seeking designation as a regional center had to file Form I-924, Application for Regional Center Designation under the Immigrant Investor Program.",
           "effectiveFrom": null
         }
@@ -12976,7 +12976,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text.",
+        "The document does not state an effective date in its metadata. Check the rule text.",
         "The Federal Register published no abstract for this document; read the original."
       ],
       "sourceDocument": {
@@ -13238,7 +13238,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Each registration Form G-325R will undergo an individual review to determine if the alien has already complied with the registration requirements in some other way and does not need to submit Form G-325R or if the alien is required to appear for a biometric services appointment. --------------------------------------------------------------------------- \\14\\ See ``Address of Robert H.",
           "effectiveFrom": "2026-06-29"
         }
@@ -13306,7 +13306,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM O.7 (Nonimmigrants)."
       ]
     },
@@ -13580,7 +13580,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "This could result in additional lawful permanent resident (LPR) requests in the future for renewal of their Permanent Resident Cards (``Green'' Card) which would be an added burden to applicants and USCIS. --------------------------------------------------------------------------- \\7\\ Form I-912, or a fee waiver request, must be submitted together with Form N-400 or with Form N-336.",
           "effectiveFrom": null
         }
@@ -13663,7 +13663,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Section 239(a)(1)(F) of the INA, 8 U.S.C. 1229(a)(1)(F), specifically requires that the alien who is the subject of the EOIR proceedings must provide his or her own address and contact information, not the address or contact information of a main point of contact or third party.",
           "effectiveFrom": null
         },
@@ -13685,7 +13685,7 @@
       "classification": "court_decision",
       "severity": "notable",
       "title": "League of Women Voters v. U.S. Department of Homeland Security",
-      "summary": "District Court, District of Columbia issued a decision in League of Women Voters v. U.S. Department of Homeland Security, filed 2026-06-22, docket Civil Action No. 2025-3501. District-court decision in institutional litigation — binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
+      "summary": "District Court, District of Columbia issued a decision in League of Women Voters v. U.S. Department of Homeland Security, filed 2026-06-22, docket Civil Action No. 2025-3501. District-court decision in institutional litigation. It binds the parties, not the country. The court published no summary with this decision; read the opinion for its holding.",
       "publishedAt": "2026-06-22",
       "effectiveAt": null,
       "lastVerifiedAt": "2026-08-02",
@@ -13723,10 +13723,10 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal.",
+        "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal.",
         "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
         "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case."
+        "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case."
       ]
     },
     {
@@ -13828,7 +13828,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "To establish their eligibility for early adjustment with USCIS, applicants with less than 3 years of continuous physical presence as T visa holders ``must submit a document signed by the Attorney General or their designee, attesting that the investigation or prosecution is complete.'' 8 CFR 245.23(e)(2)(i)(B). 4.",
           "effectiveFrom": null
         },
@@ -13945,7 +13945,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "When an application for relief is filed during the course of proceedings, the fee for that application must be paid in a manner and form authorized by EOIR.",
           "effectiveFrom": "2026-06-11"
         },
@@ -14119,7 +14119,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Upon selection of an expedited appointment, applicants will be required to pay the expedite fee online prior to confirmation of the appointment.",
           "effectiveFrom": "2026-07-01"
         },
@@ -14316,13 +14316,13 @@
         "states": [],
         "completeness": "exhaustive",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "DHS also proposes to clarify that all aliens applying for employment authorization under 8 CFR 274a.12(c) must submit biometrics, that an alien's identity must be validated before issuing any employment authorization, and that, generally, situations where aliens have been arrested,\\4\\ indicted, or convicted of any criminal act, or who have admitted to committing a violent or dangerous crime, or…",
           "effectiveFrom": null
         },
         "scopeDefinedElsewhere": {
           "evidence": "It also created an expedited removal process for aliens who do not have proper documents or who make material misrepresentations and who are arriving in the United States, or, as designated by the Secretary, aliens who have not been inspected and admitted or paroled into the United States and cannot prove continuous presence in the United States for at least 2 years.\\113\\ By passing…",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "processes": [
           {
@@ -15221,7 +15221,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "…such as ``battery or extreme cruelty to the alien or any child or parent of the alien, serious illness of the alien, or serious illness or death of the spouse, child, or parent of the alien, but not including less compelling circumstances,'' which are ``beyond the control of the alien.'' \\26\\ An alien must provide adequate evidence to support a claim of exceptional circumstances which…",
           "effectiveFrom": null
         },
@@ -15657,7 +15657,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Instead of filing a new application, the applicant is required to file a motion under 8 CFR 103.5.",
           "effectiveFrom": "2026-07-10"
         },
@@ -15912,7 +15912,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM I (General Policies and Procedures)."
       ]
     },
@@ -15964,7 +15964,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "For instance, ICE may take into consideration circumstances such as if the alien has a serious medical condition, is a minor, is required to be present in U.S. court proceedings, or other such circumstances that may result in a determination that physical removal is not in the public interest.",
           "effectiveFrom": null
         },
@@ -16366,7 +16366,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "…1807 fee requirement for applicants that submit a Form I-94 Arrival/Departure Record and that the fee must be submitted when the applicants request the Form I-94 in addition to the fee required by 8 CFR 106.2(a)(2).\\16\\ --------------------------------------------------------------------------- \\13\\ 8 U.S.C. 1807. \\14\\ Id; see also, 90 FR 52085 (Nov. 19, 2025) (adjusting the Form I-94 fee…",
           "effectiveFrom": "2026-05-29"
         },
@@ -17235,7 +17235,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
       ]
@@ -17577,7 +17577,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The INA provides for five ``preference'' categories, or immigrant visa classes, only two of which--the second and third preference employment categories (commonly called the EB-2 and EB-3 immigrant visa classifications)--generally require a labor certification.\\17\\ An employer seeking to sponsor an alien worker for an immigrant visa under the EB-2 or EB-3 preference categories generally must file…",
           "effectiveFrom": null
         },
@@ -18142,7 +18142,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work. It is one prerequisite among several.",
         "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
@@ -18188,13 +18188,13 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Applicants who are selected for further processing must provide evidence of the claimed marital relationship, including a marriage certificate where available and, in some cases, additional documentation to establish the bona fides of the relationship.",
           "effectiveFrom": "2026-04-10"
         },
         "scopeDefinedElsewhere": {
           "evidence": "An alien will be eligible to compete for consideration for visa issuance under INA 203(c) during a fiscal year only if he or she is a native of a low-admission foreign state, as determined by the Secretary of Homeland Security pursuant to INA 203(c)(1)(E), with respect to the fiscal year in question; and if he or she has at least a high school education or its equivalent or, within…",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "forms": []
       },
@@ -18625,7 +18625,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "However, for those cases in which one or more parties to the case have chosen not to participate in electronic filing, those parties who are enrolled in electronic filing will be required to serve electronically filed documents on parties not enrolled in electronic filing by another approved method of service, as discussed further in Section III.B of this preamble.",
           "effectiveFrom": "2026-03-02"
         },
@@ -18774,7 +18774,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
       ]
@@ -18836,7 +18836,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text."
+        "The document does not state an effective date in its metadata. Check the rule text."
       ],
       "sourceDocument": {
         "file": "federal_register_2026-03932.txt",
@@ -18903,7 +18903,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The stated justification was, ``[t]he increase in the EAD validity period will reduce the frequency with which affected noncitizens must file an Application for Employment Authorization (Form I-765) with USCIS if they wish to renew their EAD.'' \\83\\ The purpose of this policy change was to alleviate some operational pressure to adjudicate renewals prior to expiration solely based on USCIS…",
           "effectiveFrom": null
         },
@@ -19551,7 +19551,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "This view would not change any existing understandings regarding when a removal order becomes final or when a petition for review must be filed.",
           "effectiveFrom": "2026-03-09"
         },
@@ -19643,7 +19643,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Employers must file these petitions no later than 14 days after the second half of the statutory cap is reached;",
           "effectiveFrom": "2026-01-30"
         },
@@ -19738,8 +19738,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM D.1; 2 USCIS-PM D.3 (Nonimmigrants).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -19793,7 +19793,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
       ]
@@ -20592,7 +20592,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "AEWRs are the minimum wage rates the DOL has determined must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment so that the wages and working conditions of workers in the United States (U.S.) similarly employed will not be adversely affected.",
           "effectiveFrom": null
         },
@@ -21135,7 +21135,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "A premium processing request must be submitted on USCIS Form I-907, Request for Premium Processing, and in the manner prescribed by USCIS in the form instructions.",
           "effectiveFrom": "2026-03-01"
         },
@@ -21566,7 +21566,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
       ]
@@ -21653,7 +21653,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text."
+        "The document does not state an effective date in its metadata. Check the rule text."
       ],
       "sourceDocument": {
         "file": "federal_register_2025-23970.txt",
@@ -21780,13 +21780,13 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Section 214(c)(1) of the INA, 8 U.S.C. 1184(c)(1), which, inter alia, authorizes the Secretary to prescribe how an importing employer may petition for nonimmigrant workers, including nonimmigrants described at section 101(a)(15)(H)(i)(b) of the INA, 8 U.S.C. 1101(a)(15)(H)(i)(b), as well as the form of the petition and the information that an importing employer must provide in the petition;",
           "effectiveFrom": "2026-02-27"
         },
         "scopeDefinedElsewhere": {
           "evidence": "…in computer science and engineering in U.S. universities, fields that directly contribute to advances in AI, cybersecurity, biotechnology, and semiconductor design--all areas identified by the Departments of War and Commerce as critical to U.S. national security and economic resilience.",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "processes": [
           {
@@ -22172,7 +22172,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM A.7 (General Policies and Procedures)."
       ]
     },
@@ -22228,7 +22228,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 3 USCIS-PM D.1; 3 USCIS-PM D.2; 3 USCIS-PM D.3; 3 USCIS-PM D.4; 3 USCIS-PM D.5; 3 USCIS-PM D.6 (Humanitarian Protection and Parole)."
       ]
     },
@@ -22455,7 +22455,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM B.3; 12 USCIS-PM D.6 (Citizenship and Naturalization)."
       ]
     },
@@ -22586,7 +22586,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 3 USCIS-PM F.1 (Humanitarian Protection and Parole)."
       ]
     },
@@ -22663,7 +22663,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 6 USCIS-PM E.6; 6 USCIS-PM F.5; 6 USCIS-PM F.7 (Immigrants)."
       ]
     },
@@ -22838,8 +22838,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM P.6; 6 USCIS-PM E.7 (Nonimmigrants; Immigrants).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -23742,7 +23742,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM C.2 (General Policies and Procedures)."
       ]
     },
@@ -24328,7 +24328,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM C.2 (General Policies and Procedures)."
       ]
     },
@@ -24497,7 +24497,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 10 USCIS-PM A.4 (Employment Authorization)."
       ]
     },
@@ -24607,7 +24607,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
       ]
@@ -24775,7 +24775,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.8; 7 USCIS-PM A.10; 9 USCIS-PM A.5; 10 USCIS-PM A.4 (General Policies and Procedures; Adjustment of Status; Waivers and Other Forms of Relief; Employment Authorization)."
       ]
     },
@@ -25814,13 +25814,13 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Under section 213A of the INA, 8 U.S.C. 1183a, certain aliens are required to submit a sufficient Affidavit of Support Under Section 213A of the INA executed by a sponsor who agrees to provide support to maintain the sponsored alien at an annual income that is not less than 125 percent of the Federal poverty line during the period in which the affidavit is enforceable.",
           "effectiveFrom": null
         },
         "scopeDefinedElsewhere": {
           "evidence": "The public comments DHS received were considered and discussed in the subsequent notice of proposed rulemaking, Public Charge of Inadmissibility (2022 NPRM).",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "forms": [
           {
@@ -26584,7 +26584,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 7 USCIS-PM B.2 (Adjustment of Status)."
       ]
     },
@@ -26661,7 +26661,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "For example, any applicant, petitioner, sponsor, beneficiary, or individual filing a benefit request, other request, or collection of information request may be required to appear for biometrics collection.",
           "effectiveFrom": null
         },
@@ -26806,7 +26806,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-        "Figures are year-to-date for fiscal year 2026, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.",
+        "Figures are year-to-date for fiscal year 2026, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.",
         "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
         "This figure was reconstructed from a later cumulative CBP file rather than observed at the time of release. The number is CBP's own published total; what we cannot attest is the release as it happened."
       ]
@@ -26865,7 +26865,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work. It is one prerequisite among several.",
         "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
@@ -27029,7 +27029,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "For all current employees and certain former employees, employers are required to maintain for inspection original Forms I-9 on paper or as an electronic version generated by an electronic system that can produce legible and readable paper copies, among other requirements.\\18\\ --------------------------------------------------------------------------- \\18\\ See 8 CFR 274a.2(e)-(i).…",
           "effectiveFrom": "2025-10-30"
         },
@@ -27288,8 +27288,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.3 (General Policies and Procedures).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -27336,7 +27336,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "This final rule provides that all aliens may be required to be photographed upon entry and/or departure.",
           "effectiveFrom": "2025-12-26"
         },
@@ -27468,7 +27468,7 @@
         "states": [],
         "completeness": "exhaustive",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Each Form I-526E filer is required to pay $1,000 to the EB-5 Integrity Fund, in addition to any form fees.",
           "effectiveFrom": null
         },
@@ -27617,7 +27617,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM E.1; 12 USCIS-PM E.2 (Citizenship and Naturalization)."
       ]
     },
@@ -27735,7 +27735,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 6 USCIS-PM B.6 (Immigrants)."
       ]
     },
@@ -28476,7 +28476,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Because the statute uniquely mandates that qualifications contained in an employer's job offer must be ``normal and accepted qualifications required by non-H-2A-employers in the same or comparable occupations and crops,'' a Level III wage will continue to provide the most reasonable computation of the AEWRs in circumstances where the employer's desired qualifications align with what is normally…",
           "effectiveFrom": "2025-10-02"
         },
@@ -28563,7 +28563,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "…see also, e.g., 6 U.S.C. 202(3)-(4), 236(b), 271(a)(3), (b); 8 U.S.C. 1184. --------------------------------------------------------------------------- Existing DHS regulations provide that an H-2A petition for temporary employment in the United States must be accompanied by a single valid temporary labor certification (TLC) from the U.S.",
           "effectiveFrom": "2025-10-02"
         },
@@ -28830,7 +28830,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Refugee resettlement must be conducted in a manner that serves the national interest, promotes efficient use of taxpayer dollars, protects the integrity of the United States immigration system, and supports refugees in achieving early economic self-sufficiency and assimilation into American society.",
           "effectiveFrom": null
         },
@@ -29137,7 +29137,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM I.1; 12 USCIS-PM I.2; 12 USCIS-PM I.3; 12 USCIS-PM I.5 (Citizenship and Naturalization)."
       ]
     },
@@ -29311,7 +29311,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Section 214(c)(1) of the INA, 8 U.S.C. 1184(c)(1), which, inter alia, authorizes the Secretary to prescribe how an importing employer may petition for nonimmigrant workers, including nonimmigrants described at section 101(a)(15)(H)(i)(b) of the INA, 8 U.S.C. 1101(a)(15)(H)(i)(b), as well as the form of the petition and the information that an importing employer must provide in the petition;",
           "effectiveFrom": null
         },
@@ -30057,7 +30057,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "A petition for consideration for visa issuance under INA 203(c) must be submitted to the Department of State by electronic entry to an internet website designated by the Department for that purpose.",
           "effectiveFrom": "2025-09-16"
         },
@@ -31678,7 +31678,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM J.1; 12 USCIS-PM J.5 (Citizenship and Naturalization)."
       ]
     },
@@ -31742,7 +31742,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.3 (General Policies and Procedures)."
       ]
     },
@@ -31798,7 +31798,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM F.1; 12 USCIS-PM F.5 (Citizenship and Naturalization)."
       ]
     },
@@ -32279,7 +32279,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Department of State (DOS) practice; [cir] Updating the evidence an alien must submit to demonstrate eligibility for the I nonimmigrant classification; [cir] Clarifying that J-1 nonimmigrants who are employment authorized with a specific employer incident to status, continue to be authorized for such employment for up to 240 days under the existing regulatory provision at 8 CFR 274a.12(b)(20), if…",
           "effectiveFrom": null
         },
@@ -32578,7 +32578,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM B.4; 1 USCIS-PM B.6 (General Policies and Procedures)."
       ]
     },
@@ -32634,7 +32634,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 8 USCIS-PM K.2; 8 USCIS-PM K.4 (Admissibility)."
       ]
     },
@@ -32882,7 +32882,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.8; 2 USCIS-PM A.4; 2 USCIS-PM F.8; 7 USCIS-PM A.10; 10 USCIS-PM A.4 (General Policies and Procedures; Nonimmigrants; Adjustment of Status; Employment Authorization)."
       ]
     },
@@ -33226,7 +33226,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 7 USCIS-PM A.7 (Adjustment of Status)."
       ]
     },
@@ -33531,7 +33531,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "(1) the criteria for identifying visa applicants who will be required to post visa bonds;",
           "effectiveFrom": "2025-08-20"
         },
@@ -33611,13 +33611,13 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "An alien claiming to be entitled to compete for consideration under INA 203(c) must file a petition with the Department of State for such consideration.",
           "effectiveFrom": null
         },
         "scopeDefinedElsewhere": {
           "evidence": "An alien will be eligible to compete for consideration for visa issuance under INA 203(c) during a fiscal year only if he or she is a native of a low-admission foreign state, as determined by the Secretary of Homeland Security pursuant to INA 203(c)(1)(E), with respect to the fiscal year in question; and if he or she has at least a high school education or its equivalent or, within…",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "forms": [
           {
@@ -33781,7 +33781,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM M.4; 6 USCIS-PM F.2; 6 USCIS-PM F.5 (Nonimmigrants; Immigrants)."
       ]
     },
@@ -33905,7 +33905,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 7 USCIS-PM L.5; 7 USCIS-PM M.5 (Adjustment of Status)."
       ]
     },
@@ -33961,7 +33961,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 6 USCIS-PM B.1; 6 USCIS-PM B.2; 6 USCIS-PM B.3; 6 USCIS-PM B.4; 6 USCIS-PM B.5 (Immigrants)."
       ]
     },
@@ -35242,7 +35242,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "AEWRs are the minimum wage rates DOL has determined must be offered, advertised in recruitment, and paid by employers to H-2A workers and workers in corresponding employment so that the wages and working conditions of workers in the United States (U.S.) similarly employed will not be adversely affected.",
           "effectiveFrom": "2025-07-11"
         },
@@ -35971,7 +35971,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "The Department believes that employers' property rights must be weighed appropriately with agricultural workers' associational rights.",
           "effectiveFrom": null
         },
@@ -36405,13 +36405,13 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Aliens ordered removed through these processes, however, generally must be detained for removal, see INA 235(b)(1)(B)(ii), (B)(iii)(IV), 241(a)(2), 8 U.S.C. 1225(b)(1)(B)(ii), (B)(iii)(IV), 1231(a)(2), which reduces the likelihood of an alien's failure to depart.",
           "effectiveFrom": "2025-06-27"
         },
         "scopeDefinedElsewhere": {
           "evidence": "…the supervisory immigration officer who issued the final decision shall furnish a copy of the decision and order to all other relevant immigration officers within the Department as designated by the Secretary of Homeland Security.",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "forms": [
           {
@@ -36583,7 +36583,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 4 USCIS-PM C.2; 4 USCIS-PM C.4 (Refugees and Asylees)."
       ]
     },
@@ -36636,7 +36636,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Under the updated guidance, all marriages between principal asylees or principal refugees and their claimed derivative spouses must be legally valid under the law of the jurisdiction where the marriage was celebrated in order to be considered valid for immigration benefit purposes.",
           "effectiveFrom": null
         },
@@ -36820,7 +36820,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 12 USCIS-PM E.3; 12 USCIS-PM H.2 (Citizenship and Naturalization)."
       ]
     },
@@ -36990,7 +36990,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.6 (General Policies and Procedures)."
       ]
     },
@@ -37165,8 +37165,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.8; 7 USCIS-PM A.10; 7 USCIS-PM B.7; 7 USCIS-PM Q.2; 7 USCIS-PM Q.3; 7 USCIS-PM Q.5; 12 USCIS-PM D.2 (General Policies and Procedures; Adjustment of Status; Citizenship and Naturalization).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -37238,7 +37238,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 8 USCIS-PM B.4 (Admissibility)."
       ]
     },
@@ -37455,7 +37455,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 6 USCIS-PM J.4 (Immigrants)."
       ]
     },
@@ -37687,7 +37687,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 3 USCIS-PM K (Humanitarian Protection and Parole)."
       ]
     },
@@ -37877,7 +37877,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM P (Nonimmigrants)."
       ]
     },
@@ -39071,7 +39071,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work. It is one prerequisite among several.",
         "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
@@ -39360,8 +39360,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 8 USCIS-PM B.3; 8 USCIS-PM B.9 (Admissibility).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -40206,7 +40206,7 @@
         "completeness": "unspecified",
         "scopeDefinedElsewhere": {
           "evidence": "…shall prioritize assigning new detailees in both programs to the 10 United States Attorney Offices whose jurisdictions encompass the largest known populations of illegal aliens, as determined by the Secretary of Homeland Security. [[Page 16452]] (d) The…",
-          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here — check the issuing agency's own published list."
+          "note": "This document sets the rule but leaves the specific list of who it covers to a separate government determination. The list is not in this document, so we do not show one here. Check the issuing agency's own published list."
         },
         "undetermined": "This document does not state in structured terms who is affected. Read the original for scope.",
         "forms": []
@@ -40656,7 +40656,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM E.5; 11 USCIS-PM A.2; 12 USCIS-PM G.2; 12 USCIS-PM H.2; 12 USCIS-PM K.2; 12 USCIS-PM K.3; 12 USCIS-PM K.4 (General Policies and Procedures; Travel and Identity Documents; Citizenship and Naturalization)."
       ]
     },
@@ -41606,7 +41606,7 @@
         "states": [],
         "completeness": "partial",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "Relying on this estimate may somewhat overstate those who need to fully comply as aliens under 14 years of age are required to be registered but do not need to provide fingerprinting.",
           "effectiveFrom": "2025-04-11"
         },
@@ -42208,8 +42208,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM A.1; 1 USCIS-PM A.8; 1 USCIS-PM A.9; 4 USCIS-PM (General Policies and Procedures; Refugees and Asylees).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -42814,8 +42814,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM; 2 USCIS-PM; 3 USCIS-PM; 4 USCIS-PM; 5 USCIS-PM; 6 USCIS-PM; 7 USCIS-PM; 8 USCIS-PM; 9 USCIS-PM; 10 USCIS-PM; 11 USCIS-PM; 12 USCIS-PM (General Policies and Procedures; Nonimmigrants; Humanitarian Protection and Parole; Refugees and Asylees; Adoptions; Immigrants; Adjustment of Status; Admissibility; Waivers and Other Forms of Relief; Employment Authorization; Travel and Identity Documents; Citizenship and Naturalization).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -43042,7 +43042,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work. It is one prerequisite among several.",
         "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself."
       ]
     },
@@ -44955,7 +44955,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text."
+        "The document does not state an effective date in its metadata. Check the rule text."
       ],
       "sourceDocument": {
         "file": "federal_register_2025-00829.txt",
@@ -45026,7 +45026,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text."
+        "The document does not state an effective date in its metadata. Check the rule text."
       ],
       "sourceDocument": {
         "file": "federal_register_2025-00828.txt",
@@ -45185,7 +45185,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 6 USCIS-PM F.5 (Immigrants)."
       ]
     },
@@ -45347,7 +45347,7 @@
         "states": [],
         "completeness": "unspecified",
         "actionRequired": {
-          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+          "summary": "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
           "evidence": "If an Application for T Nonimmigrant Status was pending as of August 28, 2024, and additional evidence is required to establish eligibility for principal T nonimmigrant status, USCIS will issue a request for evidence, and conduct a bona fide review based on available evidence.",
           "effectiveFrom": "2025-01-14"
         },
@@ -45547,7 +45547,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text."
+        "The document does not state an effective date in its metadata. Check the rule text."
       ],
       "sourceDocument": {
         "file": "federal_register_2025-00526.txt",
@@ -45618,7 +45618,7 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "The document does not state an effective date in its metadata — check the rule text."
+        "The document does not state an effective date in its metadata. Check the rule text."
       ],
       "sourceDocument": {
         "file": "federal_register_2025-00525.txt",
@@ -45851,8 +45851,8 @@
       },
       "reviewStatus": "auto",
       "limitations": [
-        "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 7 USCIS-PM E.5 (Adjustment of Status).",
         "USCIS does not give this update its own page; the link goes to the Policy Manual updates index."
       ]
@@ -45923,7 +45923,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 2 USCIS-PM M.3; 2 USCIS-PM M.4; 2 USCIS-PM M.9 (Nonimmigrants)."
       ]
     },
@@ -46002,7 +46002,7 @@
       "reviewStatus": "auto",
       "limitations": [
         "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking.",
-        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
         "Affected Policy Manual sections, as listed by USCIS: 1 USCIS-PM A.7 (General Policies and Procedures)."
       ]
     },

@@ -64,7 +64,7 @@ export const BUCKET_MEANING: Record<InboxBucket, string> = {
   effective_soon: "Has a stated effective date inside the horizon, whether or not you follow it.",
   recently_changed: "Published recently.",
   potentially_relevant:
-    "Matched only on weak evidence — a citation, a footnote or an aside. Read the quote before acting on it.",
+    "Matched only on weak evidence: a citation, a footnote or an aside. Read the quote before acting on it.",
   reviewed: "A person has read this record against its source and approved it.",
   superseded: "A later record amends this one. Read the newer record first.",
 };
@@ -207,7 +207,7 @@ export function buildInbox(inputs: readonly InboxInput[], options: InboxOptions)
     } else if (weakMatched.length > 0) {
       bucket = "potentially_relevant";
       because =
-        `Matches ${weakMatched.join(", ")} only on weak evidence — a citation, a footnote or an ` +
+        `Matches ${weakMatched.join(", ")} only on weak evidence: a citation, a footnote or an ` +
         `aside. Read the quote before acting on it.`;
     } else if (publishedDaysAgo >= 0 && publishedDaysAgo <= recent) {
       bucket = "recently_changed";

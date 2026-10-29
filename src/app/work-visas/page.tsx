@@ -10,7 +10,7 @@ import { buildMetrics } from "@/lib/data";
 import { KEY_DATES } from "@/lib/key-dates";
 
 export const metadata = buildMetadata({
-  title: "Work & Visas — H-1B Sponsors, Salaries & Visa Data Hub",
+  title: "Work & Visas: H-1B Sponsors, Salaries & Visa Data Hub",
   description:
     "U.S. work visas and the immigrant workforce: top H-1B sponsors, 2,600+ employers, offered wages, F-1 student visas and layoffs vs sponsorship.",
   path: "/work-visas",
@@ -28,7 +28,7 @@ const CARDS = [
   {
     href: "/h1b/top-sponsors",
     title: "Top H-1B sponsors",
-    desc: "The employers filing the most petitions — approvals, denials, approval rates, and offered wages.",
+    desc: "The employers filing the most petitions: approvals, denials, approval rates, and offered wages.",
   },
   {
     href: "/h1b/employers",
@@ -43,7 +43,7 @@ const CARDS = [
   {
     href: "/layoffs-vs-h1b",
     title: "Layoffs vs H-1B",
-    desc: "Sponsorship volume and WARN layoff notices shown side by side — without asserting causation.",
+    desc: "Sponsorship volume and WARN layoff notices shown side by side, without asserting causation.",
   },
 ];
 
@@ -55,7 +55,7 @@ export default function WorkVisasHubPage() {
       <PageHeader
         eyebrow="Section"
         title="Work & Visas"
-        description="Visa sponsorship, salaries, students, and the immigrant workforce — the data people use when making real decisions about jobs, hiring, and the H-1B journey. Every figure is sourced and labelled."
+        description="Visa sponsorship, salaries, students, and the immigrant workforce: the data people use when making real decisions about jobs, hiring, and the H-1B journey. Every figure is sourced and labelled."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/work-visas", label: "Work & Visas" },
@@ -105,7 +105,7 @@ export default function WorkVisasHubPage() {
         <KeyDates
           dates={KEY_DATES}
           placement="work-visas-hub"
-          subtitle="H-1B, green-card, tax, and student deadlines — counted down from today."
+          subtitle="H-1B, green-card, tax, and student deadlines, counted down from today."
         />
 
 

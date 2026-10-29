@@ -367,8 +367,8 @@ export function toEvent(u: PolicyManualUpdate, verifiedAt: string): ImmigrationE
     limitations: [
       u.kind === "policy_alert"
         ? "A policy alert is USCIS guidance to its own officers, not a regulation. It governs how USCIS adjudicates, and it can be revised or withdrawn without rulemaking."
-        : "USCIS classifies this as a technical update — a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
-      "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document — this event does not assert an effective date it cannot cite.",
+        : "USCIS classifies this as a technical update: a non-substantive change such as a corrected citation or a refreshed reference. It does not change adjudication policy.",
+      "The updates page does not publish an effective date. Where the guidance states one, it is in the linked document. This event does not assert an effective date it cannot cite.",
       ...(citations.length
         ? [
             `Affected Policy Manual sections, as listed by USCIS: ${citations.join("; ")}` +
@@ -423,7 +423,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
       adapterKey: key,
       events: [],
       warnings: [
-        "no update rows found — the USCIS page structure has changed. Reporting failure rather than an empty success, which would look like a quiet month at the agency.",
+        "no update rows found; the USCIS page structure has changed. Reporting failure rather than an empty success, which would look like a quiet month at the agency.",
       ],
       failed: true,
     };
@@ -457,7 +457,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
       events: [],
       warnings: [
         ...warnings,
-        `only ${parsed.length} of ${rows.length} row(s) parsed — treating as structural drift rather than publishing a partial view of the Policy Manual`,
+        `only ${parsed.length} of ${rows.length} row(s) parsed, treating as structural drift rather than publishing a partial view of the Policy Manual`,
       ],
       failed: true,
     };
@@ -481,7 +481,7 @@ export const uscisPolicyManualAdapter: SourceAdapter = {
   sourceKey: SOURCE_KEY,
   status: "ready",
   coverage:
-    "Policy alerts and technical updates to the USCIS Policy Manual — the controlling adjudication guidance USCIS officers apply. Each update carries the formal citations of the sections it changes, as published by USCIS. Severity follows the agency's own labelling: policy alerts are substantive, technical updates are declared non-substantive.",
+    "Policy alerts and technical updates to the USCIS Policy Manual, the controlling adjudication guidance USCIS officers apply. Each update carries the formal citations of the sections it changes, as published by USCIS. Severity follows the agency's own labelling: policy alerts are substantive, technical updates are declared non-substantive.",
   fetchEvents,
 };
 

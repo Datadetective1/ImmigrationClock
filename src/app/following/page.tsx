@@ -49,7 +49,7 @@ import { INDEX_COVERAGE } from "@/lib/event-index";
 export const metadata = buildMetadata({
   title: "Follow what matters to you",
   description:
-    "Choose countries, visas, agencies or immigration topics you care about. ImmigrationClock organizes relevant changes for you — stored in your browser, never on our servers.",
+    "Choose countries, visas, agencies or immigration topics you care about. ImmigrationClock organizes relevant changes for you (stored in your browser, never on our servers).",
   path: "/following",
   image: ogImagePath("page", "following"),
 });
@@ -101,7 +101,7 @@ export default function FollowingPage() {
           <FollowStorageNote />
           <li>
             <span className="font-medium text-slate-200">Nothing is emailed unless you subscribe.</span>{" "}
-            The weekly Immigration Pulse is the same issue for everyone — it is not personalized from
+            The weekly Immigration Pulse is the same issue for everyone. It is not personalized from
             what you follow here, and subscribing to it tells us nothing about your interests.
           </li>
           <li>

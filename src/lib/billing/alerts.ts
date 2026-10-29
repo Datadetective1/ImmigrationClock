@@ -228,7 +228,7 @@ export function warnAlerts(
       kind: "warn_notice",
       id,
       matched: [`employer:${employer.slug}`],
-      title: `${employer.name} — new WARN layoff notice`,
+      title: `${employer.name}: new WARN layoff notice`,
       // The caveat is part of the sentence, not a footnote that can be dropped.
       detail:
         `${employer.notices} notice(s) on file covering ${employer.employees.toLocaleString()} employees in ` +
@@ -273,7 +273,7 @@ export function h1bAlerts(
       kind: "h1b_export",
       id,
       matched: [`employer:${employer.slug}`],
-      title: `${employer.name} — new H-1B figures published`,
+      title: `${employer.name}: new H-1B figures published`,
       detail:
         `USCIS published fiscal year ${fiscalYear}: ${employer.approvals.toLocaleString()} approvals, ` +
         `${employer.denials.toLocaleString()} denials` +

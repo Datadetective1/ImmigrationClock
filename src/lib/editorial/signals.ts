@@ -135,7 +135,7 @@ const BUILDERS: Record<string, Builder> = {
       figureLabel: `of FY${m.fiscalYear} H-1B approvals went to the 10 largest sponsors`,
       points: [
         `The USCIS H-1B Employer Data Hub export for fiscal year ${m.fiscalYear} records ${formatNumber(m.nationalApprovals)} petition approvals across ${formatNumber(m.totalEmployers)} employers.`,
-        `The 10 largest sponsors account for ${formatNumber(top10Sum)} of those approvals — ${share10} of the total.`,
+        `The 10 largest sponsors account for ${formatNumber(top10Sum)} of those approvals, or ${share10} of the total.`,
         `The 50 largest account for ${formatNumber(top50Sum)}, or ${pct(top50Sum, m.nationalApprovals)}.`,
         `${formatNumber(m.count)} employers had at least ${m.minApprovals} approvals; the remaining ${formatNumber(m.totalEmployers - m.count)} had fewer.`,
       ],
@@ -167,7 +167,7 @@ const BUILDERS: Record<string, Builder> = {
           top5.map((e) => `${displayEmployer(e.name)} (${formatNumber(e.approvals)})`)
         )}.`,
         `The export records ${formatNumber(m.nationalApprovals)} approvals in total across ${formatNumber(m.totalEmployers)} employers.`,
-        `ImmigrationClock's employer directory lists every employer in the export with at least ${m.minApprovals} approvals — ${formatNumber(m.count)} of them — with approvals, denials and approval rate for each.`,
+        `ImmigrationClock's employer directory lists every employer in the export with at least ${m.minApprovals} approvals (${formatNumber(m.count)} of them), with approvals, denials and approval rate for each.`,
       ],
       caveats: [
         "Approvals count petitions (initial and continuing), not workers and not visas issued.",
@@ -204,7 +204,7 @@ const BUILDERS: Record<string, Builder> = {
         `Of the ${formatNumber(m.count)} employers in ImmigrationClock's H-1B directory, the five states where the most sponsors concentrate their approvals are ${andList(
           top5.map(([code, n]) => `${stateName(code)} (${formatNumber(n)})`)
         )}.`,
-        `Those five states account for ${formatNumber(top5Sum)} of the ${formatNumber(m.count)} listed sponsors — ${pct(top5Sum, m.count)}.`,
+        `Those five states account for ${formatNumber(top5Sum)} of the ${formatNumber(m.count)} listed sponsors, or ${pct(top5Sum, m.count)}.`,
         `The state is each employer's top state by approvals in the USCIS export for fiscal year ${m.fiscalYear}; an employer with worksites in several states is counted once, in the state with the most.`,
       ],
       caveats: [
@@ -261,7 +261,7 @@ const BUILDERS: Record<string, Builder> = {
       figure: formatNumber(latest.employees),
       figureLabel: `employees named in ${monthName(latest.month)} WARN notices across ${s.stateCount} states`,
       points: [
-        `In ${monthName(latest.month)}, the most recent complete month, the ${s.stateCount} states in ImmigrationClock's WARN feed — ${s.stateCodes.join(", ")} — recorded ${formatNumber(latest.notices)} layoff notices covering ${formatNumber(latest.employees)} employees.`,
+        `In ${monthName(latest.month)}, the most recent complete month, the ${s.stateCount} states in ImmigrationClock's WARN feed (${s.stateCodes.join(", ")}) recorded ${formatNumber(latest.notices)} layoff notices covering ${formatNumber(latest.employees)} employees.`,
         `In ${monthName(prior.month)} it was ${formatNumber(prior.notices)} notices covering ${formatNumber(prior.employees)} employees.`,
         `The feed holds ${formatNumber(s.noticeCount)} notices in total, covering ${formatNumber(s.employeesTotal)} employees at ${formatNumber(s.employerCount)} employers.`,
       ],
@@ -335,7 +335,7 @@ const BUILDERS: Record<string, Builder> = {
         `An encounter is an event, not a person: the same individual can be encountered more than once.`,
       ],
       caveats: [
-        `Fiscal year ${CBP_LIVE.currentFy} is incomplete — it runs through ${CBP_LIVE.reportingMonthLabel} only. It is never compared to a full year as though both covered the same span, and no rise or fall is claimed.`,
+        `Fiscal year ${CBP_LIVE.currentFy} is incomplete: it runs through ${CBP_LIVE.reportingMonthLabel} only. It is never compared to a full year as though both covered the same span, and no rise or fall is claimed.`,
         "Only the nationwide totals come straight from CBP's file; sector and demographic breakdowns on the page are derived estimates and are not stated here.",
       ],
       sourceName: "CBP Nationwide Encounters",

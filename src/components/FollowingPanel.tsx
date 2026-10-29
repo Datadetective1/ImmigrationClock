@@ -118,7 +118,7 @@ export function FollowedEvent({ event, follows }: { event: IndexedEvent; follows
         <span className="text-slate-600" aria-hidden>·</span>
         {/* A proposal must not read as a rule anywhere it appears. */}
         {isProposal ? (
-          <span className="font-semibold text-status-amber">Proposed — not in force</span>
+          <span className="font-semibold text-status-amber">Proposed: not in force</span>
         ) : null}
         {source ? <span className="text-slate-400">{source.name}</span> : null}
         <span className="text-slate-600" aria-hidden>·</span>
@@ -371,7 +371,7 @@ export function FollowingPanel({
             {visibleGroups.length === 0 ? (
               <p className="text-sm text-slate-400">
                 Nothing in the archive matches that. Only countries, visas, agencies and topics that
-                actually appear in a recorded change can be followed — we do not offer coverage we do
+                actually appear in a recorded change can be followed. We do not offer coverage we do
                 not have.
               </p>
             ) : (
@@ -451,8 +451,8 @@ export function FollowingPanel({
             ))}
           </div>
           <p className="mt-2 text-xs text-slate-500">
-            The number is how many recorded changes already touch it. Your list stays in this browser
-            — no account, nothing sent to us.
+            The number is how many recorded changes already touch it. Your list stays in this browser,
+            with no account and nothing sent to us.
           </p>
         </div>
       ) : null}

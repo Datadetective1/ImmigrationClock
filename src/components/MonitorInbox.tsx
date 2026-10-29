@@ -266,7 +266,7 @@ export function MonitorInbox() {
       {items.length === 0 ? (
         <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-slate-400">
           Nothing matched. That means nothing in the archive touched what you follow inside the
-          window — not that nothing happened. Widen the horizon or follow more dimensions.
+          window, not that nothing happened. Widen the horizon or follow more dimensions.
         </p>
       ) : null}
 

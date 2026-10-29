@@ -147,7 +147,7 @@ export function renderWeeklyEmail(
   };
 
   const t: string[] = [];
-  if (input.testMode) t.push("TEST MODE — sent from a deployment running on Stripe test keys.", "");
+  if (input.testMode) t.push("TEST MODE: sent from a deployment running on Stripe test keys.", "");
   t.push(`Week of ${fmt(summary.weekOf)}`, "");
   if (summary.quiet && alerts.length === 0) t.push("No new records matched what you follow this week.", QUIET_NOTE, "");
   if (alerts.length > 0) {
@@ -168,7 +168,7 @@ export function renderWeeklyEmail(
   t.push(
     "",
     "WHAT WE CHECKED",
-    `Latest refresh: ${fmt(summary.coverage.lastRefresh)} — ${summary.coverage.checked.join(", ")}.`,
+    `Latest refresh: ${fmt(summary.coverage.lastRefresh)}. Sources checked: ${summary.coverage.checked.join(", ")}.`,
     ...(summary.coverage.quietOrFailed.length ? [`Returned nothing or failed: ${summary.coverage.quietOrFailed.join(", ")}.`] : []),
     ...(summary.coverage.notCovered.length ? [`Not covered: ${summary.coverage.notCovered.join(", ")}.`] : []),
     "",
@@ -176,7 +176,7 @@ export function renderWeeklyEmail(
     `Your Briefing: ${origin}/briefing`,
     `Stop these emails: ${input.unsubscribeUrl}`,
     "",
-    `${SITE.name} — ${SITE.tagline}`
+    `${SITE.name} | ${SITE.tagline}`
   );
 
   // ---- HTML: the redesign's light palette, one column, phone first ---------

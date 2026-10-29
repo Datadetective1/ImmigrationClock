@@ -92,7 +92,7 @@ export function RelatedSponsors({ related, name }: { related: Related; name: str
         />
       ) : null}
       <p className="text-xs text-slate-500">
-        Proximity here is sponsorship volume and worksite state — not a claim about industry, hiring
+        Proximity here is sponsorship volume and worksite state. It is not a claim about industry, hiring
         practice, or similarity.{" "}
         <Link href="/h1b/employers" className="link-accent">
           Search all sponsors

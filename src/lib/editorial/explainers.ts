@@ -86,9 +86,9 @@ export const EXPLAINERS: Explainer[] = [
     whyItMatters:
       "Planning around a proposed fee or eligibility test as though it were already law is a common way rulemaking news hurts a reader. The stage word is the whole story.",
     sources: [
-      { name: "Regulations.gov — Learn about the regulatory process", url: "https://www.regulations.gov/learn" },
+      { name: "Regulations.gov: Learn about the regulatory process", url: "https://www.regulations.gov/learn" },
       {
-        name: "5 U.S.C. § 553 — Rule making (Administrative Procedure Act)",
+        name: "5 U.S.C. § 553: Rule making (Administrative Procedure Act)",
         url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       },
     ],
@@ -104,7 +104,7 @@ export const EXPLAINERS: Explainer[] = [
     facts: [
       "A final rule published in the Federal Register carries a publication date and, separately, an effective date. Its requirements are set to apply from the effective date, unless that date is delayed, a court stays the rule, or a later rule changes it.",
       "Under the Administrative Procedure Act a substantive rule generally cannot take effect less than 30 days after it is published. The exceptions include rules that grant an exemption or relieve a restriction, and cases where the agency finds and states good cause.",
-      "Some rules add a compliance date as well — a later date by which the people the rule covers must be in compliance.",
+      "Some rules add a compliance date as well: a later date by which the people the rule covers must be in compliance.",
       "A document can appear on the Federal Register's public inspection list a day or more before it is published. Public inspection is not publication, and it is not effect.",
       "ImmigrationClock records the publication date and the effective date as two separate fields and only states an effective date the document itself gives.",
     ],
@@ -112,11 +112,11 @@ export const EXPLAINERS: Explainer[] = [
       "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more.",
     sources: [
       {
-        name: "5 U.S.C. § 553(d) — when a rule may take effect",
+        name: "5 U.S.C. § 553(d): when a rule may take effect",
         url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       },
-      { name: "Federal Register — Public Inspection", url: "https://www.federalregister.gov/public-inspection/current" },
-      { name: "National Archives — Public Inspection of Federal Register documents", url: "https://www.archives.gov/federal-register/public-inspection" },
+      { name: "Federal Register: Public Inspection", url: "https://www.federalregister.gov/public-inspection/current" },
+      { name: "National Archives: Public Inspection of Federal Register documents", url: "https://www.archives.gov/federal-register/public-inspection" },
     ],
     relatedPaths: ["/what-changed", "/key-dates"],
     keywords: ["effective date", "compliance date", "public inspection"],
@@ -137,10 +137,10 @@ export const EXPLAINERS: Explainer[] = [
       "The word \"interim\" reads as \"temporary\" or \"not yet\". It means neither: the rule can apply from its stated date, and what is still open is whether it changes later.",
     sources: [
       {
-        name: "5 U.S.C. § 553(b) — the exceptions to notice and comment",
+        name: "5 U.S.C. § 553(b): the exceptions to notice and comment",
         url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
       },
-      { name: "Regulations.gov — Learn about the regulatory process", url: "https://www.regulations.gov/learn" },
+      { name: "Regulations.gov: Learn about the regulatory process", url: "https://www.regulations.gov/learn" },
     ],
     relatedPaths: ["/what-changed"],
     keywords: ["interim final rule", "good cause"],
@@ -150,7 +150,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "uscis-policy-manual-updates",
     title: "What it means when USCIS updates the Policy Manual",
-    kicker: "Guidance to officers, not a regulation — and it can change without rulemaking.",
+    kicker: "Guidance to officers, not a regulation. It can change without rulemaking.",
     facts: [
       "The USCIS Policy Manual is the agency's centralized online repository for its immigration policies. It is organized in volumes by subject, and it is what USCIS officers apply when they adjudicate.",
       "USCIS announces a change with a policy alert on its Policy Manual updates page. Each alert names the volumes, parts and chapters it affects and describes what changed.",
@@ -162,7 +162,7 @@ export const EXPLAINERS: Explainer[] = [
       "A Policy Manual update can change how a case is decided as soon as it is posted, without the comment period or the 30-day lead a regulation gets. That speed is why the updates page is worth watching, and why an update is not the same kind of thing as a rule.",
     sources: [
       { name: "USCIS Policy Manual", url: "https://www.uscis.gov/policy-manual" },
-      { name: "USCIS Policy Manual — Updates", url: "https://www.uscis.gov/policy-manual/updates" },
+      { name: "USCIS Policy Manual: Updates", url: "https://www.uscis.gov/policy-manual/updates" },
     ],
     relatedPaths: ["/what-changed"],
     keywords: ["policy manual", "policy alert", "guidance"],
@@ -175,7 +175,7 @@ export const EXPLAINERS: Explainer[] = [
     kicker: "USCIS counts petition decisions. A person can be behind several.",
     facts: [
       "USCIS reports H-1B petition approvals and denials by employer and fiscal year in its H-1B Employer Data Hub.",
-      "A petition can be an initial petition for new employment, or a continuing one — an extension, an amendment, or a change of employer for someone already in H-1B status. One worker can be the beneficiary of more than one approved petition over time.",
+      "A petition can be an initial petition for new employment, or a continuing one: an extension, an amendment, or a change of employer for someone already in H-1B status. One worker can be the beneficiary of more than one approved petition over time.",
       "The figure is a count of first decisions on petitions, which USCIS labels \"counts of workers approved\"; appeals, revocations and pending petitions are excluded. It is not a count of people currently in H-1B status.",
       "It is not a count of visas either. Visas are issued by the State Department at consular posts, and many H-1B workers change to or extend the status from inside the United States without a visa being issued.",
       "ImmigrationClock's employer directory shows approvals and denials as USCIS reports them, labelled \"reported\", and keeps them separate from State Department issuance figures.",
@@ -183,14 +183,14 @@ export const EXPLAINERS: Explainer[] = [
     whyItMatters:
       "\"Company X got 4,000 H-1Bs\" is a sentence about petition decisions that gets read as a sentence about hiring. Knowing what the number counts is the difference between a fact and a talking point.",
     sources: [
-      { name: "USCIS — H-1B Employer Data Hub", url: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" },
+      { name: "USCIS: H-1B Employer Data Hub", url: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub" },
       {
-        name: "USCIS — Understanding our H-1B Employer Data Hub data",
+        name: "USCIS: Understanding our H-1B Employer Data Hub data",
         url: "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub/understanding-our-h-1b-employer-data-hub",
       },
-      { name: "USCIS — Change my nonimmigrant status", url: "https://www.uscis.gov/visit-the-united-states/change-my-nonimmigrant-status" },
+      { name: "USCIS: Change my nonimmigrant status", url: "https://www.uscis.gov/visit-the-united-states/change-my-nonimmigrant-status" },
       {
-        name: "U.S. Department of State — Visa statistics",
+        name: "U.S. Department of State: Visa statistics",
         url: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-statistics.html",
       },
     ],
@@ -205,7 +205,7 @@ export const EXPLAINERS: Explainer[] = [
     kicker: "65,000 plus 20,000, a registration in spring, and an October 1 start.",
     facts: [
       "Congress set the regular H-1B cap at 65,000 per fiscal year, with an additional 20,000 for beneficiaries who hold a master's degree or higher from a U.S. institution.",
-      "Employers register each beneficiary electronically during a registration period USCIS announces every year; in recent years it has opened in March. If registrations exceed the cap, USCIS runs a selection — weighted by the offered wage level from the fiscal year 2027 season — and invites the selected employers to file petitions.",
+      "Employers register each beneficiary electronically during a registration period USCIS announces every year; in recent years it has opened in March. If registrations exceed the cap, USCIS runs a selection (weighted by the offered wage level from the fiscal year 2027 season) and invites the selected employers to file petitions.",
       "Cap-subject H-1B employment can begin no earlier than October 1, the first day of the federal fiscal year.",
       "Some employers are exempt from the cap, including institutions of higher education and certain nonprofit or government research organizations. Petitions to extend or amend existing H-1B employment are not counted against it.",
       "ImmigrationClock tracks the registration window and the October 1 start on its key dates page, and links USCIS's own cap-season page for the current year's instructions.",
@@ -214,11 +214,11 @@ export const EXPLAINERS: Explainer[] = [
       "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline.",
     sources: [
       {
-        name: "USCIS — H-1B cap season",
+        name: "USCIS: H-1B cap season",
         url: "https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations-and-fashion-models/h-1b-cap-season",
       },
       {
-        name: "USCIS — FY 2027 H-1B cap initial registration period opens on March 4",
+        name: "USCIS: FY 2027 H-1B cap initial registration period opens on March 4",
         url: "https://www.uscis.gov/newsroom/alerts/fy-2027-h-1b-cap-initial-registration-period-opens-on-march-4",
       },
     ],
@@ -242,15 +242,15 @@ export const EXPLAINERS: Explainer[] = [
       "Most OPT problems are calendar problems: a filing window missed, a start date misread, an unemployment limit run down. The rules are short. The dates are the hard part.",
     sources: [
       {
-        name: "USCIS — Optional Practical Training (OPT) for F-1 Students",
+        name: "USCIS: Optional Practical Training (OPT) for F-1 Students",
         url: "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-opt-for-f-1-students",
       },
       {
-        name: "USCIS — Optional Practical Training Extension for STEM Students (STEM OPT)",
+        name: "USCIS: Optional Practical Training Extension for STEM Students (STEM OPT)",
         url: "https://www.uscis.gov/working-in-the-united-states/students-and-exchange-visitors/optional-practical-training-extension-for-stem-students-stem-opt",
       },
       {
-        name: "DHS Study in the States — F-1 Optional Practical Training",
+        name: "DHS Study in the States: F-1 Optional Practical Training",
         url: "https://studyinthestates.dhs.gov/sevis-help-hub/student-records/fm-student-employment/f-1-optional-practical-training-opt",
       },
     ],
@@ -264,21 +264,21 @@ export const EXPLAINERS: Explainer[] = [
     title: "How to read the Visa Bulletin",
     kicker: "A monthly table of cut-off dates decides who can move forward.",
     facts: [
-      "The State Department publishes the Visa Bulletin every month. For each family-based and employment-based preference category — for the countries it lists separately and for all other chargeability areas — it lists the cut-off dates that determine when an immigrant visa number is available.",
+      "The State Department publishes the Visa Bulletin every month. For each family-based and employment-based preference category (for the countries it lists separately and for all other chargeability areas), it lists the cut-off dates that determine when an immigrant visa number is available.",
       "A priority date is generally the date a petition was filed, or the date a labor certification was filed where one is required. An applicant may proceed when their priority date is earlier than the cut-off date listed for their category and country.",
       "The bulletin carries two charts: Final Action Dates and Dates for Filing. USCIS announces each month which chart applicants for adjustment of status inside the United States may use.",
-      "Cut-off dates can retrogress — move backward — when demand in a category exceeds the annual limit. A date that was current one month can stop being current the next.",
+      "Cut-off dates can retrogress (move backward) when demand in a category exceeds the annual limit. A date that was current one month can stop being current the next.",
       "ImmigrationClock lists the bulletin as a recurring monthly date and links the State Department page that publishes it.",
     ],
     whyItMatters:
       "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill.",
     sources: [
       {
-        name: "U.S. Department of State — Visa Bulletin",
+        name: "U.S. Department of State: Visa Bulletin",
         url: "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
       },
       {
-        name: "USCIS — Visa Availability and Priority Dates",
+        name: "USCIS: Visa Availability and Priority Dates",
         url: "https://www.uscis.gov/green-card/green-card-processes-and-procedures/visa-availability-priority-dates",
       },
     ],
@@ -295,14 +295,14 @@ export const EXPLAINERS: Explainer[] = [
       "An injunction is a court order requiring a party to do something, or to stop doing something. A preliminary injunction holds while the case is decided; a permanent injunction follows a final judgment.",
       "An injunction against a government policy stops the government from enforcing it as the order specifies. It does not rewrite the policy's text, and it does not change the statute the policy was issued under.",
       "Orders can be appealed, and a higher court can stay an order, which pauses its effect while the appeal is heard.",
-      "The scope of an order — which parties it binds, and whether it reaches one district or the whole country — is set by the court that issues it and can be narrowed on appeal. In June 2025 the Supreme Court held that universal injunctions reaching people who are not parties to a case likely exceed the authority Congress has given federal courts.",
+      "The scope of an order (which parties it binds, and whether it reaches one district or the whole country) is set by the court that issues it and can be narrowed on appeal. In June 2025 the Supreme Court held that universal injunctions reaching people who are not parties to a case likely exceed the authority Congress has given federal courts.",
       "ImmigrationClock records a court decision using the court's own description of what it did, links the order, and does not predict how an appeal will turn out.",
     ],
     whyItMatters:
       "\"A judge blocked the rule\" is true and incomplete. Whether the block is preliminary, who it covers and whether it has been stayed are the facts that decide what is actually in force today.",
     sources: [
-      { name: "U.S. Courts — Glossary of legal terms", url: "https://www.uscourts.gov/glossary" },
-      { name: "Supreme Court of the United States — Trump v. CASA, Inc. (June 27, 2025)", url: "https://www.supremecourt.gov/opinions/24pdf/24a884_8n59.pdf" },
+      { name: "U.S. Courts: Glossary of legal terms", url: "https://www.uscourts.gov/glossary" },
+      { name: "Supreme Court of the United States: Trump v. CASA, Inc. (June 27, 2025)", url: "https://www.supremecourt.gov/opinions/24pdf/24a884_8n59.pdf" },
     ],
     relatedPaths: ["/what-changed"],
     keywords: ["injunction", "court order", "enjoin*", "vacat*", "stay of", "stayed"],
@@ -314,7 +314,7 @@ export const EXPLAINERS: Explainer[] = [
     title: "A border encounter is an event, not a person",
     kicker: "The same person can be counted twice. A count of encounters is not a count of people.",
     facts: [
-      "CBP's nationwide encounter figures combine U.S. Border Patrol apprehensions between ports of entry, Office of Field Operations inadmissibility determinations at ports of entry, and — through May 2023 — Title 42 expulsions.",
+      "CBP's nationwide encounter figures combine U.S. Border Patrol apprehensions between ports of entry, Office of Field Operations inadmissibility determinations at ports of entry, and, through May 2023, Title 42 expulsions.",
       "The same person can be encountered more than once, so the number of encounters is larger than the number of unique individuals. CBP has published a separate Border Patrol recidivism rate for some years, not a unique-person count for every period.",
       "An encounter is not a removal, a detention, or a grant of admission. Those are separate measures kept by separate agencies, and they cannot be read off the encounter total.",
       "CBP publishes encounters by month and by fiscal year. The federal fiscal year runs from October 1 to September 30, so the current year's total is incomplete until then.",
@@ -323,8 +323,8 @@ export const EXPLAINERS: Explainer[] = [
     whyItMatters:
       "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed.",
     sources: [
-      { name: "CBP — Nationwide Encounters", url: "https://www.cbp.gov/newsroom/stats/nationwide-encounters" },
-      { name: "CBP — Enforcement Statistics", url: "https://www.cbp.gov/newsroom/stats/cbp-enforcement-statistics" },
+      { name: "CBP: Nationwide Encounters", url: "https://www.cbp.gov/newsroom/stats/nationwide-encounters" },
+      { name: "CBP: Enforcement Statistics", url: "https://www.cbp.gov/newsroom/stats/cbp-enforcement-statistics" },
     ],
     relatedPaths: ["/border/encounters"],
     keywords: ["encounter", "encounters", "apprehension", "border"],
@@ -344,8 +344,8 @@ export const EXPLAINERS: Explainer[] = [
     whyItMatters:
       "\"ICE deported X people\" is usually a sentence about arrests, removals or detention, and which one changes the meaning entirely. The label is the fact.",
     sources: [
-      { name: "ICE — Statistics", url: "https://www.ice.gov/statistics" },
-      { name: "ICE — Detention management statistics", url: "https://www.ice.gov/detain/detention-management" },
+      { name: "ICE: Statistics", url: "https://www.ice.gov/statistics" },
+      { name: "ICE: Detention management statistics", url: "https://www.ice.gov/detain/detention-management" },
     ],
     relatedPaths: ["/immigration/enforcement-trends"],
     keywords: ["removal", "removals", "detention", "arrests", "deportation"],
@@ -355,7 +355,7 @@ export const EXPLAINERS: Explainer[] = [
   {
     slug: "what-a-warn-notice-is",
     title: "What a WARN notice is",
-    kicker: "Sixty days' notice of a mass layoff, filed with the state — and silent on immigration status.",
+    kicker: "Sixty days' notice of a mass layoff, filed with the state, and silent on immigration status.",
     facts: [
       "The federal Worker Adjustment and Retraining Notification Act requires covered employers, generally those with 100 or more employees, to give 60 calendar days' written notice before a plant closing or a mass layoff as the Act defines them.",
       "Notice goes to the affected workers or their representatives, to the state's dislocated worker unit, and to the local government. Many states publish the notices they receive.",
@@ -367,15 +367,15 @@ export const EXPLAINERS: Explainer[] = [
       "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where.",
     sources: [
       {
-        name: "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN)",
+        name: "U.S. Department of Labor: Worker Adjustment and Retraining Notification (WARN)",
         url: "https://www.dol.gov/agencies/eta/layoffs/warn",
       },
       {
-        name: "29 U.S.C. § 2101 — WARN Act definitions",
+        name: "29 U.S.C. § 2101: WARN Act definitions",
         url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section2101&num=0&edition=prelim",
       },
       {
-        name: "29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
+        name: "29 U.S.C. § 2102: notice required before plant closings and mass layoffs",
         url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section2102&num=0&edition=prelim",
       },
     ],
@@ -399,11 +399,11 @@ export const EXPLAINERS: Explainer[] = [
       "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it.",
     sources: [
       {
-        name: "USCIS — Naturalization Ceremonies",
+        name: "USCIS: Naturalization Ceremonies",
         url: "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
       },
       {
-        name: "USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
+        name: "USCIS Policy Manual, Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
         url: "https://www.uscis.gov/policy-manual/volume-12-part-j-chapter-5",
       },
     ],
@@ -424,7 +424,7 @@ export const EXPLAINERS: Explainer[] = [
     ],
     whyItMatters:
       "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry.",
-    sources: [{ name: "ImmigrationClock — Methodology", url: "https://immigrationclock.com/methodology" }],
+    sources: [{ name: "ImmigrationClock: Methodology", url: "https://immigrationclock.com/methodology" }],
     relatedPaths: ["/methodology", "/data"],
     keywords: ["reported", "projected", "estimated", "modeled"],
     group: "how-we-work",

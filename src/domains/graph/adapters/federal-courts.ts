@@ -190,14 +190,14 @@ export function assessInclusion(op: CourtOpinion): InclusionDecision {
   if (kinds.some((k) => k === "individual")) {
     return {
       include: false,
-      reason: "a party appears to be a private individual — excluded by editorial policy",
+      reason: "a party appears to be a private individual (excluded by editorial policy)",
     };
   }
 
   // GATE 2 — the government must actually be a party. A dispute between two
   // private organizations is not immigration administration.
   if (!kinds.includes("government")) {
-    return { include: false, reason: "no government party — not a challenge to immigration administration" };
+    return { include: false, reason: "no government party, so not a challenge to immigration administration" };
   }
 
   // GATE 3 — precedential weight. A published appellate decision binds its
@@ -209,14 +209,14 @@ export function assessInclusion(op: CourtOpinion): InclusionDecision {
     !(op.status ?? "").toLowerCase().includes("unpublished");
 
   if (isAppellate && published) {
-    return { include: true, reason: "published appellate decision — binding precedent in its circuit" };
+    return { include: true, reason: "published appellate decision, binding precedent in its circuit" };
   }
   if (isAppellate && !published) {
-    return { include: false, reason: "unpublished appellate decision — not precedential" };
+    return { include: false, reason: "unpublished appellate decision, not precedential" };
   }
   return {
     include: true,
-    reason: "district-court decision in institutional litigation — binds the parties, not the country",
+    reason: "district-court decision in institutional litigation. It binds the parties, not the country",
   };
 }
 
@@ -314,11 +314,11 @@ export function toEvent(op: CourtOpinion, decision: InclusionDecision, verifiedA
     reviewStatus: "auto",
     limitations: [
       isDistrict
-        ? "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead — it may be stayed, narrowed, or reversed on appeal."
+        ? "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal."
         : "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
       "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
       "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
-      "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded — we report the legal rule, not the people in a case.",
+      "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case.",
     ],
   };
 }
@@ -364,7 +364,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     const res = await fetchWithRetry(`${API}?${params}`, {
       headers: { "User-Agent": UA },
       timeoutMs: 30_000,
-      onRetry: (attempt, reason) => retryNotes.push(`attempt ${attempt} failed (${reason}) — retrying`),
+      onRetry: (attempt, reason) => retryNotes.push(`attempt ${attempt} failed (${reason}), retrying`),
     });
     if (!res.ok) {
       return {
@@ -430,7 +430,7 @@ export const federalCourtsAdapter: SourceAdapter = {
   sourceKey: SOURCE_KEY,
   status: "ready",
   coverage:
-    "Decisions that establish or change immigration law: published appellate rulings and institutional litigation against immigration agencies. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are excluded by editorial policy — the platform reports the legal rule, not the people in a case. KNOWN GAP: because the filter identifies parties by caption, a landmark decision captioned with an individual's name is excluded along with routine ones. Surfacing those needs editorial review rather than an automatic rule.",
+    "Decisions that establish or change immigration law: published appellate rulings and institutional litigation against immigration agencies. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are excluded by editorial policy. The platform reports the legal rule, not the people in a case. KNOWN GAP: because the filter identifies parties by caption, a landmark decision captioned with an individual's name is excluded along with routine ones. Surfacing those needs editorial review rather than an automatic rule.",
   fetchEvents,
 };
 

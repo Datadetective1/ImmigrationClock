@@ -177,7 +177,7 @@ export function unsubscribeFlags(rendered: RenderedEmail, locale: Locale): Prefl
   // 1. The token must be present, in an href. A bare token in body copy is not
   //    a link a reader can click.
   if (!html.includes(RESEND_UNSUBSCRIBE_TOKEN)) {
-    block("unsubscribe-missing", `no unsubscribe link — ${RESEND_UNSUBSCRIBE_TOKEN} is absent from the HTML`);
+    block("unsubscribe-missing", `no unsubscribe link: ${RESEND_UNSUBSCRIBE_TOKEN} is absent from the HTML`);
   } else if (unsubAnchors.length === 0) {
     block(
       "unsubscribe-not-a-link",
@@ -200,7 +200,7 @@ export function unsubscribeFlags(rendered: RenderedEmail, locale: Locale): Prefl
     if (SIGNUP_PATHS.includes(path || "/")) {
       block(
         "unsubscribe-points-at-signup",
-        `unsubscribe link points at the signup page "${href}" — a signup form cannot opt anyone out`
+        `unsubscribe link points at the signup page "${href}", and a signup form cannot opt anyone out`
       );
       continue;
     }

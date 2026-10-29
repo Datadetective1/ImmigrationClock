@@ -113,12 +113,12 @@ export function AccountActivation() {
       {state === "activating" ? <p className="text-sm text-slate-300">Confirming your subscription…</p> : null}
       {state === "done" ? (
         <p className="text-sm text-white">
-          <strong>You&rsquo;re subscribed.</strong> Thank you — your Pro access is active on this browser.
+          <strong>You&rsquo;re subscribed.</strong> Thank you. Your Pro access is active on this browser.
         </p>
       ) : null}
       {state === "failed" ? (
         <p className="text-sm text-slate-300">
-          {message} If you were charged, nothing is lost — contact us and we will sort it out.
+          {message} If you were charged, nothing is lost. Contact us and we will sort it out.
         </p>
       ) : null}
     </div>

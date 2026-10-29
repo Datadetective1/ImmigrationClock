@@ -237,7 +237,7 @@ export function toEvent(a: OflcAnnouncement, verifiedAt: string): ImmigrationEve
     limitations: [
       systemNote
         ? "This is a release note for OFLC's online filing systems. It describes how the filing software behaves, not what the law requires."
-        : "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work — it is one prerequisite among several.",
+        : "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. An OFLC certification is not a visa, not an approval, and not permission to work. It is one prerequisite among several.",
       "The announcements listing does not publish an effective date as a field. Where an announcement states one, it is in the text of the announcement itself.",
       ...(a.body ? [] : ["OFLC published no summary text for this announcement; read the original."]),
     ],
@@ -283,7 +283,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
       adapterKey: key,
       events: [],
       warnings: [
-        "no announcement rows found — the OFLC page structure has changed. Reporting failure rather than an empty success.",
+        "no announcement rows found; the OFLC page structure has changed. Reporting failure rather than an empty success.",
       ],
       failed: true,
     };
@@ -320,7 +320,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
       events: [],
       warnings: [
         ...warnings,
-        `only ${parsed.length} of ${rows.length} row(s) parsed — treating as structural drift rather than publishing a partial view`,
+        `only ${parsed.length} of ${rows.length} row(s) parsed, treating as structural drift rather than publishing a partial view`,
       ],
       failed: true,
     };
@@ -344,7 +344,7 @@ export const dolOflcAdapter: SourceAdapter = {
   sourceKey: SOURCE_KEY,
   status: "ready",
   coverage:
-    "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage, and the FLAG filing system — the labor-certification step that comes before a USCIS petition. Filing-system release notes and webinars are recorded as routine, because they are real but change no obligation. DOL rulemaking is not duplicated here: the Federal Register adapter already tracks the labor-department and employment-and-training-administration slugs.",
+    "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage, and the FLAG filing system: the labor-certification step that comes before a USCIS petition. Filing-system release notes and webinars are recorded as routine, because they are real but change no obligation. DOL rulemaking is not duplicated here: the Federal Register adapter already tracks the labor-department and employment-and-training-administration slugs.",
   fetchEvents,
 };
 

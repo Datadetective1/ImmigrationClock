@@ -302,7 +302,7 @@ function toEvent(doc: FrDocument, verifiedAt: string, body?: string | null): Imm
     );
   }
   if (classification === "final_rule" && !doc.effective_on) {
-    limitations.push("The document does not state an effective date in its metadata — check the rule text.");
+    limitations.push("The document does not state an effective date in its metadata. Check the rule text.");
   }
   if (!doc.abstract) {
     limitations.push("The Federal Register published no abstract for this document; read the original.");

@@ -74,7 +74,7 @@ export default function EnforcementTrendsPage() {
             tooltip={
               "A snapshot of one specific day, not a running total, and not addable to arrests or removals." +
               (detentionAge.stale
-                ? " ICE has very likely published newer figures since this snapshot — treat it as dated."
+                ? " ICE has very likely published newer figures since this snapshot, so treat it as dated."
                 : "")
             }
           />
@@ -86,7 +86,7 @@ export default function EnforcementTrendsPage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard
             title="Arrests &amp; removals by fiscal year"
-            tooltip="Arrests are not removals — see methodology."
+            tooltip="Arrests are not removals. See methodology."
             source={{ sourceName: "ICE Enforcement and Removal Statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
           >
             <TrendLineChart
@@ -118,7 +118,7 @@ export default function EnforcementTrendsPage() {
 
         <ChartCard
           title="ICE arrests by state"
-          subtitle={`Latest complete fiscal year (${fiscalYearLabel(LATEST_COMPLETE_FY)}) — apportioned, not published by state`}
+          subtitle={`Latest complete fiscal year (${fiscalYearLabel(LATEST_COMPLETE_FY)}) · apportioned, not published by state`}
           tooltip="ICE does not publish arrests broken down by state. This distributes the reported national fiscal-year total across states using our own activity weights. Use it to compare relative scale, not as an official state count."
           provenance="modeled"
           source={{ sourceName: "ICE / DHS statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
@@ -130,7 +130,7 @@ export default function EnforcementTrendsPage() {
         <ChartCard
           title="Removals by nationality"
           subtitle="Apportioned from the reported national total"
-          tooltip="Removals describe events involving people of a given nationality — not the same individuals across datasets. This split is apportioned from the reported national total using our own country weights; ICE does not publish this breakdown at this granularity."
+          tooltip="Removals describe events involving people of a given nationality, not the same individuals across datasets. This split is apportioned from the reported national total using our own country weights; ICE does not publish this breakdown at this granularity."
           provenance="modeled"
           source={{ sourceName: "ICE / DHS statistics", sourceUrl: "https://www.ice.gov/statistics", sourceUpdatedAt: UPDATED.ice_stats }}
         >

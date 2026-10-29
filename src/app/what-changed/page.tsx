@@ -48,9 +48,9 @@ import { WhatChangedV2 } from "@/components/WhatChangedV2";
 import { flagOn } from "@/lib/flags";
 
 export const metadata = buildMetadata({
-  title: "What Changed — U.S. Immigration Policy Tracker",
+  title: "What Changed: U.S. Immigration Policy Tracker",
   description:
-    "Every U.S. immigration policy change traced to its official government source — rules, executive actions, agency guidance and court decisions.",
+    "Every U.S. immigration policy change traced to its official government source: rules, executive actions, agency guidance and court decisions.",
   path: "/what-changed",
   image: ogImagePath("page", "what-changed"),
   keywords: [
@@ -111,7 +111,7 @@ export default function WhatChangedPage() {
   const methodology = (
     <MethodologyNote>
       Every event here comes from an official U.S. government source and links to the original
-      document. Classification and severity are assigned by explicit, published rules per source —
+      document. Classification and severity are assigned by explicit, published rules per source,
       never by a language model, and never by how much attention an item might attract. Where a
       document states who is affected, we quote it; where we inferred something, it is labelled as
       our inference. We do not summarise legal requirements as advice. The store was last built{" "}
@@ -145,7 +145,7 @@ export default function WhatChangedPage() {
       <PageHeader
         eyebrow="What changed"
         title="U.S. immigration policy changes, traced to the source"
-        description="Rules, executive actions, agency guidance, and court decisions — each one linked to the government document it came from, with what that document says about who is affected. We report what changed; we do not tell you what it means for your case."
+        description="Rules, executive actions, agency guidance, and court decisions, each one linked to the government document it came from, with what that document says about who is affected. We report what changed; we do not tell you what it means for your case."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/what-changed", label: "What changed" },
@@ -189,7 +189,7 @@ export default function WhatChangedPage() {
           {days.length === 0 ? (
           <p className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-sm text-slate-300">
             No significant changes have been recorded in the current window. That is a statement about
-            what our sources published, not a guarantee that nothing happened — see the coverage note
+            what our sources published, not a guarantee that nothing happened. See the coverage note
             above for which sources are feeding this page.
           </p>
         ) : (
@@ -228,8 +228,8 @@ export default function WhatChangedPage() {
             {olderCount === 1 ? "" : "s"}
             {EVENT_STORE_META.earliestEvent
               ? ` going back to ${formatDate(EVENT_STORE_META.earliestEvent)}`
-              : ""}{" "}
-            {" — use the search box above to reach "}
+              : ""}
+            {". Use the search box above to reach "}
             {/* Not "the whole archive" when the search index is a payload-bounded
                 window. The search box states its own reach; this must agree with
                 it rather than promise more. */}
@@ -249,7 +249,7 @@ export default function WhatChangedPage() {
               itself describes as non-substantive. Kept out of the feed above so it still answers the
               question it claims to.
               {olderRoutineCount > 0
-                ? ` A further ${olderRoutineCount} routine notice${olderRoutineCount === 1 ? "" : "s"} published before this window ${olderRoutineCount === 1 ? "is" : "are"} in the archive rather than listed here — filter by “Routine” in the search above to read them.`
+                ? ` A further ${olderRoutineCount} routine notice${olderRoutineCount === 1 ? "" : "s"} published before this window ${olderRoutineCount === 1 ? "is" : "are"} in the archive rather than listed here. Filter by “Routine” in the search above to read them.`
                 : ""}
             </p>
             <div className="mt-4 space-y-4">

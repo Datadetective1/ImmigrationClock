@@ -289,5 +289,5 @@ export function evaluateHealth(health: PipelineHealth, now: string, live?: Pipel
 export function lastCheckedSentence(health: Pick<PipelineHealth, "lastSuccessfulSourceCheck" | "lastSuccessfulIngestion">, format: (iso: string) => string): string | null {
   const at = health.lastSuccessfulSourceCheck ?? health.lastSuccessfulIngestion;
   if (!at) return null;
-  return `Official sources last checked ${format(at)} — the date we looked, not the date of a change.`;
+  return `Official sources last checked ${format(at)}. That is the date we looked, not the date of a change.`;
 }

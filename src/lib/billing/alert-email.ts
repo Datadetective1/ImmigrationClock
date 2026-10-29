@@ -81,7 +81,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
   }));
 
   const lines: string[] = [];
-  if (input.testMode) lines.push("TEST MODE — sent from a deployment running on Stripe test keys.", "");
+  if (input.testMode) lines.push("TEST MODE: sent from a deployment running on Stripe test keys.", "");
   lines.push(`${headline}:`, "");
   for (const it of items) {
     lines.push(
@@ -101,7 +101,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
     `Stop these alerts: ${input.unsubscribeUrl}`
   );
   if (input.supportEmail) lines.push(`Questions: ${input.supportEmail}`);
-  lines.push("", `${SITE.name} — ${SITE.tagline}`);
+  lines.push("", `${SITE.name} | ${SITE.tagline}`);
 
   // ---- HTML: the same look as the weekly summary (lib/email/style.ts) -----
   const C = EMAIL_COLOR;

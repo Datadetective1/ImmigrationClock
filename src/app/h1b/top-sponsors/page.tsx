@@ -71,14 +71,14 @@ export default function TopSponsorsPage() {
         <MethodologyNote variant="warning">
           <strong className="text-slate-200">Two different USCIS products, two different years.</strong> This
           page ranks a curated set of {sponsors.length} large sponsors anchored to published{" "}
-          {fiscalYearLabel(LAST_COMPLETE_FY)} rankings, with per-year detail modeled — that is why its figures
+          {fiscalYearLabel(LAST_COMPLETE_FY)} rankings, with per-year detail modeled. That is why its figures
           carry a <em>Modeled</em> tag. The{" "}
           <Link href="/h1b/employers" className="link-accent">employer directory</Link> and every{" "}
           <Link href="/employer/amazon-com-services-llc" className="link-accent">employer page</Link> instead
           read the USCIS H-1B Employer Data Hub export directly, whose latest published year is FY
           {EMPLOYERS_META.fiscalYear} ({formatNumber(EMPLOYERS_META.nationalApprovals)} approvals across{" "}
           {formatNumber(EMPLOYERS_META.totalEmployers)} employers). The two sets will not add up to each
-          other, and neither is wrong — they are different releases covering different years.
+          other, and neither is wrong. They are different releases covering different years.
         </MethodologyNote>
 
         <Link

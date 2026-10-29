@@ -12,7 +12,7 @@ import { formatDate } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Data & Freshness",
   description:
-    "How ImmigrationClock refreshes data and labels every figure reported, projected, or estimated — and why it is not a real-time feed.",
+    "How ImmigrationClock refreshes data and labels every figure reported, projected, or estimated, and why it is not a real-time feed.",
   path: "/data",
 });
 
@@ -35,7 +35,7 @@ export default function DataPage() {
         ]}
       >
         <StatRow>
-          <Stat label="Pipeline last ran" value={formatDate(LAST_REFRESHED)} sub="This build" tooltip="When the refresh pipeline last executed — not a claim the underlying data is real-time." />
+          <Stat label="Pipeline last ran" value={formatDate(LAST_REFRESHED)} sub="This build" tooltip="When the refresh pipeline last executed. It is not a claim the underlying data is real-time." />
           <Stat label="Near-live fetched" value={LIVE_BLS.value != null ? `${LIVE_BLS.value}%` : "—"} sub="BLS unemployment" tooltip="Genuinely fetched from the BLS API at build time." />
           <Stat label="Auto-fetched sources" value={String(REFRESH_MANIFEST.filter((m) => m.mode === "auto-fetch").length)} sub={`of ${REFRESH_MANIFEST.length}`} />
           <Stat label="Refresh cadence" value="Monthly" sub="Scheduled rebuild" />
@@ -66,7 +66,7 @@ export default function DataPage() {
         <section className="space-y-3">
           <h2 className="section-title">Three labels on every number</h2>
           <p className="text-sm leading-relaxed text-slate-300">
-            The hardest problem with immigration data is that official figures lag — sometimes by months, sometimes
+            The hardest problem with immigration data is that official figures lag, sometimes by months, sometimes
             by a year or more. Rather than guess and present it as fact, we label the <em>origin</em> of every value:
           </p>
           <div className="space-y-3">
@@ -80,15 +80,15 @@ export default function DataPage() {
             <div className="panel panel-pad">
               <ProvenanceTag provenance="projected" />
               <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
-                A <strong className="text-white">projection computed from reported data</strong> — e.g. a full-year pace
-                scaled from the elapsed share of the current fiscal year. Clearly not an official total.
+                A <strong className="text-white">projection computed from reported data</strong> (e.g. a full-year pace
+                scaled from the elapsed share of the current fiscal year). Clearly not an official total.
               </p>
             </div>
             <div className="panel panel-pad">
               <ProvenanceTag provenance="estimated" />
               <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
-                <strong className="text-white">Derived or apportioned</strong> from reported totals — e.g. a state or
-                country share of a national figure, or a tracked-employer subset. An estimate, not an official figure.
+                <strong className="text-white">Derived or apportioned</strong> from reported totals (e.g. a state or
+                country share of a national figure, or a tracked-employer subset). An estimate, not an official figure.
               </p>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function DataPage() {
           <p className="text-sm leading-relaxed text-slate-300">
             So a card reading <em>&ldquo;Border encounters · FY2026 YTD&rdquo;</em> with a{" "}
             <ProvenanceTag provenance="projected" /> tag means: the year-to-date period, value projected from reported
-            data — not an official YTD total. Toggle the dashboard to <em>Last complete FY</em> to see the most recent{" "}
+            data, not an official YTD total. Toggle the dashboard to <em>Last complete FY</em> to see the most recent{" "}
             <ProvenanceTag provenance="reported" /> figure.
           </p>
         </section>
@@ -126,7 +126,7 @@ export default function DataPage() {
             A scheduled job re-runs the data pipeline and rebuilds the site. Sources with a reliable machine-readable
             feed are fetched automatically at build time (with a real <code className="rounded bg-white/5 px-1 text-accent-soft">fetchedAt</code> stamp);
             the rest are maintained as the latest published values plus labelled projections until their feed is wired.
-            <strong className="text-white"> &ldquo;Last refreshed&rdquo; is when our pipeline last ran — it is not a claim
+            <strong className="text-white"> &ldquo;Last refreshed&rdquo; is when our pipeline last ran. It is not a claim
             that the agencies publish in real time.</strong>
           </p>
           <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">

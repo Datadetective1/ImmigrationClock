@@ -49,7 +49,7 @@ export function seoPages(): SeoPageEntry[] {
     {
       slug: "/layoffs-vs-h1b",
       title: "Layoffs vs H-1B Sponsorship",
-      description: "Compare WARN layoff notices with H-1B sponsorship — without claiming causation.",
+      description: "Compare WARN layoff notices with H-1B sponsorship without claiming causation.",
       category: "layoffs",
       changefreq: "weekly",
       priority: 0.8,

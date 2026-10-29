@@ -40,7 +40,7 @@ export function RelevanceCard({
       </div>
 
       <p className="mt-4 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-slate-500">
-        This is data context only — <strong className="text-slate-400">not legal or immigration advice</strong>.
+        This is data context only, <strong className="text-slate-400">not legal or immigration advice</strong>.
         Figures are labelled reported, projected, or estimated; for individual situations consult a qualified
         professional.
       </p>

@@ -10,7 +10,7 @@ import { SituationHub } from "@/components/SituationHub";
 import { buildSituationHub } from "@/lib/situation-hub";
 
 export const metadata = buildMetadata({
-  title: "What This Means For You — Immigration Data by Situation",
+  title: "What This Means For You: Immigration Data by Situation",
   description:
     "H-1B worker, student, employer or green-card applicant: see what the latest U.S. immigration data means for your situation. Sourced, never advice.",
   path: "/for-you",

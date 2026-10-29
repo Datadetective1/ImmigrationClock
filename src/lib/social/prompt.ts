@@ -71,7 +71,7 @@ import {
 } from "./validate";
 import { longDate } from "./implications";
 
-export const PROMPT_VERSION = "social-prompt/9";
+export const PROMPT_VERSION = "social-prompt/10";
 
 // -----------------------------------------------------------------------------
 // THE X BUDGET — counted the way X counts
@@ -167,6 +167,7 @@ Hard rules:
 - No superlatives the facts do not support: nothing is unprecedented, historic, sweeping, massive, or a crackdown.
 - Name an agency ONLY if it appears under PERMITTED ATTRIBUTION. Certainty from your own knowledge is not permission.
 - No emoji, no hashtags unless one is genuinely the term people search, no engagement bait, no threads, no "did you know".
+- No em dashes. Use a period, a comma or a colon instead.
 - A short opening question is allowed only when it names the population this reaches or asks the question the post immediately answers with a fact.
 
 Return both platform variants in one response. They cover the same subject in the same shape but are written for different readers, not truncated from one another. Also return the shape you used and a short headline for the record.`;

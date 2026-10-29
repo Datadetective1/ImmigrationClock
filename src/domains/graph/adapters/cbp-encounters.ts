@@ -177,7 +177,7 @@ export function toEvent(
     reviewStatus: "auto",
     limitations: [
       "An encounter is an enforcement action, not a person. Title 8 apprehensions, Title 8 inadmissibles, and expulsions are counted together, and one person can be encountered several times in a year, so encounters exceed the number of individuals.",
-      `Figures are year-to-date for fiscal year ${entry.fy}, which begins on 1 October — they are not a calendar-year count and are not comparable to a full year until the year closes.`,
+      `Figures are year-to-date for fiscal year ${entry.fy}, which begins on 1 October. They are not a calendar-year count and are not comparable to a full year until the year closes.`,
       "CBP does not publish a release date, only a publication month, so this event is dated to the first of that month. The month the figures actually cover is given as the data-through date and is exact.",
       ...(backfilled
         ? [
@@ -214,7 +214,7 @@ export function buildEvents(
   if (series.length === 0) {
     return {
       events: [],
-      warnings: ["no CBP history recorded yet — nothing to project into events"],
+      warnings: ["no CBP history recorded yet, so nothing to project into events"],
     };
   }
 
@@ -287,7 +287,7 @@ export const cbpEncountersAdapter: SourceAdapter = {
   sourceKey: SOURCE_KEY,
   status: "live",
   coverage:
-    "Monthly nationwide encounter totals, projected into the event store from the existing CBP pipeline rather than fetched again — one dataset, one reading. Each monthly release is a routine data_release: the numbers can be striking, but a scheduled release is the calendar doing its job, not a policy change. Encounters count enforcement actions, not people.",
+    "Monthly nationwide encounter totals, projected into the event store from the existing CBP pipeline rather than fetched again: one dataset, one reading. Each monthly release is a routine data_release: the numbers can be striking, but a scheduled release is the calendar doing its job, not a policy change. Encounters count enforcement actions, not people.",
   fetchEvents,
 };
 

@@ -30,7 +30,7 @@ export function buildMetadata({
 }: SeoInput): Metadata {
   const url = `${SITE.url}${path}`;
   const fullTitle =
-    title === SITE.title ? title : `${title} — ${SITE.name}`;
+    title === SITE.title ? title : `${title} | ${SITE.name}`;
   // PNG, NOT the SVG this used to point at.
   //
   // X and most other card renderers do not accept image/svg+xml — they fetch it,

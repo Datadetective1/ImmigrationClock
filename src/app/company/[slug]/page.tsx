@@ -29,7 +29,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   const company = companyBySlug[params.slug];
   if (!company) return buildMetadata({ title: "Employer not found", description: "", path: `/company/${params.slug}` });
   return buildMetadata({
-    title: `${company.name} — H-1B & Workforce Data`,
+    title: `${company.name}: H-1B & Workforce Data`,
     description: `Public records: ${company.name} H-1B approvals, denials, approval rate, offered wages, top job titles, worksites, and any state-filed WARN layoff notices.`,
     path: `/company/${company.slug}`,
     keywords: [company.name, "H-1B sponsor", "visa sponsorship", company.industry],

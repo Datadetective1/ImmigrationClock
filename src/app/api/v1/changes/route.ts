@@ -131,7 +131,7 @@ export async function GET(request: Request): Promise<Response> {
               evidence: includeWeak ? "strong and weak" : "strong only",
               note: includeWeak
                 ? "Includes matches drawn from citations, footnotes and historical asides. Each carries " +
-                  "its method and its verbatim quote — read the evidence before acting on a " +
+                  "its method and its verbatim quote. Read the evidence before acting on a " +
                   "derived_weak match."
                 : "Matches established from the record's own title or summary, or from a body sentence " +
                   "stating scope with no historical or citation markers. Matches drawn from citations " +

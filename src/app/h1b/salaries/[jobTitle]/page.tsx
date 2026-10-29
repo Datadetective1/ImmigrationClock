@@ -23,7 +23,7 @@ function resolveTitle(slug: string) {
 export function generateMetadata({ params }: { params: { jobTitle: string } }) {
   const title = resolveTitle(params.jobTitle);
   return buildMetadata({
-    title: `${title} — H-1B Salaries`,
+    title: `${title}: H-1B Salaries`,
     description: `Average H-1B offered wages and sponsoring employers for ${title}, based on DOL LCA disclosure data.`,
     path: `/h1b/salaries/${params.jobTitle}`,
     keywords: [`${title} H-1B salary`, "offered wage", "LCA wage", title],
@@ -80,7 +80,7 @@ export default function SalaryPage({ params }: { params: { jobTitle: string } })
     <div>
       <PageHeader
         eyebrow="H-1B Salaries"
-        title={`${title} — H-1B offered wages`}
+        title={`${title}: H-1B offered wages`}
         description={`Average offered wages and sponsoring employers for ${title}, from DOL Labor Condition Application disclosures.`}
         crumbs={[
           { href: "/", label: "Home" },
@@ -99,7 +99,7 @@ export default function SalaryPage({ params }: { params: { jobTitle: string } })
 
       <div className="container-page space-y-8 py-10">
         <ChartCard
-          title={`Offered wage by employer — ${title}`}
+          title={`Offered wage by employer: ${title}`}
           source={{ sourceName: "DOL OFLC Disclosure Data", sourceUrl: "https://www.dol.gov/agencies/eta/foreign-labor/performance", sourceUpdatedAt: UPDATED.dol_lca }}
         >
           <HorizontalBarChart

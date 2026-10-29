@@ -200,7 +200,7 @@ export function PulseSignupForm({
         <p className="text-sm font-semibold text-white">Check your inbox.</p>
         <p className="mt-1 text-xs leading-relaxed text-slate-400">
           A confirmation is on its way now, and your first Pulse arrives with the next weekly issue. If
-          the confirmation doesn&rsquo;t show up within a few minutes, check spam — and if it
+          the confirmation doesn&rsquo;t show up within a few minutes, check spam. If it
           isn&rsquo;t there either, the signup did not complete.
         </p>
       </div>
@@ -274,7 +274,7 @@ export function PulseSignupForm({
           })}
         </div>
         <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500">
-          Every issue links to all four translations — this is the one that arrives in your inbox.
+          Every issue links to all four translations. This is the one that arrives in your inbox.
         </p>
       </fieldset>
 
@@ -306,7 +306,7 @@ export function PulseSignupForm({
 
       <p className="text-[11px] text-slate-500">
         One email a week. Unsubscribe from any email. We store your address with our email provider and
-        use it for nothing else — see our{" "}
+        use it for nothing else. See our{" "}
         <Link href="/privacy" className="link-accent">
           privacy policy
         </Link>

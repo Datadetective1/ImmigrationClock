@@ -163,7 +163,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     id: "watchlist_alerts",
     label: "Email alerts on your watchlist",
     blurb:
-      "An email when a recorded change touches a visa, country, agency or topic you follow — checked daily, nothing sent when nothing changed.",
+      "An email when a recorded change touches a visa, country, agency or topic you follow. Checked daily, and nothing is sent when nothing changed.",
     plan: "pro",
     // The daily job is /api/billing/alerts/run (Vercel cron, vercel.json),
     // selection in alerts.ts, the email in alert-email.ts, one-click
@@ -197,7 +197,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     id: "pro_briefing",
     label: "Your Briefing",
     blurb:
-      "One page with the recorded changes that touch what you follow, upcoming stated effective dates, and changes you save — each with its source and dates. Download a brief as Markdown or a printable page, subscribe to effective dates in your calendar, choose daily or weekly alerts and a priority-only filter, and see every alert you were sent.",
+      "One page with the recorded changes that touch what you follow, upcoming stated effective dates, and changes you save, each with its source and dates. Download a brief as Markdown or a printable page, subscribe to effective dates in your calendar, choose daily or weekly alerts and a priority-only filter, and see every alert you were sent.",
     plan: "pro",
     // /briefing, /api/pro/*, the Save button on change pages and the alert
     // job's preferences, behind FEATURE_PRO_BRIEFING. Marked available only
@@ -210,7 +210,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     id: "bulk_export",
     sold: false,
     label: "Bulk export",
-    blurb: "The whole filtered set — archive, directory or layoff feed — as CSV or Excel.",
+    blurb: "The whole filtered set (archive, directory or layoff feed) as CSV or Excel.",
     plan: "pro",
     existsToday: false,
     status: "planned",

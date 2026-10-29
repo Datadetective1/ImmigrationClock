@@ -187,7 +187,7 @@ export function employerSignals(
       fact:
         `${warn.notices} WARN notice${warn.notices === 1 ? "" : "s"} on file covering ` +
         `${warn.employees.toLocaleString()} employees in ${warn.states.join(", ")}. ` +
-        `Most recent filing dated ${warn.latestNotice} — depending on the state, that is either the ` +
+        `Most recent filing dated ${warn.latestNotice}. Depending on the state, that is either the ` +
         `date the notice was filed or the date the layoff takes effect.`,
       join: null,
       matched: matchedBecause,
@@ -238,7 +238,7 @@ export function employerSignals(
         "The USCIS H-1B Employer Data Hub record and the state WARN notices were matched on a " +
         "normalized employer name (case, punctuation and legal suffixes removed). Matching is by " +
         "name only. Treat a match as a pointer to two source records, not as proof they are the " +
-        "same company — and read matchQuality, which says how this particular row was joined.",
+        "same company. Read matchQuality, which says how this particular row was joined.",
       matchQuality: describeMatch({
         key: normalizeEmployer(h1b.name),
         h1bNames: h1b.siblingNames?.length ? h1b.siblingNames : [h1b.name],

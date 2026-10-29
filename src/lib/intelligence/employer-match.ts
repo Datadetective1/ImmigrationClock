@@ -222,8 +222,8 @@ export function describeMatch(input: DescribeMatchInput): EmployerMatch {
     parts.push(
       `The two records were joined on "${key}", ${compact.length} characters left after normalization ` +
         `discarded ${discardedWords.join(", ")} from ${[...h1bNames, ...warnNames].join(" / ")}. ` +
-        `A key that short, produced by dropping part of a name, can belong to a different company — ` +
-        `read both source records before treating this as one.`
+        `A key that short, produced by dropping part of a name, can belong to a different company. ` +
+        `Read both source records before treating this as one.`
     );
   } else if (family) {
     parts.push(
@@ -254,7 +254,7 @@ export function describeMatch(input: DescribeMatchInput): EmployerMatch {
         `normalize${relatedFilersOnOtherKeys.length === 1 ? "s" : ""} to a different key ` +
         `(${relatedFilersOnOtherKeys.map((f) => f.name).join(", ")}), holding ` +
         `${approvalsNotCounted.toLocaleString()} approvals not counted here. Sharing a first word is not ` +
-        `proof of common ownership — read them before drawing a conclusion about the group.`
+        `proof of common ownership. Read them before drawing a conclusion about the group.`
     );
   }
   if (ageYears >= STALE_SPONSOR_YEARS) {

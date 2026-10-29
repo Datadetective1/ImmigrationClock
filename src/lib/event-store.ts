@@ -208,7 +208,7 @@ export function eventCoverageNote(): string {
   const parts = [
     `Tracking ${EVENTS.length} government events from ${contributing} automated ` +
       `source${contributing === 1 ? "" : "s"}${from ? `, going back to ${from}` : ""}. ` +
-      "More sources are being added — see the methodology page for the full list, " +
+      "More sources are being added. See the methodology page for the full list, " +
       "including the ones we do not yet ingest.",
   ];
 

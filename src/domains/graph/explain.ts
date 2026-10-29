@@ -166,7 +166,7 @@ export function forceClause(e: ImmigrationEvent, today: string): ExplanationClau
       // makes it binding.
       return {
         text:
-          "This is an agency announcement. It records what the agency said — the legal instrument, and the detail of how it applies, are published separately.",
+          "This is an agency announcement. It records what the agency said. The legal instrument, and the detail of how it applies, are published separately.",
         basis: "classification: announcement",
       };
 
@@ -214,7 +214,7 @@ function scopeClause(e: ImmigrationEvent, labelFor: LabelFn): ExplanationClause 
       text:
         im.completeness === "exhaustive"
           ? `The document names a closed list: ${list}.`
-          : `The document names ${list}. It may identify others — read the original to be sure.`,
+          : `The document names ${list}. It may identify others, so read the original to be sure.`,
       basis: `impact.stated (${im.completeness})`,
     };
   }
@@ -240,7 +240,7 @@ function scopeClause(e: ImmigrationEvent, labelFor: LabelFn): ExplanationClause 
 function actionClause(e: ImmigrationEvent): ExplanationClause | null {
   if (!e.impact?.actionRequired) return null;
   return {
-    text: "The document states a requirement for the people it covers. The exact wording is quoted above — whether it applies to any particular person depends on facts this platform does not have.",
+    text: "The document states a requirement for the people it covers. The exact wording is quoted above. Whether it applies to any particular person depends on facts this platform does not have.",
     basis: "impact.actionRequired",
   };
 }
