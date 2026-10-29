@@ -139,6 +139,55 @@ describe("a citation is not a subject", () => {
 });
 
 // -----------------------------------------------------------------------------
+// FAILURE CLASS: cited_rule_title
+//
+// A summary that names H-1B only inside the full title of a rule it cites. The
+// L-1 fee alert of 2026-10-27 revises the L-1 chapter of the Policy Manual and
+// was served as an H-1B change because the cited rule is the "... Fee for H-1B
+// and L-1 Visas final rule".
+// -----------------------------------------------------------------------------
+
+describe("a cited rule's name is not this document's scope", () => {
+  const L1_SUMMARY =
+    "U.S. Citizenship and Immigration Services (USCIS) is revising guidance in the USCIS Policy " +
+    "Manual regarding filing fees for L-1 petitions and the regulatory changes made by the 9-11 " +
+    "Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas final rule (9-11 Biometric Fee final rule).";
+
+  it("grades a summary that names H-1B only in a cited rule's title as weak", () => {
+    expect(
+      gradeClassification({ title: "Policy alert: Fee Guidance for L-1 Intracompany Transferees", summary: L1_SUMMARY, matches: h1b })
+    ).toBe("derived_weak");
+  });
+
+  it("keeps the L-1 the alert is about", () => {
+    const l1 = (t: string) => /(?<![a-z0-9])l-?1(?![a-z0-9])/i.test(t);
+    expect(gradeClassification({ title: "", summary: L1_SUMMARY, matches: l1 })).toBe("derived_high_confidence");
+  });
+
+  it("still grades a short reference to the rule a document implements as strong", () => {
+    expect(
+      gradeClassification({ title: "", summary: "USCIS is implementing the H-1B final rule.", matches: h1b })
+    ).toBe("derived_high_confidence");
+  });
+
+  it("does not join a date ending one sentence to the next sentence's rule", () => {
+    expect(
+      gradeClassification({
+        title: "",
+        summary: "DHS published it in the Federal Register on April 30, 2024. The final rule revised H-1B fees.",
+        matches: h1b,
+      })
+    ).toBe("derived_high_confidence");
+  });
+
+  it("keeps the L-1 fee alert out of a default h-1b filter", () => {
+    const id = "uscis_policy_manual:20261027-intracompanytransfereefees";
+    expect(BY_ID.has(id), "the labelled L-1 alert is still in the archive").toBe(true);
+    expect(strongVisas(id)).not.toContain("h-1b");
+  });
+});
+
+// -----------------------------------------------------------------------------
 // FAILURE CLASS: headline_dropped
 // -----------------------------------------------------------------------------
 
