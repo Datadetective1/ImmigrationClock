@@ -130,17 +130,8 @@ export function PulseSignup({
               <span className="text-accent" aria-hidden>•</span>
               <span>Every item links to the government document it came from.</span>
             </li>
-            <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>•</span>
-              <span>
-                Your address is stored with our email provider and used for this only. Never sold, never
-                shared.
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="text-accent" aria-hidden>•</span>
-              <span>Unsubscribe from any issue in one click.</span>
-            </li>
+            {/* Privacy and unsubscribing are said once, under the button,
+                where the decision is made, rather than here and there both. */}
           </ul>
           <p className="mt-3 text-sm">
             <Link href="/pulse" className="link-accent">

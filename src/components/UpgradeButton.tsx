@@ -61,6 +61,36 @@ function NewsletterCheckbox({
   );
 }
 
+// THE OPT-IN, HELD FOR THE TRIP THROUGH THE INBOX.
+//
+// Kept in this browser only, for one plan, for as long as a sign-in link lives.
+// A link opened in a different browser finds nothing here and continues with
+// the box unticked, which is the safe reading of an answer we cannot see.
+const OPT_IN_KEY = "ic_checkout_optin";
+const OPT_IN_TTL_MS = 30 * 60 * 1000;
+
+function saveOptIn(interval: Interval, optIn: boolean): void {
+  try {
+    window.localStorage.setItem(OPT_IN_KEY, JSON.stringify({ interval, optIn, at: Date.now() }));
+  } catch {
+    // Storage blocked: the resumed checkout simply records no consent.
+  }
+}
+
+/** Read once and cleared, so an old answer is never reused for a later purchase. */
+export function takeSavedOptIn(interval: Interval): boolean {
+  try {
+    const raw = window.localStorage.getItem(OPT_IN_KEY);
+    window.localStorage.removeItem(OPT_IN_KEY);
+    if (!raw) return false;
+    const saved = JSON.parse(raw) as { interval?: unknown; optIn?: unknown; at?: unknown };
+    const fresh = typeof saved.at === "number" && Date.now() - saved.at < OPT_IN_TTL_MS;
+    return fresh && saved.interval === interval && saved.optIn === true;
+  } catch {
+    return false;
+  }
+}
+
 export function NewsletterOptInGroup({ children }: { children: React.ReactNode }) {
   // UNCHECKED BY DEFAULT, ALWAYS, here as in a lone button.
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
@@ -87,20 +117,28 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   const newsletterOptIn = group ?? ownOptIn;
   const root = useRef<HTMLDivElement>(null);
 
-  // BACK FROM THE INBOX. The sign-in link a Subscribe button asked for returns
-  // here with ?resume=<this plan>. Say so and put the button in view — but do
-  // not press it for them: the opt-in above is theirs to answer, and Stripe is
-  // one deliberate click away.
+  // BACK FROM THE INBOX, STRAIGHT ON TO STRIPE. The sign-in link a Subscribe
+  // button asked for returns here with ?resume=<this plan>. The buyer already
+  // pressed Subscribe and already answered the opt-in before the detour, so
+  // making them find the button and press it a second time was a step that
+  // decided nothing. Checkout continues on its own with the answer they gave.
+  // Stripe is still where the card is entered and the payment confirmed.
+  const resumed = useRef(false);
   useEffect(() => {
+    if (resumed.current) return;
     if (resumeIntervalFrom(new URLSearchParams(window.location.search).get("resume")) !== interval) return;
-    setMessage("Your email is confirmed. Continue to secure checkout when you are ready.");
+    resumed.current = true;
     root.current?.scrollIntoView({ block: "center" });
+    void start(takeSavedOptIn(interval), "Email confirmed. Opening secure checkout…");
+    // start() is stable enough for a one-shot resume; re-running on its
+    // identity would be the double-start this ref exists to prevent.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interval]);
 
-  async function start() {
+  async function start(optIn: boolean = newsletterOptIn, note = "") {
     if (state === "starting") return;
     setState("starting");
-    setMessage("");
+    setMessage(note);
     // Fired before the redirect, so a drop-off between the click and Stripe is
     // visible rather than invisible.
     trackCheckoutStarted(interval, placement);
@@ -109,7 +147,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       const res = await fetch("/api/billing/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ interval, newsletterOptIn, ...(offer ? { offer } : {}) }),
+        body: JSON.stringify({ interval, newsletterOptIn: optIn, ...(offer ? { offer } : {}) }),
       });
       const body = (await res.json()) as { url?: string; message?: string; error?: string };
 
@@ -129,7 +167,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       // requirement fixes. The step is offered right here instead.
       if (res.status === 401 && body.error === "identity_required") {
         setState("verify");
-        setMessage(body.message || "Confirm your email address before subscribing.");
+        setMessage("Enter your email. We'll send a link that takes you straight to checkout.");
         return;
       }
 
@@ -163,6 +201,9 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
         // button rather than to an account page that has forgotten it.
         body: JSON.stringify({ email, resume: interval, ...(offer ? { offer } : {}) }),
       });
+      // The opt-in answer waits in this browser for the return trip, so the
+      // checkout that continues on its own carries what they chose here.
+      saveOptIn(interval, newsletterOptIn);
       const body = (await res.json()) as { message?: string };
       setState(res.ok ? "sent" : "verify");
       setMessage(body.message || (res.ok ? "Check your inbox." : "Something went wrong."));
@@ -194,8 +235,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
         <p className="text-xs leading-relaxed text-slate-300">{message}</p>
         {state === "sent" ? (
           <p className="mt-2 text-xs text-slate-500">
-            Open the link and it brings you straight back here to finish. It works once and expires
-            in 15 minutes.
+            Open the link and you go straight to checkout. It works once and expires in 15 minutes.
           </p>
         ) : (
           <form onSubmit={requestLink} className="mt-2 flex flex-col gap-2 sm:flex-row">
@@ -237,7 +277,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
 
       <button
         type="button"
-        onClick={start}
+        onClick={() => void start()}
         disabled={state === "starting"}
         className="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:opacity-60"
       >

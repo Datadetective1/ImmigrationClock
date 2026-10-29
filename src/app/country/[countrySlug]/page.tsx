@@ -160,7 +160,7 @@ export default function CountryPage({ params }: { params: { countrySlug: string 
         <MethodologyNote>
           Country pages mix multiple datasets that use different definitions and reporting calendars.
           Visa issuances (State Department) differ from petition approvals (USCIS), and enforcement counts
-          describe events involving people of a given nationality &mdash; not the same individuals across
+          describe events involving people of a given nationality, not the same individuals across
           datasets.
         </MethodologyNote>
       </div>

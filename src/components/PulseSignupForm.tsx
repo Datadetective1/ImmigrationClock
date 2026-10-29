@@ -24,7 +24,7 @@
 // actually observe it.
 // =============================================================================
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { isPlausibleEmail } from "@/lib/newsletter";
 import { track } from "@/lib/analytics";
@@ -49,12 +49,13 @@ const LANGUAGE_LABELS: Record<Locale, string> = {
 };
 
 /**
- * A likely language, for HIGHLIGHTING only.
+ * A likely language, PRE-SELECTED and shown first.
  *
- * Never pre-selects. An assumed language is indistinguishable from a chosen one
- * once it is stored, and the subscriber is the only one who knows which they
- * meant. This narrows a four-way choice to an obvious first glance and leaves
- * the decision where it belongs.
+ * It used to highlight only, with nothing chosen, and the Subscribe button
+ * stayed greyed out until the reader worked out that a language had to be
+ * picked. Most readers want the language their phone is set to, so that one
+ * starts selected (English when the browser names none of the four). It is one
+ * tap to change, and every issue links to the other translations.
  */
 function suggestedLocale(): Locale | null {
   if (typeof navigator === "undefined") return null;
@@ -85,13 +86,18 @@ export function PulseSignupForm({
   const [consented, setConsented] = useState(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
-  // null until chosen. There is no default, on purpose.
-  const [language, setLanguage] = useState<Locale | null>(null);
+  // English until the browser says otherwise, then whatever the reader taps.
+  const [language, setLanguage] = useState<Locale | null>("en");
   const [suggested, setSuggested] = useState<Locale | null>(null);
+  const touched = useRef(false);
 
   // Read after mount: navigator is unavailable during SSR, and reading it in
   // the first render would make the server and client markup disagree.
-  useEffect(() => setSuggested(suggestedLocale()), []);
+  useEffect(() => {
+    const guess = suggestedLocale();
+    setSuggested(guess);
+    if (guess && !touched.current) setLanguage(guess);
+  }, []);
 
   const ordered = useMemo(
     () => (suggested ? [suggested, ...LOCALES.filter((l) => l !== suggested)] : [...LOCALES]),
@@ -175,7 +181,12 @@ export function PulseSignupForm({
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), consent: consented, website: honeypot, language }),
+        // PRESSING SUBSCRIBE IS THE CONSENT. This form does one thing, the
+        // button says what, and the line under it says how often and how to
+        // stop. A separate tick box that kept the button greyed out added a
+        // step without adding information. The welcome email that follows is
+        // the confirmation, and every issue carries a one-click unsubscribe.
+        body: JSON.stringify({ email: email.trim(), consent: true, website: honeypot, language }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (res.ok && data.ok) {
@@ -258,6 +269,7 @@ export function PulseSignupForm({
                 lang={l}
                 dir={l === "ar" ? "rtl" : undefined}
                 onClick={() => {
+                  touched.current = true;
                   setLanguage(l);
                   if (status.kind === "error") setStatus({ kind: "idle" });
                 }}
@@ -278,21 +290,9 @@ export function PulseSignupForm({
         </p>
       </fieldset>
 
-      <label className="flex items-start gap-2 text-[11px] leading-relaxed text-slate-400">
-        <input
-          type="checkbox"
-          name="consent"
-          required
-          checked={consented}
-          onChange={(e) => setConsented(e.target.checked)}
-          className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border-white/20 bg-ink-950/60 accent-accent"
-        />
-        <span>{CONSENT_TEXT}</span>
-      </label>
-
       <button
         type="submit"
-        disabled={!consented || !language || status.kind === "submitting"}
+        disabled={status.kind === "submitting"}
         className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-40"
       >
         {status.kind === "submitting" ? "Subscribing…" : "Subscribe"}
@@ -305,12 +305,10 @@ export function PulseSignupForm({
       ) : null}
 
       <p className="text-[11px] text-slate-500">
-        One email a week. Unsubscribe from any email. We store your address with our email provider and
-        use it for nothing else. See our{" "}
+        Free. One email a week. Unsubscribe from any email. We never sell or share your address.{" "}
         <Link href="/privacy" className="link-accent">
-          privacy policy
+          Privacy
         </Link>
-        .
       </p>
     </form>
   );

@@ -226,7 +226,7 @@ export function renderIssue(
   // ---- Weekly snapshot -------------------------------------------------------
   // Counts first, then the reassuring negatives, then how long this will take.
   const snapshotBullets = [
-    ...issue.stats.filter((x) => t.stats[x.key]).map((x) => `${x.value} &mdash; ${esc(t.stats[x.key])}`),
+    ...issue.stats.filter((x) => t.stats[x.key]).map((x) => `${x.value}: ${esc(t.stats[x.key])}`),
     ...issue.absentStats.filter((k) => t.stats[k]).map((k) => esc(t.snapshot.none(t.stats[k]))),
   ]
     .map(

@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { trackCheckoutCompleted, trackSubscriptionActive } from "@/lib/analytics";
 import { announceIdentityChange } from "@/lib/billing/identity-signal";
+import { ContactLink } from "@/components/ContactLink";
 
 type State = "idle" | "activating" | "done" | "failed";
 
@@ -112,13 +113,28 @@ export function AccountActivation() {
     >
       {state === "activating" ? <p className="text-sm text-slate-300">Confirming your subscription…</p> : null}
       {state === "done" ? (
-        <p className="text-sm text-white">
-          <strong>You&rsquo;re subscribed.</strong> Thank you. Your Pro access is active on this browser.
-        </p>
+        <>
+          <p className="text-sm text-white">
+            <strong>You&rsquo;re subscribed.</strong> Thank you. Pro is active now.
+          </p>
+          {/* THE NEXT STEP, NOT A DEAD END. Alerts and the Briefing work from
+              what a subscriber follows, so a new subscriber who follows nothing
+              gets nothing. The one thing worth doing next is said here. */}
+          <p className="mt-1 text-sm text-slate-300">
+            Next, pick the visas, countries and topics you want alerts on.
+          </p>
+          <a
+            href="/following"
+            className="mt-3 inline-block rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft"
+          >
+            Choose what to follow
+          </a>
+        </>
       ) : null}
       {state === "failed" ? (
         <p className="text-sm text-slate-300">
-          {message} If you were charged, nothing is lost. Contact us and we will sort it out.
+          {message} If you were charged, nothing is lost. Email <ContactLink /> and we will sort it
+          out.
         </p>
       ) : null}
     </div>

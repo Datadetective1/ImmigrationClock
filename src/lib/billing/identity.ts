@@ -98,7 +98,34 @@ export interface SignInEmail {
  * someone just requested, and dressing it as a newsletter is how it lands in
  * spam.
  */
-export function buildSignInEmail(link: string, siteName: string): SignInEmail {
+export function buildSignInEmail(
+  link: string,
+  siteName: string,
+  opts: { checkout?: boolean } = {}
+): SignInEmail {
+  // A BUYER ASKED FOR THIS LINK TO PAY, NOT TO "SIGN IN". The same link does
+  // both, so the words follow what they were doing when they asked for it.
+  if (opts.checkout) {
+    const subject = `Confirm your email to finish subscribing to ${siteName} Pro`;
+    const text = [
+      `Open this link to confirm your email and continue to checkout:`,
+      "",
+      link,
+      "",
+      "It works once and expires in 15 minutes.",
+      "",
+      "If you did not ask for this, you can ignore it. Nothing has changed and",
+      "nothing is charged unless you complete checkout.",
+    ].join("\n");
+    const html = [
+      `<p>Open this link to confirm your email and continue to checkout:</p>`,
+      `<p><a href="${escapeHtml(link)}">Continue to checkout</a></p>`,
+      `<p style="color:#64748b;font-size:14px">It works once and expires in 15 minutes.</p>`,
+      `<p style="color:#64748b;font-size:14px">If you did not ask for this, you can ignore it. Nothing has changed, and nothing is charged unless you complete checkout.</p>`,
+    ].join("\n");
+    return { subject, text, html };
+  }
+
   const subject = `Your ${siteName} sign-in link`;
   const text = [
     `Use this link to sign in to ${siteName}:`,
