@@ -60,7 +60,7 @@ export default function PulseEmailAdminPage() {
     <div>
       <PageHeader
         eyebrow="Operator tool"
-        title="Immigration Pulse — latest build"
+        title="Immigration Pulse: latest build"
         description="Built and validated on a schedule by .github/workflows/newsletter.yml. Nothing is sent unless every edition validates."
         crumbs={[
           { href: "/", label: "Home" },
@@ -78,13 +78,13 @@ export default function PulseEmailAdminPage() {
         {failing.length > 0 ? (
           <div className="rounded-xl border border-status-amber/30 bg-status-amber/5 p-4">
             <h2 className="text-sm font-semibold text-status-amber">
-              {failing.length} edition{failing.length === 1 ? "" : "s"} failed validation — nothing was sent
+              {failing.length} edition{failing.length === 1 ? "" : "s"} failed validation, so nothing was sent
             </h2>
             <ul className="mt-2 space-y-1">
               {failing.flatMap((e) =>
                 e.errors.map((msg) => (
                   <li key={`${e.segment}-${msg}`} className="text-xs leading-relaxed text-slate-300">
-                    <span className="font-mono">{e.segment}</span> — {msg}
+                    <span className="font-mono">{e.segment}</span>: {msg}
                   </li>
                 ))
               )}
@@ -128,7 +128,7 @@ export default function PulseEmailAdminPage() {
                         dashboard should say so in the same words the job does. */}
                     {e.blockingFlags?.length ? (
                       <span className="text-status-red" title={e.spamFlags.join("; ")}>
-                        BLOCKED — {e.blockingFlags.join(", ")}
+                        BLOCKED: {e.blockingFlags.join(", ")}
                       </span>
                     ) : e.spamFlags.length === 0 ? (
                       <span className="text-slate-300">clean</span>
@@ -171,7 +171,7 @@ export default function PulseEmailAdminPage() {
             {unconfigured.length} edition{unconfigured.length === 1 ? " has" : "s have"} no Resend audience
             configured, so {unconfigured.length === 1 ? "it is" : "they are"} built and archived but not
             sent. Set <span className="font-mono text-slate-300">RESEND_AUDIENCE_&lt;LOCALE&gt;</span> to
-            enable delivery — see <span className="font-mono text-slate-300">docs/newsletter.md</span>.
+            enable delivery (see <span className="font-mono text-slate-300">docs/newsletter.md</span>).
           </p>
         ) : null}
       </div>

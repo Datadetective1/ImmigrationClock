@@ -291,7 +291,7 @@ export function renderIssue(
 <meta name="x-apple-disable-message-reformatting">
 <meta name="color-scheme" content="light dark">
 <meta name="supported-color-schemes" content="light dark">
-<title>${esc(t.brand.tagline)} — ${esc(t.issueLabel(issue.from, issue.to))}</title>
+<title>${esc(t.brand.tagline)} | ${esc(t.issueLabel(issue.from, issue.to))}</title>
 </head>
 <body style="margin:0;padding:0;background:${CANVAS};-webkit-text-size-adjust:100%;" dir="${dir}">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${esc(t.preheader(n))}</div>
@@ -448,7 +448,7 @@ export function renderIssue(
   // of the HTML, and a text part that is missing or empty is itself a strong
   // spam signal.
   const lines: string[] = [
-    `${t.brand.productName.toUpperCase()} — ${t.brand.tagline.toUpperCase()}`,
+    `${t.brand.productName.toUpperCase()} | ${t.brand.tagline.toUpperCase()}`,
     t.issueLabel(issue.from, issue.to),
     t.brand.strapline,
     "",

@@ -239,7 +239,7 @@ export function impactDisclaimer(completeness: ImpactCompleteness): string {
     return `The document publishes a closed list, reproduced here in full. ${base}`;
   }
   if (completeness === "partial") {
-    return `This list may be incomplete — the document may identify others. Read the original. ${base}`;
+    return `This list may be incomplete, because the document may identify others. Read the original. ${base}`;
   }
   return base;
 }

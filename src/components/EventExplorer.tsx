@@ -315,7 +315,7 @@ export function EventExplorer({
             // habit that erodes the rest.
             // "all" is dropped when the index is a window, because it would not
             // be true — see INDEX_COVERAGE.
-            placeholder={`Search ${INDEX_COVERAGE.bounded ? "" : "all "}${EVENT_INDEX.length} recorded changes — try “H-1B”, “asylum”, “fee”…`}
+            placeholder={`Search ${INDEX_COVERAGE.bounded ? "" : "all "}${EVENT_INDEX.length} recorded changes: try “H-1B”, “asylum”, “fee”…`}
             aria-label="Search recorded immigration policy changes"
             className="w-full bg-transparent text-base text-white placeholder:text-slate-500 focus:outline-none"
           />
@@ -360,7 +360,7 @@ export function EventExplorer({
             {INDEX_COVERAGE.stored} recorded changes
             {INDEX_COVERAGE.oldest ? ` (back to ${INDEX_COVERAGE.oldest})` : ""}. The remaining{" "}
             {INDEX_COVERAGE.notIndexed} are kept in the archive and still appear on the country, visa,
-            and agency pages they affect — they are held back from the search index only to keep this
+            and agency pages they affect. They are held back from the search index only to keep this
             page light on slow connections.
           </p>
         ) : null}
@@ -475,7 +475,7 @@ export function EventExplorer({
             <p className="mt-2 text-sm leading-relaxed text-slate-400">
               That is a statement about what we have recorded, not about what has happened. Search
               covers the sources listed on the methodology page
-              {INDEX_COVERAGE.oldest ? ` from ${INDEX_COVERAGE.oldest} onward` : ""} — a change
+              {INDEX_COVERAGE.oldest ? ` from ${INDEX_COVERAGE.oldest} onward` : ""}. A change
               published elsewhere, or before then, will not appear here.
             </p>
           </div>
@@ -523,7 +523,7 @@ export function EventExplorer({
             ) : null}
 
             <p className="text-xs leading-relaxed text-slate-500">
-              Search results are summaries. Each links to the government document it came from — open the
+              Search results are summaries. Each links to the government document it came from. Open the
               original before relying on it, and read the full entry for the caveats that apply.
             </p>
           </div>

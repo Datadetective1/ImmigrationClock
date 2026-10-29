@@ -47,7 +47,7 @@ export async function GET(req: Request): Promise<Response> {
   }
 
   const doc = {
-    title: scope === "saved" ? "ImmigrationClock brief — saved changes" : "ImmigrationClock brief — your feed",
+    title: scope === "saved" ? "ImmigrationClock brief: saved changes" : "ImmigrationClock brief: your feed",
     generatedAt: today,
     origin: billingOrigin(),
     entries,

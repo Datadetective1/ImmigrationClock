@@ -83,7 +83,7 @@ describe("what an account says about itself", () => {
     expect(state.status).toBe("pro");
     expect(state.isPro).toBe(true);
     expect(state.renews).toBe(true);
-    expect(accountStatusLabel(state)).toBe("Pro — active");
+    expect(accountStatusLabel(state)).toBe("Pro: active");
   });
 
   it("CANCELLING is distinguished from active", () => {

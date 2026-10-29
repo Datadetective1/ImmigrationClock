@@ -30,19 +30,19 @@ export const CLASS_META: Record<MapVisaClass, { tab: string; label: string; prov
     tab: "J-1",
     label: "J-1 exchange visitors",
     provenance: "estimated",
-    blurb: "Estimated origins of exchange visitors — scholars, interns, au pairs, and summer workers.",
+    blurb: "Estimated origins of exchange visitors: scholars, interns, au pairs, and summer workers.",
   },
   "EB (employment-based IV)": {
     tab: "EB green card",
     label: "employment-based green-card recipients",
     provenance: "estimated",
-    blurb: "Estimated origins of employment-based green cards — concentrated in India and China.",
+    blurb: "Estimated origins of employment-based green cards, concentrated in India and China.",
   },
   "Family-based IV": {
     tab: "Family",
     label: "family-based immigrants",
     provenance: "estimated",
-    blurb: "Estimated origins of family-sponsored green cards — led by Mexico and the Philippines.",
+    blurb: "Estimated origins of family-sponsored green cards, led by Mexico and the Philippines.",
   },
 };
 

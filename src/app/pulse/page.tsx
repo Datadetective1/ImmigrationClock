@@ -11,9 +11,9 @@ import { WARN_SUMMARY, WARN_COVERAGE_SENTENCE } from "@/lib/warn-summary";
 import { formatNumber, formatCompact, formatDate, fiscalYearLabel } from "@/lib/format";
 
 export const metadata = buildMetadata({
-  title: "Immigration Pulse — What Changed This Month",
+  title: "Immigration Pulse: What Changed This Month",
   description:
-    "How U.S. immigration data moved this month — border encounters, layoffs, enforcement pace and visa lag, on one page. Every figure sourced and labelled.",
+    "How U.S. immigration data moved this month: border encounters, layoffs, enforcement pace and visa lag, on one page. Every figure sourced and labelled.",
   path: "/pulse",
   image: ogImagePath("page", "pulse"),
   keywords: [
@@ -35,7 +35,7 @@ export default function PulsePage() {
       <PageHeader
         eyebrow="Immigration Pulse"
         title="What changed this month"
-        description="A single, shareable read on how the immigration numbers moved — auto-generated from the latest available data, with a source and an integrity label on every line. We show movement, not opinion."
+        description="A single, shareable read on how the immigration numbers moved, auto-generated from the latest available data, with a source and an integrity label on every line. We show movement, not opinion."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/pulse", label: "Pulse" },
@@ -69,7 +69,7 @@ export default function PulsePage() {
 
       <div className="container-page max-w-4xl space-y-6 py-10">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
-          <span>Auto-generated from the current data snapshot — newest movement first.</span>
+          <span>Auto-generated from the current data snapshot, newest movement first.</span>
           <span className="rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] text-slate-400">
             As of {formatDate(LAST_REFRESHED)}
           </span>
@@ -83,7 +83,7 @@ export default function PulsePage() {
           <h2 className="text-sm font-semibold text-white">Share the Pulse</h2>
           <p className="mt-1.5 text-[13px] leading-relaxed text-slate-400">
             Every line links to its primary source and is labelled reported, projected, or estimated.
-            Useful for newsletters, threads, and forum discussions — share the page and let people check
+            Useful for newsletters, threads, and forum discussions. Share the page and let people check
             the numbers themselves.
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function PulsePage() {
         <MethodologyNote>
           The Pulse is computed automatically from the same public datasets shown across the site (CBP,
           ICE, USCIS, the State Department, BLS, and Texas WARN). Month-over-month and pace figures
-          describe direction and magnitude only — they do not assert cause. Curated sources are labelled
+          describe direction and magnitude only. They do not assert cause. Curated sources are labelled
           and may lag official reporting; see <span className="text-slate-300">/data</span> for the
           reporting-lag breakdown.
         </MethodologyNote>

@@ -100,7 +100,7 @@ export function EntityChanges({
           <RecentChanges
             events={mentioned.slice(0, SHOWN)}
             heading={`Documents that mention ${label}`}
-            intro={`${label} appears in the text of these documents, but they do not name it when defining who they apply to. That is OUR match, not the publisher's statement of scope — read the original before relying on it.`}
+            intro={`${label} appears in the text of these documents, but they do not name it when defining who they apply to. That is OUR match, not the publisher's statement of scope. Read the original before relying on it.`}
             href={`/what-changed?entity=${encodeURIComponent(entityId)}`}
             linkLabel={
               mentioned.length > SHOWN ? `See all ${mentioned.length}` : "Search the full archive"
@@ -118,7 +118,7 @@ export function EntityChanges({
           <p className="mt-2 text-sm leading-relaxed text-slate-400">
             This is a statement about what we can <em>prove</em>, not about what has happened. Most
             U.S. immigration rules do not name a country or visa category when they describe who they
-            cover — they apply by status, category, or circumstance. We only attach a change to{" "}
+            cover. They apply by status, category, or circumstance. We only attach a change to{" "}
             {noun} when the document itself names it, because the alternative is telling someone a
             rule affects them when it does not.
           </p>

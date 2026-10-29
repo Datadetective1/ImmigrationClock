@@ -146,7 +146,7 @@ export default async function AccountPage() {
                   <>
                     Could not be checked
                     <span className="mt-0.5 block text-xs text-slate-500">
-                      Your follows are safe either way — nothing is deleted by a failed check.
+                      Your follows are safe either way. Nothing is deleted by a failed check.
                     </span>
                   </>
                 ) : account.isPro ? (
@@ -196,7 +196,7 @@ export default async function AccountPage() {
                   <>
                     <span className="text-status-green">Subscribed</span> to Immigration Pulse
                     <span className="mt-0.5 block text-xs text-slate-500">
-                      You asked for it when you subscribed. Unsubscribe from any issue — the link is
+                      You asked for it when you subscribed. Unsubscribe from any issue. The link is
                       in every email.
                     </span>
                   </>
@@ -204,7 +204,7 @@ export default async function AccountPage() {
                   <>
                     Not subscribed
                     <span className="mt-0.5 block text-xs text-slate-500">
-                      You declined at checkout. The weekly email is free, with or without Pro —{" "}
+                      You declined at checkout. The weekly email is free, with or without Pro, and you can{" "}
                       <Link href="/pulse" className="underline decoration-dotted hover:text-slate-300">
                         sign up any time
                       </Link>
@@ -230,7 +230,7 @@ export default async function AccountPage() {
             {!account.confirmed ? (
               <p className="mt-4 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2 text-xs leading-relaxed text-slate-300">
                 We could not reach the subscription service just now, so this page is showing what
-                your last confirmed sign-in said. Nothing has changed — reload in a moment. If you
+                your last confirmed sign-in said. Nothing has changed. Reload in a moment. If you
                 are a subscriber, your access and your synced follows are unaffected.
               </p>
             ) : null}
@@ -357,7 +357,7 @@ export default async function AccountPage() {
               <h3 className="text-sm font-semibold text-white">You do not need an account to read</h3>
               <p className="mt-1 text-sm text-slate-400">
                 Every recorded change, the employer directory, the layoff feed, the API and the weekly
-                newsletter are open to everyone, signed in or not. Following things works here too — it
+                newsletter are open to everyone, signed in or not. Following things works here too. It
                 is saved in this browser.
               </p>
               <p className="mt-2 text-sm text-slate-400">

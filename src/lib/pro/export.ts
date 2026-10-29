@@ -41,7 +41,7 @@ export const BRIEF_DISCLAIMER =
   "unless marked reviewed; verify every item against its official source before relying on it.";
 
 const STATUS_LABEL: Record<string, string> = {
-  proposed: "Proposed — not in force",
+  proposed: "Proposed: not in force",
   scheduled: "Scheduled",
   in_force: "Final",
   decided: "Decided",
@@ -93,7 +93,7 @@ export function renderBriefMarkdown(doc: BriefDocument): string {
     }
     if (brief.evidence.length > 0) {
       lines.push("**Evidence:**", "");
-      for (const e of brief.evidence) lines.push(`- ${e.dimension} — ${md(e.value)}: “${md(e.quote)}”`);
+      for (const e of brief.evidence) lines.push(`- ${md(e.value)} (${e.dimension}): “${md(e.quote)}”`);
       lines.push("");
     }
     if (change.amendedBy.length > 0) {
@@ -128,7 +128,7 @@ export function renderBriefHtml(doc: BriefDocument): string {
     .map(({ change, brief, path, why, statusText }) => {
       const source = safeHref(change.source.url);
       const evidence = brief.evidence
-        .map((e) => `<li>${esc(e.dimension)} — ${esc(e.value)}: <q>${esc(e.quote)}</q></li>`)
+        .map((e) => `<li>${esc(e.value)} (${esc(e.dimension)}): <q>${esc(e.quote)}</q></li>`)
         .join("");
       const dims = brief.affectedDimensions.map((d) => `<li>${esc(d.label)}: ${esc(d.value)}</li>`).join("");
       const limits = brief.limitations.map((l) => `<li>${esc(l)}</li>`).join("");

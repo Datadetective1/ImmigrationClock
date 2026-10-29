@@ -370,7 +370,7 @@ export function reportingLagRows(): ReportingLagRow[] {
       labels: [
         `${WARN_SUMMARY.noticeCount.toLocaleString()} real notices`,
         "Every notice links to its state portal",
-        "Partial state coverage — not a national total",
+        "Partial state coverage, not a national total",
       ],
     },
     {

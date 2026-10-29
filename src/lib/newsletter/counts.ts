@@ -143,8 +143,8 @@ export function countInconsistencies(counts: IssueCounts): string[] {
 
   if (sum !== counts.recorded) {
     problems.push(
-      `category counts sum to ${sum} but ${counts.recorded} changes were recorded — ` +
-        "a reader adding up the printed list gets a different answer from the total"
+      `category counts sum to ${sum} but ${counts.recorded} changes were recorded. ` +
+        "A reader adding up the printed list gets a different answer from the total"
     );
   }
   if (counts.shown > counts.recorded) {

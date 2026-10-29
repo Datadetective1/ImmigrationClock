@@ -85,7 +85,7 @@ export default function VisaFlowPage() {
           <p className="text-sm leading-relaxed text-slate-400">
             Unlike border encounters (updated monthly) or Texas layoffs (live), the State Department
             publishes visa issuances only as delayed PDF tables. We show the latest official figures and
-            label current-year numbers as projections — see{" "}
+            label current-year numbers as projections. See{" "}
             <Link href="/data" className="link-accent">data &amp; freshness</Link> for all sources.
           </p>
           <ReportingLag only={["dos_visa"]} compact />

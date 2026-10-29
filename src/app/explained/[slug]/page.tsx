@@ -193,7 +193,7 @@ export default function ExplainerPage({ params }: { params: { slug: string } }) 
             <p className="text-sm font-semibold text-white">Share this explainer</p>
             <p className="mt-1 break-all font-mono text-xs text-slate-500">{canonical}</p>
           </div>
-          <ShareButton title={e.title} text={`${e.title} — ${e.kicker}`} path={path} surface="explainer" story={key} />
+          <ShareButton title={e.title} text={`${e.title}: ${e.kicker}`} path={path} surface="explainer" story={key} />
         </div>
 
         <MethodologyNote>

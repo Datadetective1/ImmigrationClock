@@ -18,7 +18,7 @@ import { WARN_SUMMARY } from "@/lib/warn-summary";
 import { formatNumber, formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
-  title: "Live Layoffs — WARN Notices",
+  title: "Live Layoffs: WARN Notices",
   description:
     "WARN Act layoff notices from state open-data portals: employer, location, employees affected and effective date, each linked to its source.",
   path: "/layoffs",
@@ -51,7 +51,7 @@ export default function LayoffsPage() {
     <div>
       <PageHeader
         eyebrow="Jobs & Workforce"
-        title="Live layoffs — WARN notices"
+        title="Live layoffs: WARN notices"
         description="Employer layoff and plant-closing notices, pulled directly from state open-data portals and refreshed each build. Every row links back to the government source it came from."
         crumbs={[
           { href: "/", label: "Home" },
@@ -82,7 +82,7 @@ export default function LayoffsPage() {
 
         <MethodologyNote>
           There is no national WARN feed. This tracks the states that publish a{" "}
-          <span className="font-semibold text-white">structured, machine-readable</span> feed — a growing subset,
+          <span className="font-semibold text-white">structured, machine-readable</span> feed: a growing subset,
           not a national total. Not every state has a WARN act, and press-based trackers miss the small notices
           this captures. Coverage today: {WARN_META.stateCount} states.
         </MethodologyNote>
@@ -124,7 +124,7 @@ export default function LayoffsPage() {
                   {crossLinked.length} of these employers also sponsor H-1B workers
                 </h2>
                 <p className="mt-1 text-sm text-slate-400">
-                  The join no single-source layoff tracker can do — layoff notices next to USCIS H-1B sponsorship
+                  The join no single-source layoff tracker can do: layoff notices next to USCIS H-1B sponsorship
                   at the same company.
                 </p>
               </div>
@@ -197,7 +197,7 @@ export default function LayoffsPage() {
 
         <div className="panel panel-pad flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-semibold text-white">Use this data — free</h2>
+            <h2 className="text-base font-semibold text-white">Use this data for free</h2>
             <p className="mt-1 text-sm text-slate-400">
               Every notice is available as JSON and CSV, no key required. WARN Tracker charges for this; we don&apos;t.
             </p>
@@ -214,9 +214,9 @@ export default function LayoffsPage() {
           <h2 className="mb-2 text-base font-semibold text-white">About this data</h2>
           <ul className="list-inside list-disc space-y-1.5 text-slate-300">
             <li>WARN (Worker Adjustment and Retraining Notification) requires 60 days&apos; notice of qualifying mass layoffs and plant closings.</li>
-            <li>Notices are filed by employers with state workforce agencies — the &quot;notice date&quot; is when the state received it, not when jobs end.</li>
+            <li>Notices are filed by employers with state workforce agencies. The &quot;notice date&quot; is when the state received it, not when jobs end.</li>
             <li>A filed notice can be revised or withdrawn; numbers reflect what was filed.</li>
-            <li>WARN says nothing about who, if anyone, was hired afterward — it does not prove replacement.</li>
+            <li>WARN says nothing about who, if anyone, was hired afterward. It does not prove replacement.</li>
           </ul>
         </div>
       </div>

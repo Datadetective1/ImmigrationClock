@@ -115,7 +115,7 @@ export default function SignalPage({ params }: { params: { slug: string } }) {
             ) : (
               <span
                 className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-accent"
-                title="Counted from ImmigrationClock's own archive of recorded changes — not a figure an agency published."
+                title="Counted from ImmigrationClock's own archive of recorded changes, not a figure an agency published."
               >
                 <span aria-hidden className="text-[11px] leading-none">
                   ◆
@@ -230,7 +230,7 @@ export default function SignalPage({ params }: { params: { slug: string } }) {
           </div>
           <ShareButton
             title={s.title}
-            text={`${s.figure} ${s.figureLabel} — via ImmigrationClock`}
+            text={`${s.figure} ${s.figureLabel} (via ImmigrationClock)`}
             path={path}
             surface="signal"
             story={key}
@@ -238,7 +238,7 @@ export default function SignalPage({ params }: { params: { slug: string } }) {
         </div>
 
         <MethodologyNote>
-          Data signals are computed from the same committed snapshots the site renders — never
+          Data signals are computed from the same committed snapshots the site renders. They are never
           typed in, never estimated, never written by a model. Only reported figures and exact
           counts of ImmigrationClock&rsquo;s own archive qualify; nothing projected or modeled
           appears here. Direction and magnitude are stated, never causation. See{" "}

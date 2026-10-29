@@ -104,7 +104,7 @@ export function readinessOf(m: DimensionMeasurement): DimensionReadiness {
       ...base,
       tier: "READY FOR PULL API",
       because:
-        "every claim carries its evidence, so it is safe to answer a question with — but nothing about its accuracy has been measured, so nothing may be pushed on it",
+        "every claim carries its evidence, so it is safe to answer a question with, but nothing about its accuracy has been measured, so nothing may be pushed on it",
     };
   }
 
@@ -137,7 +137,7 @@ export function readinessOf(m: DimensionMeasurement): DimensionReadiness {
     return {
       ...base,
       tier: "READY FOR HUMAN-ASSISTED MONITORING",
-      because: `both bars are cleared, but on only ${m.benchmarkN} judgements — too few to promise on when nobody is reading before it fires`,
+      because: `both bars are cleared, but on only ${m.benchmarkN} judgements, too few to promise on when nobody is reading before it fires`,
     };
   }
 

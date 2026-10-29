@@ -95,7 +95,7 @@ export async function fetchAllDocuments<T>(
           documents,
           reported,
           truncation:
-            `read ${documents.length} of ${reported} matching document(s) — ` +
+            `read ${documents.length} of ${reported} matching document(s): ` +
             `page ${page} returned HTTP ${res.status}. The newest are kept.`,
           error: null,
         };
@@ -114,7 +114,7 @@ export async function fetchAllDocuments<T>(
         documents,
         reported,
         truncation:
-          `read ${documents.length} of ${reported} matching document(s) — ` +
+          `read ${documents.length} of ${reported} matching document(s): ` +
           `page ${page} failed: ${(err as Error)?.message ?? String(err)}. The newest are kept.`,
         error: null,
       };
@@ -137,7 +137,7 @@ export async function fetchAllDocuments<T>(
     documents,
     reported,
     truncation:
-      `read ${documents.length} of ${reported} matching document(s) — the Federal Register API ` +
+      `read ${documents.length} of ${reported} matching document(s). The Federal Register API ` +
       `serves at most ${PAGE_SIZE * MAX_PAGES} documents per query. The newest are kept; ` +
       "narrow the window with EVENTS_SINCE to reach the rest.",
     error: null,

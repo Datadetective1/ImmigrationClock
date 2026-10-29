@@ -16,7 +16,7 @@ export default function SearchPage() {
       <PageHeader
         eyebrow="Look it up"
         title="Search immigration data"
-        description="One place to look up the immigration record behind an employer, state, country, visa type, or job — every result is a sourced, labelled data page."
+        description="One place to look up the immigration record behind an employer, state, country, visa type, or job. Every result is a sourced, labelled data page."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/search", label: "Search" },

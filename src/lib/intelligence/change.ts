@@ -480,7 +480,7 @@ export const ATTRIBUTION = {
   publisher: SITE.name,
   publisherUrl: SITE.url,
   statement:
-    "Records are derived from public U.S. government sources. ImmigrationClock normalizes, dates and links them; it is not the originating authority. Every record carries its source URL — check it before relying on it.",
+    "Records are derived from public U.S. government sources. ImmigrationClock normalizes, dates and links them; it is not the originating authority. Every record carries its source URL. Check it before relying on it.",
   notLegalAdvice:
     "This is information about published government material, not legal advice, and it makes no determination about any individual case.",
   /**
@@ -502,7 +502,7 @@ export const ATTRIBUTION = {
     "on 33 records. Countries: precision 98%, recall 61% on 249 record-and-country pairs. Forms: " +
     "precision 93%, recall 58% on 185 pairs, single-annotator. Employment processes: precision 100%, " +
     "recall 64% on 72 records, single-annotator. Read that as: what a filter returns is dependable, " +
-    "what it omits is not — no dimension yet clears the recall bar a push notification would need. " +
+    "what it omits is not. No dimension yet clears the recall bar a push notification would need. " +
     "Coverage is a separate question and is partial by design: a record is classified only where its " +
     "own text names the value, so an empty list means the document did not name one, never that we " +
     "judged it irrelevant and never that nobody looked. Read classificationState to tell those " +

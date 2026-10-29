@@ -124,7 +124,7 @@ export function ChangesForYou() {
                 </span>{" "}
                 {total === 1 ? "matches" : "match"} what you follow
                 {significant.length > 0 && significant.length !== total
-                  ? ` — ${significant.length} beyond routine paperwork`
+                  ? `, ${significant.length} beyond routine paperwork`
                   : ""}
                 .
               </p>
@@ -140,7 +140,7 @@ export function ChangesForYou() {
               ) : null}
               {significant.length > 0 && routine.length > 0 ? (
                 <p className="mt-2 text-xs text-slate-500">
-                  Plus {routine.length} routine {routine.length === 1 ? "update" : "updates"} —
+                  Plus {routine.length} routine {routine.length === 1 ? "update" : "updates"}:
                   form edition dates, notices and similar.
                 </p>
               ) : null}

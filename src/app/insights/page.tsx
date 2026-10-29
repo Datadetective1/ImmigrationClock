@@ -15,7 +15,7 @@ import { formatDate } from "@/lib/format";
 /** The build's date, fixed once, so the list agrees with the signal pages. */
 
 export const metadata = buildMetadata({
-  title: "Immigration Insights — What the Numbers Say",
+  title: "Immigration Insights: What the Numbers Say",
   description:
     "Plain-language insights computed from official U.S. immigration data: H-1B concentration, border trends, detention, student visas and layoffs. Every claim sourced.",
   path: "/insights",
@@ -39,7 +39,7 @@ export default function InsightsPage() {
       <PageHeader
         eyebrow="Insights"
         title="What the numbers say"
-        description="Plain-language takeaways computed directly from the latest available data — each one sourced and labelled reported, projected, or estimated. We state direction and magnitude, never causation."
+        description="Plain-language takeaways computed directly from the latest available data, each one sourced and labelled reported, projected, or estimated. We state direction and magnitude, never causation."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/insights", label: "Insights" },
@@ -74,7 +74,7 @@ export default function InsightsPage() {
               </h2>
               <p className="mt-2 text-sm text-slate-400">
                 Observations computed from reported figures and exact counts of ImmigrationClock&rsquo;s
-                own archive — nothing projected, estimated or modeled. Each has a page with the
+                own archive, with nothing projected, estimated or modeled. Each has a page with the
                 method, the source and the caveats.
               </p>
             </div>

@@ -179,7 +179,7 @@ export function WhatThisMeans({ event, footnote = true }: { event: ImmigrationEv
       </ul>
       {footnote ? (
         <p className="mt-2 text-xs leading-relaxed text-slate-500">
-          Derived from this event&rsquo;s own recorded fields — not written by a model, and not an
+          Derived from this event&rsquo;s own recorded fields. It is not written by a model, and not an
           interpretation of anyone&rsquo;s case.
         </p>
       ) : null}

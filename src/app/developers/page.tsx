@@ -10,7 +10,7 @@ import { formatNumber } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Free WARN Layoff API & Data",
   description:
-    "A free, no-key, machine-readable feed of real WARN Act layoff notices — JSON and CSV, refreshed each build, licensed for open use.",
+    "A free, no-key, machine-readable feed of real WARN Act layoff notices in JSON and CSV, refreshed each build, licensed for open use.",
   path: "/developers",
   image: ogImagePath("page", "developers"),
   keywords: ["WARN API", "layoff data API", "WARN notices JSON", "WARN notices CSV", "free layoff dataset"],
@@ -43,7 +43,7 @@ export default function DevelopersPage() {
       <PageHeader
         eyebrow="Open data"
         title="Free WARN layoff API"
-        description="A machine-readable feed of real WARN Act layoff notices — no key, no signup, no paywall. JSON and CSV, refreshed on every build, with a link back to the government source on every row."
+        description="A machine-readable feed of real WARN Act layoff notices. No key, no signup, no paywall. JSON and CSV, refreshed on every build, with a link back to the government source on every row."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/developers", label: "Developers" },
@@ -60,7 +60,7 @@ export default function DevelopersPage() {
       <div className="container-page max-w-3xl space-y-8 py-10">
         <section className="panel panel-pad">
           <h2 className="text-base font-semibold text-white">Endpoints</h2>
-          <p className="mt-1 text-sm text-slate-400">Stable URLs. Fetch them from anywhere — server, notebook, or spreadsheet.</p>
+          <p className="mt-1 text-sm text-slate-400">Stable URLs. Fetch them from anywhere: server, notebook, or spreadsheet.</p>
           <div className="mt-4 space-y-3">
             <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -72,7 +72,7 @@ export default function DevelopersPage() {
             <div className="flex flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="font-mono text-sm text-accent-soft">GET /api/warn.csv</div>
-                <div className="text-xs text-slate-500">Every notice as a flat CSV — one row per notice.</div>
+                <div className="text-xs text-slate-500">Every notice as a flat CSV, one row per notice.</div>
               </div>
               <a href="/api/warn.csv" className="link-accent whitespace-nowrap text-xs font-semibold">Download CSV →</a>
             </div>
@@ -132,7 +132,7 @@ export default function DevelopersPage() {
                   GET /api/v1/employers/&#123;slug&#125;/signals
                 </div>
                 <div className="text-xs text-slate-500">
-                  H-1B sponsorship, WARN layoff filings, and the overlap between them — each signal
+                  H-1B sponsorship, WARN layoff filings, and the overlap between them, each signal
                   with its source fact, how the join was made, and the caveat that goes with it.
                 </div>
               </div>
@@ -177,18 +177,18 @@ export default function DevelopersPage() {
           <p className="text-sm text-slate-400">
             Measured against hand-labelled records rather than asserted, and published per
             dimension. Filtering <code>visa=h-1b</code> scores 100% precision and 83% recall
-            against 33 hand-labelled records — every record in the archive whose text names
+            against 33 hand-labelled records: every record in the archive whose text names
             H-1B. Countries score 98% precision and 61% recall across 249 labelled pairs, forms
             93% and 58% across 185, and employment processes 100% and 64% across 72.
             Recall below 100% is the honest number rather than a rounding of it. Some of
             the gap is recoverable: <code>?include=weak</code> stops filtering matches the
-            record already holds, which covers 30 of the 84 misses behind those figures —
+            record already holds, which covers 30 of the 84 misses behind those figures,
             mostly forms. The other 54 are not in the record in any form, and no parameter
             will return them.
           </p>
           <p className="mt-3 text-sm text-slate-400">
             Every classification carries the verbatim quote it came from and the{" "}
-            <code>method</code> that established it — whether the value appeared in the
+            <code>method</code> that established it: whether the value appeared in the
             document&rsquo;s title, its summary, or only in a citation. Responses return the strong
             methods by default. Add <code>include=weak</code> to also receive matches drawn from
             footnotes and historical asides, each labelled as such.
@@ -196,7 +196,7 @@ export default function DevelopersPage() {
           <p className="mt-3 text-sm text-slate-400">
             Coverage is a separate question and is deliberately partial: a record is classified only
             where its own text names the value. An empty list therefore means the document did not
-            name one — never that we judged it irrelevant. Read{" "}
+            name one, never that we judged it irrelevant. Read{" "}
             <code>classificationState</code> to tell that apart from a record nobody has examined.
           </p>
 
@@ -204,7 +204,7 @@ export default function DevelopersPage() {
             <strong className="text-white">What it will not do.</strong> It describes published
             government material. It is not legal advice, it makes no determination about any
             individual or case, and it returns no personal data because it holds none. An absent
-            field means the source did not state it — nothing is inferred to fill a gap.
+            field means the source did not state it. Nothing is inferred to fill a gap.
           </p>
         </section>
 
@@ -254,7 +254,7 @@ df.groupby("state")["employees"].sum().sort_values(ascending=False)`}</Code>
           <h2 className="mb-2 text-base font-semibold text-white">Coverage &amp; cadence</h2>
           <p className="text-sm leading-relaxed text-slate-300">
             There is no national WARN feed. This covers the states that publish a structured, machine-readable
-            feed — currently {WARN_STATES.map((s) => s.code).join(", ")} — and grows as more states do. The data
+            feed (currently {WARN_STATES.map((s) => s.code).join(", ")}) and grows as more states do. The data
             refreshes on every site build. For wider (PDF/HTML) state coverage, see the
             {" "}
             <Link href="/layoffs-vs-h1b" className="link-accent">layoffs vs H-1B</Link> analysis and the

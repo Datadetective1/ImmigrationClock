@@ -194,17 +194,17 @@ export function accountStateFor(
 export function accountStatusLabel(state: AccountState): string {
   switch (state.status) {
     case "pro":
-      return "Pro — active";
+      return "Pro: active";
     case "cancelling":
-      return "Pro — cancels at period end";
+      return "Pro: cancels at period end";
     case "expired":
-      return "Pro — expired";
+      return "Pro: expired";
     case "free":
       return "Free account";
     case "unconfirmed":
       // Never "Free": an outage must not be reported as a fact about a
       // subscription, in either direction.
-      return state.isPro ? "Pro — could not be confirmed" : "Signed in";
+      return state.isPro ? "Pro: could not be confirmed" : "Signed in";
     default:
       return "Not signed in";
   }

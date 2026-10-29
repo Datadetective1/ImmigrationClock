@@ -64,7 +64,7 @@ const EVENTS: ImmigrationEvent[] = [
     title: "H-1B beneficiary-centric selection introduced",
     category: "visa",
     summary:
-      "USCIS moved to a beneficiary-centric H-1B registration for the FY2025 cap, counting each individual once regardless of how many employers registered them — aimed at curbing duplicate registrations.",
+      "USCIS moved to a beneficiary-centric H-1B registration for the FY2025 cap, counting each individual once regardless of how many employers registered them. The change was aimed at curbing duplicate registrations.",
     sourceName: "U.S. Citizenship and Immigration Services",
     sourceUrl: "https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations",
     group: "visa",

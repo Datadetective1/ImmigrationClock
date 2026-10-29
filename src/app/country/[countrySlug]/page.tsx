@@ -23,7 +23,7 @@ export function generateMetadata({ params }: { params: { countrySlug: string } }
   const agg = countryAggregate(params.countrySlug);
   if (!agg) return buildMetadata({ title: "Country not found", description: "", path: `/country/${params.countrySlug}` });
   return buildMetadata({
-    title: `${agg.country.name} — U.S. Visa & Immigration Data`,
+    title: `${agg.country.name}: U.S. Visa & Immigration Data`,
     description: `H-1B and F-1 visa issuances, year-over-year trends, and public enforcement data by nationality for ${agg.country.name}.`,
     path: `/country/${agg.country.slug}`,
     keywords: [agg.country.name, "visa issuance", "F-1 students", "H-1B by country"],

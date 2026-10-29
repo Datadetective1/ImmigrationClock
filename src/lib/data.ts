@@ -533,7 +533,7 @@ export function buildMetrics(): Metric[] {
       href: "/immigration/enforcement-trends",
       status: "RED",
       tooltip:
-        "Administrative arrests by ICE. FY2026 is year-to-date; the trend projects a full-year pace from the elapsed share of the fiscal year. An arrest is not a deportation — see methodology.",
+        "Administrative arrests by ICE. FY2026 is year-to-date; the trend projects a full-year pace from the elapsed share of the fiscal year. An arrest is not a deportation (see methodology).",
       latest: mp(iceByFy[CURRENT_FY].arrests, CURRENT_FY, "ytd", UPDATED.ice_stats, true),
       lastComplete: mp(iceReported.arrests, EMPLOYER_LATEST_FY, "complete", ICE_FY24_PUB, false),
       src: SRC.iceStats,
@@ -567,11 +567,11 @@ export function buildMetrics(): Metric[] {
       href: "/immigration/enforcement-trends",
       status: "RED",
       tooltip:
-        `People in ICE detention on ${DETENTION_NOW.asOf} — a point-in-time snapshot of one day, not a fiscal-year total. ` +
+        `People in ICE detention on ${DETENTION_NOW.asOf}. This is a point-in-time snapshot of one day, not a fiscal-year total. ` +
         (detentionAge.stale
           ? `This snapshot is ${detentionAge.days} days old and ICE has almost certainly published newer figures since; treat it as dated. `
           : "") +
-        "Detention counts cannot be added to arrests or removals — they measure different things.",
+        "Detention counts cannot be added to arrests or removals because they measure different things.",
       latest: mp(DETENTION_NOW.value, undefined, "point_in_time", DETENTION_NOW.asOf, true, {
         labelOverride: detentionAge.stale
           ? `Snapshot · ${DETENTION_NOW.asOf} (${detentionAge.days} days old)`
@@ -706,7 +706,7 @@ export function buildMetrics(): Metric[] {
         `Employees covered by real WARN Act layoff notices dated to ${CURRENT_FY}. ` +
         `${WARN_SUMMARY.yearBasisNote} ${WARN_COVERAGE_SENTENCE} ` +
         "Every notice links back to the state portal it came from. " +
-        "Layoffs do not prove replacement by foreign workers — see methodology.",
+        "Layoffs do not prove replacement by foreign workers (see methodology).",
       latest: mp(layoffsLatest, CURRENT_FY, "ytd", WARN_SOURCE.sourceUpdatedAt, true, {
         labelOverride: `${CURRENT_FY} · ${WARN_SUMMARY.stateCount} states`,
         provenance: "reported",
@@ -733,13 +733,13 @@ export function buildMetrics(): Metric[] {
     }),
     buildMetric({
       key: "top_nationality",
-      label: "Top nationality — H-1B approvals",
+      label: "Top nationality: H-1B approvals",
       unit: "approvals",
       group: "visa",
       href: `/country/${countries.find((c) => c.name === topNationality.country)?.slug ?? "india"}`,
       status: "GREEN",
       tooltip:
-        "Country of birth with the most H-1B approvals in the latest available USCIS data (FY2024): India, 283,397 of 399,395 — about 71%.",
+        "Country of birth with the most H-1B approvals in the latest available USCIS data (FY2024): India, 283,397 of 399,395 (about 71%).",
       latest: mp(topNationality.issued, EMPLOYER_LATEST_FY, "complete", UPDATED.uscis_h1b, true, { display: topNationality.country ?? "—" }),
       src: SRC.uscisHub,
     }),

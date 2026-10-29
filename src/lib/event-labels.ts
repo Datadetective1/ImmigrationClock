@@ -35,7 +35,7 @@ export const CLASSIFICATION_LABEL: Record<EventClassification, string> = {
   historical_revision: "Historical revision",
   announcement: "Announcement",
   data_release: "Data release",
-  proposed_rule: "Proposed rule — not in force",
+  proposed_rule: "Proposed rule, not in force",
   final_rule: "Final rule",
   executive_action: "Executive action",
   court_decision: "Court decision",

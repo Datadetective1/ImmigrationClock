@@ -22,7 +22,7 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   if (!hit) return buildMetadata({ title: "Employer not found", description: "", path: `/employer/${params.slug}` });
   const name = displayEmployer(hit.employer.name);
   return buildMetadata({
-    title: `${name} — H-1B Sponsor Record`,
+    title: `${name}: H-1B Sponsor Record`,
     description: `${name}'s reported USCIS H-1B record: ${formatNumber(hit.employer.approvals)} approvals, ${formatNumber(
       hit.employer.denials
     )} denials (${formatRate(hit.employer.approvalRate)} approval rate) in FY${EMPLOYERS_META.fiscalYear}.`,
@@ -62,7 +62,7 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
     },
     {
       q: `What is ${name}'s H-1B approval rate?`,
-      a: `${formatRate(e.approvalRate)} in FY${fy} — ${rateWord} the ${formatRate(AVG_APPROVAL_RATE)} average across all sponsoring employers.`,
+      a: `${formatRate(e.approvalRate)} in FY${fy}, ${rateWord} the ${formatRate(AVG_APPROVAL_RATE)} average across all sponsoring employers.`,
     },
   ];
   if (e.topState) {
@@ -85,7 +85,7 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
       <PageHeader
         eyebrow={`H-1B sponsor record · FY${fy}`}
         title={name}
-        description={`The reported USCIS H-1B Employer Data Hub record for ${name} — petition approvals, denials, and approval rate for FY${fy}.`}
+        description={`The reported USCIS H-1B Employer Data Hub record for ${name}: petition approvals, denials, and approval rate for FY${fy}.`}
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/h1b/employers", label: "Employer directory" },
@@ -168,7 +168,7 @@ export default function EmployerPage({ params }: { params: { slug: string } }) {
               <strong className="text-white">{formatNumber(warn.summary.employees)}</strong> employees across{" "}
               <strong className="text-white">{formatNumber(warn.summary.notices)}</strong> notice
               {warn.summary.notices === 1 ? "" : "s"} ({warn.summary.states.join(", ")}). This sits next to the H-1B
-              record above — a comparison no layoff-only tracker can show.{" "}
+              record above, a comparison no layoff-only tracker can show.{" "}
               <span className="text-slate-400">Appearing in both does not imply one caused the other.</span>
             </p>
             <div className="overflow-x-auto scroll-thin rounded-xl border border-white/5">

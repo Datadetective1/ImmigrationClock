@@ -7,7 +7,7 @@ import { formatDate } from "@/lib/format";
 export const metadata = buildMetadata({
   title: "Sources",
   description:
-    "Every dataset behind ImmigrationClock: USCIS, DOL OFLC, ICE, DHS, CBP, the Department of State, BLS, state WARN portals, and TRAC — with official links.",
+    "Every dataset behind ImmigrationClock: USCIS, DOL OFLC, ICE, DHS, CBP, the Department of State, BLS, state WARN portals, and TRAC, with official links.",
   path: "/sources",
 });
 

@@ -16,7 +16,7 @@ export function ContactLink({ className = "link-accent" }: { className?: string 
   if (!email) {
     return (
       <span className="text-slate-400">
-        a public contact address is being set up — until then, corrections can be raised as an issue on
+        a public contact address is being set up; until then, corrections can be raised as an issue on
         the project repository
       </span>
     );

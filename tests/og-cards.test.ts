@@ -47,11 +47,11 @@ const BASE: ChangeCardInput = {
 
 describe("the status pill is derived from fields, in the order a reader asks", () => {
   const cases: [name: string, patch: Partial<ChangeCardInput>, status: string, tone: string][] = [
-    ["a proposal is not in force", { classification: "proposed_rule" }, "Proposed — not in force", "amber"],
+    ["a proposal is not in force", { classification: "proposed_rule" }, "Proposed: not in force", "amber"],
     [
       "a proposal stays a proposal whatever its summary says",
       { classification: "proposed_rule", summary: "This rescinds and restores the prior rule." },
-      "Proposed — not in force",
+      "Proposed: not in force",
       "amber",
     ],
     ["a court decision", { classification: "court_decision" }, "Court decision", "red"],
@@ -233,7 +233,7 @@ describe("explainer, signal and hub-page specs", () => {
     const line = describeOgSpec(ogSpecForChange(BASE, TODAY));
     expect(line).toBe("Federal Register | Something changed [Final rule]");
     expect(line).not.toContain("\n");
-    expect(describeOgSpec({ eyebrow: "Data signal", headline: "T", figure: "42" })).toBe("Data signal | 42 — T");
+    expect(describeOgSpec({ eyebrow: "Data signal", headline: "T", figure: "42" })).toBe("Data signal | 42: T");
   });
 });
 

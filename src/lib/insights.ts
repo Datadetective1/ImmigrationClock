@@ -79,7 +79,7 @@ export function buildInsights(): Insight[] {
     headline: `The 3 biggest sponsors account for ~${Math.round(top3Share)}% of all U.S. H-1B approvals`,
     detail: `${top3Names.join(", ")} together filed ${formatNumber(top3Sum)} of ${formatNumber(
       national
-    )} H-1B approvals in FY${EMPLOYER_LATEST_FY} — a small group of firms drives a large share of the program.`,
+    )} H-1B approvals in FY${EMPLOYER_LATEST_FY}. A small group of firms drives a large share of the program.`,
     whyItMatters:
       "H-1B is often debated as if usage were spread evenly. In reality a handful of large employers dominate filings, so policy changes land hardest on them.",
     group: "workforce",
@@ -105,7 +105,7 @@ export function buildInsights(): Insight[] {
       headline: `${first.country} received ${Math.round(share)}% of all H-1B approvals in FY${EMPLOYER_LATEST_FY}`,
       detail: `${formatNumber(first.issued)} of ${formatNumber(national)} approvals went to ${
         first.country
-      } nationals — more than ${ratio.toFixed(1)}× the next country (${second.country}, ${formatNumber(
+      } nationals, more than ${ratio.toFixed(1)}× the next country (${second.country}, ${formatNumber(
         second.issued
       )}).`,
       whyItMatters: `Because the program is so concentrated by nationality, any change to H-1B rules falls disproportionately on one country's applicants.`,
@@ -138,7 +138,7 @@ export function buildInsights(): Insight[] {
         peak.fiscalYear
       } to ${formatCompact(latestComplete.totalEncounters)} in FY${latestComplete.fiscalYear}.`,
       whyItMatters:
-        "Encounters are the figure most often cited in border debates. They are now at multi-decade lows — an encounter is an event, not a person, and is not a deportation.",
+        "Encounters are the figure most often cited in border debates. They are now at multi-decade lows. An encounter is an event, not a person, and is not a deportation.",
       group: "border",
       provenance: "reported",
       trend: "DOWN",
@@ -162,15 +162,15 @@ export function buildInsights(): Insight[] {
     stat: formatCompact(DETENTION_NOW.value),
     headline: `ICE detention stood at ~${formatCompact(DETENTION_NOW.value)} on ${
       DETENTION_NOW.asOf
-    } — about ${Math.round(detPct)}% above the FY${EMPLOYER_LATEST_FY} daily average`,
+    }, about ${Math.round(detPct)}% above the FY${EMPLOYER_LATEST_FY} daily average`,
     detail:
       `A point-in-time count of people held on one specific day, compared with the FY${EMPLOYER_LATEST_FY} ` +
       `average daily population (${formatNumber(detBase)}).` +
       (detAge.stale
-        ? ` This snapshot is ${detAge.days} days old — ICE has very likely published newer figures since, so treat it as dated rather than current.`
+        ? ` This snapshot is ${detAge.days} days old. ICE has very likely published newer figures since, so treat it as dated rather than current.`
         : ""),
     whyItMatters:
-      "Detention capacity is a concrete, fundable constraint on enforcement — it tends to move before removal totals do. It is a stock, not a flow, and cannot be added to arrests or removals.",
+      "Detention capacity is a concrete, fundable constraint on enforcement. It tends to move before removal totals do. It is a stock, not a flow, and cannot be added to arrests or removals.",
     group: "enforcement",
     provenance: "reported",
     trend: "UP",
@@ -198,7 +198,7 @@ export function buildInsights(): Insight[] {
         f1Proj
       )} issuances vs ${formatCompact(f1Last)} in FY${LATEST_COMPLETE_FY}.`,
       whyItMatters:
-        "International students are a leading indicator for universities and the future skilled-worker pipeline — they often respond to policy faster than employment visas.",
+        "International students are a leading indicator for universities and the future skilled-worker pipeline. They often respond to policy faster than employment visas.",
       group: "visa",
       provenance: "projected",
       trend: f1Pct < 0 ? "DOWN" : "UP",
@@ -225,9 +225,9 @@ export function buildInsights(): Insight[] {
       detail:
         `${formatNumber(byLayoffs.length)} employers appear in both the state WARN feed and the USCIS H-1B ` +
         `employer directory. Both figures are reported records from their own agencies. This does NOT prove ` +
-        `anyone was replaced — the datasets do not identify the immigration status of affected workers.`,
+        `anyone was replaced. The datasets do not identify the immigration status of affected workers.`,
       whyItMatters:
-        "This is the comparison that fuels the loudest claims online. Seeing both reported numbers together — with the causation caveat — is more useful than either in isolation.",
+        "This is the comparison that fuels the loudest claims online. Seeing both reported numbers together, with the causation caveat, is more useful than either in isolation.",
       group: "workforce",
       provenance: "reported",
       periodLabel: `WARN notices · H-1B FY${EMPLOYERS_META.fiscalYear}`,
@@ -253,9 +253,9 @@ export function buildInsights(): Insight[] {
           ? `. For context, the same states recorded ${formatNumber(warnLastYear.employees)} employees across ` +
             `${formatNumber(warnLastYear.notices)} notices in all of ${CURRENT_FY - 1}.`
           : ".") +
-        " This is not a national total — most states do not publish WARN data in a machine-readable form.",
+        " This is not a national total. Most states do not publish WARN data in a machine-readable form.",
       whyItMatters:
-        "WARN notices are the earliest official signal of large layoffs. They are filed with state agencies before the layoffs happen, which makes them a leading indicator of labor stress — separate from visa policy.",
+        "WARN notices are the earliest official signal of large layoffs. They are filed with state agencies before the layoffs happen, which makes them a leading indicator of labor stress, separate from visa policy.",
       group: "workforce",
       provenance: "reported",
       periodLabel: `${CURRENT_FY} YTD · ${WARN_SUMMARY.stateCount} states`,
@@ -271,7 +271,7 @@ export function buildInsights(): Insight[] {
     out.push({
       key: "unemployment-backdrop",
       stat: `${LIVE_BLS.value}%`,
-      headline: `U.S. unemployment is ${LIVE_BLS.value}% — the labor-market backdrop for the debate`,
+      headline: `U.S. unemployment is ${LIVE_BLS.value}%: the labor-market backdrop for the debate`,
       detail: `National seasonally-adjusted unemployment (${
         LIVE_BLS.period ?? "latest release"
       }), fetched live from the BLS Public Data API when this site was last built.`,

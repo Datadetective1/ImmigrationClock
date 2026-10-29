@@ -53,7 +53,7 @@ export async function serveCard(
     return new Response(body, { status: 200, headers: PNG_HEADERS });
   } catch (err) {
     const reason = err instanceof Error ? err.message : String(err);
-    console.error(`[og] card render failed for ${key}: ${reason} — serving the brand card instead`);
+    console.error(`[og] card render failed for ${key}: ${reason}; serving the brand card instead`);
     return fallbackCard();
   }
 }

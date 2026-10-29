@@ -107,7 +107,7 @@ export function buildSignInEmail(link: string, siteName: string): SignInEmail {
     "",
     "It works once and expires in 15 minutes.",
     "",
-    "If you did not ask for this, you can ignore it — nothing has changed and",
+    "If you did not ask for this, you can ignore it. Nothing has changed and",
     "no one can sign in without opening the link above.",
   ].join("\n");
 
@@ -115,7 +115,7 @@ export function buildSignInEmail(link: string, siteName: string): SignInEmail {
     `<p>Use this link to sign in to ${escapeHtml(siteName)}:</p>`,
     `<p><a href="${escapeHtml(link)}">Sign in to ${escapeHtml(siteName)}</a></p>`,
     `<p style="color:#64748b;font-size:14px">It works once and expires in 15 minutes.</p>`,
-    `<p style="color:#64748b;font-size:14px">If you did not ask for this, you can ignore it — nothing has changed, and no one can sign in without opening the link above.</p>`,
+    `<p style="color:#64748b;font-size:14px">If you did not ask for this, you can ignore it. Nothing has changed, and no one can sign in without opening the link above.</p>`,
   ].join("\n");
 
   return { subject, text, html };

@@ -64,7 +64,7 @@ function ConsentBannerInner() {
         <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-ink-850/95 p-4 shadow-glow backdrop-blur-md sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs leading-relaxed text-slate-300 sm:max-w-2xl">
             We&rsquo;d like to use Google Analytics cookies to understand which pages help people, so we can
-            improve them. Declining changes nothing about what you can read — the site carries no advertising.
+            improve them. Declining changes nothing about what you can read. The site carries no advertising.
             See our{" "}
             <Link href="/privacy" className="text-accent hover:text-accent-soft">
               Privacy Policy

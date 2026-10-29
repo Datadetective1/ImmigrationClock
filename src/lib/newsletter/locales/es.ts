@@ -13,7 +13,7 @@ export const es: LocaleStrings = {
   endonym: "Español",
 
   subject: (n) =>
-    n === 0 ? "Immigration Pulse — semana tranquila" : `Immigration Pulse — ${n} cambio${n === 1 ? "" : "s"}`,
+    n === 0 ? "Immigration Pulse: semana tranquila" : `Immigration Pulse: ${n} cambio${n === 1 ? "" : "s"}`,
   preheader: (n) =>
     n === 0
       ? "Esta semana no se registraron cambios oficiales significativos."
@@ -82,7 +82,7 @@ export const es: LocaleStrings = {
     agency: "Agencia",
     published: "Publicado",
     scheduled: "Programado para publicación",
-    notInForce: "Propuesta — no está en vigor",
+    notInForce: "Propuesta: no está en vigor",
     whyItMatters: "Por qué importa",
     readDocument: "Leer el documento oficial",
   },

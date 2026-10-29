@@ -150,7 +150,7 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
                   role="link"
                   aria-label={`${n.name}: ${formatNumber(n.issued)} ${cls}. Open country page.`}
                 >
-                  <title>{`${n.name} — ${formatNumber(n.issued)} ${cls} (${Math.round(n.share * 100)}%)`}</title>
+                  <title>{`${n.name}: ${formatNumber(n.issued)} ${cls} (${Math.round(n.share * 100)}%)`}</title>
                   <circle cx={n.x} cy={n.y} r={r} fill="#f59e0b" fillOpacity={active ? 0.95 : 0.7} stroke="#fde68a" strokeOpacity={active ? 1 : 0.4} />
                   <text
                     x={east ? n.x + r + 4 : n.x - r - 4}
@@ -194,7 +194,7 @@ export function MigrationMap({ embedded = false }: { embedded?: boolean }) {
 
       <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-slate-500">
         <ProvenanceTag provenance={meta.provenance} />
-        Animated visualization of the latest annual data ({meta.label}). The motion is illustrative —
+        Animated visualization of the latest annual data ({meta.label}). The motion is illustrative:
         this is reported/estimated annual data, <strong className="text-slate-400">not live tracking</strong>, and we never
         track individuals. <Link href="/methodology" className="link-accent">Methodology →</Link>
       </p>

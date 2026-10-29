@@ -41,7 +41,7 @@ export default function KeyDatesPage() {
       <PageHeader
         eyebrow="Key dates"
         title="Key immigration dates & deadlines"
-        description="The recurring U.S. immigration deadlines that matter — counted down from today, with the official source for each. Missing a window can cost you a full year, so we surface them early. This is timing, not legal or tax advice."
+        description="The recurring U.S. immigration deadlines that matter, counted down from today, with the official source for each. Missing a window can cost you a full year, so we surface them early. This is timing, not legal or tax advice."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/key-dates", label: "Key dates" },
@@ -91,7 +91,7 @@ export default function KeyDatesPage() {
         <MethodologyNote>
           Countdowns are computed from your device&rsquo;s current date. Exact windows for H-1B registration,
           the Diversity Visa lottery, and the Visa Bulletin are announced by USCIS and the State Department
-          each year — always confirm the official dates at the linked source before acting. For your own
+          each year. Always confirm the official dates at the linked source before acting. For your own
           case, consult a qualified immigration professional. See the{" "}
           <Link href="/resources" className="link-accent">
             resources directory

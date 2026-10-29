@@ -52,7 +52,7 @@ export function countryRelevance(slug: string): RelevanceSummary[] {
       audience: `${name} H-1B applicants`,
       points: [
         r(
-          `${name} accounted for ${formatNumber(h1b)} of ${formatNumber(national)} U.S. H-1B approvals in FY${EMPLOYER_LATEST_FY} — about ${Math.round(share)}%.`,
+          `${name} accounted for ${formatNumber(h1b)} of ${formatNumber(national)} U.S. H-1B approvals in FY${EMPLOYER_LATEST_FY} (about ${Math.round(share)}%).`,
           "reported"
         ),
         r(
@@ -105,7 +105,7 @@ export function stateRelevance(code: string): RelevanceSummary[] {
     workerPoints.push(
       r(
         `${name} employers have filed ${formatNumber(agg.warnState.noticeCount)} WARN notices covering ` +
-          `${formatNumber(agg.warnState.employeesTotal)} employees — a direct read on local labor stress, ` +
+          `${formatNumber(agg.warnState.employeesTotal)} employees. These notices are a direct read on local labor stress, ` +
           `filed with the state and linked to its portal.`,
         "reported"
       )
@@ -132,7 +132,7 @@ export function stateRelevance(code: string): RelevanceSummary[] {
             : `No tracked H-1B sponsors have major worksites here.`,
           "modeled"
         ),
-        r(`Sponsorship volume alone does not indicate that any U.S. worker was displaced — see methodology.`, "reported"),
+        r(`Sponsorship volume alone does not indicate that any U.S. worker was displaced (see methodology).`, "reported"),
       ],
     },
   ];
@@ -204,7 +204,7 @@ export function personaSummaries(): PersonaSummary[] {
         r(
           `H-1B approvals were ${formatNumber(h24.approvals)} in FY${EMPLOYER_LATEST_FY}; the preliminary FY${LATEST_COMPLETE_FY} figure is ~${formatNumber(
             h25.approvals
-          )} — about ${Math.abs(Math.round(apprPct))}% ${apprPct < 0 ? "lower" : "higher"}.`,
+          )}, about ${Math.abs(Math.round(apprPct))}% ${apprPct < 0 ? "lower" : "higher"}.`,
           "projected"
         ),
         r(
@@ -243,8 +243,8 @@ export function personaSummaries(): PersonaSummary[] {
           )}).`,
           "projected"
         ),
-        r(`A visa is counted when an embassy issues it — separate from school enrollment or your status once inside the U.S.`, "reported"),
-        r(`After graduation, many students move to OPT and then the H-1B cap lottery — where India and China face the most competition.`, "reported"),
+        r(`A visa is counted when an embassy issues it. That is separate from school enrollment or your status once inside the U.S.`, "reported"),
+        r(`After graduation, many students move to OPT and then the H-1B cap lottery, where India and China face the most competition.`, "reported"),
       ],
       links: [
         { href: "/visa/f1-student-visas", label: "Student visa tracker" },
@@ -257,7 +257,7 @@ export function personaSummaries(): PersonaSummary[] {
       question: "What does the data mean for employers?",
       points: [
         r(
-          `The 3 largest sponsors filed ~${Math.round(top3Share)}% of all FY${EMPLOYER_LATEST_FY} H-1B approvals — sponsorship is concentrated among a few firms.`,
+          `The 3 largest sponsors filed ~${Math.round(top3Share)}% of all FY${EMPLOYER_LATEST_FY} H-1B approvals. Sponsorship is concentrated among a few firms.`,
           "reported"
         ),
         r(`The approval-weighted average offered wage across top tracked sponsors is ${formatCurrency(wtWage)}.`, "estimated"),
@@ -291,7 +291,7 @@ export function personaSummaries(): PersonaSummary[] {
           "projected"
         ),
         r(`Employment-based green cards are capped per country, so applicants born in high-demand countries such as India and China face the longest waits.`, "reported"),
-        r(`An H-1B is a temporary work visa; an employment-based green card is permanent residence — different processes and queues.`, "reported"),
+        r(`An H-1B is a temporary work visa; an employment-based green card is permanent residence. They have different processes and queues.`, "reported"),
       ],
       links: [
         { href: "/visa/f1-student-visas", label: "Visa flow tracker" },
@@ -318,7 +318,7 @@ export function employerRelevance(): RelevanceSummary {
     audience: "Employers & HR teams",
     points: [
       r(
-        `The 3 largest sponsors filed ${formatNumber(top3Sum)} of ${formatNumber(national)} H-1B approvals (~${Math.round(share)}%) in FY${EMPLOYER_LATEST_FY} — the program is concentrated among a few firms.`,
+        `The 3 largest sponsors filed ${formatNumber(top3Sum)} of ${formatNumber(national)} H-1B approvals (~${Math.round(share)}%) in FY${EMPLOYER_LATEST_FY}. The program is concentrated among a few firms.`,
         "reported"
       ),
       wtWage

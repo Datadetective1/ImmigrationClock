@@ -29,7 +29,7 @@ export const SITE = {
   heroDisclaimer:
     "Figures come from official U.S. government releases (USCIS, ICE, CBP, the State Department, and BLS). This is not a real-time feed: most datasets are published monthly to yearly. We show the latest available period and label every number reported, projected, or estimated.",
   footerDisclaimer:
-    "This platform uses public datasets for informational and research purposes only. It does not provide legal, immigration, employment, or financial advice. It is not a real-time feed — datasets are refreshed on a schedule and lag official reporting. Every figure is labelled reported, projected, or estimated.",
+    "This platform uses public datasets for informational and research purposes only. It does not provide legal, immigration, employment, or financial advice. It is not a real-time feed. Datasets are refreshed on a schedule and lag official reporting. Every figure is labelled reported, projected, or estimated.",
 };
 
 // Task-first navigation. Five destinations a reader can name, one dropdown,

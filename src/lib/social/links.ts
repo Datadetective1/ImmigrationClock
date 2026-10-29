@@ -166,7 +166,7 @@ export const STANDING_ASSETS: StandingAsset[] = [
     // Data Hub, not from DOL disclosure data. The distinction is the whole
     // reason this page's figures are reported and /h1b/top-sponsors' are not.
     description:
-      "A searchable directory of H-1B sponsoring employers built from the USCIS H-1B Employer Data Hub — the agency's own per-employer record of petition approvals and denials, searchable by company name.",
+      "A searchable directory of H-1B sponsoring employers built from the USCIS H-1B Employer Data Hub, the agency's own per-employer record of petition approvals and denials, searchable by company name.",
     tags: ["h1b", "employers", "data"],
   },
   {
@@ -198,7 +198,7 @@ export const STANDING_ASSETS: StandingAsset[] = [
     label: "Enforcement trends",
     path: "/immigration/enforcement-trends",
     description:
-      "Immigration enforcement activity over time — arrests, detention population and removals — drawn from published federal data.",
+      "Immigration enforcement activity over time (arrests, detention population and removals), drawn from published federal data.",
     tags: ["enforcement", "data"],
   },
   {

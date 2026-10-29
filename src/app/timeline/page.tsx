@@ -8,7 +8,7 @@ import { EventTimeline } from "@/components/EventTimeline";
 import { timelineEvents } from "@/lib/events";
 
 export const metadata = buildMetadata({
-  title: "Immigration Timeline — Policy, Law & the Data",
+  title: "Immigration Timeline: Policy, Law & the Data",
   description:
     "A timeline of major U.S. immigration events, each linked to its official source and the data figure at the time.",
   path: "/timeline",
@@ -30,7 +30,7 @@ export default function TimelinePage() {
       <PageHeader
         eyebrow="Timeline"
         title="Policy, law, and the data"
-        description="Major U.S. immigration events — policy, legal, and political — with a primary-source link on each, and the real data figure for that period where it maps to a series. Facts only; we connect events to numbers without claiming one caused the other."
+        description="Major U.S. immigration events (policy, legal, and political) with a primary-source link on each, and the real data figure for that period where it maps to a series. Facts only; we connect events to numbers without claiming one caused the other."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/timeline", label: "Timeline" },

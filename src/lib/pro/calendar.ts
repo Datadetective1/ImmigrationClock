@@ -100,7 +100,7 @@ export function buildCalendar(items: readonly TimelineItem[], options: { origin:
     "PRODID:-//ImmigrationClock//Briefing//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    "X-WR-CALNAME:ImmigrationClock — effective dates",
+    "X-WR-CALNAME:ImmigrationClock: effective dates",
     "X-WR-CALDESC:Stated effective dates of changes you follow or saved. Verify against the official source.",
     "REFRESH-INTERVAL;VALUE=DURATION:PT12H",
     "X-PUBLISHED-TTL:PT12H",
@@ -108,7 +108,7 @@ export function buildCalendar(items: readonly TimelineItem[], options: { origin:
   for (const item of items) {
     const description = [
       `Stated effective date in the published record. Status: ${item.status}.`,
-      `Source: ${item.sourceName} — ${item.sourceUrl}`,
+      `Source: ${item.sourceName} (${item.sourceUrl})`,
       `Record: ${origin}${item.path}`,
       "Information about published government material, not legal advice. Verify against the official source.",
     ].join("\n");

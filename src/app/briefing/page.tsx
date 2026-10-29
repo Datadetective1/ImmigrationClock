@@ -127,8 +127,8 @@ function FeedCard({ item }: { item: FeedItem }) {
                 <li key={m.follow}>
                   <span className="text-slate-300">
                     {m.label} · {STRENGTH_NOTE[m.strength]}
-                  </span>{" "}
-                  — {m.reason}
+                  </span>
+                  : {m.reason}
                   {m.quote ? (
                     <q className="mt-1 block border-l-2 border-white/10 pl-2 italic">
                       {m.quote.length > 300 ? `${m.quote.slice(0, 297)}…` : m.quote}
@@ -211,7 +211,7 @@ export default async function BriefingPage() {
     <PageHeader
       eyebrow="Pro"
       title="Your Briefing"
-      description="What changed in what you follow, what takes effect when, and the research you have kept — each item with its source."
+      description="What changed in what you follow, what takes effect when, and the research you have kept, each item with its source."
       crumbs={[
         { href: "/", label: "Home" },
         { href: "/briefing", label: "Briefing" },
@@ -340,7 +340,7 @@ export default async function BriefingPage() {
           title="Current"
           hint="Published, or took effect, in the last 30 days."
           items={current}
-          empty="Nothing new in the last 30 days for what you follow — not that nothing happened."
+          empty="Nothing new in the last 30 days for what you follow. That does not mean nothing happened."
         />
 
         <details className="group">
@@ -441,7 +441,7 @@ export default async function BriefingPage() {
             <p key={l}>{l}</p>
           ))}
           <p>
-            Briefing stores your watchlist, saved change ids, delivery settings and a list of alerts sent — nothing about
+            Briefing stores your watchlist, saved change ids, delivery settings and a list of alerts sent. It stores nothing about
             your immigration status, case or personal dates.
           </p>
         </section>

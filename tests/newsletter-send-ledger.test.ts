@@ -178,10 +178,10 @@ describe("send-newsletter.ts under retry and partial failure", () => {
       `<html><body><p><a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:#334155;">Unsubscribe</a></p>` +
       `<a href="https://immigrationclock.com/x">x</a></body></html>`;
     const subjects: Record<string, string> = {
-      en: "Immigration Pulse — 5 changes",
-      es: "Immigration Pulse — 5 cambios",
-      fr: "Immigration Pulse — 5 changements",
-      ar: "Immigration Pulse — 5 تغييرات",
+      en: "Immigration Pulse: 5 changes",
+      es: "Immigration Pulse: 5 cambios",
+      fr: "Immigration Pulse : 5 changements",
+      ar: "Immigration Pulse: 5 تغييرات",
     };
     const labels: Record<string, string> = { en: "Unsubscribe", es: "Cancelar suscripción", fr: "Se désabonner", ar: "إلغاء الاشتراك" };
 

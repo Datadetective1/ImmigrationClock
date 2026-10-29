@@ -297,7 +297,7 @@ function findDelegatedScope(allSentences: string[]): { evidence: string; note: s
     evidence: clip(hit, 400),
     note:
       "This document sets the rule but leaves the specific list of who it covers to a separate government determination. " +
-      "The list is not in this document, so we do not show one here — check the issuing agency's own published list.",
+      "The list is not in this document, so we do not show one here. Check the issuing agency's own published list.",
   };
 }
 
@@ -623,7 +623,7 @@ function extractActionRequired(
     // Framed as what the document states, so it cannot be read as our advice to
     // any individual.
     summary:
-      "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms — the relevant passage is quoted below.",
+      "The document states a requirement for those it covers. The exact obligation, and whether it applies to a particular person, depends on the document's own terms. The relevant passage is quoted below.",
     evidence: clip(hit, 400),
     effectiveFrom: effectiveAt ?? null,
   };

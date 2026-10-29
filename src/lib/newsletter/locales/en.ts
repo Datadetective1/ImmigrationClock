@@ -13,7 +13,7 @@ export const en: LocaleStrings = {
   endonym: "English",
 
   subject: (n) =>
-    n === 0 ? "Immigration Pulse — a quiet week" : `Immigration Pulse — ${n} change${n === 1 ? "" : "s"}`,
+    n === 0 ? "Immigration Pulse: a quiet week" : `Immigration Pulse: ${n} change${n === 1 ? "" : "s"}`,
   preheader: (n) =>
     n === 0
       ? "No significant official changes recorded this week."
@@ -34,10 +34,10 @@ export const en: LocaleStrings = {
           `${shown === 1 ? "is" : "are"} below; the rest are in the archive. `
         : `This week brought ${shown} official immigration update${shown === 1 ? "" : "s"}. `) +
       `Every item below links directly to the government publication it came from. ` +
-      `We report what changed — we do not tell you what it means for your case.`,
+      `We report what changed. We do not tell you what it means for your case.`,
     noChanges:
       "No significant official changes were recorded this week. That is a statement about what our " +
-      "sources published, not a guarantee that nothing happened — routine notices are still going into " +
+      "sources published, not a guarantee that nothing happened. Routine notices are still going into " +
       "the archive, and we will be back next week.",
   },
 
@@ -57,7 +57,7 @@ export const en: LocaleStrings = {
 
   unchanged: {
     intro:
-      "We monitor these closely. Nothing was recorded against them this week — which describes our " +
+      "We monitor these closely. Nothing was recorded against them this week. That describes our " +
       "archive, not the whole world, so keep checking the official source before acting.",
     topics: {
       h1b: "H-1B rules and the cap",
@@ -67,7 +67,7 @@ export const en: LocaleStrings = {
       students: "F-1 student visas",
       employmentGreenCard: "Employment-based green cards",
     },
-    allChanged: "Every topic we watch closely moved this week — see the changes above.",
+    allChanged: "Every topic we watch closely moved this week. See the changes above.",
   },
 
   upcoming: {
@@ -82,7 +82,7 @@ export const en: LocaleStrings = {
     agency: "Agency",
     published: "Published",
     scheduled: "Scheduled for publication",
-    notInForce: "Proposed — not in force",
+    notInForce: "Proposed: not in force",
     whyItMatters: "Why it matters",
     readDocument: "Read the official document",
   },

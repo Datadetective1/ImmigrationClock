@@ -10,7 +10,7 @@ import { EMPLOYERS_META } from "@/lib/employers";
 import { formatNumber } from "@/lib/format";
 
 export const metadata = buildMetadata({
-  title: "H-1B Employer Directory — Search Every Sponsor",
+  title: "H-1B Employer Directory: Search Every Sponsor",
   description: `Search ${EMPLOYERS_META.count.toLocaleString()} U.S. H-1B sponsoring employers by name and see their reported USCIS approvals, denials, and approval rate for FY${EMPLOYERS_META.fiscalYear}.`,
   path: "/h1b/employers",
   image: ogImagePath("page", "h1b-employers"),
@@ -23,7 +23,7 @@ export default function EmployerDirectoryPage() {
       <PageHeader
         eyebrow="H-1B employer directory"
         title="Look up any H-1B sponsor"
-        description={`The reported USCIS H-1B record for ${EMPLOYERS_META.count.toLocaleString()} sponsoring employers — search by name to see approvals, denials, and approval rate. Real figures, not a sample.`}
+        description={`The reported USCIS H-1B record for ${EMPLOYERS_META.count.toLocaleString()} sponsoring employers. Search by name to see approvals, denials, and approval rate. Real figures, not a sample.`}
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/h1b/top-sponsors", label: "H-1B" },

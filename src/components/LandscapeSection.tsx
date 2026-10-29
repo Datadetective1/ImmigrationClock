@@ -97,13 +97,13 @@ function FollowCard({ l }: { l: FollowLandscape }) {
           <EntryList title="Proposals" hint="no final rule in our archive" entries={l.proposals} />
           {l.undatedFinalCount > 0 ? (
             <p className="text-xs text-slate-500">
-              Undated: {plural(l.undatedFinalCount, "final rule")} with no stated effective date — not dated here.
+              Undated: {plural(l.undatedFinalCount, "final rule")} with no stated effective date, so not dated here.
             </p>
           ) : null}
           <p className="text-xs text-slate-400">
             {l.totalCount === 0
               ? "Nothing in our archive names this in a title or summary. That is not evidence that nothing changed."
-              : `${plural(l.recentCount, "record")} in the last 30 days · newest ${l.latestRecord ? formatDate(l.latestRecord) : "—"}.`}{" "}
+              : `${plural(l.recentCount, "record")} in the last 30 days · newest ${l.latestRecord ? formatDate(l.latestRecord) : "n/a"}.`}{" "}
             {l.totalCount > 0 ? (
               <Link href={l.archivePath} className="underline decoration-dotted hover:text-white">
                 All {l.totalCount} records

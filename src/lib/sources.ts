@@ -131,7 +131,7 @@ export const SOURCES: SourceDef[] = [
     typicalLagMonths: 12,
     lastVerifiedAt: "2025-01-31",
     limitations:
-      "An LCA is a wage attestation filed before a petition — it is not an approval and not evidence anyone was hired. Offered wages are what the employer attested, not what was paid.",
+      "An LCA is a wage attestation filed before a petition. It is not an approval and not evidence anyone was hired. Offered wages are what the employer attested, not what was paid.",
   },
   {
     key: "dol_oflc",
@@ -139,7 +139,7 @@ export const SOURCES: SourceDef[] = [
     agency: "U.S. Department of Labor, Office of Foreign Labor Certification",
     tier: "official",
     description:
-      "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage determinations, and the FLAG filing system — the labor-certification step that precedes a USCIS petition.",
+      "OFLC announcements on the labor-certification step that precedes a USCIS petition, covering PERM, H-2A, H-2B, prevailing wage determinations, and the FLAG filing system.",
     homepageUrl: "https://flag.dol.gov",
     datasetUrl: "https://flag.dol.gov/announcements",
     cadence: "continuous",
@@ -151,7 +151,7 @@ export const SOURCES: SourceDef[] = [
     // /announcement/YYYY-MM-DD path.
     lastVerifiedAt: "2026-08-02",
     limitations:
-      "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. A certification is not a visa, not an approval, and not permission to work. Much of what OFLC posts is release notes for its filing software, which change how the system behaves rather than what the law requires; those are recorded as routine. The listing publishes no effective date as a field, so events from this source do not assert one. DOL rulemaking is not duplicated here — it arrives through the Federal Register adapter.",
+      "OFLC administers the labor-certification step that comes BEFORE a USCIS petition. A certification is not a visa, not an approval, and not permission to work. Much of what OFLC posts is release notes for its filing software, which change how the system behaves rather than what the law requires; those are recorded as routine. The listing publishes no effective date as a field, so events from this source do not assert one. DOL rulemaking is not duplicated here. It arrives through the Federal Register adapter.",
   },
   {
     key: "ice_stats",
@@ -201,7 +201,7 @@ export const SOURCES: SourceDef[] = [
     // refresh pipeline during this session.
     lastVerifiedAt: "2026-08-01",
     limitations:
-      "An encounter is an event, not a person — the same individual can be encountered several times. Encounters are not deportations. CBP's published nationality detail is coarser than the site's country pages.",
+      "An encounter is an event, not a person. The same individual can be encountered several times. Encounters are not deportations. CBP's published nationality detail is coarser than the site's country pages.",
   },
   {
     key: "dos_visa",
@@ -270,7 +270,7 @@ export const SOURCES: SourceDef[] = [
     // cache all produced notices during this session's build.
     lastVerifiedAt: "2026-08-01",
     limitations:
-      "Partial state coverage — most states publish WARN notices only as HTML, Excel, or PDF. Not a national total. Some states publish only the layoff effective date, not the filing date. WARN reports PLANNED layoffs and never identifies the immigration status of affected workers.",
+      "Partial state coverage: most states publish WARN notices only as HTML, Excel, or PDF. Not a national total. Some states publish only the layoff effective date, not the filing date. WARN reports PLANNED layoffs and never identifies the immigration status of affected workers.",
   },
   {
     key: "federal_register",
@@ -308,7 +308,7 @@ export const SOURCES: SourceDef[] = [
     // returned 250 current items.
     lastVerifiedAt: "2026-08-01",
     limitations:
-      "An agency announcement is not the legal instrument. Effect and detail arrive separately in the Federal Register or the USCIS Policy Manual. Individual criminal-prosecution press releases carried on the same feed are excluded by editorial policy — see docs/editorial-policy.md.",
+      "An agency announcement is not the legal instrument. Effect and detail arrive separately in the Federal Register or the USCIS Policy Manual. Individual criminal-prosecution press releases carried on the same feed are excluded by editorial policy (see docs/editorial-policy.md).",
   },
   {
     key: "uscis_policy_manual",
@@ -328,7 +328,7 @@ export const SOURCES: SourceDef[] = [
     // <time datetime> and its affected-section citations.
     lastVerifiedAt: "2026-08-01",
     limitations:
-      "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one — where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
+      "The Policy Manual is guidance to USCIS officers, not regulation: it governs how USCIS adjudicates and can be revised or withdrawn without rulemaking. The updates page publishes no effective date, so events from this source do not assert one. Where guidance states an effective date, it is in the linked document. USCIS publishes this page as HTML with no API, so it is scraped; a structural change fails the ingestion loudly rather than reporting a quiet month.",
   },
   {
     key: "federal_courts",
@@ -348,11 +348,11 @@ export const SOURCES: SourceDef[] = [
     // court, filing date, docket, and precedential status this platform uses.
     lastVerifiedAt: "2026-08-02",
     limitations:
-      "A decision's reach depends on its court and whether it is stayed or appealed — a district-court injunction is not nationwide law, and presenting one as such would seriously mislead. We report only decisions that establish or change immigration law: published appellate rulings and institutional litigation. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are deliberately excluded, because this platform reports the legal rule rather than the people in a case. That filter identifies parties from the caption, so a landmark decision captioned with an individual's name is excluded along with the routine ones. CourtListener publishes no summary for these decisions, so events report court, date, docket, and precedential status only.",
+      "A decision's reach depends on its court and whether it is stayed or appealed. A district-court injunction is not nationwide law, and presenting one as such would seriously mislead. We report only decisions that establish or change immigration law: published appellate rulings and institutional litigation. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are deliberately excluded, because this platform reports the legal rule rather than the people in a case. That filter identifies parties from the caption, so a landmark decision captioned with an individual's name is excluded along with the routine ones. CourtListener publishes no summary for these decisions, so events report court, date, docket, and precedential status only.",
   },
   {
     key: "congress",
-    name: "Congress — bills and public laws",
+    name: "Congress: bills and public laws",
     agency: "U.S. Congress",
     tier: "official",
     description: "Introduced, advanced, and enacted immigration legislation.",

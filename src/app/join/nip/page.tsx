@@ -15,7 +15,7 @@
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
-import { UpgradeButton } from "@/components/UpgradeButton";
+import { NewsletterOptInGroup, UpgradeButton } from "@/components/UpgradeButton";
 import { PurchasePanel } from "@/components/PurchasePanel";
 import { PLAN_BY_ID, availableNow } from "@/lib/billing/plans";
 import { couponIdFor, discountedUsd, offerById } from "@/lib/billing/offers";
@@ -97,19 +97,21 @@ export default function NipOfferPage() {
             initialTestMode={billingStatus().testMode}
             forSale={
               <>
-                <UpgradeButton
-                  interval="monthly"
-                  placement="offer_nip"
-                  offer={offer.id}
-                  label={`Start free, then ${usd(monthly)} a month`}
-                />
-                <UpgradeButton
-                  interval="annual"
-                  placement="offer_nip"
-                  offer={offer.id}
-                  label={`Start free, then ${usd(annual)} a year`}
-                  className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
-                />
+                <NewsletterOptInGroup>
+                  <UpgradeButton
+                    interval="monthly"
+                    placement="offer_nip"
+                    offer={offer.id}
+                    label={`Start free, then ${usd(monthly)} a month`}
+                  />
+                  <UpgradeButton
+                    interval="annual"
+                    placement="offer_nip"
+                    offer={offer.id}
+                    label={`Start free, then ${usd(annual)} a year`}
+                    className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
+                  />
+                </NewsletterOptInGroup>
                 <p className="text-center text-[11px] text-slate-500">
                   Payment is handled by Stripe. {SITE.name} never sees your card. Prices are in US
                   dollars and exclude any sales tax, which Stripe shows you before you confirm.

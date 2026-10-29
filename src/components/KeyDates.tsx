@@ -173,7 +173,7 @@ export function KeyDates({
 
       <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
         Dates recur each year; exact windows (H-1B registration, the DV lottery, the Visa Bulletin) are set
-        by the agency annually — always confirm with the official source. Not legal or tax advice. Links
+        by the agency annually, so always confirm with the official source. Not legal or tax advice. Links
         marked &ldquo;affiliate&rdquo; may earn us a commission; the others earn us nothing.{" "}
         <Link href="/disclosure" className="link-accent">
           How this works →

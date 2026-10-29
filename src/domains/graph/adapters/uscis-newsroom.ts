@@ -274,7 +274,7 @@ export const uscisNewsroomAdapter: SourceAdapter = {
   sourceKey: "uscis_newsroom",
   status: "ready",
   coverage:
-    "USCIS announcements: cap and lottery news, policy changes, TPS designations, fee and form changes, and litigation notices. Individual criminal-prosecution press releases are excluded by editorial policy — the platform reports the system, not named private individuals.",
+    "USCIS announcements: cap and lottery news, policy changes, TPS designations, fee and form changes, and litigation notices. Individual criminal-prosecution press releases are excluded by editorial policy. The platform reports the system, not named private individuals.",
   fetchEvents,
 };
 

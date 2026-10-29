@@ -125,7 +125,7 @@ describe("event card integrity", () => {
     // an obligation exists when a proposal is only open for comment. The wording
     // is asserted against the shared label module, which is the one place it now
     // lives; the card adds the banner on top of it.
-    expect(CLASSIFICATION_LABEL.proposed_rule).toBe("Proposed rule — not in force");
+    expect(CLASSIFICATION_LABEL.proposed_rule).toBe("Proposed rule, not in force");
     expect(isNotInForce("proposed_rule")).toBe(true);
     expect(isNotInForce("final_rule")).toBe(false);
     expect(CARD).toMatch(/creates no obligation today/);

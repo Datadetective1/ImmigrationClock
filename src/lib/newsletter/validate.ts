@@ -55,7 +55,7 @@ export function validateIssue(issue: Issue): ValidationResult {
   // A quiet week is legitimate and the template says so. Worth a warning so an
   // operator notices a pipeline failure that merely LOOKS like a quiet week.
   if (issue.items.length === 0) {
-    warnings.push(`${issue.id}: no items — will send the "quiet week" edition`);
+    warnings.push(`${issue.id}: no items, so it will send the "quiet week" edition`);
   }
 
   // ---- COUNTS MUST AGREE WITH THEMSELVES ------------------------------------
@@ -194,7 +194,7 @@ export function validateRendered(
   }
   if (issue.counts.recorded > issue.counts.shown && subjectNumbers.includes(issue.counts.recorded)) {
     errors.push(
-      `${where}: subject claims ${issue.counts.recorded} — that is the archive total, not the ` +
+      `${where}: subject claims ${issue.counts.recorded}, but that is the archive total, not the ` +
         `${issue.counts.shown} stories this issue carries`
     );
   }

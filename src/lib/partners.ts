@@ -87,7 +87,7 @@ export interface Partner {
 export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: string }> = {
   legal: {
     label: "Immigration legal help",
-    blurb: "Attorney-reviewed applications and case help — green card, citizenship, work visas, RFEs.",
+    blurb: "Attorney-reviewed applications and case help: green card, citizenship, work visas, RFEs.",
   },
   documents: {
     label: "Documents & credentials",
@@ -107,7 +107,7 @@ export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: stri
   },
   tax: {
     label: "U.S. tax filing",
-    blurb: "File correctly as a nonresident, visa holder, or new resident — including treaty benefits.",
+    blurb: "File correctly as a nonresident, visa holder, or new resident, including treaty benefits.",
   },
   banking: {
     label: "Banking & credit for newcomers",
@@ -119,7 +119,7 @@ export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: stri
   },
   connectivity: {
     label: "Phone & connectivity",
-    blurb: "Get connected the day you land — eSIM data plans, no local contract needed.",
+    blurb: "Get connected the day you land with eSIM data plans. No local contract needed.",
   },
   relocation: {
     label: "Moving & relocation",
@@ -202,7 +202,7 @@ const CATALOG: Partner[] = [
     id: "credential-evaluation",
     name: "Foreign degree evaluation",
     category: "documents",
-    blurb: "Turn your overseas degree into a U.S. equivalency report — accepted by USCIS, employers, and licensing boards.",
+    blurb: "Turn your overseas degree into a U.S. equivalency report accepted by USCIS, employers, and licensing boards.",
     useWhen: "An employer, USCIS, or a licensing board asks for a U.S. equivalency of your foreign education.",
     cta: "Evaluate your degree",
     url: "https://www.wes.org",

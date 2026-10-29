@@ -9,7 +9,7 @@ import { UPDATED } from "@/lib/dataset";
 import { mapFiscalYear } from "@/lib/migration-map";
 
 export const metadata = buildMetadata({
-  title: "Where America's Immigrants Come From — Visa Origin Map",
+  title: "Where America's Immigrants Come From: Visa Origin Map",
   description:
     "An interactive map of the top origin countries for U.S. H-1B workers and F-1 students. Pick a visa type and explore each country. Not live tracking.",
   path: "/migration-map",
@@ -31,7 +31,7 @@ export default function MigrationMapPage() {
       <PageHeader
         eyebrow="Origins"
         title="Where America's immigrants come from"
-        description={`The top origin countries for U.S. work and student visas, FY${fy}. Pick a visa type, see the flows, and open any country for its full picture. This animates the latest annual data — it is not a live feed.`}
+        description={`The top origin countries for U.S. work and student visas, FY${fy}. Pick a visa type, see the flows, and open any country for its full picture. This animates the latest annual data. It is not a live feed.`}
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/migration-map", label: "Origin map" },

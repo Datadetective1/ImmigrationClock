@@ -169,7 +169,7 @@ async function reconcileSegments(email: string, key: string, locale: Locale): Pr
   // and setting RESEND_SEGMENT_AR later is all it takes to close it.
   if (!join) {
     console.warn(
-      `[subscribe] no ${segmentEnvVar(locale)} configured — the "${locale}" preference is stored ` +
+      `[subscribe] no ${segmentEnvVar(locale)} configured. The "${locale}" preference is stored ` +
         "on the contact but there is no segment to deliver it to yet."
     );
     return;
@@ -182,8 +182,8 @@ async function reconcileSegments(email: string, key: string, locale: Locale): Pr
     // Already a member. The point of the call is the end state, not the change.
     if (res.status === 409 || /already|exists|duplicate/i.test(detail)) return;
     console.error(
-      `[subscribe] could not add contact to the ${locale} segment (${res.status}): ${detail.slice(0, 300)} — ` +
-        `the contact exists but will not receive the weekly broadcast. Check ${segmentEnvVar(locale)}.`
+      `[subscribe] could not add contact to the ${locale} segment (${res.status}): ${detail.slice(0, 300)}. ` +
+        `The contact exists but will not receive the weekly broadcast. Check ${segmentEnvVar(locale)}.`
     );
   } catch (err) {
     console.error(`[subscribe] segment assignment failed: ${(err as Error)?.message}`);
@@ -293,7 +293,7 @@ export async function POST(req: Request): Promise<Response> {
       if (/propert/i.test(detail) || /unknown|unrecognized|not allowed/i.test(detail)) {
         console.error(
           `[subscribe] Resend rejected the "${LANGUAGE_PROPERTY}" contact property (${contactRes.status}): ` +
-            `${detail.slice(0, 200)} — retrying without it. The subscriber will be routed by segment, ` +
+            `${detail.slice(0, 200)}. Retrying without it. The subscriber will be routed by segment, ` +
             "but their language preference is NOT being recorded. Check whether contact properties are " +
             "available on this Resend plan."
         );
@@ -320,7 +320,7 @@ export async function POST(req: Request): Promise<Response> {
         console.error(
           `[subscribe] Resend rejected contact creation (${contactRes.status}). ` +
             "Creating contacts requires a FULL ACCESS API key; a sending-only key is not enough. " +
-            "Check the key's permission at https://resend.com/api-keys — and run " +
+            "Check the key's permission at https://resend.com/api-keys and run " +
             "`node scripts/verify-resend.mjs` to confirm."
         );
       } else {

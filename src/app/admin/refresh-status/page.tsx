@@ -33,7 +33,7 @@ export default function RefreshStatusPage() {
       <PageHeader
         eyebrow="Admin"
         title="Data refresh status"
-        description="Operational view of every source in the registry: how its data reaches the site, when it was last fetched, and when a human last verified it. Sources with no automated pipeline are shown as pending rather than healthy — there is no run outcome to report."
+        description="Operational view of every source in the registry: how its data reaches the site, when it was last fetched, and when a human last verified it. Sources with no automated pipeline are shown as pending rather than healthy, because there is no run outcome to report."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/admin/refresh-status", label: "Refresh status" },
@@ -72,7 +72,7 @@ export default function RefreshStatusPage() {
             <span className="font-semibold text-white">How this updates: </span>
             Machine-ingested sources are fetched by{" "}
             <code className="rounded bg-white/5 px-1.5 py-0.5 text-accent-soft">npm run prebuild</code> on every
-            deploy, and refreshed on a schedule by two GitHub Actions workflows — a daily data refresh and a
+            deploy, and refreshed on a schedule by two GitHub Actions workflows: a daily data refresh and a
             twice-weekly WARN scrape. Both commit only when the underlying data genuinely changed.
           </p>
           <p className="mt-3">
@@ -80,7 +80,7 @@ export default function RefreshStatusPage() {
             <span className="text-slate-300">Source updated</span> is when the agency published.{" "}
             <span className="text-slate-300">Last refresh</span> is when our pipeline pulled it.{" "}
             <span className="text-slate-300">Last verified</span> is when a human last confirmed the source URL,
-            shape, and cadence are still what we claim — it cannot be automated, so it is attested in the source
+            shape, and cadence are still what we claim. It cannot be automated, so it is attested in the source
             registry and shown here honestly, including when it is overdue.
           </p>
           <p className="mt-3">

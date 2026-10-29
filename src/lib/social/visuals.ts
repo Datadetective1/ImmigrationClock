@@ -130,7 +130,7 @@ export function buildKeyDateVisual(
       // showing "53 days" for a window the agency has not announced is a
       // confident-looking number attached to a date nobody has set.
       caveat: kd.approx
-        ? "Approximate — the exact window is announced each year"
+        ? "Approximate: the exact window is announced each year"
         : null,
       source: kd.sourceName,
       footer: FOOTER,
@@ -145,7 +145,7 @@ export function buildKeyDateVisual(
       heroLabel: `About ${daysAway} days out`,
       supporting: [],
       caveat: kd.approx
-        ? "Approximate — the exact window is announced each year"
+        ? "Approximate: the exact window is announced each year"
         : null,
       source: kd.sourceName,
       footer: FOOTER,
@@ -158,7 +158,7 @@ export function buildKeyDateVisual(
     hero: kd.title,
     heroLabel: kd.cadence ?? "Recurring deadline",
     supporting: [],
-    caveat: kd.approx ? "Approximate — set by the agency each year" : null,
+    caveat: kd.approx ? "Approximate: set by the agency each year" : null,
     source: kd.sourceName,
     footer: FOOTER,
   };
@@ -195,7 +195,7 @@ export function buildEventVisual(
     supporting: event.effectiveAt ? [`Takes effect ${event.effectiveAt}`] : [],
     caveat:
       event.classification === "proposed_rule"
-        ? "Proposed — not in force, and may never be finalised"
+        ? "Proposed: not in force, and may never be finalised"
         : null,
     source: sourceName,
     footer: FOOTER,
@@ -266,7 +266,7 @@ export function assertVisualGrounded(
  * Never sent to a platform — this is how a human reviews what would ship.
  */
 export function describeVisual(spec: VisualSpec | null): string {
-  if (!spec) return "no image — the prose carries this one";
+  if (!spec) return "no image; the prose carries this one";
   const caveat = spec.caveat ? ` · caveat: "${spec.caveat}"` : "";
-  return `${spec.kind} card — ${spec.eyebrow} · "${spec.hero}" / ${spec.heroLabel}${caveat} · ${spec.source}`;
+  return `${spec.kind} card: ${spec.eyebrow} · "${spec.hero}" / ${spec.heroLabel}${caveat} · ${spec.source}`;
 }

@@ -40,7 +40,7 @@ import { MonitorInbox } from "@/components/MonitorInbox";
 import Link from "next/link";
 
 export const metadata = buildMetadata({
-  title: "Monitor — what changed that matters to your work",
+  title: "Monitor: what changed that matters to your work",
   description:
     "A professional inbox for U.S. immigration change: what needs attention, what takes effect soon, and the evidence behind every classification. Free, sourced, and never legal advice.",
   path: "/monitor",
@@ -88,7 +88,7 @@ export default function MonitorPage() {
             the developer page
           </Link>
           . Recall is not high enough on any dimension for this to be treated as exhaustive, so an
-          empty bucket means nothing matched — never that nothing happened. This is workflow
+          empty bucket means nothing matched, never that nothing happened. This is workflow
           intelligence about published government material. It is not legal advice, and it makes no
           determination about any person or case.
         </p>

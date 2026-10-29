@@ -13,7 +13,7 @@ export const fr: LocaleStrings = {
   endonym: "Français",
 
   subject: (n) =>
-    n === 0 ? "Immigration Pulse — semaine calme" : `Immigration Pulse — ${n} changement${n === 1 ? "" : "s"}`,
+    n === 0 ? "Immigration Pulse : semaine calme" : `Immigration Pulse : ${n} changement${n === 1 ? "" : "s"}`,
   preheader: (n) =>
     n === 0
       ? "Aucun changement officiel significatif enregistré cette semaine."
@@ -67,7 +67,7 @@ export const fr: LocaleStrings = {
       students: "Visas étudiants F-1",
       employmentGreenCard: "Cartes vertes par l'emploi",
     },
-    allChanged: "Tous les sujets que nous suivons ont évolué cette semaine — voir ci-dessus.",
+    allChanged: "Tous les sujets que nous suivons ont évolué cette semaine. Voir ci-dessus.",
   },
 
   upcoming: {
@@ -82,7 +82,7 @@ export const fr: LocaleStrings = {
     agency: "Agence",
     published: "Publié le",
     scheduled: "Publication prévue",
-    notInForce: "Proposition — non en vigueur",
+    notInForce: "Proposition : non en vigueur",
     whyItMatters: "Pourquoi c'est important",
     readDocument: "Lire le document officiel",
   },

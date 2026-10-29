@@ -419,7 +419,7 @@ describe("5 — a proposed change stays clearly labelled proposed", () => {
     const f = facts();
     const good =
       `Hiring on an H-1B? DHS has proposed a $100,000 fee on certain H-1B petitions. ` +
-      `It is a proposal — nothing has changed, and it would have to be finalised first. ${f.deepLink}`;
+      `It is a proposal. Nothing has changed, and it would have to be finalised first. ${f.deepLink}`;
     expect(validatePost(good, "x", f).failures).toEqual([]);
   });
 

@@ -112,7 +112,7 @@ export function PersonaRelevance({
       </div>
 
       <p className="mt-4 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-slate-500">
-        Data context, <strong className="text-slate-400">not legal advice</strong> — for your own case, consult
+        Data context, <strong className="text-slate-400">not legal advice</strong>. For your own case, consult
         a qualified professional.
       </p>
     </section>

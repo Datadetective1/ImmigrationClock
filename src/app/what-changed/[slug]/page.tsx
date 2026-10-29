@@ -293,8 +293,8 @@ export default function ChangePage({ params }: { params: { slug: string } }) {
             </h2>
             <p className="mt-1 text-sm text-slate-400">
               Choose the countries, visas, agencies and topics this change touches, and
-              ImmigrationClock will organise future changes around them — in your browser, never on
-              our servers.
+              ImmigrationClock will organise future changes around them (in your browser, never on
+              our servers).
             </p>
           </div>
           <Link
@@ -312,12 +312,12 @@ export default function ChangePage({ params }: { params: { slug: string } }) {
             <p className="text-sm font-semibold text-white">Share this record</p>
             <p className="mt-1 break-all font-mono text-xs text-slate-500">{canonical}</p>
           </div>
-          <ShareButton title={title} text={`${title} — via ImmigrationClock`} path={path} surface="change" story={key} />
+          <ShareButton title={title} text={`${title} (via ImmigrationClock)`} path={path} surface="change" story={key} />
         </div>
 
         <MethodologyNote>
           This record was built from the linked government document by explicit, published rules
-          per source — never by a language model, and never by how much attention an item might
+          per source, never by a language model, and never by how much attention an item might
           attract. Where the document states who is affected, it is quoted; where ImmigrationClock
           inferred something, it is labelled as an inference. The source was last checked on{" "}
           {formatDate(event.lastVerifiedAt)}. Nothing here is legal advice about anyone&rsquo;s case.

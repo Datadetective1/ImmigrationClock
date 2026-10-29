@@ -7,7 +7,7 @@ import { MethodologyNote } from "@/components/MethodologyNote";
 import { buildMetrics } from "@/lib/data";
 
 export const metadata = buildMetadata({
-  title: "Enforcement & Border — ICE, Detention & CBP Data Hub",
+  title: "Enforcement & Border: ICE, Detention & CBP Data Hub",
   description:
     "U.S. enforcement and border data at a glance: ICE arrests, removals and detention, CBP encounters, and a policy timeline. Every figure sourced and labelled.",
   path: "/enforcement",
@@ -46,7 +46,7 @@ export default function EnforcementHubPage() {
       <PageHeader
         eyebrow="Section"
         title="Enforcement & Border"
-        description="Arrests, removals, detention, and border activity — the public numbers behind the enforcement debate, each with a source and a freshness label. We report direction and magnitude, never blame."
+        description="Arrests, removals, detention, and border activity: the public numbers behind the enforcement debate, each with a source and a freshness label. We report direction and magnitude, never blame."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/enforcement", label: "Enforcement & Border" },
@@ -87,7 +87,7 @@ export default function EnforcementHubPage() {
         <MethodologyNote variant="warning">
           Enforcement and border datasets use different definitions and reporting calendars. An encounter is
           an event, not a unique person, and is not a deportation; arrests are not removals. Figures should
-          not be combined to imply causation — see the methodology for each metric.
+          not be combined to imply causation. See the methodology for each metric.
         </MethodologyNote>
       </div>
     </div>

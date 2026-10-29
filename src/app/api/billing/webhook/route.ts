@@ -251,7 +251,7 @@ async function persist(
     // between a green suite and a working handler.
     const customer = await resolveChargeCustomer(object);
     if (!customer) {
-      console.error(`[billing] ${type}: could not resolve a customer — access NOT revoked`);
+      console.error(`[billing] ${type}: could not resolve a customer, so access was NOT revoked`);
       return false;
     }
     const key = await store.getEmailKeyForCustomer(customer);
@@ -435,7 +435,7 @@ async function persist(
     if (!isNewSubscription && !periodAdvanced && type !== "customer.subscription.deleted") {
       console.warn(
         `[billing] revoked record still receiving events for ${incoming || "unknown"} · ` +
-          "the subscription may still be billing — check whether it needs cancelling in Stripe"
+          "the subscription may still be billing. Check whether it needs cancelling in Stripe"
       );
       return false;
     }

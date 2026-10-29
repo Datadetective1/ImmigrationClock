@@ -165,7 +165,7 @@ export function buildBrief(change: PublicChange): ImpactBrief {
   if (affectedDimensions.length === 0) {
     limitations.push(
       "No visa, country, form or process is classified on this record. That means the document did " +
-        "not name one in its own words — not that it is irrelevant."
+        "not name one in its own words, not that it is irrelevant."
     );
   }
   if (change.verification === "auto") {

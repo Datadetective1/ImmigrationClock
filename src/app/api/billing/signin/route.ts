@@ -52,7 +52,7 @@ const SIGNIN_DAILY_MAX = 5;
 
 /** The same words on every path, so timing is the only thing left to differ. */
 const ALWAYS =
-  "Check your inbox — a sign-in link is on its way. It expires in 15 minutes. If it does not arrive, you can request another in a minute.";
+  "Check your inbox. A sign-in link is on its way. It expires in 15 minutes. If it does not arrive, you can request another in a minute.";
 
 export async function POST(req: Request): Promise<Response> {
   const status = billingStatus();

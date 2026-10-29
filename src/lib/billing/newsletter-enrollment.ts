@@ -106,7 +106,7 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
   if (!segmentId) {
     return {
       outcome: "not_configured",
-      detail: `no ${segmentEnvVar(PRO_NEWSLETTER_LOCALE)} configured — consent is stored, delivery is not possible yet`,
+      detail: `no ${segmentEnvVar(PRO_NEWSLETTER_LOCALE)} configured. Consent is stored, but delivery is not possible yet`,
     };
   }
 
@@ -154,7 +154,7 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
       // effect of buying a subscription.
       return {
         outcome: "previously_unsubscribed",
-        detail: `${redactEmail(email)} opted out previously — consent recorded, NOT re-subscribed`,
+        detail: `${redactEmail(email)} opted out previously. Consent recorded, NOT re-subscribed`,
       };
     }
 
@@ -177,7 +177,7 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
     if (existing && !chosen) {
       return {
         outcome: "already_enrolled",
-        detail: `${redactEmail(email)} already a contact with no readable language — left in place`,
+        detail: `${redactEmail(email)} already a contact with no readable language, left in place`,
       };
     }
 
@@ -228,7 +228,7 @@ export async function enrollProSubscriber(input: EnrollmentInput): Promise<Enrol
     if (!plan.join) {
       return {
         outcome: "not_configured",
-        detail: `no ${segmentEnvVar(locale)} configured — consent stored, delivery not possible yet`,
+        detail: `no ${segmentEnvVar(locale)} configured. Consent stored, but delivery not possible yet`,
       };
     }
 

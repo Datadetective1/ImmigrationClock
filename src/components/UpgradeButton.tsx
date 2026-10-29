@@ -13,7 +13,7 @@
 // unnoticed.
 // =============================================================================
 
-import { useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { trackCheckoutStarted } from "@/lib/analytics";
 import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
 import { CONSENT_HINT, CONSENT_TEXT } from "@/lib/billing/consent";
@@ -28,6 +28,52 @@ interface Props {
   offer?: string;
 }
 
+// ONE QUESTION, HOWEVER MANY BUTTONS. A page that offers monthly and yearly side
+// by side asked the newsletter question twice, once above each button, which
+// reads as a glitch and lets the two answers disagree. Wrapping the buttons in
+// a NewsletterOptInGroup asks it once; each button inside sends that answer. A
+// button on its own still asks for itself.
+const OptInContext = createContext<boolean | null>(null);
+
+function NewsletterCheckbox({
+  id,
+  checked,
+  onChange,
+}: {
+  id: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <label htmlFor={id} className="mb-3 flex cursor-pointer items-start gap-2.5 text-left">
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.03] accent-accent"
+      />
+      <span className="text-xs leading-relaxed text-slate-400">
+        {CONSENT_TEXT}
+        <span className="mt-0.5 block text-[11px] text-slate-500">{CONSENT_HINT}</span>
+      </span>
+    </label>
+  );
+}
+
+export function NewsletterOptInGroup({ children }: { children: React.ReactNode }) {
+  // UNCHECKED BY DEFAULT, ALWAYS, here as in a lone button.
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  return (
+    <OptInContext.Provider value={newsletterOptIn}>
+      <div className="space-y-3">
+        <NewsletterCheckbox id="newsletter-optin" checked={newsletterOptIn} onChange={setNewsletterOptIn} />
+        {children}
+      </div>
+    </OptInContext.Provider>
+  );
+}
+
 export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", className = "", offer }: Props) {
   const [state, setState] = useState<
     "idle" | "starting" | "unavailable" | "verify" | "sending" | "sent" | "subscribed"
@@ -36,7 +82,9 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   const [email, setEmail] = useState("");
   // UNCHECKED BY DEFAULT, ALWAYS. A pre-ticked marketing box is not consent,
   // and the purchase must complete identically whether or not it is touched.
-  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const [ownOptIn, setOwnOptIn] = useState(false);
+  const group = useContext(OptInContext);
+  const newsletterOptIn = group ?? ownOptIn;
   const root = useRef<HTMLDivElement>(null);
 
   // BACK FROM THE INBOX. The sign-in link a Subscribe button asked for returns
@@ -183,22 +231,9 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
           person is still deciding — asking once money has moved makes it look
           like part of what they bought. Nothing about entitlement reads this
           value, and checkout succeeds with it untouched. */}
-      <label
-        htmlFor={`newsletter-optin-${interval}`}
-        className="mb-3 flex cursor-pointer items-start gap-2.5 text-left"
-      >
-        <input
-          id={`newsletter-optin-${interval}`}
-          type="checkbox"
-          checked={newsletterOptIn}
-          onChange={(e) => setNewsletterOptIn(e.target.checked)}
-          className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 bg-white/[0.03] accent-accent"
-        />
-        <span className="text-xs leading-relaxed text-slate-400">
-          {CONSENT_TEXT}
-          <span className="mt-0.5 block text-[11px] text-slate-500">{CONSENT_HINT}</span>
-        </span>
-      </label>
+      {group === null ? (
+        <NewsletterCheckbox id={`newsletter-optin-${interval}`} checked={ownOptIn} onChange={setOwnOptIn} />
+      ) : null}
 
       <button
         type="button"

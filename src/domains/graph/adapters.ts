@@ -109,7 +109,7 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "federal_register",
     status: "ready",
     coverage:
-      "Presidential documents are published in the Federal Register and share its API, so this reuses the same transport with a different document-type filter and its own severity rules — an executive action is materially different from a routine notice.",
+      "Presidential documents are published in the Federal Register and share its API, so this reuses the same transport with a different document-type filter and its own severity rules, because an executive action is materially different from a routine notice.",
   },
   {
     key: "uscis-newsroom",
@@ -125,7 +125,7 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "uscis_policy_manual",
     status: "ready",
     coverage:
-      "Policy alerts and technical updates to the controlling adjudication guidance USCIS officers apply. HTML with no API, so it is scraped — but unlike the Visa Bulletin it publishes documents rather than a table of dates, so a parse failure yields a missing event rather than a confidently wrong figure. Severity follows USCIS's own labelling.",
+      "Policy alerts and technical updates to the controlling adjudication guidance USCIS officers apply. HTML with no API, so it is scraped. But unlike the Visa Bulletin it publishes documents rather than a table of dates, so a parse failure yields a missing event rather than a confidently wrong figure. Severity follows USCIS's own labelling.",
   },
   {
     key: "dos-announcements",
@@ -133,7 +133,7 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "dos_visa",
     status: "blocked",
     blockedReason:
-      "State Department publishing channels are not machine-accessible to an identified crawler. Verified 2026-08-01: every www.state.gov URL, including the homepage and the press-release feed, returned a site-wide 'Technical Difficulties' page; travel.state.gov returned HTTP 403 from Cloudflare bot protection, which we do not attempt to circumvent. The only feed that resolved was the Travel Advisories XML, which is safety guidance for U.S. citizens travelling abroad rather than immigration policy, so it is deliberately not ingested. DOS RULEMAKING IS ALREADY COVERED: the Federal Register adapter tracks the state-department agency slug, so DOS visa rules and public notices reach the event store through it. This adapter would add consular announcements that never reach the Federal Register — it is not a gap in DOS policy coverage.",
+      "State Department publishing channels are not machine-accessible to an identified crawler. Verified 2026-08-01: every www.state.gov URL, including the homepage and the press-release feed, returned a site-wide 'Technical Difficulties' page; travel.state.gov returned HTTP 403 from Cloudflare bot protection, which we do not attempt to circumvent. The only feed that resolved was the Travel Advisories XML, which is safety guidance for U.S. citizens travelling abroad rather than immigration policy, so it is deliberately not ingested. DOS RULEMAKING IS ALREADY COVERED: the Federal Register adapter tracks the state-department agency slug, so DOS visa rules and public notices reach the event store through it. This adapter would add consular announcements that never reach the Federal Register. It is not a gap in DOS policy coverage.",
     coverage:
       "Consular announcements, visa news, and operational notices from the Bureau of Consular Affairs that are not published in the Federal Register.",
   },
@@ -143,7 +143,7 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "dos_visa",
     status: "blocked",
     blockedReason:
-      "Two independent blockers. First, access: the bulletin is published on travel.state.gov, which returned HTTP 403 from Cloudflare bot protection when verified on 2026-08-01 — the same root cause that blocks the DOS announcements adapter. Second, and unchanged even if access were restored: the bulletin is a TABLE OF DATES with an inconsistent structure, and a mis-parsed priority date is not a degraded event but a confidently wrong fact a reader will act on. It needs a verification step, not a blind parse.",
+      "Two independent blockers. First, access: the bulletin is published on travel.state.gov, which returned HTTP 403 from Cloudflare bot protection when verified on 2026-08-01, the same root cause that blocks the DOS announcements adapter. Second, and unchanged even if access were restored: the bulletin is a TABLE OF DATES with an inconsistent structure, and a mis-parsed priority date is not a degraded event but a confidently wrong fact a reader will act on. It needs a verification step, not a blind parse.",
     coverage:
       "Monthly final-action and filing dates by preference category and country of chargeability.",
   },
@@ -153,15 +153,15 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "federal_courts",
     status: "ready",
     coverage:
-      "Decisions that establish or change immigration law: published appellate rulings and institutional litigation against immigration agencies, via CourtListener's free API. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are excluded by editorial policy — the platform reports the legal rule, not the people in a case. Measured against live data, this excludes roughly 9 in 10 immigration decisions.",
+      "Decisions that establish or change immigration law: published appellate rulings and institutional litigation against immigration agencies, via CourtListener's free API. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are excluded by editorial policy. The platform reports the legal rule, not the people in a case. Measured against live data, this excludes roughly 9 in 10 immigration decisions.",
   },
   {
     key: "congress",
-    name: "Congress — bills and public laws",
+    name: "Congress: bills and public laws",
     sourceKey: "congress",
     status: "ready",
     coverage:
-      "Immigration bills that have moved past introduction: reported by committee, passed a chamber, or enacted, via the official Congress.gov API. Introduced and referred bills are excluded — roughly 2% of bills become law, so reporting introductions as change would be wrong nearly every time, and wrong in the direction that alarms readers. Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing."
+      "Immigration bills that have moved past introduction: reported by committee, passed a chamber, or enacted, via the official Congress.gov API. Introduced and referred bills are excluded. Roughly 2% of bills become law, so reporting introductions as change would be wrong nearly every time, and wrong in the direction that alarms readers. Requires a free api.congress.gov key; without one the source reports as unconfigured rather than failing."
   },
   {
     key: "warn",
@@ -200,7 +200,7 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "dol_oflc",
     status: "ready",
     coverage:
-      "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage, and the FLAG filing system — the labor-certification step before a USCIS petition. Filing-system release notes and webinars are recorded as routine: real, but they change no obligation. DOL rulemaking is not duplicated here; the Federal Register adapter already tracks the labor-department and employment-and-training-administration slugs.",
+      "OFLC announcements covering PERM, H-2A, H-2B, prevailing wage, and the FLAG filing system: the labor-certification step before a USCIS petition. Filing-system release notes and webinars are recorded as routine: real, but they change no obligation. DOL rulemaking is not duplicated here; the Federal Register adapter already tracks the labor-department and employment-and-training-administration slugs.",
   },
   {
     key: "dol-perm",
@@ -242,7 +242,7 @@ export const ADAPTERS: SourceAdapter[] = [
     sourceKey: "state_agencies",
     status: "planned",
     coverage:
-      "State-level policies touching immigrants — licensing, benefits, tuition, enforcement cooperation. No single feed exists; this is a per-state effort and the least tractable source in the set.",
+      "State-level policies touching immigrants: licensing, benefits, tuition, enforcement cooperation. No single feed exists; this is a per-state effort and the least tractable source in the set.",
   },
   {
     key: "sevis",

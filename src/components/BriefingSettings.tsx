@@ -108,7 +108,7 @@ export function BriefingSettings({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setNote("Copy failed — select the link and copy it by hand.");
+      setNote("Copy failed. Select the link and copy it by hand.");
     }
   }
 

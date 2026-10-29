@@ -108,7 +108,7 @@ export function buildDiscoveries(): Discovery[] {
         `The feed holds ${formatNumber(w.noticeCount)} notices naming ${formatNumber(w.employeesTotal)} employees at ${formatNumber(w.employerCount)} employers, with the employer, location, date and headcount for each.`,
         "No key and no sign-up are required.",
       ],
-      caveats: ["Coverage is the states that publish a machine-readable feed — a growing subset, not a national total. Notices say nothing about the immigration status of the workers affected."],
+      caveats: ["Coverage is the states that publish a machine-readable feed: a growing subset, not a national total. Notices say nothing about the immigration status of the workers affected."],
       topicKey: "topic:layoffs",
     },
     {
@@ -117,7 +117,7 @@ export function buildDiscoveries(): Discovery[] {
       title: "Layoff notices and H-1B sponsorship, side by side",
       path: "/layoffs-vs-h1b",
       facts: [
-        "ImmigrationClock matches employer names across two public datasets — state WARN layoff notices and the USCIS H-1B Employer Data Hub — and shows where the same employer appears in both.",
+        "ImmigrationClock matches employer names across two public datasets (state WARN layoff notices and the USCIS H-1B Employer Data Hub) and shows where the same employer appears in both.",
         "For each match it shows the WARN headcount and the H-1B approvals separately, with the period each covers.",
       ],
       caveats: [
@@ -132,7 +132,7 @@ export function buildDiscoveries(): Discovery[] {
       path: "/pulse",
       facts: [
         "Immigration Pulse is ImmigrationClock's weekly email: the week's recorded changes ranked by impact, each linked to its official source, with the figures that moved.",
-        "Subscribers choose their language at signup — English, Spanish, French or Arabic.",
+        "Subscribers choose their language at signup: English, Spanish, French or Arabic.",
         "There is no tracking pixel and no profile; an address is used only to send the issue.",
       ],
       caveats: ["The email reports what changed. It does not offer advice on any individual case."],

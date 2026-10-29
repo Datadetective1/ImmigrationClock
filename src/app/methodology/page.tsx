@@ -20,7 +20,7 @@ const DISTINCTIONS: { a: string; b: string; note: string }[] = [
   {
     a: "Deportations / removals",
     b: "Detention population",
-    note: "Removals are a flow over a fiscal year. Detention population is a stock — the number of people held at a point in time (often reported as an average daily population). Adding them together is meaningless.",
+    note: "Removals are a flow over a fiscal year. Detention population is a stock: the number of people held at a point in time (often reported as an average daily population). Adding them together is meaningless.",
   },
   {
     a: "CBP encounters",
@@ -50,7 +50,7 @@ export default function MethodologyPage() {
       <PageHeader
         eyebrow="About the data"
         title="Methodology"
-        description="Immigration statistics are easy to misread because similar-sounding metrics measure very different things. Here is exactly what each number means — and what it does not."
+        description="Immigration statistics are easy to misread because similar-sounding metrics measure very different things. Here is exactly what each number means, and what it does not."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/methodology", label: "Methodology" },
@@ -78,7 +78,7 @@ export default function MethodologyPage() {
           <h2 className="section-title">Reporting periods &amp; data freshness</h2>
           <p className="text-sm leading-relaxed text-slate-300">
             Sources update on different schedules, so each counter shows the <strong className="text-white">latest
-            available reporting period</strong> for its dataset — not a single fixed year. We never present a
+            available reporting period</strong> for its dataset, not a single fixed year. We never present a
             stale figure as the headline when newer data exists, and every card is labelled so you know exactly
             what you are looking at:
           </p>
@@ -88,7 +88,7 @@ export default function MethodologyPage() {
               (e.g. CBP encounters FY2025).
             </li>
             <li>
-              <span className="chip">YTD</span> Fiscal-year-to-date — the current fiscal year is still in
+              <span className="chip">YTD</span> Fiscal-year-to-date: the current fiscal year is still in
               progress, so the total is partial (e.g. border encounters FY2026 YTD).
             </li>
             <li>
@@ -105,8 +105,8 @@ export default function MethodologyPage() {
             </li>
           </ul>
           <p className="text-sm leading-relaxed text-slate-300">
-            Where a source lags — USCIS&rsquo;s employer-level H-1B Data Hub and DOL&rsquo;s wage disclosures
-            run roughly a year behind — the latest available complete year (FY2024) is shown and labelled as
+            Where a source lags (USCIS&rsquo;s employer-level H-1B Data Hub and DOL&rsquo;s wage disclosures
+            run roughly a year behind), the latest available complete year (FY2024) is shown and labelled as
             such, rather than guessing at unpublished newer figures. Toggle the dashboard between{" "}
             <em>Latest available</em>, <em>Last complete fiscal year</em>, and <em>5-year trend</em> to compare.
             We use &ldquo;latest available&rdquo; and &ldquo;YTD,&rdquo; never &ldquo;real-time,&rdquo; because
@@ -117,7 +117,7 @@ export default function MethodologyPage() {
         <section className="space-y-3">
           <h2 className="section-title">Why some counters are estimated</h2>
           <p className="text-sm leading-relaxed text-slate-300">
-            Different agencies publish on different calendars — some monthly, some quarterly, some only
+            Different agencies publish on different calendars: some monthly, some quarterly, some only
             once a year. When a fiscal year is still in progress, we show the latest reported value and,
             where labelled <span className="chip">pace est.</span>, project a full-year figure by scaling
             the year-to-date total by the share of the fiscal year elapsed. Projections assume the current
@@ -132,25 +132,25 @@ export default function MethodologyPage() {
         <section className="space-y-3">
           <h2 className="section-title">The four integrity labels</h2>
           <p className="text-sm leading-relaxed text-slate-300">
-            Every figure on this site carries one of four labels. They are not decoration — they describe
+            Every figure on this site carries one of four labels. They are not decoration. They describe
             exactly how much weight a number can bear.
           </p>
           <ul className="space-y-2.5 text-sm leading-relaxed text-slate-300">
             <li>
-              <span className="font-semibold text-status-green">✓ Reported</span> — the agency published
+              <span className="font-semibold text-status-green">✓ Reported</span>: the agency published
               this exact number for this exact period. We only reformatted it.
             </li>
             <li>
-              <span className="font-semibold text-status-amber">≈ Projected</span> — we extrapolated a
+              <span className="font-semibold text-status-amber">≈ Projected</span>: we extrapolated a
               reported partial period to a full one, by scaling the year-to-date total by the share of the
               fiscal year elapsed. It assumes the current pace continues.
             </li>
             <li>
-              <span className="font-semibold text-slate-300">~ Estimated</span> — we apportioned a reported
+              <span className="font-semibold text-slate-300">~ Estimated</span>: we apportioned a reported
               total using a share the agency itself published.
             </li>
             <li>
-              <span className="font-semibold text-slate-300">◇ Modeled</span> — we apportioned a reported
+              <span className="font-semibold text-slate-300">◇ Modeled</span>: we apportioned a reported
               national total using <em>our own</em> assumed weights, which the agency has never published.
               This is the weakest claim we make. ICE arrests by state, removals by nationality, border
               encounters by citizenship, and the curated employer/wage views are all modeled. Read them as
@@ -181,7 +181,7 @@ export default function MethodologyPage() {
           <p className="text-sm leading-relaxed text-slate-300">
             {WARN_COVERAGE_SENTENCE} Every notice we show is a real filing republished from a state
             agency&rsquo;s open-data portal, with a link back to that portal on each row. We do not
-            estimate, model, or infer layoff notices — if a state has no machine-readable feed, we show
+            estimate, model, or infer layoff notices. If a state has no machine-readable feed, we show
             nothing for it and say so.
           </p>
           <p className="text-sm leading-relaxed text-slate-300">
@@ -203,7 +203,7 @@ export default function MethodologyPage() {
           </p>
           <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
             <div className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-              2026-08-01 — Synthetic layoff records removed
+              2026-08-01: Synthetic layoff records removed
             </div>
             <p className="mt-2 text-sm leading-relaxed text-slate-300">
               Until this date, some state and employer pages displayed individual &ldquo;WARN

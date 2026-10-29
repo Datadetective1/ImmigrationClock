@@ -18,7 +18,7 @@ const GROUP: Record<Insight["group"], { label: string; bar: string; text: string
  */
 export function InsightCard({ insight }: { insight: Insight }) {
   const g = GROUP[insight.group];
-  const shareText = `${insight.headline} — via ImmigrationClock`;
+  const shareText = `${insight.headline} (via ImmigrationClock)`;
 
   return (
     <article className="panel relative flex h-full flex-col gap-3 overflow-hidden p-5 sm:p-6">

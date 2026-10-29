@@ -100,7 +100,7 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
   const capabilities = availableNow("pro");
 
   const testBanner = input.testMode
-    ? "TEST MODE — this deployment is running against Stripe test keys. No real card was charged and this is not a real subscription."
+    ? "TEST MODE: this deployment is running against Stripe test keys. No real card was charged and this is not a real subscription."
     : "";
 
   const subject = input.testMode
@@ -112,7 +112,7 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
   lines.push(
     `Welcome to ${SITE.name} ${pro.name}.`,
     "",
-    `Your subscription is active. This is your account confirmation — Stripe has`,
+    `Your subscription is active. This is your account confirmation. Stripe has`,
     `sent the payment receipt separately, and holds the invoice.`,
     "",
     `Account:       ${input.email}`,
@@ -131,7 +131,7 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
     "Payment is processed by Stripe. We never see or store your card details.",
   );
   if (input.supportEmail) lines.push("", `Questions: ${input.supportEmail}`);
-  lines.push("", `${SITE.name} — ${SITE.tagline}`);
+  lines.push("", `${SITE.name} | ${SITE.tagline}`);
 
   const text = lines.join("\n");
 
@@ -157,7 +157,7 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
       <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#64748b">${escapeHtml(SITE.name)}</p>
       <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;color:#0f172a">Welcome to ${escapeHtml(pro.name)}</h1>
       <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#334155">
-        Your subscription is active. This is your account confirmation — Stripe has sent the payment
+        Your subscription is active. This is your account confirmation. Stripe has sent the payment
         receipt separately and holds the invoice.
       </p>
 
@@ -187,7 +187,7 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
           ? `<p style="margin:0 0 6px;font-size:12px;line-height:1.6;color:#64748b">Questions? <a href="mailto:${escapeHtml(input.supportEmail)}" style="color:#0f172a">${escapeHtml(input.supportEmail)}</a></p>`
           : ""
       }
-      <p style="margin:0;font-size:12px;color:#94a3b8">${escapeHtml(SITE.name)} — ${escapeHtml(SITE.tagline)}</p>
+      <p style="margin:0;font-size:12px;color:#94a3b8">${escapeHtml(SITE.name)} | ${escapeHtml(SITE.tagline)}</p>
     </div>
   </div>
 </div>`;

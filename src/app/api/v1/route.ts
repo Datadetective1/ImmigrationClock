@@ -30,8 +30,8 @@ export async function GET(): Promise<Response> {
           method: "GET",
           description: "Recorded immigration changes, newest first.",
           parameters: {
-            since: "YYYY-MM-DD — published on or after this date",
-            until: "YYYY-MM-DD — published on or before this date",
+            since: "YYYY-MM-DD: published on or after this date",
+            until: "YYYY-MM-DD: published on or before this date",
             visa: "visa category, e.g. h-1b",
             country: "country, e.g. india",
             form: "immigration form, e.g. i-129",
@@ -43,7 +43,7 @@ export async function GET(): Promise<Response> {
             classification: "final_rule | proposed_rule | court_decision | data_release | …",
             status: "proposed | scheduled | in_force | decided | superseded | informational",
             include:
-              "weak — also return classifications drawn from citations, footnotes and historical " +
+              "weak: also return classifications drawn from citations, footnotes and historical " +
               "asides. Omitted by default; each returned match carries the method that produced it.",
             limit: "1–100, default 25",
             offset: "0 or more",
@@ -110,7 +110,7 @@ export async function GET(): Promise<Response> {
         measured: {
           "visa:h-1b": {
             groundTruth:
-              "33 hand-labelled records — every record in the archive whose text names H-1B anywhere — " +
+              "33 hand-labelled records (every record in the archive whose text names H-1B anywhere), " +
               "committed at fixtures/h1b-expanded-ground-truth.json. The original 21-record set is kept " +
               "and still scored separately at fixtures/h1b-ground-truth.json, where it remains 100%/100%.",
             precision: "100%",
@@ -144,7 +144,7 @@ export async function GET(): Promise<Response> {
             f1: "0.71",
             holdout: "precision 95%, recall 49%",
             note:
-              "SINGLE-ANNOTATOR LABELS — these were not independently reviewed. Recall nearly doubled " +
+              "SINGLE-ANNOTATOR LABELS: these were not independently reviewed. Recall nearly doubled " +
               "once the pipeline began retaining document text: of the documents genuinely about a " +
               "form, 82 of 121 name it only in the body, and most are Paperwork Reduction Act notices " +
               "whose titles say nothing but 'Agency Information Collection Activities'. A form found " +
@@ -158,10 +158,10 @@ export async function GET(): Promise<Response> {
             recall: "64%",
             f1: "0.78",
             holdout: "precision 100%, recall 71%",
-            note: "SINGLE-ANNOTATOR LABELS — these were not independently reviewed.",
+            note: "SINGLE-ANNOTATOR LABELS: these were not independently reviewed.",
           },
         },
-        notBenchmarked: ["employer signals — a name-based join, described per row rather than scored"],
+        notBenchmarked: ["employer signals: a name-based join, described per row rather than scored"],
         readiness:
           "NOT READY FOR PUSH on any dimension. Every one clears the precision bar and none clears " +
           "the recall bar, so a filter here is reliable about what it returns and not about what it " +

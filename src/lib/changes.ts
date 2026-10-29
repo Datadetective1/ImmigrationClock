@@ -97,7 +97,7 @@ export function buildChangeFeed(): ChangeItem[] {
       detail:
         `${formatNumber(warnLatest.employees)} employees across ${formatNumber(warnLatest.notices)} notices in ` +
         `${monthFull(warnLatest.month)}, vs ${formatNumber(warnPrior.employees)} in ${monthFull(warnPrior.month)}. ` +
-        `Covers ${WARN_SUMMARY.stateCount} states (${WARN_SUMMARY.stateCodes.join(", ")}) — not a national total.`,
+        `Covers ${WARN_SUMMARY.stateCount} states (${WARN_SUMMARY.stateCodes.join(", ")}). Not a national total.`,
       direction: dir(pct),
       metric: showPct ? signed(pct) : undefined,
       group: "workforce",
@@ -156,7 +156,7 @@ export function buildChangeFeed(): ChangeItem[] {
     items.push({
       key: "bls-unemployment",
       title: `U.S. unemployment at ${LIVE_BLS.value}% (${LIVE_BLS.period})`,
-      detail: "The labor-market backdrop for the immigration debate — fetched live from BLS.",
+      detail: "The labor-market backdrop for the immigration debate, fetched live from BLS.",
       direction: "none",
       group: "workforce",
       provenance: "reported",

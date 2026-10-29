@@ -120,7 +120,7 @@ export function changeStatus(
   e: ChangeCardInput,
   today: string = todayIso()
 ): { status: string; tone: OgTone } {
-  if (e.classification === "proposed_rule") return { status: "Proposed — not in force", tone: "amber" };
+  if (e.classification === "proposed_rule") return { status: "Proposed: not in force", tone: "amber" };
   if (e.classification === "court_decision") return { status: "Court decision", tone: "red" };
 
   const effective = e.effectiveAt && ISO_DATE.test(e.effectiveAt) ? e.effectiveAt.slice(0, 10) : null;
@@ -282,7 +282,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
     build: () => ({
       eyebrow: "Layoffs vs H-1B",
       headline: "Layoff notices and H-1B sponsorship, side by side",
-      kicker: "Where the same employer appears in state WARN filings and the USCIS H-1B export — shown separately, never combined into one figure",
+      kicker: "Where the same employer appears in state WARN filings and the USCIS H-1B export, shown separately and never combined into one figure",
       source: "State WARN portals; USCIS H-1B Employer Data Hub",
     }),
   },
@@ -312,7 +312,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
       eyebrow: "Key dates",
       headline: "Key U.S. immigration dates, counted down",
       figure: formatNumber(KEY_DATES.length),
-      figureLabel: "recurring dates — H-1B registration, the Visa Bulletin, the DV lottery, the OPT window — each linked to its official source",
+      figureLabel: "recurring dates (H-1B registration, the Visa Bulletin, the DV lottery, the OPT window), each linked to its official source",
       source: "USCIS, the Department of State and the IRS",
     }),
   },
@@ -339,7 +339,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
     build: () => ({
       eyebrow: "Follow what matters",
       headline: "Follow a country, a visa or a topic",
-      kicker: "ImmigrationClock organises the recorded changes around your choices — stored in your browser, never on our servers",
+      kicker: "ImmigrationClock organises the recorded changes around your choices, stored in your browser and never on our servers",
       source: "ImmigrationClock change archive",
     }),
   },
@@ -348,7 +348,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
     build: () => ({
       eyebrow: "Explained",
       headline: "Immigration data, in plain English",
-      kicker: "The same concept explained simply, technically, or by how it is measured — and the distinctions immigration news gets wrong",
+      kicker: "The same concept explained simply, technically, or by how it is measured, plus the distinctions immigration news gets wrong",
       source: "ImmigrationClock",
     }),
   },
@@ -366,7 +366,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
     build: () => ({
       eyebrow: "Visa origin map",
       headline: "Where America's H-1B workers and F-1 students come from",
-      kicker: "The top origin countries by visa type — annual data, not live tracking",
+      kicker: "The top origin countries by visa type: annual data, not live tracking",
       source: "Department of State Visa Statistics",
     }),
   },
@@ -386,7 +386,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
       eyebrow: "Developers",
       headline: "A free WARN layoff API",
       figure: formatNumber(WARN_SUMMARY.noticeCount),
-      figureLabel: `layoff notices across ${WARN_SUMMARY.stateCount} states as JSON and CSV — no key, no sign-up`,
+      figureLabel: `layoff notices across ${WARN_SUMMARY.stateCount} states as JSON and CSV, with no key and no sign-up`,
       source: WARN_SUMMARY.sourceName,
     }),
   },
@@ -404,7 +404,7 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
     build: () => ({
       eyebrow: "Immigration Pulse",
       headline: "The week's immigration changes, in one email",
-      kicker: "Ranked by impact and linked to the source — in English, Spanish, French or Arabic",
+      kicker: "Ranked by impact and linked to the source, in English, Spanish, French or Arabic",
       source: "ImmigrationClock change archive",
     }),
   },
@@ -431,6 +431,6 @@ export function ogSpecForPage(key: string): OgCardSpec | null {
 
 /** One line for a build log: `USCIS | Voter registration… [Prior guidance restored]`. */
 export function describeOgSpec(spec: OgCardSpec): string {
-  const lead = spec.figure ? `${spec.figure} — ${spec.headline}` : spec.headline;
+  const lead = spec.figure ? `${spec.figure}: ${spec.headline}` : spec.headline;
   return `${spec.eyebrow} | ${lead}${spec.status ? ` [${spec.status}]` : ""}`;
 }

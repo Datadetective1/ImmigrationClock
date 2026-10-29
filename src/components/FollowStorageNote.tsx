@@ -82,7 +82,7 @@ export function FollowStorageNote() {
         <span className="font-medium text-slate-200">That means they do not sync.</span> Follow
         something here and it will not appear on your phone. Syncing would require us to hold the
         list, and a record of who follows which immigration topics is not something we keep by
-        default — for anyone, paying or not.
+        default, for anyone, paying or not.
       </li>
       <li>
         <span className="font-medium text-slate-200">Unless you ask us to.</span> A Pro subscriber can

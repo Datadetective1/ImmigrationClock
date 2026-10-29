@@ -23,7 +23,7 @@ export function ReportingLag({ only, compact = false }: { only?: string[]; compa
     <div className="space-y-4">
       {!compact ? (
         <p className="text-sm leading-relaxed text-slate-300">
-          Official immigration data is published on a delay — some sources monthly, others only once a
+          Official immigration data is published on a delay. Some sources publish monthly, others only once a
           year. Where an agency offers a machine-readable feed we fetch it{" "}
           <strong className="text-white">live at build time</strong>; the rest we keep as{" "}
           <strong className="text-white">curated copies of official published figures</strong>, clearly labelled,

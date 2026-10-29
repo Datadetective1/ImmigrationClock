@@ -9,7 +9,7 @@ import { explainerPath, ogImagePath } from "@/lib/share";
 import { EXPLAINER_GROUP_LABEL } from "@/lib/stories";
 
 export const metadata = buildMetadata({
-  title: "Immigration Data, Explained — Simple, Technical, or Methodology",
+  title: "Immigration Data, Explained: Simple, Technical, or Methodology",
   description:
     "Plain-language explanations of border encounters, ICE arrests vs removals vs detention, H-1B, visa issuance and WARN layoffs.",
   path: "/explained",
@@ -29,7 +29,7 @@ export default function ExplainedPage() {
       <PageHeader
         eyebrow="Explained"
         title="The data, in plain English"
-        description="Immigration data is full of terms that are easy to misread. Pick a reading level and get the same concept explained simply, technically, or by how we measure it — no jargon required."
+        description="Immigration data is full of terms that are easy to misread. Pick a reading level and get the same concept explained simply, technically, or by how we measure it, with no jargon required."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/explained", label: "Explained" },

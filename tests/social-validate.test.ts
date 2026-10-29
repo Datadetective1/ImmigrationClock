@@ -13,6 +13,7 @@
 
 import { describe, it, expect } from "vitest";
 import {
+  isRepairable,
   validatePost,
   LIMITS,
   VALIDATOR_VERSION,
@@ -296,7 +297,7 @@ describe("X counts a link as a fixed-width token", () => {
   });
 
   it("is recorded as the eighth revision, so the arithmetic change is traceable", () => {
-    expect(VALIDATOR_VERSION).toBe("social-validator/8");
+    expect(VALIDATOR_VERSION).toBe("social-validator/9");
   });
 });
 
@@ -311,6 +312,13 @@ describe("the eighth revision's typography and bans", () => {
       const bad = `DHS is amending the fee regulations for certain H-1B and L-1 visas. ${glyph} ${LINK}`;
       expect(validatePost(bad, "x", facts()).codes, glyph).toContain("emoji");
     }
+  });
+
+  it("rejects an em dash as a repairable failure", () => {
+    const bad = `DHS is amending the fee regulations for certain H-1B and L-1 visas \u2014 the change takes effect on 9 September 2026. ${LINK}`;
+    const result = validatePost(bad, "x", facts());
+    expect(result.codes).toContain("em-dash");
+    expect(isRepairable("em-dash")).toBe(true);
   });
 
   it('bans "did you know" as engagement bait', () => {
