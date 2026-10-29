@@ -26,6 +26,7 @@ import {
   newLoginToken,
 } from "@/lib/billing/identity";
 import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
+import { offerFrom, type OfferSpec } from "@/lib/billing/offers";
 import { SITE } from "@/lib/site";
 import { clientIp, json, rateLimited } from "@/lib/billing/http";
 
@@ -78,11 +79,13 @@ export async function POST(req: Request): Promise<Response> {
   // Which plan the buyer was choosing, when the link was asked for from a
   // Subscribe button. Allow-listed; anything else is simply dropped.
   let resume: Interval | null = null;
+  let offer: OfferSpec | null = null;
   try {
-    const body = (await req.json()) as { email?: unknown; ic_hp?: unknown; resume?: unknown };
+    const body = (await req.json()) as { email?: unknown; ic_hp?: unknown; resume?: unknown; offer?: unknown };
     if (typeof body.email === "string") email = body.email.trim();
     if (typeof body.ic_hp === "string") trap = body.ic_hp;
     resume = resumeIntervalFrom(body.resume);
+    offer = offerFrom(body.offer);
   } catch {
     // Falls through to the shape check.
   }
@@ -134,7 +137,7 @@ export async function POST(req: Request): Promise<Response> {
       JSON.stringify({ k: key, e: email.trim().toLowerCase() }),
       LOGIN_TTL_SECONDS
     );
-    await sendSignInEmail(email, loginUrl(billingOrigin(), token, resume));
+    await sendSignInEmail(email, loginUrl(billingOrigin(), token, resume, offer));
   } catch (err) {
     // Log for us, identical answer for them: an error here must not become a
     // side channel that says whether the address exists.

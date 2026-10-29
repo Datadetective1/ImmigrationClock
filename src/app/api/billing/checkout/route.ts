@@ -41,6 +41,7 @@
 import { BILLING_UNAVAILABLE_MESSAGE, billingOrigin, billingStatus, priceIdFor } from "@/lib/billing/config";
 import { COOKIE_NAME, isVerifiedIdentity, verify } from "@/lib/billing/entitlement";
 import { isInterval } from "@/lib/billing/plans";
+import { couponIdFor, offerFrom, openOffers, type OfferSpec } from "@/lib/billing/offers";
 import { StripeClient, StripeError } from "@/lib/billing/stripe";
 import { NEWSLETTER_CONSENT_VERSION } from "@/lib/billing/consent";
 import { emailKey, resolveStore } from "@/lib/billing/store";
@@ -79,15 +80,36 @@ export async function POST(req: Request): Promise<Response> {
   // not consent, and this is the one value in the request whose absence must
   // never be read generously.
   let newsletterOptIn = false;
+  // A PARTNER OFFER IS NAMED, NEVER IMPLIED. Absent means the ordinary price.
+  // Present but unknown is refused, so a typo on a partner page cannot quietly
+  // sell the full price to someone who was promised a discount.
+  let offerField: unknown = undefined;
   try {
-    const body = (await req.json()) as { interval?: unknown; newsletterOptIn?: unknown };
+    const body = (await req.json()) as { interval?: unknown; newsletterOptIn?: unknown; offer?: unknown };
     if (typeof body.interval === "string") interval = body.interval;
     newsletterOptIn = body.newsletterOptIn === true;
+    offerField = body.offer;
   } catch {
     // An empty or unparseable body means the default interval, not an error.
   }
   if (!isInterval(interval)) {
     return json({ error: "bad_interval", message: "interval must be \"monthly\" or \"annual\"." }, 400);
+  }
+  let offer: OfferSpec | null = null;
+  let couponId: string | null = null;
+  if (offerField !== undefined && offerField !== null) {
+    offer = offerFrom(offerField);
+    if (!offer) {
+      return json({ error: "bad_offer", message: "That offer does not exist." }, 400);
+    }
+    couponId = couponIdFor(offer);
+    if (!couponId) {
+      console.warn(`[billing] offer ${offer.id} requested but ${offer.couponEnv} is not set`);
+      return json(
+        { error: "offer_not_open", message: "This offer is not open yet. Please try again later." },
+        503
+      );
+    }
   }
 
   const secret = process.env.BILLING_SESSION_SECRET as string;
@@ -265,7 +287,8 @@ export async function POST(req: Request): Promise<Response> {
       // account page exchanges it for an entitlement, having asked Stripe
       // whether it was genuinely paid — the id alone grants nothing.
       successUrl: `${origin}/account?session_id={CHECKOUT_SESSION_ID}`,
-      cancelUrl: `${origin}/pricing?checkout=cancelled`,
+      cancelUrl: offer ? `${origin}${offer.path}?checkout=cancelled` : `${origin}/pricing?checkout=cancelled`,
+      ...(offer && couponId ? { trialDays: offer.trialDays, couponId, offerId: offer.id } : {}),
     });
 
     if (!session.url) {
@@ -289,6 +312,8 @@ export async function GET(): Promise<Response> {
       checkoutReady: status.checkoutReady,
       webhookReady: status.webhookReady,
       testMode: status.testMode,
+      // Offer ids only: whether a partner page can sell, not how it is wired.
+      openOffers: status.checkoutReady ? openOffers() : [],
       // `missing` and `disabledReason` are deliberately NOT returned here. This
       // endpoint is unauthenticated and both name environment variables. An
       // operator gets the precise list from `npm run billing:verify`, which
