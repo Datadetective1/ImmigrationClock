@@ -353,3 +353,36 @@ export function excludesScope(passage: string, matches: (text: string) => boolea
   }
   return false;
 }
+
+// -----------------------------------------------------------------------------
+// A CITED RULE'S NAME: the term is part of another instrument's title
+// -----------------------------------------------------------------------------
+
+/**
+ * The full name of a rule a document cites, written out in prose.
+ *
+ * A Policy Manual alert on L-1 filing fees summarised itself as revising
+ * guidance on "the regulatory changes made by the 9-11 Response and Biometric
+ * Entry-Exit Fee for H-1B and L-1 Visas final rule". H-1B appears only inside
+ * that cited rule's name, USCIS lists the L-1 chapter as the only one affected,
+ * and the summary match served it as an H-1B change.
+ *
+ * A formal instrument name is a run of capitalised words ending in "final rule"
+ * or "proposed rule". A short reference ("the H-1B final rule") is how a
+ * document names the rule it implements, so it is NOT treated as a citation:
+ * the run must hold at least CITED_TITLE_MIN_WORDS capitalised words. A full
+ * stop ends the run (abbreviations such as "U.S." aside), so a date that ends
+ * one sentence cannot join a name to "The final rule" at the start of the next.
+ */
+const CITED_RULE_TITLE =
+  /\bthe\s+((?:(?:(?:[A-Z]\.){2,}|[A-Z0-9][\w'’&-]*|and|for|of|the|to|in|on|with|by|a|an),?\s+)+?)(?:interim final|direct final|final|proposed) rule\b/g;
+const CITED_TITLE_MIN_WORDS = 4;
+
+/** The text with every cited rule's written-out name removed. */
+export function withoutCitedRuleTitles(text: string): string {
+  if (!text) return text;
+  return text.replace(CITED_RULE_TITLE, (whole, name: string) => {
+    const capitalised = name.split(/\s+/).filter((w) => /^[A-Z0-9]/.test(w)).length;
+    return capitalised >= CITED_TITLE_MIN_WORDS ? " " : whole;
+  });
+}

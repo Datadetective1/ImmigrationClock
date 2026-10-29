@@ -11,6 +11,9 @@
     "(5). That was 21 records judged on 2026-09-03, of which 19 are relevant and 2 are not.",
     "On 2026-10-08 four records the classifier claimed after that date were judged",
     "individually and added as relevant, each with its reason: 25 judged, 23 relevant.",
+    "On 2026-10-29 the two records the classifier claimed after the 2026-10-28 data",
+    "refresh were judged individually: one relevant and one not, each with its reason:",
+    "27 judged, 24 relevant.",
     "",
     "The pool is deliberately NOT the set the classifier returns — scoring against",
     "your own output is how a metric gets gamed. It is the set a reader could",
@@ -24,6 +27,7 @@
   "labelledOn": "2026-09-03",
   "dimension": "visa:h-1b",
   "relevant": [
+    { "id": "federal_register:2026-20660", "why": "Proposed OPT fees for F-1 students. The rule says the fee is set to match the H-1B fees and is meant to stop OPT being used to get around the H-1B cap and fees, and it describes the cap-gap period for students who are beneficiaries of an H-1B cap petition. Employers who hire graduates on OPT ahead of an H-1B cap filing are directly affected. Added 2026-10-29 (review welcome)." },
     { "id": "federal_register:2026-19555", "why": "Executive Order 14431. Its title is about administering the H-1B nonimmigrant visa programme. Added 2026-10-08 (review welcome)." },
     { "id": "federal_register:2026-19554", "why": "Proclamation restricting entry of certain nonimmigrant workers; its text sets the national-interest exception for employers hiring H-1B specialty-occupation workers, the same family as the September 2025 proclamation already labelled relevant. Added 2026-10-08 (review welcome)." },
     { "id": "federal_register:2026-18631", "why": "Proposes removing the 60-day grace period after employment ends for nonimmigrant workers including H-1B holders; a laid-off H-1B worker's status depends on it. The extractor's quote is a statutory citation, but the rule's subject is squarely H-1B. Added 2026-10-08 (review welcome)." },
@@ -64,6 +68,11 @@
     }
   ],
   "notRelevant": [
+    {
+      "id": "uscis_policy_manual:20261027-intracompanytransfereefees",
+      "why": "A Policy Manual alert on filing fees for L-1 petitions. USCIS lists only the L-1 chapter (2 USCIS-PM L.7) as affected. It was classified H-1B because its summary names the 9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas final rule; H-1B appears only in the title of that cited rule. Added 2026-10-29 (review welcome).",
+      "failureClass": "cited_rule_title"
+    },
     {
       "id": "federal_register:2025-19365",
       "why": "An H-2A adverse-effect wage rate rule. It was classified H-1B because its body says the statutory provision 'was enacted in the context of the H-1B ... classification'. That is a historical aside about section 212(p), not this rule's scope.",

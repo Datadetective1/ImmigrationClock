@@ -211,12 +211,6 @@
           "confidence": 1
         },
         {
-          "entityId": "visa:h-1b",
-          "relation": "mentions",
-          "basis": "matched",
-          "confidence": 0.6
-        },
-        {
           "entityId": "visa:l-1",
           "relation": "mentions",
           "basis": "matched",
@@ -230,8 +224,8 @@
             "entityId": "visa:h-1b",
             "basis": "stated",
             "evidence": "…is revising guidance in the USCIS Policy Manual regarding filing fees for L-1 petitions and the regulatory changes made by the 9-11 Response and Biometric Entry-Exit Fee for H-1B and L-1 Visas final rule (9-11 Biometric Fee final rule).",
-            "method": "derived_high_confidence",
-            "confidence": 0.9
+            "method": "derived_weak",
+            "confidence": 0.5
           },
           {
             "entityId": "visa:l-1",
