@@ -33,7 +33,22 @@ interface Props {
 // reads as a glitch and lets the two answers disagree. Wrapping the buttons in
 // a NewsletterOptInGroup asks it once; each button inside sends that answer. A
 // button on its own still asks for itself.
-const OptInContext = createContext<boolean | null>(null);
+//
+// ONE EMAIL BOX, TOO. Pressing one plan's button with no verified address
+// turns that button into an email form, and the other button stayed on screen
+// below it. Pressing that one as well put a second, identical email form under
+// the first, so the page asked for the address twice. Inside a group, once one
+// plan is asking for an email the other button steps aside, and the form
+// offers a way back to choose the other plan instead.
+interface PlanGroup {
+  optIn: boolean;
+  /** The plan whose button is asking for an email, if any. */
+  picked: Interval | null;
+  pick: (interval: Interval | null) => void;
+}
+export const PlanGroupContext = createContext<PlanGroup | null>(null);
+
+const PLAN_NAME: Record<Interval, string> = { monthly: "monthly", annual: "yearly" };
 
 function NewsletterCheckbox({
   id,
@@ -94,13 +109,14 @@ export function takeSavedOptIn(interval: Interval): boolean {
 export function NewsletterOptInGroup({ children }: { children: React.ReactNode }) {
   // UNCHECKED BY DEFAULT, ALWAYS, here as in a lone button.
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const [picked, setPicked] = useState<Interval | null>(null);
   return (
-    <OptInContext.Provider value={newsletterOptIn}>
+    <PlanGroupContext.Provider value={{ optIn: newsletterOptIn, picked, pick: setPicked }}>
       <div className="space-y-3">
         <NewsletterCheckbox id="newsletter-optin" checked={newsletterOptIn} onChange={setNewsletterOptIn} />
         {children}
       </div>
-    </OptInContext.Provider>
+    </PlanGroupContext.Provider>
   );
 }
 
@@ -113,8 +129,8 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   // UNCHECKED BY DEFAULT, ALWAYS. A pre-ticked marketing box is not consent,
   // and the purchase must complete identically whether or not it is touched.
   const [ownOptIn, setOwnOptIn] = useState(false);
-  const group = useContext(OptInContext);
-  const newsletterOptIn = group ?? ownOptIn;
+  const group = useContext(PlanGroupContext);
+  const newsletterOptIn = group ? group.optIn : ownOptIn;
   const root = useRef<HTMLDivElement>(null);
 
   // BACK FROM THE INBOX, STRAIGHT ON TO STRIPE. The sign-in link a Subscribe
@@ -167,7 +183,12 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       // requirement fixes. The step is offered right here instead.
       if (res.status === 401 && body.error === "identity_required") {
         setState("verify");
-        setMessage("Enter your email. We'll send a link that takes you straight to checkout.");
+        setMessage(
+          group
+            ? `Enter your email for the ${PLAN_NAME[interval]} plan. We'll send a link that takes you straight to checkout.`
+            : "Enter your email. We'll send a link that takes you straight to checkout."
+        );
+        group?.pick(interval);
         return;
       }
 
@@ -212,6 +233,15 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       setMessage("Could not reach the sign-in service.");
     }
   }
+
+  function choosePlanAgain() {
+    setState("idle");
+    setMessage("");
+    group?.pick(null);
+  }
+
+  // Another plan in this group is already asking for the email.
+  if (group && group.picked !== null && group.picked !== interval) return null;
 
   if (state === "subscribed") {
     return (
@@ -261,6 +291,15 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
             </button>
           </form>
         )}
+        {group && state !== "sending" ? (
+          <button
+            type="button"
+            onClick={choosePlanAgain}
+            className="mt-2 text-xs text-slate-400 underline-offset-2 hover:text-accent-soft hover:underline"
+          >
+            Choose a different plan
+          </button>
+        ) : null}
       </div>
     );
   }
@@ -271,7 +310,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
           person is still deciding — asking once money has moved makes it look
           like part of what they bought. Nothing about entitlement reads this
           value, and checkout succeeds with it untouched. */}
-      {group === null ? (
+      {!group ? (
         <NewsletterCheckbox id={`newsletter-optin-${interval}`} checked={ownOptIn} onChange={setOwnOptIn} />
       ) : null}
 
