@@ -57,11 +57,17 @@ export const STRIPE_API_VERSION = "2025-03-31.basil";
 /** Stripe answered, and it was not a 2xx. Carries the status, never the key. */
 export class StripeError extends Error {
   readonly status: number;
+  /** Stripe's machine code (e.g. "resource_missing"). Names no account or key. */
+  readonly code: string | null;
+  /** The request parameter Stripe objected to, if it named one. */
+  readonly param: string | null;
 
-  constructor(status: number, message: string) {
+  constructor(status: number, message: string, code: string | null = null, param: string | null = null) {
     super(`Stripe returned HTTP ${status}: ${message}`);
     this.name = "StripeError";
     this.status = status;
+    this.code = code;
+    this.param = param;
   }
 }
 
@@ -221,13 +227,17 @@ export class StripeClient {
     const text = await res.text();
     if (!res.ok) {
       let message = text.replace(/\s+/g, " ").slice(0, 200);
+      let code: string | null = null;
+      let param: string | null = null;
       try {
-        const parsed = JSON.parse(text) as { error?: { message?: string } };
+        const parsed = JSON.parse(text) as { error?: { message?: string; code?: unknown; param?: unknown } };
         if (parsed.error?.message) message = parsed.error.message.slice(0, 200);
+        if (typeof parsed.error?.code === "string") code = parsed.error.code.slice(0, 80);
+        if (typeof parsed.error?.param === "string") param = parsed.error.param.slice(0, 80);
       } catch {
         // Keep the raw truncation.
       }
-      throw new StripeError(res.status, message);
+      throw new StripeError(res.status, message, code, param);
     }
     return JSON.parse(text) as T;
   }

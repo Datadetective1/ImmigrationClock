@@ -33,7 +33,22 @@ interface Props {
 // reads as a glitch and lets the two answers disagree. Wrapping the buttons in
 // a NewsletterOptInGroup asks it once; each button inside sends that answer. A
 // button on its own still asks for itself.
-const OptInContext = createContext<boolean | null>(null);
+//
+// ONE EMAIL BOX, TOO. Pressing one plan's button with no verified address
+// turns that button into an email form, and the other button stayed on screen
+// below it. Pressing that one as well put a second, identical email form under
+// the first, so the page asked for the address twice. Inside a group, once one
+// plan is asking for an email the other button steps aside, and the form
+// offers a way back to choose the other plan instead.
+interface PlanGroup {
+  optIn: boolean;
+  /** The plan whose button is asking for an email, if any. */
+  picked: Interval | null;
+  pick: (interval: Interval | null) => void;
+}
+export const PlanGroupContext = createContext<PlanGroup | null>(null);
+
+const PLAN_NAME: Record<Interval, string> = { monthly: "monthly", annual: "yearly" };
 
 function NewsletterCheckbox({
   id,
@@ -94,13 +109,14 @@ export function takeSavedOptIn(interval: Interval): boolean {
 export function NewsletterOptInGroup({ children }: { children: React.ReactNode }) {
   // UNCHECKED BY DEFAULT, ALWAYS, here as in a lone button.
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const [picked, setPicked] = useState<Interval | null>(null);
   return (
-    <OptInContext.Provider value={newsletterOptIn}>
+    <PlanGroupContext.Provider value={{ optIn: newsletterOptIn, picked, pick: setPicked }}>
       <div className="space-y-3">
         <NewsletterCheckbox id="newsletter-optin" checked={newsletterOptIn} onChange={setNewsletterOptIn} />
         {children}
       </div>
-    </OptInContext.Provider>
+    </PlanGroupContext.Provider>
   );
 }
 
@@ -110,11 +126,20 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   >("idle");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+  // When the next link may be asked for. The sign-in route allows one a minute.
+  const [resendAt, setResendAt] = useState(0);
+  const [now, setNow] = useState(() => Date.now());
+  const [resendBusy, setResendBusy] = useState(false);
+  useEffect(() => {
+    if (state !== "sent" || now >= resendAt) return;
+    const t = setTimeout(() => setNow(Date.now()), 1000);
+    return () => clearTimeout(t);
+  }, [state, now, resendAt]);
   // UNCHECKED BY DEFAULT, ALWAYS. A pre-ticked marketing box is not consent,
   // and the purchase must complete identically whether or not it is touched.
   const [ownOptIn, setOwnOptIn] = useState(false);
-  const group = useContext(OptInContext);
-  const newsletterOptIn = group ?? ownOptIn;
+  const group = useContext(PlanGroupContext);
+  const newsletterOptIn = group ? group.optIn : ownOptIn;
   const root = useRef<HTMLDivElement>(null);
 
   // BACK FROM THE INBOX, STRAIGHT ON TO STRIPE. The sign-in link a Subscribe
@@ -167,7 +192,12 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       // requirement fixes. The step is offered right here instead.
       if (res.status === 401 && body.error === "identity_required") {
         setState("verify");
-        setMessage("Enter your email. We'll send a link that takes you straight to checkout.");
+        setMessage(
+          group
+            ? `Enter your email for the ${PLAN_NAME[interval]} plan. We'll send a link that takes you straight to checkout.`
+            : "Enter your email. We'll send a link that takes you straight to checkout."
+        );
+        group?.pick(interval);
         return;
       }
 
@@ -189,10 +219,12 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
     }
   }
 
-  async function requestLink(e: React.FormEvent) {
-    e.preventDefault();
-    if (state === "sending") return;
-    setState("sending");
+  async function requestLink(e?: React.FormEvent) {
+    e?.preventDefault();
+    if (state === "sending" || resendBusy) return;
+    const resending = state === "sent";
+    if (resending) setResendBusy(true);
+    else setState("sending");
     try {
       const res = await fetch("/api/billing/signin", {
         method: "POST",
@@ -205,13 +237,34 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
       // checkout that continues on its own carries what they chose here.
       saveOptIn(interval, newsletterOptIn);
       const body = (await res.json()) as { message?: string };
-      setState(res.ok ? "sent" : "verify");
-      setMessage(body.message || (res.ok ? "Check your inbox." : "Something went wrong."));
-    } catch {
+      // ONE STATE AFTER A SEND, NEVER TWO. A link already on its way and a
+      // "too many attempts" refusal shown together read as a failure, so a
+      // buyer who already has a link only ever sees that it was sent.
+      if (res.ok || (resending && res.status === 429)) {
+        setState("sent");
+        setMessage("");
+        setResendAt(Date.now() + 60_000);
+        setNow(Date.now());
+        return;
+      }
       setState("verify");
-      setMessage("Could not reach the sign-in service.");
+      setMessage(body.message || "Something went wrong.");
+    } catch {
+      setState(resending ? "sent" : "verify");
+      setMessage("Could not reach the sign-in service. Please try again.");
+    } finally {
+      setResendBusy(false);
     }
   }
+
+  function choosePlanAgain() {
+    setState("idle");
+    setMessage("");
+    group?.pick(null);
+  }
+
+  // Another plan in this group is already asking for the email.
+  if (group && group.picked !== null && group.picked !== interval) return null;
 
   if (state === "subscribed") {
     return (
@@ -232,35 +285,63 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
   if (state === "verify" || state === "sending" || state === "sent") {
     return (
       <div className={className}>
-        <p className="text-xs leading-relaxed text-slate-300">{message}</p>
         {state === "sent" ? (
-          <p className="mt-2 text-xs text-slate-500">
-            Open the link and you go straight to checkout. It works once and expires in 15 minutes.
-          </p>
-        ) : (
-          <form onSubmit={requestLink} className="mt-2 flex flex-col gap-2 sm:flex-row">
-            <label htmlFor={`upgrade-email-${interval}`} className="sr-only">
-              Your email address
-            </label>
-            <input
-              id={`upgrade-email-${interval}`}
-              type="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-base text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/40"
-            />
+          <div role="status">
+            <p className="text-sm leading-relaxed text-slate-200">
+              We emailed a link to <span className="font-semibold text-white">{email}</span>. Open it on this device to
+              continue to checkout.
+            </p>
+            <p className="mt-1 text-xs text-slate-500">It works once and expires in 15 minutes.</p>
+            {message ? <p className="mt-1 text-xs text-slate-400">{message}</p> : null}
             <button
-              type="submit"
-              disabled={state === "sending"}
-              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:opacity-60"
+              type="button"
+              onClick={() => void requestLink()}
+              disabled={resendBusy || now < resendAt}
+              className="mt-2 text-xs text-slate-400 underline-offset-2 hover:text-accent-soft hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-60"
             >
-              {state === "sending" ? "Sending…" : "Email me a link"}
+              {resendBusy
+                ? "Sending…"
+                : now < resendAt
+                  ? `Send it again in ${Math.ceil((resendAt - now) / 1000)}s`
+                  : "Send it again"}
             </button>
-          </form>
+          </div>
+        ) : (
+          <>
+            <p className="text-xs leading-relaxed text-slate-300">{message}</p>
+            <form onSubmit={requestLink} className="mt-2 flex flex-col gap-2 sm:flex-row">
+              <label htmlFor={`upgrade-email-${interval}`} className="sr-only">
+                Your email address
+              </label>
+              <input
+                id={`upgrade-email-${interval}`}
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-base text-white placeholder:text-slate-500 focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/40"
+              />
+              <button
+                type="submit"
+                disabled={state === "sending"}
+                className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:opacity-60"
+              >
+                {state === "sending" ? "Sending…" : "Email me a link"}
+              </button>
+            </form>
+          </>
         )}
+        {group && state !== "sending" ? (
+          <button
+            type="button"
+            onClick={choosePlanAgain}
+            className="mt-2 text-xs text-slate-400 underline-offset-2 hover:text-accent-soft hover:underline"
+          >
+            Choose a different plan
+          </button>
+        ) : null}
       </div>
     );
   }
@@ -271,7 +352,7 @@ export function UpgradeButton({ interval, placement, label = "Upgrade to Pro", c
           person is still deciding — asking once money has moved makes it look
           like part of what they bought. Nothing about entitlement reads this
           value, and checkout succeeds with it untouched. */}
-      {group === null ? (
+      {!group ? (
         <NewsletterCheckbox id={`newsletter-optin-${interval}`} checked={ownOptIn} onChange={setOwnOptIn} />
       ) : null}
 
