@@ -29,6 +29,11 @@ export default function H1bStatePage({ params }: { params: { stateCode: string }
   const agg = stateAggregate(params.stateCode);
   if (!agg) notFound();
 
+  // The employer data is a curated list of large sponsors, so some states,
+  // Florida and Illinois among them, have none with a worksite there. Those
+  // pages used to read "0 approvals, $0 wage" as if that were the state's
+  // figure. Now they say what is missing and where to look instead.
+  const empty = agg.companies.length === 0;
   const bars = agg.companies.slice(0, 8).map((c) => ({ label: c.name.split(" ")[0], value: c.approvals }));
 
   return (
@@ -44,15 +49,41 @@ export default function H1bStatePage({ params }: { params: { stateCode: string }
         ]}
         share
       >
+        {empty ? null : (
         <StatRow>
           <Stat label="Tracked approvals" value={formatNumber(agg.totalApprovals)} sub={fiscalYearLabel(agg.fiscalYear)} />
           <Stat label="Avg offered wage" value={formatCurrency(agg.avgWage)} />
           <Stat label="Employers" value={String(agg.companies.length)} />
           <Stat label="BLS dev mean wage" value={agg.swWageMean ? formatCurrency(agg.swWageMean) : "—"} sub="Software developers" />
         </StatRow>
+        )}
       </PageHeader>
 
       <div className="container-page space-y-8 py-10">
+        {empty ? (
+          <section className="panel panel-pad">
+            <h2 className="section-title">No tracked sponsors with worksites in {agg.state.name} yet</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              These state pages are built from a curated list of large H-1B employers, and none of them
+              lists a worksite here. That is a gap in our list, not a count of zero for the state.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Link
+                href="/h1b/employers"
+                className="inline-flex min-h-[44px] items-center rounded-lg bg-accent px-4 text-sm font-semibold text-ink-950 hover:bg-accent-soft"
+              >
+                Browse the full H-1B employer directory
+              </Link>
+              <Link href={`/state/${agg.state.code}`} className="text-sm font-medium link-accent">
+                Full {agg.state.name} profile
+              </Link>
+              <Link href="/h1b/top-sponsors" className="text-sm font-medium link-accent">
+                Top sponsors nationwide
+              </Link>
+            </div>
+          </section>
+        ) : (
+        <>
         <div className="grid gap-4 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <ChartCard
@@ -106,6 +137,8 @@ export default function H1bStatePage({ params }: { params: { stateCode: string }
             ))}
           </ul>
         </ChartCard>
+        </>
+        )}
 
         <MethodologyNote>
           State H-1B figures attribute tracked employers to in-state worksites and are a curated subset, not

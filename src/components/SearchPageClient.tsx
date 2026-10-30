@@ -11,6 +11,9 @@ import { EVENT_INDEX, filterEvents } from "@/lib/event-index";
 import { CLASSIFICATION_LABEL } from "@/lib/event-labels";
 import { changePath } from "@/lib/share";
 
+/** One-tap lookups for the empty box. Each returns results today. */
+export const SEARCH_EXAMPLES = ["H-1B", "F-1", "Asylum", "Visa Bulletin", "India", "California", "Amazon", "Software engineer"];
+
 type GroupType = SearchResult["type"] | "change" | "date" | "explainer";
 
 const TYPE_LABEL: Record<GroupType, string> = {
@@ -125,10 +128,28 @@ export function SearchPageClient() {
       </div>
 
       {!trimmed ? (
-        <p className="text-sm text-slate-400">
-          Type to look up a visa, country, state, employer or job title, a deadline, an explainer, or the
-          recorded changes that mention it. Every result links its source.
-        </p>
+        <div>
+          <p className="text-sm text-slate-400">
+            Type to look up a visa, country, state, employer or job title, a deadline, an explainer, or the
+            recorded changes that mention it. Every result links its source.
+          </p>
+          {/* An empty box asks a first-time visitor to guess what the site
+              knows. One tap on a real lookup shows them instead. */}
+          <p className="mt-4 text-xs font-medium text-slate-500">Or try one:</p>
+          <ul className="mt-2 flex flex-wrap gap-2">
+            {SEARCH_EXAMPLES.map((term) => (
+              <li key={term}>
+                <button
+                  type="button"
+                  onClick={() => update(term)}
+                  className="min-h-[36px] rounded-full border border-white/10 px-3 text-sm text-slate-200 hover:border-accent/40 hover:text-accent-soft"
+                >
+                  {term}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : grouped.length === 0 ? (
         // A dead end should still offer a way forward. This page used to end on
         // a repeat of the categories the reader had just failed to match; the

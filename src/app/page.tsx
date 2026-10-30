@@ -169,9 +169,9 @@ export default function HomePage() {
               <Link href="/monitor" className="link-accent font-medium">
                 Monitor what changed for your caseload
               </Link>{" "}
-              or see the{" "}
-              <Link href="/briefing" className="link-accent font-medium">
-                Pro Briefing
+              or see{" "}
+              <Link href="/briefing/example" className="link-accent font-medium">
+                an example Pro Briefing
               </Link>
               .
             </p>
