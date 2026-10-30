@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-28T19:21:02.937Z",
+  "updatedAt": "2026-10-30T19:01:13.191Z",
   "items": [
     {
       "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::what_changed",
@@ -15,12 +15,12 @@
       "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
       "category": "actionable",
       "topicKey": "visa:h-1b",
-      "priority": 59118.99444444444,
+      "priority": 58268.98333333333,
       "readerValue": 100,
-      "factsHash": "3116edef8c58a1f7",
+      "factsHash": "5d737c2bc7314976",
       "whyItMatters": [
         "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "The record is linked to L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
@@ -60,12 +60,12 @@
       "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
       "category": "actionable",
       "topicKey": "visa:h-1b",
-      "priority": 58268.99444444444,
+      "priority": 58268.98333333333,
       "readerValue": 100,
-      "factsHash": "7ded1451dd8d0779",
+      "factsHash": "a69858fe54ea2f0a",
       "whyItMatters": [
         "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "The record is linked to H-1B specialty occupation, L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "The record is linked to L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
         "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
       ],
       "suggestedPost": null,
@@ -93,50 +93,6 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::what_changed",
-      "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Litigation-Related Update: Sileiri Doe Class Members May Request Reopening or Reconsideration of an Adverse Decision Without a Fee",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/litigation-related-update-sileiri-doe-class-members-may-request-reopening-or-reconsideration-of-an",
-      "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
-      "category": "actionable",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 55248.98888888889,
-      "readerValue": 44,
-      "factsHash": "bed36b8d64e83c53",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr",
-      "ogImage": "/og/change/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr.png",
-      "freshness": {
-        "publishedAt": "2026-10-26",
-        "discoveredAt": "2026-10-27",
-        "expiresAt": "2026-11-06"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "verified",
-          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::why_it_matters",
       "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "contentType": "why_it_matters",
@@ -149,9 +105,9 @@
       "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 54548.98888888889,
+      "priority": 54548.97777777778,
       "readerValue": 44,
-      "factsHash": "1aab66072d2c0d8f",
+      "factsHash": "0ed491403a471eb0",
       "whyItMatters": [
         "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
         "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
@@ -181,93 +137,6 @@
       ]
     },
     {
-      "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::why_it_matters",
-      "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Aliens in Idaho Charged for Illegal Voting",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/aliens-in-idaho-charged-for-illegal-voting",
-      "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
-      "category": "explainer",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 23700.966666666667,
-      "readerValue": 34,
-      "factsHash": "ed3125f4892178a6",
-      "whyItMatters": [
-        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm",
-      "ogImage": "/og/change/aliens-in-idaho-charged-for-illegal-voting-yharpm.png",
-      "freshness": {
-        "publishedAt": "2026-10-22",
-        "discoveredAt": "2026-10-23",
-        "expiresAt": "2026-11-13"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "verified",
-          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm"
-        }
-      ]
-    },
-    {
-      "id": "explainer:visa-bulletin-priority-dates::explainer",
-      "subjectId": "explainer:visa-bulletin-priority-dates",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How to read the Visa Bulletin",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:green-cards",
-      "priority": 20013,
-      "readerValue": 60,
-      "factsHash": "73bd2eafafb2a189",
-      "whyItMatters": [
-        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
-      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
-        }
-      ]
-    },
-    {
       "id": "explainer:border-encounters-are-events::explainer",
       "subjectId": "explainer:border-encounters-are-events",
       "contentType": "explainer",
@@ -280,9 +149,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20011,
+      "priority": 20013,
       "readerValue": 60,
-      "factsHash": "11bb30720f7d357b",
+      "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
         "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
       ],
@@ -323,9 +192,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20009,
+      "priority": 20011,
       "readerValue": 60,
-      "factsHash": "da034e5d18b62a5b",
+      "factsHash": "15b3941b9b854232",
       "whyItMatters": [
         "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
       ],
@@ -366,9 +235,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20008,
+      "priority": 20010,
       "readerValue": 60,
-      "factsHash": "e47a11c97aa782bc",
+      "factsHash": "403b424e8e089a09",
       "whyItMatters": [
         "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
       ],
@@ -409,9 +278,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20007,
+      "priority": 20009,
       "readerValue": 60,
-      "factsHash": "ccae3862f5a31652",
+      "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
         "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
       ],
@@ -452,9 +321,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20005,
+      "priority": 20007,
       "readerValue": 60,
-      "factsHash": "fd54d1b5e49ad1c4",
+      "factsHash": "2fd0cb458b02dce3",
       "whyItMatters": [
         "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
       ],
@@ -495,9 +364,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20001,
+      "priority": 20003,
       "readerValue": 60,
-      "factsHash": "4068f60d64f54dcd",
+      "factsHash": "2155126758739879",
       "whyItMatters": [
         "The cap is the reason \"H-1B season\" exists. A reader who knows which petitions are capped, and when the window opens, can tell a real deadline from a headline."
       ],
@@ -526,25 +395,27 @@
       ]
     },
     {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
+      "id": "explainer:visa-bulletin-priority-dates::explainer",
+      "subjectId": "explainer:visa-bulletin-priority-dates",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
+      "headline": "How to read the Visa Bulletin",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:green-cards",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "a6606cb551a6ca9a",
+      "whyItMatters": [
+        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
+      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
+      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -562,48 +433,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
-        }
-      ]
-    },
-    {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Search the change archive",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15007,
-      "readerValue": 50,
-      "factsHash": "2e2e261197d6dc9b",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
         }
       ]
     },
@@ -620,9 +450,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "73ae42753297c5d3",
+      "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
@@ -661,9 +491,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15004,
+      "priority": 15006,
       "readerValue": 50,
-      "factsHash": "a83ed36b36c81325",
+      "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/pulse",
@@ -702,7 +532,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15003,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -743,7 +573,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15002,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -784,7 +614,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15001,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -809,6 +639,88 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "e8c17d9c5c05f9d6",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
@@ -1633,6 +1545,64 @@
         },
         {
           "at": "2026-10-17T16:51:34.549Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::what_changed",
+      "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "published",
+      "headline": "Litigation-Related Update: Sileiri Doe Class Members May Request Reopening or Reconsideration of an Adverse Decision Without a Fee",
+      "suggestedHeadline": "Sileiri Doe class may seek reopening without a fee",
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/litigation-related-update-sileiri-doe-class-members-may-request-reopening-or-reconsideration-of-an",
+      "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
+      "category": "actionable",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 54548.97777777778,
+      "readerValue": 44,
+      "factsHash": "d8266fd8e50c0483",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "Sileiri Doe class members may seek reopening or reconsideration without a fee.\n\nWhat changed: A court ordered DHS to remediate harms from the April 2025 CBP One mass-parole termination email.\n\nWatching: any stay or appeal, and USCIS compliance.\n\nhttps://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3A9e9ffr",
+        "linkedin": "",
+        "structure": "what_changed"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr",
+      "ogImage": "/og/change/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr.png",
+      "freshness": {
+        "publishedAt": "2026-10-26",
+        "discoveredAt": "2026-10-27",
+        "expiresAt": "2026-11-06"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-30T18:59:48.816Z",
+      "externalUrl": "https://x.com/i/web/status/2116244045416558735",
+      "history": [
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "verified",
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4485,9 +4455,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30009,
       "readerValue": 65,
-      "factsHash": "0ff89fa3afb66520",
+      "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
@@ -4595,6 +4565,16 @@
           "at": "2026-10-28T19:20:44.161Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4611,7 +4591,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4731,6 +4711,16 @@
           "at": "2026-10-28T19:20:44.161Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4747,9 +4737,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30003,
+      "priority": 30005,
       "readerValue": 65,
-      "factsHash": "572e00f5fff9ca37",
+      "factsHash": "280672b5a0cecb41",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -4889,6 +4879,16 @@
         },
         {
           "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
@@ -5391,6 +5391,55 @@
           "at": "2026-10-06T01:44:38.448Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-05"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b::why_it_matters",
+      "subjectId": "event:uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Aliens in Idaho Charged for Illegal Voting",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/news-releases/aliens-in-idaho-charged-for-illegal-voting",
+      "eventId": "uscis_newsroom:19bd227b-a0c5-4072-bdb2-2d0a5e3e485b",
+      "category": "explainer",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 23700.966666666667,
+      "readerValue": 34,
+      "factsHash": "ed3125f4892178a6",
+      "whyItMatters": [
+        "This is an agency announcement. It records what the agency said; the legal instrument, and the detail of how it applies, are published separately.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm",
+      "ogImage": "/og/change/aliens-in-idaho-charged-for-illegal-voting-yharpm.png",
+      "freshness": {
+        "publishedAt": "2026-10-22",
+        "discoveredAt": "2026-10-23",
+        "expiresAt": "2026-11-13"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "reader value 34/100 clears the floor; share page https://immigrationclock.com/what-changed/aliens-in-idaho-charged-for-illegal-voting-yharpm"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-10-30"
         }
       ]
     },
