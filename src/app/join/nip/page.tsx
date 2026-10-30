@@ -20,7 +20,6 @@ import { PurchasePanel } from "@/components/PurchasePanel";
 import { PLAN_BY_ID, availableNow } from "@/lib/billing/plans";
 import { couponIdFor, discountedUsd, offerById } from "@/lib/billing/offers";
 import { billingStatus } from "@/lib/billing/config";
-import { SITE } from "@/lib/site";
 
 const offer = offerById("nip-member");
 const pro = PLAN_BY_ID.get("pro")!;
@@ -80,11 +79,8 @@ export default function NipOfferPage() {
             How it works
           </h2>
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-slate-300">
-            <li>Confirm your email. We send you a link that brings you back to this page.</li>
-            <li>
-              Choose monthly or yearly and add a card on Stripe&apos;s checkout page. Nothing is
-              charged today.
-            </li>
+            <li>Tap a plan below and enter your email. We send a link that takes you straight to checkout.</li>
+            <li>Add a card on Stripe&apos;s checkout page. Nothing is charged today.</li>
             <li>
               Pro starts right away. After {offer.trialDays} days, the discounted price begins.
               Cancel from your account page before then and you pay nothing.
@@ -112,14 +108,12 @@ export default function NipOfferPage() {
                     className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
                   />
                 </NewsletterOptInGroup>
-                <p className="text-center text-[11px] text-slate-500">
-                  Payment is handled by Stripe. {SITE.name} never sees your card. Prices are in US
-                  dollars and exclude any sales tax, which Stripe shows you before you confirm.
-                  After the trial the subscription renews until you cancel. Full{" "}
+                <p className="text-center text-[11px] leading-relaxed text-slate-500">
+                  Secure checkout by Stripe. After the trial it renews automatically until you
+                  cancel, any time from your account. Any sales tax is shown before you confirm.{" "}
                   <Link href="/terms" className="link-accent">
-                    billing terms
+                    Billing terms
                   </Link>
-                  .
                 </p>
               </>
             }

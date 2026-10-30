@@ -23,6 +23,7 @@
 
 import { ALIAS_INDEX, type EntityId } from "./entities";
 import { findCountriesInText } from "./countries";
+import { withoutCitedRuleTitles } from "./evidence-strength";
 
 export interface EntityMention {
   entityId: EntityId;
@@ -84,7 +85,10 @@ const MATCHERS: { re: RegExp; entityId: EntityId; alias: string }[] = (() => {
  */
 export function resolveEntityMentions(text: string): EntityMention[] {
   if (!text?.trim()) return [];
-  const haystack = text.toLowerCase();
+  // A cited rule's written-out name is not a mention. Without this, an L-1 fee
+  // alert citing the "... Fee for H-1B and L-1 Visas final rule" was linked to
+  // H-1B, so an H-1B follow alerted on it while the classifier graded it weak.
+  const haystack = withoutCitedRuleTitles(text).toLowerCase();
   const found = new Map<EntityId, EntityMention>();
 
   for (const m of MATCHERS) {

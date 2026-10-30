@@ -989,9 +989,60 @@ describe("the sign-in link a Subscribe button asked for", () => {
     expect(form).toContain("router.replace(`/pricing?resume=${resume}#plan-pro`)");
 
     const button = read("src/components/UpgradeButton.tsx");
-    // The button asks for a link that carries its own plan, and does not press itself.
+    // The button asks for a link that carries its own plan...
     expect(button).toContain("resume: interval");
-    const effect = button.slice(button.indexOf("useEffect("), button.indexOf("async function start"));
-    expect(effect).not.toContain("start()");
+    // ...and, back from the inbox, continues to checkout by itself. The buyer
+    // already pressed Subscribe once; pressing it again decided nothing. It
+    // continues with the opt-in answer they gave before the detour, never with
+    // a value of its own.
+    const effect = button.slice(button.indexOf("const resumed"), button.indexOf("async function start"));
+    expect(effect).toContain("start(takeSavedOptIn(interval)");
+    expect(effect).not.toMatch(/start\(\s*true/);
+    // Once per page load, not on every render.
+    expect(effect).toContain("resumed.current = true");
+  });
+});
+
+describe("the opt-in answer held for the trip through the inbox", () => {
+  function fakeStorage() {
+    const data = new Map<string, string>();
+    return {
+      getItem: (k: string) => data.get(k) ?? null,
+      setItem: (k: string, v: string) => void data.set(k, v),
+      removeItem: (k: string) => void data.delete(k),
+    };
+  }
+
+  it("returns what was saved for that plan, once", async () => {
+    const storage = fakeStorage();
+    (globalThis as { window?: unknown }).window = { localStorage: storage };
+    try {
+      const { takeSavedOptIn } = await import("@/components/UpgradeButton");
+      storage.setItem("ic_checkout_optin", JSON.stringify({ interval: "monthly", optIn: true, at: Date.now() }));
+      expect(takeSavedOptIn("monthly")).toBe(true);
+      // Consumed: a later purchase never reuses an old answer.
+      expect(takeSavedOptIn("monthly")).toBe(false);
+    } finally {
+      delete (globalThis as { window?: unknown }).window;
+    }
+  });
+
+  it("reads no consent from another plan, a stale answer, junk or nothing", async () => {
+    const storage = fakeStorage();
+    (globalThis as { window?: unknown }).window = { localStorage: storage };
+    try {
+      const { takeSavedOptIn } = await import("@/components/UpgradeButton");
+      expect(takeSavedOptIn("monthly")).toBe(false);
+      storage.setItem("ic_checkout_optin", JSON.stringify({ interval: "annual", optIn: true, at: Date.now() }));
+      expect(takeSavedOptIn("monthly")).toBe(false);
+      storage.setItem("ic_checkout_optin", JSON.stringify({ interval: "monthly", optIn: true, at: Date.now() - 3_600_000 }));
+      expect(takeSavedOptIn("monthly")).toBe(false);
+      storage.setItem("ic_checkout_optin", "{not json");
+      expect(takeSavedOptIn("monthly")).toBe(false);
+      storage.setItem("ic_checkout_optin", JSON.stringify({ interval: "monthly", optIn: "yes", at: Date.now() }));
+      expect(takeSavedOptIn("monthly")).toBe(false);
+    } finally {
+      delete (globalThis as { window?: unknown }).window;
+    }
   });
 });

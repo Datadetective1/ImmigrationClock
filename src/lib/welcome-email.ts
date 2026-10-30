@@ -130,7 +130,7 @@ export function buildWelcomeEmail(baseUrl: string, contactEmail: string): Welcom
     <tr><td style="padding:32px 32px 8px;">
       <h1 style="margin:0 0 14px;font:700 26px/1.25 Arial,sans-serif;color:${INK};letter-spacing:-.01em;">Welcome to Immigration&nbsp;Pulse.</h1>
       <p style="margin:0 0 14px;font:400 16px/1.6 Arial,sans-serif;color:${BODY};">
-        Every week we read the official U.S. immigration sources &mdash; the Federal Register, USCIS, CBP, the courts &mdash; and send you the changes that matter.
+        Every week we read the official U.S. immigration sources (the Federal Register, USCIS, CBP and the courts) and send you the changes that matter.
       </p>
       <p style="margin:0;font:400 16px/1.6 Arial,sans-serif;color:${BODY};">
         Every item links straight to the government document it came from. No rumours, no politics, no legal advice. Verified public information, and the date it was published.
@@ -183,7 +183,7 @@ export function buildWelcomeEmail(baseUrl: string, contactEmail: string): Welcom
         <tr><td style="padding:18px 20px;">
           <p style="margin:0 0 8px;font:700 14px Arial,sans-serif;color:${INK};">What happens next</p>
           <p style="margin:0;font:400 14px/1.65 Arial,sans-serif;color:${BODY};">
-            Your first issue arrives with the next weekly send. One email a week &mdash; nothing else.
+            Your first issue arrives with the next weekly send. One email a week, nothing else.
             Unsubscribe any time in one click. We never sell or share your address.
           </p>
         </td></tr>
@@ -215,8 +215,8 @@ export function buildWelcomeEmail(baseUrl: string, contactEmail: string): Welcom
   const text = [
     "WELCOME TO IMMIGRATION PULSE",
     "",
-    "Every week we read the official U.S. immigration sources - the Federal",
-    "Register, USCIS, CBP, the courts - and send you the changes that matter.",
+    "Every week we read the official U.S. immigration sources (the Federal",
+    "Register, USCIS, CBP and the courts) and send you the changes that matter.",
     "Every item links straight to the government document it came from. No",
     "rumours, no politics, no legal advice.",
     "",
@@ -231,7 +231,7 @@ export function buildWelcomeEmail(baseUrl: string, contactEmail: string): Welcom
     ...explore.map(([label, href]) => `  ${label.replace(/&rsquo;/g, "'").replace(/&amp;/g, "&")}: ${href}`),
     "",
     "WHAT HAPPENS NEXT",
-    "Your first issue arrives with the next weekly send. One email a week -",
+    "Your first issue arrives with the next weekly send. One email a week,",
     "nothing else. Unsubscribe any time. We never sell or share your address.",
     "",
     footerLinks.map(([l, h]) => `${l}: ${h}`).join("\n"),

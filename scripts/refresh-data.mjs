@@ -361,7 +361,7 @@ async function main() {
       return {
         ...s,
         mode: "auto-fetch (partial)",
-        feed: "Texas via data.texas.gov (Socrata) — TX only; other states curated",
+        feed: "Texas via data.texas.gov (Socrata), TX only; other states curated",
         auto: true,
         status: warn.ok ? "ok" : warn.stale ? "stale" : "manual",
         lastFetchedAt: warn.fetchedAt ?? null,

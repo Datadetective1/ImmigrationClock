@@ -339,8 +339,7 @@ export default async function AccountPage() {
               Sign in with your email
             </h2>
             <p className="mt-2 text-sm text-slate-400">
-              No password. We email you a link that signs you in on this device. Use the same address
-              every time and your Pro subscription, your follows and your settings follow you.
+              No password. We email you a link that signs you in on this device.
             </p>
 
             {storeConfigured() ? (
@@ -356,13 +355,7 @@ export default async function AccountPage() {
             <div className="mt-6 border-t border-white/5 pt-5">
               <h3 className="text-sm font-semibold text-white">You do not need an account to read</h3>
               <p className="mt-1 text-sm text-slate-400">
-                Every recorded change, the employer directory, the layoff feed, the API and the weekly
-                newsletter are open to everyone, signed in or not. Following things works here too. It
-                is saved in this browser.
-              </p>
-              <p className="mt-2 text-sm text-slate-400">
-                An account is for what should follow <em>you</em> rather than a browser: Pro, the same
-                follows on every device, newsletter settings, and billing.
+                Everything on the site is free and open without signing in. An account is for Pro.
               </p>
               <Link
                 href="/pricing"

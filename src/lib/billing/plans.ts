@@ -197,7 +197,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     id: "pro_briefing",
     label: "Your Briefing",
     blurb:
-      "One page with the recorded changes that touch what you follow, upcoming stated effective dates, and changes you save, each with its source and dates. Download a brief as Markdown or a printable page, subscribe to effective dates in your calendar, choose daily or weekly alerts and a priority-only filter, and see every alert you were sent.",
+      "One page with the changes that touch what you follow, upcoming effective dates and anything you save. Print or download it, add dates to your calendar, and choose daily or weekly alerts.",
     plan: "pro",
     // /briefing, /api/pro/*, the Save button on change pages and the alert
     // job's preferences, behind FEATURE_PRO_BRIEFING. Marked available only
@@ -261,7 +261,7 @@ export const PLANS: PlanSpec[] = [
   {
     id: "pro",
     name: "Pro",
-    tagline: "Monitoring and bulk work, for people who follow this professionally.",
+    tagline: "Alerts and a daily Briefing, for people who follow this professionally.",
     monthlyUsd: 19,
     annualUsd: 190,
     priceEnv: { monthly: "STRIPE_PRICE_PRO_MONTHLY", annual: "STRIPE_PRICE_PRO_ANNUAL" },

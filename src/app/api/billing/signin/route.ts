@@ -137,7 +137,7 @@ export async function POST(req: Request): Promise<Response> {
       JSON.stringify({ k: key, e: email.trim().toLowerCase() }),
       LOGIN_TTL_SECONDS
     );
-    await sendSignInEmail(email, loginUrl(billingOrigin(), token, resume, offer));
+    await sendSignInEmail(email, loginUrl(billingOrigin(), token, resume, offer), resume !== null);
   } catch (err) {
     // Log for us, identical answer for them: an error here must not become a
     // side channel that says whether the address exists.
@@ -163,13 +163,13 @@ async function recipientAllowed(store: SubscriberStore, k: string): Promise<bool
  * Throws on failure so the caller logs it. Never includes the address in the
  * thrown message.
  */
-async function sendSignInEmail(to: string, link: string): Promise<void> {
+async function sendSignInEmail(to: string, link: string, checkout: boolean): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("RESEND_API_KEY is not configured; no sign-in link can be sent");
 
   const base = process.env.RESEND_API_BASE || "https://api.resend.com";
   const from = process.env.RESEND_FROM_EMAIL || "Immigration Clock <noreply@immigrationclock.com>";
-  const mail = buildSignInEmail(link, SITE.name);
+  const mail = buildSignInEmail(link, SITE.name, { checkout });
 
   const res = await fetch(`${base}/emails`, {
     method: "POST",

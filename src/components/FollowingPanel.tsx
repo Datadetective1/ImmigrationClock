@@ -251,7 +251,7 @@ export function FollowingPanel({
               <span aria-hidden className="text-status-green">
                 &#10003;
               </span>
-              Synced &mdash; saved to your account and available on your devices.
+              Synced. Saved to your account and available on your devices.
             </p>
           ) : null}
         </div>

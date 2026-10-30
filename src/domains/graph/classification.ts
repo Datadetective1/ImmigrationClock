@@ -44,7 +44,7 @@
 // appear in the document. The model only decides how strong the appearance is.
 // =============================================================================
 
-import { evidenceKindOf, excludesScope, isStrongEvidence } from "./evidence-strength";
+import { evidenceKindOf, excludesScope, isStrongEvidence, withoutCitedRuleTitles } from "./evidence-strength";
 
 export const CLASSIFICATION_METHODS = [
   "explicit_source",
@@ -118,7 +118,13 @@ export interface GradeInput {
 export function gradeClassification(input: GradeInput): ClassificationMethod {
   if (input.fromStructuredField) return "structured_source";
   if (input.matches(input.title)) return "explicit_source";
-  if (input.matches(input.summary)) return "derived_high_confidence";
+  if (input.matches(input.summary)) {
+    // A summary that names the value only inside the title of a rule it cites
+    // is citing, not scoping. The match is kept and labelled weak.
+    return input.matches(withoutCitedRuleTitles(input.summary))
+      ? "derived_high_confidence"
+      : "derived_weak";
+  }
 
   // Body-only. The evidence quote is all we have, so it decides.
   const evidence = input.evidence ?? "";

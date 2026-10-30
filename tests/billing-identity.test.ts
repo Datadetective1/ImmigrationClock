@@ -325,6 +325,22 @@ describe("the sign-in link", () => {
     expect(LOGIN_TTL_SECONDS).toBe(900);
   });
 
+  it("tells a buyer the link continues to checkout", () => {
+    const mail = buildSignInEmail("https://immigrationclock.com/account?signin=x&resume=monthly", "ImmigrationClock", {
+      checkout: true,
+    });
+    expect(mail.subject).toMatch(/finish subscribing/i);
+    expect(mail.html).toContain(">Continue to checkout</a>");
+    for (const body of [mail.text, mail.html]) {
+      expect(body).toContain("15 minutes");
+      expect(body).toMatch(/did not ask/i);
+      expect(body).toMatch(/nothing is charged unless you complete checkout/i);
+      expect(body).toContain("resume=monthly");
+    }
+    // A plain sign-in keeps the plain words.
+    expect(buildSignInEmail("https://x/account?signin=y", "ImmigrationClock").subject).toMatch(/sign-in link/);
+  });
+
   it("escapes what it puts in HTML", () => {
     const mail = buildSignInEmail("https://x/?a=1&b=2", '<script>alert("x")</script>');
     expect(mail.html).not.toContain("<script>");

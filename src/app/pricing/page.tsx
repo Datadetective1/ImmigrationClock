@@ -29,7 +29,6 @@ import {
   roadmap,
 } from "@/lib/billing/plans";
 import type { CapabilityStatus } from "@/lib/billing/plans";
-import { SITE } from "@/lib/site";
 import { billingStatus } from "@/lib/billing/config";
 
 export const metadata = buildMetadata({
@@ -118,13 +117,16 @@ export default function PricingPage() {
       <div className="container-page max-w-5xl space-y-10 py-10">
         <div className="grid gap-5 md:grid-cols-2">
           {/* FREE */}
-          <section className="panel panel-pad" aria-labelledby="plan-free">
+          {/* ON A PHONE, PRO COMES FIRST. People open /pricing to see what Pro
+              costs; stacking the free list above it put the price and the buy
+              button a long scroll down. From md up the two sit side by side
+              in the usual Free, Pro order. */}
+          <section className="panel panel-pad order-2 md:order-1" aria-labelledby="plan-free">
             <h2 id="plan-free" className="text-lg font-bold text-white">
               {free.name}
             </h2>
             <p className="mt-1 text-sm text-slate-400">{free.tagline}</p>
             <p className="mt-4 font-mono text-3xl font-extrabold tabular-nums text-white">$0</p>
-            <p className="mt-1 text-xs text-slate-500">No account. No card. No limits.</p>
 
             <ul className="mt-5 space-y-2.5 text-sm">
               {freeFeatures.map((f) => (
@@ -148,7 +150,7 @@ export default function PricingPage() {
           </section>
 
           {/* PRO */}
-          <section className="panel panel-pad border-accent/25" aria-labelledby="plan-pro">
+          <section className="panel panel-pad order-1 border-accent/25 md:order-2" aria-labelledby="plan-pro">
             <h2 id="plan-pro" className="text-lg font-bold text-white">
               {pro.name}
             </h2>
@@ -161,8 +163,7 @@ export default function PricingPage() {
               <span className="text-sm text-slate-400">per month</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
-              or ${pro.annualUsd} a year{saving ? `, which is two months free` : ""}. Cancel any time, from your
-              own billing page.
+              or ${pro.annualUsd} a year{saving ? `, which is two months free` : ""}. Cancel any time.
             </p>
 
             <ul className="mt-5 space-y-2.5 text-sm">
@@ -238,30 +239,6 @@ export default function PricingPage() {
               </p>
             ) : null}
 
-            {later.length > 0 ? (
-              <div className="mt-5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2.5">
-                <p className="text-xs font-semibold text-slate-300">Not included yet: what we are building next</p>
-                {/* THESE ARE NOT SOLD, AND THE HEADING HAS TO SAY SO. They were
-                    listed as Pro capabilities with "in build" and "planned"
-                    badges, which reads as "included, arriving shortly" — and a
-                    $190 annual subscriber was buying one working capability and
-                    four intentions. Removing the promise must not become hiding
-                    the plan, so they stay on the page, outside the offer. */}
-                <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
-                  Not part of Pro today and not paid for by subscribing. If they ship, they arrive at
-                  no extra cost.
-                </p>
-                <span className="mt-1.5 block text-[11px] text-slate-400">
-                  {later.map((f) => (
-                    <span key={f.id} className="block">
-                      {"· "}
-                      {f.label}{" "}
-                      <span className="text-slate-600">({STATUS_LABEL[f.status].toLowerCase()})</span>
-                    </span>
-                  ))}
-                </span>
-              </div>
-            ) : null}
 
             {/* THE PRICE STAYS, THE PURCHASE DOES NOT.
                 Two live Subscribe buttons sat directly beneath a paragraph
@@ -298,19 +275,15 @@ export default function PricingPage() {
                       className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
                     />
                   </NewsletterOptInGroup>
-                  <p className="text-center text-[11px] text-slate-500">
-                    Payment is handled by Stripe. {SITE.name} never sees your card. Prices are in
-                    US dollars and exclude any sales tax or VAT, which Stripe calculates and shows
-                    you before you pay.
-                  </p>
-                  <p className="text-center text-[11px] text-slate-500">
-                    Subscriptions renew automatically until you cancel: monthly plans every month,
-                    yearly plans every twelve months. Cancel any time from your account; you
-                    keep Pro until the period you have paid for ends. Full{" "}
+                  {/* ONE LINE OF SMALL PRINT. Renewal and tax are said here because
+                      a buyer must see them before paying; the rest lives in the
+                      billing terms it links to. */}
+                  <p className="text-center text-[11px] leading-relaxed text-slate-500">
+                    Secure checkout by Stripe. Renews automatically until you cancel, and you can
+                    cancel any time from your account. Any sales tax is shown before you pay.{" "}
                     <Link href="/terms" className="link-accent">
-                      billing terms
+                      Billing terms
                     </Link>
-                    .
                   </p>
                 </>
               }
@@ -348,32 +321,6 @@ export default function PricingPage() {
           </section>
         </div>
 
-        {/* WHAT PRO IS NOT — the credibility section. */}
-        <section aria-labelledby="not-heading" className="panel panel-pad">
-          <h2 id="not-heading" className="section-title">
-            What Pro is not
-          </h2>
-          <ul className="mt-3 space-y-2 text-sm text-slate-300">
-            <li>
-              <strong className="text-white">It is not a paywall on public information.</strong> Every
-              recorded change, every employer page, the layoff feed, the API and the weekly newsletter
-              stay free and open to search engines. If that ever changes, this line goes with it.
-            </li>
-            <li>
-              <strong className="text-white">It is not legal advice</strong>, and a subscription does not
-              make it any. The disclaimers on every page apply identically.
-            </li>
-            <li>
-              <strong className="text-white">It does not change what we publish.</strong> No subscriber
-              influences which changes are recorded or how they are described.{" "}
-              <Link href="/methodology" className="text-accent hover:underline">
-                How we decide what to record
-              </Link>
-              .
-            </li>
-          </ul>
-        </section>
-
         <section aria-labelledby="faq-heading" className="space-y-4">
           <h2 id="faq-heading" className="section-title">
             Questions
@@ -382,25 +329,22 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Do I need an account to read the site?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                No. Everything public stays open with no account and no sign-in. Accounts exist
-                only for Pro, keeping your follows across devices, newsletter settings and billing.
-                You sign in with an emailed link, and there is no password.
+                No. Everything public stays open with no sign-in. For Pro you sign in with a link
+                we email you. There is no password.
               </p>
             </div>
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                They stay in your browser exactly as they are now. Pro keeps the same list on every
-                device you use, and keeps it if you clear your browser. Pro also emails you when a
-                recorded change touches something on that list, at most once a day, and you can turn
-                those emails off from your account or from any alert.
+                They come with you. Pro keeps the same list on every device. Pro also emails you
+                when a recorded change touches something on that list, at most once a day.
               </p>
             </div>
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Can I cancel?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                Yes, from your billing page, at any time. It runs to the end of the period you paid
-                for and does not renew.
+                Yes, any time, from your account. Pro keeps working until the end of the period you
+                paid for.
               </p>
             </div>
             <div className="panel panel-pad">
@@ -411,6 +355,22 @@ export default function PricingPage() {
                 the free platform is the product.
               </p>
             </div>
+            {later.length > 0 ? (
+              <div className="panel panel-pad">
+                {/* THE ROADMAP, OUTSIDE THE OFFER. It sat inside the Pro card,
+                    between the price and the buy button, where it read as a
+                    list of things missing. It is not part of Pro and is not
+                    paid for, and this answer says so. */}
+                <h3 className="text-sm font-semibold text-white">Is more coming?</h3>
+                <p className="mt-1.5 text-sm text-slate-400">
+                  We are working on{" "}
+                  {new Intl.ListFormat("en", { type: "conjunction" }).format(
+                    later.map((f) => f.label.toLowerCase())
+                  )}
+                  . They are not part of Pro today. If they ship, subscribers get them at no extra cost.
+                </p>
+              </div>
+            ) : null}
           </div>
         </section>
       </div>
