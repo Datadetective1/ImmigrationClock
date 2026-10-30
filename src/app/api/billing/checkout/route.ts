@@ -298,9 +298,25 @@ export async function POST(req: Request): Promise<Response> {
   } catch (err) {
     // Never echo the Stripe error verbatim to the browser: it can name the
     // account and the key's mode. The server log carries the detail.
+    //
+    // Stripe's machine code and the parameter it objected to are safe to
+    // return: they name neither the account nor the key's mode, and without
+    // them a live failure can only be diagnosed by someone with log access.
     const detail = err instanceof StripeError ? `HTTP ${err.status}` : "network error";
-    console.error(`[billing] checkout failed: ${err instanceof Error ? err.message : String(err)}`);
-    return json({ error: "checkout_failed", message: `Could not start checkout (${detail}).` }, 502);
+    const stripe = err instanceof StripeError ? { code: err.code, param: err.param } : undefined;
+    console.error(
+      `[billing] checkout failed: ${err instanceof Error ? err.message : String(err)}` +
+        (stripe ? ` code=${stripe.code ?? "-"} param=${stripe.param ?? "-"}` : "") +
+        (offer ? ` offer=${offer.id}` : "")
+    );
+    return json(
+      {
+        error: "checkout_failed",
+        message: `Could not start checkout (${detail}). Nothing was charged. Please try again in a few minutes.`,
+        ...(stripe ? { stripe } : {}),
+      },
+      502
+    );
   }
 }
 
