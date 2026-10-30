@@ -188,6 +188,13 @@ export default function PricingPage() {
               </li>
             </ul>
 
+            {/* Look before buying: the live sample of a Briefing, no sign-up. */}
+            <p className="mt-4 text-sm">
+              <Link href="/briefing/example" className="link-accent font-medium">
+                See an example Briefing first &rarr;
+              </Link>
+            </p>
+
             {/* THE ZERO-AVAILABLE STATE IS REACHABLE AND HAS TO READ HONESTLY.
                 The paragraph below used to say "subscribe now only if the ones
                 marked available are already worth it to you", which pointed at

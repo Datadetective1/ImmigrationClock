@@ -108,6 +108,9 @@ export const NAV: NavItem[] = [
     match: ["/pricing", "/briefing", "/monitor", "/developers"],
     children: [
       { href: "/briefing", label: "Your Briefing", desc: "Your follows, dates ahead and saved research" },
+      // The live sample. Your Briefing above is a sign-in wall for a visitor,
+      // so this is the one Pro page they can actually open and look at.
+      { href: "/briefing/example", label: "Example Briefing", desc: "A live sample. No sign-up needed" },
       { href: "/monitor", label: "Monitor", desc: "What changed that matters to your work, with the evidence" },
       { href: "/developers", label: "API", desc: "The same intelligence as JSON. Free, no key" },
       { href: "/pricing", label: "Pricing", desc: "What Pro adds, and what stays free" },
@@ -157,6 +160,7 @@ export const FOOTER_SECTIONS = [
       // this label is exactly what a reader looking for the weekly email
       // clicks. The page a reader wants is /pulse, where the sign-up form is.
       { href: "/pulse#subscribe", label: "Weekly Pulse email" },
+      { href: "/briefing/example", label: "Example Pro Briefing" },
     ],
   },
   {

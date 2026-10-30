@@ -294,7 +294,7 @@ describe("site chrome links somewhere real", () => {
     expect(main.map((i) => i.label)).toEqual(["What changed", "For you", "Data & trends", "Key dates", "Resources"]);
     expect(main.filter((i) => i.children).length).toBe(1);
     const pro = NAV.find((i) => i.utility)!;
-    expect(pro.children!.map((c) => c.href)).toEqual(["/briefing", "/monitor", "/developers", "/pricing"]);
+    expect(pro.children!.map((c) => c.href)).toEqual(["/briefing", "/briefing/example", "/monitor", "/developers", "/pricing"]);
     expect(TAB_BAR).toHaveLength(4);
     for (const t of TAB_BAR) expect(routeExists(t.href), t.href).toBe(true);
   });

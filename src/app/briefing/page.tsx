@@ -181,22 +181,61 @@ function FeedSection({ id, title, hint, items, empty }: { id: string; title: str
   );
 }
 
-function Gate({ title, body, href, cta }: { title: string; body: string; href: string; cta: string }) {
+type GateLink = { href: string; label: string };
+
+/**
+ * What a reader without a Briefing sees here. It used to be one button, "Sign
+ * in", and nothing else: the Pro menu, the homepage and the account page all
+ * send visitors to this address, and a visitor has nothing to sign in with. So
+ * the gate now also offers the live sample and the free way to follow things.
+ */
+function Gate({
+  title,
+  body,
+  primary,
+  alt,
+  secondary = [],
+}: {
+  title: string;
+  body: string;
+  primary: GateLink;
+  /** A second button beside the first, for a reader the primary is not for. */
+  alt?: GateLink;
+  secondary?: GateLink[];
+}) {
   return (
     <div className="container-page max-w-2xl py-10">
       <section className="panel panel-pad">
         <h2 className="section-title">{title}</h2>
         <p className="mt-2 text-sm text-slate-300">{body}</p>
-        <Link
-          href={href}
-          className="mt-4 inline-flex rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 hover:bg-accent-soft"
-        >
-          {cta}
-        </Link>
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <Link
+            href={primary.href}
+            className="inline-flex min-h-[44px] items-center rounded-lg bg-accent px-4 text-sm font-semibold text-ink-950 hover:bg-accent-soft"
+          >
+            {primary.label}
+          </Link>
+          {alt ? (
+            <Link
+              href={alt.href}
+              className="inline-flex min-h-[44px] items-center rounded-lg px-4 text-sm font-semibold text-slate-200 ring-1 ring-white/15 hover:bg-white/5"
+            >
+              {alt.label}
+            </Link>
+          ) : null}
+          {secondary.map((l) => (
+            <Link key={l.href} href={l.href} className="text-sm font-medium link-accent">
+              {l.label}
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );
 }
+
+const EXAMPLE: GateLink = { href: "/briefing/example", label: "See an example Briefing" };
+const FOLLOW_FREE: GateLink = { href: "/following", label: "Follow topics for free" };
 
 export default async function BriefingPage() {
   const gate = await proGate(cookies().get(COOKIE_NAME)?.value);
@@ -224,11 +263,26 @@ export default async function BriefingPage() {
       <div>
         {header}
         {gate.reason === "not_signed_in" ? (
-          <Gate title="Sign in to see your Briefing" body="Briefing is part of Pro. Sign in with the email you subscribed with." href="/account" cta="Sign in" />
+          <Gate
+            title="Your Briefing is part of Pro"
+            body="Subscribers sign in with the email they subscribed with. Not a subscriber? The example shows a real Briefing, updated from the same records, with nothing to sign up for."
+            primary={EXAMPLE}
+            alt={{ href: "/account", label: "Sign in" }}
+            secondary={[{ href: "/pricing", label: "See Pro pricing" }, FOLLOW_FREE]}
+          />
         ) : gate.reason === "not_pro" ? (
-          <Gate title="Briefing is part of Pro" body="Your account does not have an active Pro subscription." href="/pricing" cta="See Pro" />
+          <Gate
+            title="Briefing is part of Pro"
+            body="Your account does not have an active Pro subscription."
+            primary={{ href: "/pricing", label: "See Pro" }}
+            secondary={[EXAMPLE, FOLLOW_FREE]}
+          />
         ) : (
-          <Gate title="Briefing is unavailable" body="Briefing could not be loaded right now. Your data is safe; try again shortly." href="/" cta="Home" />
+          <Gate
+            title="Briefing is unavailable"
+            body="Briefing could not be loaded right now. Your data is safe. Try again shortly."
+            primary={{ href: "/", label: "Home" }}
+          />
         )}
       </div>
     );
