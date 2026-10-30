@@ -261,7 +261,7 @@ export const PLANS: PlanSpec[] = [
   {
     id: "pro",
     name: "Pro",
-    tagline: "Alerts and a daily Briefing, for people who follow this professionally.",
+    tagline: "Alerts and your own Briefing, for people who follow this professionally.",
     monthlyUsd: 19,
     annualUsd: 190,
     priceEnv: { monthly: "STRIPE_PRICE_PRO_MONTHLY", annual: "STRIPE_PRICE_PRO_ANNUAL" },
