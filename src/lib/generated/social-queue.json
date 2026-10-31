@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-30T19:01:13.191Z",
+  "updatedAt": "2026-10-31T18:12:59.877Z",
   "items": [
     {
       "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
       "category": "actionable",
       "topicKey": "visa:h-1b",
-      "priority": 58268.98333333333,
+      "priority": 58268.97777777778,
       "readerValue": 100,
       "factsHash": "5d737c2bc7314976",
       "whyItMatters": [
@@ -60,7 +60,7 @@
       "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
       "category": "actionable",
       "topicKey": "visa:h-1b",
-      "priority": 58268.98333333333,
+      "priority": 58268.97777777778,
       "readerValue": 100,
       "factsHash": "a69858fe54ea2f0a",
       "whyItMatters": [
@@ -105,7 +105,7 @@
       "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 54548.97777777778,
+      "priority": 54548.97222222222,
       "readerValue": 44,
       "factsHash": "0ed491403a471eb0",
       "whyItMatters": [
@@ -149,7 +149,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -192,7 +192,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "15b3941b9b854232",
       "whyItMatters": [
@@ -235,7 +235,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -278,7 +278,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -321,7 +321,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "2fd0cb458b02dce3",
       "whyItMatters": [
@@ -364,7 +364,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -407,7 +407,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -450,7 +450,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -491,7 +491,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -532,7 +532,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c15d5822d00b1ad8",
       "whyItMatters": [],
@@ -573,7 +573,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -614,7 +614,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -655,7 +655,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -696,9 +696,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
-      "factsHash": "e8c17d9c5c05f9d6",
+      "factsHash": "dee642d8e12e8049",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1360,6 +1360,65 @@
         },
         {
           "at": "2026-09-17T17:36:19.231Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-20016::effective_date",
+      "subjectId": "event:federal_register:2026-20016",
+      "contentType": "effective_date",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "U.S. Citizenship and Immigration Services Employment-Based Immigrant Visa, Fifth Preference (EB-5) Fee Rule",
+      "suggestedHeadline": "EB-5 fee rule becomes effective Nov. 30, 2026",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/09/30/2026-20016/us-citizenship-and-immigration-services-employment-based-immigrant-visa-fifth-preference-eb-5-fee",
+      "eventId": "federal_register:2026-20016",
+      "category": "actionable",
+      "topicKey": "visa:eb-5",
+      "priority": 58252.82777777778,
+      "readerValue": 100,
+      "factsHash": "ad08b80b2d7995d7",
+      "whyItMatters": [
+        "The rule is final but does not apply until November 30, 2026, 30 days from today. Until then the rules in force today stay in force.",
+        "The record is linked to EB-5 immigrant investor. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching the November 30, 2026 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Nov. 30, 2026: USCIS’s final EB-5 immigrant investor fee rule takes effect. It adjusts employment-based fifth preference immigration benefit request fees and codifies 2022 provisions.\n\nUntil then, today’s fees and rules stay in force.\n\nhttps://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au?utm_source=x&utm_medium=social&utm_campaign=effective_date&utm_content=change%3Arav4au",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au",
+      "ogImage": "/og/change/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au.png",
+      "freshness": {
+        "publishedAt": "2026-09-30",
+        "discoveredAt": "2026-10-31",
+        "expiresAt": "2026-11-30"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-10-31T18:12:32.445Z",
+      "externalUrl": "https://x.com/i/web/status/2116594297969488020",
+      "history": [
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/u-s-citizenship-and-immigration-services-employment-based-immigrant-rav4au"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4455,7 +4514,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -4575,6 +4634,16 @@
           "at": "2026-10-30T18:59:48.816Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4591,7 +4660,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4721,6 +4790,16 @@
           "at": "2026-10-30T18:59:48.816Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4737,7 +4816,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "280672b5a0cecb41",
       "whyItMatters": [],
@@ -4889,6 +4968,16 @@
         },
         {
           "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
