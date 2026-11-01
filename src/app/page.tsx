@@ -17,7 +17,7 @@ import { ReportError } from "@/components/ReportError";
 import { bulletinPath, latestBulletin } from "@/lib/visa-bulletin";
 
 export const metadata = buildMetadata({
-  title: SITE.title,
+  title: "U.S. Immigration Changes, Tracked to Official Sources",
   description: SITE.subtitle,
   path: "/",
 });

@@ -21,9 +21,9 @@ import { siteDay } from "@/lib/format";
 export const revalidate = 3600;
 
 export const metadata = buildMetadata({
-  title: "Example Pro Briefing: Immigration Changes for a Watchlist",
+  title: "Sample Pro Briefing: New USCIS, H-1B and F-1 Changes",
   description:
-    "A live sample of the ImmigrationClock Pro Briefing for an H-1B, F-1 and USCIS watchlist: what takes effect next, what is new, each with its official source.",
+    "A live sample of the ImmigrationClock Pro Briefing for an H-1B, F-1 and USCIS watchlist: new policy updates, what takes effect next, and the official source for each.",
   path: "/briefing/example",
 });
 

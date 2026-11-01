@@ -48,9 +48,9 @@ import { WhatChangedV2 } from "@/components/WhatChangedV2";
 import { flagOn } from "@/lib/flags";
 
 export const metadata = buildMetadata({
-  title: "What Changed: U.S. Immigration Policy Tracker",
+  title: "USCIS Policy Updates and New Immigration Rules, Newest First",
   description:
-    "Every U.S. immigration policy change traced to its official government source: rules, executive actions, agency guidance and court decisions.",
+    "USCIS Policy Manual updates, Federal Register rules, agency alerts and court decisions, newest first. Each shows its date and links to the official document.",
   path: "/what-changed",
   image: ogImagePath("page", "what-changed"),
   keywords: [
