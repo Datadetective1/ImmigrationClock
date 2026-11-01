@@ -86,9 +86,10 @@ describe("WARN feed integrity", () => {
       expect(n.sourceUrl).toMatch(/^https?:\/\//);
     }
     // Spot-check that the feed is dominated by .gov / state open-data hosts
-    // rather than an editorial source.
+    // rather than an editorial source. Georgia's official WARN list is published
+    // by the Technical College System of Georgia, a state agency, at tcsg.edu.
     const govish = WARN_NOTICES.filter((n) =>
-      /\.gov|\.us\b|data\.[a-z]+\.gov/i.test(n.sourceUrl)
+      /\.gov|\.us\b|data\.[a-z]+\.gov|^https:\/\/www\.tcsg\.edu\/warn-public-view\//i.test(n.sourceUrl)
     ).length;
     expect(govish / WARN_NOTICES.length).toBeGreaterThan(0.9);
   });

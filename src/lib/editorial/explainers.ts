@@ -89,7 +89,7 @@ export const EXPLAINERS: Explainer[] = [
       { name: "Regulations.gov: Learn about the regulatory process", url: "https://www.regulations.gov/learn" },
       {
         name: "5 U.S.C. § 553: Rule making (Administrative Procedure Act)",
-        url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+        url: "https://www.govinfo.gov/link/uscode/5/553?type=usc&year=mostrecent&link-type=html",
       },
     ],
     relatedPaths: ["/what-changed"],
@@ -113,7 +113,7 @@ export const EXPLAINERS: Explainer[] = [
     sources: [
       {
         name: "5 U.S.C. § 553(d): when a rule may take effect",
-        url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+        url: "https://www.govinfo.gov/link/uscode/5/553?type=usc&year=mostrecent&link-type=html",
       },
       { name: "Federal Register: Public Inspection", url: "https://www.federalregister.gov/public-inspection/current" },
       { name: "National Archives: Public Inspection of Federal Register documents", url: "https://www.archives.gov/federal-register/public-inspection" },
@@ -138,7 +138,7 @@ export const EXPLAINERS: Explainer[] = [
     sources: [
       {
         name: "5 U.S.C. § 553(b): the exceptions to notice and comment",
-        url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+        url: "https://www.govinfo.gov/link/uscode/5/553?type=usc&year=mostrecent&link-type=html",
       },
       { name: "Regulations.gov: Learn about the regulatory process", url: "https://www.regulations.gov/learn" },
     ],
@@ -372,11 +372,11 @@ export const EXPLAINERS: Explainer[] = [
       },
       {
         name: "29 U.S.C. § 2101: WARN Act definitions",
-        url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section2101&num=0&edition=prelim",
+        url: "https://www.govinfo.gov/link/uscode/29/2101?type=usc&year=mostrecent&link-type=html",
       },
       {
         name: "29 U.S.C. § 2102: notice required before plant closings and mass layoffs",
-        url: "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section2102&num=0&edition=prelim",
+        url: "https://www.govinfo.gov/link/uscode/29/2102?type=usc&year=mostrecent&link-type=html",
       },
     ],
     relatedPaths: ["/layoffs", "/layoffs-vs-h1b", "/developers"],
