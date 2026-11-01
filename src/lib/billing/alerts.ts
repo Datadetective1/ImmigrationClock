@@ -43,8 +43,17 @@ import { changePath } from "@/lib/share";
 import { CLASSIFICATION_LABEL, isNotInForce } from "@/lib/event-labels";
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import type { EventClassification } from "@/domains/graph/events";
+import {
+  bulletinPath,
+  changedCells,
+  CHARGEABILITY_SHORT,
+  formatCutoff,
+  ROW_LABEL,
+  type Bulletin,
+  type Row,
+} from "@/lib/visa-bulletin";
 
-export type AlertKind = "change" | "warn_notice" | "h1b_export" | "effective_reminder";
+export type AlertKind = "change" | "warn_notice" | "h1b_export" | "effective_reminder" | "visa_bulletin";
 
 export interface Alert {
   kind: AlertKind;
@@ -286,6 +295,83 @@ export function h1bAlerts(
 }
 
 /**
+ * Which bulletin rows a follow cares about. The Visa Bulletin follow covers the
+ * whole bulletin; an employment category covers its own rows. "visa:f-1" is the
+ * student visa, not the F1 family category, so family rows are reached only
+ * through the bulletin follow.
+ */
+const BULLETIN_ROWS: Record<string, readonly Row[] | "all"> = {
+  "topic:visa-bulletin": "all",
+  "visa:eb-1": ["EB1"],
+  "visa:eb-2": ["EB2"],
+  "visa:eb-3": ["EB3", "EW"],
+  "visa:eb-4": ["EB4", "SR"],
+  "visa:eb-5": ["EB5U", "EB5R", "EB5H", "EB5I"],
+};
+
+/** How many moved cells one alert names before it says "and N more". */
+const BULLETIN_CELLS_NAMED = 4;
+
+/**
+ * A new month's Visa Bulletin, for a reader who follows it or an employment
+ * category it covers.
+ *
+ * Only the newest bulletin, and only while its month has not ended: a reader
+ * who subscribes on the 25th hears about next month's bulletin, not a list of
+ * old ones. The id is the bulletin month, so one bulletin alerts once.
+ *
+ * The detail names the final action dates that moved for what the reader
+ * follows, exactly as entered from the official bulletin. It never says what a
+ * move means for a person's case.
+ */
+export function visaBulletinAlerts(
+  bulletins: readonly Bulletin[],
+  follows: readonly string[],
+  cursor: AlertCursor,
+  today?: string
+): Alert[] {
+  const latest = [...bulletins].sort((a, b) => b.id.localeCompare(a.id))[0];
+  if (!latest) return [];
+  if (today && today.slice(0, 7) > latest.id) return [];
+
+  const matched = follows.filter((f) => f in BULLETIN_ROWS);
+  if (matched.length === 0) return [];
+  const id = `visa_bulletin:${latest.id}`;
+  if ((cursor.sent ?? []).includes(id)) return [];
+
+  const wanted = matched.some((f) => BULLETIN_ROWS[f] === "all")
+    ? null
+    : new Set(matched.flatMap((f) => BULLETIN_ROWS[f] as readonly Row[]));
+  const moved = [...changedCells(latest, "family"), ...changedCells(latest, "employment")].filter(
+    (c) => wanted === null || wanted.has(c.row)
+  );
+
+  const named = moved.slice(0, BULLETIN_CELLS_NAMED).map((c) => {
+    const where = `${ROW_LABEL[c.row]} ${CHARGEABILITY_SHORT[c.country]}`;
+    return `${where}: ${formatCutoff(c.from)} to ${formatCutoff(c.to)}`;
+  });
+  const more = moved.length - named.length;
+  const scope = wanted === null ? "" : ` for ${[...new Set([...wanted].map((r) => ROW_LABEL[r]))].join(", ")}`;
+  const detail =
+    moved.length === 0
+      ? `No final action dates moved${scope} since last month.`
+      : `Final action dates that moved${scope}: ${named.join("; ")}${more > 0 ? `; and ${more} more` : ""}.`;
+
+  return [
+    {
+      kind: "visa_bulletin",
+      id,
+      matched,
+      title: `The ${latest.label} Visa Bulletin is out`,
+      detail,
+      href: bulletinPath(latest),
+      date: latest.verifiedAt,
+      source: { name: "U.S. Department of State", url: latest.pdfUrl ?? latest.sourceUrl },
+    },
+  ];
+}
+
+/**
  * A reminder that a followed change takes effect soon.
  *
  * Only changes whose record STATES an effective date, and only within the
@@ -378,6 +464,8 @@ export function buildAlertBatch(
     warnEmployers: readonly WarnEmployerLike[];
     h1bEmployers: readonly H1bEmployerLike[];
     fiscalYear: string;
+    /** Hand-entered Visa Bulletin months. Absent means no bulletin alerts. */
+    bulletins?: readonly Bulletin[];
   },
   follows: readonly string[],
   cursor: AlertCursor,
@@ -411,7 +499,9 @@ export function buildAlertBatch(
     ...h1bAlerts(input.h1bEmployers, follows, input.fiscalYear, cursor),
   ].sort((a, b) => b.date.localeCompare(a.date));
 
-  const alerts = [...reminders, ...news].slice(0, limit);
+  // A new bulletin is the month's one fixed event, so it leads the news.
+  const bulletin = visaBulletinAlerts(input.bulletins ?? [], follows, cursor, today);
+  const alerts = [...reminders, ...bulletin, ...news].slice(0, limit);
 
   const newestChange = alerts.filter((a) => a.kind === "change").map((a) => a.date).sort().pop();
 

@@ -344,7 +344,8 @@ export default function PricingPage() {
               <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
                 They come with you. Pro keeps the same list on every device. Pro also emails you
-                when a recorded change touches something on that list, at most once a day.
+                when a recorded change touches something on that list, or a new Visa Bulletin is out
+                for it, at most once a day.
               </p>
             </div>
             <div className="panel panel-pad">
@@ -357,9 +358,9 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Who is this for?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                People who track immigration policy as part of their work: legal and mobility teams,
-                HR, recruiters, researchers and journalists. If you are reading about your own case,
-                the free platform is the product.
+                People who track immigration policy for work: legal and mobility teams, HR,
+                recruiters, researchers and journalists. And anyone waiting on a green card who wants
+                each new Visa Bulletin for their category by email. Reading the site stays free.
               </p>
             </div>
             {later.length > 0 ? (

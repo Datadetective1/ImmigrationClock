@@ -38,6 +38,7 @@ import { buildAlertEmail, type AlertEmail } from "./alert-email";
 import type { SubscriberStore } from "./store";
 import { accessFor } from "./subscription";
 import type { IndexedEvent } from "@/lib/event-index";
+import type { Bulletin } from "@/lib/visa-bulletin";
 import { appendHistory, appendSummaryHistory, parseHistory, serializeHistory } from "@/lib/pro/history";
 import { PRIORITY_EFFECTIVE_DAYS, WEEKLY_DAY, digestDue, parsePrefs } from "@/lib/pro/prefs";
 import { parseSaved } from "@/lib/pro/saved";
@@ -85,6 +86,7 @@ export interface AlertRunInput {
     warnEmployers: readonly WarnEmployerLike[];
     h1bEmployers: readonly H1bEmployerLike[];
     fiscalYear: string;
+    bulletins?: readonly Bulletin[];
   };
   secret: string;
   origin: string;
@@ -261,7 +263,7 @@ function alertBatchFor(
         priorityWithinDays: PRIORITY_EFFECTIVE_DAYS,
         ...(prefs.reminders ? { remindWithinDays: REMIND_WITHIN_DAYS } : {}),
       })
-    : buildAlertBatch(data, follows, cursor);
+    : buildAlertBatch(data, follows, cursor, { today });
 }
 
 /** A weekly digest and the summary both fall on Monday; they go as one email. */

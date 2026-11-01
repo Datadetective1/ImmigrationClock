@@ -107,6 +107,7 @@ const ALERT_LABEL: Record<Alert["kind"], string> = {
   effective_reminder: "Takes effect soon",
   warn_notice: "WARN notice",
   h1b_export: "H-1B data",
+  visa_bulletin: "Visa Bulletin",
 };
 
 export const QUIET_NOTE =

@@ -175,12 +175,16 @@ export function VisaBulletinView({ bulletin, path }: { bulletin: Bulletin; path:
         <VisaBulletinChecker bulletin={bulletin} />
 
         <section aria-labelledby="next-heading" className="panel p-4 sm:p-6">
-          <div className="eyebrow mb-1 text-accent">Free</div>
+          <div className="eyebrow mb-1 text-accent">Next month</div>
           <h2 id="next-heading" className="text-lg font-bold text-white sm:text-xl">
-            Get next month&rsquo;s dates without checking
+            Hear when the new dates are out
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            Follow the Visa Bulletin and your category. No account needed.
+            Follow your category for free. With{" "}
+            <Link href="/pricing" className="link-accent">
+              Pro
+            </Link>
+            , we email you when the next bulletin is out, with the dates that moved.
           </p>
           <div className="mt-3">
             <FollowChips

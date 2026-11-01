@@ -14,6 +14,7 @@ import { lastCheckedSentence } from "@/lib/pipeline-health";
 import { RecentChanges } from "@/components/RecentChanges";
 import { EVENTS, EVENT_STORE_META, significantEvents, contributingAdapters } from "@/lib/event-store";
 import { ReportError } from "@/components/ReportError";
+import { bulletinPath, latestBulletin } from "@/lib/visa-bulletin";
 
 export const metadata = buildMetadata({
   title: SITE.title,
@@ -77,6 +78,7 @@ export default function HomePage() {
   // paperwork, so this is what actually CHANGED rather than what was merely
   // published.
   const recent = significantEvents(4);
+  const bulletin = latestBulletin();
 
   // The four headline numbers. Ordered deliberately rather than by whatever
   // buildMetrics() happens to return, so the row reads the same on every build.
@@ -138,6 +140,19 @@ export default function HomePage() {
               </Link>
             ))}
           </nav>
+
+          {/* The month's one fixed event for green card applicants. */}
+          {bulletin ? (
+            <div className="mx-auto mt-5 flex max-w-5xl justify-center">
+              <Link
+                href={bulletinPath(bulletin)}
+                className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/[0.06] px-4 py-2 text-sm font-medium text-white transition-colors hover:border-accent/60"
+              >
+                <span className="pulse-live" />
+                {bulletin.label} Visa Bulletin: see what moved →
+              </Link>
+            </div>
+          ) : null}
 
           {/* Situations as starting points, not boxes: each opens its view on
               /for-you, where any visa, country or topic can also be looked up. */}

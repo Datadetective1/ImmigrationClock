@@ -106,7 +106,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
   // ---- HTML: the same look as the weekly summary (lib/email/style.ts) -----
   const C = EMAIL_COLOR;
   const kindLabel = (k: Alert["kind"]) =>
-    k === "effective_reminder" ? "Reminder" : k === "warn_notice" ? "WARN notice" : k === "h1b_export" ? "H-1B data" : "New";
+    k === "effective_reminder" ? "Reminder" : k === "visa_bulletin" ? "Visa Bulletin" : k === "warn_notice" ? "WARN notice" : k === "h1b_export" ? "H-1B data" : "New";
   const itemHtml = items
     .map(
       (it) => `<div style="padding:14px 0;border-top:1px solid ${C.line}">
