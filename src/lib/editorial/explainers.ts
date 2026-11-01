@@ -170,6 +170,37 @@ export const EXPLAINERS: Explainer[] = [
     verifiedAt: "2026-09-02",
   },
   {
+    slug: "uscis-filing-deadline-weekend-holiday",
+    title: "When a USCIS filing deadline falls on a weekend or holiday",
+    kicker: "Guidance effective October 23, 2026: a paper filing gets the next business day. Online filings and age deadlines do not.",
+    facts: [
+      "USCIS issued the policy alert Definition of Day for Purposes of Filing Deadlines on September 23, 2026. It took effect October 23, 2026, and the guidance now sits in Volume 1, Part B, Chapter 6 of the USCIS Policy Manual.",
+      "When USCIS counts a period in days for taking an action, including filing an appeal, the count includes Saturdays, Sundays and federal holidays.",
+      "If the last day of that period falls on a Saturday, Sunday or federal holiday, USCIS treats a paper filing as timely if it is received by the end of the next business day. This follows the definition of day in 8 CFR 1.2.",
+      "For a paper filing, the received date is the day the package physically arrives at the USCIS lockbox or facility designated for that form, not the day it was mailed.",
+      "Online filings get no extra day. USCIS treats an electronic filing as received the moment it is submitted, so it does not extend the period for requests filed online.",
+      "Deadlines that are not a count of days do not move either. USCIS gives the example of a special immigrant juvenile petition, which must be filed before the 21st birthday: if that birthday falls on a weekend or federal holiday, the deadline is not extended to the next business day.",
+      "USCIS's own example: a Form I-485 denial dated August 2, 2022 and served by mail left 33 days to file Form I-290B. The 33rd day was Sunday, September 4, 2022, and the next day was Labor Day, so a paper filing received Tuesday, September 6, 2022 was still timely.",
+    ],
+    whyItMatters:
+      "Under this guidance, a paper filing and an online filing with the same deadline can end on different days. When the last day lands on a weekend, the next business day applies to paper only.",
+    sources: [
+      {
+        name: "USCIS Policy Manual, Volume 1, Part B, Chapter 6: Submitting Requests",
+        url: "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-6",
+      },
+      { name: "USCIS Policy Manual: Updates", url: "https://www.uscis.gov/policy-manual/updates" },
+      {
+        name: "8 CFR 1.2: Definitions",
+        url: "https://www.ecfr.gov/current/title-8/chapter-I/subchapter-A/part-1/section-1.2",
+      },
+    ],
+    relatedPaths: ["/what-changed", "/key-dates"],
+    keywords: ["definition of day", "next business day"],
+    group: "agency-process",
+    verifiedAt: "2026-11-01",
+  },
+  {
     slug: "h1b-approvals-vs-workers",
     title: "Why an H-1B approval count is not the number of workers",
     kicker: "USCIS counts petition decisions. A person can be behind several.",
