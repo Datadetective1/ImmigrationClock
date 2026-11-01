@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-31T18:12:59.877Z",
+  "updatedAt": "2026-11-01T18:46:28.734Z",
   "items": [
     {
       "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
       "category": "actionable",
       "topicKey": "visa:h-1b",
-      "priority": 58268.97777777778,
+      "priority": 58268.97222222222,
       "readerValue": 100,
       "factsHash": "5d737c2bc7314976",
       "whyItMatters": [
@@ -48,51 +48,6 @@
       ]
     },
     {
-      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::why_it_matters",
-      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
-      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
-      "category": "actionable",
-      "topicKey": "visa:h-1b",
-      "priority": 58268.97777777778,
-      "readerValue": 100,
-      "factsHash": "a69858fe54ea2f0a",
-      "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "The record is linked to L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
-      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
-      "freshness": {
-        "publishedAt": "2026-10-27",
-        "discoveredAt": "2026-10-28",
-        "expiresAt": "2026-11-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "verified",
-          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
-        }
-      ]
-    },
-    {
       "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::why_it_matters",
       "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "contentType": "why_it_matters",
@@ -105,7 +60,7 @@
       "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
       "category": "actionable",
       "topicKey": "source:uscis_newsroom",
-      "priority": 54548.97222222222,
+      "priority": 54548.96666666667,
       "readerValue": 44,
       "factsHash": "0ed491403a471eb0",
       "whyItMatters": [
@@ -137,92 +92,6 @@
       ]
     },
     {
-      "id": "explainer:border-encounters-are-events::explainer",
-      "subjectId": "explainer:border-encounters-are-events",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "A border encounter is an event, not a person",
-      "suggestedHeadline": null,
-      "sourceName": "CBP — Nationwide Encounters; CBP — Enforcement Statistics",
-      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:enforcement-data",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "d6d04dbcbd05227b",
-      "whyItMatters": [
-        "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/border-encounters-are-events",
-      "ogImage": "/og/explainer/border-encounters-are-events.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/border-encounters-are-events"
-        }
-      ]
-    },
-    {
-      "id": "explainer:what-a-warn-notice-is::explainer",
-      "subjectId": "explainer:what-a-warn-notice-is",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "What a WARN notice is",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN); 29 U.S.C. § 2101 — WARN Act definitions; 29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
-      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:workforce-data",
-      "priority": 20012,
-      "readerValue": 60,
-      "factsHash": "15b3941b9b854232",
-      "whyItMatters": [
-        "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/what-a-warn-notice-is",
-      "ogImage": "/og/explainer/what-a-warn-notice-is.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/what-a-warn-notice-is"
-        }
-      ]
-    },
-    {
       "id": "explainer:naturalization-ceremony::explainer",
       "subjectId": "explainer:naturalization-ceremony",
       "contentType": "explainer",
@@ -235,7 +104,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20011,
+      "priority": 20015,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -278,7 +147,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20010,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -321,9 +190,9 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20008,
+      "priority": 20012,
       "readerValue": 60,
-      "factsHash": "2fd0cb458b02dce3",
+      "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
         "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
       ],
@@ -352,6 +221,49 @@
       ]
     },
     {
+      "id": "explainer:uscis-filing-deadline-weekend-holiday::explainer",
+      "subjectId": "explainer:uscis-filing-deadline-weekend-holiday",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "When a USCIS filing deadline falls on a weekend or holiday",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual, Volume 1, Part B, Chapter 6: Submitting Requests; USCIS Policy Manual: Updates; 8 CFR 1.2: Definitions",
+      "sourceUrl": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-6",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:agency-process",
+      "priority": 20009,
+      "readerValue": 60,
+      "factsHash": "0b3555e011ff02f3",
+      "whyItMatters": [
+        "Under this guidance, a paper filing and an online filing with the same deadline can end on different days. When the last day lands on a weekend, the next business day applies to paper only."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday",
+      "ogImage": "/og/explainer/uscis-filing-deadline-weekend-holiday.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-11-01",
+        "expiresAt": "2027-11-01"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday"
+        }
+      ]
+    },
+    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -364,7 +276,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20004,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -407,7 +319,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20002,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -438,25 +350,27 @@
       ]
     },
     {
-      "id": "discovery:layoffs-vs-h1b::data_discovery",
-      "subjectId": "discovery:layoffs-vs-h1b",
-      "contentType": "data_discovery",
+      "id": "explainer:border-encounters-are-events::explainer",
+      "subjectId": "explainer:border-encounters-are-events",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "headline": "A border encounter is an event, not a person",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "CBP — Nationwide Encounters; CBP — Enforcement Statistics",
+      "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "32a3ee86ffdbde5e",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:enforcement-data",
+      "priority": 20003,
+      "readerValue": 60,
+      "factsHash": "d6d04dbcbd05227b",
+      "whyItMatters": [
+        "Encounters are among the most quoted immigration numbers and among the most misread. \"Two million encounters\" is not two million people, and it is not two million people who stayed."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
-      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "shareUrl": "https://immigrationclock.com/explained/border-encounters-are-events",
+      "ogImage": "/og/explainer/border-encounters-are-events.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -474,7 +388,50 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/border-encounters-are-events"
+        }
+      ]
+    },
+    {
+      "id": "explainer:what-a-warn-notice-is::explainer",
+      "subjectId": "explainer:what-a-warn-notice-is",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "What a WARN notice is",
+      "suggestedHeadline": null,
+      "sourceName": "U.S. Department of Labor — Worker Adjustment and Retraining Notification (WARN); 29 U.S.C. § 2101 — WARN Act definitions; 29 U.S.C. § 2102 — notice required before plant closings and mass layoffs",
+      "sourceUrl": "https://www.dol.gov/agencies/eta/layoffs/warn",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:workforce-data",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "19c561f65e64dd11",
+      "whyItMatters": [
+        "WARN notices are the earliest public record of a layoff, which is why they are worth tracking, and they are routinely misread as a record of who was laid off. They are a record of how many, and where."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/what-a-warn-notice-is",
+      "ogImage": "/og/explainer/what-a-warn-notice-is.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/what-a-warn-notice-is"
         }
       ]
     },
@@ -491,7 +448,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -532,9 +489,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "c15d5822d00b1ad8",
+      "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/explained",
@@ -573,7 +530,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -614,7 +571,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -655,7 +612,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -696,7 +653,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "dee642d8e12e8049",
       "whyItMatters": [],
@@ -721,6 +678,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+        }
+      ]
+    },
+    {
+      "id": "discovery:layoffs-vs-h1b::data_discovery",
+      "subjectId": "discovery:layoffs-vs-h1b",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "32a3ee86ffdbde5e",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
+      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
         }
       ]
     },
@@ -1360,6 +1358,65 @@
         },
         {
           "at": "2026-09-17T17:36:19.231Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
+      "suggestedHeadline": "USCIS updates L-1 fee guidance in the Policy Manual",
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
+      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
+      "category": "actionable",
+      "topicKey": "visa:h-1b",
+      "priority": 58268.97222222222,
+      "readerValue": 100,
+      "factsHash": "a69858fe54ea2f0a",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "The record is linked to L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS updated Policy Manual guidance on L-1 filing fees.\n\nPublished Oct. 27. No separate effective date.\n\nWhy it matters: It guides adjudication, not regulation, and can be revised without rulemaking.\n\nSource: USCIS Policy Manual\n\nhttps://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Aliap4i",
+        "linkedin": "",
+        "structure": "why_it_matters"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
+      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
+      "freshness": {
+        "publishedAt": "2026-10-27",
+        "discoveredAt": "2026-10-28",
+        "expiresAt": "2026-11-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-11-01T18:45:49.769Z",
+      "externalUrl": "https://x.com/i/web/status/2116965111483060406",
+      "history": [
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4502,152 +4559,6 @@
       ]
     },
     {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30010,
-      "readerValue": 65,
-      "factsHash": "11d78ec76986427b",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
-        },
-        {
-          "at": "2026-10-20T18:21:49.446Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-24T17:13:19.070Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-24T17:13:19.070Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-25T17:25:02.519Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-25T17:25:02.519Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-28T00:15:27.171Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-28T00:15:27.171Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-30T18:59:48.816Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-30T18:59:48.816Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-31T18:12:32.445Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-31T18:12:32.445Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
       "contentType": "data_signal",
@@ -4660,7 +4571,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4800,6 +4711,16 @@
           "at": "2026-10-31T18:12:32.445Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4816,7 +4737,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30006,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "280672b5a0cecb41",
       "whyItMatters": [],
@@ -4978,6 +4899,172 @@
         },
         {
           "at": "2026-10-31T18:12:32.445Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30002,
+      "readerValue": 65,
+      "factsHash": "11d78ec76986427b",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-25T17:25:02.519Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-25T17:25:02.519Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
