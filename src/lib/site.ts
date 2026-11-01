@@ -32,6 +32,18 @@ export const SITE = {
     "This platform uses public datasets for informational and research purposes only. It does not provide legal, immigration, employment, or financial advice. It is not a real-time feed. Datasets are refreshed on a schedule and lag official reporting. Every figure is labelled reported, projected, or estimated.",
 };
 
+// The company behind the site, for the legal pages and footer. Harborlune LLC
+// filed "ImmigrationClock" as an assumed name with the Texas Secretary of State
+// on Oct 31, 2026 (Form 503), so the pages name it "doing business as".
+export const OPERATOR = {
+  legalName: "Harborlune LLC",
+  description: "a Texas limited liability company",
+  dba: `Harborlune LLC, doing business as ${SITE.name}`,
+  assumedNameNotice: `${SITE.name} is an assumed name of Harborlune LLC, registered with the Texas Secretary of State.`,
+  postalAddress: "817 S MacArthur Blvd, Ste 115 #1040, Coppell, TX 75019",
+  governingLaw: "the State of Texas",
+};
+
 // Task-first navigation. Five destinations a reader can name, one dropdown,
 // and the professional tools in a small "Pro" menu beside search and the
 // account, so they stay one tap away without dominating the public bar.

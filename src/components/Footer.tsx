@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE, FOOTER_SECTIONS } from "@/lib/site";
+import { OPERATOR, SITE, FOOTER_SECTIONS } from "@/lib/site";
 import { CookieSettingsButton } from "./ConsentBanner";
 import { flagOn } from "@/lib/flags";
 
@@ -115,7 +115,7 @@ export function Footer() {
         </nav>
 
         <div className="mt-6 flex flex-col items-start justify-between gap-2 text-xs text-slate-600 sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} {SITE.name}. Public data, presented neutrally.</p>
+          <p>© {new Date().getFullYear()} {OPERATOR.dba}. Public data, presented neutrally.</p>
           <p>
             Built with public datasets ·{" "}
             <Link href="/sources" className="link-accent">
