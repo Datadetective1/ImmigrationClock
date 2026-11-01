@@ -190,7 +190,7 @@ function topic(slug: string, name: string, summary: string, href?: string): Enti
 export const TOPICS: Entity[] = [
   topic("h1b", "H-1B and employment visas", "Specialty-occupation sponsorship, the cap lottery, approvals, denials, and offered wages.", "/h1b/top-sponsors"),
   topic("international-students", "International students", "F-1 issuance, OPT, and the schools and countries involved.", "/visa/f1-student-visas"),
-  topic("visa-bulletin", "Visa Bulletin and green-card movement", "Monthly priority-date movement by category and country of chargeability."),
+  topic("visa-bulletin", "Visa Bulletin and green-card movement", "Monthly priority-date movement by category and country of chargeability.", "/visa-bulletin"),
   topic("border", "Border encounters", "CBP encounters by sector, month, and demographic.", "/border/encounters"),
   topic("enforcement", "Enforcement, detention and removals", "ICE arrests, detention population, and removals.", "/immigration/enforcement-trends"),
   topic("employers", "Employers and sponsorship", "Which employers sponsor, how much, and where.", "/h1b/employers"),
