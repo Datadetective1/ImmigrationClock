@@ -17,6 +17,7 @@ import { buildWeeklySummary, renderWeeklyEmail } from "@/lib/pro/weekly";
 import { json } from "@/lib/billing/http";
 import { resolveStore } from "@/lib/billing/store";
 import { EVENT_INDEX } from "@/lib/event-index";
+import { BULLETINS } from "@/lib/visa-bulletin";
 import { flagOn } from "@/lib/flags";
 
 export const runtime = "nodejs";
@@ -42,7 +43,7 @@ export async function GET(req: Request): Promise<Response> {
 
   const send = (process.env.ALERTS_SEND ?? "").trim() === "true";
   const intelligence = flagOn("pro_briefing") && flagOn("pro_intelligence");
-  const data = { events: EVENT_INDEX, warnEmployers: [], h1bEmployers: [], fiscalYear: "" };
+  const data = { events: EVENT_INDEX, warnEmployers: [], h1bEmployers: [], fiscalYear: "", bulletins: BULLETINS };
   const report = await runAlerts({
     store,
     nowSeconds: Math.floor(Date.now() / 1000),

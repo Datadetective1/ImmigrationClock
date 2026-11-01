@@ -163,7 +163,7 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     id: "watchlist_alerts",
     label: "Email alerts on your watchlist",
     blurb:
-      "An email when a recorded change touches a visa, country, agency or topic you follow. Checked daily, and nothing is sent when nothing changed.",
+      "An email when a recorded change touches a visa, country, agency or topic you follow, and when a new Visa Bulletin is out for your category. Checked daily, and nothing is sent when nothing changed.",
     plan: "pro",
     // The daily job is /api/billing/alerts/run (Vercel cron, vercel.json),
     // selection in alerts.ts, the email in alert-email.ts, one-click
