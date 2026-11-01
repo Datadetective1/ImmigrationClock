@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { buildMetadata } from "@/lib/seo";
 import { companies, companyBySlug } from "@/lib/dataset";
-import { companyTotals, companyTrend, LAST_COMPLETE_FY } from "@/lib/data";
+import { companyTotals, companyTrend, LAST_COMPLETE_FY, stateBySlug } from "@/lib/data";
 import { PageHeader } from "@/components/PageHeader";
 import { Stat, StatRow } from "@/components/Stat";
 import { ChartCard } from "@/components/ChartCard";
@@ -164,9 +164,15 @@ export default function CompanyPage({ params }: { params: { slug: string } }) {
             <ul className="divide-y divide-white/5">
               {company.topWorksites.map((w) => (
                 <li key={`${w.city}-${w.stateCode}`} className="flex items-center justify-between py-2.5">
-                  <Link href={`/state/${w.stateCode}`} className="text-sm text-slate-200 hover:text-accent-soft">
-                    {w.city}, {w.stateCode}
-                  </Link>
+                  {stateBySlug(w.stateCode) ? (
+                    <Link href={`/state/${w.stateCode}`} className="text-sm text-slate-200 hover:text-accent-soft">
+                      {w.city}, {w.stateCode}
+                    </Link>
+                  ) : (
+                    <span className="text-sm text-slate-200">
+                      {w.city}, {w.stateCode}
+                    </span>
+                  )}
                   <span className="font-mono text-xs text-slate-500">{Math.round(w.share * 100)}%</span>
                 </li>
               ))}

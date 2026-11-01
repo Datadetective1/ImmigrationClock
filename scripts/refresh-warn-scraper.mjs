@@ -51,7 +51,7 @@ const STATE_PORTAL = {
   WA: "https://esd.wa.gov/about-employees/WARN",
   NJ: "https://www.nj.gov/labor/employer-services/warn/",
   MD: "https://www.dllr.state.md.us/employment/warn.shtml",
-  GA: "https://www.dol.state.ga.us/public/es/warn/searchwarns/list",
+  GA: "https://www.tcsg.edu/warn-public-view/",
   MN: "https://mn.gov/deed/programs-services/dislocated-worker/employers/warn/",
   CO: "https://cdle.colorado.gov/employers/layoff-separations/layoff-warn-list",
   MA: "https://www.mass.gov/service-details/worker-adjustment-and-retraining-act-warn-notices",

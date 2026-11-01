@@ -75,6 +75,14 @@ export function isTrustedSourceUrl(url: string): boolean {
 export const RETIRED_SOURCE_PATHS = [
   // Moved under /temporary-workers/ in 2026; the old address is a 404.
   "https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations/h-1b-electronic-registration-process",
+  // Georgia's WARN list moved to the Technical College System of Georgia; the old page is a 404.
+  "https://www.dol.state.ga.us/public/es/warn/searchwarns/list",
+  // The House's view.xhtml section links return "Page Not Found" (Nov 2026); use govinfo's link service.
+  "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section553&num=0&edition=prelim",
+  "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section2101&num=0&edition=prelim",
+  "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title29-section2102&num=0&edition=prelim",
+  // Removed by the CFPB.
+  "https://www.consumerfinance.gov/consumer-tools/building-credit/",
 ];
 
 /** What an HTTP status (or the absence of one) means for a source. */
