@@ -282,7 +282,7 @@ export const EXPLAINERS: Explainer[] = [
         url: "https://www.uscis.gov/green-card/green-card-processes-and-procedures/visa-availability-priority-dates",
       },
     ],
-    relatedPaths: ["/key-dates"],
+    relatedPaths: ["/visa-bulletin", "/key-dates"],
     keywords: ["visa bulletin", "priority date", "retrogress*", "final action"],
     group: "green-cards",
     verifiedAt: "2026-09-02",

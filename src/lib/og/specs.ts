@@ -30,6 +30,7 @@ import { WARN_SUMMARY } from "@/lib/warn-summary";
 import { CBP_LIVE } from "@/lib/dataset";
 import { INDEX_COVERAGE } from "@/lib/event-index";
 import { KEY_DATES } from "@/lib/key-dates";
+import { latestBulletin } from "@/lib/visa-bulletin";
 import { formatNumber, formatDate } from "@/lib/format";
 import { stripAlertPrefix } from "@/lib/stories";
 import { HEADLINE_MAX_CHARS, fitText } from "./text";
@@ -220,6 +221,7 @@ export type OgPageKey =
   | "layoffs-vs-h1b"
   | "border-encounters"
   | "key-dates"
+  | "visa-bulletin"
   | "enforcement-trends"
   | "f1-student-visas"
   | "following"
@@ -315,6 +317,18 @@ export const OG_PAGES: Record<OgPageKey, OgPage> = {
       figureLabel: "recurring dates (H-1B registration, the Visa Bulletin, the DV lottery, the OPT window), each linked to its official source",
       source: "USCIS, the Department of State and the IRS",
     }),
+  },
+  "visa-bulletin": {
+    path: "/visa-bulletin",
+    build: () => {
+      const b = latestBulletin();
+      return {
+        eyebrow: "Visa Bulletin",
+        headline: b ? `${b.label} Visa Bulletin` : "The monthly Visa Bulletin",
+        kicker: "Green card cut-off dates, what moved since last month, and where your own date stands",
+        source: "U.S. Department of State Visa Bulletin",
+      };
+    },
   },
   "enforcement-trends": {
     path: "/immigration/enforcement-trends",

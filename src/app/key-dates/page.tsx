@@ -80,6 +80,19 @@ export default function KeyDatesPage() {
           </section>
         ) : null}
 
+        <Link
+          href="/visa-bulletin"
+          className="panel flex items-center justify-between gap-3 p-4 text-sm transition-colors hover:border-accent/40"
+        >
+          <span>
+            <span className="block font-semibold text-white">This month&rsquo;s Visa Bulletin</span>
+            <span className="block text-slate-400">What moved, and where your priority date stands.</span>
+          </span>
+          <span aria-hidden className="text-accent">
+            →
+          </span>
+        </Link>
+
         <KeyDates
           dates={KEY_DATES}
           placement="key-dates-page"

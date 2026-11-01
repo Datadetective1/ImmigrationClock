@@ -99,7 +99,7 @@ export const NAV: NavItem[] = [
       { href: "/pulse", label: "Monthly Pulse", desc: "How the data moved this month" },
     ],
   },
-  { href: "/key-dates", label: "Key dates" },
+  { href: "/key-dates", label: "Key dates", match: ["/key-dates", "/visa-bulletin"] },
   { href: "/resources", label: "Resources" },
   {
     label: "Pro",
@@ -153,6 +153,7 @@ export const FOOTER_SECTIONS = [
       { href: "/timeline", label: "Timeline" },
       { href: "/for-you", label: "What this means for you" },
       { href: "/key-dates", label: "Key dates & deadlines" },
+      { href: "/visa-bulletin", label: "This month's Visa Bulletin" },
       { href: "/following", label: "Following" },
       { href: "/resources", label: "Resources for immigrants" },
       { href: "/insights", label: "Insights" },
