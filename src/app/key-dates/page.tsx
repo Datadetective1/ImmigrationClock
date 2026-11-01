@@ -16,9 +16,9 @@ import { siteDay } from "@/lib/format";
 export const revalidate = 3600;
 
 export const metadata = buildMetadata({
-  title: "Immigration Deadlines & Key Dates: H-1B, OPT, Visa Bulletin",
+  title: "Immigration Key Dates: Visa Bulletin, DV Lottery, H-1B, OPT",
   description:
-    "The H-1B registration window, the F-1 OPT filing window, the monthly Visa Bulletin and open comment deadlines on proposed rules, each linked to its official source.",
+    "The monthly Visa Bulletin, the DV-2027 green card lottery entry period, the H-1B registration window, the F-1 OPT filing window and open comment deadlines, each with its official source.",
   path: "/key-dates",
   image: ogImagePath("page", "key-dates"),
   keywords: [

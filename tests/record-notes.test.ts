@@ -141,7 +141,7 @@ describe("/key-dates", () => {
   it("lists open comment periods and leads its title with the deadlines readers search for", () => {
     const page = read("src/app/key-dates/page.tsx");
     expect(page).toContain("Open comment periods");
-    expect(page).toContain('title: "Immigration Deadlines & Key Dates: H-1B, OPT, Visa Bulletin"');
+    expect(page).toContain('title: "Immigration Key Dates: Visa Bulletin, DV Lottery, H-1B, OPT"');
     expect(page).not.toMatch(/Diversity Visa lottery, the Visa Bulletin/);
   });
 });
