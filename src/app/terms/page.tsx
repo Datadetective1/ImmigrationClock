@@ -1,7 +1,7 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { ContactLink } from "@/components/ContactLink";
-import { SITE } from "@/lib/site";
+import { OPERATOR, SITE } from "@/lib/site";
 import Link from "next/link";
 
 export const metadata = buildMetadata({
@@ -11,7 +11,7 @@ export const metadata = buildMetadata({
   path: "/terms",
 });
 
-const UPDATED = "September 7, 2026";
+const UPDATED = "November 1, 2026";
 
 export default function TermsPage() {
   return (
@@ -29,8 +29,13 @@ export default function TermsPage() {
       <div className="container-page max-w-3xl space-y-8 py-10 text-sm leading-relaxed text-slate-300 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_a]:text-accent">
         <section className="space-y-3">
           <p>
-            By using {SITE.name} ({SITE.url}) you agree to these terms. If you do not agree, please do not use
-            the site.
+            {SITE.name} ({SITE.url}) is operated by {OPERATOR.legalName}, {OPERATOR.description} doing
+            business as {SITE.name} (&ldquo;{SITE.name}&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;).{" "}
+            {OPERATOR.assumedNameNotice}
+          </p>
+          <p>
+            By using {SITE.name} you agree to these terms, which are an agreement between you and{" "}
+            {OPERATOR.legalName}. If you do not agree, please do not use the site.
           </p>
         </section>
 
@@ -161,8 +166,17 @@ export default function TermsPage() {
         <section className="space-y-3">
           <h2>Limitation of liability</h2>
           <p>
-            To the fullest extent permitted by law, {SITE.name} and its operators are not liable for any
-            damages arising from use of, or reliance on, the site or its data.
+            To the fullest extent permitted by law, {OPERATOR.legalName}, {SITE.name} and its operators are
+            not liable for any damages arising from use of, or reliance on, the site or its data.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2>Governing law</h2>
+          <p>
+            These terms are governed by the laws of {OPERATOR.governingLaw}, without regard to its
+            conflict-of-law rules, except where the law of the place you live gives you protections that
+            cannot be waived.
           </p>
         </section>
 
@@ -170,7 +184,7 @@ export default function TermsPage() {
           <h2>Changes &amp; contact</h2>
           <p>
             We may update these terms; continued use after changes constitutes acceptance. Questions? Contact{" "}
-            <ContactLink />.
+            <ContactLink />. Postal address for legal notices: {OPERATOR.dba}, {OPERATOR.postalAddress}.
           </p>
         </section>
       </div>

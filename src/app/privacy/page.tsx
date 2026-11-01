@@ -1,7 +1,7 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { ContactLink } from "@/components/ContactLink";
-import { SITE } from "@/lib/site";
+import { OPERATOR, SITE } from "@/lib/site";
 
 export const metadata = buildMetadata({
   title: "Privacy Policy",
@@ -10,7 +10,7 @@ export const metadata = buildMetadata({
   path: "/privacy",
 });
 
-const UPDATED = "June 13, 2026";
+const UPDATED = "November 1, 2026";
 
 export default function PrivacyPage() {
   return (
@@ -28,7 +28,8 @@ export default function PrivacyPage() {
       <div className="container-page max-w-3xl space-y-8 py-10 text-sm leading-relaxed text-slate-300 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_a]:text-accent">
         <section className="space-y-3">
           <p>
-            {SITE.name} (&ldquo;we&rdquo;, &ldquo;us&rdquo;) operates {SITE.url}. This policy explains what
+            {OPERATOR.legalName}, {OPERATOR.description} doing business as {SITE.name} (&ldquo;{SITE.name}&rdquo;,
+            &ldquo;we&rdquo;, &ldquo;us&rdquo;), operates {SITE.url}. {OPERATOR.assumedNameNotice} This policy explains what
             information we and our partners collect when you visit, and the choices you have. We aim to
             collect as little as possible: the site presents aggregated public data and does not require an
             account.
@@ -105,7 +106,7 @@ export default function PrivacyPage() {
           <p>
             We may update this policy; material changes will be reflected by the &ldquo;last updated&rdquo;
             date above. Questions? Contact{" "}
-            <ContactLink />.
+            <ContactLink />. Postal address: {OPERATOR.dba}, {OPERATOR.postalAddress}.
           </p>
         </section>
       </div>
