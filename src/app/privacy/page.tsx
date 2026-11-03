@@ -10,7 +10,7 @@ export const metadata = buildMetadata({
   path: "/privacy",
 });
 
-const UPDATED = "November 1, 2026";
+const UPDATED = "November 3, 2026";
 
 export default function PrivacyPage() {
   return (
@@ -56,6 +56,18 @@ export default function PrivacyPage() {
               email address, and a Stripe customer reference. We never see or store your card.
             </li>
             <li>
+              <strong>Priority date forecast.</strong> The category, country and date you enter are
+              sent to our server to work out that one estimate. They are not stored.
+            </li>
+            <li>
+              <strong>USCIS receipt numbers, only for case alerts.</strong> If you are a Pro subscriber
+              and add a case, we store its receipt number, form type, the last status title and when
+              you confirmed the case is yours or that you have the owner&apos;s permission. It is
+              encrypted, used only to ask USCIS&apos;s official Case Status API for the status, and
+              never shared with anyone else. Remove a case, or all of them, at any time on the case
+              alerts page.
+            </li>
+            <li>
               <strong>Standard server/usage logs.</strong> Our hosting provider (Vercel) may record technical
               data such as IP address, browser type, and pages requested, for security and reliability.
             </li>
@@ -90,8 +102,9 @@ export default function PrivacyPage() {
             Depending on where you live (e.g. under GDPR or CCPA/CPRA), you may have rights to access,
             delete, or restrict the use of personal data. The only personal data we hold is a
             newsletter address, if you gave us one, and the billing email and customer reference for
-            a subscription, if you have one. Unsubscribe from any issue to remove the first; cancel
-            and ask us to delete to remove the second. We do not sell or share personal data for
+            a subscription, if you have one, and any receipt numbers you add for case alerts.
+            Unsubscribe from any issue to remove the first; cancel and ask us to delete to remove the
+            second; remove your cases on the case alerts page to delete the third. We do not sell or share personal data for
             targeted advertising, and we have nothing to sell or share it with.
           </p>
         </section>

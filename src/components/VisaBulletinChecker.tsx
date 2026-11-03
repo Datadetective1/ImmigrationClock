@@ -6,12 +6,14 @@
 // The reader picks a category, a country of chargeability and their priority
 // date, and sees where that date sits against both charts for the month. The
 // comparison is the bulletin's own rule (earlier than the listed date) and
-// nothing more: no forecast, no advice.
+// nothing more. The estimate of when a date may be reached lives on
+// /priority-date-forecast, linked below with the same choices filled in.
 //
 // Nothing is sent anywhere. The choice can be kept in this browser so next
 // month's page opens with it filled in, the same way follows are kept.
 // =============================================================================
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   CHARGEABILITY,
@@ -28,6 +30,7 @@ import {
   type DateCheck,
   type Row,
   type Section,
+  FORECAST_PATH,
 } from "@/lib/visa-bulletin";
 
 const STORE_KEY = "ic:visa-bulletin:my-date";
@@ -211,6 +214,12 @@ export function VisaBulletinChecker({ bulletin }: { bulletin: Bulletin }) {
               check={checkDate(date, cutoffFor(bulletin, section, chart, row, country))}
             />
           ))}
+          <Link
+            href={`${FORECAST_PATH}?${new URLSearchParams({ section, row, country, date })}`}
+            className="text-sm font-semibold text-accent underline sm:col-span-2"
+          >
+            When might it be reached? See the forecast
+          </Link>
         </div>
       ) : (
         <p className="mt-4 rounded-xl border border-dashed border-white/15 p-4 text-sm text-slate-400">

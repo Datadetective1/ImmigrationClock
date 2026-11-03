@@ -29,6 +29,7 @@ export * from "./types";
 export const BULLETINS: Bulletin[] = [...RAW].sort((a, b) => b.id.localeCompare(a.id));
 
 export const VISA_BULLETIN_PATH = "/visa-bulletin";
+export const FORECAST_PATH = "/priority-date-forecast";
 export const OFFICIAL_INDEX_URL = "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html";
 
 export function bulletinPath(b: Pick<Bulletin, "id">): string {

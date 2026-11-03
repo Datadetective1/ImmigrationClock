@@ -57,9 +57,12 @@ export const CAPABILITIES = [
   "weekly_newsletter",
   "browser_follows",
   "page_csv",
+  "date_forecast",
   "watchlist_alerts",
   "watchlist_sync",
   "pro_briefing",
+  "date_forecast_detail",
+  "case_alerts",
   "bulk_export",
   "advanced_filters",
   "employer_monitoring",
@@ -160,6 +163,15 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     status: "available",
   },
   {
+    id: "date_forecast",
+    label: "Priority date forecast",
+    blurb: "When your priority date may be reached, as a range of years, from how fast the Visa Bulletin has moved.",
+    plan: "free",
+    // /priority-date-forecast and /api/forecast. New with the forecast, never paid.
+    existsToday: true,
+    status: "available",
+  },
+  {
     id: "watchlist_alerts",
     label: "Email alerts on your watchlist",
     blurb:
@@ -205,6 +217,28 @@ export const CAPABILITY_SPECS: CapabilitySpec[] = [
     // checked there (docs/pro-briefing.md).
     existsToday: true,
     status: "available",
+  },
+  {
+    id: "date_forecast_detail",
+    label: "Forecast by month",
+    blurb: "The earliest, likely and latest month for your priority date, the pace behind it and a chart against your date.",
+    plan: "pro",
+    // The Pro half of /api/forecast, built with the free answer in years. The
+    // year answer stays free; this adds detail that did not exist before.
+    existsToday: true,
+    status: "available",
+  },
+  {
+    id: "case_alerts",
+    sold: false,
+    label: "USCIS case status alerts",
+    blurb: "An email when USCIS shows a new status for a receipt number you add. Up to 5 cases.",
+    plan: "pro",
+    // /case-alerts, /api/pro/cases and the daily job, behind
+    // FEATURE_CASE_ALERTS and the USCIS API credentials. Not sold until USCIS
+    // grants production access and the flag is on in production.
+    existsToday: false,
+    status: "building",
   },
   {
     id: "bulk_export",

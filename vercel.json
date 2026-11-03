@@ -33,6 +33,10 @@
     {
       "path": "/api/billing/alerts/run",
       "schedule": "30 13 * * *"
+    },
+    {
+      "path": "/api/pro/cases/run",
+      "schedule": "0 15 * * *"
     }
   ]
 }
