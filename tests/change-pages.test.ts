@@ -289,3 +289,33 @@ describe("story helpers", () => {
     expect(changesForKeywords([], EVENTS)).toEqual([]);
   });
 });
+
+describe("record search metadata", () => {
+  it("replaces the no-abstract placeholder with a factual line", async () => {
+    const { searchDescription, NO_ABSTRACT } = await import("@/lib/stories");
+    const d = searchDescription(
+      { summary: NO_ABSTRACT, title: "Fee for certain H-1B petitions", publishedAt: "2026-09-10" },
+      "Final rule",
+      "Federal Register",
+    );
+    expect(d).not.toContain("No abstract");
+    expect(d).toContain("Final rule from Federal Register, dated Sep 10, 2026: Fee for certain H-1B petitions.");
+  });
+
+  it("keeps a real summary as it is", async () => {
+    const { searchDescription } = await import("@/lib/stories");
+    expect(searchDescription({ summary: "A real summary.", title: "T", publishedAt: "2026-01-01" }, "K", "S")).toBe("A real summary.");
+  });
+
+  it("gives every record a distinct search title", async () => {
+    const { searchTitles, storyTitle } = await import("@/lib/stories");
+    const { EVENTS } = await import("@/lib/event-store");
+    const titles = searchTitles(EVENTS);
+    const seen = new Set<string>();
+    for (const e of EVENTS) {
+      const t = (titles.get(e.id) ?? storyTitle(e)).toLowerCase();
+      expect(seen.has(t), t).toBe(false);
+      seen.add(t);
+    }
+  });
+});

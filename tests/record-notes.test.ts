@@ -71,7 +71,7 @@ describe("record notes", () => {
   });
 
   it("feed the record's metadata", () => {
-    expect(read("src/app/what-changed/[slug]/page.tsx")).toContain("note?.searchTitle ?? storyTitle(event)");
+    expect(read("src/app/what-changed/[slug]/page.tsx")).toContain("note?.searchTitle ?? SEARCH_TITLES.get(event.id) ?? storyTitle(event)");
   });
 
   const renderOn = (id: string, today: string) => {

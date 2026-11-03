@@ -17,6 +17,7 @@ import { shortHash } from "@/lib/share";
 import { mentionsKeyword, type ExplainerGroup } from "@/lib/editorial/explainers";
 import type { SignalGroup } from "@/lib/editorial/signals";
 import { NAV, FOOTER_SECTIONS } from "@/lib/site";
+import { formatDate } from "@/lib/format";
 
 /** "Policy alert: X" is how USCIS titles an alert; the page already says USCIS. */
 export function stripAlertPrefix(title: string): string {
@@ -44,6 +45,49 @@ export function storyDescription(e: Pick<ImmigrationEvent, "summary">, max = 200
   const cut = s.slice(0, max - 1);
   const boundary = cut.lastIndexOf(" ");
   return `${(boundary > max * 0.5 ? cut.slice(0, boundary) : cut).replace(/[\s,;:]+$/, "")}…`;
+}
+
+/** The placeholder an adapter writes when the source published no abstract. */
+export const NO_ABSTRACT = "No abstract was published with this document.";
+
+/**
+ * A meta description a search result can use. A record whose source gave no
+ * abstract would otherwise tell every searcher "No abstract was published",
+ * so it gets a factual line built from its own fields instead.
+ */
+export function searchDescription(
+  e: Pick<ImmigrationEvent, "summary" | "title" | "publishedAt">,
+  kind: string,
+  sourceName: string,
+): string {
+  if (e.summary.trim() !== NO_ABSTRACT) return storyDescription(e);
+  return storyDescription({ summary: `${kind} from ${sourceName}, dated ${formatDate(e.publishedAt)}: ${storyTitle(e)}. The record, its source and who it affects.` });
+}
+
+/**
+ * Search titles that tell apart records sharing one document title: a rule
+ * and its later correction, two orders in the same case. A repeated title
+ * gets its date; if that still repeats, the source's own document number.
+ * Unique titles are left alone.
+ */
+export function searchTitles(events: readonly Pick<ImmigrationEvent, "id" | "title" | "publishedAt">[]): Map<string, string> {
+  const out = new Map<string, string>();
+  const groups = new Map<string, Pick<ImmigrationEvent, "id" | "title" | "publishedAt">[]>();
+  for (const e of events) {
+    const key = storyTitle(e).toLowerCase();
+    groups.set(key, [...(groups.get(key) ?? []), e]);
+  }
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    const days = new Map<string, number>();
+    for (const e of group) days.set(e.publishedAt.slice(0, 10), (days.get(e.publishedAt.slice(0, 10)) ?? 0) + 1);
+    for (const e of group) {
+      const day = e.publishedAt.slice(0, 10);
+      const native = e.id.slice(e.id.indexOf(":") + 1);
+      out.set(e.id, (days.get(day) ?? 0) > 1 ? `${storyTitle(e)} (${formatDate(day)}, no. ${native})` : `${storyTitle(e)} (${formatDate(day)})`);
+    }
+  }
+  return out;
 }
 
 /**

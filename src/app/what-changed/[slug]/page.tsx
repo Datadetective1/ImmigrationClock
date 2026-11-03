@@ -51,7 +51,7 @@ import { CLASSIFICATION_LABEL, SEVERITY_LABEL, isNotInForce } from "@/lib/event-
 import { SOURCE_BY_KEY } from "@/lib/sources";
 import { formatDate, siteDay } from "@/lib/format";
 import { isScheduled, type ImmigrationEvent } from "@/domains/graph/events";
-import { relatedChanges, relationTo, storyDescription, storyKey, storyTitle } from "@/lib/stories";
+import { relatedChanges, relationTo, searchDescription, searchTitles, storyDescription, storyKey, storyTitle } from "@/lib/stories";
 
 // Every record is prerendered. A slug the build did not see is still answered
 // on request, because the readable part of a slug can change when a title is
@@ -89,6 +89,9 @@ function canonicalise(event: ImmigrationEvent, slug: string): void {
   if (slug !== changeSlug(event)) permanentRedirect(changePath(event));
 }
 
+/** Search titles for records whose document title another record shares. */
+const SEARCH_TITLES = searchTitles(EVENTS);
+
 export function generateMetadata({ params }: { params: { slug: string } }) {
   const event = resolve(params.slug);
   if (!event) {
@@ -104,8 +107,10 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   // with the document's own title. See lib/editorial/record-notes.ts.
   const note = recordNote(event.id);
   return buildMetadata({
-    title: note?.searchTitle ?? storyTitle(event),
-    description: note?.searchDescription ?? storyDescription(event),
+    title: note?.searchTitle ?? SEARCH_TITLES.get(event.id) ?? storyTitle(event),
+    description:
+      note?.searchDescription ??
+      searchDescription(event, CLASSIFICATION_LABEL[event.classification], source?.name ?? event.sourceKey),
     // The canonical slug, even when the request arrived on an older one.
     path: changePath(event),
     image: ogImagePath("change", changeSlug(event)),
