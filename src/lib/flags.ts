@@ -16,6 +16,8 @@ export const FLAGS = {
   pro_briefing: "FEATURE_PRO_BRIEFING",
   /** ImmigrationClock Intelligence inside Briefing: the per-follow landscape, then the weekly summary. Needs pro_briefing. */
   pro_intelligence: "FEATURE_PRO_INTELLIGENCE",
+  /** Case status alerts from the official USCIS Case Status API. Also needs USCIS_* credentials (src/lib/cases/uscis.ts). */
+  case_alerts: "FEATURE_CASE_ALERTS",
   /** The redesign: light and dark themes that follow the device, then the new layouts, phase by phase. */
   ux_v2: "FEATURE_UX_V2",
 } as const;

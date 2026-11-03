@@ -311,8 +311,13 @@ export function signinLimitKey(email: string, secret: string): string {
   return createHmac("sha256", secret).update(`signin-limit:${local}@${domain}`).digest("base64url").slice(0, 32);
 }
 
-/** What Pro Briefing stores per subscriber. Nothing about a person's case or status. */
-export const PRO_DOC_KINDS = ["prefs", "saved", "history"] as const;
+/**
+ * What Pro stores per subscriber. Briefing's three documents hold nothing about
+ * a person's case or status. "cases" is the one that does, only for a
+ * subscriber who added a receipt number to case alerts with consent, and only
+ * as AES-GCM ciphertext (src/lib/cases/tracked.ts).
+ */
+export const PRO_DOC_KINDS = ["prefs", "saved", "history", "cases"] as const;
 export type ProDocKind = (typeof PRO_DOC_KINDS)[number];
 
 export const KEYS = {

@@ -10,7 +10,7 @@ import { EVENTS } from "@/lib/event-store";
 import { EXPLAINERS } from "@/lib/editorial/explainers";
 import { SIGNAL_SLUGS, buildSignal } from "@/lib/editorial/signals";
 import { changePath, explainerPath, signalPath } from "@/lib/share";
-import { BULLETINS, VISA_BULLETIN_PATH, bulletinPath } from "@/lib/visa-bulletin";
+import { BULLETINS, FORECAST_PATH, VISA_BULLETIN_PATH, bulletinPath } from "@/lib/visa-bulletin";
 
 // Every entry carries a real lastModified: the date the DATA behind that page
 // last moved. Previously every URL reported `new Date()` at build time, which
@@ -125,6 +125,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   if (BULLETINS.length > 0) {
     add(VISA_BULLETIN_PATH, asDate(BULLETINS[0].verifiedAt, buildDate), "weekly", 0.9);
     for (const b of BULLETINS.slice(1)) add(bulletinPath(b), asDate(b.verifiedAt, buildDate), "yearly", 0.5);
+    // The forecast moves with each new bulletin.
+    add(FORECAST_PATH, asDate(BULLETINS[0].verifiedAt, buildDate), "monthly", 0.8);
   }
 
   // ---- Programmatic routes ------------------------------------------------

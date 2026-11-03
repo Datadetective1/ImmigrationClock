@@ -1,0 +1,1810 @@
+[
+ {
+  "id": "2022-12",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-december-2022.html",
+  "family": {
+   "F1": {
+    "all": "2014-12-01",
+    "china": "2014-12-01",
+    "india": "2014-12-01",
+    "mexico": "2000-11-15",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-06-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2008-11-22",
+    "china": "2008-11-22",
+    "india": "2008-11-22",
+    "mexico": "1997-11-01",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-03-22",
+    "china": "2007-03-22",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-11-01",
+    "china": "2019-06-08",
+    "india": "2011-10-08",
+    "mexico": "2022-11-01",
+    "philippines": "2022-11-01"
+   },
+   "EB3": {
+    "all": "C",
+    "china": "2018-08-01",
+    "india": "2012-06-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EW": {
+    "all": "2020-06-01",
+    "china": "2013-06-22",
+    "india": "2012-06-15",
+    "mexico": "2020-06-01",
+    "philippines": "2020-06-01"
+   },
+   "EB4": {
+    "all": "2022-06-22",
+    "china": "2022-06-22",
+    "india": "2022-06-22",
+    "mexico": "2020-09-15",
+    "philippines": "2022-06-22"
+   },
+   "SR": {
+    "all": "2022-06-22",
+    "china": "2022-06-22",
+    "india": "2022-06-22",
+    "mexico": "2020-09-15",
+    "philippines": "2022-06-22"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-03-22",
+    "india": "2019-11-08",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-01",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-january-2023.html",
+  "family": {
+   "F1": {
+    "all": "2014-12-01",
+    "china": "2014-12-01",
+    "india": "2014-12-01",
+    "mexico": "2000-11-15",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-06-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2008-11-22",
+    "china": "2008-11-22",
+    "india": "2008-11-22",
+    "mexico": "1997-11-01",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-03-22",
+    "china": "2007-03-22",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-02-01",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-11-01",
+    "china": "2019-06-08",
+    "india": "2011-10-08",
+    "mexico": "2022-11-01",
+    "philippines": "2022-11-01"
+   },
+   "EB3": {
+    "all": "C",
+    "china": "2018-08-01",
+    "india": "2012-06-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EW": {
+    "all": "2020-06-01",
+    "china": "2013-12-22",
+    "india": "2012-06-15",
+    "mexico": "2020-06-01",
+    "philippines": "2020-06-01"
+   },
+   "EB4": {
+    "all": "2022-06-22",
+    "china": "2022-06-22",
+    "india": "2022-06-22",
+    "mexico": "2020-09-15",
+    "philippines": "2022-06-22"
+   },
+   "SR": {
+    "all": "U",
+    "china": "U",
+    "india": "U",
+    "mexico": "U",
+    "philippines": "U"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-03-22",
+    "india": "2019-11-08",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-03",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-march-2023.html",
+  "family": {
+   "F1": {
+    "all": "2014-12-01",
+    "china": "2014-12-01",
+    "india": "2014-12-01",
+    "mexico": "2001-04-01",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-06-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2008-11-22",
+    "china": "2008-11-22",
+    "india": "2008-11-22",
+    "mexico": "1997-11-01",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-03-22",
+    "china": "2007-03-22",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-02-01",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-11-01",
+    "china": "2019-06-08",
+    "india": "2011-10-08",
+    "mexico": "2022-11-01",
+    "philippines": "2022-11-01"
+   },
+   "EB3": {
+    "all": "C",
+    "china": "2018-08-01",
+    "india": "2012-06-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EW": {
+    "all": "2020-01-01",
+    "china": "2014-07-01",
+    "india": "2012-06-15",
+    "mexico": "2020-01-01",
+    "philippines": "2020-01-01"
+   },
+   "EB4": {
+    "all": "2022-02-01",
+    "china": "2022-02-01",
+    "india": "2021-03-01",
+    "mexico": "2020-08-01",
+    "philippines": "2022-02-01"
+   },
+   "SR": {
+    "all": "2022-02-01",
+    "china": "2022-02-01",
+    "india": "2021-03-01",
+    "mexico": "2020-08-01",
+    "philippines": "2022-02-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-07-08",
+    "india": "2018-06-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-04",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-april-2023.html",
+  "family": {
+   "F1": {
+    "all": "2014-12-01",
+    "china": "2014-12-01",
+    "india": "2014-12-01",
+    "mexico": "2001-04-01",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2020-09-08",
+    "china": "2020-09-08",
+    "india": "2020-09-08",
+    "mexico": "2018-11-01",
+    "philippines": "2020-09-08"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-06-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2008-11-22",
+    "china": "2008-11-22",
+    "india": "2008-11-22",
+    "mexico": "1997-11-01",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-03-22",
+    "china": "2007-03-22",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-02-01",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-07-01",
+    "china": "2019-06-08",
+    "india": "2011-01-01",
+    "mexico": "2022-07-01",
+    "philippines": "2022-07-01"
+   },
+   "EB3": {
+    "all": "C",
+    "china": "2018-11-01",
+    "india": "2012-06-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EW": {
+    "all": "2020-01-01",
+    "china": "2014-10-01",
+    "india": "2012-06-15",
+    "mexico": "2020-01-01",
+    "philippines": "2020-01-01"
+   },
+   "EB4": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "SR": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-07-08",
+    "india": "2018-06-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-05",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-may-2023.html",
+  "family": {
+   "F1": {
+    "all": "2014-12-15",
+    "china": "2014-12-15",
+    "india": "2014-12-15",
+    "mexico": "2001-04-01",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2020-09-08",
+    "china": "2020-09-08",
+    "india": "2020-09-08",
+    "mexico": "2018-11-01",
+    "philippines": "2020-09-08"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-06-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2008-12-08",
+    "china": "2008-12-08",
+    "india": "2008-12-08",
+    "mexico": "1997-11-01",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-04-08",
+    "china": "2007-04-08",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-02-01",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-02-15",
+    "china": "2019-06-08",
+    "india": "2011-01-01",
+    "mexico": "2022-02-15",
+    "philippines": "2022-02-15"
+   },
+   "EB3": {
+    "all": "2022-06-01",
+    "china": "2019-04-01",
+    "india": "2012-06-15",
+    "mexico": "2022-06-01",
+    "philippines": "2022-06-01"
+   },
+   "EW": {
+    "all": "2020-01-01",
+    "china": "2015-04-15",
+    "india": "2012-06-15",
+    "mexico": "2020-01-01",
+    "philippines": "2020-01-01"
+   },
+   "EB4": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "SR": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-09-08",
+    "india": "2018-06-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-06",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-june-2023.html",
+  "family": {
+   "F1": {
+    "all": "2014-12-15",
+    "china": "2014-12-15",
+    "india": "2014-12-15",
+    "mexico": "2001-04-01",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2020-09-08",
+    "china": "2020-09-08",
+    "india": "2020-09-08",
+    "mexico": "2018-11-01",
+    "philippines": "2020-09-08"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-06-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2008-12-08",
+    "china": "2008-12-08",
+    "india": "2008-12-08",
+    "mexico": "1997-11-01",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-04-08",
+    "china": "2007-04-08",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-02-01",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-02-15",
+    "china": "2019-06-08",
+    "india": "2011-01-01",
+    "mexico": "2022-02-15",
+    "philippines": "2022-02-15"
+   },
+   "EB3": {
+    "all": "2022-06-01",
+    "china": "2019-04-01",
+    "india": "2012-06-15",
+    "mexico": "2022-06-01",
+    "philippines": "2022-06-01"
+   },
+   "EW": {
+    "all": "2020-01-01",
+    "china": "2015-09-01",
+    "india": "2012-06-15",
+    "mexico": "2020-01-01",
+    "philippines": "2020-01-01"
+   },
+   "EB4": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "SR": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-09-08",
+    "india": "2017-04-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-09",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2023/visa-bulletin-for-september-2023.html",
+  "family": {
+   "F1": {
+    "all": "2015-01-01",
+    "china": "2015-01-01",
+    "india": "2015-01-01",
+    "mexico": "2001-04-22",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2018-01-01",
+    "china": "2018-01-01",
+    "india": "2018-01-01",
+    "mexico": "2016-09-01",
+    "philippines": "2018-01-01"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2001-08-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2009-01-08",
+    "china": "2009-01-08",
+    "india": "2009-01-08",
+    "mexico": "1998-01-15",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-04-22",
+    "china": "2007-04-22",
+    "india": "2005-09-15",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "2023-08-01",
+    "china": "2022-02-01",
+    "india": "2012-01-01",
+    "mexico": "2023-08-01",
+    "philippines": "2023-08-01"
+   },
+   "EB2": {
+    "all": "2022-07-01",
+    "china": "2019-07-08",
+    "india": "2011-01-01",
+    "mexico": "2022-07-01",
+    "philippines": "2022-07-01"
+   },
+   "EB3": {
+    "all": "2020-05-01",
+    "china": "2019-09-01",
+    "india": "2009-01-01",
+    "mexico": "2020-05-01",
+    "philippines": "2020-05-01"
+   },
+   "EW": {
+    "all": "2020-05-01",
+    "china": "2015-09-01",
+    "india": "2009-01-01",
+    "mexico": "2020-05-01",
+    "philippines": "2020-05-01"
+   },
+   "EB4": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "SR": {
+    "all": "2018-09-01",
+    "china": "2018-09-01",
+    "india": "2018-09-01",
+    "mexico": "2018-09-01",
+    "philippines": "2018-09-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-09-08",
+    "india": "2017-04-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2023-10",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2024/visa-bulletin-for-october-2023.html",
+  "family": {
+   "F1": {
+    "all": "2015-01-01",
+    "china": "2015-01-01",
+    "india": "2015-01-01",
+    "mexico": "2001-04-22",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2019-02-08",
+    "china": "2019-02-08",
+    "india": "2019-02-08",
+    "mexico": "2019-02-01",
+    "philippines": "2019-02-08"
+   },
+   "F2B": {
+    "all": "2015-09-22",
+    "china": "2015-09-22",
+    "india": "2015-09-22",
+    "mexico": "2002-01-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2009-01-08",
+    "china": "2009-01-08",
+    "india": "2009-01-08",
+    "mexico": "1998-03-08",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-04-22",
+    "china": "2007-04-22",
+    "india": "2005-10-08",
+    "mexico": "2000-08-01",
+    "philippines": "2002-08-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-02-15",
+    "india": "2017-01-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-07-08",
+    "china": "2019-10-01",
+    "india": "2012-01-01",
+    "mexico": "2022-07-08",
+    "philippines": "2022-07-08"
+   },
+   "EB3": {
+    "all": "2021-12-01",
+    "china": "2020-01-01",
+    "india": "2012-05-01",
+    "mexico": "2021-12-01",
+    "philippines": "2021-12-01"
+   },
+   "EW": {
+    "all": "2020-08-01",
+    "china": "2016-01-01",
+    "india": "2012-05-01",
+    "mexico": "2020-08-01",
+    "philippines": "2020-05-01"
+   },
+   "EB4": {
+    "all": "2019-01-01",
+    "china": "2019-01-01",
+    "india": "2019-01-01",
+    "mexico": "2019-01-01",
+    "philippines": "2019-01-01"
+   },
+   "SR": {
+    "all": "U",
+    "china": "U",
+    "india": "U",
+    "mexico": "U",
+    "philippines": "U"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-10-01",
+    "india": "2018-12-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2024-03",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2024/visa-bulletin-for-march-2024.html",
+  "family": {
+   "F1": {
+    "all": "2015-02-08",
+    "china": "2015-02-08",
+    "india": "2015-02-08",
+    "mexico": "2001-05-01",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2020-06-22",
+    "china": "2020-06-22",
+    "india": "2020-06-22",
+    "mexico": "2020-06-15",
+    "philippines": "2020-06-22"
+   },
+   "F2B": {
+    "all": "2015-11-22",
+    "china": "2015-11-22",
+    "india": "2015-11-22",
+    "mexico": "2003-10-22",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2009-10-01",
+    "china": "2009-10-01",
+    "india": "2009-10-01",
+    "mexico": "1998-09-08",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-06-08",
+    "china": "2007-06-08",
+    "india": "2005-12-15",
+    "mexico": "2000-10-15",
+    "philippines": "2003-06-15"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-07-15",
+    "india": "2020-10-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2022-11-22",
+    "china": "2020-01-01",
+    "india": "2012-03-01",
+    "mexico": "2022-11-22",
+    "philippines": "2022-11-22"
+   },
+   "EB3": {
+    "all": "2022-09-08",
+    "china": "2020-09-01",
+    "india": "2012-07-01",
+    "mexico": "2022-09-08",
+    "philippines": "2022-09-08"
+   },
+   "EW": {
+    "all": "2020-09-08",
+    "china": "2017-01-01",
+    "india": "2012-07-01",
+    "mexico": "2020-09-08",
+    "philippines": "2020-05-01"
+   },
+   "EB4": {
+    "all": "2019-12-01",
+    "china": "2019-12-01",
+    "india": "2019-12-01",
+    "mexico": "2019-12-01",
+    "philippines": "2019-12-01"
+   },
+   "SR": {
+    "all": "2019-12-01",
+    "china": "2019-12-01",
+    "india": "2019-12-01",
+    "mexico": "2019-12-01",
+    "philippines": "2019-12-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-12-15",
+    "india": "2020-12-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2024-04",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2024/visa-bulletin-for-april-2024.html",
+  "family": {
+   "F1": {
+    "all": "2015-02-08",
+    "china": "2015-02-08",
+    "india": "2015-02-08",
+    "mexico": "2001-05-01",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2020-09-08",
+    "china": "2020-09-08",
+    "india": "2020-09-08",
+    "mexico": "2020-08-15",
+    "philippines": "2020-09-08"
+   },
+   "F2B": {
+    "all": "2015-11-22",
+    "china": "2015-11-22",
+    "india": "2015-11-22",
+    "mexico": "2003-10-22",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2009-10-01",
+    "china": "2009-10-01",
+    "india": "2009-10-01",
+    "mexico": "1998-09-08",
+    "philippines": "2002-06-08"
+   },
+   "F4": {
+    "all": "2007-06-08",
+    "china": "2007-06-08",
+    "india": "2005-12-15",
+    "mexico": "2000-10-15",
+    "philippines": "2003-06-15"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-09-01",
+    "india": "2021-03-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2023-01-15",
+    "china": "2020-02-01",
+    "india": "2012-04-15",
+    "mexico": "2023-01-15",
+    "philippines": "2023-01-15"
+   },
+   "EB3": {
+    "all": "2022-11-22",
+    "china": "2020-09-01",
+    "india": "2012-08-15",
+    "mexico": "2022-11-22",
+    "philippines": "2022-11-22"
+   },
+   "EW": {
+    "all": "2020-10-08",
+    "china": "2017-01-01",
+    "india": "2012-08-15",
+    "mexico": "2020-10-08",
+    "philippines": "2020-05-01"
+   },
+   "EB4": {
+    "all": "2020-11-01",
+    "china": "2020-11-01",
+    "india": "2020-11-01",
+    "mexico": "2020-11-01",
+    "philippines": "2020-11-01"
+   },
+   "SR": {
+    "all": "U",
+    "china": "U",
+    "india": "U",
+    "mexico": "U",
+    "philippines": "U"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-12-15",
+    "india": "2020-12-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2024-05",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2024/visa-bulletin-for-may-2024.html",
+  "family": {
+   "F1": {
+    "all": "2015-07-08",
+    "china": "2015-07-08",
+    "india": "2015-07-08",
+    "mexico": "2001-10-15",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2021-06-01",
+    "china": "2021-06-01",
+    "india": "2021-06-01",
+    "mexico": "2020-11-08",
+    "philippines": "2021-06-01"
+   },
+   "F2B": {
+    "all": "2016-04-01",
+    "china": "2016-04-01",
+    "india": "2016-04-01",
+    "mexico": "2004-03-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2010-01-01",
+    "china": "2010-01-01",
+    "india": "2010-01-01",
+    "mexico": "1999-07-22",
+    "philippines": "2002-08-01"
+   },
+   "F4": {
+    "all": "2007-07-22",
+    "china": "2007-07-22",
+    "india": "2006-01-15",
+    "mexico": "2001-01-22",
+    "philippines": "2003-09-08"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-09-01",
+    "india": "2021-03-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2023-01-15",
+    "china": "2020-02-01",
+    "india": "2012-04-15",
+    "mexico": "2023-01-15",
+    "philippines": "2023-01-15"
+   },
+   "EB3": {
+    "all": "2022-11-22",
+    "china": "2020-09-01",
+    "india": "2012-08-15",
+    "mexico": "2022-11-22",
+    "philippines": "2022-11-22"
+   },
+   "EW": {
+    "all": "2020-10-08",
+    "china": "2017-01-01",
+    "india": "2012-08-15",
+    "mexico": "2020-10-08",
+    "philippines": "2020-05-01"
+   },
+   "EB4": {
+    "all": "2020-11-01",
+    "china": "2020-11-01",
+    "india": "2020-11-01",
+    "mexico": "2020-11-01",
+    "philippines": "2020-11-01"
+   },
+   "SR": {
+    "all": "2020-11-01",
+    "china": "2020-11-01",
+    "india": "2020-11-01",
+    "mexico": "2020-11-01",
+    "philippines": "2020-11-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-12-15",
+    "india": "2020-12-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2024-09",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2024/visa-bulletin-for-september-2024.html",
+  "family": {
+   "F1": {
+    "all": "2015-10-22",
+    "china": "2015-10-22",
+    "india": "2015-10-22",
+    "mexico": "2002-05-08",
+    "philippines": "2012-03-01"
+   },
+   "F2A": {
+    "all": "2021-11-15",
+    "china": "2021-11-15",
+    "india": "2021-11-15",
+    "mexico": "2021-02-01",
+    "philippines": "2021-11-15"
+   },
+   "F2B": {
+    "all": "2016-05-01",
+    "china": "2016-05-01",
+    "india": "2016-05-01",
+    "mexico": "2004-07-15",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2010-04-01",
+    "china": "2010-04-01",
+    "india": "2010-04-01",
+    "mexico": "2000-03-01",
+    "philippines": "2002-09-08"
+   },
+   "F4": {
+    "all": "2007-08-01",
+    "china": "2007-08-01",
+    "india": "2006-01-22",
+    "mexico": "2001-02-08",
+    "philippines": "2004-02-01"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-11-01",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2023-03-15",
+    "china": "2020-03-01",
+    "india": "2012-07-15",
+    "mexico": "2023-03-15",
+    "philippines": "2023-03-15"
+   },
+   "EB3": {
+    "all": "2020-12-01",
+    "china": "2020-09-01",
+    "india": "2012-10-22",
+    "mexico": "2020-12-01",
+    "philippines": "2020-12-01"
+   },
+   "EW": {
+    "all": "2020-12-01",
+    "china": "2017-01-01",
+    "india": "2012-10-22",
+    "mexico": "2020-12-01",
+    "philippines": "2020-05-01"
+   },
+   "EB4": {
+    "all": "2021-01-01",
+    "china": "2021-01-01",
+    "india": "2021-01-01",
+    "mexico": "2021-01-01",
+    "philippines": "2021-01-01"
+   },
+   "SR": {
+    "all": "2021-01-01",
+    "china": "2021-01-01",
+    "india": "2021-01-01",
+    "mexico": "2021-01-01",
+    "philippines": "2021-01-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-12-15",
+    "india": "2020-12-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2025-01",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2025/visa-bulletin-for-january-2025.html",
+  "family": {
+   "F1": {
+    "all": "2015-11-22",
+    "china": "2015-11-22",
+    "india": "2015-11-22",
+    "mexico": "2004-11-22",
+    "philippines": "2012-03-08"
+   },
+   "F2A": {
+    "all": "2022-01-01",
+    "china": "2022-01-01",
+    "india": "2022-01-01",
+    "mexico": "2021-05-15",
+    "philippines": "2022-01-01"
+   },
+   "F2B": {
+    "all": "2016-05-22",
+    "china": "2016-05-22",
+    "india": "2016-05-22",
+    "mexico": "2005-07-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2010-07-01",
+    "china": "2010-07-01",
+    "india": "2010-07-01",
+    "mexico": "2000-11-22",
+    "philippines": "2002-11-08"
+   },
+   "F4": {
+    "all": "2007-08-01",
+    "china": "2007-08-01",
+    "india": "2006-04-08",
+    "mexico": "2001-03-01",
+    "philippines": "2004-05-01"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-11-08",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2023-04-01",
+    "china": "2020-04-22",
+    "india": "2012-10-01",
+    "mexico": "2023-04-01",
+    "philippines": "2023-04-01"
+   },
+   "EB3": {
+    "all": "2022-12-01",
+    "china": "2020-06-01",
+    "india": "2012-12-01",
+    "mexico": "2022-12-01",
+    "philippines": "2022-12-01"
+   },
+   "EW": {
+    "all": "2020-12-08",
+    "china": "2017-01-01",
+    "india": "2012-12-01",
+    "mexico": "2020-12-08",
+    "philippines": "2020-12-08"
+   },
+   "EB4": {
+    "all": "2021-01-01",
+    "china": "2021-01-01",
+    "india": "2021-01-01",
+    "mexico": "2021-01-01",
+    "philippines": "2021-01-01"
+   },
+   "SR": {
+    "all": "U",
+    "china": "U",
+    "india": "U",
+    "mexico": "U",
+    "philippines": "U"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2016-07-15",
+    "india": "2022-01-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2025-03",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2025/visa-bulletin-for-march-2025.html",
+  "family": {
+   "F1": {
+    "all": "2015-11-22",
+    "china": "2015-11-22",
+    "india": "2015-11-22",
+    "mexico": "2004-11-22",
+    "philippines": "2012-03-08"
+   },
+   "F2A": {
+    "all": "2022-01-01",
+    "china": "2022-01-01",
+    "india": "2022-01-01",
+    "mexico": "2021-05-15",
+    "philippines": "2022-01-01"
+   },
+   "F2B": {
+    "all": "2016-05-22",
+    "china": "2016-05-22",
+    "india": "2016-05-22",
+    "mexico": "2005-07-01",
+    "philippines": "2011-10-22"
+   },
+   "F3": {
+    "all": "2010-07-01",
+    "china": "2010-07-01",
+    "india": "2010-07-01",
+    "mexico": "2000-11-22",
+    "philippines": "2003-01-22"
+   },
+   "F4": {
+    "all": "2007-08-01",
+    "china": "2007-08-01",
+    "india": "2006-04-08",
+    "mexico": "2001-03-01",
+    "philippines": "2004-10-15"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-11-08",
+    "india": "2022-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2023-05-15",
+    "china": "2020-05-08",
+    "india": "2012-12-01",
+    "mexico": "2023-05-15",
+    "philippines": "2023-05-15"
+   },
+   "EB3": {
+    "all": "2022-12-01",
+    "china": "2020-08-01",
+    "india": "2013-02-01",
+    "mexico": "2022-12-01",
+    "philippines": "2022-12-01"
+   },
+   "EW": {
+    "all": "2021-02-01",
+    "china": "2017-01-01",
+    "india": "2013-02-01",
+    "mexico": "2021-02-01",
+    "philippines": "2021-01-15"
+   },
+   "EB4": {
+    "all": "2019-08-01",
+    "china": "2019-08-01",
+    "india": "2019-08-01",
+    "mexico": "2019-08-01",
+    "philippines": "2019-08-01"
+   },
+   "SR": {
+    "all": "2019-08-01",
+    "china": "2019-08-01",
+    "india": "2019-08-01",
+    "mexico": "2019-08-01",
+    "philippines": "2019-08-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2016-07-15",
+    "india": "2022-01-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2025-11",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2026/visa-bulletin-for-november-2025.html",
+  "family": {
+   "F1": {
+    "all": "2016-11-08",
+    "china": "2016-11-08",
+    "india": "2016-11-08",
+    "mexico": "2005-11-22",
+    "philippines": "2013-01-22"
+   },
+   "F2A": {
+    "all": "2024-02-01",
+    "china": "2024-02-01",
+    "india": "2024-02-01",
+    "mexico": "2023-02-01",
+    "philippines": "2024-02-01"
+   },
+   "F2B": {
+    "all": "2016-12-01",
+    "china": "2016-12-01",
+    "india": "2016-12-01",
+    "mexico": "2007-12-15",
+    "philippines": "2012-10-01"
+   },
+   "F3": {
+    "all": "2011-09-08",
+    "china": "2011-09-08",
+    "india": "2011-09-08",
+    "mexico": "2001-05-01",
+    "philippines": "2004-09-22"
+   },
+   "F4": {
+    "all": "2008-01-08",
+    "china": "2008-01-08",
+    "india": "2006-11-01",
+    "mexico": "2001-04-08",
+    "philippines": "2006-03-22"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2022-12-22",
+    "india": "2022-02-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2023-12-01",
+    "china": "2021-04-01",
+    "india": "2013-04-01",
+    "mexico": "2023-12-01",
+    "philippines": "2023-12-01"
+   },
+   "EB3": {
+    "all": "2023-04-01",
+    "china": "2021-03-01",
+    "india": "2013-08-22",
+    "mexico": "2023-04-01",
+    "philippines": "2023-04-01"
+   },
+   "EW": {
+    "all": "2021-07-15",
+    "china": "2017-12-01",
+    "india": "2013-08-22",
+    "mexico": "2021-07-15",
+    "philippines": "2021-07-15"
+   },
+   "EB4": {
+    "all": "2020-07-01",
+    "china": "2020-07-01",
+    "india": "2020-07-01",
+    "mexico": "2020-07-01",
+    "philippines": "2020-07-01"
+   },
+   "SR": {
+    "all": "U",
+    "china": "U",
+    "india": "U",
+    "mexico": "U",
+    "philippines": "U"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2015-12-08",
+    "india": "2021-02-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ },
+ {
+  "id": "2025-12",
+  "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin/2026/visa-bulletin-for-december-2025.html",
+  "family": {
+   "F1": {
+    "all": "2016-11-08",
+    "china": "2016-11-08",
+    "india": "2016-11-08",
+    "mexico": "2006-03-01",
+    "philippines": "2013-01-22"
+   },
+   "F2A": {
+    "all": "2024-02-01",
+    "china": "2024-02-01",
+    "india": "2024-02-01",
+    "mexico": "2023-02-01",
+    "philippines": "2024-02-01"
+   },
+   "F2B": {
+    "all": "2016-12-01",
+    "china": "2016-12-01",
+    "india": "2016-12-01",
+    "mexico": "2008-05-15",
+    "philippines": "2012-10-08"
+   },
+   "F3": {
+    "all": "2011-09-08",
+    "china": "2011-09-08",
+    "india": "2011-09-08",
+    "mexico": "2001-05-01",
+    "philippines": "2004-11-01"
+   },
+   "F4": {
+    "all": "2008-01-08",
+    "china": "2008-01-08",
+    "india": "2006-11-01",
+    "mexico": "2001-04-08",
+    "philippines": "2006-07-15"
+   }
+  },
+  "employment": {
+   "EB1": {
+    "all": "C",
+    "china": "2023-01-22",
+    "india": "2022-03-15",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB2": {
+    "all": "2024-02-01",
+    "china": "2021-06-01",
+    "india": "2013-05-15",
+    "mexico": "2024-02-01",
+    "philippines": "2024-02-01"
+   },
+   "EB3": {
+    "all": "2023-04-15",
+    "china": "2021-04-01",
+    "india": "2013-09-22",
+    "mexico": "2023-04-15",
+    "philippines": "2023-04-15"
+   },
+   "EW": {
+    "all": "2021-08-01",
+    "china": "2017-12-08",
+    "india": "2013-09-22",
+    "mexico": "2021-08-01",
+    "philippines": "2021-08-01"
+   },
+   "EB4": {
+    "all": "2020-09-01",
+    "china": "2020-09-01",
+    "india": "2020-09-01",
+    "mexico": "2020-09-01",
+    "philippines": "2020-09-01"
+   },
+   "SR": {
+    "all": "2020-09-01",
+    "china": "2020-09-01",
+    "india": "2020-09-01",
+    "mexico": "2020-09-01",
+    "philippines": "2020-09-01"
+   },
+   "EB5U": {
+    "all": "C",
+    "china": "2016-07-15",
+    "india": "2021-07-01",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5R": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5H": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   },
+   "EB5I": {
+    "all": "C",
+    "china": "C",
+    "india": "C",
+    "mexico": "C",
+    "philippines": "C"
+   }
+  }
+ }
+]
