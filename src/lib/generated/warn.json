@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-03T16:47:15.029Z",
+  "generatedAt": "2026-11-04T18:20:47.714Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 397,
-      "employeesTotal": 23012,
-      "latestNotice": "2026-10-28",
-      "withNoticeDate": 397,
+      "noticeCount": 426,
+      "employeesTotal": 26233,
+      "latestNotice": "2026-11-02",
+      "withNoticeDate": 426,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12151,
-  "employeesTotal": 1557538,
-  "employerCount": 9037,
+  "noticeCount": 12180,
+  "employeesTotal": 1560759,
+  "employerCount": 9061,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-10-30",
+  "maxNoticeDate": "2026-11-02",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -1121,6 +1121,17 @@
       "latestNotice": "2000-04-27"
     },
     {
+      "normalized": "AEG MANAGEMENT OAKLAND",
+      "name": "AEG Management Oakland LLC",
+      "slug": "aeg-management-oakland-llc",
+      "notices": 1,
+      "employees": 1605,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "DEPT OF COMMERCE - CENSUS BUREAU",
       "name": "Us Dept.of Commerce - Census Bureau",
       "slug": "us-dept-of-commerce-census-bureau",
@@ -1628,6 +1639,21 @@
       "latestNotice": "2024-05-20"
     },
     {
+      "normalized": "COMCAST",
+      "name": "Comcast",
+      "slug": "comcast",
+      "notices": 10,
+      "employees": 1258,
+      "states": [
+        "CA",
+        "GA",
+        "NJ",
+        "VA",
+        "WA"
+      ],
+      "latestNotice": "2027-01-27"
+    },
+    {
       "normalized": "THE HOME DEPOT",
       "name": "The Home Depot",
       "slug": "the-home-depot",
@@ -1768,20 +1794,6 @@
         "NJ"
       ],
       "latestNotice": "2014-03-17"
-    },
-    {
-      "normalized": "COMCAST",
-      "name": "Comcast",
-      "slug": "comcast",
-      "notices": 9,
-      "employees": 1176,
-      "states": [
-        "GA",
-        "NJ",
-        "VA",
-        "WA"
-      ],
-      "latestNotice": "2027-01-27"
     },
     {
       "normalized": "BEAULIEU OF AMERICA",
@@ -23944,6 +23956,17 @@
       "latestNotice": "2000-03-31"
     },
     {
+      "normalized": "COMMUNITY TREE SERVICE",
+      "name": "Community Tree Service, LLC",
+      "slug": "community-tree-service-llc",
+      "notices": 1,
+      "employees": 163,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
       "normalized": "DOW JONES",
       "name": "DOW Jones & Company",
       "slug": "dow-jones-company",
@@ -30308,6 +30331,17 @@
       "latestNotice": "2002-04-15"
     },
     {
+      "normalized": "DANONE PBC",
+      "name": "Danone USA PBC",
+      "slug": "danone-usa-pbc",
+      "notices": 1,
+      "employees": 135,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
       "normalized": "CENLAR FSB",
       "name": "Cenlar FSB",
       "slug": "cenlar-fsb",
@@ -30903,6 +30937,29 @@
       "latestNotice": "1996-03-04"
     },
     {
+      "normalized": "THE VONS COMPANIES",
+      "name": "The Vons Companies Inc.",
+      "slug": "the-vons-companies-inc",
+      "notices": 2,
+      "employees": 133,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
+      "normalized": "WORLDWIDE FLIGHT",
+      "name": "Worldwide Flight Services, Inc.",
+      "slug": "worldwide-flight-services-inc",
+      "notices": 3,
+      "employees": 133,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "AEROFARMS - RESCINDED",
       "name": "AeroFarms Inc. - Rescinded",
       "slug": "aerofarms-inc-rescinded",
@@ -31486,6 +31543,17 @@
         "GA"
       ],
       "latestNotice": "1999-10-27"
+    },
+    {
+      "normalized": "ETERNA MANAGEMENT",
+      "name": "Eterna Management, LLC",
+      "slug": "eterna-management-llc",
+      "notices": 2,
+      "employees": 130,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-23"
     },
     {
       "normalized": "AMF BOWLING CENTERS CASTLE PARK",
@@ -34697,6 +34765,28 @@
         "GA"
       ],
       "latestNotice": "1992-12-30"
+    },
+    {
+      "normalized": "ILEAD LANCASTER",
+      "name": "iLEAD Lancaster",
+      "slug": "ilead-lancaster",
+      "notices": 1,
+      "employees": 119,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
+      "normalized": "PACIFIC COAST GRILL",
+      "name": "Pacific Coast Grill Inc.",
+      "slug": "pacific-coast-grill-inc",
+      "notices": 1,
+      "employees": 119,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
     },
     {
       "normalized": "TRAILER PARK",
@@ -47327,6 +47417,17 @@
       "latestNotice": "1995-09-18"
     },
     {
+      "normalized": "CHICK-FIL-A - WORTHY INTEGRATED HOLDINGS",
+      "name": "Chick-fil-A - Worthy Integrated Holdings LLC",
+      "slug": "chick-fil-a-worthy-integrated-holdings-llc",
+      "notices": 1,
+      "employees": 87,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-02"
+    },
+    {
       "normalized": "CARIBOU BIOSCIENCES",
       "name": "Caribou Biosciences, Inc.",
       "slug": "caribou-biosciences-inc",
@@ -50318,6 +50419,17 @@
         "GA"
       ],
       "latestNotice": "1989-08-17"
+    },
+    {
+      "normalized": "ROUNDABOUT ENTERTAINMENT",
+      "name": "Roundabout Entertainment, Inc.",
+      "slug": "roundabout-entertainment-inc",
+      "notices": 1,
+      "employees": 81,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
     },
     {
       "normalized": "PD SYSTEMS",
@@ -55082,17 +55194,6 @@
         "GA"
       ],
       "latestNotice": "2015-01-14"
-    },
-    {
-      "normalized": "WORLDWIDE FLIGHT",
-      "name": "WORLDWIDE FLIGHT SERVICES, INC",
-      "slug": "worldwide-flight-services-inc",
-      "notices": 2,
-      "employees": 74,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2014-05-20"
     },
     {
       "normalized": "KMART STORE # 3685",
@@ -60820,6 +60921,28 @@
       "latestNotice": "1995-07-21"
     },
     {
+      "normalized": "DAVEY TREE SURGERY (2505 N PALM DRIVE)",
+      "name": "Davey Tree Surgery Company (2505 N Palm Drive)",
+      "slug": "davey-tree-surgery-company-2505-n-palm-drive",
+      "notices": 1,
+      "employees": 64,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (5843 GRAHAM HILL ROAD)",
+      "name": "Davey Tree Surgery (5843 Graham Hill Road)",
+      "slug": "davey-tree-surgery-5843-graham-hill-road",
+      "notices": 1,
+      "employees": 64,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "SHELL CATALYST",
       "name": "Shell Catalyst & Technologies",
       "slug": "shell-catalyst-technologies",
@@ -65937,6 +66060,17 @@
       "latestNotice": "1996-05-14"
     },
     {
+      "normalized": "DAVEY TREE SURGERY (REMOTE)",
+      "name": "Davey Tree Surgery Company (Remote)",
+      "slug": "davey-tree-surgery-company-remote",
+      "notices": 1,
+      "employees": 57,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "DROPBOX",
       "name": "Dropbox, Inc.",
       "slug": "dropbox-inc",
@@ -66641,6 +66775,17 @@
         "GA"
       ],
       "latestNotice": "1993-08-09"
+    },
+    {
+      "normalized": "RENEWABLE SOLAR",
+      "name": "Renewable Solar, Inc.",
+      "slug": "renewable-solar-inc",
+      "notices": 1,
+      "employees": 56,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
     },
     {
       "normalized": "INTERNATIONAL RESCUE COMMITTEE",
@@ -67433,17 +67578,6 @@
         "CA"
       ],
       "latestNotice": "2026-07-17"
-    },
-    {
-      "normalized": "THE VONS COMPANIES",
-      "name": "The Vons Companies Inc.",
-      "slug": "the-vons-companies-inc",
-      "notices": 1,
-      "employees": 55,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-07"
     },
     {
       "normalized": "THE FRESH MARKET",
@@ -76022,6 +76156,28 @@
       "latestNotice": "1990-01-22"
     },
     {
+      "normalized": "AVIDITY BIOSCIENCES",
+      "name": "Avidity Biosciences, Inc.",
+      "slug": "avidity-biosciences-inc",
+      "notices": 1,
+      "employees": 40,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
+      "normalized": "RALEY'S",
+      "name": "Raley's",
+      "slug": "raley-s",
+      "notices": 1,
+      "employees": 40,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
+    },
+    {
       "normalized": "APPLE - MAUDE AVE",
       "name": "Apple, Inc. - Maude Ave.",
       "slug": "apple-inc-maude-ave",
@@ -76637,6 +76793,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (12694 LOS NIETOS ROAD)",
+      "name": "Davey Tree Surgery Company (12694 Los Nietos Road)",
+      "slug": "davey-tree-surgery-company-12694-los-nietos-road",
+      "notices": 1,
+      "employees": 39,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "BFG SUPPLY",
@@ -77385,6 +77552,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-18"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (8188 KATELLA AVENUE)",
+      "name": "Davey Tree Surgery Company (8188 Katella Avenue)",
+      "slug": "davey-tree-surgery-company-8188-katella-avenue",
+      "notices": 1,
+      "employees": 37,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "RED LOBSTER RESTAURANTS",
@@ -78642,6 +78820,17 @@
       "latestNotice": "2000-03-29"
     },
     {
+      "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
+      "name": "Davey Tree Surgery Company (244 Hall Road)",
+      "slug": "davey-tree-surgery-company-244-hall-road",
+      "notices": 1,
+      "employees": 34,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "GOLDEN",
       "name": "Golden Services. LLC",
       "slug": "golden-services-llc",
@@ -79465,6 +79654,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-18"
+    },
+    {
+      "normalized": "ENDEAVORS",
+      "name": "Endeavors",
+      "slug": "endeavors",
+      "notices": 1,
+      "employees": 31,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "COURSERA",
@@ -82869,6 +83069,28 @@
       "latestNotice": null
     },
     {
+      "normalized": "RTX",
+      "name": "RTX",
+      "slug": "rtx",
+      "notices": 3,
+      "employees": 22,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (132 ROACHE ROAD)",
+      "name": "Davey Tree Surgery Company (132 Roache Road)",
+      "slug": "davey-tree-surgery-company-132-roache-road",
+      "notices": 1,
+      "employees": 22,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "CHILD CARE ASSOCIATES (ARLINGTON 2)",
       "name": "Child Care Associates (Arlington 2)",
       "slug": "child-care-associates-arlington-2",
@@ -83340,6 +83562,17 @@
         "GA"
       ],
       "latestNotice": "2009-12-17"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (R/O 6 CHURCH STREET)",
+      "name": "Davey Tree Surgery Company (R/O 6 Church Street)",
+      "slug": "davey-tree-surgery-company-r-o-6-church-street",
+      "notices": 1,
+      "employees": 20,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "KAISER (99 S OAKLAND AVE )",
@@ -83912,6 +84145,17 @@
         "NJ"
       ],
       "latestNotice": null
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
+      "name": "Davey Tree Surgery Company (E/O Crittenden Lane)",
+      "slug": "davey-tree-surgery-company-e-o-crittenden-lane",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "JAMES RIVER INSURANCE",
@@ -86315,6 +86559,17 @@
       "latestNotice": "2000-04-18"
     },
     {
+      "normalized": "ECONOLITE CONTROL PRODUCTS",
+      "name": "Econolite Control Products, Inc.",
+      "slug": "econolite-control-products-inc",
+      "notices": 1,
+      "employees": 13,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
       "normalized": "TELECARE - STONEHEDGE",
       "name": "Telecare Corporation - Stonehedge",
       "slug": "telecare-corporation-stonehedge",
@@ -86678,6 +86933,17 @@
         "NJ"
       ],
       "latestNotice": "2004-12-31"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
+      "name": "Davey Tree Surgery Company (1847 144th Street)",
+      "slug": "davey-tree-surgery-company-1847-144th-street",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
@@ -89431,17 +89697,6 @@
         "CA"
       ],
       "latestNotice": "2026-09-30"
-    },
-    {
-      "normalized": "RTX",
-      "name": "RTX",
-      "slug": "rtx",
-      "notices": 2,
-      "employees": 8,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-09-22"
     },
     {
       "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (12015 E WATERFRONT DR )",
@@ -97066,6 +97321,17 @@
       "latestNotice": "2008-01-24"
     },
     {
+      "normalized": "SAPPORO U S A",
+      "name": "Sapporo U.S.A.",
+      "slug": "sapporo-u-s-a",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
       "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
       "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
       "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-1800-harrison-st",
@@ -100327,6 +100593,18 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Chick-fil-A - Worthy Integrated Holdings LLC",
+      "normalized": "CHICK-FIL-A - WORTHY INTEGRATED HOLDINGS",
+      "city": "Oxnard",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-11-02",
+      "effectiveDate": "2026-12-31",
+      "employees": 87,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "BASF Corporation",
       "normalized": "BASF",
       "city": "Florham Park",
@@ -100349,6 +100627,114 @@
       "employees": 59,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "The Vons Companies Inc.",
+      "normalized": "THE VONS COMPANIES",
+      "city": "Anaheim Hills",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2027-01-02",
+      "employees": 78,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Renewable Solar, Inc.",
+      "normalized": "RENEWABLE SOLAR",
+      "city": "Hanford",
+      "county": "Kings",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-30",
+      "employees": 56,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "iLEAD Lancaster",
+      "normalized": "ILEAD LANCASTER",
+      "city": "Lancaster",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-31",
+      "employees": 119,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sapporo U.S.A.",
+      "normalized": "SAPPORO U S A",
+      "city": "Escondido",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-11",
+      "employees": 1,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Econolite Control Products, Inc.",
+      "normalized": "ECONOLITE CONTROL PRODUCTS",
+      "city": "Anaheim",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-31",
+      "employees": 13,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Danone USA PBC",
+      "normalized": "DANONE PBC",
+      "city": "Chatsworth",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-29",
+      "employees": 135,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Community Tree Service, LLC",
+      "normalized": "COMMUNITY TREE SERVICE",
+      "city": "Pajaro",
+      "county": "Monterey",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2027-01-02",
+      "employees": 163,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Coast Grill Inc.",
+      "normalized": "PACIFIC COAST GRILL",
+      "city": "Cardiff",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-03-01",
+      "employees": 119,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Roundabout Entertainment, Inc.",
+      "normalized": "ROUNDABOUT ENTERTAINMENT",
+      "city": "Burbank",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-29",
+      "employees": 81,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "JP Morgan Chase",
@@ -100389,6 +100775,198 @@
     {
       "employer": "Comcast",
       "normalized": "COMCAST",
+      "city": "Livermore",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 82,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Worldwide Flight Services, Inc.",
+      "normalized": "WORLDWIDE FLIGHT",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2027-01-04",
+      "employees": 59,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "AEG Management Oakland LLC",
+      "normalized": "AEG MANAGEMENT OAKLAND",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 1605,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Avidity Biosciences, Inc.",
+      "normalized": "AVIDITY BIOSCIENCES",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 40,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Endeavors",
+      "normalized": "ENDEAVORS",
+      "city": "Chula Vista",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 31,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "RTX",
+      "normalized": "RTX",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 14,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (Remote)",
+      "normalized": "DAVEY TREE SURGERY (REMOTE)",
+      "city": "Livermore",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 57,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (2505 N Palm Drive)",
+      "normalized": "DAVEY TREE SURGERY (2505 N PALM DRIVE)",
+      "city": "Signal Hill",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 64,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (1847 144th Street)",
+      "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
+      "city": "Gardena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 12,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (12694 Los Nietos Road)",
+      "normalized": "DAVEY TREE SURGERY (12694 LOS NIETOS ROAD)",
+      "city": "Santa Fe Springs",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 39,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (244 Hall Road)",
+      "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
+      "city": "Royal Oaks",
+      "county": "Monterey",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 34,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (8188 Katella Avenue)",
+      "normalized": "DAVEY TREE SURGERY (8188 KATELLA AVENUE)",
+      "city": "Stanton",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 37,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (R/O 6 Church Street)",
+      "normalized": "DAVEY TREE SURGERY (R/O 6 CHURCH STREET)",
+      "city": "Mountain View",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 20,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (E/O Crittenden Lane)",
+      "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
+      "city": "Mountain View",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 19,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery (5843 Graham Hill Road)",
+      "normalized": "DAVEY TREE SURGERY (5843 GRAHAM HILL ROAD)",
+      "city": "Felton",
+      "county": "Santa Cruz",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 64,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (132 Roache Road)",
+      "normalized": "DAVEY TREE SURGERY (132 ROACHE ROAD)",
+      "city": "Freedom",
+      "county": "Santa Cruz",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 22,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Comcast",
+      "normalized": "COMCAST",
       "city": "Statewide",
       "county": null,
       "state": "WA",
@@ -100420,6 +100998,18 @@
       "effectiveDate": "2027-01-01",
       "employees": 14,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Raley's",
+      "normalized": "RALEY'S",
+      "city": "Petaluma",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-10",
+      "employees": 40,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -100588,6 +101178,30 @@
       "effectiveDate": "2027-01-03",
       "employees": 77,
       "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Eterna Management, LLC",
+      "normalized": "ETERNA MANAGEMENT",
+      "city": "Santa Ana",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-10-23",
+      "effectiveDate": "2026-12-22",
+      "employees": 124,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Eterna Management",
+      "normalized": "ETERNA MANAGEMENT",
+      "city": "Irvine",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-10-23",
+      "effectiveDate": "2026-12-22",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
