@@ -30,11 +30,14 @@ import {
 } from "@/lib/billing/plans";
 import type { CapabilityStatus } from "@/lib/billing/plans";
 import { billingStatus } from "@/lib/billing/config";
+import { TrustStrip } from "@/components/TrustStrip";
+import { AlertExampleCard, ForecastExampleCard } from "@/components/ProShowcase";
+import { alertExample, forecastExample } from "@/lib/pro-showcase";
 
 export const metadata = buildMetadata({
   title: "Pricing: ImmigrationClock Pro",
   description:
-    "The public platform stays free: every recorded change, the employer directory, the layoff feed, the API and the weekly newsletter. Pro keeps your watchlist on every device.",
+    "Pro gives you the month your priority date may be reached and an email the day a new Visa Bulletin or rule touches what you follow. $19 a month. The public site stays free.",
   path: "/pricing",
   // No export keyword: that capability is roadmap, not a product.
   keywords: ["immigration data subscription", "immigration monitoring", "immigration watchlist"],
@@ -68,59 +71,51 @@ function Status({ status }: { status: CapabilityStatus }) {
   );
 }
 
+/** "USCIS case status alerts" stays "USCIS"; "Bulk export" becomes "bulk export". */
+function inSentence(label: string): string {
+  return /^[A-Z]{2}/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1);
+}
+
 export default function PricingPage() {
   const freeFeatures = CAPABILITY_SPECS.filter((c) => c.plan === "free");
-  // WHAT PRO SELLS — not every capability tagged "pro". Four of these were
-  // listed as things a subscriber gets while none of them existed: alerts.ts
-  // was imported by nothing but its own test and no scheduler existed anywhere.
-  // They are roadmap now, rendered below under a heading that says so.
+  // WHAT PRO SELLS: only sold capabilities. Unsold ones are roadmap and appear
+  // in the FAQ under a heading that says so, never as a tick in the Pro card.
   const proFeatures = capabilitiesAddedBy("pro");
   const later = roadmap();
   const pending = notYetAvailable("pro");
-  const inBuild = pending.filter((c) => c.status === "building").length;
-  const planned = pending.filter((c) => c.status === "planned").length;
+  const caseAlerts = later.find((f) => f.id === "case_alerts");
 
-  // TWO SEPARATE REASONS A PURCHASE CANNOT HAPPEN, and they are not the same
-  // sentence to a reader.
-  //
-  //   hasSomethingToSell  a Pro capability actually works. Derived from the
-  //                       specs rather than a flag someone has to flip.
+  // TWO SEPARATE REASONS A PURCHASE CANNOT HAPPEN.
+  //   hasSomethingToSell  a Pro capability actually works (from the specs).
   //   checkoutReady       billing is switched on and configured.
-  //
-  // Both must hold. Watchlist sync now works, so the first is true — but
-  // BILLING_ENABLED is deliberately unset, and rendering a Subscribe button
-  // that answers "subscriptions are not open yet" would be the same
-  // contradiction this branch was written to remove, just one click later.
-  //
-  // THIS PAGE IS STATIC, SO THIS RUNS AT BUILD TIME AND ONLY THEN. That was a
-  // silent way to be unbuyable: switch billing on in production and the page
-  // kept saying "Not for sale yet" until somebody redeployed. The value below
-  // is now the FIRST PAINT only — PurchasePanel re-asks the dynamic route on
-  // mount and is the one that decides. See src/components/PurchasePanel.tsx.
+  // This page is static, so the value below is the FIRST PAINT only;
+  // PurchasePanel re-asks the dynamic route on mount and decides.
   const hasSomethingToSell = availableNow("pro").length > 0;
   const builtReady = billingStatus().checkoutReady;
   const purchasable = hasSomethingToSell && builtReady;
+
+  // PRODUCT SHOTS, NOT TESTIMONIALS. Built from the latest official bulletin
+  // by the same code a subscriber gets. Either can be null; then it is left out.
+  const forecastEx = forecastExample();
+  const alertEx = alertExample();
 
   return (
     <div>
       <PricingAnalytics />
       <PageHeader
-        eyebrow="Pricing"
-        title="The public platform is free. Pro is for watching it professionally."
-        description="Nothing that is free today becomes paid. Pro adds email alerts on what you follow, your Briefing, and the same watchlist on every device."
+        eyebrow="ImmigrationClock Pro"
+        title="Know when your date moves."
+        description="Pro adds email alerts on what you follow, your Briefing and the forecast by month. Everything public stays free."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/pricing", label: "Pricing" },
         ]}
       />
 
-      <div className="container-page max-w-5xl space-y-10 py-10">
-        <div className="grid gap-5 md:grid-cols-2">
-          {/* FREE */}
-          {/* ON A PHONE, PRO COMES FIRST. People open /pricing to see what Pro
-              costs; stacking the free list above it put the price and the buy
-              button a long scroll down. From md up the two sit side by side
-              in the usual Free, Pro order. */}
+      <div className="container-page max-w-5xl space-y-12 py-10">
+        <div className="grid gap-5 md:grid-cols-[1fr_1.25fr]">
+          {/* FREE. On a phone Pro comes first, so the price and the buy
+              button are not a long scroll down. From md up: Free, then Pro. */}
           <section className="panel panel-pad order-2 md:order-1" aria-labelledby="plan-free">
             <h2 id="plan-free" className="text-lg font-bold text-white">
               {free.name}
@@ -128,20 +123,17 @@ export default function PricingPage() {
             <p className="mt-1 text-sm text-slate-400">{free.tagline}</p>
             <p className="mt-4 font-mono text-3xl font-extrabold tabular-nums text-white">$0</p>
 
-            <ul className="mt-5 space-y-2.5 text-sm">
+            <ul className="mt-5 space-y-2 text-sm">
               {freeFeatures.map((f) => (
                 <li key={f.id} className="flex gap-2.5">
                   <Check on />
-                  <span>
-                    <span className="font-medium text-slate-200">{f.label}</span>
-                    <span className="block text-xs text-slate-400">{f.blurb}</span>
-                  </span>
+                  <span className="text-slate-300">{f.label}</span>
                 </li>
               ))}
             </ul>
 
             <p className="mt-5 text-xs text-slate-500">
-              This is the whole public platform, and it stays that way.{" "}
+              The whole public platform, and it stays that way.{" "}
               <Link href="/methodology" className="text-accent hover:underline">
                 How we source it
               </Link>
@@ -150,124 +142,73 @@ export default function PricingPage() {
           </section>
 
           {/* PRO */}
-          <section className="panel panel-pad order-1 border-accent/25 md:order-2" aria-labelledby="plan-pro">
-            <h2 id="plan-pro" className="text-lg font-bold text-white">
-              {pro.name}
-            </h2>
+          <section className="panel panel-pad order-1 border-accent/40 ring-1 ring-accent/20 md:order-2" aria-labelledby="plan-pro">
+            <div className="flex items-center justify-between gap-3">
+              <h2 id="plan-pro" className="text-lg font-bold text-white">
+                {pro.name}
+              </h2>
+              <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[11px] font-semibold text-accent">
+                Cancel any time
+              </span>
+            </div>
             <p className="mt-1 text-sm text-slate-400">{pro.tagline}</p>
 
-            <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="font-mono text-3xl font-extrabold tabular-nums text-accent">
-                ${pro.monthlyUsd}
-              </span>
-              <span className="text-sm text-slate-400">per month</span>
+            <div className="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <span className="font-mono text-4xl font-extrabold tabular-nums text-accent">${pro.monthlyUsd}</span>
+              <span className="text-sm text-slate-400">a month</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">
-              or ${pro.annualUsd} a year{saving ? `, which is two months free` : ""}. Cancel any time.
+              or ${pro.annualUsd} a year
+              {saving ? (
+                <span className="ml-1.5 rounded bg-status-green/10 px-1.5 py-0.5 font-semibold text-status-green">
+                  save ${saving}
+                </span>
+              ) : null}
             </p>
 
-            <ul className="mt-5 space-y-2.5 text-sm">
+            <ul className="mt-5 grid gap-2 text-sm sm:grid-cols-2">
               {proFeatures.map((f) => (
                 <li key={f.id} className="flex gap-2.5">
                   <Check on={f.status === "available"} />
-                  <span>
-                    <span className="font-medium text-white">{f.label}</span>
+                  <span className="font-medium text-white">
+                    {f.label}
                     <Status status={f.status} />
-                    <span className="block text-xs text-slate-400">{f.blurb}</span>
                   </span>
                 </li>
               ))}
               <li className="flex gap-2.5">
                 <Check on />
-                <span>
-                  <span className="font-medium text-white">Everything in Free</span>
-                  <span className="block text-xs text-slate-400">
-                    Pro adds to the public platform. It does not unlock any of it.
-                  </span>
-                </span>
+                <span className="font-medium text-white">Everything in Free</span>
               </li>
+              {caseAlerts ? (
+                <li className="flex gap-2.5">
+                  <Check on={false} />
+                  <span className="text-slate-400">
+                    {caseAlerts.label}
+                    <span className="ml-2 rounded border border-status-amber/40 px-1.5 py-0.5 align-middle text-[10px] font-medium uppercase tracking-wide text-status-amber">
+                      Coming soon
+                    </span>
+                  </span>
+                </li>
+              ) : null}
             </ul>
 
-            {/* Look before buying: the live sample of a Briefing, no sign-up. */}
-            <p className="mt-4 text-sm">
-              <Link href="/briefing/example" className="link-accent font-medium">
-                See an example Briefing first &rarr;
-              </Link>
-            </p>
-
-            {/* THE ZERO-AVAILABLE STATE IS REACHABLE AND HAS TO READ HONESTLY.
-                The paragraph below used to say "subscribe now only if the ones
-                marked available are already worth it to you", which pointed at
-                an empty set the moment watchlist_sync was corrected from
-                "available" to "building" — every Pro row renders a dash, and
-                there is no "rest" either. A reader cannot follow an instruction
-                about a set with nothing in it, and asking for $19 against a
-                column of dashes without saying so plainly is the one thing this
-                paragraph exists to prevent. */}
-            {/* Three states now, not two: nothing finished, some finished, all
-                finished. The first branch stopped being reachable the moment
-                watchlist sync shipped, and leaving it as the only "unfinished"
-                wording would have called a working capability unfinished. */}
-            {pending.length > 0 && pending.length === proFeatures.length ? (
+            {/* Unfinished Pro capabilities, if any ever return to the plan.
+                Each is named on its own line with its own status, never
+                comma-joined: one label is "Your watchlist, everywhere". */}
+            {pending.length > 0 ? (
               <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
-                <strong className="text-white">Being straight with you: none of this is
-                finished yet.</strong>{" "}
-                {/* Counts by status rather than one comma-joined list. The old
-                    sentence called all five "in build" when two are only
-                    planned — wrong in the flattering direction, in the one
-                    paragraph whose whole job is precision — and joining the
-                    labels with commas made "Your watchlist, everywhere" read as
-                    two separate capabilities. The badge on each line already
-                    says which is which. */}
-                Of the {proFeatures.length} capabilities above,{" "}
-                {inBuild > 0 ? `${inBuild} ${inBuild === 1 ? "is" : "are"} in build` : null}
-                {inBuild > 0 && planned > 0 ? " and " : null}
-                {planned > 0 ? `${planned} ${planned === 1 ? "is" : "are"} planned` : null}; the
-                badge on each line says which. There is nothing here to buy today that you do not
-                already get free. Everything on the free plan stays free and stays complete.
-              </p>
-            ) : pending.length > 0 ? (
-              <p className="mt-5 rounded-lg border border-status-amber/25 bg-status-amber/[0.06] px-3 py-2.5 text-xs leading-relaxed text-slate-300">
-                <strong className="text-white">Being straight with you:</strong>{" "}
-                {pending.length} of the {proFeatures.length} capabilities above{" "}
-                {pending.length === 1 ? "is" : "are"} not finished yet. Subscribe now only if the
-                ones marked available are already worth it to you. The rest arrive at no extra cost.
-                {/* A real list, not a comma-joined sentence: one capability is
-                    literally called "Your watchlist, everywhere". */}
-                <span className="mt-1.5 block">
-                  {pending.map((f) => (
-                    <span key={f.id} className="block">
-                      {"\u00b7 "}
-                      {f.label}{" "}
-                      <span className="text-slate-500">({STATUS_LABEL[f.status].toLowerCase()})</span>
-                    </span>
-                  ))}
-                </span>
+                <strong className="text-white">Not finished yet:</strong>
+                {pending.map((f) => (
+                  <span key={f.id} className="block">
+                    {"· "}
+                    {f.label} <span className="text-slate-500">({STATUS_LABEL[f.status].toLowerCase()})</span>
+                  </span>
+                ))}
+                Subscribe now only if the rest is already worth it to you.
               </p>
             ) : null}
 
-
-            {/* THE PRICE STAYS, THE PURCHASE DOES NOT.
-                Two live Subscribe buttons sat directly beneath a paragraph
-                saying there is nothing to buy — the reader was told not to
-                subscribe and invited to in the same breath. The prices are the
-                intended ones and stay on the page; what is withheld is the
-                ability to pay for a product that cannot yet do anything.
-                Nothing about the Stripe wiring changes, and this branch
-                disappears by itself the moment a Pro capability is available. */}
-            {/* THE PRICE STAYS, THE PURCHASE DOES NOT.
-                Two live Subscribe buttons sat directly beneath a paragraph
-                saying there is nothing to buy — the reader was told not to
-                subscribe and invited to in the same breath. The prices are the
-                intended ones and stay on the page; what is withheld is the
-                ability to pay for a product that cannot yet do anything.
-
-                WHICH OF THE TWO IS SHOWN IS DECIDED AT REQUEST TIME. This page
-                is prerendered, so reading billingStatus() here answered once,
-                at build time, and froze the buy button into the HTML — which
-                meant switching billing on in production changed nothing until
-                the next deploy. `builtReady` is the first paint; PurchasePanel
-                confirms it against the live route. */}
             <PurchasePanel
               initialReady={purchasable}
               initialTestMode={billingStatus().testMode}
@@ -282,9 +223,8 @@ export default function PricingPage() {
                       className="[&>button]:bg-transparent [&>button]:text-slate-200 [&>button]:ring-1 [&>button]:ring-white/15 [&>button]:hover:bg-white/5"
                     />
                   </NewsletterOptInGroup>
-                  {/* ONE LINE OF SMALL PRINT. Renewal and tax are said here because
-                      a buyer must see them before paying; the rest lives in the
-                      billing terms it links to. */}
+                  {/* Renewal and tax are said here because a buyer must see
+                      them before paying; the rest is in the billing terms. */}
                   <p className="text-center text-[11px] leading-relaxed text-slate-500">
                     Secure checkout by Stripe. Renews automatically until you cancel, and you can
                     cancel any time from your account. Any sales tax is shown before you pay.{" "}
@@ -328,6 +268,56 @@ export default function PricingPage() {
           </section>
         </div>
 
+        {/* WHAT PRO DOES, SHOWN RATHER THAN DESCRIBED. */}
+        <section aria-labelledby="show-heading" className="space-y-4">
+          <div>
+            <h2 id="show-heading" className="section-title">
+              What you get
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">Real output, built from this month&apos;s official data.</p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {forecastEx ? <ForecastExampleCard ex={forecastEx} /> : null}
+            {alertEx ? <AlertExampleCard ex={alertEx} /> : null}
+            <article className="panel panel-pad flex flex-col" aria-labelledby="show-briefing">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-accent">Your Briefing</p>
+              <h3 id="show-briefing" className="mt-1 text-base font-bold text-white">
+                One page for your watchlist
+              </h3>
+              <ul className="mt-4 space-y-2.5 text-sm text-slate-300">
+                {[
+                  "Changes that touch what you follow",
+                  "Effective dates coming up",
+                  "Anything you saved",
+                  "Print it or add dates to your calendar",
+                  "Your follows on every device",
+                ].map((t) => (
+                  <li key={t} className="flex gap-2.5">
+                    <Check on />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/briefing/example" className="link-accent mt-auto pt-4 text-sm font-medium">
+                See an example Briefing &rarr;
+              </Link>
+            </article>
+          </div>
+        </section>
+
+        {/* TRUST WITHOUT TESTIMONIALS: what the data is and where it comes from. */}
+        <section aria-labelledby="trust-heading" className="space-y-4">
+          <div>
+            <h2 id="trust-heading" className="section-title">
+              Official sources only
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">
+              Every change links to the government document it came from.
+            </p>
+          </div>
+          <TrustStrip />
+        </section>
+
         <section aria-labelledby="faq-heading" className="space-y-4">
           <h2 id="faq-heading" className="section-title">
             Questions
@@ -336,49 +326,44 @@ export default function PricingPage() {
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Do I need an account to read the site?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                No. Everything public stays open with no sign-in. For Pro you sign in with a link
-                we email you. There is no password.
+                No. For Pro you sign in with a link we email you. There is no password.
               </p>
             </div>
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">What happens to my follows?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                They come with you. Pro keeps the same list on every device. Pro also emails you
-                when a recorded change touches something on that list, or a new Visa Bulletin is out
-                for it, at most once a day.
+                They come with you, on every device. Pro also emails you when a recorded change touches something on that list, or a new Visa Bulletin is out for it, at most once a day.
               </p>
             </div>
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Can I cancel?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                Yes, any time, from your account. Pro keeps working until the end of the period you
-                paid for.
+                Yes, any time, from your account. Pro keeps working until the end of the period you paid for.
               </p>
             </div>
             <div className="panel panel-pad">
               <h3 className="text-sm font-semibold text-white">Who is this for?</h3>
               <p className="mt-1.5 text-sm text-slate-400">
-                People who track immigration policy for work: legal and mobility teams, HR,
-                recruiters, researchers and journalists. And anyone waiting on a green card who wants
-                each new Visa Bulletin for their category by email. Reading the site stays free.
+                Anyone waiting on a green card, and people who track immigration for work: legal and mobility teams, HR, recruiters and researchers.
               </p>
             </div>
             {later.length > 0 ? (
               <div className="panel panel-pad">
-                {/* THE ROADMAP, OUTSIDE THE OFFER. It sat inside the Pro card,
-                    between the price and the buy button, where it read as a
-                    list of things missing. It is not part of Pro and is not
-                    paid for, and this answer says so. */}
+                {/* THE ROADMAP, OUTSIDE THE OFFER. Not part of Pro today. */}
                 <h3 className="text-sm font-semibold text-white">Is more coming?</h3>
                 <p className="mt-1.5 text-sm text-slate-400">
                   We are working on{" "}
-                  {new Intl.ListFormat("en", { type: "conjunction" }).format(
-                    later.map((f) => f.label.toLowerCase())
-                  )}
+                  {new Intl.ListFormat("en", { type: "conjunction" }).format(later.map((f) => inSentence(f.label)))}
                   . They are not part of Pro today. If they ship, subscribers get them at no extra cost.
                 </p>
               </div>
             ) : null}
+            <div className="panel panel-pad">
+              <h3 className="text-sm font-semibold text-white">Is this legal advice?</h3>
+              <p className="mt-1.5 text-sm text-slate-400">
+                No. A forecast is an estimate from past bulletins, and a new law or a surge in demand can change it.
+              </p>
+            </div>
           </div>
         </section>
       </div>

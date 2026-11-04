@@ -12,9 +12,10 @@ import { formatDate } from "@/lib/format";
 import pipelineHealth from "@/lib/generated/pipeline-health.json";
 import { lastCheckedSentence } from "@/lib/pipeline-health";
 import { RecentChanges } from "@/components/RecentChanges";
-import { EVENTS, EVENT_STORE_META, significantEvents, contributingAdapters } from "@/lib/event-store";
+import { EVENTS, significantEvents } from "@/lib/event-store";
 import { ReportError } from "@/components/ReportError";
-import { bulletinPath, latestBulletin } from "@/lib/visa-bulletin";
+import { FORECAST_PATH, bulletinPath, latestBulletin } from "@/lib/visa-bulletin";
+import { TrustStrip } from "@/components/TrustStrip";
 
 export const metadata = buildMetadata({
   title: "U.S. Immigration Changes, Tracked to Official Sources",
@@ -86,12 +87,6 @@ export default function HomePage() {
   const featured = FEATURED_KEYS.map((k) => metrics.find((m) => m.key === k)).filter(
     (m): m is NonNullable<typeof m> => Boolean(m)
   );
-  const contributing = contributingAdapters().length;
-  const heroCoverage =
-    `${EVENTS.length.toLocaleString()} government changes recorded from ${contributing} official sources` +
-    `${EVENT_STORE_META.earliestEvent ? `, back to ${formatDate(EVENT_STORE_META.earliestEvent)}` : ""}. ` +
-    "Every figure is labelled reported, projected, or estimated, and this is not a real-time feed.";
-
   return (
     <div>
       {/* Hero — task-first. The question a visitor arrives with, one search
@@ -141,9 +136,10 @@ export default function HomePage() {
             ))}
           </nav>
 
-          {/* The month's one fixed event for green card applicants. */}
-          {bulletin ? (
-            <div className="mx-auto mt-5 flex max-w-5xl justify-center">
+          {/* The month's one fixed event for green card applicants, and the
+              question it raises: when will my own date be reached? */}
+          <div className="mx-auto mt-5 flex max-w-5xl flex-wrap justify-center gap-2">
+            {bulletin ? (
               <Link
                 href={bulletinPath(bulletin)}
                 className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/[0.06] px-4 py-2 text-sm font-medium text-white transition-colors hover:border-accent/60"
@@ -151,8 +147,14 @@ export default function HomePage() {
                 <span className="pulse-live" />
                 {bulletin.label} Visa Bulletin: see what moved →
               </Link>
-            </div>
-          ) : null}
+            ) : null}
+            <Link
+              href={FORECAST_PATH}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-accent/60"
+            >
+              When will my date be current? →
+            </Link>
+          </div>
 
           {/* Situations as starting points, not boxes: each opens its view on
               /for-you, where any visa, country or topic can also be looked up. */}
@@ -169,13 +171,17 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="mx-auto mt-6 max-w-2xl text-center">
+          {/* TRUST, COUNTED. Four real numbers instead of a paragraph. */}
+          <div className="mx-auto mt-7 max-w-3xl">
+            <TrustStrip fourth="since" chipsOnPhone={false} />
+          </div>
+          <div className="mx-auto mt-4 max-w-2xl text-center">
             <p className="text-xs leading-relaxed text-slate-500">
               <span className="font-mono text-slate-400">Last refreshed {formatDate(LAST_REFRESHED)}</span>
               {" · "}
-              {heroCoverage}{" "}
+              Every figure is labelled reported, projected, or estimated. Not a real-time feed.{" "}
               <Link href="/methodology" className="link-accent">
-                How we source and label every figure →
+                How we source it →
               </Link>
             </p>
             {/* THE PROFESSIONAL DOOR. One quiet line: discoverable, not a sales banner. */}
