@@ -65,7 +65,7 @@
     "react-dom": "^18.3.1",
     "recharts": "^2.13.3",
     "tsx": "^4.19.2",
-    "unpdf": "1.9.0"
+    "unpdf": "1.7.0"
   },
   "devDependencies": {
     "@types/node": "^20.17.6",

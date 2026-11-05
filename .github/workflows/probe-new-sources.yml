@@ -25,6 +25,7 @@ jobs:
           import { eoirPrecedentsAdapter } from "./src/domains/graph/adapters/eoir-precedents";
           import { eoirCaseloadAdapter } from "./src/domains/graph/adapters/eoir-caseload";
           import { validateEvent } from "./src/domains/graph/events";
+          async function main() {
           const since = new Date(Date.now() - 90 * 864e5).toISOString().slice(0, 10);
           for (const a of [whiteHouseActionsAdapter, eoirPrecedentsAdapter, eoirCaseloadAdapter]) {
             const r = await a.fetchEvents!({ since, limit: 250 });
@@ -34,5 +35,7 @@ jobs:
             for (const e of r.events.slice(0, 6)) console.log(`  ${e.publishedAt} ${e.severity} ${e.title}\n    ${e.sourceUrl}`);
             for (const i of invalid.slice(0, 5)) console.log(`  INVALID ${i}`);
           }
+          }
+          main().catch((e) => { console.error(e); process.exit(1); });
           TS
           cp /tmp/probe.ts ./probe.ts && npx tsx probe.ts
