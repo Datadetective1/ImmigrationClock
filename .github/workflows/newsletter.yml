@@ -118,6 +118,9 @@ jobs:
         id: refresh
         env:
           CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
+          # CourtListener refuses keyless requests since 2026-10-28; absent, the courts
+          # adapter reports itself unconfigured, like Congress above.
+          COURTLISTENER_TOKEN: ${{ secrets.COURTLISTENER_TOKEN }}
           EVENTS_LIMIT: "1000"
         run: |
           for attempt in 1 2 3; do

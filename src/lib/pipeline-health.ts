@@ -281,13 +281,59 @@ export function evaluateHealth(health: PipelineHealth, now: string, live?: Pipel
   return { state: "healthy_quiet", alert: false, reasons };
 }
 
+type CheckedInput = Pick<PipelineHealth, "lastSuccessfulSourceCheck" | "lastSuccessfulIngestion"> & {
+  sources?: Pick<SourceHealth, "name" | "configured" | "ok" | "lastSuccessAt">[];
+};
+
+/**
+ * When we last looked, and which sources that look could not reach.
+ *
+ * `lastSuccessfulSourceCheck` only moves when EVERY configured source succeeds,
+ * which is right for monitoring but wrong as the only public date: from
+ * 2026-10-28 one source refusing requests froze the homepage at "last checked
+ * Oct 27" while five other sources were read every day. So when the newest run
+ * reached some sources but not all, report that run's date and name the ones it
+ * missed, with when each was last reached. Never a date we did not look.
+ */
+export function sourcesCheckedAt(health: CheckedInput): {
+  at: string | null;
+  missed: { name: string; lastSuccessAt: string | null }[];
+} {
+  const all = health.lastSuccessfulSourceCheck;
+  const any = health.lastSuccessfulIngestion;
+  const missed = (health.sources ?? [])
+    .filter((s) => s.configured && !s.ok)
+    .map((s) => ({ name: s.name, lastSuccessAt: s.lastSuccessAt }));
+  if (any && missed.length && (!all || any > all)) return { at: any, missed };
+  return { at: all ?? any, missed: [] };
+}
+
 /**
  * Reader-facing sentence for "when did we last look". Deliberately says what it
  * is NOT, because the date sits next to a list of policy changes and must never
  * be read as one of them. Null when there is no successful check to report.
  */
-export function lastCheckedSentence(health: Pick<PipelineHealth, "lastSuccessfulSourceCheck" | "lastSuccessfulIngestion">, format: (iso: string) => string): string | null {
-  const at = health.lastSuccessfulSourceCheck ?? health.lastSuccessfulIngestion;
+export function lastCheckedSentence(health: CheckedInput, format: (iso: string) => string): string | null {
+  const { at, missed } = sourcesCheckedAt(health);
   if (!at) return null;
-  return `Official sources last checked ${format(at)}. That is the date we looked, not the date of a change.`;
+  const base = `Official sources last checked ${format(at)}. That is the date we looked, not the date of a change.`;
+  if (!missed.length) return base;
+  // One clause per "last reached" date, so two sources down since the same day
+  // read as one short sentence rather than a list.
+  const byDate = new Map<string, string[]>();
+  for (const m of missed) {
+    const when = m.lastSuccessAt ? format(m.lastSuccessAt) : "";
+    byDate.set(when, [...(byDate.get(when) ?? []), m.name]);
+  }
+  const gaps = [...byDate].map(([when, names]) =>
+    when
+      ? `${joinNames(names)} could not be reached; last reached ${when}.`
+      : `${joinNames(names)} could not be reached yet.`
+  );
+  return `${base} ${gaps.join(" ")}`;
+}
+
+function joinNames(xs: string[]): string {
+  if (xs.length <= 1) return xs.join("");
+  return `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
 }

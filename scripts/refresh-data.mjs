@@ -149,7 +149,17 @@ async function fetchCbpEncounters(prev) {
       totals[fy] = (totals[fy] || 0) + n;
       if (/FYTD/i.test(fyRaw)) currentFy = fy; // in-progress FY is tagged "(FYTD)"
     }
-    if (!currentFy || Object.keys(totals).length === 0) throw new Error("no rows parsed");
+    // The in-progress year is tagged "(FYTD)". A September release closes the
+    // fiscal year, so it may carry no tag at all; then the newest year in the
+    // file is the one being reported (complete, through September). Before this,
+    // that case threw "no rows parsed" and kept August's figure.
+    if (!currentFy && monthAbbr === "SEP") {
+      const years = Object.keys(totals).map(Number).filter(Number.isFinite);
+      if (years.length) currentFy = Math.max(...years);
+    }
+    if (!currentFy || Object.keys(totals).length === 0) {
+      throw new Error(`no rows parsed (${Object.keys(totals).length} fiscal years, no FYTD tag, file month ${monthAbbr ?? "unknown"})`);
+    }
 
     const fyTotals = {};
     for (const [fy, v] of Object.entries(totals)) if (Number(fy) !== currentFy) fyTotals[fy] = v;

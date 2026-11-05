@@ -72,6 +72,9 @@ jobs:
           # Congress ingests nothing without this; absent, the adapter correctly
           # reports itself unconfigured rather than failing. See docs/deployment.md.
           CONGRESS_API_KEY: ${{ secrets.CONGRESS_API_KEY }}
+          # CourtListener refuses keyless requests since 2026-10-28; absent, the courts
+          # adapter reports itself unconfigured, like Congress above.
+          COURTLISTENER_TOKEN: ${{ secrets.COURTLISTENER_TOKEN }}
           # The default per-adapter cap is 250. A 90-day incremental window sits
           # well under it, but the cap is a silent-data-loss risk if a busy
           # quarter ever exceeds it — and this job is unattended. Raising it here
@@ -116,7 +119,10 @@ jobs:
           // changed. Without it a healthy, quiet site looks abandoned — which is
           // how a week of correct-but-hidden data read as an outage. One extra
           // commit a day at most; the social workflow already commits more.
-          const healthSig=x=>[(x.lastSuccessfulSourceCheck||'').slice(0,10),(x.sources||[]).map(s=>s.key+':'+s.ok).join(',')];
+          // lastSuccessfulIngestion's day as well: the public line reports the newest
+          // run that reached sources and names any it missed, so it must move
+          // even while one source is down (2026-10-28 to 11-05 it froze).
+          const healthSig=x=>[(x.lastSuccessfulSourceCheck||'').slice(0,10),(x.lastSuccessfulIngestion||'').slice(0,10),(x.sources||[]).map(s=>s.key+':'+s.ok).join(',')];
           const sig=(r,h,e,ev,hl)=>JSON.stringify({
             severity:(ev.counts&&ev.counts.bySeverity)||null,
             health:healthSig(hl),

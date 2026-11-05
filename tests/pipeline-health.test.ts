@@ -135,6 +135,33 @@ describe("the public last-checked sentence", () => {
     expect(s).toMatch(/last checked 2026-10-08/);
     expect(s).toMatch(/not the date of a change/);
   });
+
+  it("does not freeze on one unreachable source: newest run's date, the missed source named", () => {
+    const ok = health();
+    const later = "2026-10-12T12:00:00.000Z";
+    const h = buildHealth({
+      now: later,
+      adapters: [run({ lastRunAt: later }), run({ key: "uscis", name: "USCIS newsroom", ok: false, lastRunAt: later })],
+      events: [],
+      addedIds: new Set(),
+      previous: { ...ok, sources: [...ok.sources, { ...ok.sources[0], key: "uscis", name: "USCIS newsroom" }] },
+    });
+    expect(h.lastSuccessfulSourceCheck).toBe(NOW); // monitoring keeps the strict date
+    const s = lastCheckedSentence(h, (d) => d.slice(0, 10))!;
+    expect(s).toBe(
+      "Official sources last checked 2026-10-12. That is the date we looked, not the date of a change. USCIS newsroom could not be reached; last reached 2026-10-08."
+    );
+  });
+
+  it("an unconfigured source is not reported as missed", () => {
+    const h = health({
+      adapters: [run(), run({ key: "federal-courts", name: "Federal court decisions", eventCount: 0, warnings: ["COURTLISTENER_TOKEN is not set, so federal court decisions are not being ingested."] })],
+    });
+    expect(h.sources.find((s) => s.key === "federal-courts")!.configured).toBe(false);
+    expect(lastCheckedSentence(h, (d) => d.slice(0, 10))).toBe(
+      "Official sources last checked 2026-10-08. That is the date we looked, not the date of a change."
+    );
+  });
 });
 
 describe("the committed archive", () => {
