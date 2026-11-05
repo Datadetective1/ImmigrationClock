@@ -12,8 +12,8 @@
 // CourtListener for this adapter's own query. They are the actual thing the
 // filter has to keep out, not hypotheticals.
 // =============================================================================
-import { describe, it, expect } from "vitest";
-import { __testing as FC } from "@/domains/graph/adapters/federal-courts";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { __testing as FC, federalCourtsAdapter } from "@/domains/graph/adapters/federal-courts";
 import { validateEvent } from "@/domains/graph/events";
 
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -238,5 +238,46 @@ describe("event construction", () => {
 
   it("emits no generated prose, so it needs no human review gate", () => {
     expect(event().reviewStatus).toBe("auto");
+  });
+});
+
+// =============================================================================
+// Authentication. CourtListener answered keyless requests with HTTP 401 from
+// 2026-10-28, which froze the site's "sources last checked" date for a week.
+// =============================================================================
+describe("CourtListener token", () => {
+  const ctx = { since: "2026-10-01", limit: 250, offline: false } as Parameters<NonNullable<typeof federalCourtsAdapter.fetchEvents>>[0];
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+  });
+
+  it("without a token: an unconfigured source, not a failure, and no request made", async () => {
+    vi.stubEnv("COURTLISTENER_TOKEN", "");
+    const fetchSpy = vi.fn();
+    vi.stubGlobal("fetch", fetchSpy);
+    const r = await federalCourtsAdapter.fetchEvents!(ctx);
+    expect(r.failed).toBe(false);
+    expect(r.events).toEqual([]);
+    expect(r.warnings.join(" ")).toMatch(/COURTLISTENER_TOKEN is not set/);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("with a token: sends it in the Authorization header", async () => {
+    vi.stubEnv("COURTLISTENER_TOKEN", "abc123");
+    const fetchSpy = vi.fn(async () => new Response(JSON.stringify({ results: [] }), { status: 200 }));
+    vi.stubGlobal("fetch", fetchSpy);
+    const r = await federalCourtsAdapter.fetchEvents!(ctx);
+    expect(r.failed).toBe(false);
+    const init = (fetchSpy.mock.calls[0] as unknown as [string, RequestInit])[1];
+    expect((init.headers as Record<string, string>).Authorization).toBe("Token abc123");
+  });
+
+  it("a refused token is a failure that says so", async () => {
+    vi.stubEnv("COURTLISTENER_TOKEN", "bad");
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("{}", { status: 401 })));
+    const r = await federalCourtsAdapter.fetchEvents!(ctx);
+    expect(r.failed).toBe(true);
+    expect(r.warnings.join(" ")).toMatch(/COURTLISTENER_TOKEN was refused/);
   });
 });

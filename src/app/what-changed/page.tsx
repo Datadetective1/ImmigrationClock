@@ -26,7 +26,7 @@
 // =============================================================================
 
 import pipelineHealth from "@/lib/generated/pipeline-health.json";
-import { lastCheckedSentence } from "@/lib/pipeline-health";
+import { lastCheckedSentence, sourcesCheckedAt } from "@/lib/pipeline-health";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
@@ -132,7 +132,10 @@ export default function WhatChangedPage() {
         today={siteDay()}
         totalRecorded={EVENTS.length}
         earliest={EVENT_STORE_META.earliestEvent ?? null}
-        lastChecked={pipelineHealth.lastSuccessfulSourceCheck ? siteDay(pipelineHealth.lastSuccessfulSourceCheck) : null}
+        lastChecked={(() => {
+          const at = sourcesCheckedAt(pipelineHealth).at;
+          return at ? siteDay(at) : null;
+        })()}
         olderCount={olderCount}
         failed={failed.map((a) => ({ key: a.key, name: a.name }))}
         methodology={methodology}

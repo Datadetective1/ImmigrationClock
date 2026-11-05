@@ -33,6 +33,7 @@ gitignored and must never be committed.
 | `NEXT_PUBLIC_SITE_URL` | no | Defaults to `https://immigrationclock.com`. Set on preview deploys so canonical/OG/sitemap URLs point at the right host. |
 | **`NEXT_PUBLIC_CONTACT_EMAIL`** | **YES — see §2** | No corrections inbox is published anywhere. Readers have no route to report an error. |
 | `NEXT_PUBLIC_TWITTER_HANDLE` | no | No `sameAs` claim in structured data, no social link. Include the leading `@`. |
+| `COURTLISTENER_TOKEN` | **recommended** | CourtListener has refused keyless search requests since 2026-10-28 (HTTP 401). Without a token the federal courts adapter ingests nothing and reports itself *unconfigured* (not failed). Token: CourtListener account, profile, API token page. Must also be added as a **GitHub Actions secret**. |
 | `CONGRESS_API_KEY` | **recommended** | The Congress adapter ingests nothing and reports itself *unconfigured* (not failed). Free key: <https://api.congress.gov>. Must also be added as a **GitHub Actions secret** or the daily refresh loses the source. |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | no | No Plausible analytics. |
 | `NEXT_PUBLIC_GA_ID` | no | No Google Analytics. |
@@ -278,6 +279,7 @@ Still required:
       **redeploy** — both are read at build time, so the signup form will not
       appear until a build runs with them present.
 - [ ] Set `CONGRESS_API_KEY` in Vercel **and** as a GitHub Actions secret.
+- [ ] Set `COURTLISTENER_TOKEN` in Vercel **and** as a GitHub Actions secret.
       Without the secret, the daily refresh silently loses the Congress source.
 - [ ] Enable **branch protection on `main` requiring the CI `verify` job**.
 - [ ] After the first deploy with Resend live: subscribe once with your own

@@ -68,6 +68,23 @@ const API = "https://www.courtlistener.com/api/rest/v4/search/";
 const UA = "ImmigrationClock/1.0 (+https://immigrationclock.com)";
 const SOURCE_KEY = "federal_courts";
 
+/**
+ * CourtListener's search API started answering keyless requests with HTTP 401
+ * on 2026-10-28. Every run since then failed, and because the public "official
+ * sources last checked" date only advances when every configured source
+ * succeeds, that one 401 froze the date for a week.
+ *
+ * A free CourtListener account comes with an API token. Read it at call time so
+ * tests and CI can set it per run.
+ */
+export function apiToken(): string | undefined {
+  const t = process.env.COURTLISTENER_TOKEN?.trim();
+  return t ? t : undefined;
+}
+
+export const MISSING_TOKEN_WARNING =
+  "COURTLISTENER_TOKEN is not set, so federal court decisions are not being ingested. CourtListener now requires a free API token (create an account at courtlistener.com, then copy the token from its API help page) and set it in the environment. This is a configuration gap, not a source outage.";
+
 export interface CourtOpinion {
   caseName: string;
   court: string;
@@ -346,6 +363,13 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     return { adapterKey: key, events: [], warnings: ["offline: skipped"], failed: false };
   }
 
+  const token = apiToken();
+  if (!token) {
+    // NOT a failure, same as Congress without its key: a known gap is reported
+    // as one, so it neither hides a real outage nor freezes the check date.
+    return { adapterKey: key, events: [], warnings: [MISSING_TOKEN_WARNING], failed: false };
+  }
+
   const params = new URLSearchParams({
     format: "json",
     type: "o",
@@ -362,7 +386,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
     // blocking anomaly, and delivery was withheld on an issue that was fine.
     // See src/domains/graph/adapters/http.ts.
     const res = await fetchWithRetry(`${API}?${params}`, {
-      headers: { "User-Agent": UA },
+      headers: { "User-Agent": UA, Authorization: `Token ${token}` },
       timeoutMs: 30_000,
       onRetry: (attempt, reason) => retryNotes.push(`attempt ${attempt} failed (${reason}), retrying`),
     });
@@ -370,7 +394,12 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
       return {
         adapterKey: key,
         events: [],
-        warnings: [...retryNotes, `HTTP ${res.status} from CourtListener`],
+        warnings: [
+          ...retryNotes,
+          res.status === 401 || res.status === 403
+            ? `HTTP ${res.status} from CourtListener: the COURTLISTENER_TOKEN was refused (expired or revoked?)`
+            : `HTTP ${res.status} from CourtListener`,
+        ],
         failed: true,
       };
     }
