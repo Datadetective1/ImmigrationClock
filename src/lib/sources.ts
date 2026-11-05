@@ -204,6 +204,25 @@ export const SOURCES: SourceDef[] = [
       "An encounter is an event, not a person. The same individual can be encountered several times. Encounters are not deportations. CBP's published nationality detail is coarser than the site's country pages.",
   },
   {
+    key: "eoir_caseload",
+    name: "Immigration court caseload (EOIR)",
+    agency: "Executive Office for Immigration Review (DOJ)",
+    tier: "official",
+    description:
+      "Pending immigration court cases, new cases and completions by fiscal year, from EOIR's adjudication statistics.",
+    homepageUrl: "https://www.justice.gov/eoir/workload-and-adjudication-statistics",
+    datasetUrl: "https://www.justice.gov/eoir/workload-and-adjudication-statistics",
+    cadence: "quarterly",
+    ingestion: "live-file",
+    refreshKey: "eoir",
+    typicalLagMonths: 1,
+    // Verified 2026-11-05: the statistics page linked the table, and its PDF
+    // text layer gave FY2017 to FY2026 rows and a "Data Generated" date.
+    lastVerifiedAt: "2026-11-05",
+    limitations:
+      "Figures are as EOIR reports them. A case is not a person, and completions count initial and subsequent completions together. The current fiscal year may be partial. EOIR publishes the table as a PDF; it is read from the PDF's text layer and checked before use, and if it cannot be read the last good figure is kept and marked stale.",
+  },
+  {
     key: "dos_visa",
     name: "Department of State Visa Statistics",
     agency: "U.S. Department of State, Bureau of Consular Affairs",
@@ -349,6 +368,45 @@ export const SOURCES: SourceDef[] = [
     lastVerifiedAt: "2026-08-02",
     limitations:
       "A decision's reach depends on its court and whether it is stayed or appealed. A district-court injunction is not nationwide law, and presenting one as such would seriously mislead. We report only decisions that establish or change immigration law: published appellate rulings and institutional litigation. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are deliberately excluded, because this platform reports the legal rule rather than the people in a case. That filter identifies parties from the caption, so a landmark decision captioned with an individual's name is excluded along with the routine ones. CourtListener publishes no summary for these decisions, so events report court, date, docket, and precedential status only.",
+  },
+  {
+    key: "white_house_actions",
+    name: "White House presidential actions",
+    agency: "The White House",
+    tier: "official",
+    description:
+      "Executive orders, proclamations and memoranda as the White House posts them on the day they are signed.",
+    homepageUrl: "https://www.whitehouse.gov/presidential-actions/",
+    datasetUrl: "https://www.whitehouse.gov/presidential-actions/feed/",
+    cadence: "continuous",
+    ingestion: "live-file",
+    refreshKey: "whiteHouseActions",
+    typicalLagMonths: 0,
+    // Verified 2026-11-05: the RSS feed was fetched with this platform's own
+    // user agent and returned 30 dated items with categories and full text.
+    lastVerifiedAt: "2026-11-05",
+    limitations:
+      "The White House posting comes first; the Federal Register copy is the official record and usually follows within a week, at which point it replaces this entry. Only actions concerning immigration, entry or visas are kept; nominations and commemorative proclamations are skipped. An action can take effect on signing, before agencies publish guidance on how it applies.",
+  },
+  {
+    key: "eoir_precedents",
+    name: "Immigration appeals precedent decisions (BIA and Attorney General)",
+    agency: "Executive Office for Immigration Review (DOJ)",
+    tier: "official",
+    description:
+      "Precedent decisions of the Board of Immigration Appeals and the Attorney General, which bind immigration judges nationwide.",
+    homepageUrl: "https://www.justice.gov/eoir/ag-bia-decisions",
+    datasetUrl: "https://www.justice.gov/eoir/ag-bia-decisions",
+    cadence: "continuous",
+    ingestion: "scheduled-scrape",
+    refreshKey: "eoirPrecedents",
+    typicalLagMonths: 0,
+    // Verified 2026-11-05: the index and volume 30 pages were fetched and
+    // listed 32 decisions with citations, headnotes and PDF links; the PDFs'
+    // Last-Modified dates matched their stated decision dates.
+    lastVerifiedAt: "2026-11-05",
+    limitations:
+      "A precedent binds immigration judges and DHS unless a federal court of appeals rules otherwise in its own circuit, or the decision is later modified or overruled. Summaries are the decisions' own headnotes; the reasoning is in the decision. Events are dated by when EOIR posted the decision file. Respondents' names are left out of titles. EOIR publishes these pages as HTML with no API, so they are scraped.",
   },
   {
     key: "congress",

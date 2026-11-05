@@ -56,6 +56,8 @@ export interface FetchRetryOptions {
   /** Per-attempt timeout. */
   timeoutMs?: number;
   headers?: Record<string, string>;
+  /** HTTP method. Defaults to GET; HEAD is used to read a file's dates without downloading it. */
+  method?: "GET" | "HEAD";
   /** Injected by tests; defaults to a real delay. */
   sleep?: (ms: number) => Promise<void>;
   /** Called for each retried failure, so the adapter can report what happened. */
@@ -86,6 +88,7 @@ export async function fetchWithRetry(url: string, opts: FetchRetryOptions = {}):
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
       const res = await fetch(url, {
+        method: opts.method ?? "GET",
         headers: opts.headers,
         signal: controller.signal,
       }).finally(() => clearTimeout(timer));
