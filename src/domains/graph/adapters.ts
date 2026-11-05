@@ -112,6 +112,14 @@ export const ADAPTERS: SourceAdapter[] = [
       "Presidential documents are published in the Federal Register and share its API, so this reuses the same transport with a different document-type filter and its own severity rules, because an executive action is materially different from a routine notice.",
   },
   {
+    key: "white-house-actions",
+    name: "White House presidential actions",
+    sourceKey: "white_house_actions",
+    status: "ready",
+    coverage:
+      "Executive orders, proclamations and memoranda read from whitehouse.gov's RSS feed on the day they are signed, filtered to immigration. The Federal Register copy follows days later; when it arrives it replaces the White House entry, so one action is one event.",
+  },
+  {
     key: "uscis-newsroom",
     name: "USCIS newsroom & policy alerts",
     sourceKey: "uscis_newsroom",
@@ -156,6 +164,14 @@ export const ADAPTERS: SourceAdapter[] = [
       "Decisions that establish or change immigration law: published appellate rulings and institutional litigation against immigration agencies, via CourtListener's free API. Routine individual petitions, asylum appeals, visa denials, and detainee habeas cases are excluded by editorial policy. The platform reports the legal rule, not the people in a case. Measured against live data, this excludes roughly 9 in 10 immigration decisions.",
   },
   {
+    key: "eoir-precedents",
+    name: "Immigration appeals precedent decisions",
+    sourceKey: "eoir_precedents",
+    status: "ready",
+    coverage:
+      "Board of Immigration Appeals and Attorney General precedent decisions, which bind immigration judges nationwide, read from EOIR's volume pages on justice.gov. Each event carries the citation and the decision's own headnote; respondents' names are left out of titles.",
+  },
+  {
     key: "congress",
     name: "Congress: bills and public laws",
     sourceKey: "congress",
@@ -186,6 +202,14 @@ export const ADAPTERS: SourceAdapter[] = [
     status: "live",
     coverage:
       "Monthly encounter totals by sector and demographic. Already ingested; each monthly release is a data_release event.",
+  },
+  {
+    key: "eoir-caseload",
+    name: "Immigration court caseload (EOIR)",
+    sourceKey: "eoir_caseload",
+    status: "live",
+    coverage:
+      "Pending immigration court cases, new cases and completions by fiscal year, read from EOIR's published statistics table. Each new edition is a data_release event, with figures as EOIR reports them.",
   },
   {
     key: "bls",

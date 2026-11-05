@@ -60,7 +60,7 @@ interface PresDocument {
  * reason — a "national emergency with respect to Lebanon" is a sanctions
  * document, not an immigration one, unless it also speaks to entry or visas.
  */
-const RELEVANCE_TERMS = [
+export const RELEVANCE_TERMS = [
   "immigra", "visa", "nonimmigrant", "alien", "naturaliz", "citizenship",
   "asylum", "refugee", "removal", "deportat",
   // NOT bare "detention": presidential documents on hostage-taking and the

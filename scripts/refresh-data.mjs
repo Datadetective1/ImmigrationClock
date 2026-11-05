@@ -25,6 +25,7 @@ import { writeFile, readFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { latestCbpAorCsv } from "./cbp-links.mjs";
+import { fetchEoirCaseload } from "./eoir-caseload.mjs";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/refresh.json", import.meta.url));
 // Machine-readable manifest served as a static asset at /data-manifest.json
@@ -294,6 +295,7 @@ const SOURCE_MANIFEST = [
   { key: "dos_visa", name: "State Dept visa statistics", mode: "published-table", feed: "State Dept monthly NIV/IV tables" },
   { key: "dol_lca", name: "DOL OFLC disclosure data", mode: "published-file", feed: "DOL OFLC disclosure data" },
   { key: "warn_layoffs", name: "State WARN layoff notices", mode: "published-portal", feed: "State WARN portals" },
+  { key: "eoir_caseload", name: "Immigration court caseload (EOIR)", mode: "auto-fetch", feed: "EOIR adjudication statistics (PDF table)" },
 ];
 
 /**
@@ -355,6 +357,11 @@ async function main() {
     errors.push(`warn_texas: ${warn.note ?? "fetch failed"}`);
   }
 
+  // EOIR caseload keeps its last good value on failure. A failure is reported by
+  // the eoir-caseload event adapter, which names it on the site's health line,
+  // rather than here, where any error would also hold back the newsletter.
+  const eoir = await fetchEoirCaseload(prev, fetchWithTimeout);
+
   // Overall health gates the scheduled production rebuild. BLS is the canonical
   // near-live check; CBP is best-effort (the build keeps last-good on failure).
   const ok = bls.ok;
@@ -366,6 +373,9 @@ async function main() {
     }
     if (s.key === "cbp_encounters") {
       return { ...s, auto: true, status: cbp.ok ? "ok" : cbp.stale ? "stale" : "manual", lastFetchedAt: cbp.fetchedAt ?? null, lastError: cbp.ok ? null : cbp.note ?? null };
+    }
+    if (s.key === "eoir_caseload") {
+      return { ...s, auto: true, status: eoir.ok ? "ok" : eoir.stale ? "stale" : "manual", lastFetchedAt: eoir.fetchedAt ?? null, lastError: eoir.ok ? null : eoir.note ?? null };
     }
     if (s.key === "warn_layoffs") {
       return {
@@ -391,6 +401,7 @@ async function main() {
     bls,
     cbp,
     warn,
+    eoir,
     manifest,
   };
 
@@ -409,8 +420,11 @@ async function main() {
   const warnLog = warn.ok
     ? `WARN-TX ${warn.ytdYear} YTD ${warn.ytdTotal?.toLocaleString?.() ?? warn.ytdTotal} (${warn.ytdCount} notices)`
     : `WARN-TX ${warn.stale ? "STALE (last good)" : "unavailable"}`;
+  const eoirLog = eoir.ok
+    ? `EOIR FY${eoir.fy} pending ${eoir.pending?.toLocaleString?.() ?? eoir.pending} (generated ${eoir.dataGenerated})`
+    : `EOIR ${eoir.stale ? "STALE (last good)" : "unavailable"}`;
   if (ok) {
-    console.log(`[refresh] OK — BLS ${bls.period} (fetched ${bls.fetchedAt}) · ${cbpLog} · ${warnLog}`);
+    console.log(`[refresh] OK — BLS ${bls.period} (fetched ${bls.fetchedAt}) · ${cbpLog} · ${warnLog} · ${eoirLog}`);
   } else {
     // Surface failures clearly (and in GitHub Actions job logs).
     console.error(`[refresh] COMPLETED WITH ERRORS:`);

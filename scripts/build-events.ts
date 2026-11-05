@@ -42,6 +42,9 @@ import { federalCourtsAdapter } from "../src/domains/graph/adapters/federal-cour
 import { congressAdapter } from "../src/domains/graph/adapters/congress";
 import { cbpEncountersAdapter } from "../src/domains/graph/adapters/cbp-encounters";
 import { dolOflcAdapter } from "../src/domains/graph/adapters/dol-oflc";
+import { whiteHouseActionsAdapter, collapseWhiteHouseDuplicates } from "../src/domains/graph/adapters/white-house-actions";
+import { eoirPrecedentsAdapter } from "../src/domains/graph/adapters/eoir-precedents";
+import { eoirCaseloadAdapter } from "../src/domains/graph/adapters/eoir-caseload";
 import { validateEvent, dedupeEvents, sortEvents, type ImmigrationEvent } from "../src/domains/graph/events";
 
 const OUT = fileURLToPath(new URL("../src/lib/generated/events.json", import.meta.url));
@@ -116,6 +119,9 @@ const IMPLEMENTATIONS = [
   congressAdapter,
   cbpEncountersAdapter,
   dolOflcAdapter,
+  whiteHouseActionsAdapter,
+  eoirPrecedentsAdapter,
+  eoirCaseloadAdapter,
 ];
 
 function attachImplementations() {
@@ -330,7 +336,14 @@ async function main() {
   // Merge: a freshly fetched event replaces its committed twin by stable id, and
   // everything previously recorded is retained. dedupeEvents keeps first-seen,
   // so fresh must come first.
-  const all = sortEvents(dedupeEvents([...fresh, ...existing]).map(rescoreStoredNotice));
+  const deduped = sortEvents(dedupeEvents([...fresh, ...existing]).map(rescoreStoredNotice));
+
+  // One presidential action, one event: once the Federal Register's official copy
+  // is in the store, the same-day White House entry for it is dropped.
+  const { events: all, collapsed } = collapseWhiteHouseDuplicates(deduped);
+  if (collapsed > 0) {
+    console.log(`[build-events] ${collapsed} White House action(s) replaced by their Federal Register copy`);
+  }
 
   // Apply retractions last, so a re-ingested event cannot sneak a retracted id
   // back into the store.
