@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T20:53:47.633Z",
+  "generatedAt": "2026-11-06T16:32:51.164Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -32,10 +32,10 @@
       "pageUrl": "https://esd.wa.gov/about-employees/WARN",
       "datasetUrl": "https://esd.wa.gov/about-employees/WARN",
       "dateBasis": "notice",
-      "noticeCount": 1545,
-      "employeesTotal": 252027,
-      "latestNotice": "2026-10-30",
-      "withNoticeDate": 1545,
+      "noticeCount": 1546,
+      "employeesTotal": 252096,
+      "latestNotice": "2026-11-04",
+      "withNoticeDate": 1546,
       "withEffectiveOnly": 0
     },
     {
@@ -56,10 +56,10 @@
       "pageUrl": "https://www.vec.virginia.gov/warn-notices",
       "datasetUrl": "https://www.vec.virginia.gov/warn-notices",
       "dateBasis": "notice",
-      "noticeCount": 1131,
-      "employeesTotal": 132390,
+      "noticeCount": 1133,
+      "employeesTotal": 132563,
       "latestNotice": "2026-10-30",
-      "withNoticeDate": 1131,
+      "withNoticeDate": 1133,
       "withEffectiveOnly": 0
     },
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 426,
-      "employeesTotal": 26233,
-      "latestNotice": "2026-11-02",
-      "withNoticeDate": 426,
+      "noticeCount": 450,
+      "employeesTotal": 26930,
+      "latestNotice": "2026-11-04",
+      "withNoticeDate": 450,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12180,
-  "employeesTotal": 1560759,
-  "employerCount": 9061,
+  "noticeCount": 12207,
+  "employeesTotal": 1561698,
+  "employerCount": 9077,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-11-02",
+  "maxNoticeDate": "2026-11-04",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -169,14 +169,15 @@
       "normalized": "AMAZON",
       "name": "Amazon",
       "slug": "amazon",
-      "notices": 13,
-      "employees": 8563,
+      "notices": 15,
+      "employees": 8752,
       "states": [
+        "CA",
         "NJ",
         "VA",
         "WA"
       ],
-      "latestNotice": "2026-08-31"
+      "latestNotice": "2026-11-02"
     },
     {
       "normalized": "GEBBERS FARMS ETAL",
@@ -1457,6 +1458,18 @@
       "latestNotice": "2020-05-01"
     },
     {
+      "normalized": "GENERAL DYNAMICS INFORMATION",
+      "name": "General Dynamics Information Technology",
+      "slug": "general-dynamics-information-technology",
+      "notices": 11,
+      "employees": 1345,
+      "states": [
+        "GA",
+        "VA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
       "normalized": "SOLECTRON",
       "name": "SOLECTRON",
       "slug": "solectron",
@@ -1771,18 +1784,6 @@
         "WA"
       ],
       "latestNotice": "2020-05-04"
-    },
-    {
-      "normalized": "GENERAL DYNAMICS INFORMATION",
-      "name": "General Dynamics Information Technology",
-      "slug": "general-dynamics-information-technology",
-      "notices": 10,
-      "employees": 1192,
-      "states": [
-        "GA",
-        "VA"
-      ],
-      "latestNotice": "2026-06-09"
     },
     {
       "normalized": "ST MARY'S HOSPITAL",
@@ -8691,6 +8692,17 @@
       "latestNotice": "2000-03-13"
     },
     {
+      "normalized": "SERVICENOW",
+      "name": "ServiceNow, Inc.",
+      "slug": "servicenow-inc",
+      "notices": 6,
+      "employees": 369,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-04"
+    },
+    {
       "normalized": "FOUR SEASONS HOTEL-AUSTIN",
       "name": "Four Seasons Hotel-Austin",
       "slug": "four-seasons-hotel-austin",
@@ -10944,17 +10956,6 @@
         "NJ"
       ],
       "latestNotice": "2026-10-16"
-    },
-    {
-      "normalized": "SERVICENOW",
-      "name": "ServiceNow, Inc.",
-      "slug": "servicenow-inc",
-      "notices": 4,
-      "employees": 307,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-13"
     },
     {
       "normalized": "ZACHRY INDUSTRIAL (BAYTOWN)",
@@ -15051,6 +15052,18 @@
       "latestNotice": "2002-08-22"
     },
     {
+      "normalized": "ECLIPSE ADVANTAGE",
+      "name": "Eclipse Advantage, LLC",
+      "slug": "eclipse-advantage-llc",
+      "notices": 4,
+      "employees": 236,
+      "states": [
+        "CA",
+        "GA"
+      ],
+      "latestNotice": "2026-11-04"
+    },
+    {
       "normalized": "HUDSON NEWS DISTRIBUTORS",
       "name": "Hudson News Distributors",
       "slug": "hudson-news-distributors",
@@ -18178,18 +18191,6 @@
         "GA"
       ],
       "latestNotice": "1997-03-28"
-    },
-    {
-      "normalized": "ECLIPSE ADVANTAGE",
-      "name": "Eclipse Advantage, LLC",
-      "slug": "eclipse-advantage-llc",
-      "notices": 3,
-      "employees": 201,
-      "states": [
-        "CA",
-        "GA"
-      ],
-      "latestNotice": "2026-08-05"
     },
     {
       "normalized": "PANERA",
@@ -35230,17 +35231,6 @@
       "latestNotice": "2026-09-02"
     },
     {
-      "normalized": "GENIE INDUSTRIES / TEREX",
-      "name": "Genie Industries, Inc. / Terex USA, LLC",
-      "slug": "genie-industries-inc-terex-usa-llc",
-      "notices": 1,
-      "employees": 117,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-05-21"
-    },
-    {
       "normalized": "HILEX POLY",
       "name": "Hilex Poly Co. LLC",
       "slug": "hilex-poly-co-llc",
@@ -37064,6 +37054,18 @@
         "GA"
       ],
       "latestNotice": "1993-02-12"
+    },
+    {
+      "normalized": "AES",
+      "name": "AES Corporation",
+      "slug": "aes-corporation",
+      "notices": 3,
+      "employees": 111,
+      "states": [
+        "CA",
+        "VA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "ENERVEST",
@@ -40723,6 +40725,17 @@
         "GA"
       ],
       "latestNotice": "1996-05-28"
+    },
+    {
+      "normalized": "JVS SOCAL",
+      "name": "JVS SoCal",
+      "slug": "jvs-socal",
+      "notices": 3,
+      "employees": 101,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-27"
     },
     {
       "normalized": "MAVERICK WASHINGTON / CASINO CARIBBEAN",
@@ -45500,6 +45513,17 @@
         "GA"
       ],
       "latestNotice": "1997-08-20"
+    },
+    {
+      "normalized": "SEATTLE MARRIOTT REDMOND",
+      "name": "Seattle Marriott Redmond",
+      "slug": "seattle-marriott-redmond",
+      "notices": 1,
+      "employees": 91,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-11-04"
     },
     {
       "normalized": "RANDSTAD (DREYER'S GRAND ICE CREAM)",
@@ -52424,6 +52448,17 @@
       "latestNotice": "1995-04-18"
     },
     {
+      "normalized": "CRINETICS PHARMACEUTICALS",
+      "name": "Crinetics Pharmaceuticals, Inc.",
+      "slug": "crinetics-pharmaceuticals-inc",
+      "notices": 1,
+      "employees": 78,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "AMAZON - SF019",
       "name": "Amazon - SF019",
       "slug": "amazon-sf019",
@@ -56342,6 +56377,17 @@
       "latestNotice": "2027-04-01"
     },
     {
+      "normalized": "WEDGEWOOD VILLAGE PHARMACY",
+      "name": "Wedgewood Village Pharmacy, LLC",
+      "slug": "wedgewood-village-pharmacy-llc",
+      "notices": 1,
+      "employees": 71,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-02"
+    },
+    {
       "normalized": "VENTURA COASTAL",
       "name": "Ventura Coastal",
       "slug": "ventura-coastal",
@@ -57342,17 +57388,6 @@
         "NJ"
       ],
       "latestNotice": "2018-02-14"
-    },
-    {
-      "normalized": "AES",
-      "name": "AES Corporation",
-      "slug": "aes-corporation",
-      "notices": 1,
-      "employees": 70,
-      "states": [
-        "VA"
-      ],
-      "latestNotice": "2018-02-05"
     },
     {
       "normalized": "SIEMENS HEALTHINEERS",
@@ -68229,6 +68264,17 @@
       "latestNotice": "1993-08-10"
     },
     {
+      "normalized": "WELCOME MARKET (99 RANCH MARKET)",
+      "name": "Welcome Market, Inc. (99 Ranch Market)",
+      "slug": "welcome-market-inc-99-ranch-market",
+      "notices": 1,
+      "employees": 54,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-26"
+    },
+    {
       "normalized": "EMBASSY SUITES BY HILTON",
       "name": "Embassy Suites by Hilton",
       "slug": "embassy-suites-by-hilton",
@@ -70077,6 +70123,18 @@
         "GA"
       ],
       "latestNotice": "1996-03-07"
+    },
+    {
+      "normalized": "ENDEAVORS",
+      "name": "Endeavors",
+      "slug": "endeavors",
+      "notices": 2,
+      "employees": 51,
+      "states": [
+        "CA",
+        "VA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "KAY AND ASSOCIATES",
@@ -78820,6 +78878,17 @@
       "latestNotice": "2000-03-29"
     },
     {
+      "normalized": "QUINCE",
+      "name": "Quince & Co, LLC",
+      "slug": "quince-co-llc",
+      "notices": 1,
+      "employees": 34,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
       "name": "Davey Tree Surgery Company (244 Hall Road)",
       "slug": "davey-tree-surgery-company-244-hall-road",
@@ -79654,17 +79723,6 @@
         "GA"
       ],
       "latestNotice": "2000-04-18"
-    },
-    {
-      "normalized": "ENDEAVORS",
-      "name": "Endeavors",
-      "slug": "endeavors",
-      "notices": 1,
-      "employees": 31,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "COURSERA",
@@ -81825,6 +81883,17 @@
       "latestNotice": "2000-03-29"
     },
     {
+      "normalized": "CEPHEID (B7)",
+      "name": "Cepheid (B7)",
+      "slug": "cepheid-b7",
+      "notices": 1,
+      "employees": 25,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
+    },
+    {
       "normalized": "KAISER",
       "name": "Kaiser",
       "slug": "kaiser",
@@ -82387,6 +82456,17 @@
       "latestNotice": "2000-03-29"
     },
     {
+      "normalized": "CHICK-FIL-A - HOLLINS GROUP - LA PALMA",
+      "name": "Chick-fil-A - Hollins Group LLC - La Palma",
+      "slug": "chick-fil-a-hollins-group-llc-la-palma",
+      "notices": 1,
+      "employees": 24,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "QUIXOTE STUDIO - NORTH VALLEY CAMPUS A",
       "name": "Quixote Studio Services - North Valley Campus A",
       "slug": "quixote-studio-services-north-valley-campus-a",
@@ -82693,6 +82773,17 @@
         "GA"
       ],
       "latestNotice": "1989-12-20"
+    },
+    {
+      "normalized": "CEPHEID (B4)",
+      "name": "Cepheid (B4)",
+      "slug": "cepheid-b4",
+      "notices": 1,
+      "employees": 23,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
     },
     {
       "normalized": "TELECARE - BRIGHTER TOMORROW PROGRAM 162",
@@ -86194,6 +86285,17 @@
       "latestNotice": "1993-02-12"
     },
     {
+      "normalized": "CHICK-FIL-A - HOLLINS GROUP - ORANGETHORPE",
+      "name": "Chick-fil-A - Hollins Group LLC - Orangethorpe",
+      "slug": "chick-fil-a-hollins-group-llc-orangethorpe",
+      "notices": 1,
+      "employees": 14,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "24 HR HOMECARE",
       "name": "24 Hr Homecare",
       "slug": "24-hr-homecare",
@@ -87516,6 +87618,28 @@
         "GA"
       ],
       "latestNotice": "2000-03-13"
+    },
+    {
+      "normalized": "CITY NATIONAL BANK (555 S FLOWER STREET)",
+      "name": "City National Bank (555 S. Flower Street)",
+      "slug": "city-national-bank-555-s-flower-street",
+      "notices": 1,
+      "employees": 11,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "CITY NATIONAL BANK (350 S GRAND AVE )",
+      "name": "City National Bank (350 S. Grand Ave.)",
+      "slug": "city-national-bank-350-s-grand-ave",
+      "notices": 1,
+      "employees": 11,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "KAISER (ONE KAISER PLAZA)",
@@ -91164,6 +91288,17 @@
       "latestNotice": "2005-12-31"
     },
     {
+      "normalized": "CEPHEID (B6)",
+      "name": "Cepheid (B6)",
+      "slug": "cepheid-b6",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
+    },
+    {
       "normalized": "MONROE OPERATIONS DBA NEWPORT HEALTHCARE - READ",
       "name": "Monroe Operations, LLC, dba Newport Healthcare - Read",
       "slug": "monroe-operations-llc-dba-newport-healthcare-read",
@@ -92196,6 +92331,28 @@
         "GA"
       ],
       "latestNotice": "2007-05-23"
+    },
+    {
+      "normalized": "CEPHEID (B1)",
+      "name": "Cepheid (B1)",
+      "slug": "cepheid-b1",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
+    },
+    {
+      "normalized": "CEPHEID (REMOTE)",
+      "name": "Cepheid (Remote)",
+      "slug": "cepheid-remote",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
     },
     {
       "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
@@ -96065,6 +96222,17 @@
       "latestNotice": "2005-05-13"
     },
     {
+      "normalized": "CEPHEID (B5)",
+      "name": "Cepheid (B5)",
+      "slug": "cepheid-b5",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
+    },
+    {
       "normalized": "SAPPORO U S A - CITRACADO PARKWAY",
       "name": "Sapporo U.S.A - Citracado Parkway",
       "slug": "sapporo-u-s-a-citracado-parkway",
@@ -97330,6 +97498,17 @@
         "CA"
       ],
       "latestNotice": "2026-10-30"
+    },
+    {
+      "normalized": "CEPHEID (B7+)",
+      "name": "Cepheid (B7+)",
+      "slug": "cepheid-b7",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
     },
     {
       "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
@@ -100581,6 +100760,42 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "ServiceNow, Inc.",
+      "normalized": "SERVICENOW",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-04",
+      "effectiveDate": "2027-01-04",
+      "employees": 37,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Eclipse Advantage, LLC",
+      "normalized": "ECLIPSE ADVANTAGE",
+      "city": "Perris",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-11-04",
+      "effectiveDate": "2027-01-04",
+      "employees": 35,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "ServiceNow, Inc.",
+      "normalized": "SERVICENOW",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-11-04",
+      "effectiveDate": "2027-01-04",
+      "employees": 25,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "UBS",
       "normalized": "UBS",
       "city": "Weehawken",
@@ -100593,6 +100808,114 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Seattle Marriott Redmond",
+      "normalized": "SEATTLE MARRIOTT REDMOND",
+      "city": "Redmond",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-11-04",
+      "effectiveDate": "2027-01-05",
+      "employees": 91,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "City National Bank (555 S. Flower Street)",
+      "normalized": "CITY NATIONAL BANK (555 S FLOWER STREET)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-08",
+      "employees": 11,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "City National Bank (350 S. Grand Ave.)",
+      "normalized": "CITY NATIONAL BANK (350 S GRAND AVE )",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-08",
+      "employees": 11,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "AES Corporation",
+      "normalized": "AES",
+      "city": "Long Beach",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-06",
+      "employees": 28,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Chick-fil-A - Hollins Group LLC - Orangethorpe",
+      "normalized": "CHICK-FIL-A - HOLLINS GROUP - ORANGETHORPE",
+      "city": "Buena Park",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-08",
+      "employees": 14,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Chick-fil-A - Hollins Group LLC - La Palma",
+      "normalized": "CHICK-FIL-A - HOLLINS GROUP - LA PALMA",
+      "city": "Buena Park",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-08",
+      "employees": 24,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "AES Corporation",
+      "normalized": "AES",
+      "city": "Huntington Beach",
+      "county": "Orange",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-06",
+      "employees": 13,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Crinetics Pharmaceuticals, Inc.",
+      "normalized": "CRINETICS PHARMACEUTICALS",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-01-04",
+      "employees": 78,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Quince & Co, LLC",
+      "normalized": "QUINCE",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-16",
+      "employees": 34,
+      "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Chick-fil-A - Worthy Integrated Holdings LLC",
       "normalized": "CHICK-FIL-A - WORTHY INTEGRATED HOLDINGS",
       "city": "Oxnard",
@@ -100603,6 +100926,42 @@
       "employees": 87,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Amazon",
+      "normalized": "AMAZON",
+      "city": "La Puente",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-02",
+      "effectiveDate": "2027-01-31",
+      "employees": 94,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wedgewood Village Pharmacy, LLC",
+      "normalized": "WEDGEWOOD VILLAGE PHARMACY",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-02",
+      "effectiveDate": "2027-01-04",
+      "employees": 71,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Amazon",
+      "normalized": "AMAZON",
+      "city": "Sumner, Pasco, Bellevue, Redmond, Seattle and Remote",
+      "county": null,
+      "state": "WA",
+      "noticeDate": "2026-11-02",
+      "effectiveDate": "2026-12-07",
+      "employees": 95,
+      "layoffType": "Permanent",
+      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
       "employer": "BASF Corporation",
@@ -100747,6 +101106,18 @@
       "employees": 91,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "General Dynamics Information Technology",
+      "normalized": "GENERAL DYNAMICS INFORMATION",
+      "city": "Herdon VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": null,
+      "employees": 153,
+      "layoffType": "Layoff",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
     },
     {
       "employer": "Haynes Furniture Company Inc.",
@@ -100965,6 +101336,18 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "Endeavors",
+      "normalized": "ENDEAVORS",
+      "city": "Statewide VA",
+      "county": null,
+      "state": "VA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": null,
+      "employees": 20,
+      "layoffType": "Closure",
+      "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
       "employer": "Comcast",
       "normalized": "COMCAST",
       "city": "Statewide",
@@ -101010,6 +101393,90 @@
       "effectiveDate": "2026-12-10",
       "employees": 40,
       "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (B1)",
+      "normalized": "CEPHEID (B1)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (B4)",
+      "normalized": "CEPHEID (B4)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 23,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (B5)",
+      "normalized": "CEPHEID (B5)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (B6)",
+      "normalized": "CEPHEID (B6)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (B7)",
+      "normalized": "CEPHEID (B7)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 25,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (B7+)",
+      "normalized": "CEPHEID (B7+)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Cepheid (Remote)",
+      "normalized": "CEPHEID (REMOTE)",
+      "city": "Sunnyvale",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-28",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -101097,6 +101564,42 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "JVS SoCal",
+      "normalized": "JVS SOCAL",
+      "city": "Palmdale",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-27",
+      "effectiveDate": "2026-12-31",
+      "employees": 63,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "JVS SoCal",
+      "normalized": "JVS SOCAL",
+      "city": "Chatsworth",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-27",
+      "effectiveDate": "2026-12-31",
+      "employees": 33,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "JVS SoCal",
+      "normalized": "JVS SOCAL",
+      "city": "Canyon Country",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-27",
+      "effectiveDate": "2026-12-31",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Henry Bosma Orchards",
       "normalized": "HENRY BOSMA ORCHARDS",
       "city": "Granger",
@@ -101141,6 +101644,18 @@
       "noticeDate": "2026-10-26",
       "effectiveDate": "2026-12-31",
       "employees": 181,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Welcome Market, Inc. (99 Ranch Market)",
+      "normalized": "WELCOME MARKET (99 RANCH MARKET)",
+      "city": "Pleasanton",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-10-26",
+      "effectiveDate": "2026-12-05",
+      "employees": 54,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -108017,18 +108532,6 @@
       "noticeDate": "2026-05-21",
       "effectiveDate": "2026-07-17",
       "employees": 267,
-      "layoffType": "Permanent",
-      "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
-    },
-    {
-      "employer": "Genie Industries, Inc. / Terex USA, LLC",
-      "normalized": "GENIE INDUSTRIES / TEREX",
-      "city": "North Bend",
-      "county": null,
-      "state": "WA",
-      "noticeDate": "2026-05-21",
-      "effectiveDate": "2026-07-20",
-      "employees": 117,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
