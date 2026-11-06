@@ -1,222 +1,136 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-01T18:46:28.734Z",
+  "updatedAt": "2026-11-06T20:15:27.188Z",
   "items": [
     {
-      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::what_changed",
-      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
-      "contentType": "what_changed",
+      "id": "event:eoir_precedents:30-in-dec-222::breaking_change",
+      "subjectId": "event:eoir_precedents:30-in-dec-222",
+      "contentType": "breaking_change",
       "tier": "news",
       "status": "verified",
-      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
       "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual",
-      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
-      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
-      "category": "actionable",
-      "topicKey": "visa:h-1b",
-      "priority": 58268.97222222222,
-      "readerValue": 100,
-      "factsHash": "5d737c2bc7314976",
-      "whyItMatters": [
-        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
-        "The record is linked to L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
-        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
-      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
-      "freshness": {
-        "publishedAt": "2026-10-27",
-        "discoveredAt": "2026-10-28",
-        "expiresAt": "2026-11-07"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "verified",
-          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
-        }
-      ]
-    },
-    {
-      "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::why_it_matters",
-      "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Litigation-Related Update: Sileiri Doe Class Members May Request Reopening or Reconsideration of an Adverse Decision Without a Fee",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS newsroom",
-      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/litigation-related-update-sileiri-doe-class-members-may-request-reopening-or-reconsideration-of-an",
-      "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
-      "category": "actionable",
-      "topicKey": "source:uscis_newsroom",
-      "priority": 54548.96666666667,
-      "readerValue": 44,
-      "factsHash": "0ed491403a471eb0",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-222",
+      "category": "development",
+      "topicKey": "source:eoir_precedents",
+      "priority": 76718.99444444444,
+      "readerValue": 72,
+      "factsHash": "05206096b7848366",
       "whyItMatters": [
         "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
         "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr",
-      "ogImage": "/og/change/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
       "freshness": {
-        "publishedAt": "2026-10-26",
-        "discoveredAt": "2026-10-27",
-        "expiresAt": "2026-11-17"
+        "publishedAt": "2026-11-05",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-09"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-10-27T19:14:28.491Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-10-27T19:14:28.491Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "verified",
-          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr"
+          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
         }
       ]
     },
     {
-      "id": "explainer:naturalization-ceremony::explainer",
-      "subjectId": "explainer:naturalization-ceremony",
-      "contentType": "explainer",
-      "tier": "evergreen",
+      "id": "event:eoir_precedents:30-in-dec-222::what_changed",
+      "subjectId": "event:eoir_precedents:30-in-dec-222",
+      "contentType": "what_changed",
+      "tier": "news",
       "status": "verified",
-      "headline": "What happens at a naturalization ceremony",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
       "suggestedHeadline": null,
-      "sourceName": "USCIS — Naturalization Ceremonies; USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
-      "sourceUrl": "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:citizenship",
-      "priority": 20015,
-      "readerValue": 60,
-      "factsHash": "403b424e8e089a09",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-222",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 56718.99444444444,
+      "readerValue": 72,
+      "factsHash": "1fffdea64688445a",
       "whyItMatters": [
-        "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/naturalization-ceremony",
-      "ogImage": "/og/explainer/naturalization-ceremony.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "publishedAt": "2026-11-05",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-16"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/naturalization-ceremony"
+          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
         }
       ]
     },
     {
-      "id": "explainer:reported-projected-estimated::explainer",
-      "subjectId": "explainer:reported-projected-estimated",
-      "contentType": "explainer",
-      "tier": "evergreen",
+      "id": "event:eoir_precedents:30-in-dec-222::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-222",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
       "status": "verified",
-      "headline": "How ImmigrationClock labels a number",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock — Methodology",
-      "sourceUrl": "https://immigrationclock.com/methodology",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:how-we-work",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "cea4874987d83c4f",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-222",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 55868.99444444444,
+      "readerValue": 72,
+      "factsHash": "7759bab552b4718a",
       "whyItMatters": [
-        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
-      "ogImage": "/og/explainer/reported-projected-estimated.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
       "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "publishedAt": "2026-11-05",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-27"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
-        }
-      ]
-    },
-    {
-      "id": "explainer:effective-date-vs-publication-date::explainer",
-      "subjectId": "explainer:effective-date-vs-publication-date",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "An effective date is not a publication date",
-      "suggestedHeadline": null,
-      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
-      "sourceUrl": "https://www.govinfo.gov/link/uscode/5/553?type=usc&year=mostrecent&link-type=html",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:rulemaking",
-      "priority": 20012,
-      "readerValue": 60,
-      "factsHash": "2cd0a8bc078a3682",
-      "whyItMatters": [
-        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
-      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
         }
       ]
     },
@@ -233,7 +147,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 20009,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "0b3555e011ff02f3",
       "whyItMatters": [
@@ -276,7 +190,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20007,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -319,7 +233,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20005,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -362,7 +276,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20003,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -405,7 +319,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20001,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "19c561f65e64dd11",
       "whyItMatters": [
@@ -436,6 +350,217 @@
       ]
     },
     {
+      "id": "explainer:naturalization-ceremony::explainer",
+      "subjectId": "explainer:naturalization-ceremony",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "What happens at a naturalization ceremony",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS — Naturalization Ceremonies; USCIS Policy Manual — Volume 12, Part J, Chapter 5: Administration of Oath of Allegiance",
+      "sourceUrl": "https://www.uscis.gov/citizenship/learn-about-citizenship/naturalization-ceremonies",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:citizenship",
+      "priority": 20005,
+      "readerValue": 60,
+      "factsHash": "403b424e8e089a09",
+      "whyItMatters": [
+        "The ceremony is where rules about voter registration, outside organizations and timing actually bite, and it is the step most people know least about until they are standing in it."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/naturalization-ceremony",
+      "ogImage": "/og/explainer/naturalization-ceremony.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/naturalization-ceremony"
+        }
+      ]
+    },
+    {
+      "id": "explainer:reported-projected-estimated::explainer",
+      "subjectId": "explainer:reported-projected-estimated",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "How ImmigrationClock labels a number",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock — Methodology",
+      "sourceUrl": "https://immigrationclock.com/methodology",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:how-we-work",
+      "priority": 20004,
+      "readerValue": 60,
+      "factsHash": "cea4874987d83c4f",
+      "whyItMatters": [
+        "A number without a label is a number a reader has to take on trust. The label is what lets a reader decide how much weight it can carry."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/reported-projected-estimated",
+      "ogImage": "/og/explainer/reported-projected-estimated.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/reported-projected-estimated"
+        }
+      ]
+    },
+    {
+      "id": "explainer:effective-date-vs-publication-date::explainer",
+      "subjectId": "explainer:effective-date-vs-publication-date",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "An effective date is not a publication date",
+      "suggestedHeadline": null,
+      "sourceName": "5 U.S.C. § 553(d) — when a rule may take effect; Federal Register — Public Inspection; National Archives — Public Inspection of Federal Register documents",
+      "sourceUrl": "https://www.govinfo.gov/link/uscode/5/553?type=usc&year=mostrecent&link-type=html",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:rulemaking",
+      "priority": 20002,
+      "readerValue": 60,
+      "factsHash": "2cd0a8bc078a3682",
+      "whyItMatters": [
+        "The gap between publication and effect is the part a reader can still plan around. A post that says a rule \"took effect\" on the day it was published can be wrong by a month or more."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/effective-date-vs-publication-date",
+      "ogImage": "/og/explainer/effective-date-vs-publication-date.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/effective-date-vs-publication-date"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15008,
+      "readerValue": 50,
+      "factsHash": "36db3696a95a7f00",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+        }
+      ]
+    },
+    {
+      "id": "discovery:layoffs-vs-h1b::data_discovery",
+      "subjectId": "discovery:layoffs-vs-h1b",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Layoff notices and H-1B sponsorship, side by side",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:layoffs",
+      "priority": 15006,
+      "readerValue": 50,
+      "factsHash": "32a3ee86ffdbde5e",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
+      "ogImage": "/og/page/layoffs-vs-h1b.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
+        }
+      ]
+    },
+    {
       "id": "discovery:weekly-pulse::data_discovery",
       "subjectId": "discovery:weekly-pulse",
       "contentType": "data_discovery",
@@ -448,7 +573,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15008,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -489,7 +614,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15007,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -530,7 +655,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15006,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -571,7 +696,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15005,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -612,7 +737,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15004,
+      "priority": 15001,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -637,88 +762,6 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
-        }
-      ]
-    },
-    {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Search the change archive",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15003,
-      "readerValue": 50,
-      "factsHash": "dee642d8e12e8049",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
-        }
-      ]
-    },
-    {
-      "id": "discovery:layoffs-vs-h1b::data_discovery",
-      "subjectId": "discovery:layoffs-vs-h1b",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Layoff notices and H-1B sponsorship, side by side",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:layoffs",
-      "priority": 15001,
-      "readerValue": 50,
-      "factsHash": "32a3ee86ffdbde5e",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/layoffs-vs-h1b",
-      "ogImage": "/og/page/layoffs-vs-h1b.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/layoffs-vs-h1b"
         }
       ]
     },
@@ -3426,6 +3469,153 @@
       ]
     },
     {
+      "id": "event:eoir_precedents:30-in-dec-218::what_changed",
+      "subjectId": "event:eoir_precedents:30-in-dec-218",
+      "contentType": "what_changed",
+      "tier": "follow_up",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 218 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1469771/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-218",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 55348.97777777778,
+      "readerValue": 62,
+      "factsHash": "7fbe6ce1f308048b",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji.png",
+      "freshness": {
+        "publishedAt": "2026-11-02",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-16"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-222 (2026-11-05)"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-218::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-218",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 218 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1469771/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-218",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 55348.97777777778,
+      "readerValue": 62,
+      "factsHash": "f866d464976666e3",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji.png",
+      "freshness": {
+        "publishedAt": "2026-11-02",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-27"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-222 (2026-11-05)"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-212::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-212",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 212 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1469491/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-212",
+      "category": "explainer",
+      "topicKey": "source:eoir_precedents",
+      "priority": 24728.96111111111,
+      "readerValue": 52,
+      "factsHash": "1b45eede3fd1464b",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-212-bia-2026-djikls",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-212-bia-2026-djikls.png",
+      "freshness": {
+        "publishedAt": "2026-10-30",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-27"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "reader value 52/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-212-bia-2026-djikls"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-222 (2026-11-05)"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-20016::breaking_change",
       "subjectId": "event:federal_register:2026-20016",
       "contentType": "breaking_change",
@@ -3959,6 +4149,56 @@
       ]
     },
     {
+      "id": "event:uscis_policy_manual:20261027-intracompanytransfereefees::what_changed",
+      "subjectId": "event:uscis_policy_manual:20261027-intracompanytransfereefees",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "Policy alert: Fee Guidance for L-1 Intracompany Transferees",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261027-IntracompanyTransfereeFees.pdf",
+      "eventId": "uscis_policy_manual:20261027-intracompanytransfereefees",
+      "category": "actionable",
+      "topicKey": "visa:h-1b",
+      "priority": 58268.97222222222,
+      "readerValue": 100,
+      "factsHash": "5d737c2bc7314976",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "The record is linked to L-1 intracompany transferee. Whether it reaches any particular person depends on facts this account does not have.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i",
+      "ogImage": "/og/change/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i.png",
+      "freshness": {
+        "publishedAt": "2026-10-27",
+        "discoveredAt": "2026-10-28",
+        "expiresAt": "2026-11-07"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "reader value 100/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-fee-guidance-for-l-1-intracompany-transferees-liap4i"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-11-06"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-20016::what_changed",
       "subjectId": "event:federal_register:2026-20016",
       "contentType": "what_changed",
@@ -4309,6 +4549,55 @@
       ]
     },
     {
+      "id": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02::why_it_matters",
+      "subjectId": "event:uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "rejected",
+      "headline": "Litigation-Related Update: Sileiri Doe Class Members May Request Reopening or Reconsideration of an Adverse Decision Without a Fee",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS newsroom",
+      "sourceUrl": "https://www.uscis.gov/newsroom/alerts/litigation-related-update-sileiri-doe-class-members-may-request-reopening-or-reconsideration-of-an",
+      "eventId": "uscis_newsroom:29b535d3-d82d-407f-b105-ca2404775a02",
+      "category": "actionable",
+      "topicKey": "source:uscis_newsroom",
+      "priority": 54548.96666666667,
+      "readerValue": 44,
+      "factsHash": "0ed491403a471eb0",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr",
+      "ogImage": "/og/change/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr.png",
+      "freshness": {
+        "publishedAt": "2026-10-26",
+        "discoveredAt": "2026-10-27",
+        "expiresAt": "2026-11-17"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "verified",
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/litigation-related-update-sileiri-doe-class-members-may-request-9e9ffr"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-11-06"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-20185::why_it_matters",
       "subjectId": "event:federal_register:2026-20185",
       "contentType": "why_it_matters",
@@ -4559,6 +4848,172 @@
       ]
     },
     {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30005,
+      "readerValue": 65,
+      "factsHash": "11d78ec76986427b",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-25T17:25:02.519Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-25T17:25:02.519Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
       "contentType": "data_signal",
@@ -4571,7 +5026,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -4721,6 +5176,16 @@
           "at": "2026-11-01T18:45:49.769Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -4737,9 +5202,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30001,
       "readerValue": 65,
-      "factsHash": "280672b5a0cecb41",
+      "factsHash": "3cc85603717cae1c",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -4911,160 +5376,14 @@
           "at": "2026-11-01T18:45:49.769Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
-        }
-      ]
-    },
-    {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30002,
-      "readerValue": 65,
-      "factsHash": "11d78ec76986427b",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
-        },
-        {
-          "at": "2026-10-20T18:21:49.446Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "verified",
           "reason": "re-entered the candidates"
         },
         {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-24T17:13:19.070Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-24T17:13:19.070Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-25T17:25:02.519Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-25T17:25:02.519Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-28T00:15:27.171Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-28T00:15:27.171Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-30T18:59:48.816Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-30T18:59:48.816Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-31T18:12:32.445Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-31T18:12:32.445Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-01T18:45:49.769Z",
+          "at": "2026-11-06T20:15:27.188Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
