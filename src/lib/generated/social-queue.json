@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-06T20:15:27.188Z",
+  "updatedAt": "2026-11-07T00:38:29.841Z",
   "items": [
     {
       "id": "event:eoir_precedents:30-in-dec-222::breaking_change",
@@ -5010,6 +5010,16 @@
           "at": "2026-11-06T20:15:27.188Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5184,6 +5194,16 @@
         },
         {
           "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
@@ -5384,6 +5404,16 @@
         },
         {
           "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
