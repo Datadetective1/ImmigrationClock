@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T00:38:29.841Z",
+  "updatedAt": "2026-11-07T18:29:54.773Z",
   "items": [
     {
       "id": "event:eoir_precedents:30-in-dec-222::breaking_change",
@@ -15,7 +15,7 @@
       "eventId": "eoir_precedents:30-in-dec-222",
       "category": "development",
       "topicKey": "source:eoir_precedents",
-      "priority": 76718.99444444444,
+      "priority": 76568.98888888888,
       "readerValue": 72,
       "factsHash": "05206096b7848366",
       "whyItMatters": [
@@ -47,50 +47,6 @@
       ]
     },
     {
-      "id": "event:eoir_precedents:30-in-dec-222::what_changed",
-      "subjectId": "event:eoir_precedents:30-in-dec-222",
-      "contentType": "what_changed",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
-      "suggestedHeadline": null,
-      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-222",
-      "category": "actionable",
-      "topicKey": "source:eoir_precedents",
-      "priority": 56718.99444444444,
-      "readerValue": 72,
-      "factsHash": "1fffdea64688445a",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
-      "freshness": {
-        "publishedAt": "2026-11-05",
-        "discoveredAt": "2026-11-06",
-        "expiresAt": "2026-11-16"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "verified",
-          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
-        }
-      ]
-    },
-    {
       "id": "event:eoir_precedents:30-in-dec-222::why_it_matters",
       "subjectId": "event:eoir_precedents:30-in-dec-222",
       "contentType": "why_it_matters",
@@ -103,7 +59,7 @@
       "eventId": "eoir_precedents:30-in-dec-222",
       "category": "actionable",
       "topicKey": "source:eoir_precedents",
-      "priority": 55868.99444444444,
+      "priority": 55868.98888888889,
       "readerValue": 72,
       "factsHash": "7759bab552b4718a",
       "whyItMatters": [
@@ -147,7 +103,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 20014,
+      "priority": 20015,
       "readerValue": 60,
       "factsHash": "0b3555e011ff02f3",
       "whyItMatters": [
@@ -190,7 +146,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -233,7 +189,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -276,7 +232,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20008,
+      "priority": 20009,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -319,7 +275,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "19c561f65e64dd11",
       "whyItMatters": [
@@ -362,7 +318,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -405,7 +361,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -448,7 +404,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -479,47 +435,6 @@
       ]
     },
     {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Search the change archive",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "36db3696a95a7f00",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
-        }
-      ]
-    },
-    {
       "id": "discovery:layoffs-vs-h1b::data_discovery",
       "subjectId": "discovery:layoffs-vs-h1b",
       "contentType": "data_discovery",
@@ -532,7 +447,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -573,7 +488,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -614,7 +529,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -655,7 +570,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -696,7 +611,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -737,7 +652,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -762,6 +677,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "0ff291da4299f203",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
@@ -1578,6 +1534,64 @@
         },
         {
           "at": "2026-09-08T17:13:43.310Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-222::what_changed",
+      "subjectId": "event:eoir_precedents:30-in-dec-222",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "published",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
+      "suggestedHeadline": "EOIR precedent: violating voluntary departure triggers 10-year ineligibility",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-222",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 56568.98888888889,
+      "readerValue": 72,
+      "factsHash": "1fffdea64688445a",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "EOIR just set a precedent: violating voluntary departure makes you ineligible for certain immigration benefits for 10 years. A motion to reopen to add evidence on cancellation does not undo that.\n\nPublished Nov. 5, 2026 by EOIR.\nhttps://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn?utm_source=x&utm_medium=social&utm_campaign=what_changed&utm_content=change%3Al8jycn",
+        "linkedin": "",
+        "structure": "direct"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
+      "freshness": {
+        "publishedAt": "2026-11-05",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-16"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-11-07T18:29:31.708Z",
+      "externalUrl": "https://x.com/i/web/status/2119135269819428954",
+      "history": [
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4860,7 +4874,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30006,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -5020,6 +5034,16 @@
           "at": "2026-11-07T00:38:29.841Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5036,7 +5060,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30003,
+      "priority": 30004,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -5206,6 +5230,16 @@
           "at": "2026-11-07T00:38:29.841Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5222,7 +5256,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30001,
+      "priority": 30002,
       "readerValue": 65,
       "factsHash": "3cc85603717cae1c",
       "whyItMatters": [],
@@ -5414,6 +5448,16 @@
         },
         {
           "at": "2026-11-07T00:38:29.841Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
