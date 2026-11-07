@@ -37,6 +37,10 @@
     {
       "path": "/api/pro/cases/run",
       "schedule": "0 15 * * *"
+    },
+    {
+      "path": "/api/uscis/sandbox-check",
+      "schedule": "0 16 * * *"
     }
   ]
 }
