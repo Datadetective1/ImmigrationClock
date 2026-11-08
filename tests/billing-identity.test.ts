@@ -356,3 +356,18 @@ describe("the sign-in link", () => {
     }
   });
 });
+
+describe("where sign-in goes next", () => {
+  it("allows plain same-site pages and nothing else", async () => {
+    const { safeNextPath, normalizeLoginCode } = await import("@/lib/billing/next-path");
+    expect(safeNextPath("/briefing")).toBe("/briefing");
+    expect(safeNextPath("/case-alerts")).toBe("/case-alerts");
+    for (const bad of ["//evil.example", "/\\evil.example", "https://x", "/account", "/api/x", "/a?b", "/a#b", "", 7, "/"]) {
+      expect(safeNextPath(bad)).toBeNull();
+    }
+    expect(normalizeLoginCode("123 456")).toBe("123456");
+    expect(normalizeLoginCode("123-456")).toBe("123456");
+    expect(normalizeLoginCode("12345")).toBeNull();
+    expect(normalizeLoginCode("12345a")).toBeNull();
+  });
+});

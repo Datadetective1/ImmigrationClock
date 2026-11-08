@@ -22,9 +22,12 @@ import {
   LOGIN_TTL_SECONDS,
   buildSignInEmail,
   isPlausibleEmail,
+  loginCodeSeed,
   loginUrl,
+  newLoginCode,
   newLoginToken,
 } from "@/lib/billing/identity";
+import { safeNextPath } from "@/lib/billing/next-path";
 import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
 import { offerFrom, type OfferSpec } from "@/lib/billing/offers";
 import { SITE } from "@/lib/site";
@@ -50,8 +53,14 @@ const MAX_PER_MINUTE = 3;
 const SIGNIN_COOLDOWN_SECONDS = 60;
 const SIGNIN_DAILY_MAX = 5;
 
-/** The same words on every path, so timing is the only thing left to differ. */
+/**
+ * The same words on every path, so timing is the only thing left to differ.
+ * Which of the two is chosen depends only on the request (was it a Subscribe
+ * button?), never on the address, so the pair reveals nothing about anybody.
+ */
 const ALWAYS =
+  "Check your inbox for a sign-in link and a 6-digit code. Both expire in 15 minutes. If nothing arrives, you can ask again in a minute.";
+const ALWAYS_CHECKOUT =
   "Check your inbox. A sign-in link is on its way. It expires in 15 minutes. If it does not arrive, you can request another in a minute.";
 
 export async function POST(req: Request): Promise<Response> {
@@ -80,12 +89,21 @@ export async function POST(req: Request): Promise<Response> {
   // Subscribe button. Allow-listed; anything else is simply dropped.
   let resume: Interval | null = null;
   let offer: OfferSpec | null = null;
+  // The page they pressed "Sign in" on. Allow-listed by shape; see next-path.ts.
+  let next: string | null = null;
   try {
-    const body = (await req.json()) as { email?: unknown; ic_hp?: unknown; resume?: unknown; offer?: unknown };
+    const body = (await req.json()) as {
+      email?: unknown;
+      ic_hp?: unknown;
+      resume?: unknown;
+      offer?: unknown;
+      next?: unknown;
+    };
     if (typeof body.email === "string") email = body.email.trim();
     if (typeof body.ic_hp === "string") trap = body.ic_hp;
     resume = resumeIntervalFrom(body.resume);
     offer = offerFrom(body.offer);
+    next = safeNextPath(body.next);
   } catch {
     // Falls through to the shape check.
   }
@@ -98,10 +116,11 @@ export async function POST(req: Request): Promise<Response> {
 
   const secret = process.env.BILLING_SESSION_SECRET as string;
   const key = emailKey(email, secret);
+  const answer = resume ? ALWAYS_CHECKOUT : ALWAYS;
 
   // A hidden field no person sees (SignInForm). Filled means a form-filling bot:
   // same answer, no email. A convenience, not the protection — the limit is.
-  if (trap) return json({ ok: true, message: ALWAYS }, 200);
+  if (trap) return json({ ok: true, message: answer }, 200);
 
   // FAIL CLOSED. If the store cannot count, nothing is sent: an outage must not
   // turn into unlimited sending. Same answer either way, so a suppressed send
@@ -112,7 +131,7 @@ export async function POST(req: Request): Promise<Response> {
   } catch (err) {
     console.error(`[billing] signin limiter unavailable, link not sent: ${err instanceof Error ? err.message : String(err)}`);
   }
-  if (!allowed) return json({ ok: true, message: ALWAYS }, 200);
+  if (!allowed) return json({ ok: true, message: answer }, 200);
 
   try {
     // A LINK GOES TO ANY VALID ADDRESS, NOT ONLY TO EXISTING SUBSCRIBERS.
@@ -131,20 +150,31 @@ export async function POST(req: Request): Promise<Response> {
     // checkout needs it to create the Stripe customer. Storing it here keeps it
     // inside the token's own 15-minute TTL rather than writing a permanent row
     // for every address anyone types.
+    //
+    // A CODE RIDES WITH A PLAIN SIGN-IN, not with a Subscribe detour, whose
+    // page does not ask for one. Link and code are stored as siblings, each
+    // naming the other's hash, so whichever is used first spends both.
+    const address = email.trim().toLowerCase();
     const token = newLoginToken();
+    const linkHash = tokenHash(token, secret);
+    const code = resume ? null : newLoginCode();
+    const codeHash = code ? tokenHash(loginCodeSeed(key, code), secret) : null;
     await store.putLoginToken(
-      tokenHash(token, secret),
-      JSON.stringify({ k: key, e: email.trim().toLowerCase() }),
+      linkHash,
+      JSON.stringify({ k: key, e: address, ...(codeHash ? { c: codeHash } : {}) }),
       LOGIN_TTL_SECONDS
     );
-    await sendSignInEmail(email, loginUrl(billingOrigin(), token, resume, offer), resume !== null);
+    if (codeHash) {
+      await store.putLoginToken(codeHash, JSON.stringify({ k: key, e: address, t: linkHash }), LOGIN_TTL_SECONDS);
+    }
+    await sendSignInEmail(email, loginUrl(billingOrigin(), token, resume, offer, next), resume !== null, code);
   } catch (err) {
     // Log for us, identical answer for them: an error here must not become a
     // side channel that says whether the address exists.
     console.error(`[billing] signin request failed: ${err instanceof Error ? err.message : String(err)}`);
   }
 
-  return json({ ok: true, message: ALWAYS }, 200);
+  return json({ ok: true, message: answer }, 200);
 }
 
 /**
@@ -163,13 +193,13 @@ async function recipientAllowed(store: SubscriberStore, k: string): Promise<bool
  * Throws on failure so the caller logs it. Never includes the address in the
  * thrown message.
  */
-async function sendSignInEmail(to: string, link: string, checkout: boolean): Promise<void> {
+async function sendSignInEmail(to: string, link: string, checkout: boolean, code: string | null): Promise<void> {
   const key = process.env.RESEND_API_KEY;
   if (!key) throw new Error("RESEND_API_KEY is not configured; no sign-in link can be sent");
 
   const base = process.env.RESEND_API_BASE || "https://api.resend.com";
   const from = process.env.RESEND_FROM_EMAIL || "Immigration Clock <noreply@immigrationclock.com>";
-  const mail = buildSignInEmail(link, SITE.name, { checkout });
+  const mail = buildSignInEmail(link, SITE.name, { checkout, code });
 
   const res = await fetch(`${base}/emails`, {
     method: "POST",

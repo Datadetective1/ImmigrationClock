@@ -34,9 +34,10 @@
 // consequences.
 // =============================================================================
 
-import { randomBytes } from "node:crypto";
+import { randomBytes, randomInt } from "node:crypto";
 import { resumeIntervalFrom, type Interval } from "@/lib/billing/plans";
 import { offerFrom, type OfferSpec } from "@/lib/billing/offers";
+import { safeNextPath } from "@/lib/billing/next-path";
 
 /** Long enough that guessing is hopeless, short enough to survive an email client. */
 export const LOGIN_TOKEN_BYTES = 32;
@@ -48,12 +49,42 @@ export function newLoginToken(): string {
   return randomBytes(LOGIN_TOKEN_BYTES).toString("base64url");
 }
 
+// -----------------------------------------------------------------------------
+// THE CODE BESIDE THE LINK
+//
+// A link signs in the device that OPENS it. Someone who asks on a laptop and
+// reads mail on a phone was signed in on the phone and left signed out where
+// they were. The same email now carries a six-digit code they can type on the
+// page where they asked.
+//
+// Six digits is guessable in a way 32 random bytes are not, so the code is
+// bound to the address (it is stored under a hash of identity key + code, and
+// is useless without the address), lives as long as the link, works once, and
+// is limited to MAX_CODE_TRIES attempts per inbox per 15 minutes in the store
+// (see the verify route). Link and code are siblings: using either spends both.
+// -----------------------------------------------------------------------------
+
+export const LOGIN_CODE_DIGITS = 6;
+
+/** Wrong or right, this many tries per inbox per LOGIN_TTL_SECONDS. */
+export const MAX_CODE_TRIES = 5;
+
+export function newLoginCode(): string {
+  return String(randomInt(0, 10 ** LOGIN_CODE_DIGITS)).padStart(LOGIN_CODE_DIGITS, "0");
+}
+
+/** What a code is hashed from: never the code alone, always tied to one identity. */
+export function loginCodeSeed(identityKey: string, code: string): string {
+  return `code:${identityKey}:${code}`;
+}
+
 /** The shape of a sign-in link. The token is a query parameter, never a path segment. */
 export function loginUrl(
   origin: string,
   token: string,
   resume?: Interval | null,
-  offer?: OfferSpec | null
+  offer?: OfferSpec | null,
+  next?: string | null
 ): string {
   const base = `${origin.replace(/\/$/, "")}/account?signin=${encodeURIComponent(token)}`;
   // A BUYER'S CLICK SURVIVES THE DETOUR THROUGH THEIR INBOX.
@@ -65,7 +96,11 @@ export function loginUrl(
   // grants nothing, carries no consent, and only decides which Subscribe
   // button is waiting for them when they come back.
   const plan = resumeIntervalFrom(resume);
-  if (!plan) return base;
+  if (!plan) {
+    // The page they pressed "Sign in" on, so the link takes them back to it.
+    const back = safeNextPath(next);
+    return back ? `${base}&next=${encodeURIComponent(back)}` : base;
+  }
   // A partner offer rides along the same way: an allow-listed id that only
   // decides which page the buyer lands back on.
   const known = offer ? offerFrom(offer.id) : null;
@@ -101,7 +136,7 @@ export interface SignInEmail {
 export function buildSignInEmail(
   link: string,
   siteName: string,
-  opts: { checkout?: boolean } = {}
+  opts: { checkout?: boolean; code?: string | null } = {}
 ): SignInEmail {
   // A BUYER ASKED FOR THIS LINK TO PAY, NOT TO "SIGN IN". The same link does
   // both, so the words follow what they were doing when they asked for it.
@@ -126,23 +161,29 @@ export function buildSignInEmail(
     return { subject, text, html };
   }
 
-  const subject = `Your ${siteName} sign-in link`;
+  const code = opts.code && /^\d{6}$/.test(opts.code) ? opts.code : null;
+  const subject = code ? `Your ${siteName} sign-in code: ${code}` : `Your ${siteName} sign-in link`;
   const text = [
     `Use this link to sign in to ${siteName}:`,
     "",
     link,
     "",
-    "It works once and expires in 15 minutes.",
+    ...(code ? [`Or type this code on the sign-in page: ${code}`, "", "Each works once and expires in 15 minutes."] : ["It works once and expires in 15 minutes."]),
     "",
     "If you did not ask for this, you can ignore it. Nothing has changed and",
-    "no one can sign in without opening the link above.",
+    code ? "no one can sign in without this email." : "no one can sign in without opening the link above.",
   ].join("\n");
-
   const html = [
     `<p>Use this link to sign in to ${escapeHtml(siteName)}:</p>`,
     `<p><a href="${escapeHtml(link)}">Sign in to ${escapeHtml(siteName)}</a></p>`,
-    `<p style="color:#64748b;font-size:14px">It works once and expires in 15 minutes.</p>`,
-    `<p style="color:#64748b;font-size:14px">If you did not ask for this, you can ignore it. Nothing has changed, and no one can sign in without opening the link above.</p>`,
+    ...(code
+      ? [
+          `<p>Or type this code on the sign-in page:</p>`,
+          `<p style="font-size:28px;font-weight:700;letter-spacing:6px;font-family:ui-monospace,Menlo,monospace">${code}</p>`,
+          `<p style="color:#64748b;font-size:14px">Each works once and expires in 15 minutes.</p>`,
+        ]
+      : [`<p style="color:#64748b;font-size:14px">It works once and expires in 15 minutes.</p>`]),
+    `<p style="color:#64748b;font-size:14px">If you did not ask for this, you can ignore it. Nothing has changed, and no one can sign in without ${code ? "this email" : "opening the link above"}.</p>`,
   ].join("\n");
 
   return { subject, text, html };

@@ -268,7 +268,7 @@ export default async function BriefingPage() {
             title="Your Briefing is part of Pro"
             body="Subscribers sign in with the email they subscribed with. Not a subscriber? The example shows a real Briefing, updated from the same records, with nothing to sign up for."
             primary={EXAMPLE}
-            alt={{ href: "/account", label: "Sign in" }}
+            alt={{ href: "/account?next=/briefing", label: "Sign in" }}
             secondary={[{ href: "/pricing", label: "See Pro pricing" }, FOLLOW_FREE]}
           />
         ) : gate.reason === "not_pro" ? (

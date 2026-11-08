@@ -20,8 +20,10 @@ import { useRouter } from "next/navigation";
 import { announceIdentityChange } from "@/lib/billing/identity-signal";
 import { resumeIntervalFrom } from "@/lib/billing/plans";
 import { offerFrom, offerResumePath } from "@/lib/billing/offers";
+import { normalizeLoginCode, safeNextPath } from "@/lib/billing/next-path";
 
 type State = "idle" | "sending" | "sent" | "verifying" | "failed";
+type CodeState = "idle" | "checking" | "failed";
 
 export function SignInForm() {
   const router = useRouter();
@@ -29,6 +31,14 @@ export function SignInForm() {
   const [trap, setTrap] = useState("");
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState("");
+  const [code, setCode] = useState("");
+  const [codeState, setCodeState] = useState<CodeState>("idle");
+  const [codeMessage, setCodeMessage] = useState("");
+  // The page they pressed "Sign in" on, if any. Read once; allow-listed.
+  const [next, setNext] = useState<string | null>(null);
+  useEffect(() => {
+    setNext(safeNextPath(new URLSearchParams(window.location.search).get("next")));
+  }, []);
 
   // Arriving from a sign-in link.
   useEffect(() => {
@@ -55,6 +65,8 @@ export function SignInForm() {
     // And the partner offer page they started on, if any. Allow-listed too:
     // the path comes from the offer table, never from the URL.
     const offer = offerFrom(params.get("offer"));
+    // And the page they were reading when they pressed "Sign in".
+    const back = safeNextPath(params.get("next"));
     window.history.replaceState({}, "", bare);
     setState("verifying");
 
@@ -101,6 +113,11 @@ export function SignInForm() {
             router.replace(`/pricing?resume=${resume}#plan-pro`);
             return;
           }
+          // BACK TO WHERE THEY WERE, such as the Briefing. Allow-listed path.
+          if (back) {
+            router.replace(back);
+            return;
+          }
           router.replace(bare);
           return;
         }
@@ -122,16 +139,54 @@ export function SignInForm() {
       const res = await fetch("/api/billing/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, ic_hp: trap }),
+        body: JSON.stringify({ email, ic_hp: trap, ...(next ? { next } : {}) }),
       });
       const body = (await res.json()) as { ok?: boolean; message?: string };
       // The same words on success and on "we have never heard of you", because
       // the endpoint returns the same words. Only a malformed address differs.
       setState(res.ok ? "sent" : "failed");
       setMessage(body.message || (res.ok ? "Check your email." : "Something went wrong."));
+      setCode("");
+      setCodeState("idle");
+      setCodeMessage("");
     } catch {
       setState("failed");
       setMessage("Could not reach the sign-in service.");
+    }
+  }
+
+  // THE CODE FROM THE SAME EMAIL, typed here, signs in THIS device, which is
+  // the one that asked. The link signs in whichever device opens it.
+  async function submitCode(e: React.FormEvent) {
+    e.preventDefault();
+    if (codeState === "checking") return;
+    const clean = normalizeLoginCode(code);
+    if (!clean) {
+      setCodeState("failed");
+      setCodeMessage("Enter the 6 digits from the email.");
+      return;
+    }
+    setCodeState("checking");
+    setCodeMessage("");
+    try {
+      const res = await fetch("/api/billing/signin/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code: clean }),
+      });
+      const body = (await res.json()) as { plan?: string; message?: string };
+      if (res.ok && body.plan) {
+        announceIdentityChange();
+        // No token in this URL, so a refresh is safe here.
+        if (next) router.replace(next);
+        else router.refresh();
+        return;
+      }
+      setCodeState("failed");
+      setCodeMessage(body.message || "That code did not work.");
+    } catch {
+      setCodeState("failed");
+      setCodeMessage("Could not reach the sign-in service.");
     }
   }
 
@@ -147,7 +202,7 @@ export function SignInForm() {
     <div>
       <form onSubmit={request} className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor="signin-email" className="sr-only">
-          Your subscription email
+          Your email
         </label>
         <input
           id="signin-email"
@@ -175,7 +230,7 @@ export function SignInForm() {
           disabled={state === "sending"}
           className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:opacity-60"
         >
-          {state === "sending" ? "Sending…" : "Email me a link"}
+          {state === "sending" ? "Sending…" : state === "sent" ? "Send again" : "Email me a code"}
         </button>
       </form>
       {message ? (
@@ -183,11 +238,41 @@ export function SignInForm() {
           {message}
         </p>
       ) : (
-        <p className="mt-2 text-xs text-slate-500">
-          Use the email address your subscription is billed to. The link works once and expires in 15
-          minutes.
-        </p>
+        <p className="mt-2 text-xs text-slate-500">Use the email your Pro plan is billed to.</p>
       )}
+
+      {state === "sent" ? (
+        <form onSubmit={submitCode} className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <label htmlFor="signin-code" className="sr-only">
+            6-digit code
+          </label>
+          <input
+            id="signin-code"
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            pattern="[0-9 -]*"
+            maxLength={9}
+            autoFocus
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="6-digit code"
+            className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-base tracking-[0.3em] text-white placeholder:tracking-normal placeholder:text-slate-500 focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/40"
+          />
+          <button
+            type="submit"
+            disabled={codeState === "checking"}
+            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-ink-950 transition-colors hover:bg-accent-soft disabled:opacity-60"
+          >
+            {codeState === "checking" ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
+      ) : null}
+      {state === "sent" && codeMessage ? (
+        <p role="status" className="mt-2 text-xs text-rose-300">
+          {codeMessage}
+        </p>
+      ) : null}
     </div>
   );
 }

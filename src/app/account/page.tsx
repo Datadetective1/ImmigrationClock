@@ -374,7 +374,7 @@ export default async function AccountPage() {
               Sign in with your email
             </h2>
             <p className="mt-2 text-sm text-slate-400">
-              No password. We email you a link that signs you in on this device.
+              No password. We email you a 6-digit code to type here, or a link to tap.
             </p>
 
             {storeConfigured() ? (
