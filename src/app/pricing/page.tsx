@@ -214,6 +214,13 @@ export default function PricingPage() {
               initialTestMode={billingStatus().testMode}
               forSale={
                 <>
+                  <Link
+                    href="/trial"
+                    data-testid="pricing-trial-link"
+                    className="mt-6 block rounded-lg border border-sky-400/30 bg-sky-400/10 px-4 py-3 text-center text-sm font-semibold text-sky-200 hover:bg-sky-400/15"
+                  >
+                    New to Pro? Try it free for 30 days
+                  </Link>
                   <NewsletterOptInGroup>
                     <UpgradeButton interval="monthly" placement="pricing_page" label={`Subscribe: $${pro.monthlyUsd} a month`} />
                     <UpgradeButton

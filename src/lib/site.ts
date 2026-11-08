@@ -117,7 +117,7 @@ export const NAV: NavItem[] = [
     label: "Pro",
     href: "/pricing",
     utility: true,
-    match: ["/pricing", "/briefing", "/monitor", "/developers", "/case-alerts"],
+    match: ["/pricing", "/trial", "/briefing", "/monitor", "/developers", "/case-alerts"],
     children: [
       { href: "/briefing", label: "Your Briefing", desc: "Your follows, dates ahead and saved research" },
       // The live sample. Your Briefing above is a sign-in wall for a visitor,
