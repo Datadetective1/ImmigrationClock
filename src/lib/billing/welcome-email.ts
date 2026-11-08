@@ -45,6 +45,17 @@ export interface WelcomeEmailInput {
   currency: string | null;
   /** Unix seconds: the paid-through date from the subscription. */
   periodEnd: number;
+  /**
+   * Unix seconds when a free trial ends, or null when the subscription is not
+   * trialing. A trial has charged nothing, so the email must not read like a
+   * payment confirmation ("active", "paid through", "receipt sent").
+   */
+  trialEnd?: number | null;
+  /**
+   * True when a discount applies after the trial. The list price would then
+   * misstate the first charge, so the amount line is left out instead.
+   */
+  discounted?: boolean;
   /** The site origin, for the account link. */
   origin: string;
   /** True when the deployment is running against Stripe test keys. */
@@ -102,6 +113,11 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
   const testBanner = input.testMode
     ? "TEST MODE: this deployment is running against Stripe test keys. No real card was charged and this is not a real subscription."
     : "";
+
+  const trialEnd = typeof input.trialEnd === "number" && input.trialEnd > 0 ? input.trialEnd : null;
+  if (trialEnd !== null) {
+    return buildTrialWelcome(input, trialEnd, { pro, cadence, amount, accountUrl, capabilities, testBanner });
+  }
 
   const subject = input.testMode
     ? `[TEST] Welcome to ${SITE.name} ${pro.name}`
@@ -175,6 +191,112 @@ export function buildProWelcomeEmail(input: WelcomeEmailInput): WelcomeEmail {
       <p style="margin:12px 0 0;font-size:13px;line-height:1.6;color:#64748b">
         Cancel, change your card or download invoices from your account page. Cancelling keeps Pro
         until ${formatDate(input.periodEnd)} and does not renew.
+      </p>
+    </div>
+
+    <div style="padding:16px 24px 24px;border-top:1px solid #e2e8f0;margin-top:20px">
+      <p style="margin:0 0 6px;font-size:12px;line-height:1.6;color:#64748b">
+        Payment is processed by Stripe. We never see or store your card details.
+      </p>
+      ${
+        input.supportEmail
+          ? `<p style="margin:0 0 6px;font-size:12px;line-height:1.6;color:#64748b">Questions? <a href="mailto:${escapeHtml(input.supportEmail)}" style="color:#0f172a">${escapeHtml(input.supportEmail)}</a></p>`
+          : ""
+      }
+      <p style="margin:0;font-size:12px;color:#94a3b8">${escapeHtml(SITE.name)} | ${escapeHtml(SITE.tagline)}</p>
+    </div>
+  </div>
+</div>`;
+
+  return { subject, text, html };
+}
+
+interface Shared {
+  pro: { name: string };
+  cadence: string;
+  amount: string | null;
+  accountUrl: string;
+  capabilities: { label: string; blurb: string }[];
+  testBanner: string;
+}
+
+/**
+ * THE TRIAL VERSION. Same layout, different facts: nothing was charged, the
+ * date that matters is the first charge, and cancelling before it costs nothing.
+ */
+function buildTrialWelcome(input: WelcomeEmailInput, trialEnd: number, shared: Shared): WelcomeEmail {
+  const { pro, cadence, accountUrl, capabilities, testBanner } = shared;
+  const amount = input.discounted ? null : shared.amount;
+  const ends = formatDate(trialEnd);
+
+  const subject = input.testMode
+    ? `[TEST] Your ${SITE.name} ${pro.name} free trial has started`
+    : `Your ${SITE.name} ${pro.name} free trial has started`;
+
+  const lines: string[] = [];
+  if (testBanner) lines.push(testBanner, "");
+  lines.push(
+    `Welcome to ${SITE.name} ${pro.name}.`,
+    "",
+    "Your free trial has started. Nothing was charged today.",
+    "",
+    `Account:           ${input.email}`,
+    `Plan:              ${pro.name}, billed ${cadence}`,
+    `Free trial ends:   ${ends}`
+  );
+  if (amount) lines.push(`After the trial:   ${amount} per ${input.interval}`);
+  lines.push(
+    "",
+    "What your subscription does today:",
+    ...capabilities.map((c) => `  - ${c.label}: ${c.blurb}`),
+    "",
+    `Cancel before ${ends} and you will not be charged.`,
+    `Manage or cancel: ${accountUrl}`,
+    "",
+    "Payment is processed by Stripe. We never see or store your card details."
+  );
+  if (input.supportEmail) lines.push("", `Questions: ${input.supportEmail}`);
+  lines.push("", `${SITE.name} | ${SITE.tagline}`);
+  const text = lines.join("\n");
+
+  const capabilityHtml = capabilities
+    .map(
+      (c) =>
+        `<li style="margin:0 0 8px"><strong style="color:#0f172a">${escapeHtml(c.label)}</strong>` +
+        `<br><span style="color:#475569">${escapeHtml(c.blurb)}</span></li>`
+    )
+    .join("");
+
+  const html = `<!-- ${SITE.name} free trial confirmation -->
+<div style="margin:0;padding:24px;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden">
+    ${
+      input.testMode
+        ? `<div style="background:#fef3c7;border-bottom:1px solid #fde68a;padding:12px 24px;color:#92400e;font-size:13px;line-height:1.5">
+      <strong>Test mode.</strong> This deployment runs against Stripe test keys. No real card was charged and this is not a real subscription.
+    </div>`
+        : ""
+    }
+    <div style="padding:28px 24px 8px">
+      <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#64748b">${escapeHtml(SITE.name)}</p>
+      <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;color:#0f172a">Your free trial has started</h1>
+      <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#334155">
+        Nothing was charged today. Pro is fully on for you until ${ends}.
+      </p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:14px;color:#334155;margin:0 0 22px">
+        <tr><td style="padding:6px 0;color:#64748b;width:140px">Account</td><td style="padding:6px 0;color:#0f172a">${escapeHtml(input.email)}</td></tr>
+        <tr><td style="padding:6px 0;color:#64748b">Plan</td><td style="padding:6px 0;color:#0f172a">${escapeHtml(pro.name)}, billed ${cadence}</td></tr>
+        <tr><td style="padding:6px 0;color:#64748b">Free trial ends</td><td style="padding:6px 0;color:#0f172a">${ends}</td></tr>
+        ${amount ? `<tr><td style="padding:6px 0;color:#64748b">After the trial</td><td style="padding:6px 0;color:#0f172a">${escapeHtml(amount)} per ${input.interval}</td></tr>` : ""}
+      </table>
+
+      <h2 style="margin:0 0 8px;font-size:14px;color:#0f172a">What your subscription does today</h2>
+      <ul style="margin:0 0 22px;padding-left:18px;font-size:14px;line-height:1.55">${capabilityHtml}</ul>
+
+      <a href="${escapeHtml(accountUrl)}" style="display:inline-block;background:#0f172a;color:#ffffff;text-decoration:none;padding:11px 18px;border-radius:8px;font-size:14px;font-weight:600">Manage billing</a>
+      <p style="margin:12px 0 0;font-size:13px;line-height:1.6;color:#64748b">
+        Cancel before ${ends} and you will not be charged. You can cancel from your account page at any time.
       </p>
     </div>
 

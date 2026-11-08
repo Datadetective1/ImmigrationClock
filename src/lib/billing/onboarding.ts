@@ -82,6 +82,21 @@ export function priceFactsOf(subscription: Record<string, unknown>): {
   return { interval, amountMinor, currency };
 }
 
+/**
+ * Whether the subscription starts on a free trial, and whether a discount
+ * applies after it. Read from the Stripe object itself, never inferred.
+ */
+export function trialFactsOf(subscription: Record<string, unknown>): {
+  trialEnd: number | null;
+  discounted: boolean;
+} {
+  const trialing = subscription.status === "trialing";
+  const end = typeof subscription.trial_end === "number" ? subscription.trial_end : null;
+  const discounts = Array.isArray(subscription.discounts) ? subscription.discounts : [];
+  const discounted = Boolean(subscription.discount) || discounts.length > 0;
+  return { trialEnd: trialing && end ? end : null, discounted };
+}
+
 export async function runProOnboarding(input: OnboardingInput): Promise<OnboardingReport> {
   const { store, identityKey, record, subscription } = input;
   const env = input.env ?? (process.env as Record<string, string | undefined>);
@@ -140,6 +155,7 @@ export async function runProOnboarding(input: OnboardingInput): Promise<Onboardi
       amountMinor: facts.amountMinor,
       currency: facts.currency,
       periodEnd: record.currentPeriodEnd,
+      ...trialFactsOf(subscription),
       origin: billingOrigin(env as never),
       testMode: status.testMode,
       supportEmail: env.NEXT_PUBLIC_CONTACT_EMAIL || "",

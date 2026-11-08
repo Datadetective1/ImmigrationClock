@@ -51,6 +51,7 @@ const PAGE = read("src/app/following/page.tsx");
  * separate constant so each assertion below says which state it is about.
  */
 const STORAGE_NOTE = read("src/components/FollowStorageNote.tsx");
+const EMAIL_NOTE = read("src/components/FollowEmailNote.tsx");
 const HOME = read("src/app/page.tsx");
 const DIGEST = read("src/components/ChangesForYou.tsx");
 const PANEL = read("src/components/FollowingPanel.tsx");
@@ -383,10 +384,13 @@ describe("the privacy model is stated, not assumed", () => {
   });
 
   it("says following is not connected to the newsletter", () => {
-    expect(PAGE_PROSE).toMatch(
-      /not personalized from what you follow|tells us nothing about your interests/i
-    );
-    expect(PAGE_PROSE).toMatch(/Nothing is emailed/i);
+    // The sentence moved into FollowEmailNote, which tells a Pro subscriber
+    // the truth for them instead: their alerts are built from this list.
+    expect(PAGE).toMatch(/<FollowEmailNote \/>/);
+    const note = prose(EMAIL_NOTE);
+    expect(note).toMatch(/not personalized from what you follow|tells us nothing about your interests/i);
+    expect(note).toMatch(/Nothing is emailed/i);
+    expect(note).toMatch(/Your Pro alerts use this list/i);
   });
 
   it("keeps the promise on the panel too, in one line rather than two paragraphs", () => {
