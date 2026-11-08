@@ -15,6 +15,7 @@
 
 import Link from "next/link";
 import { BriefingSettings, type BriefingSettingsValue } from "./BriefingSettings";
+import { FeedbackBox } from "./FeedbackBox";
 import { LandscapeSection } from "./LandscapeSection";
 import { StagePill } from "./StagePill";
 import { formatDate } from "@/lib/format";
@@ -382,6 +383,15 @@ export function BriefingV2({
           </div>
         </Fold>
       </div>
+
+      {example ? null : (
+        <FeedbackBox
+          source="briefing"
+          label="What should Pro do next?"
+          hint="Optional. One feature, a fix, anything. It comes straight to us."
+          placeholder="I wish Pro could..."
+        />
+      )}
     </div>
   );
 }

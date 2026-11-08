@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { BriefingSettings } from "@/components/BriefingSettings";
 import { BriefingV2 } from "@/components/BriefingV2";
+import { FeedbackBox } from "@/components/FeedbackBox";
 import { LandscapeSection } from "@/components/LandscapeSection";
 import { flagOn } from "@/lib/flags";
 import { buildLandscape } from "@/lib/pro/landscape";
@@ -489,6 +490,13 @@ export default async function BriefingPage() {
             </ul>
           )}
         </section>
+
+        <FeedbackBox
+          source="briefing"
+          label="What should Pro do next?"
+          hint="Optional. One feature, a fix, anything. It comes straight to us."
+          placeholder="I wish Pro could..."
+        />
 
         <section aria-label="Limitations" className="space-y-2 text-xs text-slate-500">
           {briefing.limitations.map((l) => (
