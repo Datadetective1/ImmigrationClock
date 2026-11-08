@@ -11,6 +11,9 @@
 //   • A one-click way to stop. Alerts are a feature a subscriber chose, not a
 //     transaction notice, so they get an unsubscribe link and the
 //     List-Unsubscribe headers mail clients use for their own button.
+//
+// And one quiet line, when replies reach a person: ideas for Pro are welcome
+// by plain reply. No link, no survey.
 // =============================================================================
 
 import type { Alert } from "./alerts";
@@ -18,6 +21,9 @@ import { labelForEntity } from "@/lib/entity-labels";
 import { SITE } from "@/lib/site";
 import { flagOn } from "@/lib/flags";
 import { EMAIL_COLOR, EMAIL_FONT, emailButton, emailPill, emailWordmark } from "@/lib/email/style";
+
+/** The one line that invites ideas. A reply goes to our inbox, nothing else to do. */
+export const FEEDBACK_LINE = "Ideas for Pro? Just reply to this email. It comes straight to us.";
 
 export interface AlertEmailInput {
   alerts: Alert[];
@@ -96,6 +102,9 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
   lines.push(
     "Each change links to its official source. This is information, not legal advice.",
     "",
+    // Replies reach a person only when a reply-to inbox is configured (the
+    // sender sets reply_to from the same variable as supportEmail).
+    ...(input.supportEmail ? [FEEDBACK_LINE, ""] : []),
     `Change what you follow: ${origin}/following`,
     `Manage your subscription: ${accountUrl}`,
     `Stop these alerts: ${input.unsubscribeUrl}`
@@ -141,6 +150,7 @@ export function buildAlertEmail(input: AlertEmailInput): AlertEmail {
     </div>
     <div style="padding:14px 20px 18px;background:${C.page};border-top:1px solid ${C.line};font-size:12px;line-height:1.55;color:${C.muted}">
       <p style="margin:0">Each item links to its record and its official source. Information about published government records, not legal advice.</p>
+      ${input.supportEmail ? `<p style="margin:8px 0 0">${escapeHtml(FEEDBACK_LINE)}</p>` : ""}
       <p style="margin:8px 0 0">You follow these in ${escapeHtml(SITE.name)} Pro.
         <a href="${escapeHtml(`${origin}/following`)}" style="color:${C.muted}">Change what you follow</a> ·
         <a href="${escapeHtml(accountUrl)}" style="color:${C.muted}">Manage subscription</a> ·

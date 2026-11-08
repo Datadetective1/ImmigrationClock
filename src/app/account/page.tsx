@@ -29,6 +29,7 @@ import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { AccountActivation } from "@/components/AccountActivation";
 import { ManageBillingButton } from "@/components/ManageBillingButton";
+import { FeedbackBox } from "@/components/FeedbackBox";
 import { AlertsToggle } from "@/components/AlertsToggle";
 import { SignInForm } from "@/components/SignInForm";
 import { SignOutButton } from "@/components/SignOutButton";
@@ -257,6 +258,16 @@ export default async function AccountPage() {
               </p>
             ) : null}
 
+            {account.status === "cancelling" ? (
+              <FeedbackBox
+                source="cancel"
+                label="What was missing?"
+                hint="Optional. One line is plenty, and it helps us make Pro better."
+                open
+                className="mt-4"
+              />
+            ) : null}
+
             {account.isPro ? (
               <div className="mt-5 border-t border-white/5 pt-4">
                 <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -287,6 +298,15 @@ export default async function AccountPage() {
                   <p className="mt-2 text-xs text-slate-500">
                     Cancel, change your card or download invoices on Stripe&rsquo;s billing page.
                   </p>
+                  {account.isPro && account.status !== "cancelling" ? (
+                    <FeedbackBox
+                      source="cancel"
+                      label="Thinking of cancelling? Tell us what was missing."
+                      question="What was missing?"
+                      hint="Optional. You can still cancel on the billing page either way."
+                      className="mt-2 max-w-md"
+                    />
+                  ) : null}
                 </div>
               ) : null}
 

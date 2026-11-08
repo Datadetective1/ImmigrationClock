@@ -315,9 +315,10 @@ export function signinLimitKey(email: string, secret: string): string {
  * What Pro stores per subscriber. Briefing's three documents hold nothing about
  * a person's case or status. "cases" is the one that does, only for a
  * subscriber who added a receipt number to case alerts with consent, and only
- * as AES-GCM ciphertext (src/lib/cases/tracked.ts).
+ * as AES-GCM ciphertext (src/lib/cases/tracked.ts). "feedback" keeps the
+ * last few suggestions the subscriber chose to send (src/lib/pro/feedback.ts).
  */
-export const PRO_DOC_KINDS = ["prefs", "saved", "history", "cases"] as const;
+export const PRO_DOC_KINDS = ["prefs", "saved", "history", "cases", "feedback"] as const;
 export type ProDocKind = (typeof PRO_DOC_KINDS)[number];
 
 export const KEYS = {
