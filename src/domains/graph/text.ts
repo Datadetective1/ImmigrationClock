@@ -44,7 +44,12 @@ export function decodeEntities(s: string): string {
     .replace(/&#39;|&apos;/gi, "'")
     .replace(/&#x([0-9a-f]+);/gi, (_, h) => safeCodePoint(parseInt(h, 16)))
     .replace(/&#(\d+);/g, (_, d) => safeCodePoint(Number(d)))
-    .replace(/&amp;/gi, "&");
+    .replace(/&amp;/gi, "&")
+    // A double-encoded "&amp;nbsp;" (the USCIS newsroom feed sends these) is
+    // left as a literal "&nbsp;" by the pass above and showed up on pages,
+    // in Briefings and in alert emails. A space is never something an author
+    // writes about, so decoding it a second time cannot eat real text.
+    .replace(/&nbsp;/gi, " ");
 }
 
 /** A malformed numeric entity must not throw and take down an ingestion run. */

@@ -43,6 +43,7 @@ import { ogImagePath } from "@/lib/share";
 import { PageHeader } from "@/components/PageHeader";
 import { FollowingPanel } from "@/components/FollowingPanel";
 import { FollowStorageNote } from "@/components/FollowStorageNote";
+import { FollowEmailNote } from "@/components/FollowEmailNote";
 import { ChangesForYou } from "@/components/ChangesForYou";
 import { INDEX_COVERAGE } from "@/lib/event-index";
 
@@ -99,11 +100,7 @@ export default function FollowingPage() {
               The page contradicted itself, and the wrong half was the half
               describing the capability they had just paid for. */}
           <FollowStorageNote />
-          <li>
-            <span className="font-medium text-slate-200">Nothing is emailed unless you subscribe.</span>{" "}
-            The weekly Immigration Pulse is the same issue for everyone. It is not personalized from
-            what you follow here, and subscribing to it tells us nothing about your interests.
-          </li>
+          <FollowEmailNote />
           <li>
             <span className="font-medium text-slate-200">We match against the archive we have.</span>{" "}
             {INDEX_COVERAGE.indexed.toLocaleString()} events are searchable

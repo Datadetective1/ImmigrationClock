@@ -136,8 +136,23 @@ export default async function AccountPage() {
               </Row>
 
               {account.paidThrough ? (
-                <Row label={account.renews ? "Renews on" : account.isPro ? "Access runs to" : "Ended"}>
+                <Row
+                  label={
+                    account.trial && account.renews
+                      ? "Free trial ends"
+                      : account.renews
+                        ? "Renews on"
+                        : account.isPro
+                          ? "Access runs to"
+                          : "Ended"
+                  }
+                >
                   <span className="font-semibold text-white">{formatDate(account.paidThrough)}</span>
+                  {account.trial && account.renews ? (
+                    <span className="mt-0.5 block text-xs text-slate-400">
+                      Nothing charged yet. Your first charge is on this date unless you cancel before then.
+                    </span>
+                  ) : null}
                 </Row>
               ) : null}
 

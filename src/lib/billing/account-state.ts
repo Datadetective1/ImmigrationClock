@@ -56,6 +56,11 @@ export interface AccountState {
   paidThrough: number | null;
   /** True when Stripe will charge again on paidThrough. */
   renews: boolean;
+  /**
+   * True while Stripe says "trialing". paidThrough is then the trial's end,
+   * and nothing has been charged yet, so "Renews on" would be the wrong word.
+   */
+  trial: boolean;
   /** Whether this browser can reach a billing portal at all. */
   hasBilling: boolean;
   /** What the person answered about the newsletter, if they were ever asked. */
@@ -76,6 +81,7 @@ export const ANONYMOUS_ACCOUNT: AccountState = {
   isPro: false,
   paidThrough: null,
   renews: false,
+  trial: false,
   hasBilling: false,
   newsletter: "never_asked",
   confirmed: true,
@@ -130,6 +136,7 @@ export function accountStateFor(
       paidThrough: entitlement.periodEnd ?? null,
       // Unknowable without the record, and "renews" is a promise about money.
       renews: false,
+      trial: false,
       hasBilling: Boolean(entitlement.customerId),
       newsletter,
       confirmed: false,
@@ -143,6 +150,7 @@ export function accountStateFor(
       isPro: false,
       paidThrough: null,
       renews: false,
+      trial: false,
       hasBilling: false,
       newsletter,
       confirmed: true,
@@ -168,6 +176,7 @@ export function accountStateFor(
       isPro: true,
       paidThrough,
       renews: !cancelling,
+      trial: record.status === "trialing",
       hasBilling,
       newsletter,
       confirmed: true,
@@ -184,6 +193,7 @@ export function accountStateFor(
     isPro: false,
     paidThrough,
     renews: false,
+    trial: false,
     hasBilling,
     newsletter,
     confirmed: true,
@@ -194,7 +204,7 @@ export function accountStateFor(
 export function accountStatusLabel(state: AccountState): string {
   switch (state.status) {
     case "pro":
-      return "Pro: active";
+      return state.trial ? "Pro: free trial" : "Pro: active";
     case "cancelling":
       return "Pro: cancels at period end";
     case "expired":
