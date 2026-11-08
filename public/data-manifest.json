@@ -1,25 +1,23 @@
 {
-  "generatedAt": "2026-11-08T15:27:38.146Z",
-  "startedAt": "2026-11-08T15:27:38.080Z",
-  "finishedAt": "2026-11-08T15:27:38.146Z",
-  "ok": false,
-  "errors": [
-    "bls_unemployment: Last good value (fetch failed: fetch failed)."
-  ],
+  "generatedAt": "2026-11-08T16:51:36.981Z",
+  "startedAt": "2026-11-08T16:51:35.601Z",
+  "finishedAt": "2026-11-08T16:51:36.981Z",
+  "ok": true,
+  "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
   "bls": {
-    "ok": false,
+    "ok": true,
     "value": 4.1,
     "period": "October 2026",
     "sourceUpdatedAt": "2026-10-01",
-    "fetchedAt": "2026-11-07T16:41:26.572Z",
+    "fetchedAt": "2026-11-08T16:51:35.856Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
-    "note": "Last good value (fetch failed: fetch failed)."
+    "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
   },
   "cbp": {
-    "ok": false,
-    "stale": true,
+    "ok": true,
+    "stale": false,
     "reportingMonth": "OCT",
     "reportingMonthLabel": "October 2026",
     "currentFy": 2027,
@@ -30,15 +28,15 @@
       "2026": 382490
     },
     "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-11/nationwide-encounters-fy24-fy27-oct-aor.csv",
-    "fetchedAt": "2026-11-07T16:41:27.007Z",
+    "fetchedAt": "2026-11-08T16:51:36.063Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-    "sourceUpdatedAt": "2026-11-07",
-    "note": "Last good value (fetch failed: fetch failed)."
+    "sourceUpdatedAt": "2026-11-08",
+    "note": "Nationwide encounters summed from CBP's published CSV. FY2027 is year-to-date through October 2026."
   },
   "warn": {
-    "ok": false,
-    "stale": true,
+    "ok": true,
+    "stale": false,
     "state": "TX",
     "ytdYear": 2026,
     "ytdTotal": 12234,
@@ -161,16 +159,16 @@
         "count": 9
       }
     ],
-    "fetchedAt": "2026-11-07T16:41:28.204Z",
+    "fetchedAt": "2026-11-08T16:51:36.781Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
-    "sourceUpdatedAt": "2026-11-07",
-    "note": "Last good value (fetch failed: fetch failed)."
+    "sourceUpdatedAt": "2026-11-08",
+    "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 12234 employees across 69 notices. Texas only — not national."
   },
   "eoir": {
-    "ok": false,
-    "stale": true,
+    "ok": true,
+    "stale": false,
     "fy": 2026,
     "pending": 3300793,
     "receipts": 528889,
@@ -240,12 +238,11 @@
       }
     ],
     "datasetUrl": "https://www.justice.gov/eoir/media/1344791/dl?inline",
-    "fetchedAt": "2026-11-07T16:41:28.540Z",
+    "fetchedAt": "2026-11-08T16:51:36.981Z",
     "sourceName": "EOIR Adjudication Statistics",
     "sourceUrl": "https://www.justice.gov/eoir/workload-and-adjudication-statistics",
     "sourceUpdatedAt": "2026-10-28",
-    "note": "Last good value (fetch failed: fetch failed).",
-    "lastError": "fetch failed"
+    "note": "Pending immigration court cases, new cases and completions by fiscal year, as reported in EOIR's table generated 2026-10-22."
   },
   "manifest": [
     {
@@ -254,9 +251,9 @@
       "mode": "auto-fetch",
       "feed": "BLS Public Data API",
       "auto": true,
-      "status": "stale",
-      "lastFetchedAt": "2026-11-07T16:41:26.572Z",
-      "lastError": "Last good value (fetch failed: fetch failed)."
+      "status": "ok",
+      "lastFetchedAt": "2026-11-08T16:51:35.856Z",
+      "lastError": null
     },
     {
       "key": "cbp_encounters",
@@ -264,9 +261,9 @@
       "mode": "auto-fetch",
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
-      "status": "stale",
-      "lastFetchedAt": "2026-11-07T16:41:27.007Z",
-      "lastError": "Last good value (fetch failed: fetch failed)."
+      "status": "ok",
+      "lastFetchedAt": "2026-11-08T16:51:36.063Z",
+      "lastError": null
     },
     {
       "key": "ice_stats",
@@ -314,9 +311,9 @@
       "mode": "auto-fetch (partial)",
       "feed": "Texas via data.texas.gov (Socrata), TX only; other states curated",
       "auto": true,
-      "status": "stale",
-      "lastFetchedAt": "2026-11-07T16:41:28.204Z",
-      "lastError": "Last good value (fetch failed: fetch failed)."
+      "status": "ok",
+      "lastFetchedAt": "2026-11-08T16:51:36.781Z",
+      "lastError": null
     },
     {
       "key": "eoir_caseload",
@@ -324,9 +321,9 @@
       "mode": "auto-fetch",
       "feed": "EOIR adjudication statistics (PDF table)",
       "auto": true,
-      "status": "stale",
-      "lastFetchedAt": "2026-11-07T16:41:28.540Z",
-      "lastError": "Last good value (fetch failed: fetch failed)."
+      "status": "ok",
+      "lastFetchedAt": "2026-11-08T16:51:36.981Z",
+      "lastError": null
     }
   ]
 }
