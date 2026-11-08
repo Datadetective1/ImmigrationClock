@@ -1,51 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-07T18:29:54.773Z",
+  "updatedAt": "2026-11-08T18:41:14.115Z",
   "items": [
-    {
-      "id": "event:eoir_precedents:30-in-dec-222::breaking_change",
-      "subjectId": "event:eoir_precedents:30-in-dec-222",
-      "contentType": "breaking_change",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
-      "suggestedHeadline": null,
-      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-222",
-      "category": "development",
-      "topicKey": "source:eoir_precedents",
-      "priority": 76568.98888888888,
-      "readerValue": 72,
-      "factsHash": "05206096b7848366",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
-      "freshness": {
-        "publishedAt": "2026-11-05",
-        "discoveredAt": "2026-11-06",
-        "expiresAt": "2026-11-09"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "verified",
-          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
-        }
-      ]
-    },
     {
       "id": "event:eoir_precedents:30-in-dec-222::why_it_matters",
       "subjectId": "event:eoir_precedents:30-in-dec-222",
@@ -59,7 +15,7 @@
       "eventId": "eoir_precedents:30-in-dec-222",
       "category": "actionable",
       "topicKey": "source:eoir_precedents",
-      "priority": 55868.98888888889,
+      "priority": 55868.98333333333,
       "readerValue": 72,
       "factsHash": "7759bab552b4718a",
       "whyItMatters": [
@@ -91,49 +47,6 @@
       ]
     },
     {
-      "id": "explainer:uscis-filing-deadline-weekend-holiday::explainer",
-      "subjectId": "explainer:uscis-filing-deadline-weekend-holiday",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "When a USCIS filing deadline falls on a weekend or holiday",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual, Volume 1, Part B, Chapter 6: Submitting Requests; USCIS Policy Manual: Updates; 8 CFR 1.2: Definitions",
-      "sourceUrl": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-6",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:agency-process",
-      "priority": 20015,
-      "readerValue": 60,
-      "factsHash": "0b3555e011ff02f3",
-      "whyItMatters": [
-        "Under this guidance, a paper filing and an online filing with the same deadline can end on different days. When the last day lands on a weekend, the next business day applies to paper only."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday",
-      "ogImage": "/og/explainer/uscis-filing-deadline-weekend-holiday.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-11-01",
-        "expiresAt": "2027-11-01"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -146,7 +59,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -189,7 +102,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -232,7 +145,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -275,7 +188,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "19c561f65e64dd11",
       "whyItMatters": [
@@ -318,7 +231,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -361,7 +274,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -404,7 +317,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20003,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -435,6 +348,49 @@
       ]
     },
     {
+      "id": "explainer:uscis-filing-deadline-weekend-holiday::explainer",
+      "subjectId": "explainer:uscis-filing-deadline-weekend-holiday",
+      "contentType": "explainer",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "When a USCIS filing deadline falls on a weekend or holiday",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual, Volume 1, Part B, Chapter 6: Submitting Requests; USCIS Policy Manual: Updates; 8 CFR 1.2: Definitions",
+      "sourceUrl": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-6",
+      "eventId": null,
+      "category": "explainer",
+      "topicKey": "explainer:agency-process",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "0b3555e011ff02f3",
+      "whyItMatters": [
+        "Under this guidance, a paper filing and an online filing with the same deadline can end on different days. When the last day lands on a weekend, the next business day applies to paper only."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday",
+      "ogImage": "/og/explainer/uscis-filing-deadline-weekend-holiday.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-11-01",
+        "expiresAt": "2027-11-01"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday"
+        }
+      ]
+    },
+    {
       "id": "discovery:layoffs-vs-h1b::data_discovery",
       "subjectId": "discovery:layoffs-vs-h1b",
       "contentType": "data_discovery",
@@ -447,7 +403,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -488,7 +444,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -529,7 +485,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -570,7 +526,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -611,7 +567,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -652,7 +608,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -693,7 +649,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "0ff291da4299f203",
       "whyItMatters": [],
@@ -1661,6 +1617,69 @@
         },
         {
           "at": "2026-09-05T15:59:08.628Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-218::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-218",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "published",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 218 (BIA 2026)",
+      "suggestedHeadline": "BIA issues new precedent: 30 I&N Dec. 218",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1469771/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-218",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 55348.97777777778,
+      "readerValue": 62,
+      "factsHash": "f866d464976666e3",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "BIA precedents bind immigration judges and DHS unless limited by a court or later changed.\nEOIR posted 30 I&N Dec. 218 as a new precedent.\nPublished Nov. 2, 2026.\nImmigration appeals precedent decisions (BIA and Attorney General)\nhttps://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji?utm_source=x&utm_medium=social&utm_campaign=why_it_matters&utm_content=change%3Agbelji",
+        "linkedin": "",
+        "structure": "context_first"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji.png",
+      "freshness": {
+        "publishedAt": "2026-11-02",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-27"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-11-08T18:40:43.376Z",
+      "externalUrl": "https://x.com/i/web/status/2119500507064500695",
+      "history": [
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-222 (2026-11-05)"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -3532,55 +3551,6 @@
       ]
     },
     {
-      "id": "event:eoir_precedents:30-in-dec-218::why_it_matters",
-      "subjectId": "event:eoir_precedents:30-in-dec-218",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "superseded",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 218 (BIA 2026)",
-      "suggestedHeadline": null,
-      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1469771/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-218",
-      "category": "actionable",
-      "topicKey": "source:eoir_precedents",
-      "priority": 55348.97777777778,
-      "readerValue": 62,
-      "factsHash": "f866d464976666e3",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji.png",
-      "freshness": {
-        "publishedAt": "2026-11-02",
-        "discoveredAt": "2026-11-06",
-        "expiresAt": "2026-11-27"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "verified",
-          "reason": "reader value 62/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-218-bia-2026-gbelji"
-        },
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "superseded",
-          "reason": "superseded by eoir_precedents:30-in-dec-222 (2026-11-05)"
-        }
-      ]
-    },
-    {
       "id": "event:eoir_precedents:30-in-dec-212::why_it_matters",
       "subjectId": "event:eoir_precedents:30-in-dec-212",
       "contentType": "why_it_matters",
@@ -3705,6 +3675,55 @@
           "at": "2026-10-03T17:12:19.469Z",
           "status": "rejected",
           "reason": "expired: no longer a candidate on 2026-10-03"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-222::breaking_change",
+      "subjectId": "event:eoir_precedents:30-in-dec-222",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 222 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1470361/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-222",
+      "category": "development",
+      "topicKey": "source:eoir_precedents",
+      "priority": 76568.98888888888,
+      "readerValue": 72,
+      "factsHash": "05206096b7848366",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn.png",
+      "freshness": {
+        "publishedAt": "2026-11-05",
+        "discoveredAt": "2026-11-06",
+        "expiresAt": "2026-11-09"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "reader value 72/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-222-bia-2026-l8jycn"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-11-08"
         }
       ]
     },
@@ -4874,7 +4893,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -5044,6 +5063,16 @@
           "at": "2026-11-07T18:29:31.708Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5060,7 +5089,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -5240,6 +5269,16 @@
           "at": "2026-11-07T18:29:31.708Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5256,7 +5295,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
       "factsHash": "3cc85603717cae1c",
       "whyItMatters": [],
@@ -5458,6 +5497,16 @@
         },
         {
           "at": "2026-11-07T18:29:31.708Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
