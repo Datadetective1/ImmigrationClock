@@ -1,23 +1,25 @@
 {
-  "generatedAt": "2026-11-07T16:41:28.540Z",
-  "startedAt": "2026-11-07T16:41:26.197Z",
-  "finishedAt": "2026-11-07T16:41:28.540Z",
-  "ok": true,
-  "errors": [],
+  "generatedAt": "2026-11-08T15:27:38.146Z",
+  "startedAt": "2026-11-08T15:27:38.080Z",
+  "finishedAt": "2026-11-08T15:27:38.146Z",
+  "ok": false,
+  "errors": [
+    "bls_unemployment: Last good value (fetch failed: fetch failed)."
+  ],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
   "bls": {
-    "ok": true,
+    "ok": false,
     "value": 4.1,
     "period": "October 2026",
     "sourceUpdatedAt": "2026-10-01",
     "fetchedAt": "2026-11-07T16:41:26.572Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
-    "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
+    "note": "Last good value (fetch failed: fetch failed)."
   },
   "cbp": {
-    "ok": true,
-    "stale": false,
+    "ok": false,
+    "stale": true,
     "reportingMonth": "OCT",
     "reportingMonthLabel": "October 2026",
     "currentFy": 2027,
@@ -32,11 +34,11 @@
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
     "sourceUpdatedAt": "2026-11-07",
-    "note": "Nationwide encounters summed from CBP's published CSV. FY2027 is year-to-date through October 2026."
+    "note": "Last good value (fetch failed: fetch failed)."
   },
   "warn": {
-    "ok": true,
-    "stale": false,
+    "ok": false,
+    "stale": true,
     "state": "TX",
     "ytdYear": 2026,
     "ytdTotal": 12234,
@@ -164,11 +166,11 @@
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
     "sourceUpdatedAt": "2026-11-07",
-    "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 12234 employees across 69 notices. Texas only — not national."
+    "note": "Last good value (fetch failed: fetch failed)."
   },
   "eoir": {
-    "ok": true,
-    "stale": false,
+    "ok": false,
+    "stale": true,
     "fy": 2026,
     "pending": 3300793,
     "receipts": 528889,
@@ -242,7 +244,8 @@
     "sourceName": "EOIR Adjudication Statistics",
     "sourceUrl": "https://www.justice.gov/eoir/workload-and-adjudication-statistics",
     "sourceUpdatedAt": "2026-10-28",
-    "note": "Pending immigration court cases, new cases and completions by fiscal year, as reported in EOIR's table generated 2026-10-22."
+    "note": "Last good value (fetch failed: fetch failed).",
+    "lastError": "fetch failed"
   },
   "manifest": [
     {
@@ -251,9 +254,9 @@
       "mode": "auto-fetch",
       "feed": "BLS Public Data API",
       "auto": true,
-      "status": "ok",
+      "status": "stale",
       "lastFetchedAt": "2026-11-07T16:41:26.572Z",
-      "lastError": null
+      "lastError": "Last good value (fetch failed: fetch failed)."
     },
     {
       "key": "cbp_encounters",
@@ -261,9 +264,9 @@
       "mode": "auto-fetch",
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
-      "status": "ok",
+      "status": "stale",
       "lastFetchedAt": "2026-11-07T16:41:27.007Z",
-      "lastError": null
+      "lastError": "Last good value (fetch failed: fetch failed)."
     },
     {
       "key": "ice_stats",
@@ -311,9 +314,9 @@
       "mode": "auto-fetch (partial)",
       "feed": "Texas via data.texas.gov (Socrata), TX only; other states curated",
       "auto": true,
-      "status": "ok",
+      "status": "stale",
       "lastFetchedAt": "2026-11-07T16:41:28.204Z",
-      "lastError": null
+      "lastError": "Last good value (fetch failed: fetch failed)."
     },
     {
       "key": "eoir_caseload",
@@ -321,9 +324,9 @@
       "mode": "auto-fetch",
       "feed": "EOIR adjudication statistics (PDF table)",
       "auto": true,
-      "status": "ok",
+      "status": "stale",
       "lastFetchedAt": "2026-11-07T16:41:28.540Z",
-      "lastError": null
+      "lastError": "Last good value (fetch failed: fetch failed)."
     }
   ]
 }

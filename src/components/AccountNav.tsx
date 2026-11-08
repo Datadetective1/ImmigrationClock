@@ -39,6 +39,7 @@
 // =============================================================================
 
 import Link from "next/link";
+import { safeNextPath } from "@/lib/billing/next-path";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { onIdentityChange } from "@/lib/billing/identity-signal";
@@ -103,8 +104,10 @@ export function AccountNav({ variant = "header", onNavigate }: Props) {
   const label = signedIn ? "Account" : "Sign in";
   // Signed-out goes to the sign-in surface; signed-in goes to the account page.
   // Both are /account today, which is deliberate: one place, two states, no
-  // second URL to keep in step.
-  const href = "/account";
+  // second URL to keep in step. Signed out, the page they are on rides along
+  // as ?next= so signing in brings them back to it (allow-listed on arrival).
+  const back = !signedIn && pathname ? safeNextPath(pathname) : null;
+  const href = back ? `/account?next=${encodeURIComponent(back)}` : "/account";
 
   if (variant === "mobile") {
     return (

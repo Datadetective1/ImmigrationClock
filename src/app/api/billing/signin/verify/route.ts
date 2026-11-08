@@ -11,7 +11,9 @@
 // =============================================================================
 
 import { billingStatus } from "@/lib/billing/config";
-import { resolveStore, tokenHash } from "@/lib/billing/store";
+import { KEYS, emailKey, resolveStore, signinLimitKey, tokenHash } from "@/lib/billing/store";
+import { LOGIN_TTL_SECONDS, MAX_CODE_TRIES, isPlausibleEmail, loginCodeSeed } from "@/lib/billing/identity";
+import { normalizeLoginCode } from "@/lib/billing/next-path";
 import { accessForKey } from "@/lib/billing/subscription";
 import { MAX_TTL_DAYS, cookieFor, sessionHintCookie, sign, type Entitlement } from "@/lib/billing/entitlement";
 import { clientIp, json, rateLimited, serializeCookie } from "@/lib/billing/http";
@@ -33,19 +35,58 @@ export async function POST(req: Request): Promise<Response> {
     return json({ error: "rate_limited", message: "Too many attempts. Try again in a minute." }, 429);
   }
 
+  // EITHER A LINK'S TOKEN, OR AN ADDRESS AND THE CODE FROM THE SAME EMAIL.
   let token = "";
+  let email = "";
+  let code: string | null = null;
   try {
-    const body = (await req.json()) as { token?: unknown };
+    const body = (await req.json()) as { token?: unknown; email?: unknown; code?: unknown };
     if (typeof body.token === "string") token = body.token.trim();
+    if (typeof body.email === "string") email = body.email.trim();
+    code = normalizeLoginCode(body.code);
   } catch {
     // Falls through.
   }
-  if (!token) return json({ error: "bad_token", message: "That sign-in link is not valid." }, 400);
 
   const secret = process.env.BILLING_SESSION_SECRET as string;
   const now = Math.floor(Date.now() / 1000);
 
-  const consumed = await store.consumeLoginToken(tokenHash(token, secret));
+  let consumed: string | null;
+  if (token) {
+    consumed = await store.consumeLoginToken(tokenHash(token, secret));
+    // Spend the code that came in the same email, so it cannot be used after.
+    const sibling = siblingHash(consumed, "c");
+    if (sibling) await store.consumeLoginToken(sibling);
+  } else if (code !== null || email) {
+    if (code === null || !isPlausibleEmail(email)) {
+      return json({ error: "bad_code", message: "Enter your email and the 6-digit code from the email." }, 400);
+    }
+    // A SIX-DIGIT CODE IS GUESSABLE, SO TRIES ARE COUNTED PER INBOX, in the
+    // store, so every instance sees one count. Fail closed: if the store cannot
+    // count, the code is not checked. The link in the same email still works.
+    let tries = Number.POSITIVE_INFINITY;
+    try {
+      tries = await store.incrementWindow(KEYS.signinLimit("code", signinLimitKey(email, secret)), LOGIN_TTL_SECONDS);
+    } catch (err) {
+      console.error(`[billing] code limiter unavailable: ${err instanceof Error ? err.message : String(err)}`);
+    }
+    if (tries > MAX_CODE_TRIES) {
+      return json(
+        { error: "too_many_tries", message: "Too many tries. Use the link in the email, or ask for a new code in 15 minutes." },
+        429
+      );
+    }
+    consumed = await store.consumeLoginToken(tokenHash(loginCodeSeed(emailKey(email, secret), code), secret));
+    // Spend the link that came in the same email.
+    const sibling = siblingHash(consumed, "t");
+    if (sibling) await store.consumeLoginToken(sibling);
+    if (!consumed) {
+      return json({ error: "bad_code", message: "That code is wrong or has expired. Check the email, or ask for a new one." }, 400);
+    }
+  } else {
+    return json({ error: "bad_token", message: "That sign-in link is not valid." }, 400);
+  }
+
   const { key, address } = parseLoginValue(consumed);
   if (!key) {
     // Expired, already used, or never real — all the same answer, because
@@ -120,6 +161,17 @@ export async function POST(req: Request): Promise<Response> {
   // about a subscription is worth a request. Carries no identity.
   res.headers.append("Set-Cookie", serializeCookie(sessionHintCookie(entitlement.exp, now, secure)));
   return res;
+}
+
+/** The hash of the other half of a link-and-code pair, if this value names one. */
+function siblingHash(raw: string | null, field: "c" | "t"): string | null {
+  if (!raw || !raw.startsWith("{")) return null;
+  try {
+    const v = (JSON.parse(raw) as Record<string, unknown>)[field];
+    return typeof v === "string" && v ? v : null;
+  } catch {
+    return null;
+  }
 }
 
 /**

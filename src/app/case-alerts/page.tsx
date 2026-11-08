@@ -54,7 +54,7 @@ export default async function CaseAlertsPage() {
   } else if (gate.reason === "not_signed_in") {
     body = (
       <Note>
-        <Link href="/account" className="font-semibold text-accent underline">
+        <Link href="/account?next=/case-alerts" className="font-semibold text-accent underline">
           Sign in
         </Link>{" "}
         with your Pro email to add cases.
