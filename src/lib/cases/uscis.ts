@@ -114,18 +114,21 @@ async function accessToken(env: UscisEnv, fetchImpl: typeof fetch, nowMs: number
   return tokenCache.value;
 }
 
-export async function fetchCaseStatus(
+/** One raw call: the HTTP status and parsed body, for the sandbox check. */
+export type RawLookup =
+  | { ok: true; httpStatus: number; body: unknown }
+  | { ok: false; kind: "not_configured" | "no_token" | "network"; httpStatus: number | null };
+
+export async function lookupRaw(
   receipt: string,
   env: UscisEnv = process.env as UscisEnv,
   fetchImpl: typeof fetch = fetch,
   nowMs: number = Date.now()
-): Promise<StatusResult> {
-  if (!uscisConfigured(env)) {
-    return { ok: false, kind: "not_configured", message: "Case alerts are not switched on yet." };
-  }
+): Promise<RawLookup> {
+  if (!uscisConfigured(env)) return { ok: false, kind: "not_configured", httpStatus: null };
   try {
     const token = await accessToken(env, fetchImpl, nowMs);
-    if (!token) return { ok: false, kind: "unavailable", message: "USCIS did not accept our credentials. Try again later." };
+    if (!token) return { ok: false, kind: "no_token", httpStatus: null };
     const base = env.USCIS_API_BASE!.replace(/\/$/, "");
     const res = await fetchImpl(`${base}/case-status/${encodeURIComponent(receipt)}`, {
       headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
@@ -134,17 +137,35 @@ export async function fetchCaseStatus(
     });
     const body = await res.json().catch(() => null);
     if (res.status === 401) resetUscisToken();
-    if (res.status === 404) {
-      return { ok: false, kind: "not_found", message: problemMessage(body, "USCIS has no case with that receipt number.") };
-    }
-    if (res.status >= 400 && res.status < 500) {
-      return { ok: false, kind: "rejected", message: problemMessage(body, "USCIS could not look up that receipt number.") };
-    }
-    if (!res.ok) return { ok: false, kind: "unavailable", message: problemMessage(body, "USCIS is not answering right now.") };
-    const status = parseStatusResponse(receipt, body);
-    if (!status) return { ok: false, kind: "unavailable", message: "USCIS sent an answer we could not read." };
-    return { ok: true, status };
+    return { ok: true, httpStatus: res.status, body };
   } catch {
+    return { ok: false, kind: "network", httpStatus: null };
+  }
+}
+
+export async function fetchCaseStatus(
+  receipt: string,
+  env: UscisEnv = process.env as UscisEnv,
+  fetchImpl: typeof fetch = fetch,
+  nowMs: number = Date.now()
+): Promise<StatusResult> {
+  const raw = await lookupRaw(receipt, env, fetchImpl, nowMs);
+  if (!raw.ok) {
+    if (raw.kind === "not_configured") return { ok: false, kind: "not_configured", message: "Case alerts are not switched on yet." };
+    if (raw.kind === "no_token") return { ok: false, kind: "unavailable", message: "USCIS did not accept our credentials. Try again later." };
     return { ok: false, kind: "unavailable", message: "USCIS is not answering right now." };
   }
+  const { httpStatus, body } = raw;
+  if (httpStatus === 404) {
+    return { ok: false, kind: "not_found", message: problemMessage(body, "USCIS has no case with that receipt number.") };
+  }
+  if (httpStatus >= 400 && httpStatus < 500) {
+    return { ok: false, kind: "rejected", message: problemMessage(body, "USCIS could not look up that receipt number.") };
+  }
+  if (httpStatus < 200 || httpStatus >= 300) {
+    return { ok: false, kind: "unavailable", message: problemMessage(body, "USCIS is not answering right now.") };
+  }
+  const status = parseStatusResponse(receipt, body);
+  if (!status) return { ok: false, kind: "unavailable", message: "USCIS sent an answer we could not read." };
+  return { ok: true, status };
 }
