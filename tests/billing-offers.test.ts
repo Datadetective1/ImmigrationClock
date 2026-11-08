@@ -139,7 +139,8 @@ describe("the offer table", () => {
     const nip = offerById("nip-member");
     expect(couponIdFor(nip, {})).toBeNull();
     expect(couponIdFor(nip, { STRIPE_COUPON_NIP_MEMBER: "  " })).toBeNull();
-    expect(openOffers({})).toEqual([]);
+    // The public trial needs no coupon, so it is the only one open without config.
+    expect(openOffers({})).toEqual(["free-trial"]);
     expect(openOffers({ STRIPE_COUPON_NIP_MEMBER: "c" })).toEqual(OFFERS.map((o) => o.id));
   });
 });
@@ -233,7 +234,7 @@ describe("the checkout route with an offer", () => {
 
     delete process.env.STRIPE_COUPON_NIP_MEMBER;
     const closedText = await (await GET()).text();
-    expect(JSON.parse(closedText).openOffers).toEqual([]);
+    expect(JSON.parse(closedText).openOffers).toEqual(["free-trial"]);
     expect(closedText).not.toContain("STRIPE_COUPON");
   });
 });
@@ -315,5 +316,61 @@ describe("the sign-in link remembers the offer page", () => {
     expect(loginUrl("https://immigrationclock.com", "tok", null, nip)).toBe(
       "https://immigrationclock.com/account?signin=tok"
     );
+  });
+});
+
+describe("the public 30 day free trial", () => {
+  it("is 30 days, no coupon, first time only, at /trial", () => {
+    const trial = offerById("free-trial");
+    expect(trial.trialDays).toBe(30);
+    expect(trial.percentOff).toBe(0);
+    expect(trial.couponEnv).toBeUndefined();
+    expect(trial.firstTimeOnly).toBe(true);
+    expect(trial.path).toBe("/trial");
+    expect(couponIdFor(trial, {})).toBeNull();
+  });
+
+  it("starts a 30 day trial at the regular price, with no coupon, for a new buyer", async () => {
+    const { POST } = await import("@/app/api/billing/checkout/route");
+    const res = await POST(
+      post(
+        "https://immigrationclock.com/api/billing/checkout",
+        { interval: "monthly", offer: "free-trial" },
+        identityCookie(BUYER, NOW())
+      )
+    );
+    expect(res.status).toBe(200);
+    const session = stripeCalls.find((c) => c.url.includes("/checkout/sessions"))!;
+    expect(session.body).toContain("line_items[0][price]=price_monthly");
+    expect(session.body).toContain("subscription_data[trial_period_days]=30");
+    expect(session.body).toContain("subscription_data[metadata][offer]=free-trial");
+    expect(session.body).not.toContain("discounts");
+    expect(session.body).toContain("cancel_url=https://immigrationclock.com/trial?checkout=cancelled");
+  });
+
+  it("refuses a second trial to a customer who has had any subscription, cancelled included", async () => {
+    emulator.data.clear();
+    const { POST } = await import("@/app/api/billing/checkout/route");
+    // First checkout creates and indexes the customer.
+    await POST(
+      post("https://immigrationclock.com/api/billing/checkout", { interval: "monthly" }, identityCookie(BUYER, NOW()))
+    );
+    stripeCalls = [];
+    stripeAnswer = (url) =>
+      url.includes("/subscriptions")
+        ? { data: [{ id: "sub_old", status: "canceled", customer: "cus_member" }] }
+        : url.includes("/customers")
+          ? { id: "cus_member" }
+          : { id: "cs_test_offer", url: "https://checkout.stripe.com/x" };
+    const res = await POST(
+      post(
+        "https://immigrationclock.com/api/billing/checkout",
+        { interval: "monthly", offer: "free-trial" },
+        identityCookie(BUYER, NOW())
+      )
+    );
+    expect(res.status).toBe(409);
+    expect(((await res.json()) as { error: string }).error).toBe("trial_used");
+    expect(stripeCalls.some((c) => c.url.includes("/checkout/sessions"))).toBe(false);
   });
 });

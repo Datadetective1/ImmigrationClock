@@ -16,6 +16,11 @@
 // The coupon id is configuration, not code, because test and live Stripe have
 // separate coupons. Without it the offer is closed: checkout refuses rather
 // than quietly selling the full price on a page that promises a discount.
+//
+// THE PUBLIC FREE TRIAL is an offer with no coupon: 30 days of Pro at no cost,
+// then the ordinary price. It is open whenever checkout is open, and it is
+// first-time only: checkout refuses it to anyone whose Stripe customer has ever
+// had a subscription, so cancelling and starting again does not reset the clock.
 // =============================================================================
 
 import type { Interval } from "./plans";
@@ -23,15 +28,17 @@ import type { Interval } from "./plans";
 export interface OfferSpec {
   /** Allow-listed id. Travels in request bodies and in the sign-in link. */
   id: string;
-  /** Who the offer is for, as the page names them. */
-  partnerName: string;
+  /** Who the offer is for, as the page names them. Absent for the public trial. */
+  partnerName?: string;
   /** The page that sells it. A fixed same-origin path, never read from a URL. */
   path: string;
   trialDays: number;
-  /** The coupon's percent_off. Shown on the page; the coupon itself must match. */
+  /** The coupon's percent_off. Shown on the page; the coupon itself must match. 0 means no coupon. */
   percentOff: number;
-  /** Environment variable holding the Stripe coupon id for this offer. */
-  couponEnv: string;
+  /** Environment variable holding the Stripe coupon id. Absent: the offer has no coupon. */
+  couponEnv?: string;
+  /** Refused to anyone whose Stripe customer has ever had a subscription. */
+  firstTimeOnly?: boolean;
 }
 
 export const OFFERS: readonly OfferSpec[] = [
@@ -42,6 +49,13 @@ export const OFFERS: readonly OfferSpec[] = [
     trialDays: 90,
     percentOff: 30,
     couponEnv: "STRIPE_COUPON_NIP_MEMBER",
+  },
+  {
+    id: "free-trial",
+    path: "/trial",
+    trialDays: 30,
+    percentOff: 0,
+    firstTimeOnly: true,
   },
 ] as const;
 
@@ -58,18 +72,24 @@ export function offerById(id: string): OfferSpec {
   return offer;
 }
 
-/** The Stripe coupon id for an offer, or null when it is not configured. */
+/** The Stripe coupon id for an offer, or null when it has none or it is not configured. */
 export function couponIdFor(
   offer: OfferSpec,
   env: Record<string, string | undefined> = process.env
 ): string | null {
+  if (!offer.couponEnv) return null;
   const value = (env[offer.couponEnv] ?? "").trim();
   return value || null;
 }
 
-/** Ids of offers whose coupon is configured, so a page can say if it is open. */
+/** An offer can sell when it needs no coupon, or its coupon is configured. */
+export function offerIsOpen(offer: OfferSpec, env: Record<string, string | undefined> = process.env): boolean {
+  return !offer.couponEnv || couponIdFor(offer, env) !== null;
+}
+
+/** Ids of offers that can sell now, so a page can say if it is open. */
 export function openOffers(env: Record<string, string | undefined> = process.env): string[] {
-  return OFFERS.filter((o) => couponIdFor(o, env) !== null).map((o) => o.id);
+  return OFFERS.filter((o) => offerIsOpen(o, env)).map((o) => o.id);
 }
 
 /** The discounted price, rounded to the cent, as the page states it. */

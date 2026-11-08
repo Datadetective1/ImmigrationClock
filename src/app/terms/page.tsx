@@ -129,6 +129,11 @@ export default function TermsPage() {
             <Link href="/account">account page</Link> at all times.
           </p>
           <p>
+            <strong>Free trials.</strong> A free trial starts Pro right away with nothing charged. Your
+            card is charged the plan price when the trial ends, unless you cancel before then from your{" "}
+            <Link href="/account">account page</Link>. One free trial per account.
+          </p>
+          <p>
             <strong>Cancelling.</strong> You can cancel at any time from your{" "}
             <Link href="/account">account page</Link>, which opens Stripe&rsquo;s billing portal. You do
             not need to contact us or give a reason. Cancellation takes effect at the end of the period

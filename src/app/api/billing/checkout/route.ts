@@ -41,7 +41,7 @@
 import { BILLING_UNAVAILABLE_MESSAGE, billingOrigin, billingStatus, priceIdFor } from "@/lib/billing/config";
 import { COOKIE_NAME, isVerifiedIdentity, verify } from "@/lib/billing/entitlement";
 import { isInterval } from "@/lib/billing/plans";
-import { couponIdFor, offerFrom, openOffers, type OfferSpec } from "@/lib/billing/offers";
+import { couponIdFor, offerFrom, offerIsOpen, openOffers, type OfferSpec } from "@/lib/billing/offers";
 import { StripeClient, StripeError } from "@/lib/billing/stripe";
 import { NEWSLETTER_CONSENT_VERSION } from "@/lib/billing/consent";
 import { emailKey, resolveStore } from "@/lib/billing/store";
@@ -103,7 +103,7 @@ export async function POST(req: Request): Promise<Response> {
       return json({ error: "bad_offer", message: "That offer does not exist." }, 400);
     }
     couponId = couponIdFor(offer);
-    if (!couponId) {
+    if (!offerIsOpen(offer)) {
       console.warn(`[billing] offer ${offer.id} requested but ${offer.couponEnv} is not set`);
       return json(
         { error: "offer_not_open", message: "This offer is not open yet. Please try again later." },
@@ -173,6 +173,20 @@ export async function POST(req: Request): Promise<Response> {
       if (existingCustomer) {
         try {
           const live = await stripe.listSubscriptions(existingCustomer);
+          // ONE FREE TRIAL PER ACCOUNT. Any subscription this customer ever
+          // had, cancelled ones included, means the trial was already used.
+          // Checked here, against Stripe, so cancelling and coming back cannot
+          // start a second month free.
+          if (offer?.firstTimeOnly && (live.data ?? []).length > 0) {
+            return json(
+              {
+                error: "trial_used",
+                message: "The free trial is for new subscribers. You can subscribe at the regular price from the pricing page.",
+                manageUrl: `${billingOrigin()}/pricing`,
+              },
+              409
+            );
+          }
           const billing = (live.data ?? []).filter((sub) =>
             ["active", "trialing", "past_due", "unpaid"].includes(sub.status)
           );
@@ -191,6 +205,15 @@ export async function POST(req: Request): Promise<Response> {
             );
           }
         } catch (err) {
+          // A free trial needs the history to be known; without it, refuse
+          // rather than risk a repeat trial. A paid checkout still goes ahead.
+          if (offer?.firstTimeOnly) {
+            console.error("[billing] trial refused: could not read subscription history");
+            return json(
+              { error: "trial_unavailable", message: "Could not start the free trial right now. Please try again in a few minutes." },
+              503
+            );
+          }
           console.error(
             `[billing] could not list existing subscriptions, allowing checkout: ${
               err instanceof Error ? err.message : String(err)
@@ -288,7 +311,9 @@ export async function POST(req: Request): Promise<Response> {
       // whether it was genuinely paid — the id alone grants nothing.
       successUrl: `${origin}/account?session_id={CHECKOUT_SESSION_ID}`,
       cancelUrl: offer ? `${origin}${offer.path}?checkout=cancelled` : `${origin}/pricing?checkout=cancelled`,
-      ...(offer && couponId ? { trialDays: offer.trialDays, couponId, offerId: offer.id } : {}),
+      ...(offer
+        ? { trialDays: offer.trialDays, offerId: offer.id, ...(couponId ? { couponId } : {}) }
+        : {}),
     });
 
     if (!session.url) {
