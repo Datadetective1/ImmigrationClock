@@ -1,7 +1,10 @@
 employer,normalized,city,county,state,noticeDate,effectiveDate,employees,layoffType,sourceUrl
 "EWC Controls, LLC",EWC CONTROLS,Englishtown,,NJ,,2027-04-01,71,,https://www.nj.gov/labor/employer-services/warn/
+The Children's Place,THE CHILDREN'S PLACE,"Atlantic, Bergen, Camden, Essex, Gloucester, Hudson, Mercer, Middlesex, Monmouth, Morris, Ocean, Passaic, Somerset, Union",,NJ,,2027-02-04,732,,https://www.nj.gov/labor/employer-services/warn/
+UBS,UBS,Weehawken,,NJ,,2027-02-02,39,,https://www.nj.gov/labor/employer-services/warn/
 "Teva Pharmaceuticals USA, Inc",TEVA PHARMACEUTICALS,Fairfield,,NJ,,2027-02-01,61,,https://www.nj.gov/labor/employer-services/warn/
 Mars Information Services,MARS INFORMATION,Newark,,NJ,,2027-01-31,55,,https://www.nj.gov/labor/employer-services/warn/
+AT&T,AT T,Monmouth and Somerset Counties,,NJ,,2027-01-31,50,,https://www.nj.gov/labor/employer-services/warn/
 Comcast,COMCAST,"Atlantic, Burlington, Camden, Cumberland, Gloucester, Mercer, Monmouth, Ocean, and Union counties",,NJ,,2027-01-27,119,,https://www.nj.gov/labor/employer-services/warn/
 "Conduent State & Local Solutions, Inc",CONDUENT STATE LOCAL,Newark,,NJ,,2027-01-21,113,,https://www.nj.gov/labor/employer-services/warn/
 Atlantic City Linen Supply LLC,ATLANTIC CITY LINEN SUPPLY,Atlantic City,,NJ,,2027-01-03,67,,https://www.nj.gov/labor/employer-services/warn/
@@ -8132,7 +8135,6 @@ Biovail Technologies Ltd.,BIOVAIL,Chantilly VA,,VA,2010-11-05,,54,Closure,https:
 Covance Inc.,COVANCE,Vienna VA,,VA,2010-11-03,,223,,https://www.vec.virginia.gov/warn-notices
 Richmond Cold Storage Company LLC,RICHMOND COLD STORAGE,Suffolk VA,,VA,2010-11-03,,108,Layoff,https://www.vec.virginia.gov/warn-notices
 "Alaven Pharmaceutical(meda Pharmaceuticals,inc)",ALAVEN PHARMACEUTICAL(MEDA PHARMACEUTICALS ),Marietta,Cobb,GA,2010-11-02,,40,,https://www.tcsg.edu/warn-public-view/
-AT&T Corp,AT T,Wall Township,,NJ,,2010-11-02,50,,https://www.nj.gov/labor/employer-services/warn/
 Thomasville Furniture Industries Inc.,THOMASVILLE FURNITURE INDUSTRIES,Appomattox VA,,VA,2010-11-02,,171,Closure,https://www.vec.virginia.gov/warn-notices
 Exel,EXEL,Auburn,,WA,2010-11-02,2011-01-29,146,Permanent,https://esd.wa.gov/about-employees/WARN
 The Atlanta Journal Constitution,THE ATLANTA JOURNAL CONSTITUTION,Atlanta,Fulton,GA,2010-11-01,,105,,https://www.tcsg.edu/warn-public-view/
