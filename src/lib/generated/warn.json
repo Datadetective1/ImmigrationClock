@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T16:44:17.731Z",
+  "generatedAt": "2026-11-10T18:22:40.095Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 450,
-      "employeesTotal": 26930,
-      "latestNotice": "2026-11-04",
-      "withNoticeDate": 450,
+      "noticeCount": 471,
+      "employeesTotal": 28256,
+      "latestNotice": "2026-11-09",
+      "withNoticeDate": 471,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12209,
-  "employeesTotal": 1562469,
-  "employerCount": 9077,
+  "noticeCount": 12230,
+  "employeesTotal": 1563795,
+  "employerCount": 9095,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-11-04",
+  "maxNoticeDate": "2026-11-09",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -3328,6 +3328,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-21"
+    },
+    {
+      "normalized": "OJAI VALLEY INN",
+      "name": "Ojai Valley Inn",
+      "slug": "ojai-valley-inn",
+      "notices": 1,
+      "employees": 751,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-21"
     },
     {
       "normalized": "ARAMARK-MINUTE MAID PARK",
@@ -15238,6 +15249,18 @@
         "GA"
       ],
       "latestNotice": "1997-03-18"
+    },
+    {
+      "normalized": "NATIONAL DISTRIBUTION CENTERS",
+      "name": "National Distribution Centers, LLC",
+      "slug": "national-distribution-centers-llc",
+      "notices": 2,
+      "employees": 234,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-11-04"
     },
     {
       "normalized": "WORLDPAY",
@@ -47023,6 +47046,17 @@
       "latestNotice": "2000-04-21"
     },
     {
+      "normalized": "ELLISON INSTITUTE DBA ELLISON MEDICAL INSTITUTE",
+      "name": "Ellison Institute, LLC dba Ellison Medical Institute",
+      "slug": "ellison-institute-llc-dba-ellison-medical-institute",
+      "notices": 1,
+      "employees": 88,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-04"
+    },
+    {
       "normalized": "COMPASS GROUP (D/B/A CHARTWELL'S HIGHER EDUCATION (TEXAS SOUTHERN UNIV )",
       "name": "Compass Group USA, Inc. (d/b/a Chartwell's Higher Education (Texas Southern Univ.)",
       "slug": "compass-group-usa-inc-d-b-a-chartwell-s-higher-education-texas-southern-univ",
@@ -52919,6 +52953,17 @@
         "GA"
       ],
       "latestNotice": "1996-12-20"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (13426 AVENUE 232)",
+      "name": "Wright Tree Service of the West, Inc. (13426 Avenue 232)",
+      "slug": "wright-tree-service-of-the-west-inc-13426-avenue-232",
+      "notices": 1,
+      "employees": 77,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "THE MADRONA",
@@ -59380,17 +59425,6 @@
         "VA"
       ],
       "latestNotice": "2015-04-06"
-    },
-    {
-      "normalized": "NATIONAL DISTRIBUTION CENTERS",
-      "name": "National Distribution Centers",
-      "slug": "national-distribution-centers",
-      "notices": 1,
-      "employees": 67,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2014-06-15"
     },
     {
       "normalized": "NCO FINANCIAL SYTEMS",
@@ -68264,6 +68298,28 @@
       "latestNotice": "1993-08-10"
     },
     {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (32134 AUBERRY RD)",
+      "name": "Wright Tree Service of the West, Inc. (32134 Auberry Rd)",
+      "slug": "wright-tree-service-of-the-west-inc-32134-auberry-rd",
+      "notices": 1,
+      "employees": 54,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "VCA CORPORATE SUPPORT OFFICE",
+      "name": "VCA Corporate Support Office",
+      "slug": "vca-corporate-support-office",
+      "notices": 2,
+      "employees": 54,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
+    },
+    {
       "normalized": "WELCOME MARKET (99 RANCH MARKET)",
       "name": "Welcome Market, Inc. (99 Ranch Market)",
       "slug": "welcome-market-inc-99-ranch-market",
@@ -75025,6 +75081,17 @@
       "latestNotice": "1996-01-22"
     },
     {
+      "normalized": "RALEY'S",
+      "name": "Raley's",
+      "slug": "raley-s",
+      "notices": 2,
+      "employees": 43,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-28"
+    },
+    {
       "normalized": "UBER - 190 MATHILDA PLACE",
       "name": "Uber technologies, Inc. - 190 Mathilda Place",
       "slug": "uber-technologies-inc-190-mathilda-place",
@@ -76223,17 +76290,6 @@
         "CA"
       ],
       "latestNotice": "2026-10-29"
-    },
-    {
-      "normalized": "RALEY'S",
-      "name": "Raley's",
-      "slug": "raley-s",
-      "notices": 1,
-      "employees": 40,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-28"
     },
     {
       "normalized": "APPLE - MAUDE AVE",
@@ -84238,6 +84294,39 @@
       "latestNotice": null
     },
     {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (4571 LAKE ISABELLA BLVD)",
+      "name": "Wright Tree Service of the West, Inc. (4571 Lake Isabella Blvd)",
+      "slug": "wright-tree-service-of-the-west-inc-4571-lake-isabella-blvd",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (8056 EVANS RD)",
+      "name": "Wright Tree Service of the West, Inc. (8056 Evans Rd)",
+      "slug": "wright-tree-service-of-the-west-inc-8056-evans-rd",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "MOTOR WORKS",
+      "name": "US Motor Works, LLC",
+      "slug": "us-motor-works-llc",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-30"
+    },
+    {
       "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
       "name": "Davey Tree Surgery Company (E/O Crittenden Lane)",
       "slug": "davey-tree-surgery-company-e-o-crittenden-lane",
@@ -86661,6 +86750,17 @@
       "latestNotice": "2000-04-18"
     },
     {
+      "normalized": "BLUE SHIELD OF CA - OAKLAND",
+      "name": "Blue Shield of CA - Oakland",
+      "slug": "blue-shield-of-ca-oakland",
+      "notices": 1,
+      "employees": 13,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
+    },
+    {
       "normalized": "ECONOLITE CONTROL PRODUCTS",
       "name": "Econolite Control Products, Inc.",
       "slug": "econolite-control-products-inc",
@@ -87035,6 +87135,28 @@
         "NJ"
       ],
       "latestNotice": "2004-12-31"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (430 SHERWIN CREEK RD)",
+      "name": "Wright Tree Service of the West, Inc. (430 Sherwin Creek Rd)",
+      "slug": "wright-tree-service-of-the-west-inc-430-sherwin-creek-rd",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "BLUE SHIELD OF CA - LONG BEACH",
+      "name": "Blue Shield of CA - Long Beach",
+      "slug": "blue-shield-of-ca-long-beach",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
     },
     {
       "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
@@ -88997,6 +89119,17 @@
       "latestNotice": "1996-11-04"
     },
     {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (270 N SEE VEE LN)",
+      "name": "Wright Tree Service of the West, Inc. (270 N See Vee Ln)",
+      "slug": "wright-tree-service-of-the-west-inc-270-n-see-vee-ln",
+      "notices": 1,
+      "employees": 9,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "SAC HEALTH (250 SOUTH G ST )",
       "name": "SAC Health (250 South G St.)",
       "slug": "sac-health-250-south-g-st",
@@ -90537,6 +90670,17 @@
         "WA"
       ],
       "latestNotice": "2005-11-29"
+    },
+    {
+      "normalized": "BLUE SHIELD OF CA - EL DORADO HILLS BUILDING B",
+      "name": "Blue Shield of CA - El Dorado Hills, Building B",
+      "slug": "blue-shield-of-ca-el-dorado-hills-building-b",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
     },
     {
       "normalized": "SILVERADO SENIOR LIVING MANAGMENT",
@@ -92333,6 +92477,39 @@
       "latestNotice": "2007-05-23"
     },
     {
+      "normalized": "BLUE SHIELD OF CA - WOODLAND HILLS",
+      "name": "Blue Shield of CA - Woodland Hills",
+      "slug": "blue-shield-of-ca-woodland-hills",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
+    },
+    {
+      "normalized": "BLUE SHIELD OF CA - RANCHO CORDOVA",
+      "name": "Blue Shield of CA - Rancho Cordova",
+      "slug": "blue-shield-of-ca-rancho-cordova",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
+    },
+    {
+      "normalized": "BLUE SHIELD OF CA - LODI",
+      "name": "Blue Shield of CA - Lodi",
+      "slug": "blue-shield-of-ca-lodi",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
+    },
+    {
       "normalized": "CEPHEID (B1)",
       "name": "Cepheid (B1)",
       "slug": "cepheid-b1",
@@ -93822,6 +93999,17 @@
       "latestNotice": "2000-04-19"
     },
     {
+      "normalized": "BLUE SHIELD OF CA - SAN DIEGO",
+      "name": "Blue Shield of CA - San Diego",
+      "slug": "blue-shield-of-ca-san-diego",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
+    },
+    {
       "normalized": "CORTEVA AGRISCIENCE",
       "name": "Corteva Agriscience LLC",
       "slug": "corteva-agriscience-llc",
@@ -95151,6 +95339,17 @@
         "GA"
       ],
       "latestNotice": "2005-05-17"
+    },
+    {
+      "normalized": "BLUE SHIELD OF CALIFORNIA - EL DORADO HILLS BUILDING C",
+      "name": "Blue Shield of California - El Dorado Hills, Building C",
+      "slug": "blue-shield-of-california-el-dorado-hills-building-c",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-06"
     },
     {
       "normalized": "PHILLIPS 66 - CARSON",
@@ -100784,6 +100983,78 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Wright Tree Service of the West, Inc. (32134 Auberry Rd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (32134 AUBERRY RD)",
+      "city": "Auberry",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 54,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (270 N See Vee Ln)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (270 N SEE VEE LN)",
+      "city": "Bishop",
+      "county": "Inyo",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 9,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (4571 Lake Isabella Blvd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (4571 LAKE ISABELLA BLVD)",
+      "city": "Lake Isabella",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 19,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (8056 Evans Rd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (8056 EVANS RD)",
+      "city": "Glenville",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 19,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (430 Sherwin Creek Rd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (430 SHERWIN CREEK RD)",
+      "city": "Mammoth Lakes",
+      "county": "Mono",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 12,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (13426 Avenue 232)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (13426 AVENUE 232)",
+      "city": "Tulare",
+      "county": "Tulare",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 77,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Educational Testing Service",
       "normalized": "EDUCATIONAL TESTING SERVICE",
       "city": "Princeton",
@@ -100794,6 +101065,114 @@
       "employees": 62,
       "layoffType": null,
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
+    },
+    {
+      "employer": "VCA Corporate Support Office",
+      "normalized": "VCA CORPORATE SUPPORT OFFICE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2026-09-01",
+      "employees": 36,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - Oakland",
+      "normalized": "BLUE SHIELD OF CA - OAKLAND",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 13,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of California - El Dorado Hills, Building C",
+      "normalized": "BLUE SHIELD OF CALIFORNIA - EL DORADO HILLS BUILDING C",
+      "city": "El Dorado Hills",
+      "county": "El Dorado",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - El Dorado Hills, Building B",
+      "normalized": "BLUE SHIELD OF CA - EL DORADO HILLS BUILDING B",
+      "city": "El Dorado Hillsa",
+      "county": "El Dorado",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 7,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - Long Beach",
+      "normalized": "BLUE SHIELD OF CA - LONG BEACH",
+      "city": "Long Beach",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 12,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - Woodland Hills",
+      "normalized": "BLUE SHIELD OF CA - WOODLAND HILLS",
+      "city": "Woodland Hills",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - Rancho Cordova",
+      "normalized": "BLUE SHIELD OF CA - RANCHO CORDOVA",
+      "city": "Rancho Cordova",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - San Diego",
+      "normalized": "BLUE SHIELD OF CA - SAN DIEGO",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Blue Shield of CA - Lodi",
+      "normalized": "BLUE SHIELD OF CA - LODI",
+      "city": "Lodi",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-11-06",
+      "effectiveDate": "2027-01-12",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "ServiceNow, Inc.",
@@ -100829,6 +101208,30 @@
       "effectiveDate": "2027-01-04",
       "employees": 25,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Ellison Institute, LLC dba Ellison Medical Institute",
+      "normalized": "ELLISON INSTITUTE DBA ELLISON MEDICAL INSTITUTE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-04",
+      "effectiveDate": "2027-01-03",
+      "employees": 88,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "National Distribution Centers, LLC",
+      "normalized": "NATIONAL DISTRIBUTION CENTERS",
+      "city": "Perris",
+      "county": "Riverside",
+      "state": "CA",
+      "noticeDate": "2026-11-04",
+      "effectiveDate": "2027-01-04",
+      "employees": 167,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -100934,7 +101337,7 @@
       "county": "San Diego",
       "state": "CA",
       "noticeDate": "2026-11-03",
-      "effectiveDate": "2026-01-04",
+      "effectiveDate": "2027-01-04",
       "employees": 78,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
@@ -100984,6 +101387,18 @@
       "noticeDate": "2026-11-02",
       "effectiveDate": "2027-01-04",
       "employees": 71,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "VCA Corporate Support Office",
+      "normalized": "VCA CORPORATE SUPPORT OFFICE",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-02",
+      "effectiveDate": "2027-01-02",
+      "employees": 18,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -101128,6 +101543,18 @@
       "noticeDate": "2026-10-30",
       "effectiveDate": "2026-12-29",
       "employees": 81,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "US Motor Works, LLC",
+      "normalized": "MOTOR WORKS",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-30",
+      "effectiveDate": "2026-12-31",
+      "employees": 19,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -101516,6 +101943,18 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
+      "employer": "Raley's",
+      "normalized": "RALEY'S",
+      "city": "Rohnert Park",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-10-28",
+      "effectiveDate": "2026-12-13",
+      "employees": 3,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Buitoni",
       "normalized": "BUITONI",
       "city": "Danville VA",
@@ -101825,6 +102264,18 @@
       "effectiveDate": "2026-12-23",
       "employees": 6,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Ojai Valley Inn",
+      "normalized": "OJAI VALLEY INN",
+      "city": "Ojai",
+      "county": "Ventura",
+      "state": "CA",
+      "noticeDate": "2026-10-21",
+      "effectiveDate": "2027-01-04",
+      "employees": 751,
+      "layoffType": "Closure Temporary",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
