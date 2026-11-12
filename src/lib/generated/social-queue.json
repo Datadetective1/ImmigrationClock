@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-12T02:07:33.355Z",
+  "updatedAt": "2026-11-12T21:19:36.867Z",
   "items": [
     {
       "id": "event:eoir_precedents:30-in-dec-228::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "eoir_precedents:30-in-dec-228",
       "category": "actionable",
       "topicKey": "source:eoir_precedents",
-      "priority": 55298.99444444444,
+      "priority": 55148.98888888889,
       "readerValue": 44,
       "factsHash": "8993f6df19beace9",
       "whyItMatters": [
@@ -59,7 +59,7 @@
       "eventId": "eoir_precedents:30-in-dec-228",
       "category": "actionable",
       "topicKey": "source:eoir_precedents",
-      "priority": 54448.99444444444,
+      "priority": 54448.98888888889,
       "readerValue": 44,
       "factsHash": "ba24b592eabbc142",
       "whyItMatters": [
@@ -91,49 +91,6 @@
       ]
     },
     {
-      "id": "explainer:visa-bulletin-priority-dates::explainer",
-      "subjectId": "explainer:visa-bulletin-priority-dates",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "How to read the Visa Bulletin",
-      "suggestedHeadline": null,
-      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
-      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:green-cards",
-      "priority": 20015,
-      "readerValue": 60,
-      "factsHash": "a6606cb551a6ca9a",
-      "whyItMatters": [
-        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
-      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
-        }
-      ]
-    },
-    {
       "id": "explainer:border-encounters-are-events::explainer",
       "subjectId": "explainer:border-encounters-are-events",
       "contentType": "explainer",
@@ -146,7 +103,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20013,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -189,7 +146,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:workforce-data",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "19c561f65e64dd11",
       "whyItMatters": [
@@ -232,7 +189,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -275,7 +232,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -318,7 +275,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -361,7 +318,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 20004,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "0b3555e011ff02f3",
       "whyItMatters": [
@@ -404,7 +361,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -435,25 +392,27 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
+      "id": "explainer:visa-bulletin-priority-dates::explainer",
+      "subjectId": "explainer:visa-bulletin-priority-dates",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "The H-1B employer directory",
+      "headline": "How to read the Visa Bulletin",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "U.S. Department of State — Visa Bulletin; USCIS — Visa Availability and Priority Dates",
+      "sourceUrl": "https://travel.state.gov/content/travel/en/legal/visa-law0/visa-bulletin.html",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:green-cards",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "a6606cb551a6ca9a",
+      "whyItMatters": [
+        "For anyone waiting in a preference category, the Visa Bulletin is the calendar that decides when they can move forward, and it is written in a format few explain. Knowing which chart, which category and which country to read is the whole skill."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
+      "shareUrl": "https://immigrationclock.com/explained/visa-bulletin-priority-dates",
+      "ogImage": "/og/explainer/visa-bulletin-priority-dates.png",
       "freshness": {
         "publishedAt": null,
         "discoveredAt": "2026-09-03",
@@ -471,7 +430,7 @@
         {
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/visa-bulletin-priority-dates"
         }
       ]
     },
@@ -488,7 +447,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -529,7 +488,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -570,9 +529,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
-      "factsHash": "9fb1b7a8532889e3",
+      "factsHash": "7e82b134c480efbd",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -611,7 +570,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -652,7 +611,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -693,7 +652,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -718,6 +677,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
         }
       ]
     },
@@ -4991,7 +4991,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30010,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -5191,6 +5191,16 @@
           "at": "2026-11-12T02:07:33.355Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5207,7 +5217,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30008,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -5417,6 +5427,16 @@
           "at": "2026-11-12T02:07:33.355Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5433,7 +5453,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "a6874efa3fddcef9",
       "whyItMatters": [],
@@ -5665,6 +5685,16 @@
         },
         {
           "at": "2026-11-12T02:07:33.355Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
