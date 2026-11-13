@@ -189,6 +189,55 @@ export function refreshRows(): RefreshRow[] {
 }
 
 // ---------------------------------------------------------------------------
+// How each source reaches the site, for /sources and the homepage source count.
+//
+// Every date here is one the pipeline actually recorded. A source with no
+// recorded date shows none; nothing falls back to a made-up day.
+// ---------------------------------------------------------------------------
+export type SourceReadKind =
+  /** Fetched by the scheduled pipeline, and the latest run succeeded. */
+  | "fetched"
+  /** Meant to be fetched, but the latest run did not read it. */
+  | "not-reading"
+  /** Typed in by hand from the agency's published report. */
+  | "manual"
+  /** Listed as a source we plan to cover; nothing is read from it yet. */
+  | "not-read";
+
+export interface SourceReadState {
+  kind: SourceReadKind;
+  /** fetched: the last successful fetch the pipeline recorded. Every other kind: none. */
+  at: string | null;
+}
+
+function lastFetchedAt(key: string): string | null {
+  const src = SOURCE_BY_KEY[key];
+  if (!src) return null;
+  if (key === "uscis_h1b") return EMPLOYERS_META.generatedAt ?? null;
+  const r = refresh as Record<string, unknown>;
+  const feed = src.refreshKey ? (r[src.refreshKey] as { fetchedAt?: string } | undefined) : undefined;
+  if (feed?.fetchedAt) return feed.fetchedAt;
+  return EVENT_RUNS.get(key.replace(/_/g, "-"))?.lastSuccessAt ?? null;
+}
+
+export function sourceReadState(key: string): SourceReadState {
+  const src = SOURCE_BY_KEY[key];
+  if (!src || src.ingestion === "planned") return { kind: "not-read", at: null };
+  // Hand-entered sources carry only dates someone typed in, which no run has
+  // confirmed, so none is shown as if it were a refresh.
+  if (src.ingestion === "curated") return { kind: "manual", at: null };
+  // A source that is switched off (Federal courts without its access key) still
+  // records a "successful" run that read nothing, so no date is shown for it.
+  if (pipelineStatus(key).status !== "SUCCESS") return { kind: "not-reading", at: null };
+  return { kind: "fetched", at: lastFetchedAt(key) };
+}
+
+/** Sources the scheduled pipeline read successfully on its latest run. */
+export function sourcesReadAutomatically() {
+  return SOURCES.filter((s) => sourceReadState(s.key).kind === "fetched");
+}
+
+// ---------------------------------------------------------------------------
 // Data manifest (for /data-manifest) — source × refresh status × auto/manual
 // ---------------------------------------------------------------------------
 export interface ManifestRow {

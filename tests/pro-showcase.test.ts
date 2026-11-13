@@ -5,7 +5,9 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { alertExample, forecastExample, trustFacts } from "@/lib/pro-showcase";
 import { forecast, teaser } from "@/lib/visa-bulletin/forecast";
-import { EVENTS, contributingAdapters } from "@/lib/event-store";
+import { EVENTS } from "@/lib/event-store";
+import { sourcesReadAutomatically } from "@/lib/refresh";
+import { SOURCES } from "@/lib/sources";
 
 const read = (p: string) => readFileSync(fileURLToPath(new URL(`../${p}`, import.meta.url)), "utf8");
 
@@ -41,8 +43,16 @@ describe("trust signals are counted, never claimed", () => {
   it("reads counts from the data", () => {
     const t = trustFacts();
     expect(t.changes).toBe(EVENTS.length);
-    expect(t.sources).toBe(contributingAdapters().length);
+    expect(t.sources).toBe(sourcesReadAutomatically().length);
     expect(t.bulletins).toBeGreaterThan(0);
+  });
+
+  it("counts only sources listed on /sources, with no number added by hand", () => {
+    const t = trustFacts();
+    const listed = new Set(SOURCES.map((s) => s.name));
+    for (const name of t.sourceNames) expect(listed.has(name), name).toBe(true);
+    expect(t.sourceNames.length).toBe(t.sources);
+    expect(read("src/components/TrustStrip.tsx")).not.toMatch(/sources\s*\+\s*\d/);
   });
 
   it("shows no testimonial, review or subscriber count on the Pro page or the strip", () => {
