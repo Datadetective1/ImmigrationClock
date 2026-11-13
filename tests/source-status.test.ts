@@ -10,6 +10,7 @@
 import { describe, expect, it } from "vitest";
 import { dataManifest, refreshRows } from "@/lib/refresh";
 import { SOURCE_BY_KEY } from "@/lib/sources";
+import health from "@/lib/generated/pipeline-health.json";
 
 const rows = refreshRows();
 const row = (key: string) => rows.find((r) => r.key === key)!;
@@ -41,6 +42,13 @@ describe("completeness", () => {
 describe("run status", () => {
   it("reports the change feeds from the change pipeline's own runs", () => {
     for (const key of ["federal_register", "uscis_newsroom", "uscis_policy_manual", "federal_courts"]) {
+      const run = (health.sources as { key: string; configured: boolean }[]).find((s) => s.key === key.replace(/_/g, "-"));
+      // A feed switched off for want of an access key (Federal courts without
+      // COURTLISTENER_TOKEN) reads nothing, so it must never report SUCCESS.
+      if (run && !run.configured) {
+        expect(row(key).status, key).not.toBe("SUCCESS");
+        continue;
+      }
       expect(["SUCCESS", "PARTIAL", "FAILED"], key).toContain(row(key).status);
       expect(row(key).status, key).not.toBe("PENDING");
     }
