@@ -140,7 +140,11 @@ export function isPolicyRelevant(item: RssItem): boolean {
  */
 export function classify(item: RssItem): EventClassification {
   const t = item.title.toLowerCase();
-  if (/\b(court|injunction|stay|judge|ruling|litigation)\b/.test(t)) return "court_decision";
+  // Court ACTION, not the word "court": "...Alien Terrorist Removal Court" names
+  // a tribunal in a Justice Department press release and was filed as a ruling.
+  if (/\b(court (orders?|issues|issued|decision|ruling|stay)|injunction|stay|judge|ruling|litigation)\b/.test(t)) {
+    return "court_decision";
+  }
   if (/\b(final rule|rescind|revokes|revoking)\b/.test(t)) return "final_rule";
   if (/\bproposed rule\b/.test(t)) return "proposed_rule";
   if (/\b(cap reached|reaches .*cap|registration period|filing period|deadline)\b/.test(t)) return "deadline";

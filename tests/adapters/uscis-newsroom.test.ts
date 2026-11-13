@@ -267,3 +267,27 @@ describe("event construction", () => {
     expect(errors.join(" ")).toMatch(/future/i);
   });
 });
+
+describe("court action, not the word 'court'", () => {
+  it("does not file a Justice Department press release naming a tribunal as a ruling", () => {
+    expect(
+      UN.classify(
+        item({ title: "Department of Justice Removes Alien Terrorist in First Use of United States Alien Terrorist Removal Court" })
+      )
+    ).not.toBe("court_decision");
+  });
+
+  it("still recognises every court-order headline USCIS has used", () => {
+    for (const title of [
+      "Litigation-Related Update: Sileiri Doe Class Members May Request Reopening or Reconsideration of an Adverse Decision Without a Fee",
+      "Court Order on Diversity Immigrant Visa Program Hold Policy",
+      "Recent Court Order on Hold Policies",
+      "Court issues Stay: Permits participation of Non-Governmental Organizations at Administrative Naturalization Ceremonies",
+      "Court Issues Administrative Stay of Certain USCIS Policies",
+      "Court Order on Partial Stay of DHS 2024 USCIS Fee Rule",
+      "Litigation-Related Update: Supreme Court stay of CHNV Preliminary Injunction",
+    ]) {
+      expect(UN.classify(item({ title })), title).toBe("court_decision");
+    }
+  });
+});

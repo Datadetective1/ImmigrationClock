@@ -39,6 +39,7 @@ import { executiveActionsAdapter } from "../src/domains/graph/adapters/executive
 import { uscisNewsroomAdapter } from "../src/domains/graph/adapters/uscis-newsroom";
 import { uscisPolicyManualAdapter } from "../src/domains/graph/adapters/uscis-policy-manual";
 import { federalCourtsAdapter } from "../src/domains/graph/adapters/federal-courts";
+import { correctStoredCourtRecord } from "../src/domains/graph/court-record-corrections";
 import { congressAdapter } from "../src/domains/graph/adapters/congress";
 import { cbpEncountersAdapter } from "../src/domains/graph/adapters/cbp-encounters";
 import { dolOflcAdapter } from "../src/domains/graph/adapters/dol-oflc";
@@ -147,6 +148,8 @@ function attachImplementations() {
  * this file.
  */
 const RETRACTED: Record<string, string> = {
+  "federal_courts:10948750":
+    "A second copy of the First Circuit's Aug 14, 2026 order in Dorcas International Institute v. USCIS (No. 26-1703). CourtListener filed the same 5,348-character order as clusters 10948749 and 10948750; the site showed it as two decisions. Cluster 10948749 stays. The adapter now collapses such reposts (collapseReposts).",
   "federal_register:2026-15434":
     "Not an immigration document. An Administrative Procedure Act notice about petitioning DOJ to issue, amend, or repeal a regulation, ingested because the relevance filter matched the bare word 'petition'. The filter was narrowed on 2026-08-02; this removes the event it already admitted.",
 };
@@ -336,7 +339,7 @@ async function main() {
   // Merge: a freshly fetched event replaces its committed twin by stable id, and
   // everything previously recorded is retained. dedupeEvents keeps first-seen,
   // so fresh must come first.
-  const deduped = sortEvents(dedupeEvents([...fresh, ...existing]).map(rescoreStoredNotice));
+  const deduped = sortEvents(dedupeEvents([...fresh, ...existing]).map(rescoreStoredNotice).map(correctStoredCourtRecord));
 
   // One presidential action, one event: once the Federal Register's official copy
   // is in the store, the same-day White House entry for it is dropped.

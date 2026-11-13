@@ -281,3 +281,60 @@ describe("CourtListener token", () => {
     expect(r.warnings.join(" ")).toMatch(/COURTLISTENER_TOKEN was refused/);
   });
 });
+
+// =============================================================================
+// Checked against CourtListener on 2026-11-13.
+// =============================================================================
+describe("records verified against the court record", () => {
+  const dorcas = (cluster: number) =>
+    op({
+      caseName: "Dorcas International Institute of Rhode Island v. United States Citizenship and Immigration Services",
+      court: "Court of Appeals for the First Circuit",
+      court_id: "ca1",
+      dateFiled: "2026-08-14",
+      docketNumber: "26-1703",
+      cluster_id: cluster,
+      absolute_url: `/opinion/${cluster}/dorcas/`,
+    });
+
+  it("keeps one event when CourtListener files the same order twice", () => {
+    // The real pair: identical 5,348-character orders, adjacent cluster ids.
+    const kept = FC.collapseReposts([dorcas(10948750), dorcas(10948749)]);
+    expect(kept.map((o) => o.cluster_id)).toEqual([10948749]);
+  });
+
+  it("keeps different filings on the same docket, and different days", () => {
+    expect(FC.collapseReposts([dorcas(1), op({ ...dorcas(2), dateFiled: "2026-08-15" })])).toHaveLength(2);
+    expect(FC.collapseReposts([dorcas(1), op({ ...dorcas(2), docketNumber: "26-1704" })])).toHaveLength(2);
+    // Without a docket number nothing can be matched, so nothing is dropped.
+    expect(FC.collapseReposts([op({ docketNumber: null }), op({ docketNumber: null, cluster_id: 9 })])).toHaveLength(2);
+  });
+
+  const stay = op({
+    caseName: "Department of Homeland Security v. League of Women Voters",
+    court: "Supreme Court of the United States",
+    court_id: "scotus",
+    dateFiled: "2026-09-25",
+    docketNumber: "26A308",
+    cluster_id: 10983722,
+  });
+
+  it("describes a Supreme Court ruling on an application as that, not circuit precedent", () => {
+    expect(FC.isScotusApplication(stay)).toBe(true);
+    const decision = FC.assessInclusion(stay);
+    expect(decision.include).toBe(true);
+    expect(decision.reason).toMatch(/order on an application/);
+    expect(decision.reason).toMatch(/not a decision on the merits/);
+    const e = FC.toEvent(stay, decision, TODAY);
+    const text = `${e.summary} ${e.limitations?.join(" ")}`;
+    expect(text).not.toMatch(/precedent in (its|its own) circuit/);
+    expect(validateEvent(e)).toEqual([]);
+  });
+
+  it("describes a Supreme Court merits decision as binding nationwide", () => {
+    const merits = op({ ...stay, docketNumber: "24-1260" });
+    expect(FC.isScotusApplication(merits)).toBe(false);
+    expect(FC.assessInclusion(merits).reason).toBe("Supreme Court decision, binding nationwide");
+    expect(FC.toEvent(merits, FC.assessInclusion(merits), TODAY).limitations?.join(" ")).not.toMatch(/circuit/);
+  });
+});
