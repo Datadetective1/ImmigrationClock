@@ -15,8 +15,15 @@ export interface SavedItem {
   savedAt: number;
 }
 
-/** Change ids are "<sourceKey>:<nativeId>". Anything else is not ours to store. */
-const CHANGE_ID = /^[a-z0-9_]{2,40}:[A-Za-z0-9._\-]{1,120}$/;
+/**
+ * Change ids are "<sourceKey>:<nativeId>". Anything else is not ours to store.
+ *
+ * The native id can be as long as 200 characters: White House ids are the
+ * post's own URL slug, which WordPress allows up to 200 characters. At 120, a
+ * Nov 12, 2026 H-1B action (130 characters) could not be saved. Widening only
+ * accepts more, so every list saved under the old limit still reads the same.
+ */
+const CHANGE_ID = /^[a-z0-9_]{2,40}:[A-Za-z0-9._\-]{1,200}$/;
 
 export function isChangeIdShape(id: unknown): id is string {
   return typeof id === "string" && CHANGE_ID.test(id);
