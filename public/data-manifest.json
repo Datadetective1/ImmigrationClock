@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-12T21:14:41.232Z",
-  "startedAt": "2026-11-12T21:14:38.924Z",
-  "finishedAt": "2026-11-12T21:14:41.232Z",
+  "generatedAt": "2026-11-13T18:18:07.034Z",
+  "startedAt": "2026-11-13T18:18:01.096Z",
+  "finishedAt": "2026-11-13T18:18:07.034Z",
   "ok": true,
   "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
@@ -10,7 +10,7 @@
     "value": 4.1,
     "period": "October 2026",
     "sourceUpdatedAt": "2026-10-01",
-    "fetchedAt": "2026-11-12T21:14:39.325Z",
+    "fetchedAt": "2026-11-13T18:18:01.411Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
     "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
@@ -28,10 +28,10 @@
       "2025": 691906
     },
     "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-10/nationwide-encounters-fy23-fy26-sep-aor.csv",
-    "fetchedAt": "2026-11-12T21:14:39.769Z",
+    "fetchedAt": "2026-11-13T18:18:01.678Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
-    "sourceUpdatedAt": "2026-11-12",
+    "sourceUpdatedAt": "2026-11-13",
     "note": "Nationwide encounters summed from CBP's published CSV. FY2026 is year-to-date through September 2026."
   },
   "warn": {
@@ -159,11 +159,11 @@
         "count": 9
       }
     ],
-    "fetchedAt": "2026-11-12T21:14:40.941Z",
+    "fetchedAt": "2026-11-13T18:18:06.751Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
-    "sourceUpdatedAt": "2026-11-12",
+    "sourceUpdatedAt": "2026-11-13",
     "note": "Texas WARN layoff notices via data.texas.gov. 2026 YTD: 12234 employees across 69 notices. Texas only — not national."
   },
   "eoir": {
@@ -238,7 +238,7 @@
       }
     ],
     "datasetUrl": "https://www.justice.gov/eoir/media/1344791/dl?inline",
-    "fetchedAt": "2026-11-12T21:14:41.232Z",
+    "fetchedAt": "2026-11-13T18:18:07.033Z",
     "sourceName": "EOIR Adjudication Statistics",
     "sourceUrl": "https://www.justice.gov/eoir/workload-and-adjudication-statistics",
     "sourceUpdatedAt": "2026-10-28",
@@ -252,7 +252,7 @@
       "feed": "BLS Public Data API",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-12T21:14:39.325Z",
+      "lastFetchedAt": "2026-11-13T18:18:01.411Z",
       "lastError": null
     },
     {
@@ -262,7 +262,7 @@
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-12T21:14:39.769Z",
+      "lastFetchedAt": "2026-11-13T18:18:01.678Z",
       "lastError": null
     },
     {
@@ -312,7 +312,7 @@
       "feed": "Texas via data.texas.gov (Socrata), TX only; other states curated",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-12T21:14:40.941Z",
+      "lastFetchedAt": "2026-11-13T18:18:06.751Z",
       "lastError": null
     },
     {
@@ -322,7 +322,7 @@
       "feed": "EOIR adjudication statistics (PDF table)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-12T21:14:41.232Z",
+      "lastFetchedAt": "2026-11-13T18:18:07.033Z",
       "lastError": null
     }
   ]
