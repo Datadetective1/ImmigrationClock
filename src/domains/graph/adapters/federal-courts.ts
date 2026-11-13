@@ -181,6 +181,27 @@ export function parties(caseName: string): string[] {
 /** Courts whose published decisions bind beyond the parties. */
 const APPELLATE_COURTS = /^(scotus|ca\d{1,2}|cadc|cafc)$/i;
 
+function isScotus(op: CourtOpinion): boolean {
+  return (op.court_id ?? "").toLowerCase() === "scotus";
+}
+
+/**
+ * Supreme Court applications are docketed "26A308"; merits cases "24-1234".
+ * A ruling on an application (a stay, an injunction pending appeal) can be
+ * published per curiam, and it can matter a great deal, but it is not the
+ * Court deciding the question, and it is not "precedent in its circuit".
+ */
+export const SCOTUS_APPLICATION = {
+  reason:
+    "Supreme Court order on an application, which can pause or allow a lower-court ruling while the case continues. It is not a decision on the merits",
+  limitation:
+    "An order on an application decides only whether a lower-court ruling is paused or allowed while the case continues. The underlying question can still be decided differently on the merits.",
+} as const;
+
+export function isScotusApplication(op: CourtOpinion): boolean {
+  return isScotus(op) && /^\d{2}A\d+$/i.test((op.docketNumber ?? "").trim());
+}
+
 export interface InclusionDecision {
   include: boolean;
   /** Auditable explanation. Rendered into the event's limitations when kept. */
@@ -225,6 +246,11 @@ export function assessInclusion(op: CourtOpinion): InclusionDecision {
   const published = (op.status ?? "").toLowerCase().includes("published") &&
     !(op.status ?? "").toLowerCase().includes("unpublished");
 
+  if (isScotus(op) && published) {
+    return isScotusApplication(op)
+      ? { include: true, reason: SCOTUS_APPLICATION.reason }
+      : { include: true, reason: "Supreme Court decision, binding nationwide" };
+  }
   if (isAppellate && published) {
     return { include: true, reason: "published appellate decision, binding precedent in its circuit" };
   }
@@ -330,9 +356,13 @@ export function toEvent(op: CourtOpinion, decision: InclusionDecision, verifiedA
     }),
     reviewStatus: "auto",
     limitations: [
-      isDistrict
-        ? "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal."
-        : "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
+      isScotusApplication(op)
+        ? SCOTUS_APPLICATION.limitation
+        : isScotus(op)
+          ? "A Supreme Court decision binds every federal and state court on the question it decides. Read the opinion for exactly what that question is."
+          : isDistrict
+            ? "A district-court decision binds the parties before it. It is not nationwide law, and presenting it as such would seriously mislead. It may be stayed, narrowed, or reversed on appeal."
+            : "A published appellate decision is binding precedent in its own circuit. Other circuits may hold differently, and the Supreme Court may resolve the split.",
       "A decision's reach can change: appeals, stays, and rehearings all alter what it means in practice. Check the docket before relying on it.",
       "The court published no summary; this event reports the court, date, docket, and precedential status only. Read the opinion for its holding.",
       "ImmigrationClock reports decisions that establish or change immigration law. Routine individual petitions, asylum appeals, visa denials, and detainee cases are deliberately excluded. We report the legal rule, not the people in a case.",
@@ -422,7 +452,7 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
 
   const verifiedAt = new Date().toISOString().slice(0, 10);
 
-  for (const op of results) {
+  for (const op of collapseReposts(results)) {
     if (!op.dateFiled) {
       excludedUndated++;
       continue;
@@ -453,6 +483,34 @@ async function fetchEvents(ctx: AdapterContext): Promise<AdapterResult> {
   };
 }
 
+/**
+ * One filing, one event.
+ *
+ * CourtListener sometimes files the same document twice as two clusters: the
+ * First Circuit's Aug 14, 2026 order in Dorcas (No. 26-1703) arrived as
+ * clusters 10948749 and 10948750 with identical 5,348-character text, and the
+ * site showed it as two decisions. Two results with the same court, docket,
+ * filing date and caption are treated as one; the lower cluster id is kept so
+ * the event id never changes between runs.
+ */
+export function collapseReposts(ops: CourtOpinion[]): CourtOpinion[] {
+  const winner = new Map<string, CourtOpinion>();
+  const keyOf = (op: CourtOpinion) =>
+    op.docketNumber && op.dateFiled
+      ? [op.court_id, op.docketNumber, op.dateFiled, plainText(op.caseName).toLowerCase()].join("|")
+      : null;
+  for (const op of ops) {
+    const key = keyOf(op);
+    if (!key) continue;
+    const prior = winner.get(key);
+    if (!prior || (op.cluster_id ?? Infinity) < (prior.cluster_id ?? Infinity)) winner.set(key, op);
+  }
+  return ops.filter((op) => {
+    const key = keyOf(op);
+    return key === null || winner.get(key) === op;
+  });
+}
+
 export const federalCourtsAdapter: SourceAdapter = {
   key: "federal-courts",
   name: "Federal court decisions",
@@ -473,4 +531,6 @@ export const __testing = {
   buildSummary,
   toEvent,
   CAPTION_QUERY,
+  collapseReposts,
+  isScotusApplication,
 };
