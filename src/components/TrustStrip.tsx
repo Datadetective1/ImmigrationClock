@@ -33,7 +33,7 @@ export function TrustStrip({
   const f = trustFacts();
   const tiles = [
     { value: f.changes.toLocaleString(), label: "government changes recorded", href: "/what-changed" },
-    { value: String(f.sources), label: "official sources read automatically", href: "/sources" },
+    { value: String(f.sources), label: "sources monitored automatically", href: "/sources" },
     { value: String(f.bulletins), label: "Visa Bulletins in the forecast", href: "/visa-bulletin" },
     fourth === "since" && f.since
       ? { value: monthYear(f.since), label: "archive goes back to", href: "/timeline" }

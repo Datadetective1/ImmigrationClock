@@ -206,10 +206,8 @@ export type SourceReadKind =
 
 export interface SourceReadState {
   kind: SourceReadKind;
-  /** fetched: last successful fetch. manual: the date on the data. not-reading / not-read: none. */
+  /** fetched: the last successful fetch the pipeline recorded. Every other kind: none. */
   at: string | null;
-  /** manual only: `at` is the day a person checked the entry against the source, not the source's own date. */
-  checked?: boolean;
 }
 
 function lastFetchedAt(key: string): string | null {
@@ -225,11 +223,9 @@ function lastFetchedAt(key: string): string | null {
 export function sourceReadState(key: string): SourceReadState {
   const src = SOURCE_BY_KEY[key];
   if (!src || src.ingestion === "planned") return { kind: "not-read", at: null };
-  if (src.ingestion === "curated") {
-    const dated = (UPDATED as Record<string, string>)[key];
-    if (dated) return { kind: "manual", at: dated };
-    return { kind: "manual", at: src.lastVerifiedAt || null, checked: true };
-  }
+  // Hand-entered sources carry only dates someone typed in, which no run has
+  // confirmed, so none is shown as if it were a refresh.
+  if (src.ingestion === "curated") return { kind: "manual", at: null };
   // A source that is switched off (Federal courts without its access key) still
   // records a "successful" run that read nothing, so no date is shown for it.
   if (pipelineStatus(key).status !== "SUCCESS") return { kind: "not-reading", at: null };

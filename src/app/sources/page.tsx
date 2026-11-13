@@ -12,19 +12,17 @@ export const metadata = buildMetadata({
 });
 
 /**
- * How this source reaches the site, in one line. Every date is one the pipeline
- * recorded or the agency's own; a source with none shows none.
+ * How this source reaches the site, in one line. The only date shown is a fetch
+ * the pipeline recorded; a source with none shows none.
  */
-function readLine({ kind, at, checked }: SourceReadState): string {
-  const on = at ? ` ${formatDate(at)}` : "";
+function readLine({ kind, at }: SourceReadState): string {
   switch (kind) {
     case "fetched":
-      return `Read automatically · last fetched${on}`;
+      return at ? `Monitored automatically · last fetched ${formatDate(at)}` : "Monitored automatically";
     case "not-reading":
       return "Not being read right now";
     case "manual":
-      if (!at) return "Entered by hand";
-      return checked ? `Entered by hand · last checked${on}` : `Entered by hand · source dated${on}`;
+      return "Entered by hand";
     default:
       return "Listed for reference · not read yet";
   }
@@ -36,7 +34,7 @@ export default function SourcesPage() {
       <PageHeader
         eyebrow="About the data"
         title="Sources"
-        description="Every number on this site comes from a public government dataset or a reputable public clearinghouse. Here is the full list, with official links, how often each agency publishes, and whether we read it automatically, enter it by hand, or only list it for now."
+        description="Every number on this site comes from a public government dataset or a reputable public clearinghouse. Here is the full list, with official links, how often each agency publishes, and whether we monitor it automatically, enter it by hand, or only list it for now."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/sources", label: "Sources" },

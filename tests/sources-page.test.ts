@@ -20,9 +20,9 @@ describe("source read states", () => {
     }
   });
 
-  it("never calls a hand-entered source automatic", () => {
+  it("never calls a hand-entered source automatic or gives it a typed-in date", () => {
     for (const s of SOURCES.filter((x) => x.ingestion === "curated")) {
-      expect(sourceReadState(s.key).kind, s.key).toBe("manual");
+      expect(sourceReadState(s.key), s.key).toEqual({ kind: "manual", at: null });
     }
   });
 
