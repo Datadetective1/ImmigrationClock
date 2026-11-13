@@ -120,6 +120,25 @@ describe("saved changes", () => {
     expect(isChangeIdShape(42)).toBe(false);
   });
 
+  it("accept long White House slugs up to 200 characters and nothing longer", () => {
+    const wh = "white_house_actions:enhancing-program-integrity-and-integrity-and-interagency-coordination-in-the-administration-of-the-h-1b-nonimmigrant-visa-program";
+    expect(isChangeIdShape(wh)).toBe(true);
+    expect(isChangeIdShape(`white_house_actions:${"a".repeat(200)}`)).toBe(true);
+    expect(isChangeIdShape(`white_house_actions:${"a".repeat(201)}`)).toBe(false);
+    expect(isChangeIdShape("federal_register:2026-12345")).toBe(true);
+  });
+
+  it("keep reading lists saved under the old limit, and keep long ids saved now", () => {
+    const old = JSON.stringify([
+      { id: "federal_register:2026-12345", savedAt: 3 },
+      { id: "uscis_newsroom:abc", savedAt: 2 },
+      { id: "dol_oflc:2026-09-02-flag-release", savedAt: 1 },
+    ]);
+    expect(parseSaved(old)).toEqual(JSON.parse(old));
+    const withLong = JSON.stringify([{ id: `white_house_actions:${"x".repeat(130)}`, savedAt: 4 }, ...JSON.parse(old)]);
+    expect(parseSaved(withLong).length).toBe(4);
+  });
+
   it("save newest first, unsave, ignore duplicates and refuse past the cap", () => {
     let items = setSaved([], "a:1", true, 1).items;
     items = setSaved(items, "a:2", true, 2).items;
@@ -449,6 +468,20 @@ describe("the Briefing routes", () => {
     expect((await POST(req("/api/pro/saved", { method: "POST", body: JSON.stringify({ id, saved: true }) }))).status).toBe(200);
     const body = (await (await GET(req("/api/pro/saved"))).json()) as { items: { id: string }[] };
     expect(body.items.map((i) => i.id)).toEqual([id]);
+  });
+
+  it("save and unsave the longest real record id, next to a normal one", async () => {
+    const { GET, POST } = await import("@/app/api/pro/saved/route");
+    const longest = [...EVENTS].sort((a, b) => b.id.length - a.id.length)[0].id;
+    const normal = EVENTS.find((e) => e.id.length < 40)!.id;
+    for (const id of [normal, longest]) {
+      expect((await POST(req("/api/pro/saved", { method: "POST", body: JSON.stringify({ id, saved: true }) }))).status, id).toBe(200);
+    }
+    let body = (await (await GET(req("/api/pro/saved"))).json()) as { items: { id: string }[] };
+    expect(body.items.map((i) => i.id)).toEqual([longest, normal]);
+    expect((await POST(req("/api/pro/saved", { method: "POST", body: JSON.stringify({ id: longest, saved: false }) }))).status).toBe(200);
+    body = (await (await GET(req("/api/pro/saved"))).json()) as { items: { id: string }[] };
+    expect(body.items.map((i) => i.id)).toEqual([normal]);
   });
 
   it("revoke the calendar link on reset, and never take a version from the body", async () => {
