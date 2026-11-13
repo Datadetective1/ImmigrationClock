@@ -25,6 +25,9 @@
 // UI rather than hidden. A stale verification date is information, not a bug.
 // =============================================================================
 
+import { BULLETINS as BULLETIN_DATA } from "./visa-bulletin/data";
+import { OFFICIAL_INDEX_URL } from "./visa-bulletin";
+
 /**
  * How close a source is to the government record.
  *
@@ -237,6 +240,24 @@ export const SOURCES: SourceDef[] = [
     lastVerifiedAt: "2026-05-31",
     limitations:
       "Published as PDFs with no machine-readable feed, so ingestion is manual and lags. A visa issued by a consulate is not the same as a USCIS petition approval; the two counts are not interchangeable.",
+  },
+  {
+    key: "dos_visa_bulletin",
+    name: "Department of State Visa Bulletin",
+    agency: "U.S. Department of State, Bureau of Consular Affairs",
+    tier: "official",
+    description:
+      "The monthly final action and dates for filing charts for family and employment green cards. The priority date forecast and Pro bulletin alerts read these months.",
+    homepageUrl: OFFICIAL_INDEX_URL,
+    datasetUrl: OFFICIAL_INDEX_URL,
+    cadence: "monthly",
+    ingestion: "curated",
+    typicalLagMonths: 0,
+    // The day the newest month was checked against the official PDF, taken from
+    // the bulletin data itself so it cannot drift from what was entered.
+    lastVerifiedAt: BULLETIN_DATA.reduce((m, b) => (b.verifiedAt > m ? b.verifiedAt : m), ""),
+    limitations:
+      "Each month is typed from the official bulletin PDF and checked against it, so a new bulletin appears here only after that check. A date in the chart is a cutoff for who may move forward, not a prediction of when any one case will be decided.",
   },
   {
     key: "bls_wages",

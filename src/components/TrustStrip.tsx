@@ -3,7 +3,7 @@
 //
 // There are no customer logos or reviews to show, and inventing either would
 // break the one promise the site makes. What it can show is real and checkable:
-// how much is recorded, from how many official sources, how many bulletins the
+// how much is recorded, how many official sources the pipeline reads, how many bulletins the
 // forecast reads, and when it was last refreshed. Each tile links to the page
 // that proves it. Server component; everything is counted at build time.
 // =============================================================================
@@ -33,7 +33,7 @@ export function TrustStrip({
   const f = trustFacts();
   const tiles = [
     { value: f.changes.toLocaleString(), label: "government changes recorded", href: "/what-changed" },
-    { value: String(f.sources + 1), label: "official sources read", href: "/sources" },
+    { value: String(f.sources), label: "official sources read automatically", href: "/sources" },
     { value: String(f.bulletins), label: "Visa Bulletins in the forecast", href: "/visa-bulletin" },
     fourth === "since" && f.since
       ? { value: monthYear(f.since), label: "archive goes back to", href: "/timeline" }
@@ -57,9 +57,9 @@ export function TrustStrip({
       </ul>
       <div className={`mt-3 flex-wrap items-center gap-1.5 ${chipsOnPhone ? "flex" : "hidden sm:flex"}`}>
         <span className="mr-1 text-xs text-slate-500">Read from</span>
-        {[...f.sourceNames, "U.S. Department of State Visa Bulletin"].map((name) => (
+        {f.sourceNames.map((name) => (
           <span key={name} className="rounded-full border border-white/10 px-2.5 py-1 text-[11px] font-medium text-slate-300">
-            {name}
+            {name.replace(/ \(.*\)$/, "")}
           </span>
         ))}
       </div>

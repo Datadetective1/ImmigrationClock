@@ -18,7 +18,8 @@ import { forecast, teaser, type Forecast } from "@/lib/visa-bulletin/forecast";
 import { formatMonth } from "@/lib/visa-bulletin/forecast-format";
 import { historyRange, historySeries } from "@/lib/visa-bulletin/history";
 import { visaBulletinAlerts } from "@/lib/billing/alerts";
-import { EVENTS, EVENT_STORE_META, contributingAdapters } from "@/lib/event-store";
+import { EVENTS, EVENT_STORE_META } from "@/lib/event-store";
+import { sourcesReadAutomatically } from "@/lib/refresh";
 import { LAST_REFRESHED } from "@/lib/data";
 
 export interface ForecastExample {
@@ -119,13 +120,16 @@ export interface TrustFacts {
 
 /** Everything here is counted from the data the site is built from. */
 export function trustFacts(): TrustFacts {
-  const adapters = contributingAdapters();
+  // The sources listed on /sources that the scheduled pipeline read on its
+  // latest run. Counting feeds that happened to bring in something NEW that day
+  // made the number move with the news (a source with a quiet day dropped out).
+  const read = sourcesReadAutomatically();
   const range = historyRange();
   const latest = latestBulletin();
   return {
     changes: EVENTS.length,
-    sources: adapters.length,
-    sourceNames: adapters.map((a) => a.name),
+    sources: read.length,
+    sourceNames: read.map((s) => s.name),
     bulletins: range?.months ?? 0,
     latestBulletin: latest?.label ?? null,
     refreshed: LAST_REFRESHED,

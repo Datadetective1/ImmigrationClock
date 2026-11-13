@@ -1,7 +1,7 @@
 import { buildMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { SOURCES } from "@/lib/sources";
-import { UPDATED } from "@/lib/dataset";
+import { sourceReadState, type SourceReadState } from "@/lib/refresh";
 import { formatDate } from "@/lib/format";
 
 export const metadata = buildMetadata({
@@ -11,13 +11,32 @@ export const metadata = buildMetadata({
   path: "/sources",
 });
 
+/**
+ * How this source reaches the site, in one line. Every date is one the pipeline
+ * recorded or the agency's own; a source with none shows none.
+ */
+function readLine({ kind, at, checked }: SourceReadState): string {
+  const on = at ? ` ${formatDate(at)}` : "";
+  switch (kind) {
+    case "fetched":
+      return `Read automatically · last fetched${on}`;
+    case "not-reading":
+      return "Not being read right now";
+    case "manual":
+      if (!at) return "Entered by hand";
+      return checked ? `Entered by hand · last checked${on}` : `Entered by hand · source dated${on}`;
+    default:
+      return "Listed for reference · not read yet";
+  }
+}
+
 export default function SourcesPage() {
   return (
     <div>
       <PageHeader
         eyebrow="About the data"
         title="Sources"
-        description="Every number on this site comes from a public government dataset or a reputable public clearinghouse. Here is the full list, with official links and update cadence."
+        description="Every number on this site comes from a public government dataset or a reputable public clearinghouse. Here is the full list, with official links, how often each agency publishes, and whether we read it automatically, enter it by hand, or only list it for now."
         crumbs={[
           { href: "/", label: "Home" },
           { href: "/sources", label: "Sources" },
@@ -35,10 +54,7 @@ export default function SourcesPage() {
               </div>
               <div className="flex flex-col items-end gap-2 text-right">
                 <span className="chip capitalize">{s.cadence}</span>
-                <span className="text-xs text-slate-500">
-                  Last refresh:{" "}
-                  {formatDate((UPDATED as Record<string, string>)[s.key] ?? "2026-01-01")}
-                </span>
+                <span className="text-xs text-slate-500">{readLine(sourceReadState(s.key))}</span>
               </div>
             </div>
             <div className="mt-3 flex flex-wrap gap-3">
