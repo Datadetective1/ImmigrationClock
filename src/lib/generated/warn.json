@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T17:30:35.242Z",
+  "generatedAt": "2026-11-16T20:45:21.167Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -68,19 +68,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 471,
-      "employeesTotal": 28256,
-      "latestNotice": "2026-11-09",
-      "withNoticeDate": 471,
+      "noticeCount": 472,
+      "employeesTotal": 28481,
+      "latestNotice": "2026-11-10",
+      "withNoticeDate": 472,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 6,
-  "noticeCount": 12230,
-  "employeesTotal": 1563795,
-  "employerCount": 9095,
+  "noticeCount": 12231,
+  "employeesTotal": 1564020,
+  "employerCount": 9076,
   "minNoticeDate": "1989-08-17",
-  "maxNoticeDate": "2026-11-09",
+  "maxNoticeDate": "2026-11-10",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -11103,6 +11103,17 @@
       "latestNotice": "1989-10-03"
     },
     {
+      "normalized": "DAVEY TREE SURGERY",
+      "name": "Davey Tree Surgery Company",
+      "slug": "davey-tree-surgery-company",
+      "notices": 9,
+      "employees": 304,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "XPO LOGISTICS-FT WORTH",
       "name": "XPO Logistics-Ft Worth",
       "slug": "xpo-logistics-ft-worth",
@@ -16177,6 +16188,19 @@
       "latestNotice": "1999-05-04"
     },
     {
+      "normalized": "COLLINS AEROSPACE",
+      "name": "Collins Aerospace",
+      "slug": "collins-aerospace",
+      "notices": 3,
+      "employees": 223,
+      "states": [
+        "CA",
+        "TX",
+        "WA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "SOUTHWEST KEY PROGRAMS (CASA SUNZAL)",
       "name": "Southwest Key Programs, Inc. (Casa Sunzal)",
       "slug": "southwest-key-programs-inc-casa-sunzal",
@@ -17494,18 +17518,6 @@
         "GA"
       ],
       "latestNotice": "1998-07-20"
-    },
-    {
-      "normalized": "COLLINS AEROSPACE",
-      "name": "Collins Aerospace",
-      "slug": "collins-aerospace",
-      "notices": 2,
-      "employees": 209,
-      "states": [
-        "TX",
-        "WA"
-      ],
-      "latestNotice": "2021-05-19"
     },
     {
       "normalized": "BRIARWOOD CARE REHABILITATION CENTER",
@@ -22552,6 +22564,17 @@
         "GA"
       ],
       "latestNotice": "2000-03-20"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
+      "name": "Wright Tree Service of the West, Inc.",
+      "slug": "wright-tree-service-of-the-west-inc",
+      "notices": 5,
+      "employees": 171,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "FURNISHARE",
@@ -32178,6 +32201,17 @@
       "latestNotice": "2000-04-19"
     },
     {
+      "normalized": "BLACK TIE EVENT DBA STAFFWORKX",
+      "name": "Black Tie Event Services, Inc. dba StaffworkX",
+      "slug": "black-tie-event-services-inc-dba-staffworkx",
+      "notices": 1,
+      "employees": 128,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-10"
+    },
+    {
       "normalized": "MAGIC LEAP",
       "name": "Magic Leap, Inc.",
       "slug": "magic-leap-inc",
@@ -34811,6 +34845,18 @@
         "CA"
       ],
       "latestNotice": "2026-10-30"
+    },
+    {
+      "normalized": "UBER",
+      "name": "Uber Technologies Inc",
+      "slug": "uber-technologies-inc",
+      "notices": 2,
+      "employees": 119,
+      "states": [
+        "CA",
+        "WA"
+      ],
+      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "TRAILER PARK",
@@ -44557,17 +44603,6 @@
       "latestNotice": "1996-08-02"
     },
     {
-      "normalized": "UBER",
-      "name": "Uber Technologies Inc",
-      "slug": "uber-technologies-inc",
-      "notices": 1,
-      "employees": 93,
-      "states": [
-        "WA"
-      ],
-      "latestNotice": "2026-09-02"
-    },
-    {
       "normalized": "VOLUME (SODEXO)",
       "name": "Volume Services, Inc. (Sodexo)",
       "slug": "volume-services-inc-sodexo",
@@ -52955,17 +52990,6 @@
       "latestNotice": "1996-12-20"
     },
     {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (13426 AVENUE 232)",
-      "name": "Wright Tree Service of the West, Inc. (13426 Avenue 232)",
-      "slug": "wright-tree-service-of-the-west-inc-13426-avenue-232",
-      "notices": 1,
-      "employees": 77,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
-    },
-    {
       "normalized": "THE MADRONA",
       "name": "The Madrona",
       "slug": "the-madrona",
@@ -55880,6 +55904,17 @@
         "GA"
       ],
       "latestNotice": "1998-05-15"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "name": "University of Southern California",
+      "slug": "university-of-southern-california",
+      "notices": 5,
+      "employees": 72,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "KAISER (8954 RIO SAN DIEGO DR )",
@@ -60990,28 +61025,6 @@
       "latestNotice": "1995-07-21"
     },
     {
-      "normalized": "DAVEY TREE SURGERY (2505 N PALM DRIVE)",
-      "name": "Davey Tree Surgery Company (2505 N Palm Drive)",
-      "slug": "davey-tree-surgery-company-2505-n-palm-drive",
-      "notices": 1,
-      "employees": 64,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (5843 GRAHAM HILL ROAD)",
-      "name": "Davey Tree Surgery (5843 Graham Hill Road)",
-      "slug": "davey-tree-surgery-5843-graham-hill-road",
-      "notices": 1,
-      "employees": 64,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
-    },
-    {
       "normalized": "SHELL CATALYST",
       "name": "Shell Catalyst & Technologies",
       "slug": "shell-catalyst-technologies",
@@ -64719,6 +64732,17 @@
       "latestNotice": "1993-02-12"
     },
     {
+      "normalized": "HOLLISTER DISTRIBUTION CENTER",
+      "name": "Hollister Distribution Center",
+      "slug": "hollister-distribution-center",
+      "notices": 1,
+      "employees": 59,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-23"
+    },
+    {
       "normalized": "INTERNATIONAL BUSINESS MACHINES-COPPELL",
       "name": "International Business Machines-Coppell",
       "slug": "international-business-machines-coppell",
@@ -65279,6 +65303,17 @@
         "CA"
       ],
       "latestNotice": "2026-08-06"
+    },
+    {
+      "normalized": "CRAFTFORCE",
+      "name": "CraftForce Services, Inc.",
+      "slug": "craftforce-services-inc",
+      "notices": 2,
+      "employees": 58,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
     },
     {
       "normalized": "REFRESCO BEVERAGES",
@@ -66127,17 +66162,6 @@
         "GA"
       ],
       "latestNotice": "1996-05-14"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (REMOTE)",
-      "name": "Davey Tree Surgery Company (Remote)",
-      "slug": "davey-tree-surgery-company-remote",
-      "notices": 1,
-      "employees": 57,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "DROPBOX",
@@ -68298,17 +68322,6 @@
       "latestNotice": "1993-08-10"
     },
     {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (32134 AUBERRY RD)",
-      "name": "Wright Tree Service of the West, Inc. (32134 Auberry Rd)",
-      "slug": "wright-tree-service-of-the-west-inc-32134-auberry-rd",
-      "notices": 1,
-      "employees": 54,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
-    },
-    {
       "normalized": "VCA CORPORATE SUPPORT OFFICE",
       "name": "VCA Corporate Support Office",
       "slug": "vca-corporate-support-office",
@@ -68320,9 +68333,9 @@
       "latestNotice": "2026-11-06"
     },
     {
-      "normalized": "WELCOME MARKET (99 RANCH MARKET)",
-      "name": "Welcome Market, Inc. (99 Ranch Market)",
-      "slug": "welcome-market-inc-99-ranch-market",
+      "normalized": "WELCOME MARKET",
+      "name": "Welcome Market, Inc.",
+      "slug": "welcome-market-inc",
       "notices": 1,
       "employees": 54,
       "states": [
@@ -70181,6 +70194,17 @@
       "latestNotice": "1996-03-07"
     },
     {
+      "normalized": "ILLUMINA WORLDWIDE HEADQUARTERS",
+      "name": "Illumina, Inc. Worldwide Headquarters",
+      "slug": "illumina-inc-worldwide-headquarters",
+      "notices": 1,
+      "employees": 51,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "ENDEAVORS",
       "name": "Endeavors",
       "slug": "endeavors",
@@ -70213,17 +70237,6 @@
         "CA"
       ],
       "latestNotice": "2026-08-27"
-    },
-    {
-      "normalized": "CRAFTFORCE (2330 CIRCADIAN WAY)",
-      "name": "CraftForce Services, Inc. (2330 Circadian Way)",
-      "slug": "craftforce-services-inc-2330-circadian-way",
-      "notices": 1,
-      "employees": 51,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-22"
     },
     {
       "normalized": "SPIRIT AIRLINES (W PGL WAREHOUSE)",
@@ -76909,17 +76922,6 @@
       "latestNotice": null
     },
     {
-      "normalized": "DAVEY TREE SURGERY (12694 LOS NIETOS ROAD)",
-      "name": "Davey Tree Surgery Company (12694 Los Nietos Road)",
-      "slug": "davey-tree-surgery-company-12694-los-nietos-road",
-      "notices": 1,
-      "employees": 39,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
-    },
-    {
       "normalized": "BFG SUPPLY",
       "name": "BFG Supply Co., LLC",
       "slug": "bfg-supply-co-llc",
@@ -77666,17 +77668,6 @@
         "GA"
       ],
       "latestNotice": "2000-04-18"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (8188 KATELLA AVENUE)",
-      "name": "Davey Tree Surgery Company (8188 Katella Avenue)",
-      "slug": "davey-tree-surgery-company-8188-katella-avenue",
-      "notices": 1,
-      "employees": 37,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "RED LOBSTER RESTAURANTS",
@@ -78943,17 +78934,6 @@
         "CA"
       ],
       "latestNotice": "2026-11-03"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
-      "name": "Davey Tree Surgery Company (244 Hall Road)",
-      "slug": "davey-tree-surgery-company-244-hall-road",
-      "notices": 1,
-      "employees": 34,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "GOLDEN",
@@ -81619,17 +81599,6 @@
       "latestNotice": "2000-03-29"
     },
     {
-      "normalized": "UBER (1655 3RD STREET)",
-      "name": "Uber Technologies, Inc. (1655 3rd Street)",
-      "slug": "uber-technologies-inc-1655-3rd-street",
-      "notices": 1,
-      "employees": 26,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-22"
-    },
-    {
       "normalized": "MEMORIAL HERMANN HEALTH SYSTEM SENIOR LIVING FACILITY",
       "name": "Memorial Hermann Health System Senior Living Facility",
       "slug": "memorial-hermann-health-system-senior-living-facility",
@@ -83227,17 +83196,6 @@
       "latestNotice": "2026-10-29"
     },
     {
-      "normalized": "DAVEY TREE SURGERY (132 ROACHE ROAD)",
-      "name": "Davey Tree Surgery Company (132 Roache Road)",
-      "slug": "davey-tree-surgery-company-132-roache-road",
-      "notices": 1,
-      "employees": 22,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
-    },
-    {
       "normalized": "CHILD CARE ASSOCIATES (ARLINGTON 2)",
       "name": "Child Care Associates (Arlington 2)",
       "slug": "child-care-associates-arlington-2",
@@ -83709,17 +83667,6 @@
         "GA"
       ],
       "latestNotice": "2009-12-17"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (R/O 6 CHURCH STREET)",
-      "name": "Davey Tree Surgery Company (R/O 6 Church Street)",
-      "slug": "davey-tree-surgery-company-r-o-6-church-street",
-      "notices": 1,
-      "employees": 20,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "KAISER (99 S OAKLAND AVE )",
@@ -84294,28 +84241,6 @@
       "latestNotice": null
     },
     {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (4571 LAKE ISABELLA BLVD)",
-      "name": "Wright Tree Service of the West, Inc. (4571 Lake Isabella Blvd)",
-      "slug": "wright-tree-service-of-the-west-inc-4571-lake-isabella-blvd",
-      "notices": 1,
-      "employees": 19,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
-    },
-    {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (8056 EVANS RD)",
-      "name": "Wright Tree Service of the West, Inc. (8056 Evans Rd)",
-      "slug": "wright-tree-service-of-the-west-inc-8056-evans-rd",
-      "notices": 1,
-      "employees": 19,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
-    },
-    {
       "normalized": "MOTOR WORKS",
       "name": "US Motor Works, LLC",
       "slug": "us-motor-works-llc",
@@ -84325,17 +84250,6 @@
         "CA"
       ],
       "latestNotice": "2026-10-30"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
-      "name": "Davey Tree Surgery Company (E/O Crittenden Lane)",
-      "slug": "davey-tree-surgery-company-e-o-crittenden-lane",
-      "notices": 1,
-      "employees": 19,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "JAMES RIVER INSURANCE",
@@ -85051,6 +84965,17 @@
         "GA"
       ],
       "latestNotice": "2000-04-18"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
+      "notices": 6,
+      "employees": 17,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
     },
     {
       "normalized": "LEVINE MANAGEMENT GROUP - 822 SROBERTSON",
@@ -87137,17 +87062,6 @@
       "latestNotice": "2004-12-31"
     },
     {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (430 SHERWIN CREEK RD)",
-      "name": "Wright Tree Service of the West, Inc. (430 Sherwin Creek Rd)",
-      "slug": "wright-tree-service-of-the-west-inc-430-sherwin-creek-rd",
-      "notices": 1,
-      "employees": 12,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
-    },
-    {
       "normalized": "BLUE SHIELD OF CA - LONG BEACH",
       "name": "Blue Shield of CA - Long Beach",
       "slug": "blue-shield-of-ca-long-beach",
@@ -87157,28 +87071,6 @@
         "CA"
       ],
       "latestNotice": "2026-11-06"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
-      "name": "Davey Tree Surgery Company (1847 144th Street)",
-      "slug": "davey-tree-surgery-company-1847-144th-street",
-      "notices": 1,
-      "employees": 12,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
-      "notices": 5,
-      "employees": 12,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-19"
     },
     {
       "normalized": "CAYUGA HOME FOR CHILDREN",
@@ -87742,20 +87634,9 @@
       "latestNotice": "2000-03-13"
     },
     {
-      "normalized": "CITY NATIONAL BANK (555 S FLOWER STREET)",
-      "name": "City National Bank (555 S. Flower Street)",
-      "slug": "city-national-bank-555-s-flower-street",
-      "notices": 1,
-      "employees": 11,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-03"
-    },
-    {
-      "normalized": "CITY NATIONAL BANK (350 S GRAND AVE )",
-      "name": "City National Bank (350 S. Grand Ave.)",
-      "slug": "city-national-bank-350-s-grand-ave",
+      "normalized": "CITY NATIONAL BANK",
+      "name": "City National Bank",
+      "slug": "city-national-bank",
       "notices": 1,
       "employees": 11,
       "states": [
@@ -89117,17 +88998,6 @@
         "GA"
       ],
       "latestNotice": "1996-11-04"
-    },
-    {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (270 N SEE VEE LN)",
-      "name": "Wright Tree Service of the West, Inc. (270 N See Vee Ln)",
-      "slug": "wright-tree-service-of-the-west-inc-270-n-see-vee-ln",
-      "notices": 1,
-      "employees": 9,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "SAC HEALTH (250 SOUTH G ST )",
@@ -90725,17 +90595,6 @@
         "CA"
       ],
       "latestNotice": "2026-08-11"
-    },
-    {
-      "normalized": "CRAFTFORCE (2753 GIFFEN AVENUE)",
-      "name": "CraftForce Services, Inc. (2753 Giffen Avenue)",
-      "slug": "craftforce-services-inc-2753-giffen-avenue",
-      "notices": 1,
-      "employees": 7,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-22"
     },
     {
       "normalized": "KINGDOM ANIMALIA (HOURGLASS COSMETICS)",
@@ -92530,17 +92389,6 @@
         "CA"
       ],
       "latestNotice": "2026-10-28"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (One Kaiser Plaza)",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-one-kaiser-plaza",
-      "notices": 1,
-      "employees": 5,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-19"
     },
     {
       "normalized": "PHILLIPS 66 - WILMINGTON",
@@ -97710,39 +97558,6 @@
       "latestNotice": "2026-10-28"
     },
     {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-1800-harrison-st",
-      "notices": 1,
-      "employees": 1,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-19"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (75 N FAIR OAKS AVE )",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (75 N. Fair Oaks Ave.)",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-75-n-fair-oaks-ave",
-      "notices": 1,
-      "employees": 1,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-19"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (99 S OAKLAND AVE )",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (99 S. Oakland Ave.)",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-99-s-oakland-ave",
-      "notices": 1,
-      "employees": 1,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-19"
-    },
-    {
       "normalized": "SAPPORO U S A - EXECUTIVE PLACE",
       "name": "Sapporo U.S.A. - Executive Place",
       "slug": "sapporo-u-s-a-executive-place",
@@ -97752,28 +97567,6 @@
         "CA"
       ],
       "latestNotice": "2026-10-09"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE )",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-74-n-pasadena-ave",
-      "notices": 1,
-      "employees": 1,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-05"
-    },
-    {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (393 E WALNUT ST )",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (393 E. Walnut St.)",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-393-e-walnut-st",
-      "notices": 1,
-      "employees": 1,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-05"
     },
     {
       "normalized": "KAISER (1800 HARRISON ST )",
@@ -100983,8 +100776,20 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc. (32134 Auberry Rd)",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (32134 AUBERRY RD)",
+      "employer": "Black Tie Event Services, Inc. dba StaffworkX",
+      "normalized": "BLACK TIE EVENT DBA STAFFWORKX",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-10",
+      "effectiveDate": "2027-01-08",
+      "employees": 128,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc.",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
       "city": "Auberry",
       "county": "Fresno",
       "state": "CA",
@@ -100995,8 +100800,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc. (270 N See Vee Ln)",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (270 N SEE VEE LN)",
+      "employer": "Wright Tree Service of the West, Inc.",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
       "city": "Bishop",
       "county": "Inyo",
       "state": "CA",
@@ -101007,8 +100812,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc. (4571 Lake Isabella Blvd)",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (4571 LAKE ISABELLA BLVD)",
+      "employer": "Wright Tree Service of the West, Inc.",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
       "city": "Lake Isabella",
       "county": "Kern",
       "state": "CA",
@@ -101019,20 +100824,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc. (8056 Evans Rd)",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (8056 EVANS RD)",
-      "city": "Glenville",
-      "county": "Kern",
-      "state": "CA",
-      "noticeDate": "2026-11-09",
-      "effectiveDate": "2026-11-09",
-      "employees": 19,
-      "layoffType": "Closure Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Wright Tree Service of the West, Inc. (430 Sherwin Creek Rd)",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (430 SHERWIN CREEK RD)",
+      "employer": "Wright Tree Service of the West, Inc.",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
       "city": "Mammoth Lakes",
       "county": "Mono",
       "state": "CA",
@@ -101043,8 +100836,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc. (13426 Avenue 232)",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST (13426 AVENUE 232)",
+      "employer": "Wright Tree Service of the West, Inc.",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
       "city": "Tulare",
       "county": "Tulare",
       "state": "CA",
@@ -101052,6 +100845,78 @@
       "effectiveDate": "2026-11-09",
       "employees": 77,
       "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 17,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 16,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 33,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Illumina, Inc. Worldwide Headquarters",
+      "normalized": "ILLUMINA WORLDWIDE HEADQUARTERS",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2027-01-08",
+      "employees": 51,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -101259,20 +101124,8 @@
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
-      "employer": "City National Bank (555 S. Flower Street)",
-      "normalized": "CITY NATIONAL BANK (555 S FLOWER STREET)",
-      "city": "Los Angeles",
-      "county": "Los Angeles",
-      "state": "CA",
-      "noticeDate": "2026-11-03",
-      "effectiveDate": "2027-01-08",
-      "employees": 11,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "City National Bank (350 S. Grand Ave.)",
-      "normalized": "CITY NATIONAL BANK (350 S GRAND AVE )",
+      "employer": "City National Bank",
+      "normalized": "CITY NATIONAL BANK",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
@@ -101679,8 +101532,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (Remote)",
-      "normalized": "DAVEY TREE SURGERY (REMOTE)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Livermore",
       "county": "Alameda",
       "state": "CA",
@@ -101691,8 +101544,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (2505 N Palm Drive)",
-      "normalized": "DAVEY TREE SURGERY (2505 N PALM DRIVE)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Signal Hill",
       "county": "Los Angeles",
       "state": "CA",
@@ -101703,8 +101556,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (1847 144th Street)",
-      "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Gardena",
       "county": "Los Angeles",
       "state": "CA",
@@ -101715,8 +101568,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (12694 Los Nietos Road)",
-      "normalized": "DAVEY TREE SURGERY (12694 LOS NIETOS ROAD)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Santa Fe Springs",
       "county": "Los Angeles",
       "state": "CA",
@@ -101727,8 +101580,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (244 Hall Road)",
-      "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Royal Oaks",
       "county": "Monterey",
       "state": "CA",
@@ -101739,8 +101592,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (8188 Katella Avenue)",
-      "normalized": "DAVEY TREE SURGERY (8188 KATELLA AVENUE)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Stanton",
       "county": "Orange",
       "state": "CA",
@@ -101751,8 +101604,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (R/O 6 Church Street)",
-      "normalized": "DAVEY TREE SURGERY (R/O 6 CHURCH STREET)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Mountain View",
       "county": "Santa Clara",
       "state": "CA",
@@ -101763,8 +101616,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company (E/O Crittenden Lane)",
-      "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Mountain View",
       "county": "Santa Clara",
       "state": "CA",
@@ -101775,26 +101628,26 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery (5843 Graham Hill Road)",
-      "normalized": "DAVEY TREE SURGERY (5843 GRAHAM HILL ROAD)",
-      "city": "Felton",
-      "county": "Santa Cruz",
-      "state": "CA",
-      "noticeDate": "2026-10-29",
-      "effectiveDate": "2026-12-31",
-      "employees": 64,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Davey Tree Surgery Company (132 Roache Road)",
-      "normalized": "DAVEY TREE SURGERY (132 ROACHE ROAD)",
+      "employer": "Davey Tree Surgery Company",
+      "normalized": "DAVEY TREE SURGERY",
       "city": "Freedom",
       "county": "Santa Cruz",
       "state": "CA",
       "noticeDate": "2026-10-29",
       "effectiveDate": "2026-12-31",
       "employees": 22,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Collins Aerospace",
+      "normalized": "COLLINS AEROSPACE",
+      "city": "El Segundo",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 14,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -102123,8 +101976,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Welcome Market, Inc. (99 Ranch Market)",
-      "normalized": "WELCOME MARKET (99 RANCH MARKET)",
+      "employer": "Welcome Market, Inc.",
+      "normalized": "WELCOME MARKET",
       "city": "Pleasanton",
       "county": "Alameda",
       "state": "CA",
@@ -102192,6 +102045,18 @@
       "effectiveDate": "2026-12-22",
       "employees": 6,
       "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Hollister Distribution Center",
+      "normalized": "HOLLISTER DISTRIBUTION CENTER",
+      "city": "Hollister",
+      "county": "San Benito",
+      "state": "CA",
+      "noticeDate": "2026-10-23",
+      "effectiveDate": "2027-01-01",
+      "employees": 59,
+      "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -102327,46 +102192,10 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
       "city": "Oakland",
       "county": "Alameda",
-      "state": "CA",
-      "noticeDate": "2026-10-19",
-      "effectiveDate": "2026-12-18",
-      "employees": 1,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (One Kaiser Plaza)",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
-      "city": "Oakland",
-      "county": "Alameda",
-      "state": "CA",
-      "noticeDate": "2026-10-19",
-      "effectiveDate": "2026-12-18",
-      "employees": 5,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (75 N. Fair Oaks Ave.)",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (75 N FAIR OAKS AVE )",
-      "city": "Pasadena",
-      "county": "Los Angeles",
-      "state": "CA",
-      "noticeDate": "2026-10-19",
-      "effectiveDate": "2026-12-18",
-      "employees": 1,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (99 S. Oakland Ave.)",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (99 S OAKLAND AVE )",
-      "city": "Pasadena",
-      "county": "Los Angeles",
       "state": "CA",
       "noticeDate": "2026-10-19",
       "effectiveDate": "2026-12-18",
@@ -102377,12 +102206,12 @@
     {
       "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
       "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
-      "city": "San Rafael",
-      "county": "Marin",
+      "city": "Oakland",
+      "county": "Alameda",
       "state": "CA",
       "noticeDate": "2026-10-19",
       "effectiveDate": "2026-12-18",
-      "employees": 1,
+      "employees": 5,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -102755,30 +102584,6 @@
       "noticeDate": "2026-10-05",
       "effectiveDate": "2026-12-04",
       "employees": 2,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE )",
-      "city": "Pasadena",
-      "county": "Los Angeles",
-      "state": "CA",
-      "noticeDate": "2026-10-05",
-      "effectiveDate": "2026-12-04",
-      "employees": 1,
-      "layoffType": "Layoff Permanent",
-      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
-    },
-    {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (393 E. Walnut St.)",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (393 E WALNUT ST )",
-      "city": "Pasadena",
-      "county": "Los Angeles",
-      "state": "CA",
-      "noticeDate": "2026-10-05",
-      "effectiveDate": "2026-12-04",
-      "employees": 1,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -107751,8 +107556,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "CraftForce Services, Inc. (2330 Circadian Way)",
-      "normalized": "CRAFTFORCE (2330 CIRCADIAN WAY)",
+      "employer": "CraftForce Services, Inc.",
+      "normalized": "CRAFTFORCE",
       "city": "Santa Rosa",
       "county": "Sonoma",
       "state": "CA",
@@ -107763,8 +107568,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "CraftForce Services, Inc. (2753 Giffen Avenue)",
-      "normalized": "CRAFTFORCE (2753 GIFFEN AVENUE)",
+      "employer": "CraftForce Services, Inc.",
+      "normalized": "CRAFTFORCE",
       "city": "Santa Rosa",
       "county": "Sonoma",
       "state": "CA",
@@ -107775,8 +107580,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Uber Technologies, Inc. (1655 3rd Street)",
-      "normalized": "UBER (1655 3RD STREET)",
+      "employer": "Uber Technologies, Inc.",
+      "normalized": "UBER",
       "city": "San Francisco",
       "county": "San Francisco",
       "state": "CA",
