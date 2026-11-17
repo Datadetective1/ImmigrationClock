@@ -80,6 +80,14 @@ export async function GET(): Promise<Response> {
             "keeping.",
         },
         {
+          path: "/api/v1/visa-bulletin",
+          method: "GET",
+          description:
+            "The newest Visa Bulletin month we have checked by hand against the State Department PDF, " +
+            "and the month before it: final action and filing dates for every category and country. " +
+            "Changes only when a new month is added, usually some days after the official release.",
+        },
+        {
           path: "/api/v1/employers/{slug}/signals",
           method: "GET",
           description:
