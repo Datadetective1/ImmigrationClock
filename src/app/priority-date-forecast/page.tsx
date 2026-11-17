@@ -75,7 +75,10 @@ export default function PriorityDateForecastPage() {
               <Link href={VISA_BULLETIN_PATH} className="text-accent underline">
                 See the {latest.label} bulletin
               </Link>
-            ) : null}
+            ) : null}{" "}
+            <Link href="/green-card-wait-time" className="text-accent underline">
+              Wait times by category and country
+            </Link>
           </p>
         </section>
       </div>
