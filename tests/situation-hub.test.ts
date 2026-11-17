@@ -95,8 +95,8 @@ describe("the For You hub", () => {
 describe("the homepage", () => {
   const home = read("src/app/page.tsx");
 
-  it("leads with the question and the four tasks", () => {
-    expect(home).toContain("What do you need help with?");
+  it("leads with what a visitor can do and the four tasks", () => {
+    expect(home).toContain("See your green card wait");
     for (const t of ["Understand a change", "Check deadlines", "Track my situation", "Find services"]) {
       expect(home).toContain(`title: "${t}"`);
     }
