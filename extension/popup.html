@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ImmigrationClock</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon32.png" width="20" height="20" alt="">
+    <span class="brand">ImmigrationClock</span>
+    <span class="eyebrow">Visa Bulletin</span>
+  </header>
+
+  <main>
+    <section id="loading" class="muted">Loading the latest bulletin…</section>
+
+    <section id="error" hidden>
+      <p>Couldn't reach ImmigrationClock just now. Check your connection and open this again.</p>
+    </section>
+
+    <section id="setup" hidden>
+      <h1>Which dates should I show you?</h1>
+      <label>Category
+        <select id="category"></select>
+      </label>
+      <label>Country of chargeability
+        <select id="country"></select>
+      </label>
+      <label class="check"><input type="checkbox" id="notify" checked> Notify me when a new month is added</label>
+      <button id="save" class="primary">Show my dates</button>
+    </section>
+
+    <section id="card" hidden>
+      <div class="new" id="new-flag" hidden>New month added</div>
+      <div class="pair">
+        <span id="pair-label"></span>
+        <button id="change" class="link">Change</button>
+      </div>
+      <div class="month" id="month"></div>
+
+      <div class="dates">
+        <div class="date">
+          <div class="k">Final action date</div>
+          <div class="v" id="final"></div>
+          <div class="m" id="final-move"></div>
+        </div>
+        <div class="date">
+          <div class="k">Date for filing</div>
+          <div class="v" id="filing"></div>
+          <div class="m" id="filing-move"></div>
+        </div>
+      </div>
+      <p class="uscis muted" id="uscis" hidden></p>
+
+      <div class="links">
+        <a id="detail" target="_blank" rel="noopener"></a>
+        <a id="source" target="_blank" rel="noopener">Official State Department bulletin</a>
+      </div>
+
+      <a class="pro" id="trial" target="_blank" rel="noopener">
+        <strong>Track your USCIS case too.</strong> Pro case alerts, free for 30 days.
+      </a>
+
+      <p class="foot muted" id="foot"></p>
+    </section>
+  </main>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

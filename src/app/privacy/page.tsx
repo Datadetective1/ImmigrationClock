@@ -10,7 +10,7 @@ export const metadata = buildMetadata({
   path: "/privacy",
 });
 
-const UPDATED = "November 3, 2026";
+const UPDATED = "November 17, 2026";
 
 export default function PrivacyPage() {
   return (
@@ -66,6 +66,13 @@ export default function PrivacyPage() {
               encrypted, used only to ask USCIS&apos;s official Case Status API for the status, and
               never shared with anyone else. Remove a case, or all of them, at any time on the case
               alerts page.
+            </li>
+            <li>
+              <strong>Browser extension.</strong> The ImmigrationClock Visa Bulletin extension keeps
+              the category and country you pick, and the last bulletin month it showed you, in your
+              own browser&apos;s extension storage. That never leaves your browser. Once a day it
+              downloads the same public bulletin file for everyone from this site, with no cookie,
+              account or identifier attached. It has no analytics or tracking and reads no web pages.
             </li>
             <li>
               <strong>Standard server/usage logs.</strong> Our hosting provider (Vercel) may record technical
