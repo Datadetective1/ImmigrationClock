@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T18:02:38.768Z",
+  "generatedAt": "2026-11-17T19:29:42.018Z",
   "coverageNote": "Real WARN notices aggregated from state feeds — structured open-data portals (TX, OR, CA) plus states parsed via biglocalnews/warn-scraper. Not every state has a WARN act or a public feed; this is a growing subset, not a national total.",
   "states": [
     {
@@ -56,19 +56,19 @@
       "pageUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/",
       "datasetUrl": "https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report1.xlsx",
       "dateBasis": "notice",
-      "noticeCount": 472,
-      "employeesTotal": 28481,
-      "latestNotice": "2026-11-10",
-      "withNoticeDate": 472,
+      "noticeCount": 572,
+      "employeesTotal": 29925,
+      "latestNotice": "2026-11-16",
+      "withNoticeDate": 572,
       "withEffectiveOnly": 0
     }
   ],
   "stateCount": 5,
-  "noticeCount": 7840,
-  "employeesTotal": 1004607,
-  "employerCount": 6105,
-  "minNoticeDate": "2004-01-12",
-  "maxNoticeDate": "2026-11-13",
+  "noticeCount": 7940,
+  "employeesTotal": 1006051,
+  "employerCount": 6215,
+  "minNoticeDate": "2001-11-10",
+  "maxNoticeDate": "2026-11-16",
   "byEmployer": [
     {
       "normalized": "UNITED AIRLINES",
@@ -3233,6 +3233,18 @@
         "WA"
       ],
       "latestNotice": "2020-05-20"
+    },
+    {
+      "normalized": "QUALCOMM",
+      "name": "Qualcomm Incorporated",
+      "slug": "qualcomm-incorporated",
+      "notices": 2,
+      "employees": 533,
+      "states": [
+        "CA",
+        "NJ"
+      ],
+      "latestNotice": "2026-11-13"
     },
     {
       "normalized": "FENDER MUSICAL INSTRUMENTS",
@@ -6667,17 +6679,6 @@
         "NJ"
       ],
       "latestNotice": "2012-09-17"
-    },
-    {
-      "normalized": "DAVEY TREE SURGERY",
-      "name": "Davey Tree Surgery Company",
-      "slug": "davey-tree-surgery-company",
-      "notices": 9,
-      "employees": 304,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "XPO LOGISTICS-FT WORTH",
@@ -13885,17 +13886,6 @@
       "latestNotice": "2009-06-30"
     },
     {
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
-      "name": "Wright Tree Service of the West, Inc.",
-      "slug": "wright-tree-service-of-the-west-inc",
-      "notices": 5,
-      "employees": 171,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-11-09"
-    },
-    {
       "normalized": "FURNISHARE",
       "name": "Furnishare Inc",
       "slug": "furnishare-inc",
@@ -18177,6 +18167,17 @@
       "latestNotice": "2004-07-21"
     },
     {
+      "normalized": "TJX COMPANIES DBA T J MAXX",
+      "name": "TJX Companies, Inc. dba T.J. Maxx",
+      "slug": "tjx-companies-inc-dba-t-j-maxx",
+      "notices": 2,
+      "employees": 139,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-10"
+    },
+    {
       "normalized": "GERRESHEIMER",
       "name": "Gerresheimer",
       "slug": "gerresheimer",
@@ -21071,6 +21072,18 @@
       "latestNotice": "2005-09-06"
     },
     {
+      "normalized": "HII MISSION",
+      "name": "HII Mission Technologies",
+      "slug": "hii-mission-technologies",
+      "notices": 2,
+      "employees": 123,
+      "states": [
+        "CA",
+        "TX"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
       "normalized": "ICIMS",
       "name": "ICIMS",
       "slug": "icims",
@@ -21961,18 +21974,6 @@
         "CA"
       ],
       "latestNotice": "2026-10-30"
-    },
-    {
-      "normalized": "UBER",
-      "name": "Uber Technologies Inc",
-      "slug": "uber-technologies-inc",
-      "notices": 2,
-      "employees": 119,
-      "states": [
-        "CA",
-        "WA"
-      ],
-      "latestNotice": "2026-09-02"
     },
     {
       "normalized": "TRAILER PARK",
@@ -24744,6 +24745,17 @@
         "NJ"
       ],
       "latestNotice": "2009-08-17"
+    },
+    {
+      "normalized": "WEIL GOTSHAL MANGES",
+      "name": "Weil, Gotshal & Manges LLP",
+      "slug": "weil-gotshal-manges-llp",
+      "notices": 3,
+      "employees": 107,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-10"
     },
     {
       "normalized": "GEORG FISCHER SIGNET",
@@ -28579,6 +28591,17 @@
       "latestNotice": "2010-07-10"
     },
     {
+      "normalized": "UBER",
+      "name": "Uber Technologies Inc",
+      "slug": "uber-technologies-inc",
+      "notices": 1,
+      "employees": 93,
+      "states": [
+        "WA"
+      ],
+      "latestNotice": "2026-09-02"
+    },
+    {
       "normalized": "VOLUME (SODEXO)",
       "name": "Volume Services, Inc. (Sodexo)",
       "slug": "volume-services-inc-sodexo",
@@ -29347,17 +29370,6 @@
         "TX"
       ],
       "latestNotice": "2025-09-30"
-    },
-    {
-      "normalized": "QUALCOMM",
-      "name": "Qualcomm Inc.",
-      "slug": "qualcomm-inc",
-      "notices": 1,
-      "employees": 91,
-      "states": [
-        "NJ"
-      ],
-      "latestNotice": "2024-01-11"
     },
     {
       "normalized": "HOTEL MAHWAH DBA SHERATON MAHWAH",
@@ -34380,6 +34392,17 @@
       "latestNotice": "2008-04-07"
     },
     {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (13426 AVENUE 232)",
+      "name": "Wright Tree Service of the West, Inc. (13426 Avenue 232)",
+      "slug": "wright-tree-service-of-the-west-inc-13426-avenue-232",
+      "notices": 1,
+      "employees": 77,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "THE MADRONA",
       "name": "The Madrona",
       "slug": "the-madrona",
@@ -35744,6 +35767,28 @@
       "latestNotice": "2006-10-27"
     },
     {
+      "normalized": "SIERRA MONROVIA CHEVROLET",
+      "name": "Sierra Monrovia Chevrolet, LLC",
+      "slug": "sierra-monrovia-chevrolet-llc",
+      "notices": 1,
+      "employees": 74,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-16"
+    },
+    {
+      "normalized": "SIERRA MONROVIA SUB",
+      "name": "Sierra Monrovia Sub, LLC",
+      "slug": "sierra-monrovia-sub-llc",
+      "notices": 1,
+      "employees": 74,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-16"
+    },
+    {
       "normalized": "META",
       "name": "Meta",
       "slug": "meta",
@@ -36039,6 +36084,17 @@
         "NJ"
       ],
       "latestNotice": "2026-12-16"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - OAKLAND",
+      "name": "Pacific Gas and Electric Company - Oakland",
+      "slug": "pacific-gas-and-electric-company-oakland",
+      "notices": 1,
+      "employees": 73,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "CITY OF HOPE",
@@ -36416,15 +36472,15 @@
       "latestNotice": "2004-04-14"
     },
     {
-      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
-      "name": "University of Southern California",
-      "slug": "university-of-southern-california",
-      "notices": 5,
-      "employees": 72,
+      "normalized": "RYDER - 980 E LOUISE",
+      "name": "Ryder - 980 E Louise",
+      "slug": "ryder-980-e-louise",
+      "notices": 1,
+      "employees": 73,
       "states": [
         "CA"
       ],
-      "latestNotice": "2026-11-09"
+      "latestNotice": "2001-11-10"
     },
     {
       "normalized": "KAISER (8954 RIO SAN DIEGO DR )",
@@ -38233,17 +38289,6 @@
       "latestNotice": "2024-11-12"
     },
     {
-      "normalized": "HII MISSION",
-      "name": "HII Mission Technologies",
-      "slug": "hii-mission-technologies",
-      "notices": 1,
-      "employees": 68,
-      "states": [
-        "TX"
-      ],
-      "latestNotice": "2022-12-21"
-    },
-    {
       "normalized": "ARGO AI (AUSTIN 7TH STREET)",
       "name": "Argo AI, LLC. (Austin 7th Street)",
       "slug": "argo-ai-llc-austin-7th-street",
@@ -38440,6 +38485,17 @@
         "NJ"
       ],
       "latestNotice": "2027-01-03"
+    },
+    {
+      "normalized": "RENEWABLE SOLAR",
+      "name": "Renewable Solar, Inc.",
+      "slug": "renewable-solar-inc",
+      "notices": 2,
+      "employees": 67,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-16"
     },
     {
       "normalized": "PATHWAYS COMMUNITY DBA CLARVIDA",
@@ -39793,6 +39849,28 @@
         "WA"
       ],
       "latestNotice": "2005-09-09"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (2505 N PALM DRIVE)",
+      "name": "Davey Tree Surgery Company (2505 N Palm Drive)",
+      "slug": "davey-tree-surgery-company-2505-n-palm-drive",
+      "notices": 1,
+      "employees": 64,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (5843 GRAHAM HILL ROAD)",
+      "name": "Davey Tree Surgery (5843 Graham Hill Road)",
+      "slug": "davey-tree-surgery-5843-graham-hill-road",
+      "notices": 1,
+      "employees": 64,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "SHELL CATALYST",
@@ -42699,17 +42777,6 @@
       "latestNotice": "2026-08-06"
     },
     {
-      "normalized": "CRAFTFORCE",
-      "name": "CraftForce Services, Inc.",
-      "slug": "craftforce-services-inc",
-      "notices": 2,
-      "employees": 58,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-07-22"
-    },
-    {
       "normalized": "REFRESCO BEVERAGES",
       "name": "Refresco Beverages US Inc",
       "slug": "refresco-beverages-us-inc",
@@ -43260,6 +43327,17 @@
       "latestNotice": "2005-11-30"
     },
     {
+      "normalized": "DAVEY TREE SURGERY (REMOTE)",
+      "name": "Davey Tree Surgery Company (Remote)",
+      "slug": "davey-tree-surgery-company-remote",
+      "notices": 1,
+      "employees": 57,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "DROPBOX",
       "name": "Dropbox, Inc.",
       "slug": "dropbox-inc",
@@ -43721,17 +43799,6 @@
         "NJ"
       ],
       "latestNotice": "2005-03-07"
-    },
-    {
-      "normalized": "RENEWABLE SOLAR",
-      "name": "Renewable Solar, Inc.",
-      "slug": "renewable-solar-inc",
-      "notices": 1,
-      "employees": 56,
-      "states": [
-        "CA"
-      ],
-      "latestNotice": "2026-10-30"
     },
     {
       "normalized": "INTERNATIONAL RESCUE COMMITTEE",
@@ -44681,6 +44748,17 @@
       "latestNotice": "2004-10-04"
     },
     {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (32134 AUBERRY RD)",
+      "name": "Wright Tree Service of the West, Inc. (32134 Auberry Rd)",
+      "slug": "wright-tree-service-of-the-west-inc-32134-auberry-rd",
+      "notices": 1,
+      "employees": 54,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "VCA CORPORATE SUPPORT OFFICE",
       "name": "VCA Corporate Support Office",
       "slug": "vca-corporate-support-office",
@@ -44692,9 +44770,9 @@
       "latestNotice": "2026-11-06"
     },
     {
-      "normalized": "WELCOME MARKET",
-      "name": "Welcome Market, Inc.",
-      "slug": "welcome-market-inc",
+      "normalized": "WELCOME MARKET (99 RANCH MARKET)",
+      "name": "Welcome Market, Inc. (99 Ranch Market)",
+      "slug": "welcome-market-inc-99-ranch-market",
       "notices": 1,
       "employees": 54,
       "states": [
@@ -45978,6 +46056,17 @@
         "CA"
       ],
       "latestNotice": "2026-08-27"
+    },
+    {
+      "normalized": "CRAFTFORCE (2330 CIRCADIAN WAY)",
+      "name": "CraftForce Services, Inc. (2330 Circadian Way)",
+      "slug": "craftforce-services-inc-2330-circadian-way",
+      "notices": 1,
+      "employees": 51,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
     },
     {
       "normalized": "SPIRIT AIRLINES (W PGL WAREHOUSE)",
@@ -49866,6 +49955,17 @@
       "latestNotice": null
     },
     {
+      "normalized": "DAVEY TREE SURGERY (12694 LOS NIETOS ROAD)",
+      "name": "Davey Tree Surgery Company (12694 Los Nietos Road)",
+      "slug": "davey-tree-surgery-company-12694-los-nietos-road",
+      "notices": 1,
+      "employees": 39,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "BFG SUPPLY",
       "name": "BFG Supply Co., LLC",
       "slug": "bfg-supply-co-llc",
@@ -50337,6 +50437,17 @@
         "WA"
       ],
       "latestNotice": "2011-08-23"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (8188 KATELLA AVENUE)",
+      "name": "Davey Tree Surgery Company (8188 Katella Avenue)",
+      "slug": "davey-tree-surgery-company-8188-katella-avenue",
+      "notices": 1,
+      "employees": 37,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "RED LOBSTER RESTAURANTS",
@@ -51164,6 +51275,17 @@
       "latestNotice": "2026-11-03"
     },
     {
+      "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
+      "name": "Davey Tree Surgery Company (244 Hall Road)",
+      "slug": "davey-tree-surgery-company-244-hall-road",
+      "notices": 1,
+      "employees": 34,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "SONOCO PRODUCTS",
       "name": "Sonoco Products Co.",
       "slug": "sonoco-products-co",
@@ -51272,6 +51394,17 @@
         "NJ"
       ],
       "latestNotice": "2005-11-25"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (SOTO II)",
+      "name": "University of Southern California (Soto II)",
+      "slug": "university-of-southern-california-soto-ii",
+      "notices": 1,
+      "employees": 33,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "YOUNG'S MARKET OF WASHINGTON",
@@ -51492,6 +51625,17 @@
         "VA"
       ],
       "latestNotice": "2011-05-25"
+    },
+    {
+      "normalized": "SIERRA MONROVIA CDJR",
+      "name": "Sierra Monrovia CDJR, LLC",
+      "slug": "sierra-monrovia-cdjr-llc",
+      "notices": 1,
+      "employees": 32,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-16"
     },
     {
       "normalized": "CONN'S APPLIANCES (BEAUMONT SITE)",
@@ -52848,6 +52992,17 @@
       "latestNotice": "2004-04-28"
     },
     {
+      "normalized": "UBER (1655 3RD STREET)",
+      "name": "Uber Technologies, Inc. (1655 3rd Street)",
+      "slug": "uber-technologies-inc-1655-3rd-street",
+      "notices": 1,
+      "employees": 26,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
+    },
+    {
       "normalized": "MEMORIAL HERMANN HEALTH SYSTEM SENIOR LIVING FACILITY",
       "name": "Memorial Hermann Health System Senior Living Facility",
       "slug": "memorial-hermann-health-system-senior-living-facility",
@@ -53033,6 +53188,17 @@
         "VA"
       ],
       "latestNotice": "2018-07-02"
+    },
+    {
+      "normalized": "HD SUPPLY",
+      "name": "HD Supply",
+      "slug": "hd-supply",
+      "notices": 1,
+      "employees": 25,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
     },
     {
       "normalized": "CEPHEID (B7)",
@@ -53894,6 +54060,17 @@
       "latestNotice": "2026-10-29"
     },
     {
+      "normalized": "DAVEY TREE SURGERY (132 ROACHE ROAD)",
+      "name": "Davey Tree Surgery Company (132 Roache Road)",
+      "slug": "davey-tree-surgery-company-132-roache-road",
+      "notices": 1,
+      "employees": 22,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
       "normalized": "CHILD CARE ASSOCIATES (ARLINGTON 2)",
       "name": "Child Care Associates (Arlington 2)",
       "slug": "child-care-associates-arlington-2",
@@ -54178,6 +54355,17 @@
         "NJ"
       ],
       "latestNotice": "2009-12-31"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (R/O 6 CHURCH STREET)",
+      "name": "Davey Tree Surgery Company (R/O 6 Church Street)",
+      "slug": "davey-tree-surgery-company-r-o-6-church-street",
+      "notices": 1,
+      "employees": 20,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "KAISER (99 S OAKLAND AVE )",
@@ -54565,6 +54753,28 @@
       "latestNotice": null
     },
     {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (4571 LAKE ISABELLA BLVD)",
+      "name": "Wright Tree Service of the West, Inc. (4571 Lake Isabella Blvd)",
+      "slug": "wright-tree-service-of-the-west-inc-4571-lake-isabella-blvd",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (8056 EVANS RD)",
+      "name": "Wright Tree Service of the West, Inc. (8056 Evans Rd)",
+      "slug": "wright-tree-service-of-the-west-inc-8056-evans-rd",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "MOTOR WORKS",
       "name": "US Motor Works, LLC",
       "slug": "us-motor-works-llc",
@@ -54574,6 +54784,17 @@
         "CA"
       ],
       "latestNotice": "2026-10-30"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
+      "name": "Davey Tree Surgery Company (E/O Crittenden Lane)",
+      "slug": "davey-tree-surgery-company-e-o-crittenden-lane",
+      "notices": 1,
+      "employees": 19,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
     },
     {
       "normalized": "JAMES RIVER INSURANCE",
@@ -55148,15 +55369,15 @@
       "latestNotice": "2009-01-04"
     },
     {
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
-      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
-      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
-      "notices": 6,
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HEALTH SCIENCES CAMPUS)",
+      "name": "University of Southern California (Health Sciences Campus)",
+      "slug": "university-of-southern-california-health-sciences-campus",
+      "notices": 1,
       "employees": 17,
       "states": [
         "CA"
       ],
-      "latestNotice": "2026-10-19"
+      "latestNotice": "2026-11-09"
     },
     {
       "normalized": "LEVINE MANAGEMENT GROUP - 822 SROBERTSON",
@@ -55435,6 +55656,17 @@
       "latestNotice": "2007-04-02"
     },
     {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (KECK HOSPITAL)",
+      "name": "University of Southern California (Keck Hospital)",
+      "slug": "university-of-southern-california-keck-hospital",
+      "notices": 1,
+      "employees": 16,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "HOMELESS HEALTH CARE LOS ANGELES - MAPLE AVE",
       "name": "Homeless Health Care Los Angeles - Maple Ave.",
       "slug": "homeless-health-care-los-angeles-maple-ave",
@@ -55686,6 +55918,39 @@
         "NJ"
       ],
       "latestNotice": "2011-03-14"
+    },
+    {
+      "normalized": "QUALCOMM (3195 KIFER ROAD)",
+      "name": "Qualcomm Incorporated (3195 Kifer Road)",
+      "slug": "qualcomm-incorporated-3195-kifer-road",
+      "notices": 1,
+      "employees": 15,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
+      "normalized": "QUALCOMM (3135 KIFER ROAD)",
+      "name": "Qualcomm Incorporated (3135 Kifer Road)",
+      "slug": "qualcomm-incorporated-3135-kifer-road",
+      "notices": 1,
+      "employees": 15,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN RAMON",
+      "name": "Pacific Gas and Electric Company - San Ramon",
+      "slug": "pacific-gas-and-electric-company-san-ramon",
+      "notices": 2,
+      "employees": 15,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "MAVERICK WASHINGTON / PALACE CASINO",
@@ -56128,6 +56393,17 @@
       "latestNotice": "2005-12-18"
     },
     {
+      "normalized": "GAINSIGHT",
+      "name": "Gainsight, Inc.",
+      "slug": "gainsight-inc",
+      "notices": 1,
+      "employees": 14,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-12"
+    },
+    {
       "normalized": "CHICK-FIL-A - HOLLINS GROUP - ORANGETHORPE",
       "name": "Chick-fil-A - Hollins Group LLC - Orangethorpe",
       "slug": "chick-fil-a-hollins-group-llc-orangethorpe",
@@ -56392,6 +56668,17 @@
         "NJ"
       ],
       "latestNotice": "2005-07-29"
+    },
+    {
+      "normalized": "QUALCOMM (3165 KIFER ROAD)",
+      "name": "Qualcomm Incorporated (3165 Kifer Road)",
+      "slug": "qualcomm-incorporated-3165-kifer-road",
+      "notices": 1,
+      "employees": 13,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
     },
     {
       "normalized": "BLUE SHIELD OF CA - OAKLAND",
@@ -56714,6 +57001,28 @@
       "latestNotice": "2004-12-31"
     },
     {
+      "normalized": "QUALCOMM (3150 CENTRAL EXPRESSWAY)",
+      "name": "Qualcomm Incorporated (3150 Central Expressway)",
+      "slug": "qualcomm-incorporated-3150-central-expressway",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (430 SHERWIN CREEK RD)",
+      "name": "Wright Tree Service of the West, Inc. (430 Sherwin Creek Rd)",
+      "slug": "wright-tree-service-of-the-west-inc-430-sherwin-creek-rd",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "BLUE SHIELD OF CA - LONG BEACH",
       "name": "Blue Shield of CA - Long Beach",
       "slug": "blue-shield-of-ca-long-beach",
@@ -56723,6 +57032,28 @@
         "CA"
       ],
       "latestNotice": "2026-11-06"
+    },
+    {
+      "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
+      "name": "Davey Tree Surgery Company (1847 144th Street)",
+      "slug": "davey-tree-surgery-company-1847-144th-street",
+      "notices": 1,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-29"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc",
+      "notices": 5,
+      "employees": 12,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
     },
     {
       "normalized": "CAYUGA HOME FOR CHILDREN",
@@ -57198,9 +57529,20 @@
       "latestNotice": "2009-01-05"
     },
     {
-      "normalized": "CITY NATIONAL BANK",
-      "name": "City National Bank",
-      "slug": "city-national-bank",
+      "normalized": "CITY NATIONAL BANK (555 S FLOWER STREET)",
+      "name": "City National Bank (555 S. Flower Street)",
+      "slug": "city-national-bank-555-s-flower-street",
+      "notices": 1,
+      "employees": 11,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "CITY NATIONAL BANK (350 S GRAND AVE )",
+      "name": "City National Bank (350 S. Grand Ave.)",
+      "slug": "city-national-bank-350-s-grand-ave",
       "notices": 1,
       "employees": 11,
       "states": [
@@ -57527,6 +57869,17 @@
         "NJ"
       ],
       "latestNotice": "2004-04-02"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - FLORIN-PERKINS ROAD SACRAMENTO",
+      "name": "Pacific Gas and Electric Company - Florin-Perkins Road, Sacramento",
+      "slug": "pacific-gas-and-electric-company-florin-perkins-road-sacramento",
+      "notices": 1,
+      "employees": 10,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "VERITONE",
@@ -58245,6 +58598,28 @@
       "latestNotice": "2007-06-01"
     },
     {
+      "normalized": "RYDER - 500 E LOUISE AVE",
+      "name": "Ryder - 500 E. Louise Ave.",
+      "slug": "ryder-500-e-louise-ave",
+      "notices": 1,
+      "employees": 10,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2001-11-10"
+    },
+    {
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (270 N SEE VEE LN)",
+      "name": "Wright Tree Service of the West, Inc. (270 N See Vee Ln)",
+      "slug": "wright-tree-service-of-the-west-inc-270-n-see-vee-ln",
+      "notices": 1,
+      "employees": 9,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "SAC HEALTH (250 SOUTH G ST )",
       "name": "SAC Health (250 South G St.)",
       "slug": "sac-health-250-south-g-st",
@@ -58872,6 +59247,28 @@
       "latestNotice": "2004-07-23"
     },
     {
+      "normalized": "CORTEVA AGRISCIENCE",
+      "name": "Corteva Agriscience LLC",
+      "slug": "corteva-agriscience-llc",
+      "notices": 3,
+      "employees": 8,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-12"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - ROCKLIN",
+      "name": "PAcific Gas and Electric Company - Rocklin",
+      "slug": "pacific-gas-and-electric-company-rocklin",
+      "notices": 1,
+      "employees": 8,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "GRUNT STYLE (NORFOLK PREMIUM OUTLET RETAIL STORE)",
       "name": "Grunt Style LLC (Norfolk Premium Outlet Retail Store)",
       "slug": "grunt-style-llc-norfolk-premium-outlet-retail-store",
@@ -59456,6 +59853,17 @@
       "latestNotice": "2005-11-29"
     },
     {
+      "normalized": "QUALCOMM (3090 OAKMEAD VILLAGE DRIVE)",
+      "name": "Qualcomm Incorporated (3090 Oakmead Village Drive)",
+      "slug": "qualcomm-incorporated-3090-oakmead-village-drive",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
       "normalized": "BLUE SHIELD OF CA - EL DORADO HILLS BUILDING B",
       "name": "Blue Shield of CA - El Dorado Hills, Building B",
       "slug": "blue-shield-of-ca-el-dorado-hills-building-b",
@@ -59509,6 +59917,17 @@
         "CA"
       ],
       "latestNotice": "2026-08-11"
+    },
+    {
+      "normalized": "CRAFTFORCE (2753 GIFFEN AVENUE)",
+      "name": "CraftForce Services, Inc. (2753 Giffen Avenue)",
+      "slug": "craftforce-services-inc-2753-giffen-avenue",
+      "notices": 1,
+      "employees": 7,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-07-22"
     },
     {
       "normalized": "KINGDOM ANIMALIA (HOURGLASS COSMETICS)",
@@ -60093,6 +60512,28 @@
         "NJ"
       ],
       "latestNotice": "2005-12-31"
+    },
+    {
+      "normalized": "QUALCOMM (1730 NORTH FIRST STREET SUITES 650 500)",
+      "name": "Qualcomm Incorporated (1730 North First Street, Suites 650 & 500)",
+      "slug": "qualcomm-incorporated-1730-north-first-street-suites-650-500",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN LUIS OBISPO",
+      "name": "Pacific Gas and Electric Company - San Luis Obispo",
+      "slug": "pacific-gas-and-electric-company-san-luis-obispo",
+      "notices": 1,
+      "employees": 6,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "CEPHEID (B6)",
@@ -60975,6 +61416,17 @@
       "latestNotice": "2010-12-31"
     },
     {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC1)",
+      "name": "University of Southern California (HC1)",
+      "slug": "university-of-southern-california-hc1",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
       "normalized": "BLUE SHIELD OF CA - WOODLAND HILLS",
       "name": "Blue Shield of CA - Woodland Hills",
       "slug": "blue-shield-of-ca-woodland-hills",
@@ -61008,6 +61460,17 @@
       "latestNotice": "2026-11-06"
     },
     {
+      "normalized": "PACIFIC GAS AND ELECTRIC - AUBURN",
+      "name": "Pacific Gas and Electric Company - Auburn",
+      "slug": "pacific-gas-and-electric-company-auburn",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "CEPHEID (B1)",
       "name": "Cepheid (B1)",
       "slug": "cepheid-b1",
@@ -61028,6 +61491,17 @@
         "CA"
       ],
       "latestNotice": "2026-10-28"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (One Kaiser Plaza)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-one-kaiser-plaza",
+      "notices": 1,
+      "employees": 5,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
     },
     {
       "normalized": "PHILLIPS 66 - WILMINGTON",
@@ -62288,15 +62762,59 @@
       "latestNotice": "2026-11-06"
     },
     {
-      "normalized": "CORTEVA AGRISCIENCE",
-      "name": "Corteva Agriscience LLC",
-      "slug": "corteva-agriscience-llc",
-      "notices": 2,
+      "normalized": "PACIFIC GAS AND ELECTRIC - DANVILLE",
+      "name": "Pacific Gas and Electric Company - Danville",
+      "slug": "pacific-gas-and-electric-company-danville",
+      "notices": 1,
       "employees": 4,
       "states": [
         "CA"
       ],
-      "latestNotice": "2026-09-28"
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SHAW AVE FRESNO",
+      "name": "Pacific Gas and Electric Company - Shaw Ave, Fresno",
+      "slug": "pacific-gas-and-electric-company-shaw-ave-fresno",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - STOCKTON",
+      "name": "Pacific Gas and Electric Company - Stockton",
+      "slug": "pacific-gas-and-electric-company-stockton",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC ALLISON PARKWAY VACAVILLE",
+      "name": "Pacific Gas and Electric Company Allison Parkway, Vacaville",
+      "slug": "pacific-gas-and-electric-company-allison-parkway-vacaville",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - W SACRAMENTO",
+      "name": "Pacific Gas and Electric Company - W. Sacramento",
+      "slug": "pacific-gas-and-electric-company-w-sacramento",
+      "notices": 1,
+      "employees": 4,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "CITY NATIONAL BANK - FLOWER STREET",
@@ -63366,6 +63884,17 @@
       "latestNotice": "2005-11-01"
     },
     {
+      "normalized": "QUALCOMM (3001 OAKMEAD VILLAGE DRIVE)",
+      "name": "Qualcomm Incorporated (3001 Oakmead Village Drive)",
+      "slug": "qualcomm-incorporated-3001-oakmead-village-drive",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
       "normalized": "BLUE SHIELD OF CALIFORNIA - EL DORADO HILLS BUILDING C",
       "name": "Blue Shield of California - El Dorado Hills, Building C",
       "slug": "blue-shield-of-california-el-dorado-hills-building-c",
@@ -63375,6 +63904,50 @@
         "CA"
       ],
       "latestNotice": "2026-11-06"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - EAST CA AVE FRESNO",
+      "name": "Pacific Gas and Electric Company - East CA Ave, Fresno",
+      "slug": "pacific-gas-and-electric-company-east-ca-ave-fresno",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - EUREKA",
+      "name": "Pacific Gas and Electric Company - Eureka",
+      "slug": "pacific-gas-and-electric-company-eureka",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SANTA ROSA",
+      "name": "Pacific Gas and Electric Company - Santa Rosa",
+      "slug": "pacific-gas-and-electric-company-santa-rosa",
+      "notices": 2,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - MODESTO",
+      "name": "Pacific Gas and Electric Company - Modesto",
+      "slug": "pacific-gas-and-electric-company-modesto",
+      "notices": 1,
+      "employees": 3,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "PHILLIPS 66 - CARSON",
@@ -64246,6 +64819,149 @@
         "WA"
       ],
       "latestNotice": "2010-09-21"
+    },
+    {
+      "normalized": "QUALCOMM (3050 OAKMEAD VILLAGE DRIVE)",
+      "name": "Qualcomm Incorporated (3050 Oakmead Village Drive)",
+      "slug": "qualcomm-incorporated-3050-oakmead-village-drive",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
+      "normalized": "QUALCOMM (3000 OAKMEAD VILLAGE COURT)",
+      "name": "Qualcomm Incorporated (3000 Oakmead Village Court)",
+      "slug": "qualcomm-incorporated-3000-oakmead-village-court",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-13"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - OAKPORT STREET OAKLAND",
+      "name": "Pacific Gas and Electric Company - Oakport Street, Oakland",
+      "slug": "pacific-gas-and-electric-company-oakport-street-oakland",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - CONCORD",
+      "name": "Pacific Gas and Electric Company - Concord",
+      "slug": "pacific-gas-and-electric-company-concord",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFC GAS AND ELECTRIC - ORANGE AVE FRESNO",
+      "name": "Pacifc Gas and Electric Company - Orange Ave., Fresno",
+      "slug": "pacifc-gas-and-electric-company-orange-ave-fresno",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - WIBLE ROAD BAKERSFIELD",
+      "name": "PAcific Gas and Electric Company - Wible Road, Bakersfield",
+      "slug": "pacific-gas-and-electric-company-wible-road-bakersfield",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - FOLSOM BLVD SACRAMENTO",
+      "name": "Pacific Gas and Electric Company - Folsom Blvd, Sacramento",
+      "slug": "pacific-gas-and-electric-company-folsom-blvd-sacramento",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - PISMO BEACH",
+      "name": "Pacific Gas and Electric Company - Pismo Beach",
+      "slug": "pacific-gas-and-electric-company-pismo-beach",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - CUPERTINO",
+      "name": "Pacific Gas and Electric Company - Cupertino",
+      "slug": "pacific-gas-and-electric-company-cupertino",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN JOSE",
+      "name": "Pacific Gas and Electric Company - San Jose",
+      "slug": "pacific-gas-and-electric-company-san-jose",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - VALLEJO",
+      "name": "Pacific Gas and Electric Company - Vallejo",
+      "slug": "pacific-gas-and-electric-company-vallejo",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - WOODLAND",
+      "name": "Pacific Gas and Electric Company - Woodland",
+      "slug": "pacific-gas-and-electric-company-woodland",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - EMBARCADERO W SACRAMENTO",
+      "name": "Pacific Gas and Electric Company - Embarcadero, W. Sacramento",
+      "slug": "pacific-gas-and-electric-company-embarcadero-w-sacramento",
+      "notices": 1,
+      "employees": 2,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
     },
     {
       "normalized": "CEPHEID (B5)",
@@ -65240,6 +65956,446 @@
       "latestNotice": "2009-06-30"
     },
     {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (USC NORRIS CANCER HOSPITAL)",
+      "name": "University of Southern California (USC Norris Cancer Hospital)",
+      "slug": "university-of-southern-california-usc-norris-cancer-hospital",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC2)",
+      "name": "University of Southern California (HC2)",
+      "slug": "university-of-southern-california-hc2",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC3)",
+      "name": "University of Southern California (HC3)",
+      "slug": "university-of-southern-california-hc3",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC4)",
+      "name": "University of Southern California (HC4)",
+      "slug": "university-of-southern-california-hc4",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-09"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - LIVERMORE",
+      "name": "Pacific Gas and Electric Company - Livermore",
+      "slug": "pacific-gas-and-electric-company-livermore",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - FREMONT",
+      "name": "Pacific Gas and Electric Company - Fremont",
+      "slug": "pacific-gas-and-electric-company-fremont",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - DUBLIN",
+      "name": "Pacific  Gas and Electric Company - Dublin",
+      "slug": "pacific-gas-and-electric-company-dublin",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - CHICO",
+      "name": "Pacific Gas and Electric Company - Chico",
+      "slug": "pacific-gas-and-electric-company-chico",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - HEGAN LN CHICO",
+      "name": "Pacific Gas and Electric Company - Hegan Ln, Chico",
+      "slug": "pacific-gas-and-electric-company-hegan-ln-chico",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - RIO LINDO AVE CHICO",
+      "name": "Pacific Gas and Electric - Rio Lindo Ave, Chico",
+      "slug": "pacific-gas-and-electric-rio-lindo-ave-chico",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - ANTIOCH",
+      "name": "Pacific Gas and Electric Company- Antioch",
+      "slug": "pacific-gas-and-electric-company-antioch",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - BAY POINT",
+      "name": "Pacific Gas and Electric Company - Bay Point",
+      "slug": "pacific-gas-and-electric-company-bay-point",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - P STREET FRESNO",
+      "name": "Pacific Gas and Electric Company - P Street, Fresno",
+      "slug": "pacific-gas-and-electric-company-p-street-fresno",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - EAST RIVER PARK PLACE WEST FRESNO",
+      "name": "Pacific Gas and Electric Company - East River Park Place West, Fresno",
+      "slug": "pacific-gas-and-electric-company-east-river-park-place-west-fresno",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - BAKERSFIELD",
+      "name": "Pacific Gas and Electric Company - Bakersfield",
+      "slug": "pacific-gas-and-electric-company-bakersfield",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - GARDNER FIELD RD TAFT",
+      "name": "Pacific Gas and Electric Company - Gardner field Rd, Taft",
+      "slug": "pacific-gas-and-electric-company-gardner-field-rd-taft",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN RAFAEL",
+      "name": "Pacific Gas and Electric Company - San Rafael",
+      "slug": "pacific-gas-and-electric-company-san-rafael",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - GRASS VALLEY",
+      "name": "Pacific Gas and Electric Company - Grass Valley",
+      "slug": "pacific-gas-and-electric-company-grass-valley",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - UKIAH",
+      "name": "Pacific Gas and Electric Company - Ukiah",
+      "slug": "pacific-gas-and-electric-company-ukiah",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SALINAS",
+      "name": "Pacific Gas and Electric Company - Salinas",
+      "slug": "pacific-gas-and-electric-company-salinas",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - NAPA",
+      "name": "Pacific Gas and Electric Company - Napa",
+      "slug": "pacific-gas-and-electric-company-napa",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - QUINCY",
+      "name": "Pacific Gas and Electric Company- Quincy",
+      "slug": "pacific-gas-and-electric-company-quincy",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SACRAMENTO",
+      "name": "Pacific Gas and Electric Company - Sacramento",
+      "slug": "pacific-gas-and-electric-company-sacramento",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - MORRISON CREEK DRIVE SACRAMENTO",
+      "name": "Pacific gas and Electric Company - Morrison Creek Drive, Sacramento",
+      "slug": "pacific-gas-and-electric-company-morrison-creek-drive-sacramento",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - BEALE STREET SAN FRANCISCO",
+      "name": "Pacific gas and Electric Company - Beale Street, San Francisco",
+      "slug": "pacific-gas-and-electric-company-beale-street-san-francisco",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - WEST LANE STOCKTON",
+      "name": "Pacific Gas and Electric Company - West Lane, Stockton",
+      "slug": "pacific-gas-and-electric-company-west-lane-stockton",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - LODI",
+      "name": "Pacific Gas and Electric Company - Lodi",
+      "slug": "pacific-gas-and-electric-company-lodi",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - AVILA BEACH",
+      "name": "Pacific Gas and Electric Company - Avila Beach",
+      "slug": "pacific-gas-and-electric-company-avila-beach",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN CARLOS",
+      "name": "Pacific Gas and Electric Company - San Carlos",
+      "slug": "pacific-gas-and-electric-company-san-carlos",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC MORGAN HILL",
+      "name": "Pacific Gas and Electric Morgan Hill",
+      "slug": "pacific-gas-and-electric-morgan-hill",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - DADO STREET SAN JOSE",
+      "name": "Pacific Gas and Electric Company - Dado street, San Jose",
+      "slug": "pacific-gas-and-electric-company-dado-street-san-jose",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIF GAS AND ELECTRIC - REDDING",
+      "name": "Pacif Gas and Electric Company - Redding",
+      "slug": "pacif-gas-and-electric-company-redding",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - VACAVILLE",
+      "name": "Pacific Gas and Electric Company - Vacaville",
+      "slug": "pacific-gas-and-electric-company-vacaville",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - FAIRFIELD",
+      "name": "Pacific Gas and Electric Company - Fairfield",
+      "slug": "pacific-gas-and-electric-company-fairfield",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - PETALUMA",
+      "name": "Pacific Gas and Electric Company - Petaluma",
+      "slug": "pacific-gas-and-electric-company-petaluma",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - ADOBE RD PETALUMA",
+      "name": "Pacific gas and Electric Company - Adobe Rd, Petaluma",
+      "slug": "pacific-gas-and-electric-company-adobe-rd-petaluma",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - FULTON",
+      "name": "Pacific Gas and Electric Company - Fulton",
+      "slug": "pacific-gas-and-electric-company-fulton",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - SALIDA",
+      "name": "Pacific Gas and Electric Company - Salida",
+      "slug": "pacific-gas-and-electric-company-salida",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - DINUBA",
+      "name": "Pacific Gas and Electric Company - Dinuba",
+      "slug": "pacific-gas-and-electric-company-dinuba",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
+      "normalized": "PACIFIC GAS AND ELECTRIC - MARYSVILLE",
+      "name": "Pacific Gas and Electric Company - Marysville",
+      "slug": "pacific-gas-and-electric-company-marysville",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-11-03"
+    },
+    {
       "normalized": "SAPPORO U S A",
       "name": "Sapporo U.S.A.",
       "slug": "sapporo-u-s-a",
@@ -65262,6 +66418,39 @@
       "latestNotice": "2026-10-28"
     },
     {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-1800-harrison-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (75 N FAIR OAKS AVE )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (75 N. Fair Oaks Ave.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-75-n-fair-oaks-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (99 S OAKLAND AVE )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (99 S. Oakland Ave.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-99-s-oakland-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-19"
+    },
+    {
       "normalized": "SAPPORO U S A - EXECUTIVE PLACE",
       "name": "Sapporo U.S.A. - Executive Place",
       "slug": "sapporo-u-s-a-executive-place",
@@ -65271,6 +66460,28 @@
         "CA"
       ],
       "latestNotice": "2026-10-09"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-74-n-pasadena-ave",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
+    },
+    {
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (393 E WALNUT ST )",
+      "name": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (393 E. Walnut St.)",
+      "slug": "kaiser-foundation-hospitals-and-kaiser-foundation-health-plan-inc-393-e-walnut-st",
+      "notices": 1,
+      "employees": 1,
+      "states": [
+        "CA"
+      ],
+      "latestNotice": "2026-10-05"
     },
     {
       "normalized": "KAISER (1800 HARRISON ST )",
@@ -67845,6 +69056,198 @@
       "sourceUrl": "https://www.nj.gov/labor/employer-services/warn/"
     },
     {
+      "employer": "Renewable Solar, Inc.",
+      "normalized": "RENEWABLE SOLAR",
+      "city": "Hanford",
+      "county": "Kings",
+      "state": "CA",
+      "noticeDate": "2026-11-16",
+      "effectiveDate": "2027-01-15",
+      "employees": 11,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sierra Monrovia CDJR, LLC",
+      "normalized": "SIERRA MONROVIA CDJR",
+      "city": "Monrovia",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-16",
+      "effectiveDate": "2027-01-15",
+      "employees": 32,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sierra Monrovia Chevrolet, LLC",
+      "normalized": "SIERRA MONROVIA CHEVROLET",
+      "city": "Monrovia",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-16",
+      "effectiveDate": "2027-01-15",
+      "employees": 74,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Sierra Monrovia Sub, LLC",
+      "normalized": "SIERRA MONROVIA SUB",
+      "city": "Monrovia",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-16",
+      "effectiveDate": "2027-01-15",
+      "employees": 74,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3165 Kifer Road)",
+      "normalized": "QUALCOMM (3165 KIFER ROAD)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 13,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3195 Kifer Road)",
+      "normalized": "QUALCOMM (3195 KIFER ROAD)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 15,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (1730 North First Street, Suites 650 & 500)",
+      "normalized": "QUALCOMM (1730 NORTH FIRST STREET SUITES 650 500)",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3150 Central Expressway)",
+      "normalized": "QUALCOMM (3150 CENTRAL EXPRESSWAY)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 12,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3090 Oakmead Village Drive)",
+      "normalized": "QUALCOMM (3090 OAKMEAD VILLAGE DRIVE)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 7,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3050 Oakmead Village Drive)",
+      "normalized": "QUALCOMM (3050 OAKMEAD VILLAGE DRIVE)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3000 Oakmead Village Court)",
+      "normalized": "QUALCOMM (3000 OAKMEAD VILLAGE COURT)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2026-01-12",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3001 Oakmead Village Drive)",
+      "normalized": "QUALCOMM (3001 OAKMEAD VILLAGE DRIVE)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated (3135 Kifer Road)",
+      "normalized": "QUALCOMM (3135 KIFER ROAD)",
+      "city": "Santa Clara",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 15,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "HD Supply",
+      "normalized": "HD SUPPLY",
+      "city": "San Bernardino",
+      "county": "San Bernardino",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-15",
+      "employees": 25,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Qualcomm Incorporated",
+      "normalized": "QUALCOMM",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-12",
+      "employees": 442,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "HII Mission Technologies",
+      "normalized": "HII MISSION",
+      "city": "San Diego",
+      "county": "San Diego",
+      "state": "CA",
+      "noticeDate": "2026-11-13",
+      "effectiveDate": "2027-01-05",
+      "employees": 55,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
       "employer": "Huntington Ingalls Mission Technologies",
       "normalized": "HUNTINGTON INGALLS MISSION",
       "city": "Virginia Beach VA",
@@ -67855,6 +69258,30 @@
       "employees": 58,
       "layoffType": "Layoff",
       "sourceUrl": "https://www.vec.virginia.gov/warn-notices"
+    },
+    {
+      "employer": "Corteva Agriscience LLC",
+      "normalized": "CORTEVA AGRISCIENCE",
+      "city": "Pittsburg",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-12",
+      "effectiveDate": "2027-01-08",
+      "employees": 4,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Gainsight, Inc.",
+      "normalized": "GAINSIGHT",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-11-12",
+      "effectiveDate": "2026-11-15",
+      "employees": 14,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Black Tie Event Services, Inc. dba StaffworkX",
@@ -67869,8 +69296,68 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc.",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
+      "employer": "TJX Companies, Inc. dba T.J. Maxx",
+      "normalized": "TJX COMPANIES DBA T J MAXX",
+      "city": "Tarzana",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-10",
+      "effectiveDate": "2027-01-09",
+      "employees": 77,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "TJX Companies, Inc. dba T.J.Maxx",
+      "normalized": "TJX COMPANIES DBA T J MAXX",
+      "city": "San Mateo",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-11-10",
+      "effectiveDate": "2027-01-09",
+      "employees": 62,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Weil, Gotshal & Manges LLP",
+      "normalized": "WEIL GOTSHAL MANGES",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-10",
+      "effectiveDate": "2027-02-04",
+      "employees": 22,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Weil, Gotshal & Manges LLP",
+      "normalized": "WEIL GOTSHAL MANGES",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-11-10",
+      "effectiveDate": "2027-02-04",
+      "employees": 7,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Weil, Gotshal & Manges LLP",
+      "normalized": "WEIL GOTSHAL MANGES",
+      "city": "Redwood Shores",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-11-10",
+      "effectiveDate": "2027-02-04",
+      "employees": 78,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (32134 Auberry Rd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (32134 AUBERRY RD)",
       "city": "Auberry",
       "county": "Fresno",
       "state": "CA",
@@ -67881,8 +69368,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc.",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
+      "employer": "Wright Tree Service of the West, Inc. (270 N See Vee Ln)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (270 N SEE VEE LN)",
       "city": "Bishop",
       "county": "Inyo",
       "state": "CA",
@@ -67893,8 +69380,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc.",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
+      "employer": "Wright Tree Service of the West, Inc. (4571 Lake Isabella Blvd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (4571 LAKE ISABELLA BLVD)",
       "city": "Lake Isabella",
       "county": "Kern",
       "state": "CA",
@@ -67905,8 +69392,20 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc.",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
+      "employer": "Wright Tree Service of the West, Inc. (8056 Evans Rd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (8056 EVANS RD)",
+      "city": "Glenville",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-11-09",
+      "employees": 19,
+      "layoffType": "Closure Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Wright Tree Service of the West, Inc. (430 Sherwin Creek Rd)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (430 SHERWIN CREEK RD)",
       "city": "Mammoth Lakes",
       "county": "Mono",
       "state": "CA",
@@ -67917,8 +69416,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Wright Tree Service of the West, Inc.",
-      "normalized": "WRIGHT TREE SERVICE OF THE WEST",
+      "employer": "Wright Tree Service of the West, Inc. (13426 Avenue 232)",
+      "normalized": "WRIGHT TREE SERVICE OF THE WEST (13426 AVENUE 232)",
       "city": "Tulare",
       "county": "Tulare",
       "state": "CA",
@@ -67929,8 +69428,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "University of Southern California",
-      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "employer": "University of Southern California (Health Sciences Campus)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HEALTH SCIENCES CAMPUS)",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
@@ -67941,8 +69440,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "University of Southern California",
-      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "employer": "University of Southern California (Keck Hospital)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (KECK HOSPITAL)",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
@@ -67953,8 +69452,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "University of Southern California",
-      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "employer": "University of Southern California (USC Norris Cancer Hospital)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (USC NORRIS CANCER HOSPITAL)",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
@@ -67965,8 +69464,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "University of Southern California",
-      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "employer": "University of Southern California (Soto II)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (SOTO II)",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
@@ -67977,14 +69476,50 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "University of Southern California",
-      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA",
+      "employer": "University of Southern California (HC1)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC1)",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
       "noticeDate": "2026-11-09",
       "effectiveDate": "2026-12-07",
       "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (HC2)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC2)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (HC3)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC3)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "University of Southern California (HC4)",
+      "normalized": "UNIVERSITY OF SOUTHERN CALIFORNIA (HC4)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-09",
+      "effectiveDate": "2026-12-07",
+      "employees": 1,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -68205,8 +69740,20 @@
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
     },
     {
-      "employer": "City National Bank",
-      "normalized": "CITY NATIONAL BANK",
+      "employer": "City National Bank (555 S. Flower Street)",
+      "normalized": "CITY NATIONAL BANK (555 S FLOWER STREET)",
+      "city": "Los Angeles",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2027-01-08",
+      "employees": 11,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "City National Bank (350 S. Grand Ave.)",
+      "normalized": "CITY NATIONAL BANK (350 S GRAND AVE )",
       "city": "Los Angeles",
       "county": "Los Angeles",
       "state": "CA",
@@ -68286,6 +69833,774 @@
       "effectiveDate": "2027-01-16",
       "employees": 34,
       "layoffType": "Closure Temporary",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Oakland",
+      "normalized": "PACIFIC GAS AND ELECTRIC - OAKLAND",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 73,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Livermore",
+      "normalized": "PACIFIC GAS AND ELECTRIC - LIVERMORE",
+      "city": "Livermore",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Fremont",
+      "normalized": "PACIFIC GAS AND ELECTRIC - FREMONT",
+      "city": "Fremont",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Oakport Street, Oakland",
+      "normalized": "PACIFIC GAS AND ELECTRIC - OAKPORT STREET OAKLAND",
+      "city": "Oakland",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific  Gas and Electric Company - Dublin",
+      "normalized": "PACIFIC GAS AND ELECTRIC - DUBLIN",
+      "city": "Dublin",
+      "county": "Alameda",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Chico",
+      "normalized": "PACIFIC GAS AND ELECTRIC - CHICO",
+      "city": "Chico",
+      "county": "Butte",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Hegan Ln, Chico",
+      "normalized": "PACIFIC GAS AND ELECTRIC - HEGAN LN CHICO",
+      "city": "Chico",
+      "county": "Butte",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric - Rio Lindo Ave, Chico",
+      "normalized": "PACIFIC GAS AND ELECTRIC - RIO LINDO AVE CHICO",
+      "city": "Chico",
+      "county": "Butte",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Concord",
+      "normalized": "PACIFIC GAS AND ELECTRIC - CONCORD",
+      "city": "Concord",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company- Antioch",
+      "normalized": "PACIFIC GAS AND ELECTRIC - ANTIOCH",
+      "city": "Antioch",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - San Ramon",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN RAMON",
+      "city": "San Ramon",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Danville",
+      "normalized": "PACIFIC GAS AND ELECTRIC - DANVILLE",
+      "city": "Danville",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Bay Point",
+      "normalized": "PACIFIC GAS AND ELECTRIC - BAY POINT",
+      "city": "Bay Point",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - San Ramon",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN RAMON",
+      "city": "San Ramon",
+      "county": "Contra Costa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 11,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Shaw Ave, Fresno",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SHAW AVE FRESNO",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacifc Gas and Electric Company - Orange Ave., Fresno",
+      "normalized": "PACIFC GAS AND ELECTRIC - ORANGE AVE FRESNO",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - East CA Ave, Fresno",
+      "normalized": "PACIFIC GAS AND ELECTRIC - EAST CA AVE FRESNO",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - P Street, Fresno",
+      "normalized": "PACIFIC GAS AND ELECTRIC - P STREET FRESNO",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - East River Park Place West, Fresno",
+      "normalized": "PACIFIC GAS AND ELECTRIC - EAST RIVER PARK PLACE WEST FRESNO",
+      "city": "Fresno",
+      "county": "Fresno",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Eureka",
+      "normalized": "PACIFIC GAS AND ELECTRIC - EUREKA",
+      "city": "Eureka",
+      "county": "Humboldt",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Bakersfield",
+      "normalized": "PACIFIC GAS AND ELECTRIC - BAKERSFIELD",
+      "city": "Bakersfield",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "PAcific Gas and Electric Company - Wible Road, Bakersfield",
+      "normalized": "PACIFIC GAS AND ELECTRIC - WIBLE ROAD BAKERSFIELD",
+      "city": "Bakersfield",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Gardner field Rd, Taft",
+      "normalized": "PACIFIC GAS AND ELECTRIC - GARDNER FIELD RD TAFT",
+      "city": "Taft",
+      "county": "Kern",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - San Rafael",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN RAFAEL",
+      "city": "San Rafael",
+      "county": "Marin",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Grass Valley",
+      "normalized": "PACIFIC GAS AND ELECTRIC - GRASS VALLEY",
+      "city": "Grass Valley",
+      "county": "Marin",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Ukiah",
+      "normalized": "PACIFIC GAS AND ELECTRIC - UKIAH",
+      "city": "Ukiah",
+      "county": "Mendocino",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Salinas",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SALINAS",
+      "city": "Salinas",
+      "county": "Monterey",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Napa",
+      "normalized": "PACIFIC GAS AND ELECTRIC - NAPA",
+      "city": "Napa",
+      "county": "Napa",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Auburn",
+      "normalized": "PACIFIC GAS AND ELECTRIC - AUBURN",
+      "city": "Auburn",
+      "county": "Placer",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "PAcific Gas and Electric Company - Rocklin",
+      "normalized": "PACIFIC GAS AND ELECTRIC - ROCKLIN",
+      "city": "Rocklin",
+      "county": "Placer",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 8,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company- Quincy",
+      "normalized": "PACIFIC GAS AND ELECTRIC - QUINCY",
+      "city": "Quincy",
+      "county": "Plumas",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Sacramento",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SACRAMENTO",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Florin-Perkins Road, Sacramento",
+      "normalized": "PACIFIC GAS AND ELECTRIC - FLORIN-PERKINS ROAD SACRAMENTO",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 10,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Folsom Blvd, Sacramento",
+      "normalized": "PACIFIC GAS AND ELECTRIC - FOLSOM BLVD SACRAMENTO",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific gas and Electric Company - Morrison Creek Drive, Sacramento",
+      "normalized": "PACIFIC GAS AND ELECTRIC - MORRISON CREEK DRIVE SACRAMENTO",
+      "city": "Sacramento",
+      "county": "Sacramento",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific gas and Electric Company - Beale Street, San Francisco",
+      "normalized": "PACIFIC GAS AND ELECTRIC - BEALE STREET SAN FRANCISCO",
+      "city": "San Francisco",
+      "county": "San Francisco",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Stockton",
+      "normalized": "PACIFIC GAS AND ELECTRIC - STOCKTON",
+      "city": "Stockton",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - West Lane, Stockton",
+      "normalized": "PACIFIC GAS AND ELECTRIC - WEST LANE STOCKTON",
+      "city": "Stockton",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Lodi",
+      "normalized": "PACIFIC GAS AND ELECTRIC - LODI",
+      "city": "Lodi",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - San Luis Obispo",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN LUIS OBISPO",
+      "city": "San Luis Obispo",
+      "county": "San Luis Obispo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 6,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Pismo Beach",
+      "normalized": "PACIFIC GAS AND ELECTRIC - PISMO BEACH",
+      "city": "Pismo Beach",
+      "county": "San Luis Obispo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Avila Beach",
+      "normalized": "PACIFIC GAS AND ELECTRIC - AVILA BEACH",
+      "city": "Avila Beach",
+      "county": "San Luis Obispo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - San Carlos",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN CARLOS",
+      "city": "San Carlos",
+      "county": "San Mateo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Cupertino",
+      "normalized": "PACIFIC GAS AND ELECTRIC - CUPERTINO",
+      "city": "Cupertino",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - San Jose",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SAN JOSE",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Morgan Hill",
+      "normalized": "PACIFIC GAS AND ELECTRIC MORGAN HILL",
+      "city": "Morgan Hill",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Dado street, San Jose",
+      "normalized": "PACIFIC GAS AND ELECTRIC - DADO STREET SAN JOSE",
+      "city": "San Jose",
+      "county": "Santa Clara",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacif Gas and Electric Company - Redding",
+      "normalized": "PACIF GAS AND ELECTRIC - REDDING",
+      "city": "Redding",
+      "county": "Shasta",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Vacaville",
+      "normalized": "PACIFIC GAS AND ELECTRIC - VACAVILLE",
+      "city": "Vacaville",
+      "county": "Solano",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Vallejo",
+      "normalized": "PACIFIC GAS AND ELECTRIC - VALLEJO",
+      "city": "Vallejo",
+      "county": "Solano",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Fairfield",
+      "normalized": "PACIFIC GAS AND ELECTRIC - FAIRFIELD",
+      "city": "Fairfield",
+      "county": "Solano",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company Allison Parkway, Vacaville",
+      "normalized": "PACIFIC GAS AND ELECTRIC ALLISON PARKWAY VACAVILLE",
+      "city": "Vacaville",
+      "county": "Solano",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Santa Rosa",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SANTA ROSA",
+      "city": "Santa Rosa",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Petaluma",
+      "normalized": "PACIFIC GAS AND ELECTRIC - PETALUMA",
+      "city": "Petaluma",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific gas and Electric Company - Adobe Rd, Petaluma",
+      "normalized": "PACIFIC GAS AND ELECTRIC - ADOBE RD PETALUMA",
+      "city": "Petaluma",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Santa Rosa",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SANTA ROSA",
+      "city": "Santa Rosa",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Fulton",
+      "normalized": "PACIFIC GAS AND ELECTRIC - FULTON",
+      "city": "Fulton",
+      "county": "Sonoma",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Modesto",
+      "normalized": "PACIFIC GAS AND ELECTRIC - MODESTO",
+      "city": "Modesto",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 3,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Salida",
+      "normalized": "PACIFIC GAS AND ELECTRIC - SALIDA",
+      "city": "Salida",
+      "county": "Stanislaus",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Dinuba",
+      "normalized": "PACIFIC GAS AND ELECTRIC - DINUBA",
+      "city": "Dinuba",
+      "county": "Tulare",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Woodland",
+      "normalized": "PACIFIC GAS AND ELECTRIC - WOODLAND",
+      "city": "Woodland",
+      "county": "Yolo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - W. Sacramento",
+      "normalized": "PACIFIC GAS AND ELECTRIC - W SACRAMENTO",
+      "city": "West Sacramento",
+      "county": "Yolo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 4,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Embarcadero, W. Sacramento",
+      "normalized": "PACIFIC GAS AND ELECTRIC - EMBARCADERO W SACRAMENTO",
+      "city": "West Sacramento",
+      "county": "Yolo",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Pacific Gas and Electric Company - Marysville",
+      "normalized": "PACIFIC GAS AND ELECTRIC - MARYSVILLE",
+      "city": "Marysville",
+      "county": "Yuba",
+      "state": "CA",
+      "noticeDate": "2026-11-03",
+      "effectiveDate": "2026-11-02",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
@@ -68463,7 +70778,7 @@
       "county": "San Diego",
       "state": "CA",
       "noticeDate": "2026-10-30",
-      "effectiveDate": "2026-03-01",
+      "effectiveDate": "2027-01-04",
       "employees": 119,
       "layoffType": "Closure Temporary",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
@@ -68613,8 +70928,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (Remote)",
+      "normalized": "DAVEY TREE SURGERY (REMOTE)",
       "city": "Livermore",
       "county": "Alameda",
       "state": "CA",
@@ -68625,8 +70940,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (2505 N Palm Drive)",
+      "normalized": "DAVEY TREE SURGERY (2505 N PALM DRIVE)",
       "city": "Signal Hill",
       "county": "Los Angeles",
       "state": "CA",
@@ -68637,8 +70952,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (1847 144th Street)",
+      "normalized": "DAVEY TREE SURGERY (1847 144TH STREET)",
       "city": "Gardena",
       "county": "Los Angeles",
       "state": "CA",
@@ -68649,8 +70964,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (12694 Los Nietos Road)",
+      "normalized": "DAVEY TREE SURGERY (12694 LOS NIETOS ROAD)",
       "city": "Santa Fe Springs",
       "county": "Los Angeles",
       "state": "CA",
@@ -68661,8 +70976,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (244 Hall Road)",
+      "normalized": "DAVEY TREE SURGERY (244 HALL ROAD)",
       "city": "Royal Oaks",
       "county": "Monterey",
       "state": "CA",
@@ -68673,8 +70988,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (8188 Katella Avenue)",
+      "normalized": "DAVEY TREE SURGERY (8188 KATELLA AVENUE)",
       "city": "Stanton",
       "county": "Orange",
       "state": "CA",
@@ -68685,8 +71000,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (R/O 6 Church Street)",
+      "normalized": "DAVEY TREE SURGERY (R/O 6 CHURCH STREET)",
       "city": "Mountain View",
       "county": "Santa Clara",
       "state": "CA",
@@ -68697,8 +71012,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery Company (E/O Crittenden Lane)",
+      "normalized": "DAVEY TREE SURGERY (E/O CRITTENDEN LANE)",
       "city": "Mountain View",
       "county": "Santa Clara",
       "state": "CA",
@@ -68709,8 +71024,20 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Davey Tree Surgery Company",
-      "normalized": "DAVEY TREE SURGERY",
+      "employer": "Davey Tree Surgery (5843 Graham Hill Road)",
+      "normalized": "DAVEY TREE SURGERY (5843 GRAHAM HILL ROAD)",
+      "city": "Felton",
+      "county": "Santa Cruz",
+      "state": "CA",
+      "noticeDate": "2026-10-29",
+      "effectiveDate": "2026-12-31",
+      "employees": 64,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Davey Tree Surgery Company (132 Roache Road)",
+      "normalized": "DAVEY TREE SURGERY (132 ROACHE ROAD)",
       "city": "Freedom",
       "county": "Santa Cruz",
       "state": "CA",
@@ -69057,8 +71384,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Welcome Market, Inc.",
-      "normalized": "WELCOME MARKET",
+      "employer": "Welcome Market, Inc. (99 Ranch Market)",
+      "normalized": "WELCOME MARKET (99 RANCH MARKET)",
       "city": "Pleasanton",
       "county": "Alameda",
       "state": "CA",
@@ -69273,8 +71600,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (1800 Harrison St.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (1800 HARRISON ST )",
       "city": "Oakland",
       "county": "Alameda",
       "state": "CA",
@@ -69285,14 +71612,50 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
-      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (One Kaiser Plaza)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (ONE KAISER PLAZA)",
       "city": "Oakland",
       "county": "Alameda",
       "state": "CA",
       "noticeDate": "2026-10-19",
       "effectiveDate": "2026-12-18",
       "employees": 5,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (75 N. Fair Oaks Ave.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (75 N FAIR OAKS AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (99 S. Oakland Ave.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (99 S OAKLAND AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc.",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN",
+      "city": "San Rafael",
+      "county": "Marin",
+      "state": "CA",
+      "noticeDate": "2026-10-19",
+      "effectiveDate": "2026-12-18",
+      "employees": 1,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -69665,6 +72028,30 @@
       "noticeDate": "2026-10-05",
       "effectiveDate": "2026-12-04",
       "employees": 2,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (74 N. Pasadena Ave.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (74 N PASADENA AVE )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 1,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Kaiser Foundation Hospitals and Kaiser Foundation Health Plan, Inc. (393 E. Walnut St.)",
+      "normalized": "KAISER FOUNDATION HOSPITALS AND KAISER FOUNDATION HEALTH PLAN (393 E WALNUT ST )",
+      "city": "Pasadena",
+      "county": "Los Angeles",
+      "state": "CA",
+      "noticeDate": "2026-10-05",
+      "effectiveDate": "2026-12-04",
+      "employees": 1,
       "layoffType": "Layoff Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
@@ -74355,7 +76742,7 @@
       "county": "Stanislaus",
       "state": "CA",
       "noticeDate": "2026-07-27",
-      "effectiveDate": "2026-09-26",
+      "effectiveDate": "2026-11-30",
       "employees": 50,
       "layoffType": "Closure Permanent",
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
@@ -74637,8 +77024,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "CraftForce Services, Inc.",
-      "normalized": "CRAFTFORCE",
+      "employer": "CraftForce Services, Inc. (2330 Circadian Way)",
+      "normalized": "CRAFTFORCE (2330 CIRCADIAN WAY)",
       "city": "Santa Rosa",
       "county": "Sonoma",
       "state": "CA",
@@ -74649,8 +77036,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "CraftForce Services, Inc.",
-      "normalized": "CRAFTFORCE",
+      "employer": "CraftForce Services, Inc. (2753 Giffen Avenue)",
+      "normalized": "CRAFTFORCE (2753 GIFFEN AVENUE)",
       "city": "Santa Rosa",
       "county": "Sonoma",
       "state": "CA",
@@ -74661,8 +77048,8 @@
       "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
-      "employer": "Uber Technologies, Inc.",
-      "normalized": "UBER",
+      "employer": "Uber Technologies, Inc. (1655 3rd Street)",
+      "normalized": "UBER (1655 3RD STREET)",
       "city": "San Francisco",
       "county": "San Francisco",
       "state": "CA",
@@ -161443,6 +163830,30 @@
       "employees": 60,
       "layoffType": "Permanent",
       "sourceUrl": "https://esd.wa.gov/about-employees/WARN"
+    },
+    {
+      "employer": "Ryder - 980 E Louise",
+      "normalized": "RYDER - 980 E LOUISE",
+      "city": "Lathrop",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2001-11-10",
+      "effectiveDate": "2027-01-10",
+      "employees": 73,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
+    },
+    {
+      "employer": "Ryder - 500 E. Louise Ave.",
+      "normalized": "RYDER - 500 E LOUISE AVE",
+      "city": "Lathrop",
+      "county": "San Joaquin",
+      "state": "CA",
+      "noticeDate": "2001-11-10",
+      "effectiveDate": "2026-01-10",
+      "employees": 10,
+      "layoffType": "Layoff Permanent",
+      "sourceUrl": "https://edd.ca.gov/en/jobs_and_training/Layoff_Services_WARN/"
     },
     {
       "employer": "Mauser Packaging Solutions",
