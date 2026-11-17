@@ -16,11 +16,17 @@ import { EVENTS, significantEvents } from "@/lib/event-store";
 import { ReportError } from "@/components/ReportError";
 import { FORECAST_PATH, bulletinPath, latestBulletin } from "@/lib/visa-bulletin";
 import { TrustStrip } from "@/components/TrustStrip";
+import { offerById } from "@/lib/billing/offers";
+
+// The free trial length comes from the offer itself, so the homepage can
+// never promise a different number of days than checkout grants.
+const TRIAL_DAYS = offerById("free-trial").trialDays;
 
 export const metadata = buildMetadata({
-  title: "U.S. Immigration Changes, Tracked to Official Sources",
-  description: SITE.subtitle,
+  title: "Green Card Wait Time by Priority Date, Visa Bulletin Alerts",
+  description: `Estimate your green card wait from your priority date and track Visa Bulletin and rule changes from official sources. Pro alerts are free for ${TRIAL_DAYS} days.`,
   path: "/",
+  keywords: ["green card wait time", "priority date", "visa bulletin tracker", "visa bulletin alerts"],
 });
 
 /**
@@ -89,10 +95,11 @@ export default function HomePage() {
   );
   return (
     <div>
-      {/* Hero — task-first. The question a visitor arrives with, one search
-          box that answers most of them, and the four jobs the site does. The
+      {/* Hero — task-first. What a visitor can do here (their green card
+          wait, and the changes that move it), one search box that answers
+          most questions, and the four jobs the site does. The
           product's promise (every change traced to its official source) stays
-          directly under the question, so the page still says what it is. */}
+          directly under the headline, so the page still says what it is. */}
       <section className="relative overflow-hidden border-b border-white/5">
         <div className="container-page py-9 sm:py-12">
           <div className="mx-auto max-w-3xl text-center">
@@ -101,13 +108,17 @@ export default function HomePage() {
               {SITE.tagline}
             </div>
             <h1 className="text-balance text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-              What do you need help with?
+              See your green card wait and every change that affects it
             </h1>
             <p className="mx-auto mt-3 max-w-2xl text-balance text-base text-slate-300 sm:text-lg">
-              U.S. immigration rules, deadlines and data, each traced{" "}
+              Estimate when your priority date may be current and follow Visa Bulletin and rule changes, each traced{" "}
               <span className="bg-gradient-to-r from-accent via-accent-soft to-status-red bg-clip-text font-semibold text-transparent">
                 back to the official source
               </span>
+              . Pro emails you when one touches what you follow, with a{" "}
+              <Link href="/trial" className="link-accent">
+                {TRIAL_DAYS}-day free trial
+              </Link>
               .
             </p>
 
