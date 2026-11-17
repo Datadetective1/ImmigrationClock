@@ -86,7 +86,7 @@ export function formatCutoff(c: Cutoff | undefined): string {
 }
 
 /** Whole calendar months and leftover days from a to b (a <= b). */
-function calendarGap(a: string, b: string): { months: number; days: number } {
+export function calendarGap(a: string, b: string): { months: number; days: number } {
   const [ay, am, ad] = a.split("-").map(Number);
   const [by, bm, bd] = b.split("-").map(Number);
   let months = (by - ay) * 12 + (bm - am);

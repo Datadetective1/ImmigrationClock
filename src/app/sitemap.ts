@@ -11,6 +11,7 @@ import { EXPLAINERS } from "@/lib/editorial/explainers";
 import { SIGNAL_SLUGS, buildSignal } from "@/lib/editorial/signals";
 import { changePath, explainerPath, signalPath } from "@/lib/share";
 import { BULLETINS, FORECAST_PATH, VISA_BULLETIN_PATH, bulletinPath } from "@/lib/visa-bulletin";
+import { WAIT_PAIRS, WAIT_TIME_PATH, waitPath } from "@/lib/visa-bulletin/wait-time";
 
 // Every entry carries a real lastModified: the date the DATA behind that page
 // last moved. Previously every URL reported `new Date()` at build time, which
@@ -127,6 +128,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const b of BULLETINS.slice(1)) add(bulletinPath(b), asDate(b.verifiedAt, buildDate), "yearly", 0.5);
     // The forecast moves with each new bulletin.
     add(FORECAST_PATH, asDate(BULLETINS[0].verifiedAt, buildDate), "monthly", 0.8);
+    // Wait time by category and country: rebuilt from the newest bulletin.
+    add(WAIT_TIME_PATH, asDate(BULLETINS[0].verifiedAt, buildDate), "monthly", 0.8);
+    for (const p of WAIT_PAIRS) add(waitPath(p), asDate(BULLETINS[0].verifiedAt, buildDate), "monthly", 0.7);
   }
 
   // ---- Programmatic routes ------------------------------------------------

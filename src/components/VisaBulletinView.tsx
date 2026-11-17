@@ -221,6 +221,10 @@ export function VisaBulletinView({ bulletin, path }: { bulletin: Bulletin; path:
             <Link href="/explained/visa-bulletin-priority-dates" className="link-accent">
               How to read the Visa Bulletin
             </Link>
+            . Wait time for your category and country:{" "}
+            <Link href="/green-card-wait-time" className="link-accent">
+              green card wait times
+            </Link>
             . This page is information, not legal advice.
           </p>
           {others.length > 0 ? (
