@@ -112,7 +112,9 @@ export type AnalyticsEvent =
   /** An entitlement was minted — the first moment someone is genuinely a subscriber. */
   | "subscription_active"
   /** The customer portal was opened: manage, update a card, or cancel. */
-  | "billing_portal_open";
+  | "billing_portal_open"
+  /** The "Add to Chrome" link to the extension's store listing. Carries a placement name only. */
+  | "extension_install_click";
 
 /** Non-identifying context. Values must be short, low-cardinality, non-personal. */
 export type EventProps = Record<string, string | number | boolean | undefined>;

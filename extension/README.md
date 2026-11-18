@@ -40,5 +40,7 @@ Bump `version` in `manifest.json` for every upload.
 
 ## Trying it locally
 
+Published: https://chromewebstore.google.com/detail/immigrationclock-visa-bul/ffccdabjconlcffjfpmjpfhkpjkkgbji (the site links to it from src/lib/extension.ts).
+
 `chrome://extensions`, turn on Developer mode, Load unpacked, pick this
 folder. The popup needs the feed to be live on immigrationclock.com.

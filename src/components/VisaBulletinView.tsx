@@ -9,6 +9,7 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { PulseSignup } from "@/components/PulseSignup";
+import { ChromeExtensionPanel } from "@/components/AddToChromeButton";
 import { FollowChips } from "@/components/FollowChips";
 import { VisaBulletinChecker } from "@/components/VisaBulletinChecker";
 import { VisaBulletinCharts } from "@/components/VisaBulletinCharts";
@@ -194,6 +195,12 @@ export function VisaBulletinView({ bulletin, path }: { bulletin: Bulletin; path:
                 { id: "visa:eb-3", label: "EB-3" },
                 { id: "visa:eb-5", label: "EB-5" },
               ]}
+            />
+          </div>
+          <div className="mt-4">
+            <ChromeExtensionPanel
+              placement="visa-bulletin"
+              what="Pick your category and country once and see your dates in one click, with an alert each time we add a new bulletin month."
             />
           </div>
           <div className="mt-4">

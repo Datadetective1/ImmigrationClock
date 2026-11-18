@@ -11,6 +11,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
+import { ChromeExtensionPanel } from "@/components/AddToChromeButton";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
@@ -303,6 +304,12 @@ export default function WaitTimePage({ params }: { params: { slug: string } }) {
             </Link>
             .
           </p>
+          <div className="mt-4">
+            <ChromeExtensionPanel
+              placement="wait-time-page"
+              what={`Pick ${name} once and see its dates in one click, with an alert each time we add a new bulletin month.`}
+            />
+          </div>
         </section>
 
         <Faq items={faqFor(f)} />
