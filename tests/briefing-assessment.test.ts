@@ -132,7 +132,12 @@ describe("incidental mentions are not substantive matches", () => {
 });
 
 describe("proposed rules", () => {
-  const proposal = ALL.find((e) => e.classification === "proposed_rule" && e.publishedAt >= "2026-09-20");
+  // A proposal published by the test's fixed TODAY. The live dataset keeps
+  // growing, and a rule published after TODAY would be judged from a date
+  // before it existed.
+  const proposal = ALL.find(
+    (e) => e.classification === "proposed_rule" && e.publishedAt >= "2026-09-20" && e.publishedAt <= TODAY
+  );
 
   it("are labelled as proposals, with no effective date", () => {
     expect(proposal).toBeDefined();
