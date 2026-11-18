@@ -11,7 +11,7 @@ export const metadata = buildMetadata({
   path: "/disclosure",
 });
 
-const UPDATED = "October 14, 2026";
+const UPDATED = "November 18, 2026";
 
 export default function DisclosurePage() {
   return (
@@ -49,8 +49,8 @@ export default function DisclosurePage() {
           <p>
             On our <Link href="/resources">Resources</Link> page and beside some{" "}
             <Link href="/key-dates">key dates</Link>, we link to independent third-party services for
-            immigration needs, such as certified document translation, attorney-reviewed applications,
-            foreign degree evaluation and nonresident tax filing.
+            immigration needs, such as certified document translation, online notarization,
+            attorney-reviewed applications, foreign degree evaluation and nonresident tax filing.
           </p>
           <p>
             Some of those are <strong>affiliate partnerships</strong>: if you click through and buy, we may

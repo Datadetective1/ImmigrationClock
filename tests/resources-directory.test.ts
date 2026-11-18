@@ -18,7 +18,7 @@ describe("the resources directory", () => {
       expect(html.split(`>${p.name}<`).length - 1, p.id).toBe(1);
     }
     const pills = (label: string) => html.match(new RegExp(`tracking-wide [^"]*">${label}</span>`, "g"))?.length ?? 0;
-    expect(pills("Affiliate")).toBe(1);
+    expect(pills("Affiliate")).toBe(partners.filter((p) => p.kind === "affiliate").length);
     expect(pills("Independent")).toBe(partners.filter((p) => p.kind === "service").length);
     expect(pills("Free · official")).toBe(partners.filter((p) => p.kind === "official").length);
   });
@@ -27,8 +27,14 @@ describe("the resources directory", () => {
     expect(html).toContain(esc('href="https://immitranslate.com/?ref=948mg968&sub=ic_resources_documents"'));
   });
 
-  it("marks only the affiliate rel=sponsored", () => {
-    expect(html.match(/rel="sponsored nofollow noopener noreferrer"/g)?.length).toBe(1);
+  it("marks only the affiliates rel=sponsored", () => {
+    expect(html.match(/rel="sponsored nofollow noopener noreferrer"/g)?.length).toBe(
+      partners.filter((p) => p.kind === "affiliate").length
+    );
+  });
+
+  it("sends OneNotary clicks to the referral link exactly as issued", () => {
+    expect(html).toContain('href="https://app.onenotary.us/acts/no_account/70aea822-098f-485b-8dab-1bbc783b4369"');
   });
 
   it("offers one filter per need instead of a heading and panel per category", () => {

@@ -5,8 +5,7 @@ import { allPartners } from "@/lib/partners";
 import { listingLink, placementSubId, withPlacement } from "@/lib/partner-link";
 import { KEY_DATES } from "@/lib/key-dates";
 
-// The ImmiTranslate referral link is the only tracked affiliate link the site
-// has. Its program reads the placement from `sub`, not `subid`, and the
+// ImmiTranslate's referral link is placement-tracked. Its program reads the placement from `sub`, not `subid`, and the
 // referral id `ref` is what pays the commission — so appending a placement must
 // never disturb it.
 
@@ -31,6 +30,31 @@ describe("ImmiTranslate referral link", () => {
 
   it("is placed on /resources and beside key dates", () => {
     expect(KEY_DATES.some((d) => d.partnerIds.includes("document-translation"))).toBe(true);
+  });
+});
+
+describe("OneNotary referral link", () => {
+  const ONENOTARY = "https://app.onenotary.us/acts/no_account/70aea822-098f-485b-8dab-1bbc783b4369";
+  const onenotary = allPartners().find((p) => p.id === "onenotary")!;
+
+  it("is a labelled affiliate whose link is used exactly as issued", () => {
+    expect(onenotary.kind).toBe("affiliate");
+    expect(onenotary.href).toBe(ONENOTARY);
+    const link = listingLink(onenotary, "resources-documents");
+    expect(link.href).toBe(ONENOTARY);
+    expect(link.rel).toBe("sponsored nofollow noopener noreferrer");
+    expect(link.onClick).toBeTypeOf("function");
+  });
+
+  it("stays on the site and out of every email surface", () => {
+    for (const f of [
+      "src/lib/newsletter/render.ts",
+      "src/lib/newsletter/select.ts",
+      "scripts/send-business-email.ts",
+      "scripts/send-newsletter.ts",
+    ]) {
+      expect(read(f), f).not.toMatch(/onenotary/i);
+    }
   });
 });
 

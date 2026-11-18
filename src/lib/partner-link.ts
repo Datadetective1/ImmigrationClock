@@ -15,11 +15,13 @@ export function placementSubId(placement: string): string {
  * Append the placement so the affiliate dashboard can attribute revenue to the
  * exact module that drove the click. `param` is the partner's own sub-id
  * parameter: most programs read `subid`, ImmiTranslate reads `sub`. Existing
- * parameters — above all the referral id itself — are kept untouched. Never
- * throws; an unparseable href is returned as is.
+ * parameters — above all the referral id itself — are kept untouched. A
+ * `param` of `false` returns the href exactly as given (for a referral link
+ * whose id lives in the path). Never throws; an unparseable href is returned
+ * as is.
  */
-export function withPlacement(href: string, placement: string, param = "subid"): string {
-  if (!placement) return href;
+export function withPlacement(href: string, placement: string, param: string | false = "subid"): string {
+  if (!placement || param === false) return href;
   try {
     const url = new URL(href);
     if (!url.searchParams.has(param)) url.searchParams.set(param, placementSubId(placement));
@@ -53,7 +55,7 @@ export const RELATIONSHIP_LABEL = {
  * that does not exist.
  */
 export function listingLink(
-  p: { id: string; href: string; kind: "official" | "service" | "affiliate"; subParam?: string },
+  p: { id: string; href: string; kind: "official" | "service" | "affiliate"; subParam?: string | false },
   placement: string
 ): { href: string; rel: string; onClick?: () => void } {
   if (p.kind !== "affiliate") return { href: p.href, rel: "noopener noreferrer" };
