@@ -96,7 +96,11 @@ describe("the document is evidence, not a product", () => {
     // document host, and would put 15MB of text through a JSON response.
     const serialized = JSON.stringify(change);
     const body = sourceTextFor(withText.id) as string;
-    const distinctiveChunk = body.slice(2000, 2200);
+    // A chunk from the middle of the document. The opening of a Federal
+    // Register document is its published abstract, which the record's summary
+    // may quote word for word; the body past it is what must never be served.
+    const mid = Math.floor(body.length / 2);
+    const distinctiveChunk = body.slice(mid, mid + 200);
     expect(distinctiveChunk.length).toBeGreaterThan(100);
     expect(serialized).not.toContain(distinctiveChunk);
     expect(serialized.length).toBeLessThan(20_000);
