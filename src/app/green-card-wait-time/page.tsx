@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
+import { ChromeExtensionPanel } from "@/components/AddToChromeButton";
 import { Faq } from "@/components/Faq";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
@@ -128,6 +129,11 @@ export default function WaitTimeIndexPage() {
             </p>
           </section>
         ) : null}
+
+        <ChromeExtensionPanel
+          placement="wait-time-index"
+          what="Pick your category and country once and see its dates in one click, with an alert each time we add a new bulletin month."
+        />
 
         {table("Employment-based", employment)}
         {table("Family-based", family)}

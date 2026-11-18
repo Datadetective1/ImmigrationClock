@@ -17,6 +17,7 @@ import { ReportError } from "@/components/ReportError";
 import { FORECAST_PATH, bulletinPath, latestBulletin } from "@/lib/visa-bulletin";
 import { TrustStrip } from "@/components/TrustStrip";
 import { offerById } from "@/lib/billing/offers";
+import { AddToChromeButton } from "@/components/AddToChromeButton";
 
 // The free trial length comes from the offer itself, so the homepage can
 // never promise a different number of days than checkout grants.
@@ -165,6 +166,7 @@ export default function HomePage() {
             >
               When will my date be current? →
             </Link>
+            <AddToChromeButton placement="home-hero" variant="pill" label="Visa Bulletin alerts: add to Chrome, free" />
           </div>
 
           {/* Situations as starting points, not boxes: each opens its view on
