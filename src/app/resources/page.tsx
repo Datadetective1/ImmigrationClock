@@ -7,12 +7,13 @@ import { partnersByCategory } from "@/lib/partners";
 export const metadata = buildMetadata({
   title: "Immigration Resources: Legal Help, Translations, Taxes & Credit",
   description:
-    "Official help and independent services for immigration paperwork: finding a lawyer, certified translations, degree evaluation, nonresident taxes, credit and the citizenship test.",
+    "Official help and independent services for immigration paperwork: finding a lawyer, certified translations, online notarization, degree evaluation, nonresident taxes, credit and the citizenship test.",
   path: "/resources",
   keywords: [
     "immigration resources",
     "immigration lawyer help",
     "certified translation USCIS",
+    "online notarization",
     "nonresident tax filing",
     "foreign degree evaluation",
     "citizenship test study",

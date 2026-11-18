@@ -80,8 +80,10 @@ export interface Partner {
   /**
    * The query parameter this partner's affiliate program reads a placement
    * sub-id from. Defaults to `subid`. ImmiTranslate's dashboard reads `sub`.
+   * `false` sends the referral URL exactly as issued, with nothing appended,
+   * for a program whose referral id lives in the path (OneNotary).
    */
-  subParam?: string;
+  subParam?: string | false;
 }
 
 export const CATEGORY_META: Record<PartnerCategory, { label: string; blurb: string }> = {
@@ -226,6 +228,24 @@ const CATALOG: Partner[] = [
     icon: "📄",
     kind: "affiliate",
     subParam: "sub",
+  },
+  {
+    id: "onenotary",
+    name: "OneNotary",
+    category: "documents",
+    blurb: "Have a document notarized online over a live video call with a notary, without visiting an office.",
+    useWhen: "A document you're preparing needs a notarized signature. Check first that whoever will receive it accepts online notarization.",
+    cta: "Get documents notarized online",
+    // ImmigrationClock's own OneNotary referral link (Harborlune referral
+    // agreement). The referral id is part of the path, so it is used exactly
+    // as issued: no placement parameter is appended. Site only: the agreement
+    // bars promoting OneNotary by unsolicited bulk email, so this link never
+    // goes into outreach emails, newsletters or email templates.
+    url: "https://app.onenotary.us/acts/no_account/70aea822-098f-485b-8dab-1bbc783b4369",
+    personas: ["eb-applicant", "h1b-worker", "general"],
+    icon: "🖋️",
+    kind: "affiliate",
+    subParam: false,
   },
   {
     id: "credit-builder",

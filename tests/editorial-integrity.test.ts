@@ -66,10 +66,14 @@ describe("editorial separation", () => {
     for (const p of PARTNERS_ALL) {
       expect(["official", "service", "affiliate"], `${p.id} has kind "${p.kind}"`).toContain(p.kind);
       // An affiliate needs a referral URL of its own; a bare homepage earns nothing.
-      if (p.kind === "affiliate") expect(new URL(p.url).search, `${p.id} is an affiliate with no referral id`).not.toBe("");
+      // The referral id is either a query parameter or part of the path.
+      if (p.kind === "affiliate") {
+        const u = new URL(p.url);
+        expect(u.search !== "" || u.pathname.length > 1, `${p.id} is an affiliate with no referral id`).toBe(true);
+      }
     }
-    // The only program we are enrolled in.
-    expect(PARTNERS_ALL.filter((p) => p.kind === "affiliate").map((p) => p.id)).toEqual(["document-translation"]);
+    // The only programs we are enrolled in.
+    expect(PARTNERS_ALL.filter((p) => p.kind === "affiliate").map((p) => p.id)).toEqual(["document-translation", "onenotary"]);
     // Only an affiliate is tracked or rel=sponsored, through one helper.
     const link = read("src/lib/partner-link.ts");
     expect(link).toContain('if (p.kind !== "affiliate") return { href: p.href, rel: "noopener noreferrer" };');
