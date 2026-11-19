@@ -257,11 +257,9 @@ export function welcomeEmail(input: {
 
 /** The subject line: the news first. */
 export function alertSubject(label: string, bulletin: Bulletin, d: PickDates): string {
-  const words = d.finalMove ? movementWords(d.finalMove) : "";
-  const headline =
-    d.finalMove && d.finalMove.kind !== "unknown" && words
-      ? `${label} ${words}`
-      : `${label}: ${formatCutoff(d.finalAction)}`;
+  const name = label.replace(", ", " ");
+  const words = d.finalMove ? (d.finalMove.kind === "same" ? "unchanged" : movementWords(d.finalMove)) : "";
+  const headline = words ? `${name} ${words}` : `${name} at ${formatCutoff(d.finalAction)}`;
   return `${bulletin.label} Visa Bulletin: ${headline}`;
 }
 
