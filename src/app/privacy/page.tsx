@@ -10,7 +10,7 @@ export const metadata = buildMetadata({
   path: "/privacy",
 });
 
-const UPDATED = "November 17, 2026";
+const UPDATED = "November 19, 2026";
 
 export default function PrivacyPage() {
   return (
@@ -48,6 +48,13 @@ export default function PrivacyPage() {
               newsletter we store your address with our email provider (Resend) so that we can send
               it to you. Nothing else about you is attached to it, and every issue carries an
               unsubscribe link.
+            </li>
+            <li>
+              <strong>Free Visa Bulletin alerts, only if you sign up.</strong> We keep four things: your
+              email address, the category and country you picked, and when you agreed to the emails.
+              Nothing is kept until you click the confirmation link we email you. They are stored with our
+              hosting provider (Vercel) and the emails are sent through Resend. Every alert has a
+              one-click unsubscribe link, and using it deletes all four.
             </li>
             <li>
               <strong>Payment details never reach us.</strong> If you subscribe to Pro, checkout and
@@ -108,10 +115,11 @@ export default function PrivacyPage() {
           <p>
             Depending on where you live (e.g. under GDPR or CCPA/CPRA), you may have rights to access,
             delete, or restrict the use of personal data. The only personal data we hold is a
-            newsletter address, if you gave us one, and the billing email and customer reference for
+            newsletter address, if you gave us one, a free Visa Bulletin alert signup (email, category
+            and country), if you made one, and the billing email and customer reference for
             a subscription, if you have one, and any receipt numbers you add for case alerts.
-            Unsubscribe from any issue to remove the first; cancel and ask us to delete to remove the
-            second; remove your cases on the case alerts page to delete the third. We do not sell or share personal data for
+            Unsubscribe from any issue or alert to remove the first two; cancel and ask us to delete to remove the
+            third; remove your cases on the case alerts page to delete the fourth. We do not sell or share personal data for
             targeted advertising, and we have nothing to sell or share it with.
           </p>
         </section>

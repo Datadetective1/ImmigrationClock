@@ -111,7 +111,7 @@ export const NAV: NavItem[] = [
       { href: "/pulse", label: "Monthly Pulse", desc: "How the data moved this month" },
     ],
   },
-  { href: "/key-dates", label: "Key dates", match: ["/key-dates", "/visa-bulletin", "/priority-date-forecast", "/green-card-wait-time"] },
+  { href: "/key-dates", label: "Key dates", match: ["/key-dates", "/visa-bulletin", "/visa-bulletin-alerts", "/priority-date-forecast", "/green-card-wait-time"] },
   { href: "/resources", label: "Resources" },
   {
     label: "Pro",

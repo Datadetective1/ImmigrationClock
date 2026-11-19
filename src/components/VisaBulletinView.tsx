@@ -10,6 +10,8 @@ import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { PulseSignup } from "@/components/PulseSignup";
 import { ChromeExtensionPanel } from "@/components/AddToChromeButton";
+import { BulletinAlertSignup } from "@/components/BulletinAlertSignup";
+import { offerById } from "@/lib/billing/offers";
 import { FollowChips } from "@/components/FollowChips";
 import { VisaBulletinChecker } from "@/components/VisaBulletinChecker";
 import { VisaBulletinCharts } from "@/components/VisaBulletinCharts";
@@ -181,12 +183,15 @@ export function VisaBulletinView({ bulletin, path }: { bulletin: Bulletin; path:
             Hear when the new dates are out
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            Follow your category for free. With{" "}
+            Get your category&apos;s new dates by email, free, or follow it on the site.{" "}
             <Link href="/pricing" className="link-accent">
               Pro
-            </Link>
-            , we email you when the next bulletin is out, with the dates that moved.
+            </Link>{" "}
+            adds alerts on a watchlist of policy changes and a forecast by month for your own priority date.
           </p>
+          <div className="mt-4">
+            <BulletinAlertSignup placement="visa-bulletin" trialDays={offerById("free-trial").trialDays} />
+          </div>
           <div className="mt-3">
             <FollowChips
               follows={[

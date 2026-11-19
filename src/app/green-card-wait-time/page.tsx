@@ -9,6 +9,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
 import { ChromeExtensionPanel } from "@/components/AddToChromeButton";
+import { BulletinAlertSignup } from "@/components/BulletinAlertSignup";
+import { offerById } from "@/lib/billing/offers";
 import { Faq } from "@/components/Faq";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
@@ -129,6 +131,8 @@ export default function WaitTimeIndexPage() {
             </p>
           </section>
         ) : null}
+
+        <BulletinAlertSignup placement="wait-time-index" trialDays={offerById("free-trial").trialDays} />
 
         <ChromeExtensionPanel
           placement="wait-time-index"
