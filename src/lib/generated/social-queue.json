@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-19T02:17:12.503Z",
+  "updatedAt": "2026-11-19T21:59:15.515Z",
   "items": [
     {
       "id": "event:federal_register:2026-23370::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "federal_register:2026-23370",
       "category": "proposed",
       "topicKey": "topic:workforce-reductions",
-      "priority": 46354.99444444444,
+      "priority": 46204.98888888889,
       "readerValue": 70,
       "factsHash": "3e02951764f9afd6",
       "whyItMatters": [
@@ -59,7 +59,7 @@
       "eventId": "federal_register:2026-23370",
       "category": "proposed",
       "topicKey": "topic:workforce-reductions",
-      "priority": 45504.99444444444,
+      "priority": 45504.98888888889,
       "readerValue": 70,
       "factsHash": "671e9a69007c5b79",
       "whyItMatters": [
@@ -103,7 +103,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22014,
+      "priority": 22015,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -146,7 +146,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 20011,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "0b3555e011ff02f3",
       "whyItMatters": [
@@ -189,7 +189,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20009,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -232,7 +232,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -275,7 +275,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20005,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -318,7 +318,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20002,
+      "priority": 20003,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -361,7 +361,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -392,47 +392,6 @@
       ]
     },
     {
-      "id": "discovery:explainers::data_discovery",
-      "subjectId": "discovery:explainers",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "ImmigrationClock explains",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:explained",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "c08156681740f7f7",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained",
-      "ogImage": "/og/page/explained.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
-        }
-      ]
-    },
-    {
       "id": "discovery:employer-directory::data_discovery",
       "subjectId": "discovery:employer-directory",
       "contentType": "data_discovery",
@@ -445,7 +404,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -486,7 +445,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -527,7 +486,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -568,7 +527,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "eacaa0156383d0a4",
       "whyItMatters": [],
@@ -609,7 +568,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -650,7 +609,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -675,6 +634,47 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/pulse"
+        }
+      ]
+    },
+    {
+      "id": "discovery:explainers::data_discovery",
+      "subjectId": "discovery:explainers",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "ImmigrationClock explains",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:explained",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "c08156681740f7f7",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/explained",
+      "ogImage": "/og/page/explained.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
         }
       ]
     },
@@ -5112,7 +5112,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30006,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -5392,6 +5392,16 @@
           "at": "2026-11-19T02:17:12.503Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5408,7 +5418,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30004,
+      "priority": 30005,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -5698,6 +5708,16 @@
           "at": "2026-11-19T02:17:12.503Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5714,9 +5734,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30002,
+      "priority": 30003,
       "readerValue": 65,
-      "factsHash": "0a7a20377861055e",
+      "factsHash": "cb03422a95fb29f4",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -6026,6 +6046,16 @@
         },
         {
           "at": "2026-11-19T02:17:12.503Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
