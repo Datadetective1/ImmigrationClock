@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-18T21:43:28.462Z",
+  "updatedAt": "2026-11-19T02:17:12.503Z",
   "items": [
     {
       "id": "event:federal_register:2026-23370::what_changed",
@@ -5382,6 +5382,16 @@
           "at": "2026-11-18T21:43:28.462Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5676,6 +5686,16 @@
         },
         {
           "at": "2026-11-18T21:43:28.462Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
@@ -5996,6 +6016,16 @@
         },
         {
           "at": "2026-11-18T21:43:28.462Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
