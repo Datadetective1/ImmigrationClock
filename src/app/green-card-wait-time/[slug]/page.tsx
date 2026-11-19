@@ -12,6 +12,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
 import { ChromeExtensionPanel } from "@/components/AddToChromeButton";
+import { BulletinAlertSignup } from "@/components/BulletinAlertSignup";
+import { offerById } from "@/lib/billing/offers";
 import { Faq, type FaqItem } from "@/components/Faq";
 import { buildMetadata } from "@/lib/seo";
 import { ogImagePath } from "@/lib/share";
@@ -294,16 +296,22 @@ export default function WaitTimePage({ params }: { params: { slug: string } }) {
             Hear when the new dates are out
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            With{" "}
+            Get the new {name} dates by email, free, when we publish each bulletin month.{" "}
             <Link href="/pricing" className="link-accent">
               Pro
-            </Link>
-            , we email you when the next bulletin is out, with the dates that moved.{" "}
-            <Link href="/trial" className="link-accent">
-              Try Pro free for 30 days
-            </Link>
-            .
+            </Link>{" "}
+            adds alerts on a watchlist of policy changes and a forecast by month for your own priority date.
           </p>
+          <div className="mt-4">
+            <BulletinAlertSignup
+              placement="wait-time-page"
+              defaultRow={pair.row}
+              defaultCountry={pair.country}
+              trialDays={offerById("free-trial").trialDays}
+              heading={`Free ${name} date alerts`}
+              blurb={`One email when we publish each new Visa Bulletin month, with the ${name} final action date and date for filing. Pick another category or country if you need to.`}
+            />
+          </div>
           <div className="mt-4">
             <ChromeExtensionPanel
               placement="wait-time-page"

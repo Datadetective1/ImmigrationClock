@@ -114,7 +114,9 @@ export type AnalyticsEvent =
   /** The customer portal was opened: manage, update a card, or cancel. */
   | "billing_portal_open"
   /** The "Add to Chrome" link to the extension's store listing. Carries a placement name only. */
-  | "extension_install_click";
+  | "extension_install_click"
+  /** The free Visa Bulletin alert form was sent (a confirmation email went out). Carries a placement name only. */
+  | "bulletin_alert_signup";
 
 /** Non-identifying context. Values must be short, low-cardinality, non-personal. */
 export type EventProps = Record<string, string | number | boolean | undefined>;

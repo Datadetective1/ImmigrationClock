@@ -18,6 +18,7 @@ import { FORECAST_PATH, bulletinPath, latestBulletin } from "@/lib/visa-bulletin
 import { TrustStrip } from "@/components/TrustStrip";
 import { offerById } from "@/lib/billing/offers";
 import { AddToChromeButton } from "@/components/AddToChromeButton";
+import { BulletinAlertSignup } from "@/components/BulletinAlertSignup";
 
 // The free trial length comes from the offer itself, so the homepage can
 // never promise a different number of days than checkout grants.
@@ -166,6 +167,12 @@ export default function HomePage() {
             >
               When will my date be current? →
             </Link>
+            <a
+              href="#bulletin-alerts"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-accent/60"
+            >
+              Free email alerts for new bulletin dates ↓
+            </a>
             <AddToChromeButton placement="home-hero" variant="pill" label="Visa Bulletin alerts: add to Chrome, free" />
           </div>
 
@@ -229,6 +236,12 @@ export default function HomePage() {
             .join(" ")}
           linkLabel={`See all ${EVENTS.length.toLocaleString()} recorded changes`}
         />
+
+        {/* Free Visa Bulletin email alerts: the dates for one category and
+            country, by email, each time a new month is published here. */}
+        <div id="bulletin-alerts" className="scroll-mt-24">
+          <BulletinAlertSignup placement="home" trialDays={TRIAL_DAYS} />
+        </div>
 
         {/* SECTION 5 — The next three deadlines only. */}
         {/* KeyDates renders its own "All dates →" link in the header, so the
