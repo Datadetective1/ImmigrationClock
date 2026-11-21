@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-20T02:01:37.977Z",
+  "updatedAt": "2026-11-21T20:23:39.065Z",
   "items": [
     {
       "id": "event:federal_register:2026-23370::what_changed",
@@ -15,7 +15,7 @@
       "eventId": "federal_register:2026-23370",
       "category": "proposed",
       "topicKey": "topic:workforce-reductions",
-      "priority": 46204.98888888889,
+      "priority": 45504.97777777778,
       "readerValue": 70,
       "factsHash": "3e02951764f9afd6",
       "whyItMatters": [
@@ -59,7 +59,7 @@
       "eventId": "federal_register:2026-23370",
       "category": "proposed",
       "topicKey": "topic:workforce-reductions",
-      "priority": 45504.98888888889,
+      "priority": 45504.97777777778,
       "readerValue": 70,
       "factsHash": "671e9a69007c5b79",
       "whyItMatters": [
@@ -91,6 +91,94 @@
       ]
     },
     {
+      "id": "event:uscis_policy_manual:20261120-sijadjustment::what_changed",
+      "subjectId": "event:uscis_policy_manual:20261120-sijadjustment",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Policy alert: Special Immigrant Juvenile Adjustment of Status",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261120-SIJAdjustment.pdf",
+      "eventId": "uscis_policy_manual:20261120-sijadjustment",
+      "category": "explainer",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 25378.994444444445,
+      "readerValue": 48,
+      "factsHash": "f05afcac80614045",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo",
+      "ogImage": "/og/change/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo.png",
+      "freshness": {
+        "publishedAt": "2026-11-20",
+        "discoveredAt": "2026-11-21",
+        "expiresAt": "2026-12-01"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "reader value 48/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20261120-sijadjustment::why_it_matters",
+      "subjectId": "event:uscis_policy_manual:20261120-sijadjustment",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Policy alert: Special Immigrant Juvenile Adjustment of Status",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261120-SIJAdjustment.pdf",
+      "eventId": "uscis_policy_manual:20261120-sijadjustment",
+      "category": "explainer",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 24528.994444444445,
+      "readerValue": 48,
+      "factsHash": "153d89a4e47dad6c",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo",
+      "ogImage": "/og/change/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo.png",
+      "freshness": {
+        "publishedAt": "2026-11-20",
+        "discoveredAt": "2026-11-21",
+        "expiresAt": "2026-12-12"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "reader value 48/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo"
+        }
+      ]
+    },
+    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -103,7 +191,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22015,
+      "priority": 22002,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -146,7 +234,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 20012,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "0b3555e011ff02f3",
       "whyItMatters": [
@@ -189,7 +277,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20010,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -232,7 +320,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20008,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -275,7 +363,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20006,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -318,7 +406,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20003,
+      "priority": 20005,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -361,7 +449,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20002,
+      "priority": 20004,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -392,88 +480,6 @@
       ]
     },
     {
-      "id": "discovery:employer-directory::data_discovery",
-      "subjectId": "discovery:employer-directory",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "The H-1B employer directory",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "visa:h-1b",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "5c1283c010a04733",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/h1b/employers",
-      "ogImage": "/og/page/h1b-employers.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
-        }
-      ]
-    },
-    {
-      "id": "discovery:key-dates::data_discovery",
-      "subjectId": "discovery:key-dates",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Key dates, counted down",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:deadlines",
-      "priority": 15007,
-      "readerValue": 50,
-      "factsHash": "083c2db3a9bb6e57",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/key-dates",
-      "ogImage": "/og/page/key-dates.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
-        }
-      ]
-    },
-    {
       "id": "discovery:following::data_discovery",
       "subjectId": "discovery:following",
       "contentType": "data_discovery",
@@ -486,7 +492,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15006,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -527,9 +533,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15005,
+      "priority": 15007,
       "readerValue": 50,
-      "factsHash": "eacaa0156383d0a4",
+      "factsHash": "9b7a2f8088beacc3",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -568,7 +574,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15003,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -609,7 +615,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15002,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -650,7 +656,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15001,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -675,6 +681,88 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/explained"
+        }
+      ]
+    },
+    {
+      "id": "discovery:employer-directory::data_discovery",
+      "subjectId": "discovery:employer-directory",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "The H-1B employer directory",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "visa:h-1b",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "5c1283c010a04733",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/h1b/employers",
+      "ogImage": "/og/page/h1b-employers.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/h1b/employers"
+        }
+      ]
+    },
+    {
+      "id": "discovery:key-dates::data_discovery",
+      "subjectId": "discovery:key-dates",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Key dates, counted down",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:deadlines",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "083c2db3a9bb6e57",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/key-dates",
+      "ogImage": "/og/page/key-dates.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
         }
       ]
     },
@@ -848,6 +936,64 @@
         },
         {
           "at": "2026-10-14T18:19:07.137Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:uscis_policy_manual:20261120-sijadjustment::breaking_change",
+      "subjectId": "event:uscis_policy_manual:20261120-sijadjustment",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Policy alert: Special Immigrant Juvenile Adjustment of Status",
+      "suggestedHeadline": "USCIS updates SIJ adjustment guidance: discretion now emphasized",
+      "sourceName": "USCIS Policy Manual",
+      "sourceUrl": "https://www.uscis.gov/sites/default/files/document/policy-manual-updates/20261120-SIJAdjustment.pdf",
+      "eventId": "uscis_policy_manual:20261120-sijadjustment",
+      "category": "development",
+      "topicKey": "source:uscis_policy_manual",
+      "priority": 75378.99444444444,
+      "readerValue": 48,
+      "factsHash": "6e49045bb7f32ccc",
+      "whyItMatters": [
+        "Policy Manual guidance instructs USCIS officers on how to adjudicate. It is not a regulation, it did not go through notice and comment, and it can be revised or withdrawn without rulemaking.",
+        "ImmigrationClock is watching for a separately posted effective date. None has been recorded."
+      ],
+      "suggestedPost": {
+        "x": "USCIS updated Policy Manual guidance on SIJ adjustment of status.\n\nIt instructs officers that SIJ applicants who adjust must meet eligibility and also merit a favorable exercise of discretion.\n\nUSCIS has not posted a separate effective date.\n\nhttps://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3A3v6ryo",
+        "linkedin": "",
+        "structure": "news"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo",
+      "ogImage": "/og/change/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo.png",
+      "freshness": {
+        "publishedAt": "2026-11-20",
+        "discoveredAt": "2026-11-21",
+        "expiresAt": "2026-11-24"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-11-21T20:23:27.130Z",
+      "externalUrl": "https://x.com/i/web/status/2124237323105882277",
+      "history": [
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "reader value 48/100 clears the floor; share page https://immigrationclock.com/what-changed/policy-alert-special-immigrant-juvenile-adjustment-of-status-3v6ryo"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -5112,7 +5258,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -5412,6 +5558,16 @@
           "at": "2026-11-20T02:01:37.977Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5428,7 +5584,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30005,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -5738,6 +5894,16 @@
           "at": "2026-11-20T02:01:37.977Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5754,9 +5920,9 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30003,
+      "priority": 30005,
       "readerValue": 65,
-      "factsHash": "cb03422a95fb29f4",
+      "factsHash": "fbe0ee6002688e12",
       "whyItMatters": [],
       "suggestedPost": {
         "x": "2,358 WARN notices from Texas — the most of any state in our feed.\n\nSource: State WARN Act notices (state open-data portals), Jan 12, 2004 to Sep 9, 2026. States publish over different periods; counts reflect reporting as well as layoffs.\n\nhttps://immigrationclock.com/insights/warn-by-state?utm_source=x&utm_medium=social&utm_campaign=data_signal&utm_content=signal%3Awarn-by-state",
@@ -6086,6 +6252,16 @@
         },
         {
           "at": "2026-11-20T02:01:37.977Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
