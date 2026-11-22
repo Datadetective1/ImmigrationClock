@@ -15,6 +15,7 @@ import { offerById } from "@/lib/billing/offers";
 import { FollowChips } from "@/components/FollowChips";
 import { VisaBulletinChecker } from "@/components/VisaBulletinChecker";
 import { VisaBulletinCharts } from "@/components/VisaBulletinCharts";
+import { TwoDatesExplainer } from "@/components/TwoDatesExplainer";
 import { formatDate } from "@/lib/format";
 import {
   BULLETINS,
@@ -176,6 +177,8 @@ export function VisaBulletinView({ bulletin, path }: { bulletin: Bulletin; path:
         ) : null}
 
         <VisaBulletinChecker bulletin={bulletin} />
+
+        <TwoDatesExplainer />
 
         <section aria-labelledby="next-heading" className="panel p-4 sm:p-6">
           <div className="eyebrow mb-1 text-accent">Next month</div>
