@@ -1,6 +1,6 @@
 {
   "note": "Real historical archive. cbpNationwideYtd is the cumulative nationwide encounters year-to-date at each CBP monthly release (summed from CBP's published CSVs). Appended on each scheduled refresh.",
-  "lastUpdated": "2026-11-22T18:09:01.182Z",
+  "lastUpdated": "2026-11-23T22:19:19.159Z",
   "cbpNationwideYtd": [
     {
       "period": "October 2025",
