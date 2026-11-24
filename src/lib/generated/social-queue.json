@@ -1,51 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-24T01:30:02.304Z",
+  "updatedAt": "2026-11-24T23:24:55.766Z",
   "items": [
-    {
-      "id": "event:eoir_precedents:30-in-dec-249::breaking_change",
-      "subjectId": "event:eoir_precedents:30-in-dec-249",
-      "contentType": "breaking_change",
-      "tier": "news",
-      "status": "verified",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
-      "suggestedHeadline": null,
-      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-249",
-      "category": "development",
-      "topicKey": "source:eoir_precedents",
-      "priority": 74929,
-      "readerValue": 38,
-      "factsHash": "7a6f66cb236ce2ab",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
-      "freshness": {
-        "publishedAt": "2026-11-23",
-        "discoveredAt": "2026-11-23",
-        "expiresAt": "2026-11-26"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-24T01:29:40.248Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-24T01:29:40.248Z",
-          "status": "verified",
-          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
-        }
-      ]
-    },
     {
       "id": "event:federal_register:2026-23777::what_changed",
       "subjectId": "event:federal_register:2026-23777",
@@ -59,11 +15,11 @@
       "eventId": "federal_register:2026-23777",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 56733,
+      "priority": 56582.99444444444,
       "readerValue": 70,
-      "factsHash": "5a421f489cd620fd",
+      "factsHash": "c0167d3cd6ff6bb4",
       "whyItMatters": [
-        "The rule is final but does not apply until January 22, 2027, 60 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until January 22, 2027, 59 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from January 22, 2027. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the January 22, 2027 effective date."
       ],
@@ -104,11 +60,11 @@
       "eventId": "federal_register:2026-23777",
       "category": "actionable",
       "topicKey": "source:federal_register",
-      "priority": 55733,
+      "priority": 55732.99444444444,
       "readerValue": 70,
-      "factsHash": "634257a96511e567",
+      "factsHash": "1633319276fb9bd3",
       "whyItMatters": [
-        "The rule is final but does not apply until January 22, 2027, 60 days from today. Until then the rules in force today stay in force.",
+        "The rule is final but does not apply until January 22, 2027, 59 days from today. Until then the rules in force today stay in force.",
         "A rescission removes the rule it names from January 22, 2027. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
         "ImmigrationClock is watching the January 22, 2027 effective date."
       ],
@@ -149,7 +105,7 @@
       "eventId": "federal_register:2026-23370",
       "category": "proposed",
       "topicKey": "topic:workforce-reductions",
-      "priority": 45504.96666666667,
+      "priority": 45504.96111111111,
       "readerValue": 70,
       "factsHash": "671e9a69007c5b79",
       "whyItMatters": [
@@ -181,46 +137,90 @@
       ]
     },
     {
-      "id": "event:eoir_precedents:30-in-dec-249::what_changed",
-      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "id": "event:eoir_precedents:30-in-dec-259::what_changed",
+      "subjectId": "event:eoir_precedents:30-in-dec-259",
       "contentType": "what_changed",
       "tier": "news",
       "status": "verified",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 259 (BIA 2026)",
       "suggestedHeadline": null,
       "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-249",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1474116/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-259",
       "category": "explainer",
       "topicKey": "source:eoir_precedents",
-      "priority": 24929,
-      "readerValue": 38,
-      "factsHash": "4715cd4d57b72641",
+      "priority": 25529,
+      "readerValue": 50,
+      "factsHash": "4b464073878dbf0f",
       "whyItMatters": [
         "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
         "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l.png",
       "freshness": {
-        "publishedAt": "2026-11-23",
-        "discoveredAt": "2026-11-23",
-        "expiresAt": "2026-12-03"
+        "publishedAt": "2026-11-24",
+        "discoveredAt": "2026-11-24",
+        "expiresAt": "2026-12-04"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-11-24T01:29:40.248Z",
+          "at": "2026-11-24T23:24:28.031Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-11-24T01:29:40.248Z",
+          "at": "2026-11-24T23:24:28.031Z",
           "status": "verified",
-          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-259::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-259",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 259 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1474116/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-259",
+      "category": "explainer",
+      "topicKey": "source:eoir_precedents",
+      "priority": 24529,
+      "readerValue": 50,
+      "factsHash": "fcfdb4db78f17e6c",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l.png",
+      "freshness": {
+        "publishedAt": "2026-11-24",
+        "discoveredAt": "2026-11-24",
+        "expiresAt": "2026-12-15"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l"
         }
       ]
     },
@@ -237,7 +237,7 @@
       "eventId": "uscis_policy_manual:20261120-sijadjustment",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 24528.983333333334,
+      "priority": 24528.977777777778,
       "readerValue": 48,
       "factsHash": "f05afcac80614045",
       "whyItMatters": [
@@ -281,7 +281,7 @@
       "eventId": "uscis_policy_manual:20261120-sijadjustment",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 24528.983333333334,
+      "priority": 24528.977777777778,
       "readerValue": 48,
       "factsHash": "153d89a4e47dad6c",
       "whyItMatters": [
@@ -313,50 +313,6 @@
       ]
     },
     {
-      "id": "event:eoir_precedents:30-in-dec-249::why_it_matters",
-      "subjectId": "event:eoir_precedents:30-in-dec-249",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "verified",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
-      "suggestedHeadline": null,
-      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-249",
-      "category": "explainer",
-      "topicKey": "source:eoir_precedents",
-      "priority": 23929,
-      "readerValue": 38,
-      "factsHash": "d5149f010ec8aa11",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
-      "freshness": {
-        "publishedAt": "2026-11-23",
-        "discoveredAt": "2026-11-23",
-        "expiresAt": "2026-12-14"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-24T01:29:40.248Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-24T01:29:40.248Z",
-          "status": "verified",
-          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
-        }
-      ]
-    },
-    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -369,7 +325,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22004,
+      "priority": 22005,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -412,7 +368,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20014,
+      "priority": 20015,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -455,7 +411,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20012,
+      "priority": 20013,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -498,7 +454,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20010,
+      "priority": 20011,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -541,7 +497,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20007,
+      "priority": 20008,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -584,7 +540,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20006,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -627,7 +583,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:agency-process",
-      "priority": 20001,
+      "priority": 20002,
       "readerValue": 60,
       "factsHash": "0b3555e011ff02f3",
       "whyItMatters": [
@@ -670,7 +626,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15007,
+      "priority": 15008,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -711,7 +667,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15006,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -752,7 +708,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15005,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -793,7 +749,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15004,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -834,7 +790,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15003,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -875,7 +831,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:following",
-      "priority": 15002,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "edf94cc1c7228c10",
       "whyItMatters": [],
@@ -916,9 +872,9 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:policy-changes",
-      "priority": 15001,
+      "priority": 15002,
       "readerValue": 50,
-      "factsHash": "441f5abb27d63dbe",
+      "factsHash": "b0a5a4743850fee3",
       "whyItMatters": [],
       "suggestedPost": null,
       "shareUrl": "https://immigrationclock.com/what-changed",
@@ -1173,6 +1129,64 @@
         },
         {
           "at": "2026-10-14T18:19:07.137Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-259::breaking_change",
+      "subjectId": "event:eoir_precedents:30-in-dec-259",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 259 (BIA 2026)",
+      "suggestedHeadline": "EOIR precedent: no LPR grants conditioned on future I-693",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1474116/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-259",
+      "category": "development",
+      "topicKey": "source:eoir_precedents",
+      "priority": 75529,
+      "readerValue": 50,
+      "factsHash": "8c89abe06b0f8366",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": {
+        "x": "EOIR just posted an appeals precedent: judges may not grant permanent residence conditioned on a future Form I-693.\n\nIt binds immigration judges and DHS unless limited by a court of appeals or later modified.\n\nNo posted effective date.\n\nhttps://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Aisw76l",
+        "linkedin": "",
+        "structure": "news"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l.png",
+      "freshness": {
+        "publishedAt": "2026-11-24",
+        "discoveredAt": "2026-11-24",
+        "expiresAt": "2026-11-27"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-11-24T23:24:28.031Z",
+      "externalUrl": "https://x.com/i/web/status/2125370106918355338",
+      "history": [
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-259-bia-2026-isw76l"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -4055,6 +4069,55 @@
       ]
     },
     {
+      "id": "event:eoir_precedents:30-in-dec-249::breaking_change",
+      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-249",
+      "category": "development",
+      "topicKey": "source:eoir_precedents",
+      "priority": 74778.99444444444,
+      "readerValue": 38,
+      "factsHash": "7a6f66cb236ce2ab",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-11-26"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-259 (2026-11-24)"
+        }
+      ]
+    },
+    {
       "id": "event:eoir_precedents:30-in-dec-222::why_it_matters",
       "subjectId": "event:eoir_precedents:30-in-dec-222",
       "contentType": "why_it_matters",
@@ -4207,6 +4270,55 @@
       ]
     },
     {
+      "id": "event:eoir_precedents:30-in-dec-249::what_changed",
+      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-249",
+      "category": "explainer",
+      "topicKey": "source:eoir_precedents",
+      "priority": 24778.994444444445,
+      "readerValue": 38,
+      "factsHash": "4715cd4d57b72641",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-12-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-259 (2026-11-24)"
+        }
+      ]
+    },
+    {
       "id": "event:eoir_precedents:30-in-dec-212::why_it_matters",
       "subjectId": "event:eoir_precedents:30-in-dec-212",
       "contentType": "why_it_matters",
@@ -4252,6 +4364,55 @@
           "at": "2026-11-06T20:15:27.188Z",
           "status": "superseded",
           "reason": "superseded by eoir_precedents:30-in-dec-222 (2026-11-05)"
+        }
+      ]
+    },
+    {
+      "id": "event:eoir_precedents:30-in-dec-249::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-249",
+      "category": "explainer",
+      "topicKey": "source:eoir_precedents",
+      "priority": 23928.994444444445,
+      "readerValue": 38,
+      "factsHash": "d5149f010ec8aa11",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-12-14"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-259 (2026-11-24)"
         }
       ]
     },
@@ -5537,342 +5698,6 @@
       ]
     },
     {
-      "id": "signal:h1b-largest-sponsors::data_signal",
-      "subjectId": "signal:h1b-largest-sponsors",
-      "contentType": "data_signal",
-      "tier": "evergreen",
-      "status": "rejected",
-      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS H-1B Employer Data Hub",
-      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
-      "eventId": null,
-      "category": "data_insight",
-      "topicKey": "visa:h-1b",
-      "priority": 30011,
-      "readerValue": 65,
-      "factsHash": "11d78ec76986427b",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
-      "ogImage": "/og/signal/h1b-largest-sponsors.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2026-10-18"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
-        },
-        {
-          "at": "2026-10-20T18:21:49.446Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-21T18:24:06.723Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-22T18:18:43.003Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-23T18:06:12.162Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-24T17:13:19.070Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-24T17:13:19.070Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-25T17:25:02.519Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-25T17:25:02.519Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-27T19:14:28.491Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-28T00:15:27.171Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-28T00:15:27.171Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-28T19:20:44.161Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-30T18:59:48.816Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-30T18:59:48.816Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-10-31T18:12:32.445Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-10-31T18:12:32.445Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-06T20:15:27.188Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-07T00:38:29.841Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-07T00:38:29.841Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-07T18:29:31.708Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-07T18:29:31.708Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-08T18:40:43.376Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-08T18:40:43.376Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-11T21:04:50.029Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-11T21:04:50.029Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-12T02:07:33.355Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-12T02:07:33.355Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-12T21:19:36.867Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-12T21:19:36.867Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-13T01:41:26.577Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-13T01:41:26.577Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-13T20:46:44.752Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-13T20:46:44.752Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-14T01:18:29.826Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-14T01:18:29.826Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-14T18:58:10.147Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-14T18:58:10.147Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-15T19:34:11.757Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-15T19:34:11.757Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-18T21:43:28.462Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-18T21:43:28.462Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-19T02:17:12.503Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-19T02:17:12.503Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-19T21:59:15.515Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-19T21:59:15.515Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-20T02:01:37.977Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-20T02:01:37.977Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-21T20:23:27.130Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-21T20:23:27.130Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        },
-        {
-          "at": "2026-11-24T01:29:40.248Z",
-          "status": "verified",
-          "reason": "re-entered the candidates"
-        },
-        {
-          "at": "2026-11-24T01:29:40.248Z",
-          "status": "rejected",
-          "reason": "expired on 2026-10-18"
-        }
-      ]
-    },
-    {
       "id": "signal:h1b-approval-rate::data_signal",
       "subjectId": "signal:h1b-approval-rate",
       "contentType": "data_signal",
@@ -5885,7 +5710,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30010,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -6215,6 +6040,16 @@
           "at": "2026-11-24T01:29:40.248Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -6231,7 +6066,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30007,
+      "priority": 30008,
       "readerValue": 65,
       "factsHash": "fbe0ee6002688e12",
       "whyItMatters": [],
@@ -6583,6 +6418,362 @@
         },
         {
           "at": "2026-11-24T01:29:40.248Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "signal:h1b-largest-sponsors::data_signal",
+      "subjectId": "signal:h1b-largest-sponsors",
+      "contentType": "data_signal",
+      "tier": "evergreen",
+      "status": "rejected",
+      "headline": "The employers with the most H-1B approvals in the latest USCIS export",
+      "suggestedHeadline": null,
+      "sourceName": "USCIS H-1B Employer Data Hub",
+      "sourceUrl": "https://www.uscis.gov/tools/reports-and-studies/h-1b-employer-data-hub",
+      "eventId": null,
+      "category": "data_insight",
+      "topicKey": "visa:h-1b",
+      "priority": 30001,
+      "readerValue": 65,
+      "factsHash": "11d78ec76986427b",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/insights/h1b-largest-sponsors",
+      "ogImage": "/og/signal/h1b-largest-sponsors.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2026-10-18"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 65/100 clears the floor; share page https://immigrationclock.com/insights/h1b-largest-sponsors"
+        },
+        {
+          "at": "2026-10-20T18:21:49.446Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-21T18:24:06.723Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-22T18:18:43.003Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-23T18:06:12.162Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-24T17:13:19.070Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-25T17:25:02.519Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-25T17:25:02.519Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-27T19:14:28.491Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T00:15:27.171Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-28T19:20:44.161Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-30T18:59:48.816Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-10-31T18:12:32.445Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-01T18:45:49.769Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-06T20:15:27.188Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T00:38:29.841Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-07T18:29:31.708Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-08T18:40:43.376Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-11T21:04:50.029Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-11T21:04:50.029Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-12T02:07:33.355Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-12T02:07:33.355Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-12T21:19:36.867Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-13T01:41:26.577Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-13T01:41:26.577Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-13T20:46:44.752Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-13T20:46:44.752Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-14T01:18:29.826Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-14T01:18:29.826Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-14T18:58:10.147Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-14T18:58:10.147Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-15T19:34:11.757Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-15T19:34:11.757Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-18T21:43:28.462Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-18T21:43:28.462Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T02:17:12.503Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-19T21:59:15.515Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-20T02:01:37.977Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-20T02:01:37.977Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-21T20:23:27.130Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T23:24:28.031Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
