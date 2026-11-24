@@ -1,48 +1,138 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-21T20:23:39.065Z",
+  "updatedAt": "2026-11-24T01:30:02.304Z",
   "items": [
     {
-      "id": "event:federal_register:2026-23370::what_changed",
-      "subjectId": "event:federal_register:2026-23370",
-      "contentType": "what_changed",
+      "id": "event:eoir_precedents:30-in-dec-249::breaking_change",
+      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "contentType": "breaking_change",
       "tier": "news",
       "status": "verified",
-      "headline": "Modernizing the Labor Market Test and Improving Protections for U.S. Workers in the PERM Immigrant Visa Program",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
       "suggestedHeadline": null,
-      "sourceName": "Federal Register",
-      "sourceUrl": "https://www.federalregister.gov/documents/2026/11/17/2026-23370/modernizing-the-labor-market-test-and-improving-protections-for-us-workers-in-the-perm-immigrant",
-      "eventId": "federal_register:2026-23370",
-      "category": "proposed",
-      "topicKey": "topic:workforce-reductions",
-      "priority": 45504.97777777778,
-      "readerValue": 70,
-      "factsHash": "3e02951764f9afd6",
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-249",
+      "category": "development",
+      "topicKey": "source:eoir_precedents",
+      "priority": 74929,
+      "readerValue": 38,
+      "factsHash": "7a6f66cb236ce2ab",
       "whyItMatters": [
-        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
-        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
       ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/modernizing-the-labor-market-test-and-improving-protections-for-u-s-2vobt0",
-      "ogImage": "/og/change/modernizing-the-labor-market-test-and-improving-protections-for-u-s-2vobt0.png",
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
       "freshness": {
-        "publishedAt": "2026-11-17",
-        "discoveredAt": "2026-11-18",
-        "expiresAt": "2026-11-28"
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-11-26"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-11-18T21:43:28.462Z",
+          "at": "2026-11-24T01:29:40.248Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-11-18T21:43:28.462Z",
+          "at": "2026-11-24T01:29:40.248Z",
           "status": "verified",
-          "reason": "reader value 70/100 clears the floor; share page https://immigrationclock.com/what-changed/modernizing-the-labor-market-test-and-improving-protections-for-u-s-2vobt0"
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-23777::what_changed",
+      "subjectId": "event:federal_register:2026-23777",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Employee or Independent Contractor Status Under the Fair Labor Standards Act, Family and Medical Leave Act, and Migrant and Seasonal Agricultural Worker Protection Act",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/11/23/2026-23777/employee-or-independent-contractor-status-under-the-fair-labor-standards-act-family-and-medical",
+      "eventId": "federal_register:2026-23777",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 56733,
+      "readerValue": 70,
+      "factsHash": "5a421f489cd620fd",
+      "whyItMatters": [
+        "The rule is final but does not apply until January 22, 2027, 60 days from today. Until then the rules in force today stay in force.",
+        "A rescission removes the rule it names from January 22, 2027. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
+        "ImmigrationClock is watching the January 22, 2027 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5",
+      "ogImage": "/og/change/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-12-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 70/100 clears the floor; share page https://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-23777::why_it_matters",
+      "subjectId": "event:federal_register:2026-23777",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Employee or Independent Contractor Status Under the Fair Labor Standards Act, Family and Medical Leave Act, and Migrant and Seasonal Agricultural Worker Protection Act",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/11/23/2026-23777/employee-or-independent-contractor-status-under-the-fair-labor-standards-act-family-and-medical",
+      "eventId": "federal_register:2026-23777",
+      "category": "actionable",
+      "topicKey": "source:federal_register",
+      "priority": 55733,
+      "readerValue": 70,
+      "factsHash": "634257a96511e567",
+      "whyItMatters": [
+        "The rule is final but does not apply until January 22, 2027, 60 days from today. Until then the rules in force today stay in force.",
+        "A rescission removes the rule it names from January 22, 2027. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
+        "ImmigrationClock is watching the January 22, 2027 effective date."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5",
+      "ogImage": "/og/change/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-12-14"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 70/100 clears the floor; share page https://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5"
         }
       ]
     },
@@ -59,7 +149,7 @@
       "eventId": "federal_register:2026-23370",
       "category": "proposed",
       "topicKey": "topic:workforce-reductions",
-      "priority": 45504.97777777778,
+      "priority": 45504.96666666667,
       "readerValue": 70,
       "factsHash": "671e9a69007c5b79",
       "whyItMatters": [
@@ -91,6 +181,50 @@
       ]
     },
     {
+      "id": "event:eoir_precedents:30-in-dec-249::what_changed",
+      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "verified",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-249",
+      "category": "explainer",
+      "topicKey": "source:eoir_precedents",
+      "priority": 24929,
+      "readerValue": 38,
+      "factsHash": "4715cd4d57b72641",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-12-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+        }
+      ]
+    },
+    {
       "id": "event:uscis_policy_manual:20261120-sijadjustment::what_changed",
       "subjectId": "event:uscis_policy_manual:20261120-sijadjustment",
       "contentType": "what_changed",
@@ -103,7 +237,7 @@
       "eventId": "uscis_policy_manual:20261120-sijadjustment",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 25378.994444444445,
+      "priority": 24528.983333333334,
       "readerValue": 48,
       "factsHash": "f05afcac80614045",
       "whyItMatters": [
@@ -147,7 +281,7 @@
       "eventId": "uscis_policy_manual:20261120-sijadjustment",
       "category": "explainer",
       "topicKey": "source:uscis_policy_manual",
-      "priority": 24528.994444444445,
+      "priority": 24528.983333333334,
       "readerValue": 48,
       "factsHash": "153d89a4e47dad6c",
       "whyItMatters": [
@@ -179,6 +313,50 @@
       ]
     },
     {
+      "id": "event:eoir_precedents:30-in-dec-249::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-249",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "verified",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1473971/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-249",
+      "category": "explainer",
+      "topicKey": "source:eoir_precedents",
+      "priority": 23929,
+      "readerValue": 38,
+      "factsHash": "d5149f010ec8aa11",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-12-14"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 38/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-249-bia-2026-fyl768"
+        }
+      ]
+    },
+    {
       "id": "explainer:effective-date-vs-publication-date::explainer",
       "subjectId": "explainer:effective-date-vs-publication-date",
       "contentType": "explainer",
@@ -191,7 +369,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:rulemaking",
-      "priority": 22002,
+      "priority": 22004,
       "readerValue": 60,
       "factsHash": "2cd0a8bc078a3682",
       "whyItMatters": [
@@ -222,49 +400,6 @@
       ]
     },
     {
-      "id": "explainer:uscis-filing-deadline-weekend-holiday::explainer",
-      "subjectId": "explainer:uscis-filing-deadline-weekend-holiday",
-      "contentType": "explainer",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "When a USCIS filing deadline falls on a weekend or holiday",
-      "suggestedHeadline": null,
-      "sourceName": "USCIS Policy Manual, Volume 1, Part B, Chapter 6: Submitting Requests; USCIS Policy Manual: Updates; 8 CFR 1.2: Definitions",
-      "sourceUrl": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-6",
-      "eventId": null,
-      "category": "explainer",
-      "topicKey": "explainer:agency-process",
-      "priority": 20014,
-      "readerValue": 60,
-      "factsHash": "0b3555e011ff02f3",
-      "whyItMatters": [
-        "Under this guidance, a paper filing and an online filing with the same deadline can end on different days. When the last day lands on a weekend, the next business day applies to paper only."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday",
-      "ogImage": "/og/explainer/uscis-filing-deadline-weekend-holiday.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-11-01",
-        "expiresAt": "2027-11-01"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-01T18:45:49.769Z",
-          "status": "verified",
-          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday"
-        }
-      ]
-    },
-    {
       "id": "explainer:h1b-cap-and-registration::explainer",
       "subjectId": "explainer:h1b-cap-and-registration",
       "contentType": "explainer",
@@ -277,7 +412,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:work-visas",
-      "priority": 20012,
+      "priority": 20014,
       "readerValue": 60,
       "factsHash": "2155126758739879",
       "whyItMatters": [
@@ -320,7 +455,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:green-cards",
-      "priority": 20010,
+      "priority": 20012,
       "readerValue": 60,
       "factsHash": "a6606cb551a6ca9a",
       "whyItMatters": [
@@ -363,7 +498,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:enforcement-data",
-      "priority": 20008,
+      "priority": 20010,
       "readerValue": 60,
       "factsHash": "d6d04dbcbd05227b",
       "whyItMatters": [
@@ -406,7 +541,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:citizenship",
-      "priority": 20005,
+      "priority": 20007,
       "readerValue": 60,
       "factsHash": "403b424e8e089a09",
       "whyItMatters": [
@@ -449,7 +584,7 @@
       "eventId": null,
       "category": "explainer",
       "topicKey": "explainer:how-we-work",
-      "priority": 20004,
+      "priority": 20006,
       "readerValue": 60,
       "factsHash": "cea4874987d83c4f",
       "whyItMatters": [
@@ -480,84 +615,45 @@
       ]
     },
     {
-      "id": "discovery:following::data_discovery",
-      "subjectId": "discovery:following",
-      "contentType": "data_discovery",
+      "id": "explainer:uscis-filing-deadline-weekend-holiday::explainer",
+      "subjectId": "explainer:uscis-filing-deadline-weekend-holiday",
+      "contentType": "explainer",
       "tier": "evergreen",
       "status": "verified",
-      "headline": "Follow a country, a visa or a topic",
+      "headline": "When a USCIS filing deadline falls on a weekend or holiday",
       "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
+      "sourceName": "USCIS Policy Manual, Volume 1, Part B, Chapter 6: Submitting Requests; USCIS Policy Manual: Updates; 8 CFR 1.2: Definitions",
+      "sourceUrl": "https://www.uscis.gov/policy-manual/volume-1-part-b-chapter-6",
       "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:following",
-      "priority": 15008,
-      "readerValue": 50,
-      "factsHash": "edf94cc1c7228c10",
-      "whyItMatters": [],
+      "category": "explainer",
+      "topicKey": "explainer:agency-process",
+      "priority": 20001,
+      "readerValue": 60,
+      "factsHash": "0b3555e011ff02f3",
+      "whyItMatters": [
+        "Under this guidance, a paper filing and an online filing with the same deadline can end on different days. When the last day lands on a weekend, the next business day applies to paper only."
+      ],
       "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/following",
-      "ogImage": "/og/page/following.png",
+      "shareUrl": "https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday",
+      "ogImage": "/og/explainer/uscis-filing-deadline-weekend-holiday.png",
       "freshness": {
         "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
+        "discoveredAt": "2026-11-01",
+        "expiresAt": "2027-11-01"
       },
       "scheduledFor": null,
       "publishedAt": null,
       "externalUrl": null,
       "history": [
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-11-01T18:45:49.769Z",
           "status": "candidate",
           "reason": "produced by the selector from verified data"
         },
         {
-          "at": "2026-09-03T14:24:04.543Z",
+          "at": "2026-11-01T18:45:49.769Z",
           "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
-        }
-      ]
-    },
-    {
-      "id": "discovery:change-archive-search::data_discovery",
-      "subjectId": "discovery:change-archive-search",
-      "contentType": "data_discovery",
-      "tier": "evergreen",
-      "status": "verified",
-      "headline": "Search the change archive",
-      "suggestedHeadline": null,
-      "sourceName": "ImmigrationClock",
-      "sourceUrl": null,
-      "eventId": null,
-      "category": "discovery",
-      "topicKey": "topic:policy-changes",
-      "priority": 15007,
-      "readerValue": 50,
-      "factsHash": "9b7a2f8088beacc3",
-      "whyItMatters": [],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed",
-      "ogImage": "/og/page/what-changed.png",
-      "freshness": {
-        "publishedAt": null,
-        "discoveredAt": "2026-09-03",
-        "expiresAt": "2027-09-03"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-09-03T14:24:04.543Z",
-          "status": "verified",
-          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
+          "reason": "reader value 60/100 clears the floor; share page https://immigrationclock.com/explained/uscis-filing-deadline-weekend-holiday"
         }
       ]
     },
@@ -574,7 +670,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:layoffs",
-      "priority": 15005,
+      "priority": 15007,
       "readerValue": 50,
       "factsHash": "32a3ee86ffdbde5e",
       "whyItMatters": [],
@@ -615,7 +711,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:newsletter",
-      "priority": 15004,
+      "priority": 15006,
       "readerValue": 50,
       "factsHash": "e6303436550c85c1",
       "whyItMatters": [],
@@ -656,7 +752,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:explained",
-      "priority": 15003,
+      "priority": 15005,
       "readerValue": 50,
       "factsHash": "c08156681740f7f7",
       "whyItMatters": [],
@@ -697,7 +793,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "visa:h-1b",
-      "priority": 15002,
+      "priority": 15004,
       "readerValue": 50,
       "factsHash": "5c1283c010a04733",
       "whyItMatters": [],
@@ -738,7 +834,7 @@
       "eventId": null,
       "category": "discovery",
       "topicKey": "topic:deadlines",
-      "priority": 15001,
+      "priority": 15003,
       "readerValue": 50,
       "factsHash": "083c2db3a9bb6e57",
       "whyItMatters": [],
@@ -763,6 +859,88 @@
           "at": "2026-09-03T14:24:04.543Z",
           "status": "verified",
           "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/key-dates"
+        }
+      ]
+    },
+    {
+      "id": "discovery:following::data_discovery",
+      "subjectId": "discovery:following",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Follow a country, a visa or a topic",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:following",
+      "priority": 15002,
+      "readerValue": 50,
+      "factsHash": "edf94cc1c7228c10",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/following",
+      "ogImage": "/og/page/following.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/following"
+        }
+      ]
+    },
+    {
+      "id": "discovery:change-archive-search::data_discovery",
+      "subjectId": "discovery:change-archive-search",
+      "contentType": "data_discovery",
+      "tier": "evergreen",
+      "status": "verified",
+      "headline": "Search the change archive",
+      "suggestedHeadline": null,
+      "sourceName": "ImmigrationClock",
+      "sourceUrl": null,
+      "eventId": null,
+      "category": "discovery",
+      "topicKey": "topic:policy-changes",
+      "priority": 15001,
+      "readerValue": 50,
+      "factsHash": "441f5abb27d63dbe",
+      "whyItMatters": [],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed",
+      "ogImage": "/og/page/what-changed.png",
+      "freshness": {
+        "publishedAt": null,
+        "discoveredAt": "2026-09-03",
+        "expiresAt": "2027-09-03"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-09-03T14:24:04.543Z",
+          "status": "verified",
+          "reason": "reader value 50/100 clears the floor; share page https://immigrationclock.com/what-changed"
         }
       ]
     },
@@ -820,6 +998,65 @@
         },
         {
           "at": "2026-10-28T19:20:44.161Z",
+          "status": "published",
+          "reason": "published on x"
+        }
+      ]
+    },
+    {
+      "id": "event:federal_register:2026-23777::breaking_change",
+      "subjectId": "event:federal_register:2026-23777",
+      "contentType": "breaking_change",
+      "tier": "news",
+      "status": "published",
+      "headline": "Employee or Independent Contractor Status Under the Fair Labor Standards Act, Family and Medical Leave Act, and Migrant and Seasonal Agricultural Worker Protection Act",
+      "suggestedHeadline": "DOL final rule on employee vs. contractor, effective Jan. 22, 2027",
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/11/23/2026-23777/employee-or-independent-contractor-status-under-the-fair-labor-standards-act-family-and-medical",
+      "eventId": "federal_register:2026-23777",
+      "category": "development",
+      "topicKey": "source:federal_register",
+      "priority": 76733,
+      "readerValue": 70,
+      "factsHash": "145212b15c944f9a",
+      "whyItMatters": [
+        "The rule is final but does not apply until January 22, 2027, 60 days from today. Until then the rules in force today stay in force.",
+        "A rescission removes the rule it names from January 22, 2027. It does not by itself change the statute the rule was issued under, or the agency's other authorities.",
+        "ImmigrationClock is watching the January 22, 2027 effective date."
+      ],
+      "suggestedPost": {
+        "x": "Jan. 22, 2027: the Department of Labor’s final rule on employee/independent contractor status takes effect.\n\nIt rescinds the current FLSA test, adopts a modified 2021 analysis, and applies that analysis to FMLA and MSPA.\n\nhttps://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5?utm_source=x&utm_medium=social&utm_campaign=breaking_change&utm_content=change%3Agexfm5",
+        "linkedin": "",
+        "structure": "date_lede"
+      },
+      "shareUrl": "https://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5",
+      "ogImage": "/og/change/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5.png",
+      "freshness": {
+        "publishedAt": "2026-11-23",
+        "discoveredAt": "2026-11-23",
+        "expiresAt": "2026-11-26"
+      },
+      "scheduledFor": null,
+      "publishedAt": "2026-11-24T01:29:40.248Z",
+      "externalUrl": "https://x.com/i/web/status/2125039203721281781",
+      "history": [
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "reader value 70/100 clears the floor; share page https://immigrationclock.com/what-changed/employee-or-independent-contractor-status-under-the-fair-labor-gexfm5"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "ready",
+          "reason": "copy generated and validated"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
           "status": "published",
           "reason": "published on x"
         }
@@ -3916,6 +4153,60 @@
       ]
     },
     {
+      "id": "event:eoir_precedents:30-in-dec-228::why_it_matters",
+      "subjectId": "event:eoir_precedents:30-in-dec-228",
+      "contentType": "why_it_matters",
+      "tier": "follow_up",
+      "status": "superseded",
+      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 228 (BIA 2026)",
+      "suggestedHeadline": null,
+      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
+      "sourceUrl": "https://www.justice.gov/eoir/media/1471311/dl?inline",
+      "eventId": "eoir_precedents:30-in-dec-228",
+      "category": "actionable",
+      "topicKey": "source:eoir_precedents",
+      "priority": 54448.97222222222,
+      "readerValue": 44,
+      "factsHash": "ba24b592eabbc142",
+      "whyItMatters": [
+        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
+        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-228-bia-2026-jkmc6t",
+      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-228-bia-2026-jkmc6t.png",
+      "freshness": {
+        "publishedAt": "2026-11-10",
+        "discoveredAt": "2026-11-11",
+        "expiresAt": "2026-12-02"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-11T21:04:50.029Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-11T21:04:50.029Z",
+          "status": "verified",
+          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-228-bia-2026-jkmc6t"
+        },
+        {
+          "at": "2026-11-18T21:43:28.462Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-11-18"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "superseded",
+          "reason": "superseded by eoir_precedents:30-in-dec-249 (2026-11-23)"
+        }
+      ]
+    },
+    {
       "id": "event:eoir_precedents:30-in-dec-212::why_it_matters",
       "subjectId": "event:eoir_precedents:30-in-dec-212",
       "contentType": "why_it_matters",
@@ -4947,55 +5238,6 @@
       ]
     },
     {
-      "id": "event:eoir_precedents:30-in-dec-228::why_it_matters",
-      "subjectId": "event:eoir_precedents:30-in-dec-228",
-      "contentType": "why_it_matters",
-      "tier": "follow_up",
-      "status": "rejected",
-      "headline": "Board of Immigration Appeals precedent: 30 I&N Dec. 228 (BIA 2026)",
-      "suggestedHeadline": null,
-      "sourceName": "Immigration appeals precedent decisions (BIA and Attorney General)",
-      "sourceUrl": "https://www.justice.gov/eoir/media/1471311/dl?inline",
-      "eventId": "eoir_precedents:30-in-dec-228",
-      "category": "actionable",
-      "topicKey": "source:eoir_precedents",
-      "priority": 54448.97222222222,
-      "readerValue": 44,
-      "factsHash": "ba24b592eabbc142",
-      "whyItMatters": [
-        "A court decision binds according to the court that issued it, and it can be appealed. What it changes in practice depends on the order itself, which this record does not summarise.",
-        "ImmigrationClock is watching the docket for a stay or an appeal, and the agency's own notice of how it will comply."
-      ],
-      "suggestedPost": null,
-      "shareUrl": "https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-228-bia-2026-jkmc6t",
-      "ogImage": "/og/change/board-of-immigration-appeals-precedent-30-i-n-dec-228-bia-2026-jkmc6t.png",
-      "freshness": {
-        "publishedAt": "2026-11-10",
-        "discoveredAt": "2026-11-11",
-        "expiresAt": "2026-12-02"
-      },
-      "scheduledFor": null,
-      "publishedAt": null,
-      "externalUrl": null,
-      "history": [
-        {
-          "at": "2026-11-11T21:04:50.029Z",
-          "status": "candidate",
-          "reason": "produced by the selector from verified data"
-        },
-        {
-          "at": "2026-11-11T21:04:50.029Z",
-          "status": "verified",
-          "reason": "reader value 44/100 clears the floor; share page https://immigrationclock.com/what-changed/board-of-immigration-appeals-precedent-30-i-n-dec-228-bia-2026-jkmc6t"
-        },
-        {
-          "at": "2026-11-18T21:43:28.462Z",
-          "status": "rejected",
-          "reason": "expired: no longer a candidate on 2026-11-18"
-        }
-      ]
-    },
-    {
       "id": "event:federal_register:2026-20185::why_it_matters",
       "subjectId": "event:federal_register:2026-20185",
       "contentType": "why_it_matters",
@@ -5146,6 +5388,55 @@
       ]
     },
     {
+      "id": "event:federal_register:2026-23370::what_changed",
+      "subjectId": "event:federal_register:2026-23370",
+      "contentType": "what_changed",
+      "tier": "news",
+      "status": "rejected",
+      "headline": "Modernizing the Labor Market Test and Improving Protections for U.S. Workers in the PERM Immigrant Visa Program",
+      "suggestedHeadline": null,
+      "sourceName": "Federal Register",
+      "sourceUrl": "https://www.federalregister.gov/documents/2026/11/17/2026-23370/modernizing-the-labor-market-test-and-improving-protections-for-us-workers-in-the-perm-immigrant",
+      "eventId": "federal_register:2026-23370",
+      "category": "proposed",
+      "topicKey": "topic:workforce-reductions",
+      "priority": 45504.97777777778,
+      "readerValue": 70,
+      "factsHash": "3e02951764f9afd6",
+      "whyItMatters": [
+        "This is a proposal open for comment, not a rule. Nothing changes until it is finalised, it may change before it is, and it may never be.",
+        "ImmigrationClock is watching for a final rule. Until one publishes, this remains a proposal."
+      ],
+      "suggestedPost": null,
+      "shareUrl": "https://immigrationclock.com/what-changed/modernizing-the-labor-market-test-and-improving-protections-for-u-s-2vobt0",
+      "ogImage": "/og/change/modernizing-the-labor-market-test-and-improving-protections-for-u-s-2vobt0.png",
+      "freshness": {
+        "publishedAt": "2026-11-17",
+        "discoveredAt": "2026-11-18",
+        "expiresAt": "2026-11-28"
+      },
+      "scheduledFor": null,
+      "publishedAt": null,
+      "externalUrl": null,
+      "history": [
+        {
+          "at": "2026-11-18T21:43:28.462Z",
+          "status": "candidate",
+          "reason": "produced by the selector from verified data"
+        },
+        {
+          "at": "2026-11-18T21:43:28.462Z",
+          "status": "verified",
+          "reason": "reader value 70/100 clears the floor; share page https://immigrationclock.com/what-changed/modernizing-the-labor-market-test-and-improving-protections-for-u-s-2vobt0"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "rejected",
+          "reason": "expired: no longer a candidate on 2026-11-23"
+        }
+      ]
+    },
+    {
       "id": "event:federal_register:2026-20660::what_changed",
       "subjectId": "event:federal_register:2026-20660",
       "contentType": "what_changed",
@@ -5258,7 +5549,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30009,
+      "priority": 30011,
       "readerValue": 65,
       "factsHash": "11d78ec76986427b",
       "whyItMatters": [],
@@ -5568,6 +5859,16 @@
           "at": "2026-11-21T20:23:27.130Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5584,7 +5885,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "visa:h-1b",
-      "priority": 30007,
+      "priority": 30009,
       "readerValue": 65,
       "factsHash": "18b61ebf2981afed",
       "whyItMatters": [],
@@ -5904,6 +6205,16 @@
           "at": "2026-11-21T20:23:27.130Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
         }
       ]
     },
@@ -5920,7 +6231,7 @@
       "eventId": null,
       "category": "data_insight",
       "topicKey": "topic:layoffs",
-      "priority": 30005,
+      "priority": 30007,
       "readerValue": 65,
       "factsHash": "fbe0ee6002688e12",
       "whyItMatters": [],
@@ -6262,6 +6573,16 @@
         },
         {
           "at": "2026-11-21T20:23:27.130Z",
+          "status": "rejected",
+          "reason": "expired on 2026-10-18"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
+          "status": "verified",
+          "reason": "re-entered the candidates"
+        },
+        {
+          "at": "2026-11-24T01:29:40.248Z",
           "status": "rejected",
           "reason": "expired on 2026-10-18"
         }
