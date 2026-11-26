@@ -12,12 +12,63 @@ export const es: LocaleStrings = {
   htmlLang: "es",
   endonym: "Español",
 
-  subject: (n) =>
-    n === 0 ? "Immigration Pulse: semana tranquila" : `Immigration Pulse: ${n} cambio${n === 1 ? "" : "s"}`,
-  preheader: (n) =>
+  subject: (n, coreNews) => {
+    if (n === 0) return "Semana tranquila: sin cambios oficiales nuevos";
+    const more = `${n} actualizaci${n === 1 ? "ón" : "ones"}`;
+    return coreNews.length === 0
+      ? `H-1B y green card laboral: sin cambios. ${n} novedad${n === 1 ? "" : "es"} más`
+      : `${es.joinList(coreNews)}: hay novedades. ${more}`;
+  },
+  preheader: (n, top) =>
     n === 0
       ? "Esta semana no se registraron cambios oficiales significativos."
-      : `${n} cambio${n === 1 ? "" : "s"} oficial${n === 1 ? "" : "es"} en la inmigración de EE. UU., cada uno enlazado a su documento fuente.`,
+      : top
+        ? `Lo principal: ${top}. Cada novedad enlaza a su fuente oficial.`
+        : `${n} cambio${n === 1 ? "" : "s"} oficial${n === 1 ? "" : "es"} en la inmigración de EE. UU., cada uno enlazado a su documento fuente.`,
+
+  hero: {
+    title: (coreNews) =>
+      coreNews.length === 0
+        ? "Sin cambios en H-1B ni en la green card laboral esta semana"
+        : `Novedades esta semana en ${es.joinList(coreNews)}`,
+    quietWeek: "Una semana tranquila en la inmigración oficial",
+    meta: (n, m) => `${n} actualizaci${n === 1 ? "ón oficial" : "ones oficiales"} · ${m} min de lectura`,
+  },
+
+  core: { h1b: "H-1B", employmentGreenCard: "green card laboral" },
+  joinList: (xs) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`),
+
+  board: {
+    title: "Los temas que seguimos",
+    noChange: "Sin cambios",
+    news: "Novedad esta semana",
+    note:
+      "«Sin cambios» significa que nuestras fuentes no registraron nada sobre ese tema esta semana. " +
+      "Describe nuestro archivo, no el mundo entero: confirme siempre en la fuente oficial antes de actuar.",
+  },
+
+  kind: {
+    new_information: "Información nueva",
+    updated_information: "Actualización de política",
+    correction: "Corrección",
+    historical_revision: "Revisión",
+    announcement: "Anuncio",
+    data_release: "Publicación de datos",
+    proposed_rule: "Norma propuesta",
+    final_rule: "Norma final",
+    executive_action: "Acción ejecutiva",
+    court_decision: "Decisión judicial",
+    legislative_action: "Legislación",
+    deadline: "Plazo",
+  },
+
+  cta: {
+    kicker: "Alertas gratuitas",
+    title: "¿Espera el Boletín de Visas?",
+    body:
+      "Reciba por correo las dos fechas de su categoría y país cada vez que se publica un nuevo mes del Boletín de Visas.",
+    button: "Activar alertas gratuitas",
+  },
 
   brand: {
     productName: "ImmigrationClock",
@@ -26,15 +77,14 @@ export const es: LocaleStrings = {
   },
 
   issueLabel: (from, to) => `Semana del ${fmt(from)} al ${fmt(to)}`,
+  date: (iso) => fmt(iso),
 
   opening: {
     withChanges: (shown, recorded) =>
-      (recorded > shown
+      recorded > shown
         ? `Esta semana hubo ${recorded} actualizaciones oficiales de inmigración. A continuación ` +
-          `${shown === 1 ? "figura la más importante" : `figuran las ${shown} más importantes`}; el resto están en el archivo. `
-        : `Esta semana hubo ${shown} actualización${shown === 1 ? "" : "es"} oficial${shown === 1 ? "" : "es"} de inmigración. `) +
-      `Cada elemento enlaza directamente con la publicación gubernamental de la que procede. ` +
-      `Informamos de lo que cambió; no le decimos lo que significa para su caso.`,
+          `${shown === 1 ? "figura la más importante" : `figuran las ${shown} más importantes`}; el resto están en el archivo.`
+        : `Esta semana hubo ${shown} actualización${shown === 1 ? "" : "es"} oficial${shown === 1 ? "" : "es"} de inmigración.`,
     noChanges:
       "Esta semana no se registraron cambios oficiales significativos. Esto describe lo que publicaron " +
       "nuestras fuentes, no garantiza que no ocurriera nada: los avisos rutinarios siguen entrando en el " +
@@ -85,6 +135,8 @@ export const es: LocaleStrings = {
     notInForce: "Propuesta: no está en vigor",
     whyItMatters: "Por qué importa",
     readDocument: "Leer el documento oficial",
+    fromDocument: "Del texto oficial",
+    top: "Lo principal",
   },
 
   stats: {

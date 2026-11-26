@@ -50,6 +50,8 @@ export const MAX_ITEMS = 5;
 /** How many stories the personalized lead group carries before the general feed. */
 export const MAX_LEAD_ITEMS = 3;
 
+export { CORE_WATCH } from "./types";
+
 /**
  * WHAT WE WATCH CLOSELY ENOUGH TO REPORT ITS SILENCE.
  *
@@ -288,6 +290,7 @@ export function selectIssue(opts: SelectOptions): Issue {
   // Everything the issue renders — the lead group counts as shown.
   const shownIds = new Set([...(lead?.items ?? []), ...items].map((i) => i.id));
   const counts = canonicalCounts(inWindow, shownIds);
+  const quiet = unchangedTopics(inWindow);
 
   return {
     id: `${segment.id}-${today}`,
@@ -307,7 +310,8 @@ export function selectIssue(opts: SelectOptions): Issue {
     counts,
     stats: counts.categories,
     absentStats: counts.absent,
-    unchanged: unchangedTopics(inWindow),
+    unchanged: quiet,
+    watch: WATCHLIST.map((w) => ({ key: w.key, changed: !quiet.includes(w) })),
     upcoming: upcomingDates(today),
     resources: rotateResources(today),
     readingMinutes: readingMinutes([...(lead?.items ?? []), ...items]),
