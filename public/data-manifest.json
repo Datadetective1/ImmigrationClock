@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-26T19:56:09.947Z",
-  "startedAt": "2026-11-26T19:56:05.221Z",
-  "finishedAt": "2026-11-26T19:56:09.947Z",
+  "generatedAt": "2026-11-26T22:41:53.108Z",
+  "startedAt": "2026-11-26T22:41:51.484Z",
+  "finishedAt": "2026-11-26T22:41:53.108Z",
   "ok": true,
   "errors": [],
   "note": "generatedAt is when this pipeline last ran. It is NOT a claim that the underlying datasets are real-time.",
@@ -10,7 +10,7 @@
     "value": 4.1,
     "period": "October 2026",
     "sourceUpdatedAt": "2026-10-01",
-    "fetchedAt": "2026-11-26T19:56:05.581Z",
+    "fetchedAt": "2026-11-26T22:41:51.721Z",
     "sourceName": "U.S. Bureau of Labor Statistics",
     "sourceUrl": "https://www.bls.gov/cps/",
     "note": "Seasonally adjusted national unemployment rate (LNS14000000)."
@@ -28,7 +28,7 @@
       "2026": 382490
     },
     "datasetUrl": "https://www.cbp.gov/sites/default/files/2026-11/nationwide-encounters-fy24-fy27-oct-aor.csv",
-    "fetchedAt": "2026-11-26T19:56:05.891Z",
+    "fetchedAt": "2026-11-26T22:41:52.041Z",
     "sourceName": "CBP Nationwide Encounters",
     "sourceUrl": "https://www.cbp.gov/newsroom/stats/nationwide-encounters",
     "sourceUpdatedAt": "2026-11-26",
@@ -159,7 +159,7 @@
         "count": 9
       }
     ],
-    "fetchedAt": "2026-11-26T19:56:09.597Z",
+    "fetchedAt": "2026-11-26T22:41:52.708Z",
     "sourceName": "Texas WARN Notices (Texas Workforce Commission)",
     "sourceUrl": "https://data.texas.gov/d/8w53-c4f6",
     "datasetUrl": "https://data.texas.gov/resource/8w53-c4f6.json",
@@ -238,7 +238,7 @@
       }
     ],
     "datasetUrl": "https://www.justice.gov/eoir/media/1344791/dl?inline",
-    "fetchedAt": "2026-11-26T19:56:09.947Z",
+    "fetchedAt": "2026-11-26T22:41:53.108Z",
     "sourceName": "EOIR Adjudication Statistics",
     "sourceUrl": "https://www.justice.gov/eoir/workload-and-adjudication-statistics",
     "sourceUpdatedAt": "2026-10-28",
@@ -252,7 +252,7 @@
       "feed": "BLS Public Data API",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-26T19:56:05.581Z",
+      "lastFetchedAt": "2026-11-26T22:41:51.721Z",
       "lastError": null
     },
     {
@@ -262,7 +262,7 @@
       "feed": "CBP Nationwide Encounters (CSV)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-26T19:56:05.891Z",
+      "lastFetchedAt": "2026-11-26T22:41:52.041Z",
       "lastError": null
     },
     {
@@ -312,7 +312,7 @@
       "feed": "Texas via data.texas.gov (Socrata), TX only; other states curated",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-26T19:56:09.597Z",
+      "lastFetchedAt": "2026-11-26T22:41:52.708Z",
       "lastError": null
     },
     {
@@ -322,7 +322,7 @@
       "feed": "EOIR adjudication statistics (PDF table)",
       "auto": true,
       "status": "ok",
-      "lastFetchedAt": "2026-11-26T19:56:09.947Z",
+      "lastFetchedAt": "2026-11-26T22:41:53.108Z",
       "lastError": null
     }
   ]
