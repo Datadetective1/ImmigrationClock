@@ -16,20 +16,20 @@ export const en: LocaleStrings = {
     if (n === 0) return "Quiet week: no new official immigration changes";
     const more = `${n} update${n === 1 ? "" : "s"}`;
     return coreNews.length === 0
-      ? `No H-1B or EB green card changes. ${n} other ${n === 1 ? "update" : "updates"}`
+      ? `Quiet week for H-1B and EB green cards. ${n} other ${n === 1 ? "update" : "updates"}`
       : `${en.joinList(coreNews)}: news this week, ${more} inside`;
   },
-  preheader: (n, top) =>
+  preheader: (n, top, topIsCore) =>
     n === 0
       ? "No significant official changes recorded this week."
       : top
-        ? `Top story: ${top}. Every update links to the official source.`
+        ? `${topIsCore ? "Top story" : "Also this week"}: ${top}. Every update links to the official source.`
         : `${n} official U.S. immigration change${n === 1 ? "" : "s"}, each linked to its source document.`,
 
   hero: {
     title: (coreNews) =>
       coreNews.length === 0
-        ? "No change to H-1B or EB green cards this week"
+        ? "Quiet week for H-1B and EB green cards"
         : `New this week for ${en.joinList(coreNews)}`,
     quietWeek: "A quiet week in official immigration news",
     meta: (n, m) => `${n} official update${n === 1 ? "" : "s"} · ${m} min read`,
@@ -45,6 +45,24 @@ export const en: LocaleStrings = {
     note:
       "“No change” means our sources recorded nothing on that topic this week. That describes our " +
       "archive, not the whole world, so check the official source before acting.",
+  },
+
+  audience: {
+    sij: "Special Immigrant Juvenile (SIJ) applicants",
+    medicalExam: "Green card applicants who need a medical exam (Form I-693)",
+    h1b: "H-1B workers and employers",
+    seasonal: "Seasonal and farm workers (H-2A, H-2B)",
+    students: "International students and exchange visitors",
+    daca: "DACA recipients",
+    tps: "People with Temporary Protected Status",
+    asylum: "Asylum seekers and refugees",
+    employmentGreenCard: "Employment-based green card applicants",
+    family: "Family-based immigrants and their sponsors",
+    naturalization: "Naturalization applicants",
+    visaBulletin: "People waiting on a Visa Bulletin date",
+    fees: "Anyone filing with USCIS (fees)",
+    immigrationCourt: "People with cases in immigration court",
+    labor: "Workers and employers under U.S. labor law",
   },
 
   kind: {
@@ -63,11 +81,11 @@ export const en: LocaleStrings = {
   },
 
   cta: {
-    kicker: "Free alerts",
+    kicker: "Visa Bulletin",
     title: "Waiting on the Visa Bulletin?",
     body:
-      "Get the two dates for your category and country by email, each time a new Visa Bulletin month is published.",
-    button: "Get free Visa Bulletin alerts",
+      "Sign up for free email alerts with the two dates for your category and country.",
+    button: "Sign up for free alerts",
   },
 
   brand: {
@@ -86,7 +104,7 @@ export const en: LocaleStrings = {
           `${shown === 1 ? "is" : "are"} below; the rest are in the archive.`
         : (shown === 1
             ? `This week brought 1 official immigration update.`
-            : `This week brought ${shown} official immigration updates, the ones that reach the most people first.`),
+            : `This week brought ${shown} official immigration updates.`),
     noChanges:
       "No significant official changes were recorded this week. That is a statement about what our " +
       "sources published, not a guarantee that nothing happened. Routine notices are still going into " +
@@ -94,8 +112,9 @@ export const en: LocaleStrings = {
   },
 
   sections: {
+    others: "Other official updates this week",
     snapshot: "This week at a glance",
-    topChanges: "What changed this week",
+    topChanges: "H-1B, green cards and the Visa Bulletin",
     unchanged: "What did not change",
     upcoming: "Coming up",
     quickNumbers: "By the numbers",
@@ -139,6 +158,7 @@ export const en: LocaleStrings = {
     readDocument: "Read the official document",
     fromDocument: "From the official text",
     top: "Top story",
+    about: "Who it's about",
   },
 
   stats: {

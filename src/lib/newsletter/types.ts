@@ -81,6 +81,23 @@ export const RESEND_UNSUBSCRIBE_TOKEN = "{{{RESEND_UNSUBSCRIBE_URL}}}";
 export const CORE_WATCH = ["h1b", "employmentGreenCard"] as const;
 
 /**
+ * Entities whose stories lead the issue as full cards. Everything else is
+ * still reported, as a one-line item under "Other updates". Until the signup
+ * collects each reader's own topics this is the default for every edition:
+ * H-1B, employment-based green cards and the Visa Bulletin, the three things
+ * the people who subscribe from the wait-time and Visa Bulletin pages track.
+ */
+export const CORE_ENTITY_IDS: ReadonlySet<string> = new Set([
+  "visa:h-1b",
+  "topic:h1b",
+  "visa:eb-1",
+  "visa:eb-2",
+  "visa:eb-3",
+  "visa:eb-5",
+  "topic:visa-bulletin",
+]);
+
+/**
  * WHO an edition is for.
  *
  * A segment is the only thing that varies between editions. `audienceId` is the
@@ -124,6 +141,13 @@ export interface IssueItem {
   scheduled: boolean;
   /** True for proposals — must never read as being in force. */
   notInForce: boolean;
+  /**
+   * Key into the locale's `audience` map: who the document's own text names
+   * (see audience.ts). Absent when no rule matches; never guessed.
+   */
+  audience?: string;
+  /** True when the event touches a CORE_ENTITY_IDS entity. Cards vs one-liners. */
+  core?: boolean;
 }
 
 /** A counted fact about the window. Rendered only when the count is non-zero. */

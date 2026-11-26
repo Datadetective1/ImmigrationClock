@@ -30,6 +30,8 @@ const MUTED = "#64748b";
 const HAIRLINE = "#e5e7eb";
 const CANVAS = "#f3f4f6";
 const PANEL = "#f8fafc";
+/** The placeholder some sources print where an abstract would be. */
+const NO_ABSTRACT = /^\s*no abstract (was )?(published|available)/i;
 /** Deep sky: buttons and links. White on it clears 4.5:1, which #0ea5e9 does not. */
 const BUTTON = "#0369a1";
 /** Masthead and the alerts panel. */
@@ -178,7 +180,9 @@ export function renderIssue(
   const quietKeys = new Set(issue.unchanged.map((w) => w.key));
   const coreNews = CORE_WATCH.filter((k) => !quietKeys.has(k)).map((k) => t.core[k] ?? k);
   const allShown = [...(issue.lead?.items ?? []), ...issue.items];
-  const topStory = allShown[0];
+  // The preview line names the top CORE story when there is one; otherwise the
+  // top of the "other updates" list, labelled as such.
+  const topStory = allShown.find((i) => i.core) ?? allShown[0];
   const clip = (s: string, max: number) => {
     if (s.length <= max) return s;
     const at = s.lastIndexOf(" ", max);
@@ -241,6 +245,9 @@ export function renderIssue(
   //     gave the eye nowhere to land. The rest are text links.
   const renderCard = (it: Issue["items"][number], index: number, featured: boolean) => {
     const ex = excerpt(it.summary, featured ? 320 : 240);
+    // Some Federal Register documents carry this placeholder instead of an
+    // abstract. Quoting it as "official text" tells the reader nothing.
+    const noAbstract = NO_ABSTRACT.test(it.summary);
     const forceBadge = it.notInForce
       ? `<span style="display:inline-block;margin-${rtl ? "right" : "left"}:6px;padding:2px 7px;border-radius:6px;background:${WARN};color:#ffffff;font:700 11px Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;">${esc(t.item.notInForce)}</span>`
       : "";
@@ -272,20 +279,45 @@ export function renderIssue(
             <td valign="top" style="vertical-align:top;" align="${align}">
               <p style="margin:0 0 6px;font:700 11px/1.5 Arial,sans-serif;color:${MUTED};text-transform:uppercase;letter-spacing:.05em;">${kicker}${forceBadge}</p>
               <h3 style="margin:0;font:700 ${featured ? 20 : 17}px/1.3 Arial,sans-serif;color:${INK};">${esc(featured ? headline(it.title) : clip(headline(it.title), 110))}</h3>
+              ${aboutLine(it)}
             </td>
           </tr></table>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;"><tr>
+          ${noAbstract ? "" : `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;"><tr>
             <td style="border-${rtl ? "right" : "left"}:3px solid ${QUOTE_RULE};padding-${rtl ? "right" : "left"}:14px;" align="${align}">
               <p style="margin:0 0 4px;font:700 10px Arial,sans-serif;color:${MUTED};text-transform:uppercase;letter-spacing:.08em;">${esc(t.item.fromDocument)}</p>
               <p style="margin:0;font:400 15px/1.6 Arial,sans-serif;color:${BODY};">${esc(ex.text)}</p>
             </td>
-          </tr></table>
+          </tr></table>`}
           ${why}
           <p style="margin:12px 0 0;font:400 12px Arial,sans-serif;color:${MUTED};">${esc(dateLabel)}: ${esc(t.date(it.publishedAt))}</p>
           ${link}
         </td></tr>
       </table>
     </td></tr>`;
+  };
+
+  // "Who it's about": the population the document's own text names, from a
+  // fixed pattern list (audience.ts). Omitted when nothing matches.
+  function aboutLine(it: Issue["items"][number]): string {
+    const who = it.audience ? t.audience[it.audience] : undefined;
+    return who
+      ? `<p style="margin:8px 0 0;font:400 13px/1.5 Arial,sans-serif;color:${BODY};"><strong style="color:${INK};">${esc(t.item.about)}:</strong> ${esc(who)}</p>`
+      : "";
+  }
+
+  // ---- One-line items ----------------------------------------------------------
+  // Everything that is not H-1B, an EB green card or the Visa Bulletin. Still
+  // reported, still linked to its source, but as one scannable row rather than
+  // a card that pushes the reader's own topics off the screen.
+  const renderRow = (it: Issue["items"][number]) => {
+    const forceBadge = it.notInForce
+      ? ` <span style="display:inline-block;padding:1px 6px;border-radius:5px;background:${WARN};color:#ffffff;font:700 10px Arial,sans-serif;text-transform:uppercase;">${esc(t.item.notInForce)}</span>`
+      : "";
+    return `<tr><td style="padding:12px 0;border-bottom:1px solid ${HAIRLINE};" align="${align}">
+        <p style="margin:0 0 3px;font:700 10px/1.5 Arial,sans-serif;color:${MUTED};text-transform:uppercase;letter-spacing:.06em;">${esc(t.kind[it.classification] ?? it.classification)} &middot; ${esc(agencyShort(it.agency))} &middot; ${esc(t.date(it.publishedAt))}${forceBadge}</p>
+        <a href="${esc(it.sourceUrl)}" style="font:700 15px/1.4 Arial,sans-serif;color:${INK};text-decoration:none;">${esc(clip(headline(it.title), 120))}&nbsp;<span style="color:${BUTTON};">&rarr;</span></a>
+        ${it.audience && t.audience[it.audience] ? `<p style="margin:4px 0 0;font:400 13px/1.5 Arial,sans-serif;color:${BODY};">${esc(t.item.about)}: ${esc(t.audience[it.audience])}</p>` : ""}
+      </td></tr>`;
   };
 
   let cardIndex = 0;
@@ -297,7 +329,8 @@ export function renderIssue(
       })
       .join("");
   const leadCards = issue.lead && issue.lead.items.length ? renderCards(issue.lead.items) : "";
-  const feedCards = n > 0 ? renderCards(issue.items) : "";
+  const feedCards = n > 0 ? renderCards(issue.items.filter((i) => i.core)) : "";
+  const otherRows = n > 0 ? issue.items.filter((i) => !i.core).map(renderRow).join("") : "";
 
   // ---- Coming up -------------------------------------------------------------
   // Three, not four, each with a calendar tile so the date is read first.
@@ -365,7 +398,7 @@ export function renderIssue(
 <title>${esc(t.brand.tagline)} | ${esc(t.issueLabel(issue.from, issue.to))}</title>
 </head>
 <body style="margin:0;padding:0;background:${CANVAS};-webkit-text-size-adjust:100%;" dir="${dir}">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${esc(t.preheader(n, topHeadline))}${preheaderPad}</div>
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${esc(t.preheader(n, topHeadline, Boolean(topStory?.core)))}${preheaderPad}</div>
 
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${CANVAS};padding:20px 10px;">
 <tr><td align="center">
@@ -404,27 +437,46 @@ export function renderIssue(
             : ""
         }
 
+        <!-- Opening: the counts, reconciled, and the category chips. -->
+        <tr><td style="padding:22px 28px 0;" align="${align}">
+          <p style="margin:0 0 12px;font:400 15px/1.6 Arial,sans-serif;color:${BODY};">${esc(n > 0 ? t.opening.withChanges(shown, recorded) : t.opening.noChanges)}</p>
+          ${chips ? `<div>${chips}</div>` : ""}
+        </td></tr>
+
         <!-- 2a. PERSONALIZED LEAD — only when the segment asked for it. -->
         ${
           leadCards
-            ? `<tr><td style="padding:26px 28px 0;" align="${align}">
+            ? `<tr><td style="padding:22px 28px 0;" align="${align}">
                  ${sectionTitle(ICON.changes, t.leadGroup(issue.lead!.label))}
                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${leadCards}</table>
                </td></tr>`
             : ""
         }
 
-        <!-- 2b. WHAT CHANGED THIS WEEK — opening, category chips, cards. -->
-        <tr><td style="padding:26px 28px 0;" align="${align}">
-          ${sectionTitle(ICON.changes, t.sections.topChanges)}
-          <p style="margin:0 0 12px;font:400 15px/1.6 Arial,sans-serif;color:${BODY};">${esc(n > 0 ? t.opening.withChanges(shown, recorded) : t.opening.noChanges)}</p>
-          ${chips ? `<div style="margin:0 0 14px;">${chips}</div>` : ""}
-          ${feedCards ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${feedCards}</table>` : ""}
-        </td></tr>
+        <!-- 2b. H-1B, EB GREEN CARDS, VISA BULLETIN — full cards. -->
+        ${
+          feedCards
+            ? `<tr><td style="padding:22px 28px 0;" align="${align}">
+                 ${sectionTitle(ICON.changes, t.sections.topChanges)}
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${feedCards}</table>
+               </td></tr>`
+            : ""
+        }
+
+        <!-- 2c. EVERYTHING ELSE — one line each, still sourced. -->
+        ${
+          otherRows
+            ? `<tr><td style="padding:22px 28px 0;" align="${align}">
+                 ${sectionTitle(ICON.numbers, t.sections.others)}
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${otherRows}</table>
+               </td></tr>`
+            : ""
+        }
 
         <!-- 3. FREE VISA BULLETIN ALERTS — the one thing to do after reading.
-             Mirrors the promise on /visa-bulletin-alerts word for word. -->
-        <tr><td style="padding:12px 28px 0;" align="${align}">
+             Promises a sign-up and nothing about when emails arrive: monthly
+             sends are switched on separately (BULLETIN_ALERTS_SEND). -->
+        <tr><td style="padding:26px 28px 0;" align="${align}">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${NIGHT};border-radius:14px;">
             <tr><td bgcolor="${NIGHT}" style="background:${NIGHT};background-image:linear-gradient(135deg,${NIGHT} 0%,#0c4a6e 100%);border-radius:14px;padding:22px 24px;" align="${align}">
               <p style="margin:0 0 6px;font:800 11px Arial,sans-serif;color:#7dd3fc;text-transform:uppercase;letter-spacing:.1em;">${esc(t.cta.kicker)}</p>
@@ -432,7 +484,7 @@ export function renderIssue(
               <p style="margin:0 0 16px;font:400 14px/1.6 Arial,sans-serif;color:#cbd5e1;">${esc(t.cta.body)}</p>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
                 <td bgcolor="#ffffff" style="background:#ffffff;border-radius:8px;">
-                  <a href="${alertsUrl}" style="display:block;padding:13px 20px;font:800 15px Arial,sans-serif;color:${NIGHT};text-decoration:none;">${esc(t.cta.button)}&nbsp;&rarr;</a>
+                  <a href="${alertsUrl}" style="display:block;padding:14px 22px;font:800 15px Arial,sans-serif;color:${NIGHT};text-decoration:none;">${esc(t.cta.button)}&nbsp;&rarr;</a>
                 </td>
               </tr></table>
             </td></tr>
@@ -533,7 +585,8 @@ export function renderIssue(
       `   ${t.kind[it.classification] ?? it.classification} | ${agencyShort(it.agency)}` +
         `${it.severity === "major" ? ` | ${t.item.severity.major}` : ""}${it.notInForce ? ` | ${t.item.notInForce}` : ""}`
     );
-    lines.push(`   ${t.item.fromDocument}: "${ex.text}"`);
+    if (it.audience && t.audience[it.audience]) lines.push(`   ${t.item.about}: ${t.audience[it.audience]}`);
+    if (!NO_ABSTRACT.test(it.summary)) lines.push(`   ${t.item.fromDocument}: "${ex.text}"`);
     if (it.whyItMatters) lines.push(`   ${t.item.whyItMatters}: ${it.whyItMatters}`);
     lines.push(`   ${it.scheduled ? t.item.scheduled : t.item.published}: ${t.date(it.publishedAt)}`);
     lines.push(`   ${t.item.readDocument}: ${it.sourceUrl}`);
@@ -545,9 +598,24 @@ export function renderIssue(
     for (const it of issue.lead.items) textCard(it);
   }
 
-  if (n > 0) {
+  const coreItems = issue.items.filter((i) => i.core);
+  const otherItems = issue.items.filter((i) => !i.core);
+  if (coreItems.length) {
     lines.push(t.sections.topChanges.toUpperCase(), "");
-    for (const it of issue.items) textCard(it);
+    for (const it of coreItems) textCard(it);
+  }
+  if (otherItems.length) {
+    lines.push(t.sections.others.toUpperCase(), "");
+    for (const it of otherItems) {
+      lines.push(`  - ${headline(it.title)}`);
+      lines.push(
+        `    ${t.kind[it.classification] ?? it.classification} | ${agencyShort(it.agency)} | ${t.date(it.publishedAt)}` +
+          `${it.notInForce ? ` | ${t.item.notInForce}` : ""}`
+      );
+      if (it.audience && t.audience[it.audience]) lines.push(`    ${t.item.about}: ${t.audience[it.audience]}`);
+      lines.push(`    ${t.item.readDocument}: ${it.sourceUrl}`);
+    }
+    lines.push("");
   }
 
   // Free alerts.

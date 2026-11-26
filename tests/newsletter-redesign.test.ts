@@ -90,8 +90,8 @@ describe("subject line answers the core question", () => {
   it("says H-1B and EB green cards were quiet when they were", () => {
     if (issue.counts.shown === 0) return;
     const out = renderIssue(quietCore, BASE, CONTACT);
-    expect(out.subject).toMatch(/No H-1B or EB green card changes/);
-    expect(out.html).toContain("No change to H-1B or EB green cards this week");
+    expect(out.subject).toMatch(/^Quiet week for H-1B and EB green cards\. \d+ other update/);
+    expect(out.html).toContain("Quiet week for H-1B and EB green cards");
   });
 
   it("leads with H-1B when H-1B recorded something", () => {
@@ -148,12 +148,12 @@ describe("status board", () => {
 
 describe("one primary action per issue", () => {
   for (const locale of LOCALES) {
-    it(`${locale}: only the top story gets a filled button`, () => {
+    it(`${locale}: at most one story gets a filled button`, () => {
       const issue = selectIssue({ segment: seg({ id: `weekly-${locale}`, locale }), ...wide });
       const out = renderIssue(issue, BASE, CONTACT);
       if (issue.items.length === 0) return;
-      const filled = out.html.match(/padding:14px 22px/g) ?? [];
-      expect(filled).toHaveLength(1);
+      const filled = out.html.match(/<td bgcolor="#0369a1"/g) ?? [];
+      expect(filled.length).toBeLessThanOrEqual(1);
       // Every source link still renders, unaltered.
       for (const it of issue.items) expect(out.html).toContain(it.sourceUrl);
     });
@@ -171,6 +171,59 @@ describe("one primary action per issue", () => {
       const { errors } = mergeResults(validateIssue(issue), validateRendered(issue, out, BASE));
       expect(errors).toEqual([]);
       expect(preflight(out, locale).safeToSend).toBe(true);
+    });
+  }
+});
+
+describe("H-1B, EB green card and Visa Bulletin stories lead", () => {
+  it("puts every core story ahead of every other story", () => {
+    const issue = selectIssue({ segment: seg(), ...wide });
+    const firstOther = issue.items.findIndex((i) => !i.core);
+    if (firstOther === -1) return;
+    for (const it of issue.items.slice(firstOther)) expect(it.core).toBe(false);
+  });
+
+  it("renders core stories as cards and the rest as one-liners without excerpts", () => {
+    const issue = selectIssue({ segment: seg(), ...wide });
+    const out = renderIssue(issue, BASE, CONTACT);
+    const t = stringsFor("en");
+    const others = issue.items.filter((i) => !i.core);
+    if (others.length === 0) return;
+    const othersAt = out.html.indexOf(t.sections.others);
+    expect(othersAt).toBeGreaterThan(-1);
+    const tail = out.html.slice(othersAt);
+    expect(tail).not.toContain(t.item.fromDocument);
+    for (const it of others) expect(tail).toContain(it.sourceUrl);
+  });
+
+  it("names who this week's real documents are about, from their own text", async () => {
+    const { audienceFor } = await import("@/lib/newsletter/audience");
+    expect(audienceFor("Policy alert: Special Immigrant Juvenile Adjustment of Status", "")).toBe("sij");
+    expect(
+      audienceFor(
+        "Board of Immigration Appeals precedent: 30 I&N Dec. 259 (BIA 2026)",
+        "It is improper to grant lawful permanent residence conditioned upon the future submission of a Form I-693."
+      )
+    ).toBe("medicalExam");
+    expect(audienceFor("Board of Immigration Appeals precedent: 30 I&N Dec. 249 (BIA 2026)", "Immigration Judges and the Board")).toBe(
+      "immigrationCourt"
+    );
+    expect(audienceFor("Employee or Independent Contractor Status Under the Fair Labor Standards Act", "")).toBe("labor");
+    expect(audienceFor("Notice of a meeting", "Routine notice.")).toBeUndefined();
+  });
+
+  it("has an audience label in every language for every rule", async () => {
+    const { AUDIENCE_RULES } = await import("@/lib/newsletter/audience");
+    for (const l of LOCALES) for (const r of AUDIENCE_RULES) expect(stringsFor(l).audience[r.key], `${l} ${r.key}`).toBeTruthy();
+  });
+});
+
+describe("the alerts block promises nothing that is switched off", () => {
+  for (const locale of LOCALES) {
+    it(`${locale}: no delivery schedule in the sign-up copy`, () => {
+      const c = stringsFor(locale).cta;
+      const copy = `${c.title} ${c.body} ${c.button}`;
+      expect(copy).not.toMatch(/each time|every month|monthly|chaque|cada vez|mensual|mensuel|كلما|شهري/i);
     });
   }
 });

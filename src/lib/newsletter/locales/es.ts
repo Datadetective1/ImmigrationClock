@@ -16,20 +16,20 @@ export const es: LocaleStrings = {
     if (n === 0) return "Semana tranquila: sin cambios oficiales nuevos";
     const more = `${n} actualizaci${n === 1 ? "ón" : "ones"}`;
     return coreNews.length === 0
-      ? `H-1B y green card laboral: sin cambios. ${n} novedad${n === 1 ? "" : "es"} más`
+      ? `Semana tranquila en H-1B y green card laboral: ${n} novedad${n === 1 ? "" : "es"}`
       : `${es.joinList(coreNews)}: hay novedades. ${more}`;
   },
-  preheader: (n, top) =>
+  preheader: (n, top, topIsCore) =>
     n === 0
       ? "Esta semana no se registraron cambios oficiales significativos."
       : top
-        ? `Lo principal: ${top}. Cada novedad enlaza a su fuente oficial.`
+        ? `${topIsCore ? "Lo principal" : "También esta semana"}: ${top}. Cada novedad enlaza a su fuente oficial.`
         : `${n} cambio${n === 1 ? "" : "s"} oficial${n === 1 ? "" : "es"} en la inmigración de EE. UU., cada uno enlazado a su documento fuente.`,
 
   hero: {
     title: (coreNews) =>
       coreNews.length === 0
-        ? "Sin cambios en H-1B ni en la green card laboral esta semana"
+        ? "Semana tranquila para H-1B y la green card laboral"
         : `Novedades esta semana en ${es.joinList(coreNews)}`,
     quietWeek: "Una semana tranquila en la inmigración oficial",
     meta: (n, m) => `${n} actualizaci${n === 1 ? "ón oficial" : "ones oficiales"} · ${m} min de lectura`,
@@ -45,6 +45,24 @@ export const es: LocaleStrings = {
     note:
       "«Sin cambios» significa que nuestras fuentes no registraron nada sobre ese tema esta semana. " +
       "Describe nuestro archivo, no el mundo entero: confirme siempre en la fuente oficial antes de actuar.",
+  },
+
+  audience: {
+    sij: "Solicitantes de Inmigrante Juvenil Especial (SIJ)",
+    medicalExam: "Solicitantes de green card que necesitan examen médico (Formulario I-693)",
+    h1b: "Trabajadores y empleadores H-1B",
+    seasonal: "Trabajadores temporales y agrícolas (H-2A, H-2B)",
+    students: "Estudiantes internacionales y visitantes de intercambio",
+    daca: "Beneficiarios de DACA",
+    tps: "Personas con Estatus de Protección Temporal",
+    asylum: "Solicitantes de asilo y refugiados",
+    employmentGreenCard: "Solicitantes de green card por empleo",
+    family: "Inmigrantes por vía familiar y sus patrocinadores",
+    naturalization: "Solicitantes de naturalización",
+    visaBulletin: "Personas a la espera de una fecha del Boletín de Visas",
+    fees: "Quien presente trámites ante USCIS (tarifas)",
+    immigrationCourt: "Personas con casos ante el tribunal de inmigración",
+    labor: "Trabajadores y empleadores bajo la ley laboral de EE. UU.",
   },
 
   kind: {
@@ -63,11 +81,11 @@ export const es: LocaleStrings = {
   },
 
   cta: {
-    kicker: "Alertas gratuitas",
+    kicker: "Boletín de Visas",
     title: "¿Espera el Boletín de Visas?",
     body:
-      "Reciba por correo las dos fechas de su categoría y país cada vez que se publica un nuevo mes del Boletín de Visas.",
-    button: "Activar alertas gratuitas",
+      "Suscríbase a alertas gratuitas por correo con las dos fechas de su categoría y país.",
+    button: "Suscribirse gratis",
   },
 
   brand: {
@@ -92,8 +110,9 @@ export const es: LocaleStrings = {
   },
 
   sections: {
+    others: "Otras novedades oficiales de la semana",
     snapshot: "La semana de un vistazo",
-    topChanges: "Lo que cambió esta semana",
+    topChanges: "H-1B, green card y Boletín de Visas",
     unchanged: "Lo que no cambió",
     upcoming: "Próximas fechas",
     quickNumbers: "En cifras",
@@ -137,6 +156,7 @@ export const es: LocaleStrings = {
     readDocument: "Leer el documento oficial",
     fromDocument: "Del texto oficial",
     top: "Lo principal",
+    about: "A quién se refiere",
   },
 
   stats: {

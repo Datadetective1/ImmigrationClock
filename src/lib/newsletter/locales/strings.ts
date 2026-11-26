@@ -30,7 +30,7 @@ export interface LocaleStrings {
    * The grey preview line beside the subject. Names the top story so the
    * inbox row carries two different reasons to open, not one sentence twice.
    */
-  preheader: (itemCount: number, topHeadline?: string) => string;
+  preheader: (itemCount: number, topHeadline?: string, topIsCore?: boolean) => string;
 
   /** The headline block under the masthead: the week in one line. */
   hero: {
@@ -55,6 +55,12 @@ export interface LocaleStrings {
     /** What "no change" does and does not mean. Shown under the board. */
     note: string;
   };
+
+  /**
+   * Who a document is about, keyed by AUDIENCE_RULES. Names a population the
+   * document's own text names. Never advice, never an outcome.
+   */
+  audience: Record<string, string>;
 
   /** Plain-language name for an event classification, for the card kicker. */
   kind: Record<string, string>;
@@ -94,6 +100,8 @@ export interface LocaleStrings {
   };
 
   sections: {
+    /** Heading over the one-line items that are not H-1B, EB or Visa Bulletin. */
+    others: string;
     snapshot: string;
     topChanges: string;
     unchanged: string;
@@ -140,6 +148,8 @@ export interface LocaleStrings {
     fromDocument: string;
     /** Marker on the first card. */
     top: string;
+    /** Label before the audience line: "Who it's about". */
+    about: string;
   };
 
   /** Labels for IssueStat keys. Unknown keys are skipped rather than guessed. */
