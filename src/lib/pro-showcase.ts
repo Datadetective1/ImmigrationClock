@@ -95,6 +95,10 @@ export function alertExample(): AlertExample | null {
     ["visa:eb-2", "EB-2"],
     ["visa:eb-1", "EB-1"],
     ["visa:eb-3", "EB-3"],
+    // A month can leave EB-1 to EB-3 unchanged (December 2026 did), so the
+    // example falls back to other followed rows before showing nothing.
+    ["visa:eb-5", "EB-5"],
+    ["topic:visa-bulletin", "the Visa Bulletin"],
   ] as const) {
     const alert = visaBulletinAlerts(BULLETINS, [follow], { sent: [] })[0];
     if (!alert || alert.detail.startsWith("No final action dates moved")) continue;
