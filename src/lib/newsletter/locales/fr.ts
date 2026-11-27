@@ -12,12 +12,81 @@ export const fr: LocaleStrings = {
   htmlLang: "fr",
   endonym: "Français",
 
-  subject: (n) =>
-    n === 0 ? "Immigration Pulse : semaine calme" : `Immigration Pulse : ${n} changement${n === 1 ? "" : "s"}`,
-  preheader: (n) =>
+  subject: (n, coreNews) => {
+    if (n === 0) return "Semaine calme : aucun changement officiel";
+    const more = `${n} mise${n === 1 ? "" : "s"} à jour`;
+    return coreNews.length === 0
+      ? `Calme pour H-1B et carte verte emploi. ${n} mise${n === 1 ? "" : "s"} à jour`
+      : `Du nouveau : ${fr.joinList(coreNews)}. ${more}`;
+  },
+  preheader: (n, top, topIsCore) =>
     n === 0
-      ? "Aucun changement officiel significatif enregistré cette semaine."
-      : `${n} changement${n === 1 ? "" : "s"} officiel${n === 1 ? "" : "s"} de l'immigration américaine, chacun relié à sa source.`,
+      ? "Aucun changement officiel significatif n'a été enregistré cette semaine."
+      : top
+        ? `${topIsCore ? "À la une" : "Aussi cette semaine"} : ${top}. Chaque mise à jour renvoie à sa source officielle.`
+        : `${n} changement${n === 1 ? "" : "s"} officiel${n === 1 ? "" : "s"} de l'immigration américaine, chacun lié à son document source.`,
+
+  hero: {
+    title: (coreNews) =>
+      coreNews.length === 0
+        ? "Semaine calme pour le H-1B et la carte verte par l'emploi"
+        : `Du nouveau cette semaine pour ${fr.joinList(coreNews)}`,
+    quietWeek: "Une semaine calme pour l'immigration officielle",
+    meta: (n, m) => `${n} mise${n === 1 ? "" : "s"} à jour officielle${n === 1 ? "" : "s"} · ${m} min de lecture`,
+  },
+
+  core: { h1b: "H-1B", employmentGreenCard: "carte verte emploi" },
+  joinList: (xs) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} et ${xs[xs.length - 1]}`),
+
+  board: {
+    title: "Les sujets que nous suivons",
+    noChange: "Aucun changement",
+    news: "Nouveau cette semaine",
+    note:
+      "« Aucun changement » signifie que nos sources n'ont rien enregistré sur ce sujet cette semaine. " +
+      "Cela décrit nos archives, pas le monde entier : vérifiez toujours la source officielle avant d'agir.",
+  },
+
+  audience: {
+    sij: "Demandeurs du statut de mineur immigrant spécial (SIJ)",
+    medicalExam: "Demandeurs de carte verte devant passer un examen médical (formulaire I-693)",
+    h1b: "Travailleurs et employeurs H-1B",
+    seasonal: "Travailleurs saisonniers et agricoles (H-2A, H-2B)",
+    students: "Étudiants internationaux et visiteurs d'échange",
+    daca: "Bénéficiaires du DACA",
+    tps: "Personnes sous statut de protection temporaire",
+    asylum: "Demandeurs d'asile et réfugiés",
+    employmentGreenCard: "Demandeurs de carte verte par l'emploi",
+    family: "Immigrants par voie familiale et leurs garants",
+    naturalization: "Demandeurs de naturalisation",
+    visaBulletin: "Personnes en attente d'une date du Visa Bulletin",
+    fees: "Toute personne déposant auprès de l'USCIS (frais)",
+    immigrationCourt: "Personnes ayant une affaire devant un tribunal de l'immigration",
+    labor: "Travailleurs et employeurs soumis au droit du travail américain",
+  },
+
+  kind: {
+    new_information: "Nouvelle information",
+    updated_information: "Mise à jour de politique",
+    correction: "Correction",
+    historical_revision: "Révision",
+    announcement: "Annonce",
+    data_release: "Publication de données",
+    proposed_rule: "Règle proposée",
+    final_rule: "Règle définitive",
+    executive_action: "Action de l'exécutif",
+    court_decision: "Décision de justice",
+    legislative_action: "Législation",
+    deadline: "Échéance",
+  },
+
+  cta: {
+    kicker: "Visa Bulletin",
+    title: "Vous suivez le Visa Bulletin ?",
+    body:
+      "Inscrivez-vous aux alertes gratuites par e-mail avec les deux dates de votre catégorie et de votre pays.",
+    button: "S'inscrire gratuitement",
+  },
 
   brand: {
     productName: "ImmigrationClock",
@@ -26,15 +95,14 @@ export const fr: LocaleStrings = {
   },
 
   issueLabel: (from, to) => `Semaine du ${fmt(from)} au ${fmt(to)}`,
+  date: (iso) => fmt(iso),
 
   opening: {
     withChanges: (shown, recorded) =>
-      (recorded > shown
+      recorded > shown
         ? `Cette semaine a apporté ${recorded} mises à jour officielles en matière d'immigration. ` +
-          `${shown === 1 ? "La plus importante figure" : `Les ${shown} plus importantes figurent`} ci-dessous ; les autres sont dans les archives. `
-        : `Cette semaine a apporté ${shown} mise${shown === 1 ? "" : "s"} à jour officielle${shown === 1 ? "" : "s"} en matière d'immigration. `) +
-      `Chaque élément renvoie directement à la publication gouvernementale dont il provient. ` +
-      `Nous rapportons ce qui a changé ; nous ne vous disons pas ce que cela signifie pour votre dossier.`,
+          `${shown === 1 ? "La plus importante figure" : `Les ${shown} plus importantes figurent`} ci-dessous ; les autres sont dans les archives.`
+        : `Cette semaine a apporté ${shown} mise${shown === 1 ? "" : "s"} à jour officielle${shown === 1 ? "" : "s"} en matière d'immigration.`,
     noChanges:
       "Aucun changement officiel significatif n'a été enregistré cette semaine. Cela décrit ce que nos " +
       "sources ont publié, sans garantir qu'il ne s'est rien passé : les avis de routine continuent " +
@@ -42,8 +110,9 @@ export const fr: LocaleStrings = {
   },
 
   sections: {
+    others: "Autres mises à jour officielles de la semaine",
     snapshot: "La semaine en bref",
-    topChanges: "Ce qui a changé cette semaine",
+    topChanges: "H-1B, carte verte et Visa Bulletin",
     unchanged: "Ce qui n'a pas changé",
     upcoming: "À venir",
     quickNumbers: "En chiffres",
@@ -85,6 +154,9 @@ export const fr: LocaleStrings = {
     notInForce: "Proposition : non en vigueur",
     whyItMatters: "Pourquoi c'est important",
     readDocument: "Lire le document officiel",
+    fromDocument: "Extrait du texte officiel",
+    top: "À la une",
+    about: "Qui est concerné",
   },
 
   stats: {

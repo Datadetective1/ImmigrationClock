@@ -21,9 +21,11 @@ import { SOURCE_BY_KEY } from "@/lib/sources";
 import { labelForEntity } from "@/lib/entity-labels";
 import { KEY_DATES, nextOccurrence } from "@/lib/key-dates";
 import { rankEvents } from "./ranking";
+import { audienceFor } from "./audience";
 import { canonicalCounts } from "./counts";
 import {
   CADENCE_WINDOW_DAYS,
+  CORE_ENTITY_IDS,
   type Issue,
   type IssueItem,
   type IssueStat,
@@ -49,6 +51,8 @@ export const MAX_ITEMS = 5;
 
 /** How many stories the personalized lead group carries before the general feed. */
 export const MAX_LEAD_ITEMS = 3;
+
+export { CORE_WATCH } from "./types";
 
 /**
  * WHAT WE WATCH CLOSELY ENOUGH TO REPORT ITS SILENCE.
@@ -113,6 +117,11 @@ function agencyFor(e: ImmigrationEvent): string {
   return explicit ? labelForEntity(explicit) : (SOURCE_BY_KEY[e.sourceKey]?.agency ?? "—");
 }
 
+/** Does this event touch H-1B, an employment-based green card or the Visa Bulletin? */
+function isCore(e: ImmigrationEvent): boolean {
+  return e.entities.some((l) => CORE_ENTITY_IDS.has(l.entityId));
+}
+
 function toItem(e: ImmigrationEvent, today: string): IssueItem {
   return {
     id: e.id,
@@ -129,6 +138,8 @@ function toItem(e: ImmigrationEvent, today: string): IssueItem {
     classification: e.classification,
     scheduled: isScheduled(e, today),
     notInForce: isNotInForce(e.classification),
+    audience: audienceFor(e.title, e.summary),
+    core: isCore(e),
   };
 }
 
@@ -261,7 +272,13 @@ export function selectIssue(opts: SelectOptions): Issue {
   // from breadth of population affected, then whether an obligation actually
   // changed, then practical magnitude, then how binding the action is, with
   // recency as a tie-break only.
-  const ordered = rankEvents(inWindow, from, today);
+  //
+  // Then CORE FIRST. A reader who follows H-1B or an EB green card should never
+  // scroll past a juvenile-visa policy and a Labor Department rule to reach
+  // their own topic. The ranking order is kept within each group, so this is a
+  // stable partition, not a second opinion about importance.
+  const ranked = rankEvents(inWindow, from, today);
+  const ordered = [...ranked.filter(isCore), ...ranked.filter((e) => !isCore(e))];
 
   // PERSONALIZATION. When the segment names entities, the stories matching the
   // FIRST of them lead the issue under their own heading, and the general feed
@@ -288,6 +305,7 @@ export function selectIssue(opts: SelectOptions): Issue {
   // Everything the issue renders — the lead group counts as shown.
   const shownIds = new Set([...(lead?.items ?? []), ...items].map((i) => i.id));
   const counts = canonicalCounts(inWindow, shownIds);
+  const quiet = unchangedTopics(inWindow);
 
   return {
     id: `${segment.id}-${today}`,
@@ -307,7 +325,8 @@ export function selectIssue(opts: SelectOptions): Issue {
     counts,
     stats: counts.categories,
     absentStats: counts.absent,
-    unchanged: unchangedTopics(inWindow),
+    unchanged: quiet,
+    watch: WATCHLIST.map((w) => ({ key: w.key, changed: !quiet.includes(w) })),
     upcoming: upcomingDates(today),
     resources: rotateResources(today),
     readingMinutes: readingMinutes([...(lead?.items ?? []), ...items]),

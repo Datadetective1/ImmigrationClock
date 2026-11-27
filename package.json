@@ -16,6 +16,7 @@
     "build:newsletter": "tsx scripts/build-newsletter.ts",
     "send:newsletter": "tsx scripts/send-newsletter.ts",
     "newsletter:preflight": "tsx scripts/newsletter-preflight.ts",
+    "preview:newsletter": "tsx scripts/preview-newsletter.ts",
     "email:send": "tsx scripts/send-business-email.ts",
     "refresh:warn-scraper": "node scripts/refresh-warn-scraper.mjs",
     "prebuild": "node scripts/refresh-data.mjs && tsx scripts/build-employers.ts && tsx scripts/build-warn.ts && tsx scripts/build-events.ts && tsx scripts/build-health.ts && tsx scripts/build-dataset.ts && tsx scripts/build-newsletter.ts",

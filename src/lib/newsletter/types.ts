@@ -70,6 +70,34 @@ export const CADENCE_WINDOW_DAYS: Record<Cadence, number> = {
 export const RESEND_UNSUBSCRIBE_TOKEN = "{{{RESEND_UNSUBSCRIBE_URL}}}";
 
 /**
+ * The watched topics the subject line and the headline speak about.
+ *
+ * Most of the people who sign up arrive from the Visa Bulletin, wait-time and
+ * H-1B employer pages, so the question they open the email to answer is "did
+ * anything change for H-1B or my employment-based green card?". The subject
+ * answers that question directly, from the same silence check that drives the
+ * "What did not change" section, so it can never say more than we detected.
+ */
+export const CORE_WATCH = ["h1b", "employmentGreenCard"] as const;
+
+/**
+ * Entities whose stories lead the issue as full cards. Everything else is
+ * still reported, as a one-line item under "Other updates". Until the signup
+ * collects each reader's own topics this is the default for every edition:
+ * H-1B, employment-based green cards and the Visa Bulletin, the three things
+ * the people who subscribe from the wait-time and Visa Bulletin pages track.
+ */
+export const CORE_ENTITY_IDS: ReadonlySet<string> = new Set([
+  "visa:h-1b",
+  "topic:h1b",
+  "visa:eb-1",
+  "visa:eb-2",
+  "visa:eb-3",
+  "visa:eb-5",
+  "topic:visa-bulletin",
+]);
+
+/**
  * WHO an edition is for.
  *
  * A segment is the only thing that varies between editions. `audienceId` is the
@@ -113,6 +141,13 @@ export interface IssueItem {
   scheduled: boolean;
   /** True for proposals — must never read as being in force. */
   notInForce: boolean;
+  /**
+   * Key into the locale's `audience` map: who the document's own text names
+   * (see audience.ts). Absent when no rule matches; never guessed.
+   */
+  audience?: string;
+  /** True when the event touches a CORE_ENTITY_IDS entity. Cards vs one-liners. */
+  core?: boolean;
 }
 
 /** A counted fact about the window. Rendered only when the count is non-zero. */
@@ -213,6 +248,14 @@ export interface Issue {
   absentStats: string[];
   /** Topics we monitor that recorded NOTHING this window. */
   unchanged: WatchTopic[];
+  /**
+   * EVERY watched topic, in WATCHLIST order, with whether it recorded anything
+   * this window. The status board at the top of the issue reads this, so a
+   * reader sees their own topic's state before any story. `changed: false` is
+   * exactly the set in `unchanged`; it is never computed a second way.
+   * Optional so hand-built fixtures predating it still type-check.
+   */
+  watch?: { key: string; changed: boolean }[];
   /** The next few official dates, so an issue looks forward as well as back. */
   upcoming: UpcomingDate[];
   /** Three of six, rotated by issue date so the footer is never stale. */

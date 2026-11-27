@@ -12,12 +12,81 @@ export const en: LocaleStrings = {
   htmlLang: "en",
   endonym: "English",
 
-  subject: (n) =>
-    n === 0 ? "Immigration Pulse: a quiet week" : `Immigration Pulse: ${n} change${n === 1 ? "" : "s"}`,
-  preheader: (n) =>
+  subject: (n, coreNews) => {
+    if (n === 0) return "Quiet week: no new official immigration changes";
+    const more = `${n} update${n === 1 ? "" : "s"}`;
+    return coreNews.length === 0
+      ? `Quiet week for H-1B and EB green cards. ${n} other ${n === 1 ? "update" : "updates"}`
+      : `${en.joinList(coreNews)}: news this week, ${more} inside`;
+  },
+  preheader: (n, top, topIsCore) =>
     n === 0
       ? "No significant official changes recorded this week."
-      : `${n} official U.S. immigration change${n === 1 ? "" : "s"}, each linked to its source document.`,
+      : top
+        ? `${topIsCore ? "Top story" : "Also this week"}: ${top}. Every update links to the official source.`
+        : `${n} official U.S. immigration change${n === 1 ? "" : "s"}, each linked to its source document.`,
+
+  hero: {
+    title: (coreNews) =>
+      coreNews.length === 0
+        ? "Quiet week for H-1B and EB green cards"
+        : `New this week for ${en.joinList(coreNews)}`,
+    quietWeek: "A quiet week in official immigration news",
+    meta: (n, m) => `${n} official update${n === 1 ? "" : "s"} · ${m} min read`,
+  },
+
+  core: { h1b: "H-1B", employmentGreenCard: "EB green cards" },
+  joinList: (xs) => (xs.length <= 1 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`),
+
+  board: {
+    title: "The topics we track",
+    noChange: "No change",
+    news: "New this week",
+    note:
+      "“No change” means our sources recorded nothing on that topic this week. That describes our " +
+      "archive, not the whole world, so check the official source before acting.",
+  },
+
+  audience: {
+    sij: "Special Immigrant Juvenile (SIJ) applicants",
+    medicalExam: "Green card applicants who need a medical exam (Form I-693)",
+    h1b: "H-1B workers and employers",
+    seasonal: "Seasonal and farm workers (H-2A, H-2B)",
+    students: "International students and exchange visitors",
+    daca: "DACA recipients",
+    tps: "People with Temporary Protected Status",
+    asylum: "Asylum seekers and refugees",
+    employmentGreenCard: "Employment-based green card applicants",
+    family: "Family-based immigrants and their sponsors",
+    naturalization: "Naturalization applicants",
+    visaBulletin: "People waiting on a Visa Bulletin date",
+    fees: "Anyone filing with USCIS (fees)",
+    immigrationCourt: "People with cases in immigration court",
+    labor: "Workers and employers under U.S. labor law",
+  },
+
+  kind: {
+    new_information: "New information",
+    updated_information: "Policy update",
+    correction: "Correction",
+    historical_revision: "Revision",
+    announcement: "Announcement",
+    data_release: "Data release",
+    proposed_rule: "Proposed rule",
+    final_rule: "Final rule",
+    executive_action: "Executive action",
+    court_decision: "Court decision",
+    legislative_action: "Legislation",
+    deadline: "Deadline",
+  },
+
+  cta: {
+    kicker: "Visa Bulletin",
+    title: "Waiting on the Visa Bulletin?",
+    body:
+      "Sign up for free email alerts with the two dates for your category and country.",
+    button: "Sign up for free alerts",
+  },
 
   brand: {
     productName: "ImmigrationClock",
@@ -26,15 +95,16 @@ export const en: LocaleStrings = {
   },
 
   issueLabel: (from, to) => `Week of ${fmt(from)} – ${fmt(to)}`,
+  date: (iso) => fmt(iso),
 
   opening: {
     withChanges: (shown, recorded) =>
-      (recorded > shown
+      recorded > shown
         ? `This week brought ${recorded} official immigration updates. The ${shown} most consequential ` +
-          `${shown === 1 ? "is" : "are"} below; the rest are in the archive. `
-        : `This week brought ${shown} official immigration update${shown === 1 ? "" : "s"}. `) +
-      `Every item below links directly to the government publication it came from. ` +
-      `We report what changed. We do not tell you what it means for your case.`,
+          `${shown === 1 ? "is" : "are"} below; the rest are in the archive.`
+        : (shown === 1
+            ? `This week brought 1 official immigration update.`
+            : `This week brought ${shown} official immigration updates.`),
     noChanges:
       "No significant official changes were recorded this week. That is a statement about what our " +
       "sources published, not a guarantee that nothing happened. Routine notices are still going into " +
@@ -42,12 +112,13 @@ export const en: LocaleStrings = {
   },
 
   sections: {
+    others: "Other official updates this week",
     snapshot: "This week at a glance",
-    topChanges: "What changed this week",
+    topChanges: "H-1B, green cards and the Visa Bulletin",
     unchanged: "What did not change",
     upcoming: "Coming up",
     quickNumbers: "By the numbers",
-    explore: "Continue exploring ImmigrationClock",
+    explore: "More on ImmigrationClock",
   },
 
   snapshot: {
@@ -85,6 +156,9 @@ export const en: LocaleStrings = {
     notInForce: "Proposed: not in force",
     whyItMatters: "Why it matters",
     readDocument: "Read the official document",
+    fromDocument: "From the official text",
+    top: "Top story",
+    about: "Who it's about",
   },
 
   stats: {

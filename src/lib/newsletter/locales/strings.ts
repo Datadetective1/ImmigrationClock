@@ -17,10 +17,61 @@ export interface LocaleStrings {
   /** Name of this language, written in this language, for the selector. */
   endonym: string;
 
-  /** Subject line. Kept under ~45 chars where the language allows. */
-  subject: (itemCount: number) => string;
-  /** The grey preview line beside the subject in most inboxes. */
-  preheader: (itemCount: number) => string;
+  /**
+   * Subject line. Leads with the answer most subscribers open the email for:
+   * did anything change for H-1B or employment-based green cards? `coreNews`
+   * holds the already-translated names of the CORE_WATCH topics that recorded
+   * something this window; empty means both were quiet. Must contain the
+   * shown-story count as digits whenever it is non-zero (validate.ts checks).
+   * Aim for 50 characters; preflight advises past 60.
+   */
+  subject: (itemCount: number, coreNews: string[]) => string;
+  /**
+   * The grey preview line beside the subject. Names the top story so the
+   * inbox row carries two different reasons to open, not one sentence twice.
+   */
+  preheader: (itemCount: number, topHeadline?: string, topIsCore?: boolean) => string;
+
+  /** The headline block under the masthead: the week in one line. */
+  hero: {
+    /** The h1. Same question the subject answers, as a full sentence. */
+    title: (coreNews: string[]) => string;
+    /** The h1 when the window produced nothing at all. */
+    quietWeek: string;
+    /** "5 official updates · 3 min read". Must print the minutes as digits. */
+    meta: (itemCount: number, minutes: number) => string;
+  };
+
+  /** Short names for CORE_WATCH topics, used in the subject and the h1. */
+  core: Record<string, string>;
+  /** Joins two or more topic names: "H-1B and EB green cards". */
+  joinList: (items: string[]) => string;
+
+  /** The status board: every watched topic, quiet or not, before any story. */
+  board: {
+    title: string;
+    noChange: string;
+    news: string;
+    /** What "no change" does and does not mean. Shown under the board. */
+    note: string;
+  };
+
+  /**
+   * Who a document is about, keyed by AUDIENCE_RULES. Names a population the
+   * document's own text names. Never advice, never an outcome.
+   */
+  audience: Record<string, string>;
+
+  /** Plain-language name for an event classification, for the card kicker. */
+  kind: Record<string, string>;
+
+  /** The free Visa Bulletin alert sign-up block. Mirrors /visa-bulletin-alerts. */
+  cta: {
+    kicker: string;
+    title: string;
+    body: string;
+    button: string;
+  };
 
   brand: {
     /** Never translated — it is a proper noun. */
@@ -31,6 +82,8 @@ export interface LocaleStrings {
 
   /** "Week of 3 August 2026" — each locale formats its own date order. */
   issueLabel: (from: string, to: string) => string;
+  /** One ISO date in this locale's long form, e.g. "20 November 2026". */
+  date: (iso: string) => string;
 
   opening: {
     /** Lead paragraph when the window produced items. */
@@ -47,6 +100,8 @@ export interface LocaleStrings {
   };
 
   sections: {
+    /** Heading over the one-line items that are not H-1B, EB or Visa Bulletin. */
+    others: string;
     snapshot: string;
     topChanges: string;
     unchanged: string;
@@ -89,6 +144,12 @@ export interface LocaleStrings {
     notInForce: string;
     whyItMatters: string;
     readDocument: string;
+    /** Label over the verbatim excerpt, so a quote never reads as our words. */
+    fromDocument: string;
+    /** Marker on the first card. */
+    top: string;
+    /** Label before the audience line: "Who it's about". */
+    about: string;
   };
 
   /** Labels for IssueStat keys. Unknown keys are skipped rather than guessed. */
